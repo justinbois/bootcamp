@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="utf-8" />
+<head>
+
+<meta charset="utf-8" />
 <title>l00_configuring_your_computer</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
@@ -266,26 +268,62 @@ h3 { color: #444; font-style: italic; font-weight: normal}
 
 
 <style type="text/css">
-/* Overrides of notebook CSS for static HTML export */
-body {
-  overflow: visible;
-  padding: 8px;
+
+// Overrides of notebook CSS for static HTML export 
+
+
+div#notebook_panel{
+  color: #f6f6f6
+  background-color: #4B4B4B;
 }
 
 div#notebook {
-  overflow: visible;
-  border-top: none;
+    background: #4b4b4b;
+    color: #333;
+    width: 950px;
+    margin: auto;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    overflow: visible;
+    border-top: none;
+    text-align: justify;
 }
 
+
 @media print {
+   h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    page-break-after: avoid; // Prevent headings from being printed at the bottom of the page
+  }
+ 
+  article {
+    page-break-before: always; // Always start new articles on a new page
+  }
+ 
+  img {
+    page-break-inside: avoid; // Prevent images from being split up
+  }
+
+  a:after {
+     display: none !important;
+  }
+
   div.cell {
     display: block;
     page-break-inside: avoid;
   } 
+
   div.output_wrapper { 
     display: block;
     page-break-inside: avoid; 
   }
+
   div.output { 
     display: block;
     page-break-inside: avoid; 
@@ -293,14 +331,12 @@ div#notebook {
 }
 </style>
 
+
 <!-- Custom stylesheet, it must be in the same directory as the html file -->
-<link rel="stylesheet" href="custom.css">
+<link rel="stylesheet" href="custom.css"> 
 
 <!-- Loading mathjax macro -->
-<!-- Load mathjax -->
-    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-    <!-- MathJax configuration -->
-    <script type="text/x-mathjax-config">
+<script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         tex2jax: {
             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
@@ -316,8 +352,23 @@ div#notebook {
             linebreaks: { automatic: true }
         }
     });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!-- End of mathjax configuration -->
+
+<!-- Google analytics-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      
+      ga('create', 'UA-65442910-1', 'auto');
+      ga('send', 'pageview');
     </script>
-    <!-- End of mathjax configuration --></head>
+<!-- End Google analytics -->
+
+</head>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -348,7 +399,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In this lesson, you will set up a Python computing environment for scientific computing. There are two main ways people set up Python for scientific computing.</p>
 <ol>
-<li>By downloading and installing package by package with tools like apt-get, pip, etc.</li>
+<li>By downloading and installing package by package with tools like <a href="https://help.ubuntu.com/community/AptGet/Howto">apt-get</a>, <a href="https://docs.python.org/3/installing/">pip</a>, etc.</li>
 <li>By downloading and installing a Python distribution that contains binaries of many of the scientific packages needed. The major distributions of these are <a href="https://store.continuum.io/cshop/anaconda/">Anaconda</a> and <a href="https://www.enthought.com/products/canopy/">Enthought Canopy</a>. Both contain IDEs.</li>
 </ol>
 <p>In this class, we will use Anaconda, with its associated package manager, <code>conda</code>. It has recently become the de facto package manager/distribution for scientific use.</p>
@@ -361,7 +412,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Python-2-vs-Python-3">Python 2 vs Python 3<a class="anchor-link" href="#Python-2-vs-Python-3">&#182;</a></h2><p>We are at an interesting point in Python's history.  Python is currently in version 3.5 (as of September 13, 2015). The problem is that Python 3.x is not backwards compatible with Python 2.x.  Many scientific packages were written in Python 2.x, and have been very slow to update to Python 3.  However, Python 3 is Python's present and future, so  all packages eventually need to work in Python 3.  Today, most important scientific packages work in Python 3.  All of the packages we will use do, so we will use Python 3 in this course.</p>
+<h2 id="Python-2-vs-Python-3">Python 2 vs Python 3<a class="anchor-link" href="#Python-2-vs-Python-3">&#182;</a></h2><p>We are at an interesting point in Python's history.  Python is currently in version 3.5 (as of September 13, 2015). The problem is that Python 3.x is not backwards compatible with Python 2.x.  Many scientific packages were written in Python 2.x and have been very slow to update to Python 3.  However, Python 3 is Python's present and future, so all packages eventually need to work in Python 3.  Today, most important scientific packages work in Python 3.  All of the packages we will use do, so we will use Python 3 in this course.</p>
 <p>For those of you who are already using Anaconda with Python 2, you can <a href="http://conda.pydata.org/docs/py2or3.html#create-python-2-or-3-environments">create a Python 3 environment</a>.</p>
 
 </div>
@@ -376,7 +427,7 @@ div#notebook {
 <ol>
 <li>Go to the <a href="https://store.continuum.io/cshop/anaconda/">Anaconda homepage</a> and click "Download Anaconda."  </li>
 <li>You will be prompted for your email address, which you should provide.  You may wish to use your Caltech email address because educational users get some of the non-free goodies in Anaconda (like MKL routines that will increase performance).</li>
-<li>Be sure to download Anaconda for Python 3.4 (or 3.5 if you are installing after the 2.5 release).  Do not worry if you install Python 3.4; you easily upgrade to 3.5 using <code>conda</code> when it is available.</li>
+<li>Be sure to download Anaconda for Python 3.4 (or 3.5 if you are installing after the 2.5 release).  Do not worry if you install Python 3.4; you can easily upgrade to 3.5 using <code>conda</code> when it is available.</li>
 <li>Follow the on-screen instructions for installation.</li>
 </ol>
 <p>That's it!  After you do that, you will have a functioning Python distribution.</p>
@@ -389,8 +440,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Accessing-the-command-line">Accessing the command line<a class="anchor-link" href="#Accessing-the-command-line">&#182;</a></h2><p>During the bootcamp, you will need to access the command line.  Doing this on a Mac or Linux is simple.  If you are using Linux, it's a good bet you already know how to navigate a terminal, so we will not give specific instructions for Linux.  For a Mac, you can fire up the Terminal application.  It is typically in the <code>/Applications/Utilities</code> folder.  Otherwise, hold down Command-space bar and type "terminal" in the search box, and you can select the Terminal Application.</p>
-<p>For Windows, download and install <a href="https://git-for-windows.github.io">Git Bash</a>.  After you have installed it, simply right click anywhere on your Desktop and you should have an option to run Git Bash (at least that's what happens on Windows 7).  You will then have a prompt that looks very much like Mac and Linux users will have.</p>
+<h2 id="Accessing-the-command-line">Accessing the command line<a class="anchor-link" href="#Accessing-the-command-line">&#182;</a></h2><p>During the bootcamp, you will need to access the command line.  Doing this on a Mac or Linux is simple.  If you are using Linux, it's a good bet you already know how to navigate a terminal, so we will not give specific instructions for Linux.  For a Mac, you can fire up the Terminal application.  It is typically in the <code>/Applications/Utilities</code> folder.  Otherwise, hold down Command <code>⌘</code>-space bar and type "terminal" in the search box, and select the Terminal Application.</p>
+<p>For Windows, download and install <a href="https://git-for-windows.github.io">Git Bash</a>.  After you have installed it, simply right click anywhere on your Desktop, and you should have an option to run Git Bash (at least that's what happens on Windows 7).  You will then have a prompt that looks very much like Mac and Linux users will have.</p>
 
 </div>
 </div>
@@ -411,14 +462,18 @@ conda list
 </p><p>This gives a list of all packages and their versions that are installed.  Now, we'll update all packages, so type the following on the command line:</p>
 <p style="font-family:monospace; color:#45BF55; text-indent: 4ex;">
 conda update --all
-</p><p>You will be prompted to perform all of the updates.  They may even be come downgrades.  This happens when there are package conflicts where one package requires an earlier version of another.  <code>conda</code> is very smart and figures all of this out for you, so you can almost always say "yes" (or "<code>y</code>") to <code>conda</code> when it prompts you.</p>
-<p>After you update everything, <code>conda</code> may tell you to install <code>anaconda-client</code>.  You can go ahead and do this if it prompts you to, by entering the following on the command line:</p>
+</p><p>You will be prompted to perform all of the updates.  They may even be some downgrades.  This happens when there are package conflicts where one package requires an earlier version of another.  <code>conda</code> is very smart and figures all of this out for you, so you can almost always say "yes" (or "<code>y</code>") to <code>conda</code> when it prompts you.</p>
+<p>After you update everything, <code>conda</code> may tell you to install <code>anaconda-client</code>.  You can go ahead and do this, if it prompts you to, by entering the following on the command line:</p>
 <p style="font-family:monospace; color:#45BF55; text-indent: 4ex;">
 conda install anaconda-client
-</p><p>Finally, we will use <code>conda</code> to install a package that is not included in the Anaconda distribution that we would like to use.  This will also verify that <code>conda</code> is working properly on your maching.  We will install <a href="http://stanford.edu/~mwaskom/software/seaborn/">Seaborn</a>, which is a nice package for data visualization.  To do this, type the following on the command line:</p>
+</p><p>Finally, we will use <code>conda</code> to install a package that is not included in the standard Anaconda distribution that we would like to use.  This will also verify that <code>conda</code> is working properly on your maching.  We will install <a href="http://stanford.edu/~mwaskom/software/seaborn/">Seaborn</a>, which is a nice package for data visualization.  To do this, type the following on the command line:</p>
 <p style="font-family:monospace; color:#45BF55; text-indent: 4ex;">
 conda install seaborn
 </p><p>You will again be prompted to approve the installation.  Go for it!  Seaborn is pretty cool.</p>
+<p>We will also need to install <code>biopython</code>, a nice package for bioinformatics and sequence analysis.  Try:</p>
+<p style="font-family:monospace; color:#45BF55; text-indent: 4ex;">
+conda install biopython
+</p><p>You will again be prompted to approve the installation.</p>
 
 </div>
 </div>
@@ -428,12 +483,10 @@ conda install seaborn
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Installing-packages-with-pip">Installing packages with <code>pip</code><a class="anchor-link" href="#Installing-packages-with-pip">&#182;</a></h2><p>Some packages are not available through <code>conda</code> for various reasons, perhaps because they have not been submitted to the Anaconda developers or are still under nascent development.  You can still install these packages and <code>conda</code> will be aware of them using <code>pip</code>, short for "Python install Python."  One package we will use is <a href="https://github.com/mgymrek/pybeeswarm">pybeeswarm</a>, used for making beeswarm plots.  To install pybeeswarm, simple enter the following at the command line</p>
-
-<pre><code>pip install pybeeswarm
-
-</code></pre>
-<p>This will install <code>pybeeswarm</code>, and you will be able to import it when you want to use it.</p>
+<h2 id="Installing-packages-with-pip">Installing packages with <code>pip</code><a class="anchor-link" href="#Installing-packages-with-pip">&#182;</a></h2><p>Some packages are not available through <code>conda</code> for various reasons, perhaps because they have not been submitted to the Anaconda developers or are still under nascent development.  You can still install these packages and <code>conda</code> will be aware of them using <code>pip</code>, short for "PIP installs Python" or "PIP installs packages."  One package we will use is <a href="https://github.com/mgymrek/pybeeswarm">pybeeswarm</a>, used for making beeswarm plots.  To install pybeeswarm, simply enter the following at the command line</p>
+<p style="font-family:monospace; color:#45BF55; text-indent: 4ex;">
+    pip install pybeeswarm
+   </p><p>This will install <code>pybeeswarm</code>, and you will be able to import it when you want to use it.</p>
 <p><code>conda</code> is a convenient package manager for many reasons, one being that many packages contain compiled code, and <code>conda</code> installs binaries, enabling you to skip the ofter troublesome compilation step.  As you can imagine, some packages not covered by <code>conda</code> do need to be compiled on your machine.  In order to do that, you need to have compilers installed on your machine that <code>pip</code> can access to do the compilation.  A good way to do this for Macs is to install Developer Tools, which you can get from the App store for free.  For Windows you can install <a href="http://www.mingw.org">the MinGW suite</a> or <a href="http://www.visualstudio.com/">Visual Studio</a>.  We will not use any packages that require compilation outside of <code>conda</code>, so you do not need to worry about this for the bootcamp.</p>
 
 </div>
@@ -479,7 +532,7 @@ spyder
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="c"># Do not enter the next line.  This is only to prepare this tutorial.</span>
