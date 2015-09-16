@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="utf-8" />
-<title>l24_monte_carlo</title>
+<title>l19_intro_to_scripting</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -378,7 +378,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-24:-Monte-Carlo-simulation">Lesson 24: Monte Carlo simulation<a class="anchor-link" href="#Lesson-24:-Monte-Carlo-simulation">&#182;</a></h1>
+<h1 id="Lesson-19:-Introduction-to-scripting">Lesson 19: Introduction to scripting<a class="anchor-link" href="#Lesson-19:-Introduction-to-scripting">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -387,7 +387,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l24_monte_carlo.ipynb">here</a>.</em></p>
+<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l19_intro_to_scripting.ipynb">here</a>.</em></p>
 
 </div>
 </div>
@@ -397,25 +397,13 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Our workhorse</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="c"># Do it with compilation</span>
-<span class="kn">import</span> <span class="nn">numba</span>
-
-<span class="c"># This is how we import the module of Matplotlib we&#39;ll be using</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="c"># Seaborn makes plots pretty!</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-
-<span class="c"># Magic function to make matplotlib inline; other style specs must come AFTER</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-
-<span class="c"># Set JB&#39;s favorite Seaborn settings</span>
-<span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;lines.linewidth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;axes.labelsize&#39;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="s">&#39;axes.titlesize&#39;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> 
-    <span class="s">&#39;axes.facecolor&#39;</span><span class="p">:</span> <span class="s">&#39;DFDFE5&#39;</span><span class="p">}</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s">&#39;notebook&#39;</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="n">rc</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="c"># We just need modules from the standard library</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
 </pre></div>
 
 </div>
@@ -428,7 +416,13 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this lesson, we will put random number generation to use and do a <strong>Monte Carlo simulation</strong>.  The term Monte Carlo simulation is a broad term describing techniques in which a large number of random numbers are generated to (approximately) calculate properties of probability distributions.  In many cases the analytical form of these distributions is not known, so Monte Carlo methods are a great way to learn about then.</p>
+<p><strong>Scripting</strong> is a way to automate your tasks.  For example, let's say you are a lawyer and you need to redact a bunch of text documents.  Two possible ways to do this are:</p>
+<ol>
+<li>Open each document on your computer.  Search for the text "Jeffrey Lebowski."  Wherever you find it, change it to "xxxxxxx."  Save the document.</li>
+<li>Tell your assitant to open each document on your computer.  Search for the text "Jeffrey Lebowski."  Wherever he finds it, change it to "xxxxxxx."  Save the document.</li>
+</ol>
+<p>I suspect that most of you would choose option 2.  Scripting is basically doing option 2, except your assistant is your computer.</p>
+<p>Because of its simple syntax and modules to parse text and communicate with the operating system in its standard library, Python is a good scripting language.  In this tutorial, we will write some Python scripts to do tasks we might encounter in biology.  (We already saw some examples of some of the text processing in previous tutorials.)</p>
 
 </div>
 </div>
@@ -438,12 +432,41 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Example-Monte-Carlo-simulation:-1D-random-walk">Example Monte Carlo simulation: 1D random walk<a class="anchor-link" href="#Example-Monte-Carlo-simulation:-1D-random-walk">&#182;</a></h2><p>Transcription, the process by which DNA is transcribed into RNA, is key process in the central dogma of molecular biology.  RNA polymerase (RNAP) is at the heart of this process.  This amazing machine glides along the DNA template, unzipping it internally, incorporating ribonucleotides at the front, and spitting RNA out the back.  Sometimes, though, the polymerase pauses and then backtracks, pushing the RNA transcipt back out the front, as shown in the figure below, taken from Depken, et al., <em>Biophys. J.</em>, <strong>96</strong>, 2189-2193, 2009.</p>
-<p><img src="rnap_pause.png" alt="Schematic of a pausing RNAP from Depken, et al., *Biophys. J.*, **96**, 2189-2193, 2009"></p>
-<p>To escape these backtracks, a cleavage enzyme called TFIIS will cleave the bit on RNA hanging out of the front, and the RNAP can then go about its merry way.</p>
-<p>Researchers have long debated how these backtracks are governed.  Single molecule experiments can provide some much needed insight.  The groups of Carlos Bustamante, Steve Block, and Stephan Grill, among others, have investigated the dynamics of RNAP in the absense of TFIIS.  They can measure many individual backtracks and get statistics about how long the backtracks last.</p>
-<p>One hypothesis is that the backtracks simply consist of diffusive-like motion along the DNA stand.  That is to say, the polymerase can move forward or backward along the strand with equal probability once it is paused.  This is a one-dimensional <strong>random walk</strong>.  So, if we want to test this hypothesis, we would want to know what times we should expect for the time spent in the backtrack so that we could compare to experiment.</p>
-<p>So, we seek the probability distribution of backtrack times, $P(t_{bt})$, where $t_{bt}$ is the time spent in the backtrack.  We could solve this analytically, which requires some sophisticated mathematics.  But, because we know how to draw random numbers, we can just compute this distribution directly using Monte Carlo simulation!</p>
+<h2 id="Our-example-scripting-problem">Our example scripting problem<a class="anchor-link" href="#Our-example-scripting-problem">&#182;</a></h2><p>As tends to be our philosophy, we will learn some scripting procedures by example.  In the example we consider, we will parse a directory of images coming from a Leica SP2 confocal microscope.  These microscopes came out about fifteen years ago, and the software is also a bit old.  It is very common to use older instruments, especially high end ones like this one, which can cost hundreds of thousands of dollars, in research.</p>
+<p>One problem with the old software used for image acquisition on this microscope is that the file names are stored in the following format:</p>
+
+<pre><code>prefix_IMAGENAME_ch00.tif
+prefix_SERIESNAME_t00_z000_ch00.tif
+
+</code></pre>
+<p>Here, prefix is chosed by the user.  If we are taking a single image  (not a time series of $z$-stack), then <code>IMAGENAME</code> is assigned by the software, since you may have multiple images (or series of images) with the same prefix.  After <code>ch</code> are two digits indicating which channel is being used (which absorbance/emissions wavelengths are being used).</p>
+<p>For series of images, the two digits after the <code>t</code> character indicate the frame number (i.e., time point).  The digits after <code>z</code> indicate the <code>z</code> position, and the digits after <code>ch</code> are as in the single image example.</p>
+<p>An inherent problem with this naming convention becomes clear when we have more than 100 images in a time series.  For example, the 99th, 100th, and 101st images would be</p>
+
+<pre><code>prefix_SERIESNAME_t98_z000_ch00.tif
+prefix_SERIESNAME_t99_z000_ch00.tif
+prefix_SERIESNAME_t100_z000_ch00.tif
+
+</code></pre>
+<p>So, if we were to put all of our images in alphabetical order, which is how many image processing software packages read in images, the order would be</p>
+
+<pre><code>prefix_SERIESNAME_t00_z000_ch00.tif
+prefix_SERIESNAME_t01_z000_ch00.tif
+                 ⋮
+prefix_SERIESNAME_t09_z000_ch00.tif
+prefix_SERIESNAME_t100_z000_ch00.tif
+prefix_SERIESNAME_t101_z000_ch00.tif
+                 ⋮
+
+</code></pre>
+<p>The frames are now out of order!  We should pad the frame number in the file name with more zeros.</p>
+<p>We have a sample data set that you can download <a href="http://bois.caltech.edu/bootcamp/leice_tiffs.zip">here</a>.  This data set contains an actual set of images I obtained from a Leica SP2.  Our goals in this lesson are to:  For this data set, <code>prefix = stage9</code>, refering to the stage of development of the cells in the images.</p>
+<ol>
+<li>Rename the files so that they can be read cleanly in alphabetical order.</li>
+<li>Parse the metadata (found in the file <code>stage9.txt</code>) to find the interpixel distance for these images.</li>
+<li>Parse the metadata to find the time points for each image.</li>
+</ol>
+<p>We'll start with task 1.</p>
 
 </div>
 </div>
@@ -453,7 +476,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="How-to-compute-the-random-walk">How to compute the random walk<a class="anchor-link" href="#How-to-compute-the-random-walk">&#182;</a></h3><p>To compute a 1D random walk, we just need to compute a series of left and right steps.  This is just like flipping a coin over and over again.  So, if we want to compute an unbound 1D random walk, we just flip a coin over and over again and see where we end up.</p>
+<h2 id="Renaming-the-files">Renaming the files<a class="anchor-link" href="#Renaming-the-files">&#182;</a></h2><p>You may remember from our string tutorial that if we want leading zeros, we use the <code>%04d</code> format string for, e.g., an integer for a total of four digits.</p>
 
 </div>
 </div>
@@ -463,19 +486,24 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">random_walk_1d</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Take a random walk of n_steps and return excursion from the origin.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="c"># Generate an array of our steps (+1 for right, -1 for left)</span>
-    <span class="n">steps</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-    
-    <span class="c"># Where we end up is the sum of these steps</span>
-    <span class="k">return</span> <span class="n">steps</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="s">&#39;This digit has {0:04d} digits.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">25</span><span class="p">))</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>This digit has 0025 digits.
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -485,7 +513,29 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If we want the probability distribution of where we end up after $n_\mathrm{steps}$, we just do this over and over again.  We are then <em>sampling</em> out of the probability distribution, $P(x, n_\mathrm{steps})$, that describes displacement of the random walker as a function of the number of steps.  We'll generate 10,000 random walks, each of 10,000 steps, and compute the displacements for them.  We'll then plot a histogram to see how far the walkers tended to go.</p>
+<p>To make sure we don't run into any problems, we'll rename the time points to have eight total digits.  Our strategy is to get a list of all files in the directory.  We'll then generate a list of names that the files <em>should</em> have.  We'll then instruct the operating system, via the <code>mv</code> command, to rename the files.</p>
+<p>Now, before scripting to rename, move, or otherwise process any of your data, always make a backup copy stached somewhere out of the way in case you make a mistake.  Let me reiterate that.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div class="alert alert-danger">
+<center>Always have a backup of your data before parsing with scripts.</center>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Getting-a-list-of-the-directory-contents:-the-os-and-glob-modules">Getting a list of the directory contents: the <code>os</code> and <code>glob</code> modules<a class="anchor-link" href="#Getting-a-list-of-the-directory-contents:-the-os-and-glob-modules">&#182;</a></h3><p>The <code>os</code> module from the standard library has lots of great tools for working with files and talking to the OS.  We'll generate a list of files in our Leica directory, demonstrating some of the useful features of the <code>os</code> module.</p>
 
 </div>
 </div>
@@ -495,21 +545,157 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Number of steps to take for computing distribution</span>
-<span class="n">n_steps</span> <span class="o">=</span> <span class="mi">10000</span>
+<div class=" highlight hl-ipython3"><pre><span class="c"># Specify Leica directory</span>
+<span class="n">leica_dir</span> <span class="o">=</span> <span class="s">&#39;../data/leica_tiffs&#39;</span>
 
-<span class="c"># Number of random walks to take</span>
-<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="c"># Get a list of all files in the directory</span>
+<span class="n">file_list</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">leica_dir</span><span class="p">)</span>
 
-<span class="c"># Initial samples of displacements</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
-
-<span class="c"># Take all of the random walks</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
-    <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">random_walk_1d</span><span class="p">(</span><span class="n">n_steps</span><span class="p">)</span>
+<span class="c"># Look at the list</span>
+<span class="n">file_list</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[4]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&apos;stage9.txt&apos;,
+ &apos;stage9_Image003_ch00.tif&apos;,
+ &apos;stage9_Series006_t00_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t01_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t02_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t03_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t04_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t05_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t06_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t07_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t08_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t09_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t100_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t101_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t102_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t103_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t104_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t105_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t106_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t107_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t108_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t109_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t10_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t110_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t111_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t112_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t114_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t115_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t116_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t117_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t118_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t119_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t11_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t120_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t121_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t122_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t123_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t124_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t12_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t13_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t14_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t15_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t16_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t17_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t18_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t19_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t20_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t21_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t22_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t23_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t24_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t25_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t26_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t27_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t28_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t29_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t30_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t31_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t32_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t34_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t35_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t36_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t37_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t38_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t39_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t40_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t41_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t42_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t43_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t44_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t45_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t46_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t47_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t48_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t49_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t50_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t51_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t52_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t53_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t54_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t55_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t56_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t57_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t58_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t59_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t60_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t61_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t62_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t63_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t64_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t65_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t66_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t67_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t68_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t69_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t70_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t71_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t72_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t73_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t74_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t75_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t76_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t77_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t78_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t79_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t80_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t81_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t82_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t83_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t84_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t85_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t86_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t87_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t88_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t89_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t90_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t91_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t92_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t93_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t94_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t95_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t96_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t97_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t98_z000_ch00.tif&apos;,
+ &apos;stage9_Series006_t99_z000_ch00.tif&apos;]</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -519,7 +705,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We just generated 100 million random numbers to do that calculation!  Now, let's see what the distribution looks like.</p>
+<p>The <code>os.listdir()</code> function lists all of the files in a directory (like the <code>ls</code> function) and stores them as a list.  We see we have our metadata files, <code>stage9.txt</code>, a single image, <code>stage9_Image003_ch00.tif</code>, and then a lot of files in a time series (called <code>Series006</code>) that appears to go from frame <code>00</code> to frame <code>124</code>.  It is these times series files that we want to remame.</p>
+<p>While we have a list of the files, we would like a list of the full path of the files.  We can use the <code>os.path.join()</code> method to conveniently do that.  It joins the strings of the paths, putting <code>/</code>'s where appropriate.</p>
 
 </div>
 </div>
@@ -529,12 +716,14 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Make histogram</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-
-<span class="c"># Label axes</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;$x$ (a.u.)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;$P(x, n_\mathrm{steps})$&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="c"># Get list of all files (full path) we want to rename</span>
+<span class="n">rename_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s">&#39;_t&#39;</span> <span class="ow">in</span> <span class="n">fname</span><span class="p">:</span>
+        <span class="n">rename_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">leica_dir</span><span class="p">,</span> <span class="n">fname</span><span class="p">))</span>
+        
+<span class="c"># Let&#39;s look at the list</span>
+<span class="n">rename_list</span>
 </pre></div>
 
 </div>
@@ -549,224 +738,129 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.text.Text at 0x119712ac8&gt;</pre>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-SZIq8f8D+Yq4u6d4JPEAAAAASUVORK5CYII=
-"
->
+<pre>[&apos;../data/leica_tiffs/stage9_Series006_t00_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t01_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t02_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t03_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t04_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t05_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t06_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t07_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t08_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t09_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t100_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t101_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t102_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t103_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t104_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t105_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t106_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t107_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t108_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t109_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t10_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t110_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t111_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t112_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t114_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t115_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t116_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t117_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t118_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t119_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t11_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t120_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t121_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t122_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t123_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t124_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t12_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t13_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t14_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t15_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t16_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t17_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t18_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t19_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t20_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t21_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t22_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t23_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t24_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t25_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t26_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t27_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t28_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t29_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t30_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t31_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t32_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t34_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t35_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t36_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t37_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t38_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t39_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t40_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t41_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t42_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t43_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t44_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t45_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t46_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t47_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t48_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t49_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t50_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t51_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t52_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t53_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t54_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t55_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t56_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t57_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t58_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t59_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t60_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t61_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t62_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t63_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t64_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t65_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t66_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t67_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t68_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t69_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t70_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t71_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t72_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t73_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t74_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t75_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t76_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t77_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t78_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t79_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t80_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t81_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t82_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t83_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t84_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t85_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t86_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t87_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t88_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t89_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t90_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t91_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t92_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t93_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t94_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t95_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t96_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t97_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t98_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t99_z000_ch00.tif&apos;]</pre>
 </div>
 
 </div>
@@ -780,7 +874,7 @@ SZIq8f8D+Yq4u6d4JPEAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It looks approximately Gaussian.  We know theoretically that it is Gaussian with a mean of zero and standard deviation of $\sqrt{n_\mathrm{steps}}$.  Let's check.</p>
+<p>Now, we have a list of only the files we want to rename.  We could have done this more concisely using the <code>glob</code> module, which allows generating lists of files with wild card characters.  (The name <code>glob</code> has an <a href="https://en.wikipedia.org/wiki/Glob_%28programming%29">archaic history</a>.)</p>
 
 </div>
 </div>
@@ -790,8 +884,257 @@ SZIq8f8D+Yq4u6d4JPEAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="s">&#39; Mean displacement:&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s">&#39;Standard deviation:&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span class="c"># String to look for</span>
+<span class="n">search_str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">leica_dir</span><span class="p">,</span> <span class="s">&#39;*_t*.tif&#39;</span><span class="p">)</span>
+
+<span class="c"># Get all files that match search_str</span>
+<span class="n">rename_list</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">search_str</span><span class="p">)</span>
+
+<span class="n">rename_list</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&apos;../data/leica_tiffs/stage9_Series006_t00_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t01_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t02_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t03_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t04_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t05_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t06_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t07_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t08_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t09_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t100_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t101_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t102_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t103_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t104_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t105_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t106_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t107_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t108_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t109_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t10_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t110_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t111_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t112_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t114_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t115_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t116_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t117_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t118_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t119_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t11_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t120_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t121_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t122_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t123_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t124_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t12_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t13_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t14_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t15_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t16_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t17_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t18_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t19_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t20_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t21_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t22_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t23_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t24_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t25_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t26_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t27_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t28_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t29_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t30_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t31_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t32_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t34_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t35_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t36_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t37_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t38_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t39_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t40_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t41_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t42_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t43_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t44_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t45_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t46_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t47_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t48_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t49_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t50_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t51_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t52_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t53_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t54_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t55_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t56_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t57_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t58_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t59_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t60_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t61_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t62_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t63_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t64_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t65_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t66_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t67_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t68_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t69_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t70_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t71_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t72_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t73_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t74_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t75_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t76_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t77_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t78_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t79_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t80_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t81_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t82_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t83_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t84_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t85_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t86_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t87_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t88_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t89_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t90_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t91_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t92_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t93_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t94_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t95_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t96_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t97_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t98_z000_ch00.tif&apos;,
+ &apos;../data/leica_tiffs/stage9_Series006_t99_z000_ch00.tif&apos;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Renaming-files-using-the-shutil-module">Renaming files using the <code>shutil</code> module<a class="anchor-link" href="#Renaming-files-using-the-shutil-module">&#182;</a></h3><p>We will now rename the files.  There are several ways to do this using modules that are part of the standard library.  Here, we'll show how to do it using the <a href="https://docs.python.org/3.5/library/shutil.html"><code>shutil</code> module</a>.  This module contains several functions for file management.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># String to search for (the time stamp)</span>
+<span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;_t\d+_&#39;</span><span class="p">)</span>
+
+<span class="c"># Rename the files to have 8 total digits in the time field</span>
+<span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">rename_list</span><span class="p">:</span>
+    <span class="c"># Pull out _t00_ string</span>
+    <span class="n">time_str</span> <span class="o">=</span> <span class="n">regex</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
+
+    <span class="c"># Make a new, 8-digit string</span>
+    <span class="n">new_time_str</span> <span class="o">=</span> <span class="s">&#39;_t{0:08d}_&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">time_str</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    
+    <span class="c"># Make a new file name; could do: new_fname = regex.sub(new_time_str, fname)</span>
+    <span class="n">new_fname</span> <span class="o">=</span> <span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">time_str</span><span class="p">,</span> <span class="n">new_time_str</span><span class="p">)</span>
+    
+    <span class="c"># Make a call to shutil.move to rename files</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">new_fname</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can look in your directory now to see all of your beautifully renamed files!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-subprocess-module">The <code>subprocess</code> module<a class="anchor-link" href="#The-subprocess-module">&#182;</a></h2><p>The <a href="https://docs.python.org/3/library/subprocess.html"><code>subprocess</code> module</a> of the standard library is useful for running commands on the command line.  This is often used in bioinformatics pipelines, for example, when you need to run various programs from the command line to process data sets.  We don't really need it for the bootcamp, but I bring it up here because it may come in handy for you down the road.  If we wanted to do the same operations as above, except with the <code>subprocess</code> module, we would replace the <code>shutil.move(fname, new_fname)</code> with</p>
+
+<pre><code>subprocess.call(['mv', fname, new_fname])
+
+</code></pre>
+<p>The <code>subprocess.call()</code> function allows you to execute command line commands as subprocesses, also allowing parallel processing.  The first argument is a comma separated list of the strings you would enter in the command line to do your operation.  For example, if <code>fname = 'file1'</code> and <code>new_fname = 'file2'</code>, the above is the same as entering</p>
+
+<pre><code>mv file1 file2
+
+</code></pre>
+<p>on the command line.</p>
+<p>As an example of how the <code>subprocess.call()</code> function works, we'll list the contents of the Leica directory and redirect the output to a file <code>lieca_dir_contents.txt</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;leica_dir_contents.txt&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;ls&#39;</span><span class="p">,</span> <span class="s">&#39;-l&#39;</span><span class="p">,</span> <span class="n">leica_dir</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Looking at <code>leica_dir_contents.txt</code>, we see that it did what we expected.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="o">!</span>head leica_dir_contents.txt
 </pre></div>
 
 </div>
@@ -804,8 +1147,16 @@ SZIq8f8D+Yq4u6d4JPEAAAAASUVORK5CYII=
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre> Mean displacement: -0.4628
-Standard deviation: 100.244745579
+<pre>total 29640
+-rw-r--r--+ 1 Justin  staff    13457 Sep 10 13:45 stage9.txt
+-rw-r--r--+ 1 Justin  staff  1051510 Sep 10 13:45 stage9_Image003_ch00.tif
+-rw-r--r--+ 1 Justin  staff   113062 Sep 10 13:45 stage9_Series006_t00000000_z000_ch00.tif
+-rw-r--r--+ 1 Justin  staff   113062 Sep 10 13:45 stage9_Series006_t00000001_z000_ch00.tif
+-rw-r--r--+ 1 Justin  staff   113062 Sep 10 13:45 stage9_Series006_t00000002_z000_ch00.tif
+-rw-r--r--+ 1 Justin  staff   113062 Sep 10 13:45 stage9_Series006_t00000003_z000_ch00.tif
+-rw-r--r--+ 1 Justin  staff   113062 Sep 10 13:45 stage9_Series006_t00000004_z000_ch00.tif
+-rw-r--r--+ 1 Justin  staff   113062 Sep 10 13:45 stage9_Series006_t00000005_z000_ch00.tif
+-rw-r--r--+ 1 Justin  staff   113062 Sep 10 13:45 stage9_Series006_t00000006_z000_ch00.tif
 </pre>
 </div>
 </div>
@@ -819,44 +1170,121 @@ Standard deviation: 100.244745579
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Yup!  We're really close.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="First-passage-times">First passage times<a class="anchor-link" href="#First-passage-times">&#182;</a></h3><p>This is all fine and good, but we want to compute the probability distribution of how long it takes to get out of a backtrack!  So, we need to simulate a random walk during a backtrack.  So, we start at $x = 0$ at time $t = 0$.  We start taking steps, and as soon as $x$ becomes positive, we have existed the backtrack.  The total time for a backtrack is then $\tau n_\mathrm{steps}$, where $\tau$ is the time it takes to make a step.  Depken, et al., report that this is approximately a half second.</p>
-<p>We first write a function to take a step.  At the top of the function is a <strong>decorator</strong>.  We will not cover decorators here, but this particular decorator is using the <code>numba</code> package to actually <em>compile</em> the following Python code.  Remember, compiled code is <em>much</em> faster than interpreted code, and the speed boost is needed in this case.</p>
+<h2 id="Parsing-the-metadata">Parsing the metadata<a class="anchor-link" href="#Parsing-the-metadata">&#182;</a></h2><p>Let's look at the metadata file that came with our image series.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">backtrack_time</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute the number of steps it takes a 1d random walker starting</span>
-<span class="sd">    at zero to get to +1.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span class="o">!</span>head ../data/leica_tiffs/stage9.txt
+</pre></div>
 
-    <span class="c"># Initialize position and number of steps</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">n_steps</span> <span class="o">=</span> <span class="mi">0</span>
-    
-    <span class="c"># Walk until we get to positive 1</span>
-    <span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="n">n_steps</span> <span class="o">+=</span> <span class="mi">1</span>
-    
-    <span class="k">return</span> <span class="n">n_steps</span>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You should look at this with whatever text editor your like so you can see all of the contents.  It is a text file with lots of information about the images that were acquired.  Specifically, we want the information about <code>Scan006</code>.  So, we want to scan the file until we get to the line that says</p>
+
+<pre><code>Series Name:    Series006
+
+</code></pre>
+<p>The entries immediately after that will give the information about this series.  First, let's just read in all of the lines of the file.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">leica_dir</span><span class="p">,</span> <span class="s">&#39;stage9.txt&#39;</span><span class="p">),</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansired">---------------------------------------------------------------------------</span>
+<span class="ansired">UnicodeDecodeError</span>                        Traceback (most recent call last)
+<span class="ansigreen">&lt;ipython-input-11-c70030b86998&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
+<span class="ansigreen">      1</span> <span class="ansigreen">with</span> open<span class="ansiblue">(</span>os<span class="ansiblue">.</span>path<span class="ansiblue">.</span>join<span class="ansiblue">(</span>leica_dir<span class="ansiblue">,</span> <span class="ansiblue">&apos;stage9.txt&apos;</span><span class="ansiblue">)</span><span class="ansiblue">,</span> <span class="ansiblue">&apos;r&apos;</span><span class="ansiblue">)</span> <span class="ansigreen">as</span> f<span class="ansiblue">:</span><span class="ansiblue"></span>
+<span class="ansigreen">----&gt; 2</span><span class="ansired">     </span>lines <span class="ansiblue">=</span> f<span class="ansiblue">.</span>readlines<span class="ansiblue">(</span><span class="ansiblue">)</span><span class="ansiblue"></span>
+
+<span class="ansigreen">/Users/Justin/anaconda/lib/python3.4/codecs.py</span> in <span class="ansicyan">decode</span><span class="ansiblue">(self, input, final)</span>
+<span class="ansigreen">    317</span>         <span class="ansired"># decode input (taking the buffer into account)</span><span class="ansiblue"></span><span class="ansiblue"></span>
+<span class="ansigreen">    318</span>         data <span class="ansiblue">=</span> self<span class="ansiblue">.</span>buffer <span class="ansiblue">+</span> input<span class="ansiblue"></span>
+<span class="ansigreen">--&gt; 319</span><span class="ansired">         </span><span class="ansiblue">(</span>result<span class="ansiblue">,</span> consumed<span class="ansiblue">)</span> <span class="ansiblue">=</span> self<span class="ansiblue">.</span>_buffer_decode<span class="ansiblue">(</span>data<span class="ansiblue">,</span> self<span class="ansiblue">.</span>errors<span class="ansiblue">,</span> final<span class="ansiblue">)</span><span class="ansiblue"></span>
+<span class="ansigreen">    320</span>         <span class="ansired"># keep undecoded input until the next call</span><span class="ansiblue"></span><span class="ansiblue"></span>
+<span class="ansigreen">    321</span>         self<span class="ansiblue">.</span>buffer <span class="ansiblue">=</span> data<span class="ansiblue">[</span>consumed<span class="ansiblue">:</span><span class="ansiblue">]</span><span class="ansiblue"></span>
+
+<span class="ansired">UnicodeDecodeError</span>: &apos;utf-8&apos; codec can&apos;t decode byte 0xb5 in position 3378: invalid start byte</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Yikes!  What is going on here?  It turns out that these Leica files are not UTF-8 encoded, which means there are strange characters in there that we cannot recognize.  The encoding is <a href="https://en.wikipedia.org/wiki/ISO/IEC_8859-15">ISO-8859-15</a>, a pre UTF-8 encoding.  Very annoying.  We just have to specify the encoding when we open the file to be able to read it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">leica_dir</span><span class="p">,</span> <span class="s">&#39;stage9.txt&#39;</span><span class="p">),</span> <span class="s">&#39;r&#39;</span><span class="p">,</span> 
+          <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;ISO-8859-15&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -869,7 +1297,503 @@ Standard deviation: 100.244745579
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now that we have our function in place, we can perform our walks.  We will do 10,000 samples to compute the backtrack time.  Note that without using <code>numba</code>, this calculation would take several minutes.</p>
+<p>Ok, that worked.  Let's take a look at the file lines we pulled out.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">lines</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&apos;Leica Microsystems Heidelberg GmbH\x00\n&apos;,
+ &apos;This file is intended for read-only purposes changes here will not affect the images.\x00\n&apos;,
+ &apos;Date:\t Thursday, May 30, 2013\x00\n&apos;,
+ &apos;Time:\t 17:38\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;File Version:\t 26000000\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;EXPERIMENT INFORMATION\x00\n&apos;,
+ &apos;Number of Images: 2\x00\n&apos;,
+ &quot;Type:          \tSeries with &apos;tif&apos;-files \x00\n&quot;,
+ &apos;\x00\n&apos;,
+ &apos;DIMENSION DESCRIPTION #0\x00\n&apos;,
+ &apos;Pixel Size in Byte:  \t1\x00\n&apos;,
+ &apos;Resolution in Bit:   \t8\x00\n&apos;,
+ &apos;Max Value:           \t      255.0000000000\x00\n&apos;,
+ &apos;Min Value:           \t0.000000e+000\x00\n&apos;,
+ &apos;Label:               \tI\x00\n&apos;,
+ &apos;Number of Dimensions:\t3\x00\n&apos;,
+ &apos;Dimension_0:    \t120\x00\n&apos;,
+ &apos;Logical Size:    \t512\x00\n&apos;,
+ &apos;Physical Length: \t2.501221e-004 m\x00\n&apos;,
+ &apos;Physical Origin: \t0.000000e+000 m\x00\n&apos;,
+ &apos;Dimension_1:    \t121\x00\n&apos;,
+ &apos;Logical Size:    \t512\x00\n&apos;,
+ &apos;Physical Length: \t2.501221e-004 m\x00\n&apos;,
+ &apos;Physical Origin: \t0.000000e+000 m\x00\n&apos;,
+ &apos;Dimension_2:    \t6815843\x00\n&apos;,
+ &apos;Logical Size:    \t1\x00\n&apos;,
+ &apos;Physical Length: \t0.000000e+000\x00\n&apos;,
+ &apos;Physical Origin: \t0.000000e+000\x00\n&apos;,
+ &apos;Series Name:\tImage003\x00\n&apos;,
+ &apos;Description:\t\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;HARDWARE PARAMETER #0\x00\n&apos;,
+ &apos;AOBS (0)\t\t100.000000\x00\n&apos;,
+ &apos;AOBS (1)\t\t100.000000\x00\n&apos;,
+ &apos;AOBS (2)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (3)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (4)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (5)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (6)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (7)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (0)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (1)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (2)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (3)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (4)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (5)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (6)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (7)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (0)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (1)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (0)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (1)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (458)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (476)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (488)\t\t42.173382\x00\n&apos;,
+ &apos;AOTF (496)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (514)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (543)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (594)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (633)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (458)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (476)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (488)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (496)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (514)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (543)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (594)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (633)\t\t0.000000\x00\n&apos;,
+ &apos;PMT 1\tInactive\tInactive\x00\n&apos;,
+ &apos;PMT 2\tInactive\tInactive\x00\n&apos;,
+ &apos;PMT 3\tInactive\tInactive\x00\n&apos;,
+ &apos;PMT 4\tInactive\tInactive\x00\n&apos;,
+ &apos;PMT NDD1\tInactive\tInactive\x00\n&apos;,
+ &apos;PMT NDD2\tInactive\tInactive\x00\n&apos;,
+ &apos;PMT NDD3\tActive\tActive\x00\n&apos;,
+ &apos;PMT NDD3 (Offs.)\t\t0.000000\x00\n&apos;,
+ &apos;PMT NDD3 (HV)\t\t250.000000\x00\n&apos;,
+ &apos;Beam Expander\tBeam Exp 6\tBeam Exp 6\x00\n&apos;,
+ &apos;External Detection FW\tMirror \tMirror \x00\n&apos;,
+ &apos;External Detection FW\tMirror \tMirror \x00\n&apos;,
+ &apos;Polarization FW\t--- \t--- \x00\n&apos;,
+ &apos;Polarization FW\tEmpty 3 \tEmpty 3 \x00\n&apos;,
+ &apos;Hardware Type No.\t\t2.000000\x00\n&apos;,
+ &apos;Laser wavelength\t\t780\x00\n&apos;,
+ &apos;Scan Field Rotation\t\t-0.038943\x00\n&apos;,
+ &apos;Rotation Direction\t\t1\x00\n&apos;,
+ &apos;X Scan Actuator\tActive\tActive\x00\n&apos;,
+ &apos;X Scan Actuator (Gain)\t\t2.998536\x00\n&apos;,
+ &apos;X Scan Actuator (Offs.)\t\t0.000000\x00\n&apos;,
+ &apos;Y Scan Actuator\tActive\tActive\x00\n&apos;,
+ &apos;Y Scan Actuator (Gain)\t\t2.998536\x00\n&apos;,
+ &apos;Y Scan Actuator (Offs.)\t\t0.000000\x00\n&apos;,
+ &apos;Z Scan Actuator\tInactive\tInactive\x00\n&apos;,
+ &apos;Z Scan Actuator (POS)\t\t0.000000\x00\n&apos;,
+ &apos;Scan Speed\t\t1000.000000\x00\n&apos;,
+ &apos;Phase\t\t64.778646\x00\n&apos;,
+ &apos;Y-Phase\t\t0.122100\x00\n&apos;,
+ &apos;SP Mirror 1 (left)\t\t400.000000\x00\n&apos;,
+ &apos;SP Mirror 1 (right)\t\t450.000000\x00\n&apos;,
+ &apos;SP Mirror 1 (stain)\tNone\tNone\x00\n&apos;,
+ &apos;SP Mirror 2 (left)\t\t500.000000\x00\n&apos;,
+ &apos;SP Mirror 2 (right)\t\t535.000000\x00\n&apos;,
+ &apos;SP Mirror 2 (stain)\tNone\tNone\x00\n&apos;,
+ &apos;SP Mirror 3 (left)\t\t555.000000\x00\n&apos;,
+ &apos;SP Mirror 3 (right)\t\t620.000000\x00\n&apos;,
+ &apos;SP Mirror 3 (stain)\tNone\tNone\x00\n&apos;,
+ &apos;SP Mirror 4 (left)\t\t650.000000\x00\n&apos;,
+ &apos;SP Mirror 4 (right)\t\t750.000000\x00\n&apos;,
+ &apos;SP Mirror 4 (stain)\tNone\tNone\x00\n&apos;,
+ &apos;Objective\tHC PL APO CS  20.0x0.70 UV\tHC PL APO CS  20.0x0.70 UV\x00\n&apos;,
+ &apos;Order number (Obj.)\t\t506513\x00\n&apos;,
+ &apos;Numerical aperture (Obj.)\t\t0.700000\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;SCANNER INFORMATION #0\x00\n&apos;,
+ &apos;RoiScan\t\t0\x00\n&apos;,
+ &apos;IsSequential\t\t0\x00\n&apos;,
+ &apos;ChaserUVShutter\t\t0\x00\n&apos;,
+ &apos;ChaserVisibleShutter\t\t0\x00\n&apos;,
+ &apos;MPShutter\t\t0\x00\n&apos;,
+ &apos;UVShutter\t\t0\x00\n&apos;,
+ &apos;VisibleShutter\t\t1\x00\n&apos;,
+ &apos;ScanMode\txyzt\tInactive\x00\n&apos;,
+ &apos;Pinhole [m]\t\t0.000055\x00\n&apos;,
+ &apos;Pinhole [airy]\t\t0.749278\x00\n&apos;,
+ &apos;Size-Width\t[µm]\t\t250.122070\x00\n&apos;,
+ &apos;Size-Height\t[µm]\t\t250.122070\x00\n&apos;,
+ &apos;Size-Depth\t\t0.000000\x00\n&apos;,
+ &apos;StepSize\t[µm]\t\t0.040703\x00\n&apos;,
+ &apos;Voxel-Width\t[µm]\t\t0.488520\x00\n&apos;,
+ &apos;Voxel-Height\t[µm]\t\t0.488520\x00\n&apos;,
+ &apos;Voxel-Depth\t\t0.000000\x00\n&apos;,
+ &apos;Zoom\t\t2.998536\x00\n&apos;,
+ &apos;Scan-Direction\t\t1\x00\n&apos;,
+ &apos;Y-Scan-Direction\t\t1\x00\n&apos;,
+ &apos;SequentialMode\t\t0\x00\n&apos;,
+ &apos;Frame-Accumulation\t\t1\x00\n&apos;,
+ &apos;Frame-Average\t\t1\x00\n&apos;,
+ &apos;Line-Average\t\t1\x00\n&apos;,
+ &apos;Resolution\t\t8\x00\n&apos;,
+ &apos;Channels\t\t1\x00\n&apos;,
+ &apos;Delay[ms]\t[ms]\t\t657\x00\n&apos;,
+ &apos;Format-Width\t\t512\x00\n&apos;,
+ &apos;Format-Height\t\t512\x00\n&apos;,
+ &apos;Iterations\t\t125\x00\n&apos;,
+ &apos;Sections\t\t1\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;TIME INFORMATION #0\x00\n&apos;,
+ &apos;Stamped Dimension:\t2\x00\n&apos;,
+ &apos;Stamp_0:    \t2013:05:30,16:45:49:140\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;LUT DESCRIPTION #0\x00\n&apos;,
+ &apos;LUT_0\x00\n&apos;,
+ &apos;Name:                   \tGray\x00\n&apos;,
+ &apos;Inverted (1=yes / 0=no):\t0\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;SEQUENTIAL INFORMATION #0\x00\n&apos;,
+ &apos;Sequence Count: \t0\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;SERIES INFORMATION #0\x00\n&apos;,
+ &apos;Number of Series:\t 2\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;IMAGES INFORMATION #0\x00\n&apos;,
+ &apos;Number of Images: \t1\x00\n&apos;,
+ &apos;Image Width:      \t512\x00\n&apos;,
+ &apos;Iamge Length:     \t512\x00\n&apos;,
+ &apos;Bits per Sample:  \t8\x00\n&apos;,
+ &apos;Samples per Pixel:\t1\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;*************************************** NEXT IMAGE *********************************\x00\n&apos;,
+ &apos;DIMENSION DESCRIPTION #1\x00\n&apos;,
+ &apos;Pixel Size in Byte:  \t1\x00\n&apos;,
+ &apos;Resolution in Bit:   \t8\x00\n&apos;,
+ &apos;Max Value:           \t      255.0000000000\x00\n&apos;,
+ &apos;Min Value:           \t0.000000e+000\x00\n&apos;,
+ &apos;Label:               \tI\x00\n&apos;,
+ &apos;Number of Dimensions:\t5\x00\n&apos;,
+ &apos;Dimension_0:    \t120\x00\n&apos;,
+ &apos;Logical Size:    \t256\x00\n&apos;,
+ &apos;Physical Length: \t7.940383e-005 m\x00\n&apos;,
+ &apos;Physical Origin: \t0.000000e+000 m\x00\n&apos;,
+ &apos;Dimension_1:    \t121\x00\n&apos;,
+ &apos;Logical Size:    \t256\x00\n&apos;,
+ &apos;Physical Length: \t7.940383e-005 m\x00\n&apos;,
+ &apos;Physical Origin: \t0.000000e+000 m\x00\n&apos;,
+ &apos;Dimension_2:    \t6815843\x00\n&apos;,
+ &apos;Logical Size:    \t1\x00\n&apos;,
+ &apos;Physical Length: \t0.000000e+000\x00\n&apos;,
+ &apos;Physical Origin: \t0.000000e+000\x00\n&apos;,
+ &apos;Dimension_3:    \t122\x00\n&apos;,
+ &apos;Logical Size:    \t1\x00\n&apos;,
+ &apos;Physical Length: \t0.000000e+000\x00\n&apos;,
+ &apos;Physical Origin: \t0.000000e+000\x00\n&apos;,
+ &apos;Dimension_4:    \t116\x00\n&apos;,
+ &apos;Logical Size:    \t125\x00\n&apos;,
+ &apos;Physical Length: \t50.00 s\x00\n&apos;,
+ &apos;Physical Origin: \t0.000000e+000 s\x00\n&apos;,
+ &apos;Series Name:\tSeries006\x00\n&apos;,
+ &apos;Description:\t\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;HARDWARE PARAMETER #1\x00\n&apos;,
+ &apos;AOBS (0)\t\t100.000000\x00\n&apos;,
+ &apos;AOBS (1)\t\t100.000000\x00\n&apos;,
+ &apos;AOBS (2)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (3)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (4)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (5)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (6)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (7)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (0)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (1)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (2)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (3)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (4)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (5)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (6)\t\t0.000000\x00\n&apos;,
+ &apos;AOBS (7)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (0)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (1)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (0)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (1)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (458)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (476)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (488)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (496)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (514)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (543)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (594)\t\t33.724054\x00\n&apos;,
+ &apos;AOTF (633)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (458)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (476)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (488)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (496)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (514)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (543)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (594)\t\t0.000000\x00\n&apos;,
+ &apos;AOTF (633)\t\t0.000000\x00\n&apos;,
+ &apos;PMT 1\tInactive\tInactive\x00\n&apos;,
+ &apos;PMT 2\tInactive\tInactive\x00\n&apos;,
+ &apos;PMT 3\tActive\tActive\x00\n&apos;,
+ &apos;PMT 3 (Offs.)\t\t0.000000\x00\n&apos;,
+ &apos;PMT 3 (HV)\t\t500.000000\x00\n&apos;,
+ &apos;PMT 4\tInactive\tInactive\x00\n&apos;,
+ &apos;PMT NDD1\tInactive\tInactive\x00\n&apos;,
+ &apos;PMT NDD2\tInactive\tInactive\x00\n&apos;,
+ &apos;PMT NDD3\tInactive\tInactive\x00\n&apos;,
+ &apos;Beam Expander\tBeam Exp 6\tBeam Exp 6\x00\n&apos;,
+ &apos;External Detection FW\tMirror \tMirror \x00\n&apos;,
+ &apos;External Detection FW\tMirror \tMirror \x00\n&apos;,
+ &apos;Polarization FW\tEmpty1 \tEmpty1 \x00\n&apos;,
+ &apos;Polarization FW\tEmpty1 \tEmpty1 \x00\n&apos;,
+ &apos;Hardware Type No.\t\t2.000000\x00\n&apos;,
+ &apos;Laser wavelength\t\t780\x00\n&apos;,
+ &apos;Scan Field Rotation\t\t-0.038943\x00\n&apos;,
+ &apos;Rotation Direction\t\t1\x00\n&apos;,
+ &apos;X Scan Actuator\tActive\tActive\x00\n&apos;,
+ &apos;X Scan Actuator (Gain)\t\t2.998536\x00\n&apos;,
+ &apos;X Scan Actuator (Offs.)\t\t0.000000\x00\n&apos;,
+ &apos;Y Scan Actuator\tActive\tActive\x00\n&apos;,
+ &apos;Y Scan Actuator (Gain)\t\t2.998536\x00\n&apos;,
+ &apos;Y Scan Actuator (Offs.)\t\t0.000000\x00\n&apos;,
+ &apos;Z Scan Actuator\tInactive\tInactive\x00\n&apos;,
+ &apos;Z Scan Actuator (POS)\t\t0.000000\x00\n&apos;,
+ &apos;Scan Speed\t\t1000.000000\x00\n&apos;,
+ &apos;Phase\t\t64.778646\x00\n&apos;,
+ &apos;Y-Phase\t\t0.122100\x00\n&apos;,
+ &apos;SP Mirror 1 (left)\t\t350.000000\x00\n&apos;,
+ &apos;SP Mirror 1 (right)\t\t400.000000\x00\n&apos;,
+ &apos;SP Mirror 1 (stain)\tNone\tNone\x00\n&apos;,
+ &apos;SP Mirror 2 (left)\t\t500.000000\x00\n&apos;,
+ &apos;SP Mirror 2 (right)\t\t535.000000\x00\n&apos;,
+ &apos;SP Mirror 2 (stain)\tNone\tNone\x00\n&apos;,
+ &apos;SP Mirror 3 (left)\t\t605.000000\x00\n&apos;,
+ &apos;SP Mirror 3 (right)\t\t700.000000\x00\n&apos;,
+ &apos;SP Mirror 3 (stain)\tTEXAS RED\tTEXAS RED\x00\n&apos;,
+ &apos;SP Mirror 4 (left)\t\t800.000000\x00\n&apos;,
+ &apos;SP Mirror 4 (right)\t\t850.000000\x00\n&apos;,
+ &apos;SP Mirror 4 (stain)\tNone\tNone\x00\n&apos;,
+ &apos;Objective\tHCX PL APO CS  63.0x1.20 IMM BD\tHCX PL APO CS  63.0x1.20 IMM BD\x00\n&apos;,
+ &apos;Order number (Obj.)\t\t506212\x00\n&apos;,
+ &apos;Numerical aperture (Obj.)\t\t1.200000\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;SCANNER INFORMATION #1\x00\n&apos;,
+ &apos;RoiScan\t\t0\x00\n&apos;,
+ &apos;IsSequential\t\t0\x00\n&apos;,
+ &apos;ChaserUVShutter\t\t0\x00\n&apos;,
+ &apos;ChaserVisibleShutter\t\t0\x00\n&apos;,
+ &apos;MPShutter\t\t0\x00\n&apos;,
+ &apos;UVShutter\t\t0\x00\n&apos;,
+ &apos;VisibleShutter\t\t1\x00\n&apos;,
+ &apos;ScanMode\txyzt\tInactive\x00\n&apos;,
+ &apos;Pinhole [m]\t\t0.000134\x00\n&apos;,
+ &apos;Pinhole [airy]\t\t0.998881\x00\n&apos;,
+ &apos;Size-Width\t[µm]\t\t79.403832\x00\n&apos;,
+ &apos;Size-Height\t[µm]\t\t79.403832\x00\n&apos;,
+ &apos;Size-Depth\t\t0.000000\x00\n&apos;,
+ &apos;StepSize\t[µm]\t\t0.040703\x00\n&apos;,
+ &apos;Voxel-Width\t[µm]\t\t0.310171\x00\n&apos;,
+ &apos;Voxel-Height\t[µm]\t\t0.310171\x00\n&apos;,
+ &apos;Voxel-Depth\t\t0.000000\x00\n&apos;,
+ &apos;Zoom\t\t2.998536\x00\n&apos;,
+ &apos;Scan-Direction\t\t1\x00\n&apos;,
+ &apos;Y-Scan-Direction\t\t1\x00\n&apos;,
+ &apos;SequentialMode\t\t0\x00\n&apos;,
+ &apos;Frame-Accumulation\t\t1\x00\n&apos;,
+ &apos;Frame-Average\t\t1\x00\n&apos;,
+ &apos;Line-Average\t\t1\x00\n&apos;,
+ &apos;Resolution\t\t8\x00\n&apos;,
+ &apos;Channels\t\t1\x00\n&apos;,
+ &apos;Delay[ms]\t[ms]\t\t401\x00\n&apos;,
+ &apos;Format-Width\t\t256\x00\n&apos;,
+ &apos;Format-Height\t\t256\x00\n&apos;,
+ &apos;Iterations\t\t125\x00\n&apos;,
+ &apos;Sections\t\t1\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;TIME INFORMATION #1\x00\n&apos;,
+ &apos;Stamped Dimension:\t2\x00\n&apos;,
+ &apos;Stamp_0:    \t2013:05:30,16:48:30:515\x00\n&apos;,
+ &apos;Stamp_1:    \t2013:05:30,16:48:30:921\x00\n&apos;,
+ &apos;Stamp_2:    \t2013:05:30,16:48:31:312\x00\n&apos;,
+ &apos;Stamp_3:    \t2013:05:30,16:48:31:718\x00\n&apos;,
+ &apos;Stamp_4:    \t2013:05:30,16:48:32:109\x00\n&apos;,
+ &apos;Stamp_5:    \t2013:05:30,16:48:32:515\x00\n&apos;,
+ &apos;Stamp_6:    \t2013:05:30,16:48:32:921\x00\n&apos;,
+ &apos;Stamp_7:    \t2013:05:30,16:48:33:312\x00\n&apos;,
+ &apos;Stamp_8:    \t2013:05:30,16:48:33:718\x00\n&apos;,
+ &apos;Stamp_9:    \t2013:05:30,16:48:34:125\x00\n&apos;,
+ &apos;Stamp_10:    \t2013:05:30,16:48:34:515\x00\n&apos;,
+ &apos;Stamp_11:    \t2013:05:30,16:48:34:921\x00\n&apos;,
+ &apos;Stamp_12:    \t2013:05:30,16:48:35:328\x00\n&apos;,
+ &apos;Stamp_13:    \t2013:05:30,16:48:35:718\x00\n&apos;,
+ &apos;Stamp_14:    \t2013:05:30,16:48:36:125\x00\n&apos;,
+ &apos;Stamp_15:    \t2013:05:30,16:48:36:531\x00\n&apos;,
+ &apos;Stamp_16:    \t2013:05:30,16:48:36:921\x00\n&apos;,
+ &apos;Stamp_17:    \t2013:05:30,16:48:37:328\x00\n&apos;,
+ &apos;Stamp_18:    \t2013:05:30,16:48:37:734\x00\n&apos;,
+ &apos;Stamp_19:    \t2013:05:30,16:48:38:125\x00\n&apos;,
+ &apos;Stamp_20:    \t2013:05:30,16:48:38:531\x00\n&apos;,
+ &apos;Stamp_21:    \t2013:05:30,16:48:38:937\x00\n&apos;,
+ &apos;Stamp_22:    \t2013:05:30,16:48:39:328\x00\n&apos;,
+ &apos;Stamp_23:    \t2013:05:30,16:48:39:734\x00\n&apos;,
+ &apos;Stamp_24:    \t2013:05:30,16:48:40:125\x00\n&apos;,
+ &apos;Stamp_25:    \t2013:05:30,16:48:40:531\x00\n&apos;,
+ &apos;Stamp_26:    \t2013:05:30,16:48:40:937\x00\n&apos;,
+ &apos;Stamp_27:    \t2013:05:30,16:48:41:328\x00\n&apos;,
+ &apos;Stamp_28:    \t2013:05:30,16:48:41:750\x00\n&apos;,
+ &apos;Stamp_29:    \t2013:05:30,16:48:42:140\x00\n&apos;,
+ &apos;Stamp_30:    \t2013:05:30,16:48:42:531\x00\n&apos;,
+ &apos;Stamp_31:    \t2013:05:30,16:48:42:937\x00\n&apos;,
+ &apos;Stamp_32:    \t2013:05:30,16:48:43:343\x00\n&apos;,
+ &apos;Stamp_33:    \t2013:05:30,16:48:43:734\x00\n&apos;,
+ &apos;Stamp_34:    \t2013:05:30,16:48:44:140\x00\n&apos;,
+ &apos;Stamp_35:    \t2013:05:30,16:48:44:546\x00\n&apos;,
+ &apos;Stamp_36:    \t2013:05:30,16:48:44:937\x00\n&apos;,
+ &apos;Stamp_37:    \t2013:05:30,16:48:45:343\x00\n&apos;,
+ &apos;Stamp_38:    \t2013:05:30,16:48:45:750\x00\n&apos;,
+ &apos;Stamp_39:    \t2013:05:30,16:48:46:140\x00\n&apos;,
+ &apos;Stamp_40:    \t2013:05:30,16:48:46:546\x00\n&apos;,
+ &apos;Stamp_41:    \t2013:05:30,16:48:46:953\x00\n&apos;,
+ &apos;Stamp_42:    \t2013:05:30,16:48:47:343\x00\n&apos;,
+ &apos;Stamp_43:    \t2013:05:30,16:48:47:750\x00\n&apos;,
+ &apos;Stamp_44:    \t2013:05:30,16:48:48:156\x00\n&apos;,
+ &apos;Stamp_45:    \t2013:05:30,16:48:48:546\x00\n&apos;,
+ &apos;Stamp_46:    \t2013:05:30,16:48:48:953\x00\n&apos;,
+ &apos;Stamp_47:    \t2013:05:30,16:48:49:359\x00\n&apos;,
+ &apos;Stamp_48:    \t2013:05:30,16:48:49:750\x00\n&apos;,
+ &apos;Stamp_49:    \t2013:05:30,16:48:50:156\x00\n&apos;,
+ &apos;Stamp_50:    \t2013:05:30,16:48:50:562\x00\n&apos;,
+ &apos;Stamp_51:    \t2013:05:30,16:48:50:953\x00\n&apos;,
+ &apos;Stamp_52:    \t2013:05:30,16:48:51:359\x00\n&apos;,
+ &apos;Stamp_53:    \t2013:05:30,16:48:51:765\x00\n&apos;,
+ &apos;Stamp_54:    \t2013:05:30,16:48:52:156\x00\n&apos;,
+ &apos;Stamp_55:    \t2013:05:30,16:48:52:562\x00\n&apos;,
+ &apos;Stamp_56:    \t2013:05:30,16:48:52:968\x00\n&apos;,
+ &apos;Stamp_57:    \t2013:05:30,16:48:53:359\x00\n&apos;,
+ &apos;Stamp_58:    \t2013:05:30,16:48:53:765\x00\n&apos;,
+ &apos;Stamp_59:    \t2013:05:30,16:48:54:171\x00\n&apos;,
+ &apos;Stamp_60:    \t2013:05:30,16:48:54:562\x00\n&apos;,
+ &apos;Stamp_61:    \t2013:05:30,16:48:54:968\x00\n&apos;,
+ &apos;Stamp_62:    \t2013:05:30,16:48:55:375\x00\n&apos;,
+ &apos;Stamp_63:    \t2013:05:30,16:48:55:765\x00\n&apos;,
+ &apos;Stamp_64:    \t2013:05:30,16:48:56:171\x00\n&apos;,
+ &apos;Stamp_65:    \t2013:05:30,16:48:56:578\x00\n&apos;,
+ &apos;Stamp_66:    \t2013:05:30,16:48:56:968\x00\n&apos;,
+ &apos;Stamp_67:    \t2013:05:30,16:48:57:375\x00\n&apos;,
+ &apos;Stamp_68:    \t2013:05:30,16:48:57:781\x00\n&apos;,
+ &apos;Stamp_69:    \t2013:05:30,16:48:58:171\x00\n&apos;,
+ &apos;Stamp_70:    \t2013:05:30,16:48:58:578\x00\n&apos;,
+ &apos;Stamp_71:    \t2013:05:30,16:48:58:984\x00\n&apos;,
+ &apos;Stamp_72:    \t2013:05:30,16:48:59:375\x00\n&apos;,
+ &apos;Stamp_73:    \t2013:05:30,16:48:59:781\x00\n&apos;,
+ &apos;Stamp_74:    \t2013:05:30,16:49:00:187\x00\n&apos;,
+ &apos;Stamp_75:    \t2013:05:30,16:49:00:578\x00\n&apos;,
+ &apos;Stamp_76:    \t2013:05:30,16:49:00:984\x00\n&apos;,
+ &apos;Stamp_77:    \t2013:05:30,16:49:01:390\x00\n&apos;,
+ &apos;Stamp_78:    \t2013:05:30,16:49:01:781\x00\n&apos;,
+ &apos;Stamp_79:    \t2013:05:30,16:49:02:187\x00\n&apos;,
+ &apos;Stamp_80:    \t2013:05:30,16:49:02:593\x00\n&apos;,
+ &apos;Stamp_81:    \t2013:05:30,16:49:02:984\x00\n&apos;,
+ &apos;Stamp_82:    \t2013:05:30,16:49:03:390\x00\n&apos;,
+ &apos;Stamp_83:    \t2013:05:30,16:49:03:796\x00\n&apos;,
+ &apos;Stamp_84:    \t2013:05:30,16:49:04:187\x00\n&apos;,
+ &apos;Stamp_85:    \t2013:05:30,16:49:04:593\x00\n&apos;,
+ &apos;Stamp_86:    \t2013:05:30,16:49:05:00\x00\n&apos;,
+ &apos;Stamp_87:    \t2013:05:30,16:49:05:406\x00\n&apos;,
+ &apos;Stamp_88:    \t2013:05:30,16:49:05:796\x00\n&apos;,
+ &apos;Stamp_89:    \t2013:05:30,16:49:06:203\x00\n&apos;,
+ &apos;Stamp_90:    \t2013:05:30,16:49:06:593\x00\n&apos;,
+ &apos;Stamp_91:    \t2013:05:30,16:49:07:00\x00\n&apos;,
+ &apos;Stamp_92:    \t2013:05:30,16:49:07:406\x00\n&apos;,
+ &apos;Stamp_93:    \t2013:05:30,16:49:07:796\x00\n&apos;,
+ &apos;Stamp_94:    \t2013:05:30,16:49:08:203\x00\n&apos;,
+ &apos;Stamp_95:    \t2013:05:30,16:49:08:609\x00\n&apos;,
+ &apos;Stamp_96:    \t2013:05:30,16:49:09:00\x00\n&apos;,
+ &apos;Stamp_97:    \t2013:05:30,16:49:09:406\x00\n&apos;,
+ &apos;Stamp_98:    \t2013:05:30,16:49:09:812\x00\n&apos;,
+ &apos;Stamp_99:    \t2013:05:30,16:49:10:203\x00\n&apos;,
+ &apos;Stamp_100:    \t2013:05:30,16:49:10:609\x00\n&apos;,
+ &apos;Stamp_101:    \t2013:05:30,16:49:11:15\x00\n&apos;,
+ &apos;Stamp_102:    \t2013:05:30,16:49:11:406\x00\n&apos;,
+ &apos;Stamp_103:    \t2013:05:30,16:49:11:812\x00\n&apos;,
+ &apos;Stamp_104:    \t2013:05:30,16:49:12:218\x00\n&apos;,
+ &apos;Stamp_105:    \t2013:05:30,16:49:12:609\x00\n&apos;,
+ &apos;Stamp_106:    \t2013:05:30,16:49:13:15\x00\n&apos;,
+ &apos;Stamp_107:    \t2013:05:30,16:49:13:421\x00\n&apos;,
+ &apos;Stamp_108:    \t2013:05:30,16:49:13:812\x00\n&apos;,
+ &apos;Stamp_109:    \t2013:05:30,16:49:14:218\x00\n&apos;,
+ &apos;Stamp_110:    \t2013:05:30,16:49:14:625\x00\n&apos;,
+ &apos;Stamp_111:    \t2013:05:30,16:49:15:15\x00\n&apos;,
+ &apos;Stamp_112:    \t2013:05:30,16:49:15:421\x00\n&apos;,
+ &apos;Stamp_113:    \t2013:05:30,16:49:15:828\x00\n&apos;,
+ &apos;Stamp_114:    \t2013:05:30,16:49:16:218\x00\n&apos;,
+ &apos;Stamp_115:    \t2013:05:30,16:49:16:625\x00\n&apos;,
+ &apos;Stamp_116:    \t2013:05:30,16:49:17:31\x00\n&apos;,
+ &apos;Stamp_117:    \t2013:05:30,16:49:17:421\x00\n&apos;,
+ &apos;Stamp_118:    \t2013:05:30,16:49:17:828\x00\n&apos;,
+ &apos;Stamp_119:    \t2013:05:30,16:49:18:234\x00\n&apos;,
+ &apos;Stamp_120:    \t2013:05:30,16:49:18:625\x00\n&apos;,
+ &apos;Stamp_121:    \t2013:05:30,16:49:19:31\x00\n&apos;,
+ &apos;Stamp_122:    \t2013:05:30,16:49:19:437\x00\n&apos;,
+ &apos;Stamp_123:    \t2013:05:30,16:49:19:828\x00\n&apos;,
+ &apos;Stamp_124:    \t2013:05:30,16:49:20:234\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;LUT DESCRIPTION #1\x00\n&apos;,
+ &apos;LUT_0\x00\n&apos;,
+ &apos;Name:                   \tRed\x00\n&apos;,
+ &apos;Inverted (1=yes / 0=no):\t0\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;SEQUENTIAL INFORMATION #1\x00\n&apos;,
+ &apos;Sequence Count: \t0\x00\n&apos;,
+ &apos;\x00\n&apos;,
+ &apos;IMAGES INFORMATION #1\x00\n&apos;,
+ &apos;Number of Images: \t125\x00\n&apos;,
+ &apos;Image Width:      \t256\x00\n&apos;,
+ &apos;Iamge Length:     \t256\x00\n&apos;,
+ &apos;Bits per Sample:  \t8\x00\n&apos;,
+ &apos;Samples per Pixel:\t1\x00\n&apos;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You'll notice the strange <code>\x00\n</code> at the end of each line.  This, again, is an old encoding for carriage returns.  It it not at all uncommon that you will have to deal with such annoyances when parsing files.  They are of no concern to us, since we will just strip them off.  While we're at it, we'll also split the line up at white spaces useing the <code>split()</code> method of strings.</p>
 
 </div>
 </div>
@@ -879,21 +1803,8 @@ Standard deviation: 100.244745579
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Stepping time</span>
-<span class="n">tau</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="c"># seconds</span>
-
-<span class="c"># Specify number of samples</span>
-<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">10000</span>
-
-<span class="c"># Array of backtrack times</span>
-<span class="n">t_bt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
-
-<span class="c"># Generate the samples</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
-    <span class="n">t_bt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">backtrack_time</span><span class="p">()</span>
-    
-<span class="c"># Convert to seconds</span>
-<span class="n">t_bt</span> <span class="o">*=</span> <span class="n">tau</span>
+<div class=" highlight hl-ipython3"><pre><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+    <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\x00\n</span><span class="s">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -906,7 +1817,17 @@ Standard deviation: 100.244745579
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Yay, <code>numba</code>!  That only took a few seconds.  Now, let's plot the histogram.</p>
+<p>Now, we'll search through the list of strings until we find the</p>
+
+<pre><code>Series Name:    Series006
+
+</code></pre>
+<p>line.  This just means that we want to find the index that has entry</p>
+
+<pre><code>['Series', 'Name:', 'Series006']  
+
+</code></pre>
+<p>We can use the <code>index()</code> method of lists to do this.</p>
 
 </div>
 </div>
@@ -916,12 +1837,11 @@ Standard deviation: 100.244745579
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Make histogram</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">t_bt</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">normed</span> <span class="o">=</span> <span class="k">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="c"># Find index where Series is identified</span>
+<span class="n">i_start</span> <span class="o">=</span> <span class="n">lines</span><span class="o">.</span><span class="n">index</span><span class="p">([</span><span class="s">&#39;Series&#39;</span><span class="p">,</span> <span class="s">&#39;Name:&#39;</span><span class="p">,</span> <span class="s">&#39;Series006&#39;</span><span class="p">])</span>
 
-<span class="c"># Label axes</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">r&#39;$t_{bt} (s)$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;$P(t_{bt})$&#39;</span><span class="p">)</span>
+<span class="c"># Show us!</span>
+<span class="n">i_start</span>
 </pre></div>
 
 </div>
@@ -936,142 +1856,7 @@ Standard deviation: 100.244745579
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.text.Text at 0x119ce6860&gt;</pre>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-"
->
+<pre>198</pre>
 </div>
 
 </div>
@@ -1085,7 +1870,7 @@ kCSpcIYBSZIKZxiQJKlwhgFJkgpnGJAkqXCGAUmSCvf/AfjfVvGv97fOAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Yowza!  What is going on here?  We have some extremely long backtracks.  $10^7$ seconds is 115 days!  Obviously, a polymerase in such a backtrack would never escape.  The histogram is not the clear, so lets look at the cumulative histrogram.</p>
+<h3 id="Extracting-interpixel-distances">Extracting interpixel distances<a class="anchor-link" href="#Extracting-interpixel-distances">&#182;</a></h3><p>Now, we can scan starting that this starting index and extract the voxel sizes.</p>
 
 </div>
 </div>
@@ -1095,19 +1880,16 @@ kCSpcIYBSZIKZxiQJKlwhgFJkgpnGJAkqXCGAUmSCvf/AfjfVvGv97fOAAAAAElFTkSuQmCC
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Sort the samples</span>
-<span class="n">t_bt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">t_bt</span><span class="p">)</span>
-
-<span class="c"># Generate y-axis for CDF</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t_bt</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">t_bt</span><span class="p">)</span>
-
-<span class="c"># Plot CDF from random numbers</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">t_bt</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-
-<span class="c"># Clean up plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">r&#39;$t_{bt} (s)$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;cum. hist.&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i_start</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Voxel-Width&#39;</span><span class="p">:</span>
+            <span class="n">physical_size_x</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Voxel-Height&#39;</span><span class="p">:</span>
+            <span class="n">physical_size_y</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        
+<span class="c"># Pixel sizes!</span>
+<span class="nb">print</span><span class="p">(</span><span class="s">&#39;Interpixel spacing in x (µm):&#39;</span><span class="p">,</span> <span class="n">physical_size_x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s">&#39;Interpixel spacing in y (µm):&#39;</span><span class="p">,</span> <span class="n">physical_size_y</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1118,161 +1900,12 @@ kCSpcIYBSZIKZxiQJKlwhgFJkgpnGJAkqXCGAUmSCvf/AfjfVvGv97fOAAAAAElFTkSuQmCC
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.text.Text at 0x11b1c4208&gt;</pre>
-</div>
-
-</div>
-
 <div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-rALWATf0K5gkSRqcKrsA3gl8DfhuRFwK/JDWvvnHAcfROlr/pL4nlCRJfVflPAA3RMRvAe+n9U2A
-Tt8BXp6Z1/cznCRJGoxK5wHIzK8DqyNid+DRtI4L+H+Z+bNBhJMkSYPR08WA2if8qXLSH0mSNEL6
-eTlgSZLUEBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpk
-AZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQ
-JKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSp
-QBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAW
-AEmSCmQBkCSpQBYASZIKZAGQJKlAi+t64ogYB84HDgTuA9Zl5i0d648DTgW2AN8FXpOZk3VklSRp
-oalzBuAYYGlmHgacDpyzfUVELAfeBTwnM58J7AT8bi0pJUlagOosAIcDVwNk5g3AwR3r7gUOzcx7
-27cXA/cMN54kSQtXbbsAgB2BTR23t0bEeGZua0/1bwSIiFOAHTLzS3NtcGJi1WCSVlQlx6hkrqJp
-mZuWF8w8DE3LC83L3LS80MzMvaqzAGwCOl/p8czctv1G+xiBs4HHAWu72eDGjZv7GrBX3eaYmFg1
-Mpm71bTMTcsLZh6GpuWF5mVuWl5obuZe1bkLYAPwAoCIOAS4acr6C4BlwEs6dgVIkqQ+qHMG4Erg
-yIjY0L59YvvI/5XAt4CTgK8B10QEwAcz8zO1JJUkaYGprQC09/OfPGXxDzr+vGiIcSRJKoonApIk
-qUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlA
-FgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYA
-SZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmS
-CmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpk
-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
-"
->
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Interpixel spacing in x (µm): 0.310171
+Interpixel spacing in y (µm): 0.310171
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -1284,28 +1917,13 @@ JEkqkAVAkqQCWQAkSSqQBUCSpAJZACRJKpAFQJKkAv1/JXh20SykeCoAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This makes more sense.  We see that half of all backtracks end immediately, with the first step being rightward.  It is impossible to leave a backtrack in an even number of steps, so there are no two-step escapes.  Then, we get a lot of 3-step escapes, and so on.  But this goes more and more slowly.  Yes, 80% of backtracks only last 10 seconds, but there are still many extraordinarily long backtracks.  These are the fundamental predictions of our hypothesis.</p>
+<h3 id="Extracting-the-time-points">Extracting the time points<a class="anchor-link" href="#Extracting-the-time-points">&#182;</a></h3><p>Now, we want to get the time points for our images.  The time stamp records look line this:</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="A-power-law?">A power law?<a class="anchor-link" href="#A-power-law?">&#182;</a></h3><p>A probability distribution that obeys a power law has the property</p>
-\begin{align}
-P(x) \propto x^{-a}
-\end{align}<p>in some part of the distribution, usually for large $x$.</p>
-<p>The cumulative distribution is then</p>
-\begin{align}
-\mathrm{cdf}(x) = \int_{-\infty}^x \mathrm{d}x'\,P(x') = 1 - \frac{c}{x^{a-1}},
-\end{align}<p>where $c$ is some constant defined by the functional form of $P(x)$ for small $x$ and the normalization condition.  If $F$ is our cumulative histogram, we can check for power law behavior by plotting the complementarly cumulative probability distribution (CCDF), $1 - F$, versus $x$.  If a power law is in play, the plot will be linear on a log-log scale with a slope of $-a-1$.</p>
-<p>By doing some mathematical heavy lifting, we know that, in the limit of large $t_{bt}$,</p>
-\begin{align}
-P(t_{bt}) \propto t^{-3/2}.
-\end{align}<p>We don't need to know that to see the linear trend on the log-log plot, but it is useful to plot along side it.</p>
+<pre><code>Stamp_0:        2013:05:30,16:48:30:515
+
+</code></pre>
+<p>So, we want to find the stamps, set the time for frame 0 to be zero seconds, and then compute the time difference for all of the other frames.  We learned how to do this with the <code>datetime</code> module.</p>
+<p>Our strategy is to convert the time stamp string into a <code>datetime.datetime</code> object and the subtract the first time from the others.  First, we'll write a function to convert time strings to a list of numbers.</p>
 
 </div>
 </div>
@@ -1315,16 +1933,84 @@ P(t_{bt}) \propto t^{-3/2}.
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Plot the CCDF</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">t_bt</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">y</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">time_str_to_datetime</span><span class="p">(</span><span class="n">time_str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert date/time string in Leica file to </span>
+<span class="sd">    datetime.datetime object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c"># Split at colons and comma</span>
+    <span class="n">splitter</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;[,|:]&#39;</span><span class="p">)</span>
 
-<span class="c"># Plot the asymptotic power law</span>
-<span class="n">t_smooth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">t_smooth</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">t_smooth</span><span class="p">))</span>
+    <span class="c"># Split the time_str</span>
+    <span class="n">str_list</span> <span class="o">=</span> <span class="n">splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">time_str</span><span class="p">)</span>
+    
+    <span class="c"># Convert to integers</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">str_list</span><span class="p">):</span>
+        <span class="n">str_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+        
+    <span class="c"># Return datetime.datetime object</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">str_list</span><span class="p">))</span>
+</pre></div>
 
-<span class="c"># Label axes</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;$t_{bt}$ (s)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;CCDF&#39;</span><span class="p">)</span>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that we have this function, we can scan through and find the time stamps.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># Scan until we get to the first time stamp</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">i_start</span>
+<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;Stamp_0:&#39;</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+<span class="c"># Extract the time string</span>
+<span class="n">t_0</span> <span class="o">=</span> <span class="n">time_str_to_datetime</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c"># Loop through successive frames and get the time points</span>
+<span class="n">time_points</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Stamp&#39;</span><span class="p">:</span>
+    <span class="n">delta_t</span> <span class="o">=</span> <span class="n">time_str_to_datetime</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">t_0</span>
+    <span class="n">time_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">delta_t</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">())</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's look at our list and see how we did.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">time_points</span>
 </pre></div>
 
 </div>
@@ -1335,299 +2021,135 @@ P(t_{bt}) \propto t^{-3/2}.
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.text.Text at 0x11ceda1d0&gt;</pre>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-AAAASUVORK5CYII=
-"
->
+<pre>[0,
+ 0.000406,
+ 0.999797,
+ 1.000203,
+ 1.999594,
+ 2.0,
+ 2.000406,
+ 2.999797,
+ 3.000203,
+ 3.99961,
+ 4.0,
+ 4.000406,
+ 4.999813,
+ 5.000203,
+ 5.99961,
+ 6.000016,
+ 6.000406,
+ 6.999813,
+ 7.000219,
+ 7.99961,
+ 8.000016,
+ 8.000422,
+ 8.999813,
+ 9.000219,
+ 9.99961,
+ 10.000016,
+ 10.000422,
+ 10.999813,
+ 11.000235,
+ 11.999625,
+ 12.000016,
+ 12.000422,
+ 12.999828,
+ 13.000219,
+ 13.999625,
+ 14.000031,
+ 14.000422,
+ 14.999828,
+ 15.000235,
+ 15.999625,
+ 16.000031,
+ 16.000438,
+ 16.999828,
+ 17.000235,
+ 17.999641,
+ 18.000031,
+ 18.000438,
+ 18.999844,
+ 19.000235,
+ 19.999641,
+ 20.000047,
+ 20.000438,
+ 20.999844,
+ 21.00025,
+ 21.999641,
+ 22.000047,
+ 22.000453,
+ 22.999844,
+ 23.00025,
+ 23.999656,
+ 24.000047,
+ 24.000453,
+ 24.99986,
+ 25.00025,
+ 25.999656,
+ 26.000063,
+ 26.000453,
+ 26.99986,
+ 27.000266,
+ 27.999656,
+ 28.000063,
+ 28.000469,
+ 28.99986,
+ 29.000266,
+ 29.999672,
+ 30.000063,
+ 30.000469,
+ 30.999875,
+ 31.000266,
+ 31.999672,
+ 32.000078,
+ 32.000469,
+ 32.999875,
+ 33.000281,
+ 33.999672,
+ 34.000078,
+ 34.999485,
+ 34.999891,
+ 35.000281,
+ 35.999688,
+ 36.000078,
+ 36.999485,
+ 36.999891,
+ 37.000281,
+ 37.999688,
+ 38.000094,
+ 38.999485,
+ 38.999891,
+ 39.000297,
+ 39.999688,
+ 40.000094,
+ 40.9995,
+ 40.999891,
+ 41.000297,
+ 41.999703,
+ 42.000094,
+ 42.9995,
+ 42.999906,
+ 43.000297,
+ 43.999703,
+ 44.00011,
+ 44.9995,
+ 44.999906,
+ 45.000313,
+ 45.999703,
+ 46.00011,
+ 46.999516,
+ 46.999906,
+ 47.000313,
+ 47.999719,
+ 48.00011,
+ 48.999516,
+ 48.999922,
+ 49.000313,
+ 49.999719]</pre>
 </div>
 
 </div>
@@ -1641,8 +2163,7 @@ AAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Indeed, we see that the slope we got from Monte Carlo simulation matches what the theory predicts.  The theory to derive the probability distribution is involved.  See, e.g., <a href="https://en.wikipedia.org/wiki/First-hitting-time_model">this</a>.  However, we were able to predict that we would see a great many short backtracks, and then see some very very long backtracks because of the power law distribution of backtrack times.  We were able to do that just by doing a simple Monte Carlo simulation.  There are many problem where the theory is <em>really</em> hard, and deriving the distribution is currently impossible, or the probability distribution has such an ugly expression that we can't really work with it.  So, Monte Carlo methods are a powerful tool for generating predictions from simply-stated, but mathematically challenging, hypotheses.</p>
-<p>Interestingly, many researchers thought (and maybe still do) there were two classes of backtracks: long and short.  There may be, but the hypothesis that the backtrack is a random walk process is commensurate with seeing both very long and very short backtracks.</p>
+<p>Great!  We managed to extract the important metadata, we we could then use in our image analysis.  We also now have nicely organized files that appear in alphabetical order.</p>
 
 </div>
 </div>

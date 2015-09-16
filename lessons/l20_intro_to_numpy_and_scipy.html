@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="utf-8" />
-<title>l24_monte_carlo</title>
+<title>l20_intro_to_numpy_and_scipy</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -378,7 +378,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-24:-Monte-Carlo-simulation">Lesson 24: Monte Carlo simulation<a class="anchor-link" href="#Lesson-24:-Monte-Carlo-simulation">&#182;</a></h1>
+<h1 id="Lesson-20:-Introduction-to-NumPy-and-the-SciPy-stack">Lesson 20: Introduction to NumPy and the SciPy stack<a class="anchor-link" href="#Lesson-20:-Introduction-to-NumPy-and-the-SciPy-stack">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -387,7 +387,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l24_monte_carlo.ipynb">here</a>.</em></p>
+<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l20_numpy_and_scipy.ipynb">here</a>.</em></p>
 
 </div>
 </div>
@@ -397,25 +397,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Our workhorse</span>
+<div class=" highlight hl-ipython3"><pre><span class="c"># NumPy, the engine of scientific computing</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="c"># Do it with compilation</span>
-<span class="kn">import</span> <span class="nn">numba</span>
-
-<span class="c"># This is how we import the module of Matplotlib we&#39;ll be using</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="c"># Seaborn makes plots pretty!</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-
-<span class="c"># Magic function to make matplotlib inline; other style specs must come AFTER</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-
-<span class="c"># Set JB&#39;s favorite Seaborn settings</span>
-<span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;lines.linewidth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;axes.labelsize&#39;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="s">&#39;axes.titlesize&#39;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> 
-    <span class="s">&#39;axes.facecolor&#39;</span><span class="p">:</span> <span class="s">&#39;DFDFE5&#39;</span><span class="p">}</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s">&#39;notebook&#39;</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="n">rc</span><span class="p">)</span>
+<span class="c"># We&#39;ll demo a couple SciPy modules</span>
+<span class="kn">import</span> <span class="nn">scipy.special</span>
 </pre></div>
 
 </div>
@@ -428,7 +414,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this lesson, we will put random number generation to use and do a <strong>Monte Carlo simulation</strong>.  The term Monte Carlo simulation is a broad term describing techniques in which a large number of random numbers are generated to (approximately) calculate properties of probability distributions.  In many cases the analytical form of these distributions is not known, so Monte Carlo methods are a great way to learn about then.</p>
+<p>We have worked with packages from the standard library (such as <code>re</code> and <code>os</code>) and from outside the standard library (<code>pytest</code>).  In this lesson, we will learn about <a href="http://www.numpy.org"><strong>NumPy</strong></a>, arguably <em>the</em> most important package for scientific computing.  NumPy is part of the <a href="http://www.scipy.org/stackspec.html"><strong>SciPy stack</strong></a>, a collection of packages for doing various scientific computations.  Most of the SciPy stack is built on NumPy and its power <code>ndarray</code> data type.  We will devote the entire next lesson to <code>ndarray</code>s, but for now, we will take a brief tour through what NumPy and SciPy offer.</p>
 
 </div>
 </div>
@@ -438,12 +424,43 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Example-Monte-Carlo-simulation:-1D-random-walk">Example Monte Carlo simulation: 1D random walk<a class="anchor-link" href="#Example-Monte-Carlo-simulation:-1D-random-walk">&#182;</a></h2><p>Transcription, the process by which DNA is transcribed into RNA, is key process in the central dogma of molecular biology.  RNA polymerase (RNAP) is at the heart of this process.  This amazing machine glides along the DNA template, unzipping it internally, incorporating ribonucleotides at the front, and spitting RNA out the back.  Sometimes, though, the polymerase pauses and then backtracks, pushing the RNA transcipt back out the front, as shown in the figure below, taken from Depken, et al., <em>Biophys. J.</em>, <strong>96</strong>, 2189-2193, 2009.</p>
-<p><img src="rnap_pause.png" alt="Schematic of a pausing RNAP from Depken, et al., *Biophys. J.*, **96**, 2189-2193, 2009"></p>
-<p>To escape these backtracks, a cleavage enzyme called TFIIS will cleave the bit on RNA hanging out of the front, and the RNAP can then go about its merry way.</p>
-<p>Researchers have long debated how these backtracks are governed.  Single molecule experiments can provide some much needed insight.  The groups of Carlos Bustamante, Steve Block, and Stephan Grill, among others, have investigated the dynamics of RNAP in the absense of TFIIS.  They can measure many individual backtracks and get statistics about how long the backtracks last.</p>
-<p>One hypothesis is that the backtracks simply consist of diffusive-like motion along the DNA stand.  That is to say, the polymerase can move forward or backward along the strand with equal probability once it is paused.  This is a one-dimensional <strong>random walk</strong>.  So, if we want to test this hypothesis, we would want to know what times we should expect for the time spent in the backtrack so that we could compare to experiment.</p>
-<p>So, we seek the probability distribution of backtrack times, $P(t_{bt})$, where $t_{bt}$ is the time spent in the backtrack.  We could solve this analytically, which requires some sophisticated mathematics.  But, because we know how to draw random numbers, we can just compute this distribution directly using Monte Carlo simulation!</p>
+<h2 id="The-SciPy-stack">The SciPy stack<a class="anchor-link" href="#The-SciPy-stack">&#182;</a></h2><p>The SciPy stack consists of the following core packages.</p>
+<table>
+<thead><tr>
+<th style="text-align:left">Package</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="http://www.numpy.org">NumPy</a></td>
+<td style="text-align:left">Base routines and classes for handling data and numerical calculation</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://www.scipy.org/">SciPy</a></td>
+<td style="text-align:left">Expansive set of tools for scientific calculation</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://matplotlib.org">matplotlib</a></td>
+<td style="text-align:left">Plotting library</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://ipython.org">IPython</a></td>
+<td style="text-align:left">The interactive Python console you already know and love</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://pandas.pydata.org">Pandas</a></td>
+<td style="text-align:left">A powerful data analysis library</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://www.sympy.org/">SymPy</a></td>
+<td style="text-align:left">Symbolic mathematics library</td>
+</tr>
+</tbody>
+</table>
+<p>With the exception of SymPy, we will use all of these extensively in the next few days.  In this lesson, we will show some of the basic features of NumPy and SciPy.</p>
+<p>Importantly, everything in the SciPy stack is <a href="https://en.wikipedia.org/wiki/BSD_licenses">BSD licensed</a>.  This is a very permissive license, which basically means you can do whatever you want when using the code.  You just need to include the license if you redistribute it.</p>
+<p>Outside of this SciPy stack are important projects that either are too specific to be included in the monolithic SciPy stack, or are still under active development.  Importantly, this includes <a href="http://scikit-image.org"><code>scikit-image</code></a>, a package for image processing, which we will use later in the course.  The new <a href="http://scikit-bio.org"><code>scikit-bio</code></a> is still in the nascent stages of development and promises to be excellent.  We will not use it in the course, since it currently does not run on Windows.  We will instead use <a href="http://biopython.org/">Biopython</a>, which is a mature package for parsing data in a bioinformatics context.</p>
 
 </div>
 </div>
@@ -453,39 +470,13 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="How-to-compute-the-random-walk">How to compute the random walk<a class="anchor-link" href="#How-to-compute-the-random-walk">&#182;</a></h3><p>To compute a 1D random walk, we just need to compute a series of left and right steps.  This is just like flipping a coin over and over again.  So, if we want to compute an unbound 1D random walk, we just flip a coin over and over again and see where we end up.</p>
+<h2 id="A-very-brief-introduction-to-NumPy-arrays">A very brief introduction to NumPy arrays<a class="anchor-link" href="#A-very-brief-introduction-to-NumPy-arrays">&#182;</a></h2><p>The central object for NumPy and SciPy is the <code>ndarray</code>, commonly referred to as a "NumPy array."  This is an array object that is convenient for scientific computing.  We will go over it in depth in the next lesson, but for now, let's just create some NumPy arrays and see how operators work on them.</p>
+<p>Just like with type conversions with lists, tuples, and other data types we've looked at, we can convert a list to a NumPy array using</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">random_walk_1d</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Take a random walk of n_steps and return excursion from the origin.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="c"># Generate an array of our steps (+1 for right, -1 for left)</span>
-    <span class="n">steps</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-    
-    <span class="c"># Where we end up is the sum of these steps</span>
-    <span class="k">return</span> <span class="n">steps</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-</pre></div>
+<pre><code>np.array()
 
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If we want the probability distribution of where we end up after $n_\mathrm{steps}$, we just do this over and over again.  We are then <em>sampling</em> out of the probability distribution, $P(x, n_\mathrm{steps})$, that describes displacement of the random walker as a function of the number of steps.  We'll generate 10,000 random walks, each of 10,000 steps, and compute the displacements for them.  We'll then plot a histogram to see how far the walkers tended to go.</p>
+</code></pre>
+<p>Note that above we imported the NumPy package "<strong><code>as</code></strong> <code>np</code>".  This is for convenience; it allow us to use <code>np</code> as a prefix instead of <code>numpy</code>.  NumPy is in <strong>very</strong> widespread use, and the convention is to use the <code>np</code> abbreviation.</p>
 
 </div>
 </div>
@@ -495,21 +486,30 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Number of steps to take for computing distribution</span>
-<span class="n">n_steps</span> <span class="o">=</span> <span class="mi">10000</span>
+<div class=" highlight hl-ipython3"><pre><span class="c"># Create a NumPy array from a list</span>
+<span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
 
-<span class="c"># Number of random walks to take</span>
-<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">10000</span>
-
-<span class="c"># Initial samples of displacements</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
-
-<span class="c"># Take all of the random walks</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
-    <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">random_walk_1d</span><span class="p">(</span><span class="n">n_steps</span><span class="p">)</span>
+<span class="c"># Look at it</span>
+<span class="n">my_ar</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[4]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1, 2, 3, 4])</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -519,22 +519,206 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We just generated 100 million random numbers to do that calculation!  Now, let's see what the distribution looks like.</p>
+<p>We see that the list has been converted and it is explicitly shown as an array.  It has several attributes and lots of methods.  The most important attributes are probably the data type of its elements and the shape of the array.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># The data type of stored entries</span>
+<span class="n">my_ar</span><span class="o">.</span><span class="n">dtype</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>dtype(&apos;int64&apos;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># The shape of the array</span>
+<span class="n">my_ar</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(4,)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There are also lots of methods.  Here are just a few.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4
+1
+10
+2.5
+1.11803398875
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Importantly, NumPy arrays can be arguments to NumPy functions.  The functions are intuitively applied, often element by element, to the arrays.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Other-ways-to-make-NumPy-arrays">Other ways to make NumPy arrays<a class="anchor-link" href="#Other-ways-to-make-NumPy-arrays">&#182;</a></h2><p>There are many other ways to make NumPy arrays besides just converting lists or tuples.  Below are some examples.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># How long our arrays will be</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c"># Make a NumPy array of length n filled with zeros</span>
+<span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[3]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># Make a NumPy array of length n filled with ones</span>
+<span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[4]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Make histogram</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-
-<span class="c"># Label axes</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;$x$ (a.u.)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;$P(x, n_\mathrm{steps})$&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="c"># Make an empty NumPy array of length n (will show zeros when displayed)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -549,224 +733,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.text.Text at 0x119712ac8&gt;</pre>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAhkAAAFwCAYAAAAVCWmEAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
-AAALEgAACxIB0t1+/AAAIABJREFUeJzt3X+cXVV97/9XgkwwZBgDnZQWYloxfoy3RUupIiCIFtTW
-INb+EO21ooBStViqlnJFv7YiXmOipPdiNQFTvV7l4hXlgoBeQYGIKG1vkRo+CC1JsBHSTJgkxDD5
-Md8/9h45DHNmJjNnz+xz5vV8PHhk9l5n7bMWOTPzztprrzVrcHAQSZKkVps93Q2QJEmdyZAhSZIq
-YciQJEmVMGRIkqRKGDIkSVIlDBmSJKkST5vuBowmImYDlwNHA48DZ2fmAw3lS4GLgT3AlZm5ehx1
-3gC8MzOPL48vA04AtgODwBmZuW0q+idJUierdcgAzgC6MvP4iHgRsLw8R0QcCKwAjgV2Amsj4lrg
-RGBOkzq/Abxl2HscA5yWmX1T0SFJkmaKut8uOQG4ESAz76QIFEOWAPdnZn9m7gZuB04q69wwvE5E
-HAZcArwbmFWemw0sBlZFxO0RcdZUdEqSpJmg7iHjEKDx1sXeMhgMlfU3lG0HeprU6QKuAC4AdjSU
-zQVWAm8EXgn8aUT8ekt7IEnSDFX32yXbgO6G49mZua/8un9YWTfw6Eh1gOcDzwY+BRwEPC8iVgDv
-AVZm5i6AiLi5fO0PmzVocHBwcNasWZPpkyRJ7WTCv/TqHjLWAkuBqyPiOODuhrJ7gcURMR94jOJW
-yTKKyZtPqpOZPwB+DSAiFgFfyswLImIJ8MWIOAY4gGI+x5rRGjRr1iw2b97ewi5Ovd7e7rbvA9iP
-OumEPkBn9KMT+gD2o056e7vHflETdQ8Z1wCnRsTa8visiDgTmJeZqyLiAuAmitGKKzJzU0Q8pc6w
-a86iCCJk5rqI+BxwB7AbWJOZ6yrukyRJM8Isd2Hdb4OdkErbvQ9gP+qkE/oAndGPTugD2I866e3t
-nvDtkrpP/JQkSW3KkCFJkiphyJAkSZUwZEiSpEoYMiRJUiUMGZIkqRKGDEmSVAlDhiRJqoQhQ5Ik
-VcKQIUmSKmHIkCRJlTBkSJKkShgyJElSJQwZkiSpEoYMSZJUCUOGJEmqhCFDkiRVwpAhSZIqYciQ
-JEmVMGRIkqRKGDIkSVIlDBmSJKkST5vuBkhqXwMDA2zcuJ6tW+fR17djxNcsXLiIrq6uKW6ZpDow
-ZEiasI0b13P+smuZ27NgxPKd/Y9w2XtP56ijFk9xyyTVgSFD0qTM7VnAvPlHTHczJNWQczIkSVIl
-aj2SERGzgcuBo4HHgbMz84GG8qXAxcAe4MrMXD2OOm8A3pmZx5fH5wDnltf4cGZePyWdkySpw9V9
-JOMMoKsMBBcCy4cKIuJAYAVwKnAycG5ELCjrzGlS5zeAtzQcHw68CzgeeAVwaUQ4Q02SpBaoe8g4
-AbgRIDPvBI5tKFsC3J+Z/Zm5G7gdOKmsc8PwOhFxGHAJ8G5gVnmNFwJrM3N3Zm4D7qcYAZEkSZNU
-95BxCLCt4XhveTtkqKy/oWw70NOkThdwBXAB0PicXbNrSJKkSar1nAyKsNDdcDw7M/eVX/cPK+sG
-Hh2pDvB84NnAp4CDgOdFxArglhGusXWsRvX2do/1ktrrhD6A/ZhuW7fOG/M1hx46r636105tbaYT
-+gD2oxPUPWSsBZYCV0fEccDdDWX3AosjYj7wGMWtkmXA4PA6mfkD4NcAImIR8KXMvKCck3FJRMyh
-CB9LgHvGatTmzdtb1b9p0dvb3fZ9APtRB80W4Br+mnbpXzv/XQzphD6A/aiTyYSkuoeMa4BTI2Jt
-eXxWRJwJzMvMVRFxAXATxWjFFZm5KSKeUmfYNWdRBBEy86cRsRK4rbzGRZk5UHGfpLYxtKJnMxs2
-NC+TpFqHjMwcBM4bdvq+hvLrgOvGUaex/EGKp0mGjlcDq1vQXKntjCdELL/qn5uu6LnloXUcduSS
-qponqc3VOmRIqtZYy4IPhYhmK3ru7H+4yuZJanOGDGmGG21ZcEOEpMmo+yOskiSpTRkyJElSJQwZ
-kiSpEs7JkFSZfXv3jPqY68KFi+jqcrsgqVMZMiRVZteOLSy/qo+5PZueUraz/xEue+/pHHXU4mlo
-maSpYMiQVKnRnl6R1NkMGZKmxVi3UsDbKVK7M2RImhaj3UoBb6dIncCQIWnaeCtF6mw+wipJkiph
-yJAkSZUwZEiSpEoYMiRJUiUMGZIkqRKGDEmSVAkfYZU62MDAABs3Nl/waqzFsCRpMgwZUgfbuHE9
-5y+7lrk9C0Ys3/LQOg47cskUt0rSTGHIkDrcaAte7ex/eIpbI2kmcU6GJEmqhCFDkiRVwpAhSZIq
-YciQJEmVMGRIkqRKGDIkSVIlav0Ia0TMBi4HjgYeB87OzAcaypcCFwN7gCszc3WzOhHxPOAzZdUf
-l+f3RsRlwAnAdmAQOCMzt01NDyVJ6lx1H8k4A+jKzOOBC4HlQwURcSCwAjgVOBk4NyIWlHXmjFDn
-EuDCzDyxPF5a/nkMcFpmnpKZLzNgSJLUGnUPGScANwJk5p3AsQ1lS4D7M7M/M3cDtwMnlXVuGKHO
-6zLz9ojoAg4HHi1HPRYDqyLi9og4ayo6JUnSTFDr2yXAIUDjyMLeiJidmfvKsv6Gsu1Az2h1IuKZ
-wLeArcDdwFxgJcWIyNOAWyLirsz8YWU9kjQu+/buGXNvlYULF9HV1TVFLZK0v+oeMrYB3Q3HQwED
-ioDRWNYNPDpanczcACyOiLdSBIu3ACszcxdARNwMPB8YNWT09naPVtwWOqEPYD/GsnXrvEquOxV2
-7djC8qv6mNuzacTynf2P8PlL38ARRzynpe/bCZ+pTugD2I9OUPeQsZZi7sTVEXEcxejDkHspAsN8
-4DGKWyXLKCZvPqVORFwLXJCZ9wM7gL3Ac4AvRcQxwAHAicCasRq1efP2lnRuuvT2drd9H8B+jEdf
-345KrjtVRtt3BYr+tfL/XSd8pjqhD2A/6mQyIanuIeMa4NSIWFsenxURZwLzMnNVRFwA3EQxt+SK
-zNwUEU+pU/55KbAmIgYoQsnZmflwRHwOuAPYDazJzHVT1DdJkjparUNGZg4C5w07fV9D+XXAdeOo
-Q2beQTFSMfz8CopbJ5IkqYXq/nSJJElqU4YMSZJUCUOGJEmqhCFDkiRVwpAhSZIqYciQJEmVMGRI
-kqRKGDIkSVIlDBmSJKkShgxJklQJQ4YkSaqEIUOSJFWi1hukSRrdwMAAGzeub1q+YUPzMkmqmiFD
-amMbN67n/GXXMrdnwYjlWx5ax2FHLpniVklSwZAhtbm5PQuYN/+IEct29j88xa2RpCc4J0OSJFXC
-kCFJkiphyJAkSZUwZEiSpEoYMiRJUiV8ukRSW9q3d8+Y64AsXLiIrq6uKWqRpOEMGZLa0q4dW1h+
-VR9zezaNWL6z/xEue+/pHHXU4ilumaQhhgxJbWu0NUIkTT/nZEiSpEoYMiRJUiUMGZIkqRK1npMR
-EbOBy4GjgceBszPzgYbypcDFwB7gysxc3axORDwP+ExZ9cfl+b0RcQ5wbnmND2fm9VPUPUmSOlrd
-RzLOALoy83jgQmD5UEFEHAisAE4FTgbOjYgFZZ05I9S5BLgwM08sj5dGxOHAu4DjgVcAl0aEz7tJ
-ktQCdQ8ZJwA3AmTmncCxDWVLgPszsz8zdwO3AyeVdW4Yoc7rMvP2MkQcDjwKvBBYm5m7M3MbcD/F
-CIgkSZqkuoeMQ4BtDcd7y9shQ2X9DWXbgZ5mdTJzX0Q8E/gX4DDgbqC7yTUkSdIk1XpOBkVY6G44
-np2Z+8qv+4eVdVOMTjStk5kbgMUR8VaKWy3/e4RrbB2rUb293WO9pPY6oQ/Q+f0YGBjgwQcfbFqv
-v39zRS3qDIceOm+/PyOd8JnqhD6A/egEdQ8Za4GlwNURcRzF6MOQeykCw3zgMYpbJcuAwZHqRMS1
-wAWZeT+wA9gLfB+4JCLmAAdR3IK5Z6xGbd68vTW9mya9vd1t3weYGf144IEfc/6ya5nbs2DE8i0P
-reOwI5dU2by21te3Y78+I53wmeqEPoD9qJPJhKS6h4xrgFMjYm15fFZEnAnMy8xVEXEBcBPFbZ8r
-MnNTRDylTvnnpcCaiBigCCVnZ+bDEbESuK28xkWZOTBFfZPGZbRVLXf2PzzFrZGk8at1yMjMQeC8
-Yafvayi/DrhuHHXIzDuAE0c4vxpY3Yr2SqoPN1CTpl+tQ4YkTZQbqEnTz5AhqWO5gZo0ver+CKsk
-SWpThgxJklQJQ4YkSaqEIUOSJFXCkCFJkiphyJAkSZUwZEiSpEoYMiRJUiUmvBhXueX6rwKHUmxK
-9jDwsHt/SJIk2M+QERHPoNhw7PeAY8v6Wyl2ND0UOCAi7ga+SrFh2U9a21xJktQuxhUyImIW8B7g
-TRQbkn2EYpv0vnJDsqHXHQL8JnAycH1EfJtiZ9OdLW63JEmquTFDRkQ8HbgS+L/AMZm5u9lrM3Mb
-cAtwS0T8NcWIx5ci4u2Z+e8tarMkSWoD4xnJeA/FaMS/7c+FM3Mf8OWh0Qzggv1vniRJaldjhozM
-/JvJvEFm/gcGDEmSZpyWb/UeEccD+zLzexHxSuDZwOczs7/V7yVJkuqrinUy/gB4LCJ+H3g/8G3g
-bRW8jyRJqrEqQsatmflD4E+Aj2fmPcBDFbyPJEmqsSpCxvyIeCbwQuDmiJgH/FIF7yNJkmqs5XMy
-gO9RPJHyB8DhwDuBbRW8jyRJqrGWh4zM/FFErABOB/YBH8tMb5dIIxgYGOC+++6jr2/HiOUbNqyf
-4hZJUutU8XTJa4G/pRjR2AO8JyLekpk3t/q9pHa3ceN6zl92LXN7FoxYvuWhdRx25JIpbpUktUYV
-t0tOA5Zk5naAiDgY+K+AIUMawdyeBcybf8SIZTv7H57i1khS61Qx8fO2oYABkJmPAbcNHZcTQSVJ
-UoerYiTj0Ih4AdBXHv8CsLB84mQW8EHgLRW8ryRJqpEqQsbFwDpgcNj53y3//E8VvKckSaqZKkLG
-f8nM1c0KI+JPxnuhiJgNXA4cDTwOnJ2ZDzSUL6UINXuAKzNzdbM65ejKSmBvef5NmflIRFwGnABs
-pwhGZ5S7yUqSpElo+ZyM8hf9YRHxqwARccSw8r/fj8udAXRl5vHAhcDyoYKIOBBYAZwKnAycGxEL
-yjpzRqjzSeCdmXkK8BXgL8vzxwCnZeYpmfkyA4YkSa3R8pAREW8Fvgqc+8SpeN0EL3cCcCNAZt4J
-HNtQtgS4PzP7M3M3cDtwUlnnhhHqvD4z7y6/PhD4WUTMAhYDqyLi9og4a4LtlCRJw1Rxu+TgzHxJ
-RLwGIDNvjohzJnitQ3jyaqF7I2J2Zu4ryxp3dt0O9IxS56fw811i3wG8BDiY4hbKCor/F7dExF3l
-3itN9fZ2T7A79dEJfYD278fWrT5sNZ0OPXTeUz5D7f6Zgs7oA9iPTlBFyNg7wrnFE7zWNqDxb2co
-YEARMBrLuoFHR6sTEX8EXAT8TmZuKedvrMzMXWX5zcDzgVFDxubN20crrr3e3u627wN0Rj+arfSp
-qdHXt+NJn6FO+Ex1Qh/AftTJZEJSJSEjIr4E7IuIl1DMl1gxwWutBZYCV0fEccDdDWX3AosjYj7w
-GMWtkmUUkzefUici/pjiFs5LM3NreY0AvhgRxwAHACcCaybYVkmS1KCKvUv+LiJ+BPwexboY78jM
-70/wctcAp0bE2vL4rIg4E5iXmasi4gLgJoq5JVdk5qaIGKnOAcBlwHrgKxEB8O3M/FBEfA64A9gN
-rMnMdRNsqyRJalDFSAaZeStwa0QcylPXy9if6wwC5w07fV9D+XXAdeOoA3BYk/dYwcRHWiRJUhNV
-PF3yrobD+cAJEfG2Vr+PJEmqt5aMZERED/CM8vCIhiXE91DcojitFe8jSZLaR6tul8wHTgH+jOIR
-0hc1lO2gmA8hSZJmkJaEjMx8EPhsRHwdeBvwjcz8XkS8Eng2cFcr3keSJLWPls7JyMyHKUY1HouI
-3wfeD3ybJ1b/lCRJM0QVT5fcmpk/jIiPAB/PzHsi4ugK3keSJmzf3j1s2LD+See2bp33pAXSFi5c
-RFdX11Q3TeoYVYSM+eXEzxcCb4yIecAvVfA+kjRhu3ZsYflVfczt2TRi+c7+R7jsvadz1FETXbBY
-UhUh43vAe4A/AA4H3smT9xKRpFqY27OAefOPGPuFkiakpSGj3Hzse5n5Zw2n/6zZ6yVJUudq9WJc
-c4DlzsGQJEkTHskodzS9HNhH8QTJVcDXMvOWiPgY8L6WtFCSJLWlyYxkvA54C/CXwC5gFfCTiLic
-YndTSZI0g01mTsb3M/Nr5ddXRsRBwBnA8cClk26ZJElqa5MJGbMjYk5mPg6QmbuAL5X/SZKkGW4y
-t0tWA5eUm6NJkiQ9yWRGMj4EvAN4c0R8k2Ly5y2ZeV8rGiZJktrbZEYyuoCjgXcDOykmgN4bET8p
-ny6RJEkz2GRGMv4FeAFwfWb+D4CIWAS8DHhWC9omSZLa2IRDRmaujIglwOnA35fn1gOfbVHbJElS
-G5vUsuKZuQ5Y16K2SJKkDlLFBmmSSgMDA2zcuL5p+fCtxiWpk7Q8ZETE7wK/BzwEDAJfzsx7Wv0+
-UjvYuHE95y+7lrk9C0Ys3/LQOg47cskUt0qSpkYVIxlrgK7M7ClXAf3jiHhNZl5SwXtJtTfaduI7
-+x+e4tZI0tSpImS8YeiLchXQ1RHxjAreR5Ik1VjLQ0ZmfnOEc4+2+n0kSVK9TXgxrog4MiJe0crG
-SJKkzjGZkYyPAa+PiJMz8zaAiHgP8KPM/HorGhcRs4HLKVYWfRw4OzMfaChfClwM7AGuzMzVzepE
-xAuAlcDe8vybMvORiDgHOLe8xocz8/pWtF2SpJluMsuK/xB4BXDX0InM/DhwQES8cbINK51BMYn0
-eOBCYPlQQUQcCKwATgVOBs6NiAVlnTkj1Pkk8M7MPAX4CvCXEfGLwLsotqd/BXBpRHS1qO2SJM1o
-kxnJeAQ4ODN/1ngyM/9PRHxgcs36uROAG8vr3hkRxzaULQHuz8x+gIi4HTgJeDFwwwh1Xp+ZPy2/
-PhD4GfBCYG1m7gZ2R8T9FCMgdyFpRtu3d8+Y65gsXLiIri7/XSI1M5mQsR74ckTsA75DsQvrdyjW
-x/iVSbescAiwreF4b0TMzsx9ZVl/Q9l2oGeUOj8FiIjjKXaPfQnwyibXGFVvb/cEulIvndAHqH8/
-tm6dN91N0ATt2rGF5Vf1Mbdn04jlO/sf4fOXvoEjjnjOFLdsbHX/vhgv+9H+JhMy3kRxq2IR8FLg
-7cAnKHZkffukW1bYBjT+7QwFDCjCQWNZN/DoaHUi4o+Ai4DfycwtETH8td3A1rEatXnz9v3tR630
-9na3fR+gPfrR17djupugSRhtjRMo/n7r9hlsh++L8bAf9TGZkDSZkHFvZv4A+AHwZYCI+GXgjyhG
-BFphLbAUuDoijgPubnx/YHFEzAceo7hVsoxildGn1ImIP6aY4PnSzBwKEt8HLomIOcBBFLdgXJ1U
-kqQWmMzEz/+IiN8adu6nwNeB50/iuo2uAXZFxFqKCZx/HhFnRsQ55TyKC4CbgO8CV2TmpiZ1DgAu
-A+YBX4mIWyLig5n5MMUTJ7cB3wIuysyBFrVdkqQZbTJbvX8mIs6JiJdn5kfL0y+n+KX/hVY0LjMH
-gfOGnb6vofw64Lpx1AE4rMl7rAZWT66lkiRpuMlu9b5q2KmbgXdS3OaQJEkzWEuXFc/MvRQLYUmS
-pBluzDkZEXFRuWjVhETEL0TEJydaX5IktafxjGT8LfDpiLgR+EI5WjGmiJgFvA74Y1r3SKskSWoT
-Y4aMzNweEW+imGvxjxHxNeB24M6h1TaHRMTBwLEU62a8Fvi/wJnDVwWVJEmdb1xzMjJzD/DJiLiN
-Yp+Qr1OspLmPYlGsQWA+cADwPeB64NWZ+VAlrZYkSbU37omf5ZoY3waeXp7aAPwJxR4gs4HNwE8d
-tZAkSbB/T5f8DcX8jG8Dz6VYVvwTmXnsaJUkSdLMtD8hY15mXlh+fWNEXAZ8NiJOz8xrK2ibVHsD
-AwNs3Nh8p86xdvGUpE62PyFjY+NBZg5GxPnARwFDhmakjRvXc/6ya5nbs2DE8i0PreOwI5dMcask
-qR72J2TsGX4iM/sj4innpZlktJ06d/Y/PMWtkaT62J8N0g5sct69rCVJ0lPsz0jGGRHxZYqJn9/J
-zB9W0yRJktQJ9mckYzfwGxRbo/9zRPxHRFwDvCgiXlSu8AlARKxscTslSVKb2Z+RjBsy8w8jYhHF
-lu4vA04Bfgm4A+iPiG8D3wJ+q9UNlaQ62bd3z5hPDy1cuIiurq4papFUP/sTMj4JkJnrgSvL/4iI
-oAgcL6NYTvw1FCuASlLH2rVjC8uv6mNuz6YRy3f2P8Jl7z2do45aPMUtk+pj3CEjM7/b5HwCCXyq
-vGXyfOB/taZ5klRfoz1ZJGn/5mSMKTMHM/P/Af/YyutKkqT209KQ0eBvKrquJElqE5WEjMz8lyqu
-K0mS2kdVIxmSJGmGM2RIkqRKGDIkSVIl9medDGnGcSt3SZo4Q4Y0Crdyl6SJM2RIY3Ard0mamFqH
-jIiYDVwOHA08DpydmQ80lC8FLgb2AFdm5upx1PkEcG9mfro8vgw4AdhOsRz6GZm5bSr6J0lSJ6t1
-yADOALoy8/iIeBGwvDxHRBwIrACOBXYCayPiWuBEYM7wOhHRC3wOWAysa3iPY4DTMrNvqjolSdJM
-UPenS04AbgTIzDspAsWQJcD9mdmfmbuB24GTyjo3jFDnYOCDwOeBWfDzkZLFwKqIuD0izqq8R5Ik
-zRB1DxmHAI23LvaWwWCorL+hbDvQ06xOZj6Ymd8fdv25wErgjcArgT+NiF9vZQckSZqp6n67ZBvQ
-3XA8OzP3lV/3DyvrBh4do85wO4GVmbkLICJupthF9oejNaq3t3u04rbQCX2A6vuxdeu8Sq+vznbo
-ofOm5XvN7+966ZR+TETdQ8ZaYClwdUQcB9zdUHYvsDgi5gOPUdwqWUYxebNZneEC+GJEHAMcQDGf
-Y81Yjdq8efv+96RGenu7274PMDX96OvbUen11dn6+nZM+fea39/10gn9mExIqnvIuAY4NSLWlsdn
-RcSZwLzMXBURFwA3Udz2uSIzN0XEU+qMcN1BgMxcFxGfA+4AdgNrMnPdCK+XJEn7qdYhIzMHgfOG
-nb6vofw64Lpx1Gks/9Cw4xUUT6lIkqQWqvvET0mS1KYMGZIkqRKGDEmSVAlDhiRJqoQhQ5IkVcKQ
-IUmSKmHIkCRJlTBkSJKkShgyJElSJWq94qdUtYGBATZuXN+0fMOG5mWSpNEZMjSjbdy4nvOXXcvc
-ngUjlm95aB2HHblkilslSZ3BkKEZb27PAubNP2LEsp39D09xaySpcxgyJKkC+/buGfN228KFi+jq
-6pqiFklTz5AhSRXYtWMLy6/qY27PphHLd/Y/wmXvPZ2jjlo8xS2Tpo4hQ5IqMtqtOGkm8BFWSZJU
-CUOGJEmqhCFDkiRVwpAhSZIqYciQJEmVMGRIkqRKGDIkSVIlDBmSJKkShgxJklQJQ4YkSaqEIUOS
-JFWi1nuXRMRs4HLgaOBx4OzMfKChfClwMbAHuDIzV4+jzieAezPz0+XxOcC55TU+nJnXT0nnJEnq
-cHUfyTgD6MrM44ELgeVDBRFxILACOBU4GTg3IhaUdeYMrxMRvRFxA7AUGCzPHQ68CzgeeAVwaUS4
-77IkSS1Q65EM4ATgRoDMvDMijm0oWwLcn5n9ABFxO3AS8GLghhHqHAx8EHgVMKs890JgbWbuBnZH
-xP0UIyB3VdorSTPevr172LBh/aivWbhwEV1d/rtH7avuIeMQYFvD8d6ImJ2Z+8qy/oay7UDPKHUe
-BB6MiFc1lHU3uYYkVWrXji0sv6qPuT2bRizf2f8Il733dI46avEUt0xqnbqHjG0UQWDIUMCAIhw0
-lnUDj45RZ6zrdwNbx2pUb2/3WC+pvU7oA0y+H1u3zmtRS6T9N7dnAfPmH9G0/NBD503oM+73d710
-Sj8mou4hYy3FHIqrI+I44O6GsnuBxRExH3iM4lbJMor5Fs3qDPcD4JKImAMcRHEL5p6xGrV58/YJ
-dKU+enu7274P0Jp+9PXtaFFrpNbr69ux359xv7/rpRP6MZmQVPeQcQ1wakSsLY/PiogzgXmZuSoi
-LgBuopjAekVmboqIp9QZ4bqDAJn504hYCdxWXuOizByoskOSJM0UtQ4ZmTkInDfs9H0N5dcB142j
-TmP5h4YdrwZWT7qxkiTpSer+CKskSWpThgxJklQJQ4YkSapEredkSK0wMDDAxo0jL3o01mJIkqSJ
-M2So423cuJ7zl13L3J4FTynb8tA6DjtyyTS0SpI6nyFDM0KzRY929j88Da2RpJnBORmSJKkShgxJ
-klQJQ4YkSaqEIUOSJFXCkCFJkiphyJAkSZUwZEiSpEoYMiRJUiUMGZIkqRKGDEmSVAmXFVfbG20D
-NHATNEmaLoYMtb3RNkADN0GTpOliyFBHaLYBGrgJmiRNF0OGJLWhZrcJt26dR1/fDgAWLlxEV1fX
-VDdN+jlDhiS1obFuE+7sf4TL3ns6Rx21eIpbJj3BkCFJNbRv755RJy1v2LB+1NuEUh0YMiSphnbt
-2MLyq/qY27NpxHInNKsdGDIkqaac0Kx252JckiSpEoYMSZJUiVrfLomI2cDlwNHA48DZmflAQ/lS
-4GJgD3BlZq5uVicing2sAfYB9wDvyMzBiLgMOAHYDgwCZ2TmtqnqoyRJnarWIQM4A+jKzOMj4kXA
-8vIcEXEgsAI4FtgJrI2Ia4ETgTkj1FkBXJSZt0bEp4DXAF8FjgFOy8y+Ke6bxmms9QBcNlyS6qnu
-IeME4EaAzLwzIo5tKFsC3J+Z/QARcTtwEvBi4IYR6hyTmbeWX98AnBYRXwMWA6si4heBKzLzs1V3
-SvvHZcMlqT3VPWQcAjTeutgbEbMzc19Z1t9Qth3oaVLnAGBWw7kd5WsPBlZSjHI8DbglIu7KzB+2
-vCeaFGf+EuJYAAANjklEQVTZS1L7qXvI2AZ0NxwPBQwoAkZjWTfwaJM6eyNi3wiv3QmszMxdABFx
-M/B8YNSQ0dvbPVpxW2inPmzdOm+6myC1pUMPnddW3+vDtXPbG3VKPyai7iFjLbAUuDoijgPubii7
-F1gcEfOBxyhulSyjmLw5Up1/ioiTM/M7wKuAbwHPAb4UEccAB1DM51gzVqM2b97egq5Nn97e7rbq
-w9A+DJL2T1/fjrb6Xm/Ubj+nmumEfkwmJNU9ZFwDnBoRa8vjsyLiTGBeZq6KiAuAmygexb0iMzdF
-xFPqlH/+BcXciy7gR8CXy6dLPgfcAewG1mTmuinqmyRVZqxlyd08TVOh1iEjMweB84advq+h/Drg
-unHUITN/DLx0hPMrKOZkSFLHGG1ZcjdP01SpdciQJE2cG6hpurnipyRJqoQjGZp2zRbbGuJiW5LU
-ngwZmnYutiVJncmQoVpwsS1J6jzOyZAkSZUwZEiSpEp4u0SVc2KnJM1MhgxVzomdkjQzGTI0JZzY
-KUkzj3MyJElSJQwZkiSpEoYMSZJUCedkSNIMM9Y28Lt37wbgwAMPbPoat4rXeBgyJGmGGW0beCie
-+Hp692FNnwhzq3iNlyFDkmagsZ74cpt4tYJzMiRJUiUMGZIkqRLeLpEk7ZexJo6CE0NVMGRo0tyb
-RJpZxpo46sRQDTFkaEzjCRHLr/pn9yaRZhAnhmo8DBka03g3OHNvEklSI0OGxjVS4QZnkqT9ZciQ
-W7FLkiphyBDgVuySpNYzZMwAw2+HbN06j76+HT8/9ukPSVNprFu0AD09vzZFrVGVah0yImI2cDlw
-NPA4cHZmPtBQvhS4GNgDXJmZq5vViYhnA2uAfcA9wDsyczAizgHOLa/x4cy8fso6OE7j+YYc7Zl0
-b4dIqpOxfibt2LqJD799Mz09vU2v4Toc7aHWIQM4A+jKzOMj4kXA8vIcEXEgsAI4FtgJrI2Ia4ET
-gTkj1FkBXJSZt0bEp4DXRMT3gHcBvwk8Hbg9Ir6ZmQNT283Rjecb8r1nHsMzn7loxHInbkqaSmMt
-1jWen0kf+MwdE/6ZB4aQuqh7yDgBuBEgM++MiGMbypYA92dmP0BE3A6cBLwYuGGEOsdk5q3l1zcA
-pwF7gbWZuRvYHRH3U4yA3LW/Df3Jv/+Ehx7696blhxzSzZLnPnfEslY83VGsU9F8R0VHKiRNlfHs
-8jrWz6TJ/MwbK4SMtZX9ZLe6b/yZPvz29Fh1O03dQ8YhwLaG470RMTsz95Vl/Q1l24GeJnUOAGY1
-ee1I19hvV3/tRr77zxubli84BP78bW8csWzDhvV8eNU3OWjeoSOW9z/8rzzjl57T9No/297H07sP
-G7V9O/sfGbX+k//3zJzyOret08vr3LZOL5+K9676Z9Jo13/8sUfH/Jk65+BnTLh8144+3n/OqaOO
-Hjd7/107+vjM35w9Y1ZDrXvI2AZ0NxwPBQwowkFjWTfwaJM6eyNiX8O5Q5q8thvYOkabZvX2dj/l
-5CUfePcY1Zo77rhj+MM/fO2E60uS6sOf6U+o+y6sa4HfAYiI44C7G8ruBRZHxPyI6KK4VfLdUer8
-U0ScXH79KuBW4PvASyJiTkT0UNyCuafaLkmSNDPMGhwcnO42NBURs3jiSRGAsygmac7LzFUR8Wrg
-AxRh6YrM/NRIdTLzvohYDKwCuoAfAeeUT5ecTfF0yWzgksy8Zqr6J0lSJ6t1yJAkSe2r7rdLJElS
-mzJkSJKkShgyJElSJQwZkiSpEnVfJ2PaRcRzge8BCzJzoHws9pMUe518IzP/unzdBykend0DvDsz
-fzBdbW4UEQcD/xN4BjAA/Elm/ns79aN8vPh/UKxj0gVckJnfa6c+NIqI1wK/n5lvLI/bsh8w9v5C
-dVRuN/DRzDylHfc0KrdUuBJYBMwBPgyso/36cQDFE3/PAQaBt1N8htbQRv0AiIgFwD8AL6do+xra
-rw//yBOLU/4rcCkt6IcjGaOIiEMo9j7Z1XD6U8CZmXki8KKIeEFEHAOclJkvAl4P/Pepb21TZwM/
-yMyTKX5Rv688/3e0Tz/+HPhmZr4UeDNPtKud+gBARFwGfIQnL2fYbp+pRj/fXwi4kOL7pbYi4n0U
-v9jmlKeG9jQ6ieLv5DURcTjFnkbHA68ALi3X4qmLNwKbyza/kuKzsZz268ergX3l5/79FN8XbdeP
-MvR9GniMos1t95mKiIMAMvOU8r+30qJ+GDKaKNfb+DTwV8DPynOHUGy+9m/ly24Cfptij5VvAGTm
-RuBpETH6mrpTJDOHfqlB8S+frRHRTfGLoV368QngM+XXBwI/a8M+DFkLnEcZMtrxMzXMk/YXotiw
-sM7uB36PJ0Le8D2Nfhv4Lco9jTJzW1nn6KdcafpcTbE+EBQ/w3fThv3IzK8BbysPf4ViteXfbLd+
-AMso/qEwtJFK2/1dAM8H5kbETRHxrXJ0tSX98HYJEBFvBYavC74e+FJm3h0RUPxQGr4vynbgWRQj
-HVuGne8Zdq5yTfrx5sz8h4j4FvBrFBvD9VDTfozRh8OBzwPnU+M+wKj9+F8R8dKGc7X+TI3DaPsL
-1U5mfiUifqXhVKV7GlUhMx8DKIP21RSjAB9veElb9AOg3PJhDcWI2B8ApzYU174fEfFmilGlb0TE
-X1F8ntruM0UxCrMsM68oF668cVj5hPthyAAy8wrgisZzEfFj4K3lL4vDKf6FuZQn73UytAfKACPv
-ozKlRupHQ9nLo0hL1wO/QU370awPEfHrwBeBv8jM28oRgFr2AUb/uxhm+P45terHOIy2v1A7aNWe
-RlMqIhYCXwH+e2Z+MSI+1lDcNv0AyMw3R8QvUmzzcFBDUTv04yxgMCJ+G3gB8PdAb0N5O/QB4D6K
-UQky88cRsYXi98SQCffD2yVNZObioftTwE+B0zJzOzAQEc8qb6ecRrEHylrgFRExKyKeSfGDtm/6
-Wv+EiPiriPjP5eFjwJ5260dEPI/iX2xnZuZNAOVQXdv0oZkO6Mdo+wu1g7bb06j8hfwN4H2ZuaY8
-3Y79+M/lv/6huCW9F7irnfqRmSdn5kvL3xP/D3gTcGM79aF0FuV8qoj4ZYrw8I1W9MORjPFpXHv9
-7cAXgAOAm4Zm/EfEbcAdFMHtT6e8hc1dAfx9RLyFos1nlefbqR8foXiqZGV56+rRzHwt7dWHRoO0
-92eq0TXAqRGxtjw+a7QX18jQ//+/AFaVk9d+BHy5nEG/EriN4v/9RZk5ME3tHMlFFEPUH4iIobkZ
-51N8f7RTP74MrImI71DMtTqfYuPLdvv7aDRIe36mrgA+GxFDczDOorg1O+l+uHeJJEmqhLdLJElS
-JQwZkiSpEoYMSZJUCUOGJEmqhCFDkiRVwpAhSZIqYciQJEmVMGRIkqRKuOKnpGkVEUdQLMl8bGau
-n8Z2rAb6M/MvpqsNUqdxJEPSdPsk8MXpDBilDwFvKzfjk9QChgxJ0yYiTgJeA/zX6W5LZm6k2On3
-E9PdFqlTGDIkTac/B27NzJ9Md0NKq4GXOZohtYYhQ9K0iIiFwKuBr45Q9vaI+H5EbIuIn0XEuoh4
-3ziu+WBE3DLe88Nl5p3AQ8A7x9cLSaMxZEiaLq+k2N7++saTEfFh4HLgHoqRjouAXcBHI+K8Ma45
-yBPbuI/n/Ei+A7xqnK+VNAqfLpE0KRFxLvALwHOBzwGLgAXArwPvy8yHmlQ9EdiRmf/WcK0DKUYR
-vpiZb2k4vxp4BHgF8KlRmjNrP8+P5B7gjRGxqAaTUaW25kiGpAmLiHOAf8rMjwB/C3wZ2ALcBbwe
-+E+jVH8W8GDjiczcTRFQ3jbstb3AdmBeSxo+un8t//zVKXgvqaM5kiFpMg7LzB+UXy8C9mXmVyPi
-6cDJmXnbaHWBvhHO7wGWRsRrgACeDcwvy6biH0bbyj9/YQreS+pohgxJE5aZH204fCnFfAYy82fA
-aAEDYB/DQkNEzKKYCPrqsv7tFLdHbgNunkRTD9iP1w61ae8k3k8ShgxJrfNy4O/24/UPAwuHnXsJ
-RcD468z8/4ZORsTTKEYWHhjjmnuBOY0nGur+eJztOqyhfZImwTkZkiYkIg6IiFMjYnZE/DLFrY3v
-NJS/Z4xLrAd+uRy9GDL0C37dsNeeAzydsf9h9FPguRFxUMO50xkWPMZwZPnnhv2oI2kEjmRImqi3
-Af8NWAL8DrCTYo0JImIp8KMx6n8LeDPFUyh3l+fWUsyJ+ERELAIeBU4BfpcilBwyVDkingUcD6xt
-eELlf1JMQL0xIr5AMZ/jnLLurDHqDjkO+PEoT8VIGidHMiRN1FrgC8AfUTyR8XbgYxHxAeCQzPz6
-GPW/QTEv4yVDJzLzEYpA8a/A+4FLKcLBb1Is+f28iOgtX34SxSOzL2m45uXABymeDFlZvuYMisdS
-G9fJGKkuETEbeDFww5i9lzSmWYOD412fRpJaKyK+AvRm5kvGfPEUiIhTgZuA52fmD6e7PVK7cyRD
-0nT6OHBCefuiDt4EfMOAIbWGIUPStMnM7wL/B7hwutsSEb8KvA74L9PdFqlTGDIkTbd3AK8rf8lP
-p4uBv8vMf5jmdkgdwzkZkiSpEo5kSJKkShgyJElSJQwZkiSpEoYMSZJUCUOGJEmqhCFDkiRVwpAh
-SZIq8f8D+Yq4u6d4JPEAAAAASUVORK5CYII=
-"
->
+<pre>array([ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.])</pre>
 </div>
 
 </div>
@@ -774,24 +741,15 @@ SZIq8f8D+Yq4u6d4JPEAAAAASUVORK5CYII=
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>It looks approximately Gaussian.  We know theoretically that it is Gaussian with a mean of zero and standard deviation of $\sqrt{n_\mathrm{steps}}$.  Let's check.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="s">&#39; Mean displacement:&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s">&#39;Standard deviation:&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span class="c"># Make a NumPy array filled with zeros the same shape as another NumPy array</span>
+<span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -802,12 +760,14 @@ SZIq8f8D+Yq4u6d4JPEAAAAASUVORK5CYII=
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre> Mean displacement: -0.4628
-Standard deviation: 100.244745579
-</pre>
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[0, 0],
+       [0, 0]])</pre>
 </div>
+
 </div>
 
 </div>
@@ -819,94 +779,7 @@ Standard deviation: 100.244745579
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Yup!  We're really close.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="First-passage-times">First passage times<a class="anchor-link" href="#First-passage-times">&#182;</a></h3><p>This is all fine and good, but we want to compute the probability distribution of how long it takes to get out of a backtrack!  So, we need to simulate a random walk during a backtrack.  So, we start at $x = 0$ at time $t = 0$.  We start taking steps, and as soon as $x$ becomes positive, we have existed the backtrack.  The total time for a backtrack is then $\tau n_\mathrm{steps}$, where $\tau$ is the time it takes to make a step.  Depken, et al., report that this is approximately a half second.</p>
-<p>We first write a function to take a step.  At the top of the function is a <strong>decorator</strong>.  We will not cover decorators here, but this particular decorator is using the <code>numba</code> package to actually <em>compile</em> the following Python code.  Remember, compiled code is <em>much</em> faster than interpreted code, and the speed boost is needed in this case.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">backtrack_time</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute the number of steps it takes a 1d random walker starting</span>
-<span class="sd">    at zero to get to +1.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c"># Initialize position and number of steps</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">n_steps</span> <span class="o">=</span> <span class="mi">0</span>
-    
-    <span class="c"># Walk until we get to positive 1</span>
-    <span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="n">n_steps</span> <span class="o">+=</span> <span class="mi">1</span>
-    
-    <span class="k">return</span> <span class="n">n_steps</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now that we have our function in place, we can perform our walks.  We will do 10,000 samples to compute the backtrack time.  Note that without using <code>numba</code>, this calculation would take several minutes.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Stepping time</span>
-<span class="n">tau</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="c"># seconds</span>
-
-<span class="c"># Specify number of samples</span>
-<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">10000</span>
-
-<span class="c"># Array of backtrack times</span>
-<span class="n">t_bt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
-
-<span class="c"># Generate the samples</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
-    <span class="n">t_bt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">backtrack_time</span><span class="p">()</span>
-    
-<span class="c"># Convert to seconds</span>
-<span class="n">t_bt</span> <span class="o">*=</span> <span class="n">tau</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Yay, <code>numba</code>!  That only took a few seconds.  Now, let's plot the histogram.</p>
+<h2 id="NumPy-has-useful-mathematical-functions">NumPy has useful mathematical functions<a class="anchor-link" href="#NumPy-has-useful-mathematical-functions">&#182;</a></h2><p>So far, we have not done much mathematics with Python.  We have done some adding and divison, but nothing like computing a logarithm, cosine, or even square roots.  Check it out!</p>
 
 </div>
 </div>
@@ -916,12 +789,8 @@ Standard deviation: 100.244745579
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Make histogram</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">t_bt</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">normed</span> <span class="o">=</span> <span class="k">True</span><span class="p">)</span>
-
-<span class="c"># Label axes</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">r&#39;$t_{bt} (s)$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;$P(t_{bt})$&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="c"># Exponential</span>
+<span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -936,142 +805,7 @@ Standard deviation: 100.244745579
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.text.Text at 0x119ce6860&gt;</pre>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-"
->
+<pre>array([  2.71828183,   7.3890561 ,  20.08553692,  54.59815003])</pre>
 </div>
 
 </div>
@@ -1079,35 +813,14 @@ kCSpcIYBSZIKZxiQJKlwhgFJkgpnGJAkqXCGAUmSCvf/AfjfVvGv97fOAAAAAElFTkSuQmCC
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Yowza!  What is going on here?  We have some extremely long backtracks.  $10^7$ seconds is 115 days!  Obviously, a polymerase in such a backtrack would never escape.  The histogram is not the clear, so lets look at the cumulative histrogram.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Sort the samples</span>
-<span class="n">t_bt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">t_bt</span><span class="p">)</span>
-
-<span class="c"># Generate y-axis for CDF</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t_bt</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">t_bt</span><span class="p">)</span>
-
-<span class="c"># Plot CDF from random numbers</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">t_bt</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-
-<span class="c"># Clean up plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">r&#39;$t_{bt} (s)$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;cum. hist.&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="c"># Cosine</span>
+<span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1122,155 +835,7 @@ kCSpcIYBSZIKZxiQJKlwhgFJkgpnGJAkqXCGAUmSCvf/AfjfVvGv97fOAAAAAElFTkSuQmCC
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.text.Text at 0x11b1c4208&gt;</pre>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-rALWATf0K5gkSRqcKrsA3gl8DfhuRFwK/JDWvvnHAcfROlr/pL4nlCRJfVflPAA3RMRvAe+n9U2A
-Tt8BXp6Z1/cznCRJGoxK5wHIzK8DqyNid+DRtI4L+H+Z+bNBhJMkSYPR08WA2if8qXLSH0mSNEL6
-eTlgSZLUEBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpk
-AZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQ
-JKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSp
-QBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAW
-AEmSCmQBkCSpQBYASZIKZAGQJKlAi+t64ogYB84HDgTuA9Zl5i0d648DTgW2AN8FXpOZk3VklSRp
-oalzBuAYYGlmHgacDpyzfUVELAfeBTwnM58J7AT8bi0pJUlagOosAIcDVwNk5g3AwR3r7gUOzcx7
-27cXA/cMN54kSQtXbbsAgB2BTR23t0bEeGZua0/1bwSIiFOAHTLzS3NtcGJi1WCSVlQlx6hkrqJp
-mZuWF8w8DE3LC83L3LS80MzMvaqzAGwCOl/p8czctv1G+xiBs4HHAWu72eDGjZv7GrBX3eaYmFg1
-Mpm71bTMTcsLZh6GpuWF5mVuWl5obuZe1bkLYAPwAoCIOAS4acr6C4BlwEs6dgVIkqQ+qHMG4Erg
-yIjY0L59YvvI/5XAt4CTgK8B10QEwAcz8zO1JJUkaYGprQC09/OfPGXxDzr+vGiIcSRJKoonApIk
-qUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlA
-FgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYA
-SZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmS
-CmQBkCSpQBYASZIKZAGQJKlAFgBJkgpkAZAkqUAWAEmSCmQBkCSpQBYASZIKZAGQJKlAFgBJkgpk
-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
-"
->
+<pre>array([ 0.54030231, -0.41614684, -0.9899925 , -0.65364362])</pre>
 </div>
 
 </div>
@@ -1278,53 +843,14 @@ JEkqkAVAkqQCWQAkSSqQBUCSpAJZACRJKpAFQJKkAv1/JXh20SykeCoAAAAASUVORK5CYII=
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This makes more sense.  We see that half of all backtracks end immediately, with the first step being rightward.  It is impossible to leave a backtrack in an even number of steps, so there are no two-step escapes.  Then, we get a lot of 3-step escapes, and so on.  But this goes more and more slowly.  Yes, 80% of backtracks only last 10 seconds, but there are still many extraordinarily long backtracks.  These are the fundamental predictions of our hypothesis.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="A-power-law?">A power law?<a class="anchor-link" href="#A-power-law?">&#182;</a></h3><p>A probability distribution that obeys a power law has the property</p>
-\begin{align}
-P(x) \propto x^{-a}
-\end{align}<p>in some part of the distribution, usually for large $x$.</p>
-<p>The cumulative distribution is then</p>
-\begin{align}
-\mathrm{cdf}(x) = \int_{-\infty}^x \mathrm{d}x'\,P(x') = 1 - \frac{c}{x^{a-1}},
-\end{align}<p>where $c$ is some constant defined by the functional form of $P(x)$ for small $x$ and the normalization condition.  If $F$ is our cumulative histogram, we can check for power law behavior by plotting the complementarly cumulative probability distribution (CCDF), $1 - F$, versus $x$.  If a power law is in play, the plot will be linear on a log-log scale with a slope of $-a-1$.</p>
-<p>By doing some mathematical heavy lifting, we know that, in the limit of large $t_{bt}$,</p>
-\begin{align}
-P(t_{bt}) \propto t^{-3/2}.
-\end{align}<p>We don't need to know that to see the linear trend on the log-log plot, but it is useful to plot along side it.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Plot the CCDF</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">t_bt</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">y</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
-
-<span class="c"># Plot the asymptotic power law</span>
-<span class="n">t_smooth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">t_smooth</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">t_smooth</span><span class="p">))</span>
-
-<span class="c"># Label axes</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;$t_{bt}$ (s)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;CCDF&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="c"># Square root</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1339,295 +865,7 @@ P(t_{bt}) \propto t^{-3/2}.
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.text.Text at 0x11ceda1d0&gt;</pre>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-AAAASUVORK5CYII=
-"
->
+<pre>array([ 1.        ,  1.41421356,  1.73205081,  2.        ])</pre>
 </div>
 
 </div>
@@ -1641,8 +879,296 @@ AAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Indeed, we see that the slope we got from Monte Carlo simulation matches what the theory predicts.  The theory to derive the probability distribution is involved.  See, e.g., <a href="https://en.wikipedia.org/wiki/First-hitting-time_model">this</a>.  However, we were able to predict that we would see a great many short backtracks, and then see some very very long backtracks because of the power law distribution of backtrack times.  We were able to do that just by doing a simple Monte Carlo simulation.  There are many problem where the theory is <em>really</em> hard, and deriving the distribution is currently impossible, or the probability distribution has such an ugly expression that we can't really work with it.  So, Monte Carlo methods are a powerful tool for generating predictions from simply-stated, but mathematically challenging, hypotheses.</p>
-<p>Interestingly, many researchers thought (and maybe still do) there were two classes of backtracks: long and short.  There may be, but the hypothesis that the backtrack is a random walk process is commensurate with seeing both very long and very short backtracks.</p>
+<p>We can even do some matrix operations, like dot products.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">my_ar</span><span class="p">,</span> <span class="n">my_ar</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>30</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>NumPy also has useful attributes, like <code>np.pi</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>3.141592653589793</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="SciPy-has-even-more-useful-functions-(in-modules)">SciPy has even more useful functions (in modules)<a class="anchor-link" href="#SciPy-has-even-more-useful-functions-(in-modules)">&#182;</a></h2><p>SciPy actually began life as a library of special functions that operate on NumPy arrays.  For example, we can compute an error function, we can use the <code>scipy.special</code> module, which contains lots of special functions.  Note that you often have to individually import the SciPy module you want to use, for example with</p>
+
+<pre><code>import scipy.special</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">erf</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 0.84270079,  0.99532227,  0.99997791,  0.99999998])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="NumPy-and-SciPy-are-highly-optimized">NumPy and SciPy are highly optimized<a class="anchor-link" href="#NumPy-and-SciPy-are-highly-optimized">&#182;</a></h2><p>Importantly, NumPy and SciPy routines are often <em>fast</em>.  To understand why, we need to think a bit about how your computer actually runs code you write.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Interpreted-and-compiled-languages">Interpreted and compiled languages<a class="anchor-link" href="#Interpreted-and-compiled-languages">&#182;</a></h3><p>We have touched on the fact that Python is an <strong>interpreted language</strong>.  This means that the Python interpreter reads through your code, line by line, translates the instructions into machine code, and then these are executed.  As an interpreted langauge, code is often much easier to write, and development time is much shorter.  It is often easier to debug.  By contrast, <strong>compiled languages</strong> (the dominant ones being Fortran, C, and C++), your entire code is translated into machine language before you ever run it.  When you execute your program, it is already in machine langauge.  As a result, compiled code is often much faster than interpreted code.  The speed difference depends largely on the task at hand, but is over a 100 to 1000-fold difference.</p>
+<p>First, we'll demonstrate the difference between compiled and interpreted languages by looking at a function to sum the elements of an array.  Note that Python is dynamically typed, so the function below works for multiple data types, but the C function works only for double precision floating point numbers.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># Python code to sum an array and print the result to the screen</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>/* C code to sum an array and print the result to the screen */
+
+#include <stdio.h>
+
+void sum_array(double a[], int n);
+
+void sum_array(doubt a[], int n) {
+   int i; 
+   double sum=0;
+   for (i = 0; i < n; i++){
+       sum += a[i];
+   }
+   printf("%d\n", sum);
+}
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The C code won't even execute without another function called <code>main</code> to call it.  You should notice the difference in complexit of the code.  Interpreted code is very often much easier to write!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="NumPy-and-SciPy-use-compiled-code!">NumPy and SciPy use compiled code!<a class="anchor-link" href="#NumPy-and-SciPy-use-compiled-code!">&#182;</a></h3><p>Under the hood, when you call a NumPy or SciPy function, or use one of the methods, the Python interpreter passes the arrays into pre-compiled functions.  (They are usually C or Fortran functions.)  That means that you get to use an interpreted language with near-compiled speed!  We can demonstrate the speed by comparing an explicit sum of elements of an array using a Python <strong><code>for</code></strong> loop versus NumPy.  We will use the <code>np.random</code> module to generate a large array of random numbers (we will visit random number generation in a coming tutorial).  We then use the <code>%timeit</code> magic function of IPython to time the execution of the sum of the elements of the array.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># Make array of 10,000 random numbers</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+
+<span class="c"># Sum with Python for loop</span>
+<span class="k">def</span> <span class="nf">python_sum</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x_sum</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+        <span class="n">x_sum</span> <span class="o">+=</span> <span class="n">y</span>
+    <span class="k">return</span> <span class="n">x_sum</span>
+
+<span class="c"># Test speed</span>
+<span class="o">%</span><span class="k">timeit</span> python_sum(x)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1000 loops, best of 3: 1.2 ms per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we'll do the same test with the NumPy implementation.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="o">%</span><span class="k">timeit</span> x.sum()
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The slowest run took 6.48 times longer than the fastest. This could mean that an intermediate result is being cached 
+100000 loops, best of 3: 6.39 µs per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Wow!  We went from 1 millisecond to 6 <em>micro</em>seconds!  That's a factor of about 170!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Word-of-advice:-use-NumPy-and-SciPy">Word of advice: use NumPy and SciPy<a class="anchor-link" href="#Word-of-advice:-use-NumPy-and-SciPy">&#182;</a></h2><p>If you are writing code, and you think to yourself, "This seems like a pretty common things to do," there is a good chance the someone really smart has written code to do it.  If it's something numerical, there is a good chance it is in NumPy or SciPy.  <strong>Use these packages.</strong> Do not reinvent the wheel.  It is very rare you can beat them for performance, error checking, etc.</p>
+<p>Furthermore, NumPy and SciPy are very well unit tested.  In general, you do not need to write unit tests for well-established packages.  Obviously, if you use NumPy or SciPy within your own functions, you still need to unit test what you wrote.</p>
 
 </div>
 </div>
