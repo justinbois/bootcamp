@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
-
-<meta charset="utf-8" />
+<head><meta charset="utf-8" />
 <title>l32_blast</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
@@ -268,62 +266,26 @@ h3 { color: #444; font-style: italic; font-weight: normal}
 
 
 <style type="text/css">
-
-// Overrides of notebook CSS for static HTML export 
-
-
-div#notebook_panel{
-  color: #f6f6f6
-  background-color: #4B4B4B;
+/* Overrides of notebook CSS for static HTML export */
+body {
+  overflow: visible;
+  padding: 8px;
 }
 
 div#notebook {
-    background: #4b4b4b;
-    color: #333;
-    width: 950px;
-    margin: auto;
-    padding-left: 1em;
-    padding-right: 1em;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    overflow: visible;
-    border-top: none;
-    text-align: justify;
+  overflow: visible;
+  border-top: none;
 }
 
-
 @media print {
-   h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    page-break-after: avoid; // Prevent headings from being printed at the bottom of the page
-  }
- 
-  article {
-    page-break-before: always; // Always start new articles on a new page
-  }
- 
-  img {
-    page-break-inside: avoid; // Prevent images from being split up
-  }
-
-  a:after {
-     display: none !important;
-  }
-
   div.cell {
     display: block;
     page-break-inside: avoid;
   } 
-
   div.output_wrapper { 
     display: block;
     page-break-inside: avoid; 
   }
-
   div.output { 
     display: block;
     page-break-inside: avoid; 
@@ -331,12 +293,14 @@ div#notebook {
 }
 </style>
 
-
 <!-- Custom stylesheet, it must be in the same directory as the html file -->
-<link rel="stylesheet" href="custom.css"> 
+<link rel="stylesheet" href="custom.css">
 
 <!-- Loading mathjax macro -->
-<script type="text/x-mathjax-config">
+<!-- Load mathjax -->
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         tex2jax: {
             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
@@ -352,23 +316,8 @@ div#notebook {
             linebreaks: { automatic: true }
         }
     });
-</script>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<!-- End of mathjax configuration -->
-
-<!-- Google analytics-->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      
-      ga('create', 'UA-65442910-1', 'auto');
-      ga('send', 'pageview');
     </script>
-<!-- End Google analytics -->
-
-</head>
+    <!-- End of mathjax configuration --></head>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -413,7 +362,7 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>/Users/Justin/anaconda/lib/python3.4/site-packages/Bio/SearchIO/__init__.py:211: BiopythonExperimentalWarning: Bio.SearchIO is an experimental submodule which may undergo significant changes prior to its future official release.
+<pre>/Users/saladi/anaconda3/lib/python3.4/site-packages/Bio/SearchIO/__init__.py:211: BiopythonExperimentalWarning: Bio.SearchIO is an experimental submodule which may undergo significant changes prior to its future official release.
   BiopythonExperimentalWarning)
 </pre>
 </div>
@@ -564,7 +513,38 @@ $$E\approx pD$$<p>The expect score $E$ is often referred to as the "E-value" and
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Executing-a-BLAST-Query-through-NCBI-Entrez">Executing a BLAST Query through NCBI Entrez<a class="anchor-link" href="#Executing-a-BLAST-Query-through-NCBI-Entrez">&#182;</a></h2><p>Given a protein of interest, one potential question is that we might want to figure out whether it has homolog of known structure. BLAST is well-suited for this problem!</p>
-<p>Let's look at the <em>E. coli</em> mechanosensitive channels in particular at the channel gated by large amounts of K+. <a href="http://www.uniprot.org/uniprot/P77338">P77338</a>.</p>
+<p>Let's look at the <em>E. coli</em> mechanosensitive channels to see which ones have known structures. We can <a href="http://www.uniprot.org/uniprot/?query=mechanosensitive+AND+taxonomy%3A%22Escherichia+coli+%28strain+K12%29+%5B83333%5D%22&sort=score">query</a> Uniprot for proteins with "mechanosensitive" in their name and from the <em>E. coli</em> K12 genome.</p>
+<p>I've selected a subset here for our analysis.</p>
+<table>
+<thead><tr>
+<th>Uniprot Accession</th>
+<th>Entry Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://www.uniprot.org/uniprot/P0C0S1">P0C0S1</a></td>
+<td>MSCS_ECOLI</td>
+<td>Small-conductance mechanosensitive channel</td>
+</tr>
+<tr>
+<td><a href="http://www.uniprot.org/uniprot/P0A742">P0A742</a></td>
+<td>MSCL_ECOLI</td>
+<td>Large-conductance mechanosensitive channel</td>
+</tr>
+<tr>
+<td><a href="http://www.uniprot.org/uniprot/P39285">P39285</a></td>
+<td>MSCM_ECOLI</td>
+<td>Miniconductance mechanosensitive channel</td>
+</tr>
+<tr>
+<td><a href="http://www.uniprot.org/uniprot/P77338">P77338</a></td>
+<td>MSCK_ECOLI</td>
+<td>Mechanosensitive channel MscK (gated by K${}^{+}$)</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 </div>
@@ -574,21 +554,25 @@ $$E\approx pD$$<p>The expect score $E$ is often referred to as the "E-value" and
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's first retrieve a Genbank entry from NCBI corresponding to this accession number:</p>
+<p>Let's first retrieve an example Genbank entry from NCBI corresponding to these accession number:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="c"># Always tell NCBI who you are</span>
-<span class="n">Bio</span><span class="o">.</span><span class="n">Entrez</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s">&#39;A.N.Other@example.com&#39;</span>
+<span class="n">Bio</span><span class="o">.</span><span class="n">Entrez</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s">&#39;saladi@caltech.edu&#39;</span>
 <span class="n">Bio</span><span class="o">.</span><span class="n">Entrez</span><span class="o">.</span><span class="n">tool</span> <span class="o">=</span> <span class="s">&#39;BLAST-for-PDB-Entry&#39;</span>
 
-<span class="n">handle</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">Entrez</span><span class="o">.</span><span class="n">efetch</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s">&#39;protein&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s">&#39;P77338&#39;</span><span class="p">,</span> <span class="n">rettype</span><span class="o">=</span><span class="s">&#39;gb&#39;</span><span class="p">,</span> <span class="n">retmode</span><span class="o">=</span><span class="s">&#39;text&#39;</span><span class="p">)</span>
+<span class="n">id_list</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;P0C0S1&#39;</span><span class="p">,</span> <span class="s">&#39;P0A742&#39;</span><span class="p">,</span> <span class="s">&#39;P39285&#39;</span><span class="p">,</span> <span class="s">&#39;P77338&#39;</span><span class="p">)</span>
+<span class="n">handle_list</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c"># example record retrieval</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">Entrez</span><span class="o">.</span><span class="n">efetch</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s">&#39;protein&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">id_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rettype</span><span class="o">=</span><span class="s">&#39;gb&#39;</span><span class="p">,</span> <span class="n">retmode</span><span class="o">=</span><span class="s">&#39;text&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">handle</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
 
@@ -602,59 +586,60 @@ $$E\approx pD$$<p>The expect score $E$ is often referred to as the "E-value" and
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>LOCUS       MSCK_ECOLI              1120 aa            linear   BCT 22-JUL-2015
-DEFINITION  RecName: Full=Mechanosensitive channel MscK; AltName:
-            Full=Potassium efflux system KefA; Flags: Precursor.
-ACCESSION   P77338
-VERSION     P77338.1  GI:2501527
-DBSOURCE    UniProtKB: locus MSCK_ECOLI, accession P77338;
+<pre>LOCUS       MSCS_ECOLI               286 aa            linear   BCT 22-JUL-2015
+DEFINITION  RecName: Full=Small-conductance mechanosensitive channel.
+ACCESSION   P0C0S1
+VERSION     P0C0S1.1  GI:83288342
+DBSOURCE    UniProtKB: locus MSCS_ECOLI, accession P0C0S1;
             class: standard.
-            extra accessions:Q2MBW2
-            created: Nov 1, 1997.
-            sequence updated: Feb 1, 1997.
+            extra accessions:P11666,Q2M9R8
+            created: Dec 6, 2005.
+            sequence updated: Dec 6, 2005.
             annotation updated: Jul 22, 2015.
-            xrefs: Y07802.1, CAA69140.1, U82664.1, AAB40219.1, U00096.3,
-            AAC73567.1, AP009048.1, BAE76244.1, H64776, NP_414998.1,
-            WP_000177732.1
-            xrefs (non-sequence databases): ProteinModelPortal:P77338,
-            SMR:P77338, DIP:DIP-10070N, IntAct:P77338, STRING:511145.b0465,
-            TCDB:1.A.23.1.1, PaxDb:P77338, PRIDE:P77338,
-            EnsemblBacteria:AAC73567, EnsemblBacteria:AAC73567,
-            EnsemblBacteria:b0465, EnsemblBacteria:BAE76244,
-            EnsemblBacteria:BAE76244, EnsemblBacteria:BAE76244, GeneID:945132,
-            KEGG:eco:b0465, PATRIC:32116083, EchoBASE:EB3991, EcoGene:EG14240,
-            eggNOG:COG3264, HOGENOM:HOG000280842, InParanoid:P77338, KO:K05802,
-            OMA:LHTPKAI, OrthoDB:EOG6J1DC5, PhylomeDB:P77338,
-            BioCyc:EcoCyc:G6255-MONOMER, BioCyc:ECOL316407:JW0454-MONOMER,
-            PRO:PR:P77338, Proteomes:UP000000318, Proteomes:UP000000625,
-            GO:0016021, GO:0005886, GO:0071470, GO:0009992, GO:0006813,
-            GO:0055085, InterPro:IPR010920, InterPro:IPR011066,
-            InterPro:IPR006685, InterPro:IPR006686, InterPro:IPR011014,
-            InterPro:IPR025692, InterPro:IPR024393, Pfam:PF00924, Pfam:PF12795,
-            Pfam:PF12794, SUPFAM:SSF50182, SUPFAM:SSF82689, SUPFAM:SSF82861,
-            PROSITE:PS01246
-KEYWORDS    Cell inner membrane; Cell membrane; Coiled coil; Complete proteome;
-            Ion transport; Membrane; Potassium; Potassium transport; Reference
-            proteome; Signal; Transmembrane; Transmembrane helix; Transport.
+            xrefs: X14436.1, CAA32606.1, U28377.1, AAA69091.1, U00096.3,
+            AAC75961.1, AP009048.1, BAE76988.1, QQEC4A, NP_417399.1,
+            WP_000389818.1, 2OAU_A, 2OAU_B, 2OAU_C, 2OAU_D, 2OAU_E, 2OAU_F,
+            2OAU_G, 2VV5_A, 2VV5_B, 2VV5_C, 2VV5_D, 2VV5_E, 2VV5_F, 2VV5_G,
+            3UDC_A, 3UDC_B, 3UDC_C, 3UDC_D, 3UDC_E, 3UDC_F, 3UDC_G, 4AGE_A,
+            4AGE_B, 4AGE_C, 4AGE_D, 4AGE_E, 4AGE_F, 4AGE_G, 4AGF_A, 4AGF_B,
+            4AGF_C, 4AGF_D, 4AGF_E, 4AGF_F, 4AGF_G, 4HWA_A, 4HWA_B, 4HWA_C,
+            4HWA_D, 4HWA_E, 4HWA_F, 4HWA_G
+            xrefs (non-sequence databases): PDBsum:2OAU, PDBsum:2VV5,
+            PDBsum:3UDC, PDBsum:4AGE, PDBsum:4AGF, PDBsum:4HWA,
+            ProteinModelPortal:P0C0S1, SMR:P0C0S1, DIP:DIP-36192N,
+            IntAct:P0C0S1, STRING:511145.b2924, TCDB:1.A.23.2.1, PaxDb:P0C0S1,
+            PRIDE:P0C0S1, EnsemblBacteria:AAC75961, EnsemblBacteria:AAC75961,
+            EnsemblBacteria:b2924, EnsemblBacteria:BAE76988,
+            EnsemblBacteria:BAE76988, EnsemblBacteria:BAE76988, GeneID:947416,
+            KEGG:eco:b2924, PATRIC:32121262, EchoBASE:EB1149, EcoGene:EG11160,
+            eggNOG:COG0668, HOGENOM:HOG000110050, InParanoid:P0C0S1, KO:K03442,
+            OMA:INIAYPQ, OrthoDB:EOG61GG69, PhylomeDB:P0C0S1,
+            BioCyc:EcoCyc:EG11160-MONOMER, BioCyc:ECOL316407:JW2891-MONOMER,
+            BioCyc:RETL1328306-WGS:GSTH-1410-MONOMER, EvolutionaryTrace:P0C0S1,
+            PRO:PR:P0C0S1, Proteomes:UP000000318, Proteomes:UP000000625,
+            GO:0016021, GO:0005886, GO:0008381, GO:0009992, GO:0034220,
+            InterPro:IPR010920, InterPro:IPR011066, InterPro:IPR006685,
+            InterPro:IPR006686, InterPro:IPR011014, InterPro:IPR008910,
+            Pfam:PF00924, Pfam:PF05552, SUPFAM:SSF50182, SUPFAM:SSF82689,
+            SUPFAM:SSF82861, PROSITE:PS01246
+KEYWORDS    3D-structure; Cell inner membrane; Cell membrane; Complete
+            proteome; Ion channel; Ion transport; Membrane; Reference proteome;
+            Transmembrane; Transmembrane helix; Transport.
 SOURCE      Escherichia coli K-12
   ORGANISM  Escherichia coli K-12
             Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacteriales;
             Enterobacteriaceae; Escherichia.
-REFERENCE   1  (residues 1 to 1120)
-  AUTHORS   Jones,M.A., McLaggen,D., Epstein,W. and Booth,I.R.
-  TITLE     Direct Submission
-  JOURNAL   Submitted (??-DEC-1996)
+REFERENCE   1  (residues 1 to 286)
+  AUTHORS   Alefounder,P.R. and Perham,R.N.
+  TITLE     Identification, molecular cloning and sequence analysis of a gene
+            cluster encoding the class II fructose 1,6-bisphosphate aldolase,
+            3-phosphoglycerate kinase and a putative second glyceraldehyde
+            3-phosphate dehydrogenase of Escherichia coli
+  JOURNAL   Mol. Microbiol. 3 (6), 723-732 (1989)
+   PUBMED   2546007
   REMARK    NUCLEOTIDE SEQUENCE [GENOMIC DNA].;
-            STRAIN=K12
-REFERENCE   2  (residues 1 to 1120)
-  AUTHORS   Chung,E., Allen,E., Araujo,R., Aparicio,A.M., Davis,K., Duncan,M.,
-            Federspiel,N., Hyman,R., Kalman,S., Komp,C., Kurdi,O., Lew,H.,
-            Lin,D., Namath,A., Oefner,P., Roberts,D., Schramm,S. and Davis,R.W.
-  TITLE     Direct Submission
-  JOURNAL   Submitted (??-JAN-1997)
-  REMARK    NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].;
-            STRAIN=K12 / MG1655 / ATCC 47076
-REFERENCE   3  (residues 1 to 1120)
+            STRAIN=K12 / CS520
+REFERENCE   2  (residues 1 to 286)
   AUTHORS   Blattner,F.R., Plunkett,G. 3rd, Bloch,C.A., Perna,N.T., Burland,V.,
             Riley,M., Collado-Vides,J., Glasner,J.D., Rode,C.K., Mayhew,G.F.,
             Gregor,J., Davis,N.W., Kirkpatrick,H.A., Goeden,M.A., Rose,D.J.,
@@ -664,7 +649,7 @@ REFERENCE   3  (residues 1 to 1120)
    PUBMED   9278503
   REMARK    NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].;
             STRAIN=K12 / MG1655 / ATCC 47076
-REFERENCE   4  (residues 1 to 1120)
+REFERENCE   3  (residues 1 to 286)
   AUTHORS   Hayashi,K., Morooka,N., Yamamoto,Y., Fujita,K., Isono,K., Choi,S.,
             Ohtsubo,E., Baba,T., Wanner,B.L., Mori,H. and Horiuchi,T.
   TITLE     Highly accurate genome sequences of Escherichia coli K-12 strains
@@ -673,7 +658,23 @@ REFERENCE   4  (residues 1 to 1120)
    PUBMED   16738553
   REMARK    NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].;
             STRAIN=K12 / W3110 / ATCC 27325 / DSM 5911
-REFERENCE   5  (residues 1 to 1120)
+REFERENCE   4  (residues 1 to 286)
+  AUTHORS   Martinac,B., Buechner,M., Delcour,A.H., Adler,J. and Kung,C.
+  TITLE     Pressure-sensitive ion channel in Escherichia coli
+  JOURNAL   Proc. Natl. Acad. Sci. U.S.A. 84 (8), 2297-2301 (1987)
+   PUBMED   2436228
+  REMARK    CHARACTERIZATION.;
+            STRAIN=K12 / AW405
+REFERENCE   5  (residues 1 to 286)
+  AUTHORS   Cui,C., Smith,D.O. and Adler,J.
+  TITLE     Characterization of mechanosensitive channels in Escherichia coli
+            cytoplasmic membrane by whole-cell patch clamp recording
+  JOURNAL   J. Membr. Biol. 144 (1), 31-42 (1995)
+   PUBMED   7595939
+  REMARK    SENSITIVITY TO OSMOTIC AND VOLTAGE DIFFERENCES ACROSS THE
+            CYTOPLASMIC MEMBRANE.;
+            STRAIN=K12
+REFERENCE   6  (residues 1 to 286)
   AUTHORS   Levina,N., Totemeyer,S., Stokes,N.R., Louis,P., Jones,M.A. and
             Booth,I.R.
   TITLE     Protection of Escherichia coli cells against extreme turgor by
@@ -681,442 +682,465 @@ REFERENCE   5  (residues 1 to 1120)
             identification of genes required for MscS activity
   JOURNAL   EMBO J. 18 (7), 1730-1737 (1999)
    PUBMED   10202137
-  REMARK    FUNCTION.;
+  REMARK    CHARACTERIZATION, AND PHYIOLOGICAL ROLE.;
             STRAIN=K12 / MJF379
-REFERENCE   6  (residues 1 to 1120)
-  AUTHORS   Li,Y., Moe,P.C., Chandrasekaran,S., Booth,I.R. and Blount,P.
-  TITLE     Ionic regulation of MscK, a mechanosensitive channel from
-            Escherichia coli
-  JOURNAL   EMBO J. 21 (20), 5323-5330 (2002)
-   PUBMED   12374733
-  REMARK    FUNCTION, AND GENE NAME.
-REFERENCE   7  (residues 1 to 1120)
-  AUTHORS   McLaggan,D., Jones,M.A., Gouesbet,G., Levina,N., Lindey,S.,
-            Epstein,W. and Booth,I.R.
-  TITLE     Analysis of the kefA2 mutation suggests that KefA is a
-            cation-specific channel involved in osmotic adaptation in
-            Escherichia coli
-  JOURNAL   Mol. Microbiol. 43 (2), 521-536 (2002)
-   PUBMED   11985727
-  REMARK    FUNCTION, SUBCELLULAR LOCATION, TOPOLOGY, AND MUTAGENESIS OF
-            GLY-922.;
-            STRAIN=K12
-REFERENCE   8  (residues 1 to 1120)
+REFERENCE   7  (residues 1 to 286)
+  AUTHORS   Sukharev,S.
+  TITLE     Purification of the small mechanosensitive channel of Escherichia
+            coli (MscS): the subunit structure, conduction, and gating
+            characteristics in liposomes
+  JOURNAL   Biophys. J. 83 (1), 290-298 (2002)
+   PUBMED   12080120
+  REMARK    LIPOSOME RECONSTITUTION.;
+            STRAIN=K12 / AW405
+REFERENCE   8  (residues 1 to 286)
+  AUTHORS   Okada,K., Moe,P.C. and Blount,P.
+  TITLE     Functional design of bacterial mechanosensitive channels.
+            Comparisons and contrasts illuminated by random mutagenesis
+  JOURNAL   J. Biol. Chem. 277 (31), 27682-27688 (2002)
+   PUBMED   12015316
+  REMARK    LIPOSOME RECONSTITUTION, AND MUTAGENESIS OF VAL-40.;
+            STRAIN=K12 / MJF379
+REFERENCE   9  (residues 1 to 286)
+  AUTHORS   Koprowski,P. and Kubalski,A.
+  TITLE     C termini of the Escherichia coli mechanosensitive ion channel
+            (MscS) move apart upon the channel opening
+  JOURNAL   J. Biol. Chem. 278 (13), 11237-11245 (2003)
+   PUBMED   12551944
+  REMARK    CROSS-LINKING OF THE C-TERMINI INHIBITS CHANNEL OPENING.;
+            STRAIN=K12 / MJF379
+REFERENCE   10 (residues 1 to 286)
+  AUTHORS   Miller,S., Edwards,M.D., Ozdemir,C. and Booth,I.R.
+  TITLE     The closed structure of the MscS mechanosensitive channel.
+            Cross-linking of single cysteine mutants
+  JOURNAL   J. Biol. Chem. 278 (34), 32246-32250 (2003)
+   PUBMED   12767977
+  REMARK    SUBUNIT IN THE CLOSED STATE, AND MUTAGENESIS OF SER-58 AND SER-267.
+REFERENCE   11 (residues 1 to 286)
+  AUTHORS   Schumann,U., Edwards,M.D., Li,C. and Booth,I.R.
+  TITLE     The conserved carboxy-terminus of the MscS mechanosensitive channel
+            is not essential but increases stability and activity
+  JOURNAL   FEBS Lett. 572 (1-3), 233-237 (2004)
+   PUBMED   15304354
+  REMARK    C-TERMINAL DELETIONS.
+REFERENCE   12 (residues 1 to 286)
+  AUTHORS   Stenberg,F., Chovanec,P., Maslen,S.L., Robinson,C.V., Ilag,L.L.,
+            von Heijne,G. and Daley,D.O.
+  TITLE     Protein complexes of the Escherichia coli cell envelope
+  JOURNAL   J. Biol. Chem. 280 (41), 34409-34419 (2005)
+   PUBMED   16079137
+  REMARK    SUBUNIT, AND SUBCELLULAR LOCATION.;
+            STRAIN=BL21-DE3
+REFERENCE   13 (residues 1 to 286)
   AUTHORS   Daley,D.O., Rapp,M., Granseth,E., Melen,K., Drew,D. and von
             Heijne,G.
   TITLE     Global topology analysis of the Escherichia coli inner membrane
             proteome
   JOURNAL   Science 308 (5726), 1321-1323 (2005)
    PUBMED   15919996
-  REMARK    SUBCELLULAR LOCATION.;
+  REMARK    TOPOLOGY [LARGE SCALE ANALYSIS].;
             STRAIN=K12 / MG1655 / ATCC 47076
-COMMENT     On Apr 26, 2005 this sequence version replaced gi:7466735.
-            [FUNCTION] Mechanosensitive channel that opens in response to
-            membrane tension and specific ionic conditions. Requires high
-            concentrations of external K(+), NH(4)(+), Rb(+) or Cs(+) to gate.
-            May participate in the regulation of osmotic pressure changes
-            within the cell, although it does not appear to have a major role
-            in osmolarity regulation. Forms an ion channel of 1.0 nanosiemens
-            conductance. The channel can remain active for between 30 seconds
-            and over 3 minutes; it does not desensitize upon extended pressure.
-            Its activity is masked in wild-type cells by the MscS channel.
-            {ECO:0000269|PubMed:10202137, ECO:0000269|PubMed:11985727,
-            ECO:0000269|PubMed:12374733}.
+REFERENCE   14 (residues 1 to 286)
+  AUTHORS   Edwards,M.D., Li,Y., Kim,S., Miller,S., Bartlett,W., Black,S.,
+            Dennison,S., Iscla,I., Blount,P., Bowie,J.U. and Booth,I.R.
+  TITLE     Pivotal role of the glycine-rich TM3 helix in gating the MscS
+            mechanosensitive channel
+  JOURNAL   Nat. Struct. Mol. Biol. 12 (2), 113-119 (2005)
+   PUBMED   15665866
+  REMARK    MUTAGENESIS OF CONSERVED GLY AND ALA RESIDUES IN TM3, AND
+            PRESENTATION OF MODELS OF THE CLOSED STATE CHANNEL AND CLOSED TO
+            OPEN STATE TRANSITIONS.;
+            STRAIN=K12 / MJF431
+REFERENCE   15 (residues 1 to 286)
+  AUTHORS   Bass,R.B., Strop,P., Barclay,M. and Rees,D.C.
+  TITLE     Crystal structure of Escherichia coli MscS, a voltage-modulated and
+            mechanosensitive channel
+  JOURNAL   Science 298 (5598), 1582-1587 (2002)
+   PUBMED   12446901
+  REMARK    X-RAY CRYSTALLOGRAPHY (3.9 ANGSTROMS) OF 27-280 PROBABLY IN THE
+            OPEN STATE, AND SUBUNIT.;
+            STRAIN=K12
+COMMENT     [FUNCTION] Mechanosensitive channel that participates in the
+            regulation of osmotic pressure changes within the cell, opening in
+            response to stretch forces in the membrane lipid bilayer, without
+            the need for other proteins. Forms an ion channel of 1.0
+            nanosiemens conductance with a slight preference for anions. The
+            channel is sensitive to voltage; as the membrane is depolarized,
+            less tension is required to open the channel and vice versa. The
+            channel is characterized by short bursts of activity that last for
+            a few seconds.
+            [FUNCTION] The channel pore is formed by TM3 and the loop between
+            TM2 and TM3. After a sharp turn at Gly-113, an alpha-helix
+            (residues 114-127) is oriented nearly parallel to the plane of the
+            putative lipid bilayer. On the intracellular side of the channel,
+            the permeation pathway of MscS does not connect directly to the
+            cytoplasm but instead opens to a large chamber that is connected to
+            the cytoplasm. This chamber resembles a molecular filter that could
+            serve to prescreen large molecules before they are allowed passage
+            to the transmembrane pore. The TM1 and TM2 helices appear to be
+            likely candidates for mediating the tension and voltage
+            sensitivities of MscS. Gating requires large rearrangements of at
+            least the C-terminus.
+            [SUBUNIT] Homoheptamer. {ECO:0000269|PubMed:12446901,
+            ECO:0000269|PubMed:12767977, ECO:0000269|PubMed:16079137}.
             [SUBCELLULAR LOCATION] Cell inner membrane
-            {ECO:0000269|PubMed:11985727, ECO:0000269|PubMed:15919996};
-            Multi-pass membrane protein {ECO:0000269|PubMed:11985727,
-            ECO:0000269|PubMed:15919996}.
+            {ECO:0000269|PubMed:16079137}; Multi-pass membrane protein
+            {ECO:0000269|PubMed:16079137}.
             [SIMILARITY] Belongs to the MscS (TC 1.A.23) family. {ECO:0000305}.
 FEATURES             Location/Qualifiers
-     source          1..1120
+     source          1..286
                      /organism=&quot;Escherichia coli K-12&quot;
                      /db_xref=&quot;taxon:83333&quot;
-     gene            1..1120
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-     Protein         1..1120
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /product=&quot;Mechanosensitive channel MscK&quot;
-                     /note=&quot;Potassium efflux system KefA&quot;
+     gene            1..286
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+     Protein         1..286
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /product=&quot;Small-conductance mechanosensitive channel&quot;
                      /UniProtKB_evidence=&quot;Evidence at protein level&quot;
-     Region          1..33
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Signal&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;{ECO:0000255}.&quot;
-     Region          7..1120
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;PRK11281&quot;
-                     /note=&quot;hypothetical protein; Provisional&quot;
-                     /db_xref=&quot;CDD:236892&quot;
-     Region          34..1120
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
+     Region          1..286
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
                      /region_name=&quot;Mature chain&quot;
                      /experiment=&quot;experimental evidence, no additional details
                      recorded&quot;
-                     /note=&quot;Mechanosensitive channel MscK.
-                     /FTId=PRO_0000043366.&quot;
-     Region          34..499
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
+                     /note=&quot;Small-conductance mechanosensitive channel.
+                     /FTId=PRO_0000110238.&quot;
+     Region          1..286
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;PRK10334&quot;
+                     /note=&quot;mechanosensitive channel MscS; Provisional&quot;
+                     /db_xref=&quot;CDD:182386&quot;
+     Region          1..28
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
                      /region_name=&quot;Topological domain&quot;
                      /experiment=&quot;experimental evidence, no additional details
                      recorded&quot;
-                     /note=&quot;Periplasmic. {ECO:0000255}.&quot;
-     Region          43..98
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Coiled-coil region&quot;
+                     /note=&quot;Periplasmic. {ECO:0000305|PubMed:15919996}.&quot;
+     Region          14..66
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;TM_helix&quot;
+                     /note=&quot;Conserved TM helix; pfam05552&quot;
+                     /db_xref=&quot;CDD:253249&quot;
+     Region          26..28
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Helical region&quot;
                      /experiment=&quot;experimental evidence, no additional details
                      recorded&quot;
-                     /note=&quot;{ECO:0000255}.&quot;
-     Region          126..266
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Coiled-coil region&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;{ECO:0000255}.&quot;
-     Region          &lt;134..255
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;FSIP1&quot;
-                     /note=&quot;FSIP1 family; pfam15554&quot;
-                     /db_xref=&quot;CDD:259685&quot;
-     Region          360..422
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Coiled-coil region&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;{ECO:0000255}.&quot;
-     Region          500..520
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          29..57
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
                      /region_name=&quot;Transmembrane region&quot;
                      /experiment=&quot;experimental evidence, no additional details
                      recorded&quot;
-                     /note=&quot;Helical. {ECO:0000255}.&quot;
-     Region          506..826
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;MscS_TM&quot;
-                     /note=&quot;Mechanosensitive ion channel inner membrane domain
-                     1; pfam12794&quot;
-                     /db_xref=&quot;CDD:257301&quot;
-     Region          521..560
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Topological domain&quot;
+                     /note=&quot;Helical.&quot;
+     Region          30..59
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Helical region&quot;
                      /experiment=&quot;experimental evidence, no additional details
                      recorded&quot;
-                     /note=&quot;Cytoplasmic. {ECO:0000255}.&quot;
-     Region          561..581
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Transmembrane region&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Helical. {ECO:0000255}.&quot;
-     Region          582
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Topological domain&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Periplasmic. {ECO:0000255}.&quot;
-     Region          583..603
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Transmembrane region&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Helical. {ECO:0000255}.&quot;
-     Region          604..634
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Topological domain&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Cytoplasmic. {ECO:0000255}.&quot;
-     Region          635..655
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Transmembrane region&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Helical. {ECO:0000255}.&quot;
-     Region          656..657
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Topological domain&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Periplasmic. {ECO:0000255}.&quot;
-     Region          658..678
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Transmembrane region&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Helical. {ECO:0000255}.&quot;
-     Region          679..692
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Topological domain&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Cytoplasmic. {ECO:0000255}.&quot;
-     Region          693..713
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Transmembrane region&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Helical. {ECO:0000255}.&quot;
-     Region          714..728
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Topological domain&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Periplasmic. {ECO:0000255}.&quot;
-     Region          729..749
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Transmembrane region&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Helical. {ECO:0000255}.&quot;
-     Region          750..796
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Topological domain&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Cytoplasmic. {ECO:0000255}.&quot;
-     Region          797..817
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Transmembrane region&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Helical. {ECO:0000255}.&quot;
-     Region          818..839
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Topological domain&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Periplasmic. {ECO:0000255}.&quot;
-     Region          840..860
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Transmembrane region&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Helical. {ECO:0000255}.&quot;
-     Region          861..886
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Topological domain&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Cytoplasmic. {ECO:0000255}.&quot;
-     Region          887..907
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Transmembrane region&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Helical. {ECO:0000255}.&quot;
-     Region          888..1086
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;MS_channel&quot;
-                     /note=&quot;Mechanosensitive ion channel; pfam00924&quot;
-                     /db_xref=&quot;CDD:250229&quot;
-     Region          908..921
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Topological domain&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Periplasmic. {ECO:0000255}.&quot;
-     Region          922..942
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Transmembrane region&quot;
-                     /experiment=&quot;experimental evidence, no additional details
-                     recorded&quot;
-                     /note=&quot;Helical. {ECO:0000255}.&quot;
-     Site            922
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Site            40
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
                      /site_type=&quot;mutagenized&quot;
                      /experiment=&quot;experimental evidence, no additional details
                      recorded&quot;
-                     /note=&quot;G-&gt;S: Prevents growth in medium containing high
-                     levels of potassium in the presence of betaine.
-                     {ECO:0000269|PubMed:11985727}.&quot;
-     Region          943..1120
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
+                     /note=&quot;V-&gt;C,G,N: No detectable phenotype.
+                     {ECO:0000269|PubMed:12015316}.&quot;
+     Site            40
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /site_type=&quot;mutagenized&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;V-&gt;D,K: Normal growth stops, without cell death,
+                     due to increased membrane permeability to potassium ions
+                     and protons (permeability tested only for D
+                     substitutions). {ECO:0000269|PubMed:12015316}.&quot;
+     Region          58..67
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
                      /region_name=&quot;Topological domain&quot;
                      /experiment=&quot;experimental evidence, no additional details
                      recorded&quot;
-                     /note=&quot;Cytoplasmic. {ECO:0000255}.&quot;
-     Region          1057..1081
-                     /gene=&quot;mscK&quot;
-                     /locus_tag=&quot;b0465&quot;
-                     /gene_synonym=&quot;aefA&quot;
-                     /gene_synonym=&quot;JW0454&quot;
-                     /gene_synonym=&quot;kefA&quot;
-                     /region_name=&quot;Coiled-coil region&quot;
+                     /note=&quot;Cytoplasmic. {ECO:0000305|PubMed:15919996}.&quot;
+     Site            58
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /site_type=&quot;mutagenized&quot;
                      /experiment=&quot;experimental evidence, no additional details
                      recorded&quot;
-                     /note=&quot;{ECO:0000255}.&quot;
+                     /note=&quot;S-&gt;C: Readily forms disulfide bonds with
+                     cross-linkers, suggesting that individual S-58 are only 3
+                     Angstroms apart in the closed state, versus 33 Angstroms
+                     apart in the open state crystal structure.
+                     {ECO:0000269|PubMed:12767977}.&quot;
+     Region          63..87
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Helical region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          68..91
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Transmembrane region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;Helical.&quot;
+     Region          72..268
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;MS_channel&quot;
+                     /note=&quot;Mechanosensitive ion channel; pfam00924&quot;
+                     /db_xref=&quot;CDD:250229&quot;
+     Region          88..90
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Hydrogen bonded turn&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          92..95
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Topological domain&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;Periplasmic. {ECO:0000305|PubMed:15919996}.&quot;
+     Region          96..113
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Transmembrane region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;Helical.&quot;
+     Region          96..111
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Helical region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          113..125
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Helical region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          114..286
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Topological domain&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;Cytoplasmic. {ECO:0000305|PubMed:15919996}.&quot;
+     Region          135..140
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Beta-strand region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          142..148
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Beta-strand region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          150..156
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Beta-strand region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          162..166
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Beta-strand region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          167..171
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Helical region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          175..192
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Beta-strand region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          198..211
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Helical region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          221..228
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Beta-strand region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          230..242
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Beta-strand region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          243..245
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Hydrogen bonded turn&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Region          246..264
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Helical region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:2VV5}.&quot;
+     Site            266..286
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /site_type=&quot;mutagenized&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;ISFPYPQMDVNFKRVKEDKAA-&gt;HHHHHHLE: Normal levels of
+                     channels are expressed; they recover more slowly than
+                     wild-type cells after desensitization.
+                     {ECO:0000269|PubMed:15665866}.&quot;
+     Site            266..286
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /site_type=&quot;mutagenized&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;ISFPYPQMDVNFKRVKEDKAA-&gt;LE: Fewer channels present
+                     in the membrane, they require slightly more pressure to
+                     open and do not recover after desensitization.
+                     {ECO:0000269|PubMed:15665866}.&quot;
+     Site            267
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /site_type=&quot;mutagenized&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;S-&gt;C: Provides biochemical evidence for heptameric
+                     structure upon cross-linking.
+                     {ECO:0000269|PubMed:12767977}.&quot;
+     Region          274..279
+                     /gene=&quot;mscS&quot;
+                     /locus_tag=&quot;b2924&quot;
+                     /gene_synonym=&quot;JW2891&quot;
+                     /gene_synonym=&quot;yggB&quot;
+                     /region_name=&quot;Beta-strand region&quot;
+                     /experiment=&quot;experimental evidence, no additional details
+                     recorded&quot;
+                     /note=&quot;{ECO:0000244|PDB:3UDC}.&quot;
 ORIGIN      
-        1 mtmfqyykrs rhfvfsafia fvfvllcqnt afarassngd lptkadlqaq ldslnkqkdl
-       61 saqdklvqqd ltdtlatldk idrikeetvq lrqkvaeape kmrqataalt alsdvdndee
-      121 trkilstlsl rqletrvaqa lddlqnaqnd lasynsqlvs lqtqpervqn amynasqqlq
-      181 qirsrldgtd vgetalrpsq kvlmqaqqal lnaeidqqrk slegntvlqd tlqkqrdyvt
-      241 ansarlehql qllqeavnsk rltltektaq eavspdeaar iqanplvkqe leinqqlsqr
-      301 litatengnq lmqqnikvkn wleralqser nikeqiavlk gslllsrily qqqqtlpsad
-      361 elenmtnria dlrleqfevn qqrdalfqsd afvnkleegh tnevnsevhd allqvvdmrr
-      421 elldqlnkql gnqlmmainl qinqqqlmsv sknlksiltq qifwvnsnrp mdwdwikafp
-      481 qslkdefksm kitvnwqkaw pavfiaflag lpllliagli hwrlgwlkay qqklasavgs
-      541 lrndsqlntp kailidlira lpvcliilav glilltmqln isellwsfsk klaifwlvfg
-      601 lcwkvlekng vavrhfgmpe qqtshwrrqi vrislallpi hfwsvvaels plhlmddvlg
-      661 qamiffnlll iaflvwpmcr eswrdkesht mrlvtitvls iipialmvlt atgyfyttlr
-      721 lagrwietvy lviiwnllyq tvlrglsvaa rriawrrala rrqnlvkega egaeppeept
-      781 ialeqvnqqt lritmllmfa lfgvmfwaiw sdlitvfsyl dsitlwhyng teagaavvkn
-      841 vtmgsllfai iasmvawali rnlpgllevl vlsrlnmrqg asyaittiln yiiiavgamt
-      901 vfgslgvswd klqwlaaals vglgfglqei fgnfvsglii lferpvrigd tvtigsfsgt
-      961 vskiriratt itdfdrkevi ipnkafvter linwsltdtt trlvirlgva ygsdlekvrk
-     1021 vllkaatehp rvmhepmpev fftafgastl dhelrlyvre lrdrsrtvde lnrtidqlcr
-     1081 endiniafnq levhlhnekg devtevkrdy kgddptpavg
+        1 medlnvvdsi ngagswlvan qalllsyavn ivaalaiiiv gliiarmisn avnrlmisrk
+       61 idatvadfls alvrygiiaf tliaalgrvg vqtasviavl gaaglavgla lqgslsnlaa
+      121 gvllvmfrpf rageyvdlgg vagtvlsvqi fsttmrtadg kiivipngki iagniinfsr
+      181 epvrrnefii gvaydsdidq vkqiltniiq sedrilkdre mtvrlnelga ssinfvvrvw
+      241 snsgdlqnvy wdvlerikre fdaagisfpy pqmdvnfkrv kedkaa
 //
 
 
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/Users/saladi/anaconda3/lib/python3.4/site-packages/Bio/SearchIO/__init__.py:211: BiopythonExperimentalWarning: Bio.SearchIO is an experimental submodule which may undergo significant changes prior to its future official release.
-  BiopythonExperimentalWarning)
 </pre>
 </div>
 </div>
@@ -1130,21 +1154,27 @@ ORIGIN
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Here, let's retrieve the records for each of the identifiers.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c">#since we printed the handle, we need to fetch again</span>
-<span class="n">handle</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">Entrez</span><span class="o">.</span><span class="n">efetch</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s">&#39;protein&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s">&#39;P77338&#39;</span><span class="p">,</span> <span class="n">rettype</span><span class="o">=</span><span class="s">&#39;gb&#39;</span><span class="p">,</span> <span class="n">retmode</span><span class="o">=</span><span class="s">&#39;text&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">record_list</span> <span class="o">=</span> <span class="p">{}</span>
 
-<span class="n">seq_record</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">SeqIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="s">&#39;genbank&#39;</span><span class="p">)</span>
-<span class="n">handle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">seq_record</span><span class="p">)</span>
+<span class="c"># Fetch all the handles, read each into a seq_record</span>
+<span class="k">for</span> <span class="n">thisid</span> <span class="ow">in</span> <span class="n">id_list</span><span class="p">:</span>
+    <span class="n">handle</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">Entrez</span><span class="o">.</span><span class="n">efetch</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s">&#39;protein&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">thisid</span><span class="p">,</span> <span class="n">rettype</span><span class="o">=</span><span class="s">&#39;gb&#39;</span><span class="p">,</span> <span class="n">retmode</span><span class="o">=</span><span class="s">&#39;text&#39;</span><span class="p">)</span>
+    <span class="n">seq_record</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">SeqIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="s">&#39;genbank&#39;</span><span class="p">)</span>
+    <span class="n">handle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">record_list</span><span class="p">[</span><span class="n">thisid</span><span class="p">]</span> <span class="o">=</span> <span class="n">seq_record</span>
+    
+
+<span class="nb">print</span><span class="p">(</span><span class="n">record_list</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1157,39 +1187,7 @@ ORIGIN
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>ID: P77338.1
-Name: MSCK_ECOLI
-Description: RecName: Full=Mechanosensitive channel MscK; AltName: Full=Potassium efflux system KefA; Flags: Precursor.
-Number of features: 37
-/data_file_division=BCT
-/references=[Reference(title=&apos;Direct Submission&apos;, ...), Reference(title=&apos;Direct Submission&apos;, ...), Reference(title=&apos;The complete genome sequence of Escherichia coli K-12&apos;, ...), Reference(title=&apos;Highly accurate genome sequences of Escherichia coli K-12 strains MG1655 and W3110&apos;, ...), Reference(title=&apos;Protection of Escherichia coli cells against extreme turgor by activation of MscS and MscL mechanosensitive channels: identification of genes required for MscS activity&apos;, ...), Reference(title=&apos;Ionic regulation of MscK, a mechanosensitive channel from Escherichia coli&apos;, ...), Reference(title=&apos;Analysis of the kefA2 mutation suggests that KefA is a cation-specific channel involved in osmotic adaptation in Escherichia coli&apos;, ...), Reference(title=&apos;Global topology analysis of the Escherichia coli inner membrane proteome&apos;, ...)]
-/gi=2501527
-/source=Escherichia coli K-12
-/organism=Escherichia coli K-12
-/accessions=[&apos;P77338&apos;]
-/sequence_version=1
-/db_source=UniProtKB: locus MSCK_ECOLI, accession P77338; class: standard. extra accessions:Q2MBW2 created: Nov 1, 1997. sequence updated: Feb 1, 1997. annotation updated: Jul 22, 2015. xrefs: Y07802.1, CAA69140.1, U82664.1, AAB40219.1, U00096.3, AAC73567.1, AP009048.1, BAE76244.1, H64776, NP_414998.1, WP_000177732.1 xrefs (non-sequence databases): ProteinModelPortal:P77338, SMR:P77338, DIP:DIP-10070N, IntAct:P77338, STRING:511145.b0465, TCDB:1.A.23.1.1, PaxDb:P77338, PRIDE:P77338, EnsemblBacteria:AAC73567, EnsemblBacteria:AAC73567, EnsemblBacteria:b0465, EnsemblBacteria:BAE76244, EnsemblBacteria:BAE76244, EnsemblBacteria:BAE76244, GeneID:945132, KEGG:eco:b0465, PATRIC:32116083, EchoBASE:EB3991, EcoGene:EG14240, eggNOG:COG3264, HOGENOM:HOG000280842, InParanoid:P77338, KO:K05802, OMA:LHTPKAI, OrthoDB:EOG6J1DC5, PhylomeDB:P77338, BioCyc:EcoCyc:G6255-MONOMER, BioCyc:ECOL316407:JW0454-MONOMER, PRO:PR:P77338, Proteomes:UP000000318, Proteomes:UP000000625, GO:0016021, GO:0005886, GO:0071470, GO:0009992, GO:0006813, GO:0055085, InterPro:IPR010920, InterPro:IPR011066, InterPro:IPR006685, InterPro:IPR006686, InterPro:IPR011014, InterPro:IPR025692, InterPro:IPR024393, Pfam:PF00924, Pfam:PF12795, Pfam:PF12794, SUPFAM:SSF50182, SUPFAM:SSF82689, SUPFAM:SSF82861, PROSITE:PS01246
-/keywords=[&apos;Cell inner membrane&apos;, &apos;Cell membrane&apos;, &apos;Coiled coil&apos;, &apos;Complete proteome&apos;, &apos;Ion transport&apos;, &apos;Membrane&apos;, &apos;Potassium&apos;, &apos;Potassium transport&apos;, &apos;Reference proteome&apos;, &apos;Signal&apos;, &apos;Transmembrane&apos;, &apos;Transmembrane helix&apos;, &apos;Transport&apos;]
-/date=22-JUL-2015
-/taxonomy=[&apos;Bacteria&apos;, &apos;Proteobacteria&apos;, &apos;Gammaproteobacteria&apos;, &apos;Enterobacteriales&apos;, &apos;Enterobacteriaceae&apos;, &apos;Escherichia&apos;]
-/comment=On Apr 26, 2005 this sequence version replaced gi:7466735.
-[FUNCTION] Mechanosensitive channel that opens in response to
-membrane tension and specific ionic conditions. Requires high
-concentrations of external K(+), NH(4)(+), Rb(+) or Cs(+) to gate.
-May participate in the regulation of osmotic pressure changes
-within the cell, although it does not appear to have a major role
-in osmolarity regulation. Forms an ion channel of 1.0 nanosiemens
-conductance. The channel can remain active for between 30 seconds
-and over 3 minutes; it does not desensitize upon extended pressure.
-Its activity is masked in wild-type cells by the MscS channel.
-{ECO:0000269|PubMed:10202137, ECO:0000269|PubMed:11985727,
-ECO:0000269|PubMed:12374733}.
-[SUBCELLULAR LOCATION] Cell inner membrane
-{ECO:0000269|PubMed:11985727, ECO:0000269|PubMed:15919996};
-Multi-pass membrane protein {ECO:0000269|PubMed:11985727,
-ECO:0000269|PubMed:15919996}.
-[SIMILARITY] Belongs to the MscS (TC 1.A.23) family. {ECO:0000305}.
-Seq(&apos;MTMFQYYKRSRHFVFSAFIAFVFVLLCQNTAFARASSNGDLPTKADLQAQLDSL...AVG&apos;, IUPACProtein())
+<pre>{&apos;P0A742&apos;: SeqRecord(seq=Seq(&apos;MSIIKEFREFAMRGNVVDLAVGVIIGAAFGKIVSSLVADIIMPPLGLLIGGIDF...NRS&apos;, IUPACProtein()), id=&apos;P0A742.1&apos;, name=&apos;MSCL_ECOLI&apos;, description=&apos;RecName: Full=Large-conductance mechanosensitive channel.&apos;, dbxrefs=[]), &apos;P77338&apos;: SeqRecord(seq=Seq(&apos;MTMFQYYKRSRHFVFSAFIAFVFVLLCQNTAFARASSNGDLPTKADLQAQLDSL...AVG&apos;, IUPACProtein()), id=&apos;P77338.1&apos;, name=&apos;MSCK_ECOLI&apos;, description=&apos;RecName: Full=Mechanosensitive channel MscK; AltName: Full=Potassium efflux system KefA; Flags: Precursor.&apos;, dbxrefs=[]), &apos;P39285&apos;: SeqRecord(seq=Seq(&apos;MRLIITFLMAWCLSWGAYAATAPDSKQITQELEQAKAAKPAQPEVVEALQSALN...GSL&apos;, IUPACProtein()), id=&apos;P39285.3&apos;, name=&apos;MSCM_ECOLI&apos;, description=&apos;RecName: Full=Miniconductance mechanosensitive channel MscM; Flags: Precursor.&apos;, dbxrefs=[]), &apos;P0C0S1&apos;: SeqRecord(seq=Seq(&apos;MEDLNVVDSINGAGSWLVANQALLLSYAVNIVAALAIIIVGLIIARMISNAVNR...KAA&apos;, IUPACProtein()), id=&apos;P0C0S1.1&apos;, name=&apos;MSCS_ECOLI&apos;, description=&apos;RecName: Full=Small-conductance mechanosensitive channel.&apos;, dbxrefs=[])}
 </pre>
 </div>
 </div>
@@ -1257,13 +1255,42 @@ Seq(&apos;MTMFQYYKRSRHFVFSAFIAFVFVLLCQNTAFARASSNGDLPTKADLQAQLDSL...AVG&apos;, IU
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="n">result_handle</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">Blast</span><span class="o">.</span><span class="n">NCBIWWW</span><span class="o">.</span><span class="n">qblast</span><span class="p">(</span><span class="s">&#39;blastp&#39;</span><span class="p">,</span> <span class="s">&#39;pdb&#39;</span><span class="p">,</span> <span class="n">seq_record</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">result_handle</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">Blast</span><span class="o">.</span><span class="n">NCBIWWW</span><span class="o">.</span><span class="n">qblast</span><span class="p">(</span><span class="s">&#39;blastp&#39;</span><span class="p">,</span> <span class="s">&#39;pdb&#39;</span><span class="p">,</span> <span class="n">record_list</span><span class="p">[</span><span class="s">&#39;P77338&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">record_list</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>dict_keys([&apos;P0A742&apos;, &apos;P77338&apos;, &apos;P39285&apos;, &apos;P0C0S1&apos;])</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -1280,10 +1307,10 @@ Seq(&apos;MTMFQYYKRSRHFVFSAFIAFVFVLLCQNTAFARASSNGDLPTKADLQAQLDSL...AVG&apos;, IU
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;blastp-msck-pdb.xml&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">save_file</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;blastp-pdb-P77338.xml&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">save_file</span><span class="p">:</span>
     <span class="n">save_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">result_handle</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 
 <span class="n">result_handle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -1306,36 +1333,46 @@ Seq(&apos;MTMFQYYKRSRHFVFSAFIAFVFVLLCQNTAFARASSNGDLPTKADLQAQLDSL...AVG&apos;, IU
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="o">!</span>head blastp-msck-pdb.xml
+<div class=" highlight hl-ipython3"><pre><span class="o">!</span>head blastp-pdb-P77338.xml
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, let's do this for the entire set of identifiers.</p>
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;!DOCTYPE BlastOutput PUBLIC &quot;-//NCBI//NCBI BlastOutput/EN&quot; &quot;http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd&quot;&gt;
-&lt;BlastOutput&gt;
-  &lt;BlastOutput_program&gt;blastp&lt;/BlastOutput_program&gt;
-  &lt;BlastOutput_version&gt;BLASTP 2.2.32+&lt;/BlastOutput_version&gt;
-  &lt;BlastOutput_reference&gt;Stephen F. Altschul, Thomas L. Madden, Alejandro A. Sch&amp;amp;auml;ffer, Jinghui Zhang, Zheng Zhang, Webb Miller, and David J. Lipman (1997), &amp;quot;Gapped BLAST and PSI-BLAST: a new generation of protein database search programs&amp;quot;, Nucleic Acids Res. 25:3389-3402.&lt;/BlastOutput_reference&gt;
-  &lt;BlastOutput_db&gt;pdb&lt;/BlastOutput_db&gt;
-  &lt;BlastOutput_query-ID&gt;Query_70475&lt;/BlastOutput_query-ID&gt;
-  &lt;BlastOutput_query-def&gt;unnamed protein product&lt;/BlastOutput_query-def&gt;
-  &lt;BlastOutput_query-len&gt;1120&lt;/BlastOutput_query-len&gt;
-</pre>
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c"># perform all blast queries and write each to file</span>
+<span class="k">for</span> <span class="n">thisid</span> <span class="ow">in</span> <span class="n">record_list</span><span class="p">:</span>
+    <span class="c"># perform blast query</span>
+    <span class="n">result_handle</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">Blast</span><span class="o">.</span><span class="n">NCBIWWW</span><span class="o">.</span><span class="n">qblast</span><span class="p">(</span><span class="s">&#39;blastp&#39;</span><span class="p">,</span> <span class="s">&#39;pdb&#39;</span><span class="p">,</span> <span class="n">record_list</span><span class="p">[</span><span class="n">thisid</span><span class="p">]</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span>
+    
+    <span class="c"># write query to file</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;blast-pdb-{recordid}.xml&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">recordid</span><span class="o">=</span><span class="n">thisid</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">save_file</span><span class="p">:</span>
+        <span class="n">save_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">result_handle</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 
+    <span class="n">result_handle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+</div>
 </div>
 </div>
 
@@ -1353,10 +1390,23 @@ Seq(&apos;MTMFQYYKRSRHFVFSAFIAFVFVLLCQNTAFARASSNGDLPTKADLQAQLDSL...AVG&apos;, IU
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="n">blast_qresult</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">SearchIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&#39;blastp-msck-pdb.xml&#39;</span><span class="p">,</span> <span class="s">&#39;blast-xml&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="o">!</span>ls *.xml
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">blast_qresult</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">SearchIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&#39;blastp-pdb-P77338.xml&#39;</span><span class="p">,</span> <span class="s">&#39;blast-xml&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">blast_qresult</span><span class="p">)</span>
 </pre></div>
 
@@ -1409,7 +1459,7 @@ Seq(&apos;MTMFQYYKRSRHFVFSAFIAFVFVLLCQNTAFARASSNGDLPTKADLQAQLDSL...AVG&apos;, IU
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="k">for</span> <span class="n">blast_hit</span> <span class="ow">in</span> <span class="n">blast_qresult</span><span class="p">:</span>
@@ -1539,10 +1589,49 @@ Quick stats: evalue 4.5; bitscore 31.19
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's focus in on the query range, hit range, and statistics of the HSP to evaluate whether we have <em>real</em> BLAST hits.</p>
+<p>Let's focus in on the query range, hit range, and statistics of the HSP to evaluate whether we have <em>real</em> BLAST hits for each of the query sequences.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="s">&quot;ID&quot;</span><span class="p">,</span> <span class="s">&quot;length&quot;</span><span class="p">,</span> <span class="s">&quot;hit_start&quot;</span><span class="p">,</span> <span class="s">&quot;hit_end&quot;</span><span class="p">,</span> <span class="s">&quot;hit_span&quot;</span><span class="p">,</span>
+        <span class="s">&quot;query_start&quot;</span><span class="p">,</span> <span class="s">&quot;query_end&quot;</span><span class="p">,</span> <span class="s">&quot;query_span&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\t\t</span><span class="s">&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">thisid</span> <span class="ow">in</span> <span class="n">record_list</span><span class="p">:</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;blastp-pdb-{recordid}.xml&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">recordid</span><span class="o">=</span><span class="n">thisid</span><span class="p">)</span>
+    <span class="n">thisresult</span> <span class="o">=</span> <span class="n">Bio</span><span class="o">.</span><span class="n">SearchIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;blast-xml&#39;</span><span class="p">)</span>
+    <span class="n">best_hsp</span> <span class="o">=</span> <span class="n">thisresult</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">thisid</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">record_list</span><span class="p">[</span><span class="n">thisid</span><span class="p">]),</span> <span class="n">best_hsp</span><span class="o">.</span><span class="n">hit_start</span><span class="p">,</span> <span class="n">best_hsp</span><span class="o">.</span><span class="n">hit_end</span><span class="p">,</span> <span class="n">best_hsp</span><span class="o">.</span><span class="n">hit_span</span><span class="p">,</span>
+          <span class="n">best_hsp</span><span class="o">.</span><span class="n">query_start</span><span class="p">,</span> <span class="n">best_hsp</span><span class="o">.</span><span class="n">query_end</span><span class="p">,</span> <span class="n">best_hsp</span><span class="o">.</span><span class="n">query_span</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\t\t</span><span class="s">&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>ID		length		hit_start		hit_end		hit_span		query_start		query_end		query_span
+P0A742		136		20		114		94		2		106		104
+P77338		1120		68		284		216		884		1102		218
+P39285		1107		28		278		250		828		1084		256
+P0C0S1		286		20		306		286		0		286		286
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
     </div>
   </div>
