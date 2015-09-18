@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="utf-8" />
-<title>e05</title>
+<title>l38_efficient_genomic_queries</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -378,7 +378,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercise-5">Exercise 5<a class="anchor-link" href="#Exercise-5">&#182;</a></h1>
+<h1 id="Lesson-38:-Interval-trees-and-efficient-genomic-queries">Lesson 38: Interval trees and efficient genomic queries<a class="anchor-link" href="#Lesson-38:-Interval-trees-and-efficient-genomic-queries">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -387,7 +387,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><em>This exercise was generated from a Jupyter notebook.  You can download the notebook <a href="e05.ipynb">here</a>.</em></p>
+<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l38_efficient_genomic_queries.ipynb">here</a>.</em></p>
 
 </div>
 </div>
@@ -397,8 +397,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Problem-5.1:-Growth-curves-from-a-movie">Problem 5.1: Growth curves from a movie<a class="anchor-link" href="#Problem-5.1:-Growth-curves-from-a-movie">&#182;</a></h2><p>At the dawn of the molecular revolution in biology, key experiments by Jacques Monod in which he measured growth curves of bacteria under different conditions exposed some of the mechanisms of regulation of gene expression.  Those growth curves were measured in a bulk solution..  In this exercise, we will measure bacterial growth starting from a <em>two bacteria</em>.  The movie shows <em>Bacillus subtilis</em> constitutively expressing mCherry growing under slow growth conditions.  These data were kindly donated by Jin Park from the Elowitz lab here at Caltech.</p>
-<p><strong>a)</strong> Load in the series of images contained in the directory created when you unzipped <a href="http://bois.caltech.edu/bootcamp/bacterial_growth.zip"><code>bacterial_growth.zip</code></a>.  Be sure that however you store them (a list or tuple or other object) has the frames in the proper order.</p>
+<p>A common application when manipulating genomic data are queries on genomic intervals. For example, trying to find all genes within a given genomic region or identifying other transcript isoforms that overlap a gene of interest.</p>
+<p>The naive approach of simply storing all features and searching for it through iteration can be very inefficient especially for large datasets (such as those that are common in genomics).</p>
 
 </div>
 </div>
@@ -408,7 +408,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>b)</strong> Segment the images to separate bacteria from background.  You do not need to segment individual bacteria; this would likely require some more advanced techniques involving edge detection that we haven't covered in bootcamp.</p>
+<p>Because of the nature of genomic intervals, there are more efficient data structures that enable faster queries based on position.</p>
+<p>The approach used is based on a general class of solutions and datastructures known as an Interval Tree</p>
 
 </div>
 </div>
@@ -418,7 +419,9 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>c)</strong> Show a representative image from the stack (with the segmentation overlayed in green) of images with a 10 µm scale bar burned in.</p>
+<p>There is an implementation of an Interval Tree in python that can be installed as follows:</p>
+
+<pre><code>pip install intervaltree</code></pre>
 
 </div>
 </div>
@@ -428,7 +431,69 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>d)</strong> Plot a growth curve for this growing colony.  What values should be on the $y$-axis?  (This is one of those times where I ask an open question for which there is no "right" answer.)</p>
+<p>Now that we have this installed, let's explore the functionality a bit.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="kn">import</span> <span class="nn">intervaltree</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, let's build a tree from a set of genes:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">tree</span> <span class="o">=</span> <span class="n">intervaltree</span><span class="o">.</span><span class="n">IntervalTree</span><span class="p">()</span> <span class="c"># Initialize an empty tree</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;chr3.genes.bed&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">tokens</span><span class="o">=</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">)</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">addi</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We now have a tree that contains the positions of all genes on mouse chromosome 3</p>
 
 </div>
 </div>
@@ -438,30 +503,231 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>e)</strong> Perform a regression on this growth curve to estimate the time constant for the exponential growth.  Be sure to check out the <code>README</code> file in the directory containing the images to get the appropriate metadata.</p>
+<p>Let's find all genes at a specific location. We'll use the Sox2 locus, which has these 2 genes
+<img src="Sox2Locus.png" alt="some text"></p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">tree</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="mi">34548927</span><span class="p">,</span> <span class="mi">34551382</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{Interval(34459302, 34576915, &apos;NR_015580&apos;),
+ Interval(34548926, 34551382, &apos;NM_011443&apos;)}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
+<p>But, you can even look at larger regions such as the following one with many genes:
+<img src="largerLocus.png" alt="some text"></p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">tree</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="mi">26156916</span><span class="p">,</span> <span class="mi">39409396</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{Interval(25330762, 26230831, &apos;NM_138666&apos;),
+ Interval(26536552, 26826403, &apos;NM_027583&apos;),
+ Interval(26536552, 26882134, &apos;NM_029150&apos;),
+ Interval(26996143, 27052776, &apos;NM_001177625&apos;),
+ Interval(26996143, 27052776, &apos;NM_007900&apos;),
+ Interval(26996143, 27052800, &apos;NM_001177626&apos;),
+ Interval(27052947, 27055941, &apos;NR_040548&apos;),
+ Interval(27081925, 27143833, &apos;NM_178772&apos;),
+ Interval(27215998, 27238587, &apos;NM_009425&apos;),
+ Interval(27270272, 27276932, &apos;NM_177330&apos;),
+ Interval(27315083, 27609361, &apos;NM_173182&apos;),
+ Interval(27483821, 27483917, &apos;NR_037275&apos;),
+ Interval(27764986, 27795290, &apos;NM_001164437&apos;),
+ Interval(27837601, 28032284, &apos;NM_001164056&apos;),
+ Interval(27883092, 28032284, &apos;NM_008875&apos;),
+ Interval(28162135, 28565371, &apos;NM_001163009&apos;),
+ Interval(28162135, 28569507, &apos;NM_001163007&apos;),
+ Interval(28162135, 28569507, &apos;NM_001163008&apos;),
+ Interval(28162135, 28569507, &apos;NM_026910&apos;),
+ Interval(28318864, 28318940, &apos;NR_130342&apos;),
+ Interval(28596824, 28627282, &apos;NM_031197&apos;),
+ Interval(28680232, 28697768, &apos;NM_177586&apos;),
+ Interval(28704432, 28706337, &apos;NM_026517&apos;),
+ Interval(28791538, 28825646, &apos;NM_001033479&apos;),
+ Interval(28981498, 29589978, &apos;NM_001167748&apos;),
+ Interval(28981498, 29589978, &apos;NM_029412&apos;),
+ Interval(29315744, 29315842, &apos;NR_030422&apos;),
+ Interval(29535665, 29535773, &apos;NR_105796&apos;),
+ Interval(29789938, 29823113, &apos;NR_110437&apos;),
+ Interval(29850217, 29912126, &apos;NM_007963&apos;),
+ Interval(30135490, 30408409, &apos;NM_021442&apos;),
+ Interval(30495994, 30498792, &apos;NM_029690&apos;),
+ Interval(30501008, 30518795, &apos;NM_001289621&apos;),
+ Interval(30501008, 30518795, &apos;NM_001289622&apos;),
+ Interval(30501008, 30518795, &apos;NM_001289623&apos;),
+ Interval(30501008, 30518795, &apos;NM_030557&apos;),
+ Interval(30523188, 30546740, &apos;NM_027941&apos;),
+ Interval(30543428, 30571353, &apos;NM_026668&apos;),
+ Interval(30546807, 30571353, &apos;NM_001290510&apos;),
+ Interval(30577475, 30598765, &apos;NM_001309233&apos;),
+ Interval(30645214, 30666096, &apos;NM_029489&apos;),
+ Interval(30645214, 30666096, &apos;NR_028060&apos;),
+ Interval(30691797, 30720185, &apos;NM_027016&apos;),
+ Interval(30754871, 30796116, &apos;NM_001134385&apos;),
+ Interval(30754871, 30796116, &apos;NM_001134386&apos;),
+ Interval(30754871, 30796116, &apos;NM_001286994&apos;),
+ Interval(30754871, 30796116, &apos;NM_001286995&apos;),
+ Interval(30754871, 30796116, &apos;NM_001286996&apos;),
+ Interval(30754871, 30796116, &apos;NM_027965&apos;),
+ Interval(30798216, 30868337, &apos;NM_001165954&apos;),
+ Interval(30798216, 30868337, &apos;NM_001165955&apos;),
+ Interval(30798216, 30868337, &apos;NM_001165956&apos;),
+ Interval(30798216, 30868337, &apos;NM_153421&apos;),
+ Interval(30894692, 30951662, &apos;NM_008857&apos;),
+ Interval(30937887, 30937950, &apos;NR_105975&apos;),
+ Interval(30993979, 31021845, &apos;NM_001039090&apos;),
+ Interval(30993979, 31021845, &apos;NM_001271772&apos;),
+ Interval(30993979, 31021845, &apos;NM_011386&apos;),
+ Interval(31048841, 31063248, &apos;NM_008770&apos;),
+ Interval(31101777, 31209241, &apos;NM_172861&apos;),
+ Interval(31801624, 32099102, &apos;NM_028231&apos;),
+ Interval(32233715, 32264587, &apos;NM_009517&apos;),
+ Interval(32264410, 32266360, &apos;NR_027966&apos;),
+ Interval(32335072, 32367408, &apos;NM_008839&apos;),
+ Interval(32371242, 32390891, &apos;NM_001195074&apos;),
+ Interval(32409471, 32419755, &apos;NM_001161818&apos;),
+ Interval(32409513, 32419755, &apos;NM_144519&apos;),
+ Interval(32428403, 32478147, &apos;NM_024200&apos;),
+ Interval(32482449, 32515457, &apos;NM_013531&apos;),
+ Interval(32607467, 32625893, &apos;NM_019673&apos;),
+ Interval(32626418, 32635677, &apos;NM_029017&apos;),
+ Interval(32635984, 32650481, &apos;NM_025316&apos;),
+ Interval(32716547, 32834179, &apos;NM_001013024&apos;),
+ Interval(32846847, 32884001, &apos;NM_001163517&apos;),
+ Interval(32846847, 32981982, &apos;NM_001289505&apos;),
+ Interval(32846847, 32981982, &apos;NM_001310460&apos;),
+ Interval(32846847, 32981982, &apos;NM_021483&apos;),
+ Interval(32846847, 33042113, &apos;NM_001163516&apos;),
+ Interval(32923698, 32987529, &apos;NR_040595&apos;),
+ Interval(33699104, 33713782, &apos;NM_001290500&apos;),
+ Interval(33699104, 33713782, &apos;NM_001290502&apos;),
+ Interval(33699104, 33713782, &apos;NM_025978&apos;),
+ Interval(33699104, 33713782, &apos;NM_027619&apos;),
+ Interval(33711282, 33743232, &apos;NM_026222&apos;),
+ Interval(33919000, 33968266, &apos;NM_001113188&apos;),
+ Interval(33919000, 33968266, &apos;NM_001113189&apos;),
+ Interval(33919000, 33968266, &apos;NM_008053&apos;),
+ Interval(33956201, 33980276, &apos;NM_001026211&apos;),
+ Interval(33976206, 33980276, &apos;NM_001286973&apos;),
+ Interval(33976206, 33980276, &apos;NM_026332&apos;),
+ Interval(33976272, 33980276, &apos;NM_001286972&apos;),
+ Interval(34459302, 34576915, &apos;NR_015580&apos;),
+ Interval(34537385, 34537464, &apos;NR_035433&apos;),
+ Interval(34548926, 34551382, &apos;NM_011443&apos;),
+ Interval(34598561, 34615584, &apos;NR_038347&apos;),
+ Interval(34608544, 34615584, &apos;NR_038348&apos;),
+ Interval(34670996, 34681268, &apos;NR_110488&apos;),
+ Interval(34821466, 34821573, &apos;NR_105799&apos;),
+ Interval(35496073, 35565085, &apos;NR_040748&apos;),
+ Interval(35653059, 35755198, &apos;NM_029570&apos;),
+ Interval(35791026, 35828996, &apos;NM_033623&apos;),
+ Interval(35791026, 35831256, &apos;NM_001205362&apos;),
+ Interval(35791026, 35831888, &apos;NM_001205361&apos;),
+ Interval(35858230, 35899600, &apos;NM_023644&apos;),
+ Interval(35898834, 35907750, &apos;NR_029456&apos;),
+ Interval(35906168, 35952469, &apos;NM_178418&apos;),
+ Interval(35964921, 35991779, &apos;NM_172678&apos;),
+ Interval(36050001, 36069263, &apos;NM_001101478&apos;),
+ Interval(36078347, 36121197, &apos;NM_198192&apos;),
+ Interval(36347845, 36374809, &apos;NM_009673&apos;),
+ Interval(36374382, 36374446, &apos;NR_105976&apos;),
+ Interval(36374858, 36381221, &apos;NM_028183&apos;),
+ Interval(36398725, 36405731, &apos;NR_040590&apos;),
+ Interval(36413978, 36420367, &apos;NR_040411&apos;),
+ Interval(36451527, 36464649, &apos;NM_019393&apos;),
+ Interval(36463786, 36470918, &apos;NM_009828&apos;),
+ Interval(36472064, 36512311, &apos;NM_027810&apos;),
+ Interval(36519403, 36589089, &apos;NM_019510&apos;),
+ Interval(36762027, 36951955, &apos;NM_172679&apos;),
+ Interval(36962577, 37010434, &apos;NM_009350&apos;),
+ Interval(37019641, 37024876, &apos;NM_008366&apos;),
+ Interval(37121680, 37131558, &apos;NM_001291041&apos;),
+ Interval(37121680, 37131558, &apos;NM_021782&apos;),
+ Interval(37207548, 37211368, &apos;NM_145825&apos;),
+ Interval(37211475, 37220372, &apos;NM_001255992&apos;),
+ Interval(37211475, 37220373, &apos;NM_001008502&apos;),
+ Interval(37247574, 37303752, &apos;NM_008006&apos;),
+ Interval(37303903, 37318518, &apos;NM_001291044&apos;),
+ Interval(37303903, 37318518, &apos;NM_153561&apos;),
+ Interval(37318871, 37478018, &apos;NM_001163511&apos;),
+ Interval(37318871, 37478018, &apos;NM_001310473&apos;),
+ Interval(37318871, 37478018, &apos;NM_021343&apos;),
+ Interval(37508812, 37514198, &apos;NR_130162&apos;),
+ Interval(37512834, 37514198, &apos;NR_130161&apos;),
+ Interval(37512834, 37514198, &apos;NR_130163&apos;),
+ Interval(37538868, 37543521, &apos;NM_001305440&apos;),
+ Interval(37538868, 37543521, &apos;NM_001305441&apos;),
+ Interval(37538868, 37543521, &apos;NM_001305442&apos;),
+ Interval(37538868, 37543521, &apos;NM_011896&apos;),
+ Interval(37613111, 37623282, &apos;NM_198657&apos;),
+ Interval(37797734, 37891650, &apos;NR_040559&apos;),
+ Interval(38102072, 38107041, &apos;NR_040541&apos;),
+ Interval(38348182, 38383738, &apos;NM_001167883&apos;),
+ Interval(38785861, 38910905, &apos;NM_183221&apos;)}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Problem-5.2:-Beak-depth-and-lengths">Problem 5.2: Beak depth and lengths<a class="anchor-link" href="#Problem-5.2:-Beak-depth-and-lengths">&#182;</a></h2><p>In <a href="e04.html">Exercise 4</a>, you munged and plotted some data on beak widths and depths of Darwin's finches.  In this problem, we will work to quantify these data.  We will perform a simple analysis in which we perform a linear regression to get the dependence of beak depth on beak length.</p>
-<p><strong>a)</strong> Perform a linear regression on each of the ten (year-species) pairs.  Show your regression line on plots like you make in Exercise 4.</p>
-<p><strong>b)</strong> Comment on the observed slopes and how they change over time.</p>
-<p><strong>c)</strong> Perform any other analysis on the data that you see fit or are curious about.</p>
+<p>The return type is a <code>set</code> and so any standard iteration methods will work for going through the list.</p>
 
 </div>
 </div>
