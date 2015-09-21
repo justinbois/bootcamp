@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="utf-8" />
-<title>l28_ld_dist</title>
+<title>l44_bootcamp_recap</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -378,7 +378,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-28:-The-Luria-Delbr&#252;ck-distribution">Lesson 28: The Luria-Delbr&#252;ck distribution<a class="anchor-link" href="#Lesson-28:-The-Luria-Delbr&#252;ck-distribution">&#182;</a></h1>
+<h1 id="Lesson-44:-Bootcamp-recap">Lesson 44: Bootcamp recap<a class="anchor-link" href="#Lesson-44:-Bootcamp-recap">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -387,8 +387,17 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l28_ld_dist.ipynb">here</a>.</em></p>
+<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l44_bootcamp_recap.ipynb">here</a>.</em></p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Hello,-world"><code>Hello, world</code><a class="anchor-link" href="#Hello,-world">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -397,162 +406,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># NumPy, of course</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="c"># This is how we import the module of Matplotlib we&#39;ll be using</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="c"># Seaborn makes plots pretty!</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-
-<span class="c"># Magic function to make matplotlib inline; other style specs must come AFTER</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-
-<span class="c"># Set JB&#39;s favorite Seaborn settings</span>
-<span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;lines.linewidth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;axes.labelsize&#39;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="s">&#39;axes.titlesize&#39;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> 
-    <span class="s">&#39;axes.facecolor&#39;</span><span class="p">:</span> <span class="s">&#39;DFDFE5&#39;</span><span class="p">}</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s">&#39;notebook&#39;</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="n">rc</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this tutorial, we will use your newfound computational skills to analyze a classic problem in biology.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>When mutations occur in nature, they are often deleterious to the organism. However, mutations are a critical part of the genetic heritage of living organisms, arising in every type of organism and allowing life to evolve and adapt to new environments.  In 1943, the question of how microorganisms acquire mutations was described in a famous article by Salvador Luria and Max Delbrück (<a href="http://www.genetics.org/content/28/6/491.full.pdf">S. E. Luria and M. Delbrück, <em>Genetics</em>, <strong>28</strong>, 491–511, 1943</a>). At the time, there were two prominent theories of genetic inheritance. Scientists did not know if mutations arose randomly in the absence of an environmental cue, the "random mutation hypothesis", or whether they occur as an adaptive response to an environmental stimulus, the "adaptive immunity hypothesis." See the figure below.</p>
-<p><br />
-<img src="ld_hypotheses.png" alt="Competing hypotheses">
-<br /></p>
-<p>To test these two hypotheses, Luria and Delbrück grew many parallel cultures of bacteria and then plated each culture on agar containing phages (which infect and kill nearly all of the bacteria). Although most bacteria are unable to survive in the presence of phages, often mutations could enable a few survivors to give rise to resistant mutant colonies. If the adaptive immunity hypothesis is correct, mutations occur only after bacteria come in contact with phages, thus only after plating the bacteria on phage-agar plates.  Under the random mutation hypothesis, some bacteria already have the immunity before being exposed.</p>
-<p>The number of colonies that survive after plating is the number of cells, $n$ that survived.  In this lesson, we will compute the probability mass function, $P(n;N, r)$, describing the probability that $n$ cells out of a total of $N$ survive, given that the mutation rate is $r$ mutations per cell per replication.  We will do this for both hypotheses.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-adaptive-immunity-hypothesis">The adaptive immunity hypothesis<a class="anchor-link" href="#The-adaptive-immunity-hypothesis">&#182;</a></h2><p>Under the adaptive immunity hypothesis, no cells undergo mutations prior to exposure to phage.  Upon exposure, the probability that a given cell mutates is $r$.  What is the probability that $n$ out of a total of $N$ cells is mutated?  There are two components to this probability.  First, there is the chance that cells 1 through $n$ are mutated and cells $n+1$ through $N$ are not.  Since
-the cells have independent chances of mutation, this is $r^n(1-r)^{N-n}$.  But, we arbitrarily labeled the cells.  We have to also take into account the number of ways to label the cells that are mutated.  There are</p>
-\begin{align}
-\begin{pmatrix}N \\ n \end{pmatrix} = \frac{N!}{n!(N-n)!}
-\end{align}<p>(pronounced "$N$ choose $n$") waysto do this.  Thus, we have</p>
-\begin{align}
-  P_{ai}(n;N, r) = \frac{N!}{n!(N-n)!}\,r^n(1-r)^{N-n},
-\end{align}<p>the probability of having exactly $n$ out of $N$ cells be mutated. This probability distribution is called the <strong>binomial distribution</strong>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-random-mutation-hypothesis">The random mutation hypothesis<a class="anchor-link" href="#The-random-mutation-hypothesis">&#182;</a></h2><p>The probability distribution for the random mutation hypothesis (the so-called Luria-Delbrück distribution) is much more difficult to calculate.  Luria and Delbrück computed it asymptotically.  Its exact form was not derived until six years after the Luria-Delbrück experiment by Lea and Coulson.  The resulting expression for the distribution is a giant mess and very difficult to interpret.  An easier way to compute the distribution, now that we have powerful computers, is to <em>simulate</em> the process of acquiring mutations with a Monte Carlo simulation.  We are then sampling out of the probability distribution and we can therefore compute the approximate distribution.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Sampling-the-distributions">Sampling the distributions<a class="anchor-link" href="#Sampling-the-distributions">&#182;</a></h2><p>We will now write code to sample the distributions and compute the means and variances of the distributions.  In our calculations, we assume $N \propto t \propto g$, where $t$ is the amount of time the bacteria grew before innoculations, and $g$ is the number of generations that occured during that growth.  So, we can treat $N$ as the same for each of the hypotheses.</p>
-<p>For our sampling, we will assume the experiment was done after 16 generations (for a total of $N = 2^{15} \approx 1$ million cells) with a mutation rate of $10^{-5}$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Specify parameters</span>
-<span class="n">n_gen</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">5</span>
-
-<span class="c"># Total number of cells</span>
-<span class="n">n_cells</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">n_gen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="The-adaptive-immunity-hypothesis">The adaptive immunity hypothesis<a class="anchor-link" href="#The-adaptive-immunity-hypothesis">&#182;</a></h3><p>We already know that the adaptive mutation hypothesis results in the number of survivors being binomially distributed, so there is really no need to sample the distribution.  We also already know the mean and variance, which we can compute analytically (or look up on Wikipedia).</p>
-\begin{align}
-\text{mean} &= \langle n \rangle = Nr \\
-\text{variance} &= Nr(1-r) \approx Nr \text{ for } r \ll 1.
-\end{align}<p>So, the ratio of the mean to the variance, the so-called <strong>Fano factor</strong> is approximately unity.</p>
-<p>Nonetheless, just for fun, we will sample out of the binomial distribution.  The <code>np.random.binomial()</code> function allows us to do this.  Let's take 100,000 samples.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Draw 100000 binomial samples</span>
-<span class="n">ai_samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="n">n_cells</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can compute the mean, variance, and Fano factor for the adaptive immunity hypothesis.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">Adaptive immunity hypothesis</span>
-<span class="s">----------------------------</span>
-<span class="s">mean:        {mean:.4f}</span>
-<span class="s">variance:    {var:.4f}</span>
-<span class="s">Fano factor: {fano:.4f}</span>
-<span class="s">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="n">ai_samples</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">var</span><span class="o">=</span><span class="n">ai_samples</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
-           <span class="n">fano</span><span class="o">=</span><span class="n">ai_samples</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">ai_samples</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="s">&#39;hello, world&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -565,13 +419,7 @@ the cells have independent chances of mutation, this is $r^n(1-r)^{N-n}$.  But, 
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>
-Adaptive immunity hypothesis
-----------------------------
-mean:        0.3245
-variance:    0.3250
-Fano factor: 1.0016
-
+<pre>hello, world
 </pre>
 </div>
 </div>
@@ -585,718 +433,116 @@ Fano factor: 1.0016
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>These are, of course, what we expect for the binomial distribution.  Importantly, the Fano factor is always expected to be unity, regardless of the mutation rate.  If we plot a histogram of the distribution, we will also find it is binomial.</p>
+<h1 id="Command-line-mastery">Command line mastery<a class="anchor-link" href="#Command-line-mastery">&#182;</a></h1><p>"Ugh.  I'm just going to do it on the command line."  --Anders</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Plot histogram, but it&#39;s a probability mass function, so no need for bins</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">ai_samples</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">ai_samples</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">linestyle</span><span class="o">=</span><span class="s">&#39;None&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Number of survivors&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Probability&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ai_samples</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">));</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="mf">0.02</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-SUVORK5CYII=
-"
->
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="The-random-mutation-hypothesis">The random mutation hypothesis<a class="anchor-link" href="#The-random-mutation-hypothesis">&#182;</a></h3><p>For the random mutation hypothesis, we note that each generation may have mutations.  The number of mutations, as we just learned, is binomally distributed.  So, for each generation, we need to draw a number of mutants from a binomial distribution.  The number of possible cells that can have the mutation is equal to those who have not already mutated.  I.e., the number of cells that can have a mutation in generation $g$ is</p>
-\begin{align}
-N_g = 2^g - 2n_{g-1},
-\end{align}<p>where $g$ is the generation and $n_{g-1}$ is the number of mutant cells in generation $g-1$.  We are just subtracting out the cells that have already mutated.</p>
+<h1 id="Scripting">Scripting<a class="anchor-link" href="#Scripting">&#182;</a></h1><p>You now have a very efficient assistant.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">draw_random_mutation</span><span class="p">(</span><span class="n">n_gen</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Draw a sample out of the Luria-Delbruck distribution&quot;&quot;&quot;</span>
-    <span class="c"># Initialize number of mutants</span>
-    <span class="n">n_mut</span> <span class="o">=</span> <span class="mi">0</span>
-    
-    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_gen</span><span class="p">):</span>
-        <span class="n">n_mut</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_mut</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">g</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_mut</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
-        
-    <span class="k">return</span> <span class="n">n_mut</span>
-
-
-<span class="k">def</span> <span class="nf">sample_random_mutation</span><span class="p">(</span><span class="n">n_gen</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sample out of the Luria-Delbruck distribution&quot;&quot;&quot;</span>
-    <span class="c"># Initialize samples</span>
-    <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
-    
-    <span class="c"># Draw the samples</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
-        <span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">draw_random_mutation</span><span class="p">(</span><span class="n">n_gen</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
-        
-    <span class="k">return</span> <span class="n">samples</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Because compiling it with <code>numba</code> is trivial, we add the <code>numba</code> compilation decorators.  Let's go ahead and draw 100,000 samples.</p>
+<h1 id="Version-control">Version control<a class="anchor-link" href="#Version-control">&#182;</a></h1><p>You can now sleep easy</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="n">rm_samples</span> <span class="o">=</span> <span class="n">sample_random_mutation</span><span class="p">(</span><span class="n">n_gen</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="nb">print</span><span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">Random mutation hypothesis</span>
-<span class="s">--------------------------</span>
-<span class="s">mean:        {mean:.4f}</span>
-<span class="s">variance:    {var:.4f}</span>
-<span class="s">Fano factor: {fano:.4f}</span>
-<span class="s">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="n">rm_samples</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">var</span><span class="o">=</span><span class="n">rm_samples</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
-           <span class="n">fano</span><span class="o">=</span><span class="n">rm_samples</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">rm_samples</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-Random mutation hypothesis
---------------------------
-mean:        5.9032
-variance:    42154.5811
-Fano factor: 7141.0075
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Wow!  The Fano factor is huge!  Even though the mean is small, we have samples that have a huge number of survivors.  This makes sense, as a cell may acquire a mutation in an early generation, and this then gets propagated forward in time.  Let's plot the distribution.</p>
+<p>...and the bootcamp now has code on the internet for all!</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Plot histogram, but it&#39;s a probability mass function, so no need for bins</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">rm_samples</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">rm_samples</span><span class="p">),</span> 
-             <span class="n">marker</span><span class="o">=</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&#39;None&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Number of survivors&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Probability&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="mf">0.02</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfcAAAFtCAYAAAAaiCMCAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
-AAALEgAACxIB0t1+/AAAIABJREFUeJzt3XuYXWV59/HvJCFqYBCBUahWwVpvtQWtHIKAVaFQraIo
-WqTVKpZgQVG0FRGtbfWN5+ABSVXqoShIRaCiWK7WFyg0alqrBTzdvgalaEEDKImkHJLM+8dam+xs
-9szsPbNn1p5nvp/rmmuyDnvte+/nyvzWetaz1hoZHx9HkiSVY1HTBUiSpMEy3CVJKozhLklSYQx3
-SZIKY7hLklQYw12SpMIsabqAQdm8ecv4L36xqekyBDzkIcuwLYaDbTEcbIfhUVpbjI2NjnSbX8yR
-+5Ili5suQTXbYnjYFsPBdhgeC6Utigl3SZJUMdwlSSqM4S5JUmEMd0mSCmO4S5JUGMNdkqTCGO6S
-JBXGcJckqTCGuyRJhTHcJUkqTGP3lo+IRcBqYF/gbuCEzFzXtvx1wJ8C6+tZr8zMH8x5oZIkzTNN
-PjjmaGBpZh4cEcuBVfW8licDL83MbzVSnSRJ81ST3fKHAJcDZOZaYP+O5fsBZ0TENRFx+lwXJ0nS
-fNVkuO8MbGib3lJ31bd8FnglcBhwaEQ8ey6LkyRpvmoy3DcAo23TizJza9v0BzPz9sy8F7gM+J05
-rU6SpHmqyXPua4CjgAsj4iDgutaCiHgwcF1EPAHYRHX0/vGpNjg2NjrVKpojtsXwsC2Gg+0wPBZC
-W4yMj4838sYRMcK20fIAx1OdZ98pM8+JiOOA11GNpP9KZv7NFJscX79+46zVq96NjY1iWwwH22I4
-2A7Do7S2GBsbHek2v7FwnwWG+5Ao7T/PfGZbDAfbYXiU1hYThbs3sZEkqTCGuyRJhTHcJUkqjOEu
-SVJhDHdJkgpjuEuSVBjDXZKkwhjukiQVxnCXJKkwhrskSYUx3CVJKozhLklSYQx3SZIKY7hLklQY
-w12SpMIY7pIkFcZwlySpMIa7JEmFMdwlSSqM4S5JUmEMd0mSCmO4S5JUGMNdkqTCGO6SJBXGcJck
-qTCGuyRJhTHcJUkqjOEuSVJhDHdJkgpjuEuSVBjDXZKkwhjukiQVxnCXJKkwhrskSYUx3CVJKozh
-LklSYQx3SZIKY7hLklQYw12SpMIY7pIkFcZwlySpMIa7JEmFMdwlSSqM4S5JUmEMd0mSCmO4S5JU
-GMNdkqTCGO6SJBXGcJckqTBLmnrjiFgErAb2Be4GTsjMdV3W+xhwW2a+aY5LlCRpXmryyP1oYGlm
-HgycDqzqXCEiXgn8NjA+x7VJkjRvNRnuhwCXA2TmWmD/9oURcTBwIPBRYGTOq5MkaZ5qMtx3Bja0
-TW+pu+qJiD2BtwKvxmCXJKkvjZ1zpwr20bbpRZm5tf73C4HdgS8DewDLIuJ7mXnuZBscGxudbLHm
-kG0xPGyL4WA7DI+F0BZNhvsa4Cjgwog4CLiutSAzzwLOAoiIlwGPmyrYAdav3zhLpaofY2OjtsWQ
-sC2Gg+0wPEpri4l2VJoM90uAIyJiTT19fEQcB+yUmed0rOuAOkmSetRYuGfmOHBSx+wfdFnv7+em
-IkmSyuBNbCRJKozhLklSYQx3SZIKY7hLklQYw12SpMIY7pIkFcZwlySpMIa7JEmFMdwlSSqM4S5J
-UmEMd0mSCmO4S5JUGMNdkqTCGO6SJBXGcJckqTCGuyRJhTHcJUkqjOEuSVJhDHdJkgpjuEuSVBjD
-XZKkwhjukiQVxnCXJKkwhrskSYUx3CVJKozhLklSYQx3SZIKY7hLklQYw12SpMIY7pIkFcZwlySp
-MIa7JEmFMdwlSSqM4S5JUmEMd0mSCmO4S5JUmJ7DPSIePJuFSJKkwVjSx7o/i4h/As4HvpiZd81S
-TZIkaQb6CfcPAMcCzwM2RsQXgM8C/5yZW2ajOEmS1L+eu+Uz8/TM3Bs4BPgU8HvAZcDNEbE6Ig6d
-nRIlSVI/+h5Ql5lfy8zXAo8ADgPOq39fHRE3RsQ7IyIGXKckSerRtEfLZ+ZWYBNwZ/0bYBfgz4Dv
-RcQ/RsTYzEuUJEn96OecOwARcQDwh8ALgUcBdwNfBlYCX6pXOw5YDVwAHD6QSiVJUk96DveIeDfw
-ImAvYCtwFfB24OLM/GXH6p+KiOcCRw6mTEmS1Kt+jtzfAHwTOAu4IDNvnmL9NcDXpluYJEmann7C
-/XGZ+YOJFkbEYuCRmfkjgMxcNdPiJElS//oZUPf9iPijSZa/DPivGdYjSZJmaMIj94j4NeAIYBwY
-qWc/NSK6vWYR8MeDL0+SJPVrsm75W4EzgN9sm/fK+mciZw2iKEmSNH0Thntm3hMRRwJ717OuAN4B
-fKXL6luA9Zn5/V7fOCIWUV0uty/V5XQnZOa6tuXHAG+k6jk4LzM/1Ou2JUlayCYdUJeZNwI3AkTE
-K4B/bQ2YG4CjgaWZeXBELAdW1fNag/PeCexHdZOc70bEZzLz9gG9tyRJxern3vKfGmCwQ3WP+svr
-ba8F9m97ry1Uo/M3AmPAYuCeAb63JEnFmmxA3VbgJZl5ftt0++C6dq3545m5uMf33hnY0Da9JSIW
-1be1JTO3RsQLgA9T3fluU5dtSJKkDpN1y58L3NAxPZXxPt57AzDaNn1fsLdk5sURcQnVU+j+pP49
-obGx0ckWaw7ZFsPDthgOtsPwWAhtMdmAupdPNj0Aa4CjgAsj4iDgutaCiNgZ+CJwRD2w706qQXuT
-Wr9+44BL1HSMjY3aFkPCthgOtsPwKK0tJtpR6fvBMQN0CXBERKypp4+PiOOAnTLznIj4DNVjZO8F
-rgU+01ShkiTNJyPj49170iPiR/TXzd465/7oQRQ2DeMl7Y3NZ6XtGc9ntsVwsB2GR2ltMTY22m0c
-3KRH7jdO43362RmQJEmzYLJz7k+fwzokSdKA9PPgGEmSNA9Mdp37j4DXZualbdOTdbs3fc5dkiQx
-9Tn3TR3TU/GcuyRJDev5nLvn4CVJmh+mdZ17RDwU2IvqxjI3ZOYvBlmUJEmavr7CPSIOB94NPLlj
-/tXA6zLzWwOsTZIkTUPP4V4/2/0y4A7gQ1T3nR8BHgu8BLgmIp6Wmf85G4VKkqTe9HPk/jZgHfCU
-zm74iHgb8HXgvcBhgytPkiT1q5/r3J8IfKTb+fXM/BlwNnDQoAqTJEnT00+43wyMTbJ8CXDrzMqR
-JEkz1U+4rwROjYhndi6IiCcBrwfeN6jCJEnS9Ex2h7or2f6mNCPAVuCyiPg2kPXyvYH9gNuB/Wev
-VEmS1IvJBtTtTRXe7Y+Tu63+eTBwYNv8m+rfTx1odZIkqW+T3aFurzmsQ5IkDchAnwoXEZMNuJMk
-SXOg3zvUnQT8PrAT2+8YLAF2Bp4ALB1YdZIkqW/93KHuNOBdwN3ARmB3qnPtuwMPonpqnKPlJUlq
-WD/d8scD1wIPZdvNag6jGlz3KmA34JMDrU6SJPWtn3DfCzg3Mzdm5g3AL4CnZubmzPxbqvvOv30W
-apQkSX3oJ9zvBTa0Tf8Q2Kdt+krgiEEUJUmSpq+fcP8+cEjbdLL9TWt2AXYYRFGSJGn6+hkt/wlg
-dUQ8AHgl8AXgwoj4a+B7wKnAdQOvUJIk9aXncM/Mj0TEI4BXA/cAlwBfAt5ar7IBeOPAK5QkSX3p
-6yY2mfkWYCwz78nMrZn5XODpwDHAYzNzzSzUKEmS+tDXTWwAMvPeiHgo1ej5LcD13Z7xLkmSmtHv
-HeoOB94NPLlj/tXA6zLzWwOsTZIkTUM/d6g7kupa9juADwE3UD0x7rHAS4BrIuJpmfmfs1GoJEnq
-TT9H7m8D1gFP6eyGj4i3AV8H3kt11zpJktSQfgbUPRH4SLfz65n5M+Bstt2WVpIkNaSfcL8ZmOyR
-rkuAW2dWjiRJmql+wn0lcGpEPLNzQUQ8CXg9PhVOkqTGTXjOPSKuBMbbZo0AW4HLIuLbVLefHQf2
-BvYDbmf729FKkqQGTDagbm+q8B5pm3db/fNg4MC2+TfVv5860OokSVLfJgz3zNxrDuuQJEkD0vcd
-6iJiMVX3+6Oo7jF/k9e2S5I0PPq9Q91RwGrg4R3z/wc4OTMvHWBtkiRpGnoeLR8RTwUuqiffBDyf
-6oExZ1ANtPt8RBwywcslSdIc6efI/a+BG4H9M/OO9gURsRr4BvAW4FkDq06SJPWtn+vcDwTO6Qx2
-gMzcAPwd3qFOkqTG9fU8d7a/7r3bsh1mUIskSRqAfsJ9LfCnEbFT54KIGAVOAP5jUIVJkqTp6eec
-+98AVwHfjogPU92hDuDxwMnAI4CTBlqdJEnqW8/hnpnXRMTzqZ7+9p6OxTcDx2bmFYMsTpIk9a/n
-cI+IXTPz0oj4MvBkqtvTjgA/Br6RmZtnp0RJktSPfrrlr42Ij2Xm24F/r38kSdKQ6WdA3e7ALbNV
-iCRJGox+wv184ISI2GO2ipEkSTPXT7f8FuAJwE0R8UPg5/W87WTmYb1sLCIWUd2nfl/gbuCEzFzX
-tvw44LXAZuB6qnvXT3advSRJor8j9yOpnuX+U+BBVE+Fe3THz959bO9oYGlmHgycDqxqLYiIBwFv
-B56emYdSPT/+OX1sW5KkBWvKI/eIWEp1xP4i4LuZeeeA3vsQ4HKAzFwbEfu3LbsLeEpm3tVW5/8O
-6H0lSSrapEfuEfF6qu73b1LdoW59RLwvIvp+DnwXOwMb2qa31F31ZOZ4Zq6vazgF2DEzvzKA95Qk
-qXgThnRE/AnwPqrr2M+leqzr04HX1687dYbvvQEYbZtelJlb295/EdXNch5D9WjZKY2NjU69kuaE
-bTE8bIvhYDsMj4XQFpMdgZ9MdbT+jFb3eB24nwVOjIjTMvOeGbz3GuAo4MKIOAi4rmP5R6m655/f
-60C69es3zqAcDcrY2KhtMSRsi+FgOwyP0tpioh2VycL98cAZbee9ycytEfF+qvPvjweunUFNlwBH
-RMSaevr4eoT8TlTPhn8FcDVwRUQAfDAz/3EG7ydJ0oIwWbjvCPyyy/wf1793mckb10fjnQ+a+UHb
-vxfPZPuSJC1Ukw2oW0T357e37iFv+EqSNIT6uc5dkiTNA1Nd0rZ7RDyyY96u9e+HdVlGZv73QCqT
-JEnTMlW4f6D+6ea8LvPGsbtekqRGTRbu505je977XZKkhk0Y7pn58jmsQ5IkDYgD6iRJKozhLklS
-YQx3SZIKY7hLklQYw12SpMIM4rnsQ+GoP/8CACtXLGfP3XZsuBpJkppT3JH7WRdd33QJkiQ1qrhw
-lyRpoSsu3E85Zp+mS5AkqVHFnHN/+NhOnHz0b3m+XZK04BVz5P6R0w832CVJoqBwlyRJFcNdkqTC
-GO6SJBXGcJckqTCGuyRJhTHcJUkqjOEuSVJhDHdJkgpjuEuSVBjDXZKkwhjukiQVxnCXJKkwhrsk
-SYUx3CVJKozhLklSYQx3SZIKY7hLklQYw12SpMIY7pIkFcZwlySpMIa7JEmFMdwlSSqM4S5JUmEM
-d0mSCmO4S5JUGMNdkqTCLGm6gPnqFe+6YrvplSuWs+duOzZUjSRJ23jkPiBnXXR90yVIkgQY7pIk
-FcdwH5BTjtmn6RIkSQIM92lbuWI5e+y6jD12Xeb5dknSUHFA3TTtuduOvOPEg5ouQ5Kk+2k83CNi
-EbAa2Be4GzghM9d1rLMM+BfgFZmZc1+lJEnzxzB0yx8NLM3Mg4HTgVXtCyNif+BqYG9gfO7LkyRp
-fhmGcD8EuBwgM9cC+3csX0q1A+ARuyRJPRiGcN8Z2NA2vaXuqgcgM7+amT+Z+7IkSZqfGj/nThXs
-o23TizJz63Q2NDY2OvVKmhO2xfCwLYaD7TA8FkJbDEO4rwGOAi6MiIOA66a7ofXrNw6sKE3f2Nio
-bTEkbIvhYDsMj9LaYqIdlWEI90uAIyJiTT19fEQcB+yUmec0WJckSfNS4+GemePASR2zf9BlvWfM
-TUWSJM1vwzCgTpIkDZDhLklSYQx3SZIKY7hLklQYw12SpMIY7pIkFcZwlySpMIa7JEmFMdwlSSqM
-4S5JUmEMd0mSCmO4S5JUGMNdkqTCGO6SJBXGcJckqTCGuyRJhTHcJUkqjOEuSVJhDHdJkgpjuEuS
-VJglTReg/rziXVdsN71yxXL23G3HhqqRJA0jj9znubMuur7pEiRJQ8ZwlySpMIb7PHfKMfs0XYIk
-acgY7vPMyhXL2WPXZeyx6zLPt0uSunJA3Tyz52478o4TD2q6DEnSEPPIXZKkwhjukiQVxnCXJKkw
-hrskSYUx3CVJKozhLklSYQx3SZIK43XuDfIhMJKk2eCR+xDxITCSpEEw3CVJKozhPkR8CIwkaRA8
-596glSuW39cVf8ox+wzt+XbHBkjS/GK4N2i+PgTmrIuun5d1S9JCYbe8JEmFMdzVN8cGSNJws1u+
-QIM+Rz5fxgZIkiqG+wIw03Pk83VsgCQtVHbLS5JUGI/cF4D5eo7cS/AkaXoM9wJNdY58voaml+BJ
-Um8M9wL1e47c0JSkshjumra57gGYr6cXJGmuGe4aWGi++Zy1203P10vw5utpC0lqaSzcI2IRsBrY
-F7gbOCEz17UtPwr4S2Az8InM/LtGCi3QZKE5yGDr7O7vd9vtpxc6XzuI+no1V6ct3KmQNChNHrkf
-DSzNzIMjYjmwqp5HROwAnAnsD2wC1kTEpZn588aqLUg/5+RnEmy33L5pwlCG7Y/0pxtknb0FM9nW
-RFqfY67D9v2fu5b3nHTwrL5HUzsU7shIs2tkfHy8kTeOiFXA2sz8XD39k8x8RP3vfYF3Z+az6ukz
-ga9m5ucn2eT4+vUbZ7vs4nX+0d1j12UThvvNt925XQ9At6CdqdYf/cl2EiRpIfviqueNdM5r8iY2
-OwMb2qa31F31rWV3tC3bCDx4rgrTNpOdj2/1ALzjxIPYc7cdWbliOXvsuoyHj+3EyhXLB/L+rZ0H
-SVLvmuyW3wCMtk0vysyt9b/v6Fg2Cvxiqg2OjY1OtYqmsPq0w1j5yX8H4M3HH8ivP6z373RsbJRz
-3rzHhMvf+qfL+fil3wHgp+t/1dM2Fy9exNjY6H113bt5KyMjsGTxop63IUkLTZPd8i8AjsrM4yPi
-IOAvM/PZ9bIdgO8Ay4E7ga/W6948ySbtlh8SY2OjrF+/8X7d9u3nVNuX3XL7pgm3Ndm52NY2Nm+p
-9glvveOuQX2E+yxeNMKWrc38H5GkXnTrlm8y3EfYNloe4HhgP2CnzDwnIp4DvJXq1MHHM/Nvp9ik
-4T4kWuHeq/agf/Hhj+GC//tDoP/L3zrDvt3mLVvZuOleRpftwJLFi+43D9hu+ZLFi+57/5tvu5P3
-f+5abt9w/52HkZGR+15/x6/uYfy++dD+v218nO2W0TbdbudlOzBe1yJJPbj3i6uet7RzZmPhPgsM
-9yHRb7hr9tgWw8F2GB6ltcXY2Oj9jtrBp8JJklQcw12SpMKU1C0vSZLwyF2SpOIY7pIkFcZwlySp
-MIa7JEmFMdwlSSqM4S5JUmGafHDMrIqIg4ET68nXZuYdk62v2RURhwHHZeaKpmtZqCLicOBYYBnw
-nsy8ruGSFqyI2A94NdVdik/LzJ83XNKCFhEPA76UmQc0XcuglHzkvoIq3D9O9QdNDYmI3wCeBDyw
-6VoWuAdl5onA+4Ajmy5mgXsAcCpwGfCUhmtZ0OrnnLwB+HHDpQxUyeG+ODPvAW4G9my6mIUsM9dl
-5plN17HQZeaXImJH4DXApxouZ0HLzK8CTwD+AvivhstZ6P4M+Aww+MdKNmhedstHxHLgXZn5jIhY
-xLany90NnJCZ64BNEbEU+DXgluaqLVuPbaFZ1ks7RMTuwHuAt2bmrQ2WW7Qe2+IA4BvAs4C/Al7b
-WMEF6/Hv0+/V8w6MiGMy86LmKh6ceXfkHhGnAedQdWsBHA0szcyDgdOBVfX8jwEfpeqe//Rc17kQ
-9NEWmkV9tMMq4GHAOyPimDkvdAHooy12Aj4BvBc4b67rXAh6bYvMPCYzTwLWlhLsMD+P3H8IvIBt
-gX0ocDlAZq6NiP3rf3+T6hnxmj09tUVLZr50bstbMHr9P/GyZspbUHptiyuBKxupcOHo9+/Tn8xt
-ebNr3h25Z+bFwOa2WaPAhrbpLXX3i2aZbTEcbIfhYVsMj4XeFiV8sA1UjdayKDO3NlXMAmdbDAfb
-YXjYFsNjQbVFCeG+BvgDgIg4CPDa3ebYFsPBdhgetsXwWFBtMR/Pube0HkR/CXBERKyppz3PPvds
-i+FgOwwP22J4LMi2GBkfH596LUmSNG+U0C0vSZLaGO6SJBXGcJckqTCGuyRJhTHcJUkqjOEuSVJh
-DHdJkgpjuEuSVBjDXQIi4lMRsTUiTppg+V718r+a47q2RsQn5/I9+xURD4iIT0TEhoi4IyKe3XRN
-k4mIqyLiR03XIc0mw13a3sqIeOgky5u4peOw30ZyBfBy4GLgdcB/NlrN1P4P8Nqmi5Bm03y+t7w0
-G3YB3g/8cdOFzCP71r9flZl3NlpJDzLzK03XIM02j9yl7V0KHBcRhzVdyDyyFGA+BLu0UHjkLm0z
-DrwG+D1gdUTsm5n3TLRyRPwY+FFmPmOy+fX0F4FrgdOARwDfBl4F3AR8CHgm1fOm/x54S2a2d8WP
-RMQZ9fq7AF8H3piZ3+h43+cAZwBPBO4GrgDelJn/r22drVTd0k8CjgR+CDwxM7dM8BmfB7yxXv9u
-4Oq6vuvbtte+7X/t/D7alj+SqlfkKcBDgBuATwHva33ePr/TfwYWA38E3Er1Ha8A9szMW9teuyPw
-c+CzmXlCRFwFPCoz946INwLvBPbLzG91vOePgBsy8/B6eh/g7cDTgAdQtee7MvMLba+5CvhfqlMT
-pwJ3AodRfc/vBp4L/Fpdz6X1d/nLbt+XNBMeuUttMvO/gbcBjwVOn2L1cbqfD++cPw4cDfwN8LH6
-9+OAi4B/ATYDr6cK/DcBL+3Y3gupzmWvrmt7PHBVRDyhtUJEvBz4ArAReANwJlWIro2I3+zY3uuA
-HYBTgHMmCfZXUT0mc3Fd15nAcuCrEbF/vdpLgWvqf7+Easeh27Z2AC4HfgdYBbwaSKrAa/+e+/lO
-jwN+m2qH7GPAeXWtx3S89jnAg+rl7a8HOL/+9x921LsceBTwmXr6AKqdqgOA91F9H0uBSyLi5I7t
-Hgq8CPhz4JPA94APAyfU73cS8HngROAfunxWacY8cpe2Gal/n0kVWqdHxHmZuW6K9aeaPwLsSXWE
-/B2AiNiVKoT/LTP/qJ53PnA7cARwbtvrHwAc1Pbaz1MFxtuAF0bEzsAHgQsy876xAhFxDvBdqgB9
-Qdv27gGOzsy7J6ifiNgNeA+wFnhqZm6u558LfAc4G1iemedFxBH1OudPtD2qUH8c8MLMvLie9/GI
-+CeqHan276qbbt/pA4HnZeYtbXXfSBWsH21b91jgp5l5ZedGM/OmiLimfs2bOl5zF9UOGMBZVDth
-B2Tm/9Tv9RFgDfDeiLggM2+v69oReElm/kdbXX8M/F1mvqVt3q+A34+IZZm5aYLPLU2LR+5ShzrI
-TqIK1bMHtNl1rXCutbrKL2l7303AeqodgXaXt7+23tn4MlUwLKLaGRgFvhARu7d+gC3AlW3rtfz7
-ZMFeO5zqaHdVK9jr974R+DRwQEQ8bMpPvc1PqY5q3xwRR0ZE6zz9szLz+D620+6H7cFeOx94WkSM
-AdQ7Ps8CLphkO+cBj46IJ9evGaE6kr8sMzfUn/NA4NOtYK9rvxt4L9X3dETb9ja1B3vtJuDFEfGy
-iNilfv1bM3O5wa7ZYLhLXWTmv1GdDz4yIo4dwCZ/1jHdCsyfd8zfwv3/X36/y/ZuoDpCHAN+o553
-Qb299p8XUB3hjrW9tvM9u9m7/p1dlrXqeVQP26k2kvlTqvEG+1B1z98aEZdExIs7djz60e1ztLrm
-Wz0Vz6PaSZusV+FCqt6MF9XTh1KdF2+9Zq/Wx+jy2m7fxW1d1juJql0/Cfw8Iv41Ik6tdz6kgTPc
-pYmdRvWH+kyqI+NeLe4yb3OXedDbNezd1ml1U29ue78VVIMBO3+OANoHbXU9xz7B9rtp/d2YcLBh
-N5m5iioET6E6T38kVYB+qYeXd/tO7/c5MvO7wHVsO4d+LPD9zsFyHa/5JdUOx4vaXvPLtrr6/S66
-1XUF8EiqcQL/QHWK4kzg+rqXRRoow12aQGbeRjVSfE9gZZdVtlAdFd4nIpYAg/5jvVeXeY8FflnX
-+ON63q2ZeUX7D3AvsLWHbvhOrTu4Pb7Lsqh//6TXjUXEzhHxdOC2zDw7M59N1ZvweeCZEfFb9aqD
-+E7PA343Ivam2rE5b4r1W695dEQ8kWpA3kWZeW+97Mf178m+i5sm2nBE7FAPyNslM/8hM18K7EE1
-5uLXgRf3UJ/UF8Nd2uZ+R8iZ+QmqQVPP6bL+LcDjIuKBbfOeS0c4DcAfRMTDWxMR8dvA71NdSgXV
-iPu7gDfUQdhab0+qy8PePY33bG3z9fVI99Y2H0E1Kn5t++VmTN0DcSTVpXlHtWbU55pbYwlaR7uD
-+E4/S/W37UNUVwVM1iXf8kWqKw3eDjyMth2C+rz+N4CXdLTDUqqrHO6i+r4msivVSPv7BuzVl/61
-LmWcqFdHmjZHy0vbTNT9ehLwTe7//+V8qlHUl0fEecBjqLrGb5xkW9NxF3BNRHyQ6vTAqVSnC94C
-kJm31tfBnwl8rR51vxg4mSoU/6LfN8zM29u2uabe5mi9TaguP2s31ef9EtUI/49HxH7AOqqu6VcB
-X8nM1rnrGX+nmfmTiLgaeDbwtczsdh/5kY7X3BURFwMvoxpZf1XH+q+h2jn5j4hYDfyKaifnd4DX
-ZOaGSbb9s4j4e+Dk+pr7rwG7UV0OeAvwuV4+l9QPj9ylykTXV5OZ3wY+0GX5auCvqAaffQj4Xarr
-2b/N/a/Jnug9e5n3UaojyTOorglfAxycmfd1i2fmB6jOM2+mutb8dOAHwGGZec39ttiDepvH1jW9
-gyrg/o3qErj20eATfndt27qLqrfhYqpb+55Ndf3+2Wx/md5Mv9OW8+p1uh21T1Rv62j9fiPrM/Pr
-wCFUN6enjByjAAAAaUlEQVT5C6oj/E1UlxS2X1Ex0bZPql9zMNVli39ONe7g0PoSOmmgRsbHh/2Z
-FJIkqR8euUuSVBjDXZKkwhjukiQVxnCXJKkwhrskSYUx3CVJKozhLklSYQx3SZIKY7hLklQYw12S
-pML8fzommxRbpJSqAAAAAElFTkSuQmCC
-"
->
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can also plot the cumulative distribution.</p>
+<h1 id="Data-types">Data types<a class="anchor-link" href="#Data-types">&#182;</a></h1><ul>
+<li><code>int</code>s</li>
+<li><code>float</code>s</li>
+<li><code>str</code>ings</li>
+<li><code>bool</code>s</li>
+<li><code>list</code>s</li>
+<li><code>tuple</code>s</li>
+<li><code>dict</code>ionaries</li>
+<li><code>set</code>s</li>
+<li>functions, file handles, NumPy arrays, <code>DataFrame</code>s, Matplotlib <code>ax</code>s, ...</li>
+</ul>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span class="c"># Sort the samples</span>
-<span class="n">rm_samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">rm_samples</span><span class="p">)</span>
-
-<span class="c"># Generate y-axis for CDF</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rm_samples</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">rm_samples</span><span class="p">)</span>
-
-<span class="c"># Plot CDF from random numbers</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">rm_samples</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">t_smooth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-
-<span class="c"># Clean up plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">r&#39;$t_{bt} (s)$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;cum. hist.&#39;</span><span class="p">)</span>
-
-<span class="c"># Clean up plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;number of survivors&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;cum. hist.&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.text.Text at 0x117deea90&gt;</pre>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-0wcAAAAASUVORK5CYII=
-"
->
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We see that most trials, about 50%, have no survivors.  But we also see that the distribution has a very long tail!  So, regardless of what the mutation rate is, we expect to see long tails in the random mutation hypothesis.  If we observe a plate with a a large number of colonies, we know we are sampling in the tail of the Luria-Delbrück distribution.  The probability of seeing large numbers of survivors is vanishingly small under the adaptive immunity hypothesis.</p>
+<h1 id="NumPy-arrays">NumPy arrays<a class="anchor-link" href="#NumPy-arrays">&#182;</a></h1><ul>
+<li>Slicing and dicing</li>
+<li>Random number generation (probability is the mathematical language of biology)</li>
+<li>Regressions</li>
+<li>Anything you want to do with groups of numbers</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Biopython">Biopython<a class="anchor-link" href="#Biopython">&#182;</a></h1><p>You will no longer have mouse fatigue with BLAST!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Pandas">Pandas<a class="anchor-link" href="#Pandas">&#182;</a></h1><ul>
+<li>Your data are now tidy!  </li>
+<li>And organized.</li>
+<li>And accessible.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Your-data">Your data<a class="anchor-link" href="#Your-data">&#182;</a></h1><p>has a new master.  Whether images, time series, counts, you name it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="This-is-the-beginning!">This is the beginning!<a class="anchor-link" href="#This-is-the-beginning!">&#182;</a></h1><p>I look forward to seeing what you will do!</p>
 
 </div>
 </div>
