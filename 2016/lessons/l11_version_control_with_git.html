@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="utf-8" />
-<title>l12_practice_with_git</title>
+<title>l11_version_control_with_git</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11802,9 +11802,9 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-12:-Forking-and-practice-with-Git">Lesson 12: Forking and practice with Git<a class="anchor-link" href="#Lesson-12:-Forking-and-practice-with-Git">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-11:-Version-control-with-Git">Lesson 11: Version control with Git<a class="anchor-link" href="#Lesson-11:-Version-control-with-Git">&#182;</a></h1><p>(c) 2016 Justin Bois and Axel Müller. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>Parts of this lesson are based on a <a href="http://swcarpentry.github.io/git-novice/">similar lesson from Software Carpentry</a>, itself also licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a></p>
-<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l12_practice_with_git.ipynb">here</a>.</em></p>
+<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l11_version_control_with_git.ipynb">here</a>.</em></p>
 
 </div>
 </div>
@@ -11814,44 +11814,19 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this lesson, you will practice using Git to enable you to work collaboratively.</p>
+<p>Keeping track of all of the changes in your project over time is good practice.  How many times have you edited something in something you were writing and then wanted to go back and see what you had in the first place?  Wouldn't it be great to know what changes you made and when you made them?</p>
+<p>A <strong>version control system</strong> facilitates this process of keeping track of changes over time.  Beyond that, it allows multiple people to collaborate and work on parts of the same project simultaneously.</p>
+<p>There are many version control systems.  The four most prominent, in order of age, are CVS, Subversion, Git, and Mercurial (the first version of Git was released about two weeks before Mercurial, so they are really the same age).  Today, Git dominates.</p>
+<p>Git was developed by <a href="https://en.wikipedia.org/wiki/Linus_Torvalds">Linus Torvalds</a>, the person who developed the Linux operating system.  He named Linux after himself, and he decided to also name Git after himself ("git" is British slang for a stupid person).  Try typing</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Forking-repositories">Forking repositories<a class="anchor-link" href="#Forking-repositories">&#182;</a></h2><p>Let's say you want to do some work on a repository, but you are not an active collaborator. For example, there could be a useful package a lab at another university put on GitHub for a certain kind of image segmentation that is useful for your research. You want to do something <em>almost</em> exactly like the package does, but need to make some small modifications yourself. You want to clone the repository and add a couple functions and maybe modify one or two they already have, using much of the rest of the repository untouched. Of course, you also want to update your local copy of all that untouched (but still used) code when the maintainers update it.</p>
-<p>This is kind of exactly what you want to do here in the Bootcamp. We have a repository that has data sets and a couple tutorials, but you want to write your Python code right in that repository. If I update the data sets, you want to be able to pull in my changes, but still have your code in place.</p>
-<p>There is a nice way to do this called <strong>forking</strong>. To fork a repository on GitHub, simply navigate got the website of the repository and click the Fork button. Be sure you are logged in as yourself when you do this. <a href="https://github.com/justinbois/bootcamp/">Here</a> is the GitHub page for the bootcamp.</p>
-<p><img src="github5.png" alt="github5.png"></p>
-<p>The fork button is in the upper right. Just click the button, and you now have a <strong>fork</strong> of the bootcamp repository on your GitHub account.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Cloning-your-fork-to-your-local-machine">Cloning your fork to your local machine<a class="anchor-link" href="#Cloning-your-fork-to-your-local-machine">&#182;</a></h2><p>Now you can clone your fork of the repository to your local machine. Since you will be editing things going forward in the repository, we will first blow away the <code>bootcamp</code> repository you mess around with yesterday in the <a href="l02_basic_command_line_skills.html">command line tutorial</a>. (Only execute the commands below if you didn't put any notes or anything you want to keep in the <code>~/git/bootcamp/</code> directory. Otherwise, you will lose it forever.)</p>
-
-<pre><code>cd ~/git
-rm -Rf bootcamp
+<pre><code>man git
 
 </code></pre>
-<p>Now, being sure you are in the <code>~/git</code> directory, you can clone <em>your forked copy of the repository</em> (not the original <code>bootcamp</code> repository). To do this, navigate your browser to the forked copy of the <code>bootcamp</code> repository on your account (this is where clicking the "Fork" button took you in your browser).</p>
-<p>As you did before, click the green "Clone or download" button and copy the URL of the forked repository. Now, you can clone it.</p>
-
-<pre><code>cd ~/git
-git clone the_url_you_just_copied
-
-</code></pre>
-<p>You now have a local copy of your own fork of the bootcamp repository. You can add files and edit it. When you commit and push, it will all be on your account, and the master repository will not see the changes.</p>
+<p>and read what the <code>NAME</code> of the software is.</p>
+<p>Using Git as a version control system allows communication with remote repositories such as <a href="http://github.com/">GitHub</a> or <a href="http://bitbucket.org">Bitbucket</a>. Both services provide univesity-affiliated people with a <code>.edu</code> email address with perks that include a number of private repositories. We will use GitHub for our bootcamp, and you should already have set up an account.</p>
+<p>Remote repositories are not only a great way for keeping your data safe. They are also an excellent tool for collaboration since Git allows multiple users to edit the shared files simultaneously and has a method to merge changes afterwards.  Public repositories can also serve as a vehicle to distribute code (or other files).</p>
+<p>You can find more information about Git <a href="https://git-scm.com/documentation">here</a>.  It is well documented.  Here is an <a href="https://services.github.com/kit/downloads/github-git-cheat-sheet.pdf">excellent one-page cheatsheet</a> (some lucky bootcamp attendees get a free hardcopy!)</p>
+<p>Let's get started.  You all should have a version of Git installed on your computers.  Open the terminal and navigate into your <code>~/git</code> directory.</p>
 
 </div>
 </div>
@@ -11861,26 +11836,21 @@ git clone the_url_you_just_copied
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Syncing-your-forked-repository-to-the-upstream-repository">Syncing your forked repository to the upstream repository<a class="anchor-link" href="#Syncing-your-forked-repository-to-the-upstream-repository">&#182;</a></h2><p>As I mentioned before, you want to be able to sync your repository with the original <code>bootcamp</code> repository so you can retrieve any updates in it. The original repository is typically called the <strong>upstream repository</strong>, since presumably you are changing it, so you are downstream. You want the upstream repository to be a <strong>remote</strong> repository, which is just what we call a repository we track and fetch and merge from. To see which repositories are remote, do</p>
+<h2 id="Configuring-Git">Configuring Git<a class="anchor-link" href="#Configuring-Git">&#182;</a></h2><p>Since this is your first time you should configure Git. We will do it with <code>--global</code> flags, which means these specifications work for all of your repositories.</p>
 
-<pre><code>git remote -v
+<pre><code>git config --global user.name "YOUR NAME"
+git config --global user.email "YOUR EMAIL ADDRESS"
 
-</code></pre>
-<p>The <code>-v</code> just means "verbose," so it will also tell you the URLs. Entering that now will show a single repository, <code>origin</code>, which you can fetch from and push to.</p>
-<p>We now want to add the upstream repository. To do this, copy the URL of the original bootcamp repository and then do:</p>
-
-<pre><code>git add remote upstream the_url_you_just_copied
 
 </code></pre>
-<p>Now try doing <code>git remote -v</code>, and you will see that you are now also tracking the upstream repository.</p>
-<p>Now, when you want to pull from the upstream repository, you do</p>
+<p>Git requires a text editor. You can specify Atom as your text editor if you like.</p>
 
-<pre><code>git pull upstream master
+<pre><code>git config --global "atom --wait"
 
 </code></pre>
-<p>This will pull in all the changes from the upstream repository. If you want to pull in changes to your own forked repository, it's still just</p>
+<p>Git is very well documented and help is easily available. If you need to know more about <code>config</code>, for example, just enter:</p>
 
-<pre><code>git pull</code></pre>
+<pre><code>git help config</code></pre>
 
 </div>
 </div>
@@ -11890,29 +11860,15 @@ git clone the_url_you_just_copied
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Practice-1:-Adding-a-file-to-your-bootcamp-repository">Practice 1: Adding a file to your bootcamp repository<a class="anchor-link" href="#Practice-1:-Adding-a-file-to-your-bootcamp-repository">&#182;</a></h2><p>For your first exercise using Git/GitHub, do the following.</p>
-<ol>
-<li>Copy the file <code>~/git/na-utils/dnatorna.py</code> to <code>~/git/bootcamp/dnatorna.py</code>. Remember the latter directory is home to your fork of the bootcamp repository.</li>
-<li>Use <code>git add</code> to put the file <code>dnatorna.py</code> under version control.</li>
-<li>Commit this change to your repository. Be sure to include an appropriate commit message with the <code>-m</code> flag.</li>
-<li>Push the file to your forked repository on GitHub.</li>
-<li>Do the same for any other <code>.py</code> files you created during the exercises last night.</li>
-</ol>
+<h2 id="Cloning-Repositories">Cloning Repositories<a class="anchor-link" href="#Cloning-Repositories">&#182;</a></h2><p>You have already cloned the <code>bootcamp</code> repository in <a href="http://justinbois.github.io/bootcamp/2016/lessons/l02_basic_command_line_skills.html#git-and-mkdir">the command line lesson</a>. We'll practice that again here, clone one of the zillions of public repositories that are hosted on GitHub. We will clone a simple package, called <code>insulter</code> that will hurl Shakespearean insults at you.</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Practice-2:-Setting-your-PYTHONPATH">Practice 2: Setting your PYTHONPATH<a class="anchor-link" href="#Practice-2:-Setting-your-PYTHONPATH">&#182;</a></h2><p>Since you will be doing all of your bootcamp work in the <code>~/git/bootcamp/</code> directory, you should set your <code>PYTHONPATH</code> environment variable. This tells the Python interpreter where to look for modules to import. To do this, add this line to your <code>.bashrc</code> file.</p>
-
-<pre><code>export PYTHONPATH=${PYTHONPATH}:$HOME/git/bootcamp
+<pre><code>git clone https://gist.github.com/3165396.git insulter
 
 </code></pre>
-<p>With that added, you no longer have to make sure you are in the <code>~/git/bootcamp/</code> directory when running your Python modules.</p>
+<p>Note that the insulter package is now on your machine. You have a copy of it on your own hard drive. You do not need to be connected to the internet to use it.</p>
+<p>Now, <code>cd</code> to <code>insulter</code> and you can start using it, thou  wayward tickle-brained flap-dragon!</p>
+
+<pre><code>python insulter.py</code></pre>
 
 </div>
 </div>
@@ -11922,13 +11878,132 @@ git clone the_url_you_just_copied
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Practice-3:-Edit-your-file-and-git-diff-it">Practice 3: Edit your file and <code>git diff</code> it<a class="anchor-link" href="#Practice-3:-Edit-your-file-and-git-diff-it">&#182;</a></h2><p>In your <code>dnatorna.py</code> file, the doc strings do not mention that the returned sequences have the same capitalization (either lower case or upper case) as the input sequence.</p>
-<ol>
-<li>Update the doc strings to say this using Atom and save the file.</li>
-<li>Type <code>git status</code> at the command line. What do you see?</li>
-<li>On the command line, do <code>git diff</code>. What do you see? The last few lines are most important; they tell you what has changed. <code>git diff</code> is very useful. It tells you what local changes you have made to your document since the last commit.</li>
-<li>If you are satisfied with your changes, <code>git add</code> the file, <code>git commit</code> the changes, and <code>git push origin master</code> to push them to your GitHub (remote) repo.</li>
-</ol>
+<h2 id="Pulling-in-changes">Pulling in changes<a class="anchor-link" href="#Pulling-in-changes">&#182;</a></h2><p>Actively developed repositories are constantly being updated. After you clone the repository, its authors may add or edit things in the repository. For you to get those changes, you need to <strong>fetch</strong> them and then <strong>merge</strong> them into what you have locally.</p>
+<p>To fetch the updated repository, you guess it, you do:</p>
+
+<pre><code>git fetch
+
+</code></pre>
+<p>The result is stored in a hidden directory, <code>.git/FETCH_HEAD</code>. (Directories that begin with a <code>.</code> are hidden; you don't see them when you type <code>ls</code>.)</p>
+<p>Now that there are changes, you would like to update your local repository. Provided you do not have any local edits, this is seamless. You just do</p>
+
+<pre><code>git merge FETCH_HEAD
+
+</code></pre>
+<p>Now your repository will be up to date.</p>
+<p>A shortcut for the commands</p>
+
+<pre><code>git fetch
+git merge FETCH_HEAD
+
+</code></pre>
+<p>run in success is</p>
+
+<pre><code>git pull
+
+</code></pre>
+<p>In practice, you will use this a lot, but, as you will see, we will use fetching and merging on a forked repository in the next lesson, so it can be useful.</p>
+<p>Let's try doing this with the <code>bootcamp</code> repository. <code>cd</code> into <code>~/git/bootcamp/</code>. Now, type</p>
+
+<pre><code>git pull
+
+</code></pre>
+<p>This will "pull" in any changes make to the repository. Throughout the bootcamp, we may need to update files in the repository.</p>
+<p>Generally it is good practice to pull before you start working each day to make sure you pull in any updates your collaborators may have made.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Creating-your-own-repository">Creating your own repository<a class="anchor-link" href="#Creating-your-own-repository">&#182;</a></h2><p>Now, you will create your own repository for practice. We will call the repository <code>na-utils</code>, for "nucleic acid utilities." We'll start by adding the <code>dnatorna</code> module we wrote in the last lesson.</p>
+<p>Only in rare circumstances would you not want to host your repository remotely, so we will take an easy path toward creating a repository using GitHub. Prior to the bootcamp, you all should have set up a GitHub account. Log in to GitHub, and you should see a page that looks something like this:</p>
+<p><img src="github1.png" alt="github1.png"></p>
+<p>In the upper right corner, click on the "<strong><code>+</code></strong>" icon and select "New repository." You will then get a page that looks like this:</p>
+<p><img src="github2.png" alt="github2.png"></p>
+<p>I called the new repository <code>na-utils</code>, and gave a little description. You can choose either private of public; if you are not an academic, you have to pay for private repositories. Public repositories can be viewed by anyone. I will choose public for this one.</p>
+<p>I also checked the box to initialized the repository with a README. This is convenient because GitHub will set up the repository and populate it with a README file that you can generate right in your browser. After clicking "Create repository," you will get a page that looks like this:</p>
+<p><img src="github3.png" alt="github3.png"></p>
+<p>This is the main page for your repository. It is created! Right now, the repository only exists on GitHub. You need to clone it to get it on your own machine. To do that, click the "Clone or download" button and copy the web URL.</p>
+<p>Now, it is time to clone your repository on your own machine. I think you know the drill. First, <code>cd</code> to your <code>~/git</code> directory. Then do this:</p>
+
+<pre><code>git clone the_url_you_just_copied
+
+</code></pre>
+<p>If you now <code>cd</code> into the <code>na-utils</code> directory, you can see the README file there.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Adding-files-to-your-repository">Adding files to your repository<a class="anchor-link" href="#Adding-files-to-your-repository">&#182;</a></h2><p>Now, let's update the repository. We will add the <code>dnatorna.py</code> file you wrote in the last lesson. To do this, copy it out of the <code>~/git/bootcamp/</code> directory and into the <code>~/git/na-utils/</code> directory. On my machine, this is accomplished by:</p>
+
+<pre><code>cd ~/git/na-utils
+cp ~/git/bootcamp/dnatorna.py ./
+
+</code></pre>
+<p>This instructs the operating system to copy the <code>dnatorna.py</code> file to the present directory. We verify that it is there by typing <code>ls</code>. So, it is in the repository, right? Let's ask Git. <code>git status</code> is a useful command that checks what is in the repository and in your working directory on your machine, and let's you know the status of all files and directories.</p>
+
+<pre><code>git status
+
+</code></pre>
+<p>The output looks like this:</p>
+
+<pre><code>On branch master
+Your branch is up-to-date with 'origin/master'.
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    dnatorna.py
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+</code></pre>
+<p>It tells us that there is an untracked file in the directory. We need to add it to the repository using the <code>git add</code> command.</p>
+
+<pre><code>git add dnatorna.py
+
+</code></pre>
+<p>We have now added a file! So, we have changed the repository.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Committing-and-pushing-changes">Committing and pushing changes<a class="anchor-link" href="#Committing-and-pushing-changes">&#182;</a></h2><p>Now, if we type <code>git status</code>, it tells use we have a new file. It says this new file is part of "changes to be committed." A <strong>commit</strong> is essentially a revision of a repository. It marks a point in the development of the repository that you want to mark. So, let's commit the present state of the repository.</p>
+
+<pre><code>git commit -m "Added DNA to RNA conversion module."
+
+</code></pre>
+<p>The <code>-m</code> after <code>git commit</code> specifies the <strong>commit message</strong>. This is a brief text that describes what has changed in the repository. Upon committing, the following is printed to the screen:</p>
+
+<pre><code>[master 3f7c321] Added DNA to RNA conversion module.
+ 1 file changed, 51 insertions(+)
+ create mode 100644 dnatorna.py
+
+</code></pre>
+<p>The number <code>3f7c321</code> (yours will be different) is the short version of the commit identifier. If you ever want to go back to a previous version of the repository, this identifier will be a great help.</p>
+<p>Now, the commit is still only on your local machine. In order for your collaborators (or the whole world, if it is a public repo) to have access to it, you need to <strong><code>push</code></strong> it. To do that, we do this:</p>
+
+<pre><code>git push origin master
+
+</code></pre>
+<p>Here, <code>origin</code> is a nickname for your remote repository, that is the one on your local machine. <code>master</code> is the name of the branch we are pushing to in the GitHub repository. I.e., it is the master copy. (We will not talk about git branches or branching in this tutorial.)</p>
+<p>Now, let's look at our repository on GitHub. You can just refresh the main page of the repository. It now looks like this:</p>
+<p><img src="github4.png" alt="github4.png"></p>
+<p>We now have our new file, <code>dnatorna.py</code> in the master repository, out there in the cloud for backup and for sharing.</p>
+<p>In the next lesson, we will practice using Git, and in the process will fork and sync the <code>bootcamp</code> repository so you can work locally and still stay up to date on any edits the course staff makes in the repository.</p>
 
 </div>
 </div>
