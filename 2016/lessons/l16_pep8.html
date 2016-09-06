@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="utf-8" />
-<title>l11_version_control_with_git</title>
+<title>l16_pep8</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11960,9 +11960,33 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-11:-Version-control-with-Git">Lesson 11: Version control with Git<a class="anchor-link" href="#Lesson-11:-Version-control-with-Git">&#182;</a></h1><p>(c) 2016 Justin Bois and Axel Müller. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p>Parts of this lesson are based on a <a href="http://swcarpentry.github.io/git-novice/">similar lesson from Software Carpentry</a>, itself also licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>.</p>
-<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l11_version_control_with_git.ipynb">here</a>.</em></p>
+<h1 id="Lesson-16:-Python-style">Lesson 16: Python style<a class="anchor-link" href="#Lesson-16:-Python-style">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l16_pep8.ipynb">here</a>.</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This lesson is all about style.  Style in the general sense of the work is very important.  It can have a big effect on how people interact with a program or software.  As an example, we can look at the style of data presentation.</p>
+<p>The <a href="https://en.wikipedia.org/wiki/Keeling_Curve">Keeling curve</a> is a measure of the carbon dioxide concentration on top of Muana Loa over time. Let's look at a plot of the Keeling curve.</p>
+<p><img src="bad_keeling.png" alt="bad_keeling.png"></p>
 
 </div>
 </div>
@@ -11972,19 +11996,9 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Keeping track of all of the changes in your project over time is good practice.  How many times have you edited something in something you were writing and then wanted to go back and see what you had in the first place?  Wouldn't it be great to know what changes you made and when you made them?</p>
-<p>A <strong>version control system</strong> facilitates this process of keeping track of changes over time.  Beyond that, it allows multiple people to collaborate and work on parts of the same project simultaneously.</p>
-<p>There are many version control systems.  The four most prominent, in order of age, are CVS, Subversion, Git, and Mercurial (the first version of Git was released about two weeks before Mercurial, so they are really the same age).  Today, Git dominates.</p>
-<p>Git was developed by <a href="https://en.wikipedia.org/wiki/Linus_Torvalds">Linus Torvalds</a>, the person who developed the Linux operating system.  He named Linux after himself, and he decided to also name Git after himself ("git" is British slang for a stupid person).  Try typing</p>
-
-<pre><code>man git
-
-</code></pre>
-<p>and read what the <code>NAME</code> of the software is.</p>
-<p>Using Git as a version control system allows communication with remote repositories such as <a href="http://github.com/">GitHub</a> or <a href="http://bitbucket.org">Bitbucket</a>. Both services provide univesity-affiliated people with a <code>.edu</code> email address with perks that include a number of private repositories. We will use GitHub for our bootcamp, and you should already have set up an account.</p>
-<p>Remote repositories are not only a great way for keeping your data safe. They are also an excellent tool for collaboration since Git allows multiple users to edit the shared files simultaneously and has a method to merge changes afterwards.  Public repositories can also serve as a vehicle to distribute code (or other files).</p>
-<p>You can find more information about Git <a href="https://git-scm.com/documentation">here</a>.  It is well documented.  Here is an <a href="https://services.github.com/kit/downloads/github-git-cheat-sheet.pdf">excellent one-page cheatsheet</a> (some lucky bootcamp attendees get a free hardcopy!)</p>
-<p>Let's get started.  You all should have a version of Git installed on your computers.  Open the terminal and navigate into your <code>~/git</code> directory.</p>
+<p>I contend that this plot is horrible looking. The green color is hard to see. The dashed curve is difficult to interpret. We do not know when the measurements were made. The grid lines are obtrusive. Awful.</p>
+<p>Lest you think this plot is a ridiculous way of showing the data, I can tell you I have seen plots just like this in the literature.  Now, let's look at a nicer plot.</p>
+<p><img src="good_keeling.png" alt="good_keeling.png"></p>
 
 </div>
 </div>
@@ -11994,21 +12008,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Configuring-Git">Configuring Git<a class="anchor-link" href="#Configuring-Git">&#182;</a></h2><p>Since this is your first time you should configure Git. We will do it with <code>--global</code> flags, which means these specifications work for all of your repositories.</p>
-
-<pre><code>git config --global user.name "YOUR NAME"
-git config --global user.email "YOUR EMAIL ADDRESS"
-
-
-</code></pre>
-<p>Git requires a text editor. You can specify Atom as your text editor if you like.</p>
-
-<pre><code>git config --global "atom --wait"
-
-</code></pre>
-<p>Git is very well documented and help is easily available. If you need to know more about <code>config</code>, for example, just enter:</p>
-
-<pre><code>git help config</code></pre>
+<p>Here, it is clear when the measurements were made. The data are clearly visible. The grid lines are not obtrusive. It is generally pleasing to the eye. As a result, the data are easier to interpret. Style matters!</p>
+<p>(We will talk about how to make beautiful plots like the one here later in the bootcamp.)</p>
 
 </div>
 </div>
@@ -12018,15 +12019,7 @@ git config --global user.email "YOUR EMAIL ADDRESS"
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Cloning-Repositories">Cloning Repositories<a class="anchor-link" href="#Cloning-Repositories">&#182;</a></h2><p>You have already cloned the <code>bootcamp</code> repository in <a href="http://justinbois.github.io/bootcamp/2016/lessons/l02_basic_command_line_skills.html#git-and-mkdir">the command line lesson</a>. We'll practice that again here, clone one of the zillions of public repositories that are hosted on GitHub. We will clone a simple package, called <code>insulter</code> that will hurl Shakespearean insults at you.</p>
-
-<pre><code>git clone https://gist.github.com/3165396.git insulter
-
-</code></pre>
-<p>Note that the insulter package is now on your machine. You have a copy of it on your own hard drive. You do not need to be connected to the internet to use it.</p>
-<p>Now, <code>cd</code> to <code>insulter</code> and you can start using it, thou  wayward tickle-brained flap-dragon!</p>
-
-<pre><code>python insulter.py</code></pre>
+<p>The same arguments about style are true for code.  Style matters!  We already discussed how important documentation is, but having a well-defined style also helps keep your code clean, easy to read, and therefore easier to debug and share.</p>
 
 </div>
 </div>
@@ -12036,38 +12029,66 @@ git config --global user.email "YOUR EMAIL ADDRESS"
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Pulling-in-changes">Pulling in changes<a class="anchor-link" href="#Pulling-in-changes">&#182;</a></h2><p>Actively developed repositories are constantly being updated. After you clone the repository, its authors may add or edit things in the repository. For you to get those changes, you need to <strong>fetch</strong> them and then <strong>merge</strong> them into what you have locally.</p>
-<p>To fetch the updated repository, you guess it, you do:</p>
+<h2 id="PEP-8">PEP 8<a class="anchor-link" href="#PEP-8">&#182;</a></h2><p>Guido van Rossum is the benevolent dictator for life (BDFL) of Python.  He invented Python, and he ultimately decides what happens with the language.  To get new features or other enhancements into the language, Guido either writes or (usually) considers a <strong>Python Enhancement Proposal</strong>, or a <strong>PEP</strong>.  Each PEP is carefully reviewed and there are many iterations with the PEP's author(s).  Ultimately, Guido decides if the PEP becomes part of the Python language.</p>
+<p>Perhaps the best-known PEPs are <strong>PEP 8</strong> and PEP 20.  This lesson is about PEP 8, but we'll pause for a moment to look at PEP 20 to understand why PEP 8 is important.  PEP 20 is "The Zen of Python."  You can see its text by doing <code>import this</code>.</p>
 
-<pre><code>git fetch
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">this</span>
+</pre></div>
 
-</code></pre>
-<p>The result is stored in a hidden directory, <code>.git/FETCH_HEAD</code>. (Directories that begin with a <code>.</code> are hidden; you don't see them when you type <code>ls</code>.)</p>
-<p>Now that there are changes, you would like to update your local repository. Provided you do not have any local edits, this is seamless. You just do</p>
+</div>
+</div>
+</div>
 
-<pre><code>git merge FETCH_HEAD
+<div class="output_wrapper">
+<div class="output">
 
-</code></pre>
-<p>Now your repository will be up to date.</p>
-<p>A shortcut for the commands</p>
 
-<pre><code>git fetch
-git merge FETCH_HEAD
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The Zen of Python, by Tim Peters
 
-</code></pre>
-<p>run in success is</p>
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren&#39;t special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you&#39;re Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it&#39;s a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let&#39;s do more of those!
+</pre>
+</div>
+</div>
 
-<pre><code>git pull
+</div>
+</div>
 
-</code></pre>
-<p>In practice, you will use this a lot, but, as you will see, we will use fetching and merging on a forked repository in the next lesson, so it can be useful.</p>
-<p>Let's try doing this with the <code>bootcamp</code> repository. <code>cd</code> into <code>~/git/bootcamp/</code>. Now, type</p>
-
-<pre><code>git pull
-
-</code></pre>
-<p>This will "pull" in any changes make to the repository. Throughout the bootcamp, we may need to update files in the repository.</p>
-<p>Generally it is good practice to pull before you start working each day to make sure you pull in any updates your collaborators may have made.</p>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>These are good ideas for coding practice in general.  Importantly, beautiful, simple, readable code is a goal of a programmer.  That's where PEP 8 comes in.  PEP8 is the <strong>Python Style Guide</strong>, written by Guido, Barry Warsaw, and Nick Coghlan.  You can read its full text in the <a href="https://www.python.org/dev/peps/pep-0008/">Python PEP index</a>, and I recommend you do that.  I also recommend you follow everything it says!  It helps you a lot.  Trust me; my life got much better after I started following PEP 8's rules.</p>
+<p>Note, though, that you code will work just fine if you break PEP 8's rules.  In fact, some companies have their own style guides.  Google's style, for example, is different than PEP 8.  And they even hired Guido after PEP 8 was released (though he now works for Dropbox)!</p>
 
 </div>
 </div>
@@ -12077,59 +12098,26 @@ git merge FETCH_HEAD
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Creating-your-own-repository">Creating your own repository<a class="anchor-link" href="#Creating-your-own-repository">&#182;</a></h2><p>Now, you will create your own repository for practice. We will call the repository <code>na-utils</code>, for "nucleic acid utilities." We'll start by adding the <code>dnatorna</code> module we wrote in the last lesson.</p>
-<p>Only in rare circumstances would you not want to host your repository remotely, so we will take an easy path toward creating a repository using GitHub. Prior to the bootcamp, you all should have set up a GitHub account. Log in to GitHub, and you should see a page that looks something like this:</p>
-<p><img src="github1.png" alt="github1.png"></p>
-<p>In the upper right corner, click on the "<strong><code>+</code></strong>" icon and select "New repository." You will then get a page that looks like this:</p>
-<p><img src="github2.png" alt="github2.png"></p>
-<p>I called the new repository <code>na-utils</code>, and gave a little description. You can choose either private of public; if you are not an academic, you have to pay for private repositories. Public repositories can be viewed by anyone. I will choose public for this one.</p>
-<p>I also checked the box to initialized the repository with a README. This is convenient because GitHub will set up the repository and populate it with a README file that you can generate right in your browser. After clicking "Create repository," you will get a page that looks like this:</p>
-<p><img src="github3.png" alt="github3.png"></p>
-<p>This is the main page for your repository. It is created! Right now, the repository only exists on GitHub. You need to clone it to get it on your own machine. To do that, click the "Clone or download" button and copy the web URL.</p>
-<p>Now, it is time to clone your repository on your own machine. I think you know the drill. First, <code>cd</code> to your <code>~/git</code> directory. Then do this:</p>
-
-<pre><code>git clone the_url_you_just_copied
-
-</code></pre>
-<p>If you now <code>cd</code> into the <code>na-utils</code> directory, you can see the README file there.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Adding-files-to-your-repository">Adding files to your repository<a class="anchor-link" href="#Adding-files-to-your-repository">&#182;</a></h2><p>Now, let's update the repository. We will add the <code>dnatorna.py</code> file you wrote in the last lesson. To do this, copy it out of the <code>~/git/bootcamp/</code> directory and into the <code>~/git/na-utils/</code> directory. On my machine, this is accomplished by:</p>
-
-<pre><code>cd ~/git/na-utils
-cp ~/git/bootcamp/dnatorna.py ./
-
-</code></pre>
-<p>This instructs the operating system to copy the <code>dnatorna.py</code> file to the present directory. We verify that it is there by typing <code>ls</code>. So, it is in the repository, right? Let's ask Git. <code>git status</code> is a useful command that checks what is in the repository and in your working directory on your machine, and let's you know the status of all files and directories.</p>
-
-<pre><code>git status
-
-</code></pre>
-<p>The output looks like this:</p>
-
-<pre><code>On branch master
-Your branch is up-to-date with 'origin/master'.
-Untracked files:
-  (use "git add &lt;file&gt;..." to include in what will be committed)
-
-    dnatorna.py
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-</code></pre>
-<p>It tells us that there is an untracked file in the directory. We need to add it to the repository using the <code>git add</code> command.</p>
-
-<pre><code>git add dnatorna.py
-
-</code></pre>
-<p>We have now added a file! So, we have changed the repository.</p>
+<h2 id="Key-points-of-PEP-8">Key points of PEP 8<a class="anchor-link" href="#Key-points-of-PEP-8">&#182;</a></h2><p>PEP 8 is extensive, but here are some key points for you to keep in mind as you are being style-conscious.</p>
+<ul>
+<li>Variable names need to be descriptive.</li>
+<li>Variable names are all lower case with underscores separating words.</li>
+<li>Do not name varibales <code>l</code>, <code>O</code>, or <code>I</code> because they are hard to distinguish from ones and zeros.</li>
+<li>Function names are lower case and may use underscores.</li>
+<li>Class names are in CamelCase.  (We are not explicitly covering classes in the bootcamp, though we did <a href="http://justinbois.github.io/bootcamp/2015/lessons/l10_intro_to_oop.html">last year</a>. You will come across CamelCase objects in other packages, which usually means you are instantiating a class.)</li>
+<li>Module names are short and lower case.  Underscores should be avoided unless necessary for readability.</li>
+<li>Lines are maximally 79 characters long.</li>
+<li>Doc strings are maximally 72 characters long.</li>
+<li>Avoid in-line comments; put the comment directly above the code.</li>
+<li>Avoid excessive comments that state the obvious.</li>
+<li>Generally, put single spaces around binary operators, unless omitting space improves readability.  For example, <code>x**2 + y**2</code>.  Low priority operators should have space.</li>
+<li>Assignment operators should always have single spaces around them <em>except</em> when in keyword arguments.  E.g., no space in <code>f(x, y=4)</code>.</li>
+<li>Put spaces after commas in function definitions and calls.  This also applies for lists, tuples, NumPy arrays, etc.</li>
+<li>Avoid excessive spaces within parentheses, braces, and brackets.</li>
+<li>Use a single blank line to separate logical sections of your code.</li>
+<li>Put two blank lines between functions in a <code>.py</code> file.</li>
+<li>Put all import statements at the top of the file, importing from one module per line.</li>
+</ul>
 
 </div>
 </div>
@@ -12139,29 +12127,232 @@ nothing added to commit but untracked files present (use "git add" to track)
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Committing-and-pushing-changes">Committing and pushing changes<a class="anchor-link" href="#Committing-and-pushing-changes">&#182;</a></h2><p>Now, if we type <code>git status</code>, it tells use we have a new file. It says this new file is part of "changes to be committed." A <strong>commit</strong> is essentially a revision of a repository. It marks a point in the development of the repository that you want to mark. So, let's commit the present state of the repository.</p>
+<h2 id="Some-examples-of-PEP-8-ified-code">Some examples of PEP 8-ified code<a class="anchor-link" href="#Some-examples-of-PEP-8-ified-code">&#182;</a></h2><p>Let's now look at some examples of code adhering to PEP 8 and code that does not.  We'll start with some code we used before to find start codons.</p>
 
-<pre><code>git commit -m "Added DNA to RNA conversion module."
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seq</span><span class="o">=</span><span class="s1">&#39;AUCUGUACUAAUGCUCAGCACGACGUACG&#39;</span>
+<span class="n">c</span><span class="o">=</span><span class="s1">&#39;AUG&#39;</span>  <span class="c1"># This is the start codon</span>
+<span class="n">i</span> <span class="o">=</span><span class="mi">0</span>  <span class="c1"># Initialize sequence index</span>
+<span class="k">while</span> <span class="n">seq</span><span class="p">[</span> <span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">3</span> <span class="p">]</span><span class="o">!=</span><span class="n">c</span><span class="p">:</span>
+    <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
 
-</code></pre>
-<p>The <code>-m</code> after <code>git commit</code> specifies the <strong>commit message</strong>. This is a brief text that describes what has changed in the repository. Upon committing, the following is printed to the screen:</p>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The start codon starts at index&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
 
-<pre><code>[master 3f7c321] Added DNA to RNA conversion module.
- 1 file changed, 51 insertions(+)
- create mode 100644 dnatorna.py
+</div>
+</div>
+</div>
 
-</code></pre>
-<p>The number <code>3f7c321</code> (yours will be different) is the short version of the commit identifier. If you ever want to go back to a previous version of the repository, this identifier will be a great help.</p>
-<p>Now, the commit is still only on your local machine. In order for your collaborators (or the whole world, if it is a public repo) to have access to it, you need to <strong><code>push</code></strong> it. To do that, we do this:</p>
+<div class="output_wrapper">
+<div class="output">
 
-<pre><code>git push origin master
 
-</code></pre>
-<p>Here, <code>origin</code> is a nickname for your remote repository, that is the one on your local machine. <code>master</code> is the name of the branch we are pushing to in the GitHub repository. I.e., it is the master copy. (We will not talk about git branches or branching in this tutorial.)</p>
-<p>Now, let's look at our repository on GitHub. You can just refresh the main page of the repository. It now looks like this:</p>
-<p><img src="github4.png" alt="github4.png"></p>
-<p>We now have our new file, <code>dnatorna.py</code> in the master repository, out there in the cloud for backup and for sharing.</p>
-<p>In the next lesson, we will practice using Git, and in the process will fork and sync the <code>bootcamp</code> repository so you can work locally and still stay up to date on any edits the course staff makes in the repository.</p>
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The start codon starts at index 10
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Compare that to the PEP 8-ified version.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">start_codon</span> <span class="o">=</span> <span class="s1">&#39;AUG&#39;</span>
+
+<span class="c1"># Initialize sequence index for while loop</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Scan sequence until we hit the start codon</span>
+<span class="k">while</span> <span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">start_codon</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The start codon starts at index&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The start codon starts at index 10
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The descriptive variable names, the spacing, the appropriate comments all make it much more readable.</p>
+<p>For another example, consider the quadratic formula.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">qf</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">a</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It works just fine.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">qf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(3.0, -1.5)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But it is illegible.  Let's do a  PEP 8-ified version.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">quadratic_roots</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Real roots of a second order polynomial.&quot;&quot;&quot;</span>
+    
+    <span class="c1"># Compute square root of the discriminant</span>
+    <span class="n">sqrt_disc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">c</span><span class="p">)</span>
+    
+    <span class="c1"># Compute two roots</span>
+    <span class="n">root_1</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">+</span> <span class="n">sqrt_disc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">root_2</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">-</span> <span class="n">sqrt_disc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">root_1</span><span class="p">,</span> <span class="n">root_2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And this also works!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">quadratic_roots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(3.0, -1.5)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="This-is-really-important.">This is really important.<a class="anchor-link" href="#This-is-really-important.">&#182;</a></h2><p>I want to reiterate how important this is.  Most programmers follow these rules closely, but most scientists do not.  I can't tell you how many software packages written by scientists that I have encountered and found to be almost completely unreadable.  Many of your colleagues will pay little attention to style.  <strong>You should.</strong></p>
 
 </div>
 </div>
