@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="utf-8" />
-<title>l17_intro_to_numpy_and_scipy</title>
+<title>l19_numpy_array</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11960,22 +11960,19 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-17:-Introduction-to-NumPy-and-the-SciPy-stack">Lesson 17: Introduction to NumPy and the SciPy stack<a class="anchor-link" href="#Lesson-17:-Introduction-to-NumPy-and-the-SciPy-stack">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l17_numpy_and_scipy.ipynb">here</a>.</em></p>
+<h1 id="Lesson-18:-NumPy-arrays">Lesson 18: NumPy arrays<a class="anchor-link" href="#Lesson-18:-NumPy-arrays">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l18_numpy_arrays.ipynb">here</a>.</em></p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># NumPy, the engine of scientific computing</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="c1"># We&#39;ll demo a couple SciPy modules</span>
-<span class="kn">import</span> <span class="nn">scipy.special</span>
 </pre></div>
 
 </div>
@@ -11988,7 +11985,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this lesson, we will learn about <a href="http://www.numpy.org"><strong>NumPy</strong></a>, arguably <em>the</em> most important package for scientific computing.  NumPy is part of the <a href="http://www.scipy.org/stackspec.html"><strong>SciPy stack</strong></a>, a collection of packages for doing various scientific computations. Most of the SciPy stack is built on NumPy and its power <code>ndarray</code> data type. We will devote the entire next lesson to <code>ndarray</code>s, but for now, we will take a brief tour through what NumPy and SciPy offer.</p>
+<p>We just got an introduction to NumPy and SciPy.  The packages are extensive.  At the center is the NumPy array data type.  We will explore this data type in this tutorial.  As it is always more fun to work with a real biological application, we will populate our NumPy arrays with data.</p>
+<p>In their 2011 <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0025840">paper in PLoS ONE</a>, Harvey and Orbidans measured the cross-sectional area of <em>C. elegans</em> eggs that came from mothers who had a high concentration of food and from mothers of a low concentration of food.  I digitized the data from their plots, and they are available in the files <code>data/xa_high_food.csv</code> and <code>data/xa_low_food.csv</code> in the bootcamp repository.</p>
 
 </div>
 </div>
@@ -11998,73 +11996,17 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-SciPy-stack">The SciPy stack<a class="anchor-link" href="#The-SciPy-stack">&#182;</a></h2><p>The SciPy stack consists of the following core packages.</p>
-<table>
-<thead><tr>
-<th style="text-align:left">Package</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><a href="http://www.numpy.org">NumPy</a></td>
-<td style="text-align:left">Base routines and classes for handling data and numerical calculation</td>
-</tr>
-<tr>
-<td style="text-align:left"><a href="http://www.scipy.org/">SciPy</a></td>
-<td style="text-align:left">Expansive set of tools for scientific calculation</td>
-</tr>
-<tr>
-<td style="text-align:left"><a href="http://matplotlib.org">matplotlib</a></td>
-<td style="text-align:left">Plotting library</td>
-</tr>
-<tr>
-<td style="text-align:left"><a href="http://ipython.org">IPython</a></td>
-<td style="text-align:left">The interactive Python console you already know and love</td>
-</tr>
-<tr>
-<td style="text-align:left"><a href="http://pandas.pydata.org">Pandas</a></td>
-<td style="text-align:left">A powerful data analysis library</td>
-</tr>
-<tr>
-<td style="text-align:left"><a href="http://www.sympy.org/">SymPy</a></td>
-<td style="text-align:left">Symbolic mathematics library</td>
-</tr>
-</tbody>
-</table>
-<p>With the exception of SymPy, we will use all of these extensively in the next few days.  In this lesson, we will show some of the basic features of NumPy and SciPy.</p>
-<p>Importantly, everything in the SciPy stack is <a href="https://en.wikipedia.org/wiki/BSD_licenses">BSD licensed</a>.  This is a very permissive license, which basically means you can do whatever you want when using the code.  You just need to include the license if you redistribute it.</p>
-<p>Outside of this SciPy stack are important projects that either are too specific to be included in the monolithic SciPy stack, or are still under active development.  Importantly, this includes <a href="http://scikit-image.org"><code>scikit-image</code></a>, a package for image processing, which we will use later in the course.  The new <a href="http://scikit-bio.org"><code>scikit-bio</code></a> is still in early stages of development and promises to be excellent (warning, though: it currently does not work with Windows).  <a href="http://biopython.org/">Biopython</a> is a mature package for parsing data in a bioinformatics context.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="A-very-brief-introduction-to-NumPy-arrays">A very brief introduction to NumPy arrays<a class="anchor-link" href="#A-very-brief-introduction-to-NumPy-arrays">&#182;</a></h2><p>The central object for NumPy and SciPy is the <code>ndarray</code>, commonly referred to as a "NumPy array."  This is an array object that is convenient for scientific computing.  We will go over it in depth in the next lesson, but for now, let's just create some NumPy arrays and see how operators work on them.</p>
-<p>Just like with type conversions with lists, tuples, and other data types we've looked at, we can convert a list to a NumPy array using</p>
-
-<pre><code>np.array()
-
-</code></pre>
-<p>Note that above we imported the NumPy package "<strong><code>as</code></strong> <code>np</code>".  This is for convenience; it allow us to use <code>np</code> as a prefix instead of <code>numpy</code>.  NumPy is in <strong>very</strong> widespread use, and the convention is to use the <code>np</code> abbreviation.</p>
+<h2 id="Loading-in-the-data-set">Loading in the data set<a class="anchor-link" href="#Loading-in-the-data-set">&#182;</a></h2><p>NumPy has a primitive function for loading in data from text files, <code>np.loadtxt()</code>.  We will use it here, but will quickly jettison tomorrow in favor of the much more powerful functionality in Pandas.  For now, we will load our two arrays using <code>np.loadtxt()</code>.  Let's first look at the files.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create a NumPy array from a list</span>
-<span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-
-<span class="c1"># Look at it</span>
-<span class="n">my_ar</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>head data/xa_high_food.csv
 </pre></div>
 
 </div>
@@ -12075,83 +12017,20 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([1, 2, 3, 4])</pre>
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre># This data set contains the cross sectional areas of eggs
+# from C. elegans mothers grown on food with 10% w/v E. coli.
+# The cross sectional area is given in units of square microns.
+#
+# Data digitized from assay 1 of Fig. 5 of Harvey and Orbidans,
+# PLoS ONE, 6(10): e25840, doi:10.1371/journal.pone.0025840
+1683
+2061
+1792
+1852
+</pre>
 </div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We see that the list has been converted and it is explicitly shown as an array.  It has several attributes and lots of methods.  The most important attributes are probably the data type of its elements and the shape of the array.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The data type of stored entries</span>
-<span class="n">my_ar</span><span class="o">.</span><span class="n">dtype</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>dtype(&#39;int64&#39;)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The shape of the array</span>
-<span class="n">my_ar</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(4,)</pre>
-</div>
-
 </div>
 
 </div>
@@ -12163,50 +12042,266 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There are also lots of methods.  The one I use most often is <code>astype()</code>, which converts the data type of the array.</p>
+<p>The actual numbers are preceded with comments starting with a pound sign, so we know to ignore that, which we can do using <code>np.loadtxt()</code>'s <code>comments</code> kwarg.  Furthermore, we note that the cross sectional areas are given in units of µm$^2$.  Let's load in the data.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_ar</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([ 1.,  2.,  3.,  4.])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Load in data</span>
+<span class="n">xa_high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;data/xa_high_food.csv&#39;</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+<span class="n">xa_low</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;data/xa_low_food.csv&#39;</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's take a look at these arrays.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 1683.,  2061.,  1792.,  1852.,  2091.,  1781.,  1912.,  1802.,
+        1751.,  1731.,  1892.,  1951.,  1809.,  1683.,  1787.,  1840.,
+        1821.,  1910.,  1930.,  1800.,  1833.,  1683.,  1671.,  1680.,
+        1692.,  1800.,  1821.,  1882.,  1642.,  1749.,  1712.,  1661.,
+        1701.,  2141.,  1863.,  1752.,  1740.,  1721.,  1660.,  1930.,
+        2030.,  1851.,  2131.,  1828.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_low</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 1840.,  2090.,  2169.,  1988.,  2212.,  2339.,  1989.,  2144.,
+        2290.,  1920.,  2280.,  1809.,  2158.,  1800.,  2133.,  2060.,
+        2160.,  2001.,  2030.,  2088.,  1951.,  2460.,  2021.,  2010.,
+        2139.,  2160.,  2106.,  2171.,  2113.,  2179.,  1890.,  2179.,
+        2021.,  1969.,  2150.,  1900.,  2267.,  1711.,  1901.,  2114.,
+        2112.,  2361.,  2130.,  2061.,  2121.,  1832.,  2210.,  2130.,
+        2153.,  2009.,  2100.,  2252.,  2143.,  2252.,  2222.,  2121.,
+        2409.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Operators-and-NumPy-arrays">Operators and NumPy arrays<a class="anchor-link" href="#Operators-and-NumPy-arrays">&#182;</a></h2><p>We saw in the previous tutorial that NumPy arrays are a special data type.  They have well-defined ways in which our familiar operators work with them.  Let's learn about this by example.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Scalars-and-NumPy-arrays">Scalars and NumPy arrays<a class="anchor-link" href="#Scalars-and-NumPy-arrays">&#182;</a></h3><p>We'll start with multiplying by an array by a constant.  Say we wanted to convert the units of the cross section area from µm$^2$ to mm$^2$.  This means we have to  divide every entry by 10$^6$ (or multiply by 10$^{-6}$).  Multiplication by a scalar works elementwise on NumPy arrays.  Check it out.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span> <span class="o">/</span> <span class="mi">1</span><span class="n">e6</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 0.001683,  0.002061,  0.001792,  0.001852,  0.002091,  0.001781,
+        0.001912,  0.001802,  0.001751,  0.001731,  0.001892,  0.001951,
+        0.001809,  0.001683,  0.001787,  0.00184 ,  0.001821,  0.00191 ,
+        0.00193 ,  0.0018  ,  0.001833,  0.001683,  0.001671,  0.00168 ,
+        0.001692,  0.0018  ,  0.001821,  0.001882,  0.001642,  0.001749,
+        0.001712,  0.001661,  0.001701,  0.002141,  0.001863,  0.001752,
+        0.00174 ,  0.001721,  0.00166 ,  0.00193 ,  0.00203 ,  0.001851,
+        0.002131,  0.001828])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Notice that <code>1e6</code> is how we represent numbers in Python in scientific notation, and that dividing the NumPy array by this number resulted in every entry in the array being divided.  The <code>+</code>, <code>-</code>, and <code>*</code> operators all work in this way.  For example:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span> <span class="o">+</span> <span class="mi">1000</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 2683.,  3061.,  2792.,  2852.,  3091.,  2781.,  2912.,  2802.,
+        2751.,  2731.,  2892.,  2951.,  2809.,  2683.,  2787.,  2840.,
+        2821.,  2910.,  2930.,  2800.,  2833.,  2683.,  2671.,  2680.,
+        2692.,  2800.,  2821.,  2882.,  2642.,  2749.,  2712.,  2661.,
+        2701.,  3141.,  2863.,  2752.,  2740.,  2721.,  2660.,  2930.,
+        3030.,  2851.,  3131.,  2828.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Booleans-with-NumPy-arrays-and-scalars">Booleans with NumPy arrays and scalars<a class="anchor-link" href="#Booleans-with-NumPy-arrays-and-scalars">&#182;</a></h3><p>Let's see what happens when we compare a NumPy array to a scalar.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span> <span class="o">&lt;</span> <span class="mi">2000</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ True, False,  True,  True, False,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True, False,  True,  True,
+        True,  True,  True,  True, False,  True, False,  True], dtype=bool)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We get an array of Booleans!  The comparison is elementwise.  This is important to know because we cannot use these comparisons with an <strong><code>if</code></strong> clause.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">xa_high</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Nothing to print, really.  This will just be an error.&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12218,13 +12313,15 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>4
-1
-10
-2.5
-1.11803398875
-</pre>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-11-15f9981b0d29&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">if</span> xa_high <span class="ansi-blue-fg">&gt;</span> <span class="ansi-cyan-fg">2000</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;Nothing to print, really.  This will just be an error.&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">ValueError</span>: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()</pre>
 </div>
 </div>
 
@@ -12237,21 +12334,219 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Importantly, NumPy arrays can be arguments to NumPy functions.</p>
+<p>Let's take the advice from the exception and use the <code>.any()</code> or <code>.all()</code> operators.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Check if any values are biggern than 2000</span>
+<span class="p">(</span><span class="n">xa_high</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Remember, the expresson <code>(xa_high &gt; 2000)</code> is itself a NumPy array of Booleans.  The <code>any()</code> method returns <code>True</code> if <em>any</em> of the entries in that array are <code>True</code>.  Similarly, the <code>all()</code> method returns <code>True</code> if <em>all</em> entries in the array are <code>True</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">xa_high</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Yup!  At least one cross sectional area is above 2000 µm$^2$, but not all of them.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Equality-checks-with-NumPy-arrays">Equality checks with NumPy arrays<a class="anchor-link" href="#Equality-checks-with-NumPy-arrays">&#182;</a></h3><p>Remember, you should never use the equality operator (<code>==</code>) with <code>float</code>s.  Fortunately, NumPy offers a couple nice functions to check if two numbers are <em>almost</em> equal.  This helps deal with the numerical precision issues when comparing <code>float</code>s.  The <code>np.isclose()</code> functions checks to see if two numbers are close in value.  It works elementwise for NumPy arrays.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compare two numbers</span>
+<span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.29999999999</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compare an array to a scalar</span>
+<span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">xa_high</span><span class="p">,</span> <span class="mi">1800</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([False, False, False, False, False, False, False, False, False,
+       False, False, False, False, False, False, False, False, False,
+       False,  True, False, False, False, False, False,  True, False,
+       False, False, False, False, False, False, False, False, False,
+       False, False, False, False, False, False, False, False], dtype=bool)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A couple cross section are 1800 µm$^2$.  The <code>np.allclose()</code> functions check to see if all values in a NumPy array are close.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">xa_high</span><span class="p">,</span> <span class="mi">1800</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Operators-with-two-NumPy-arrays">Operators with two NumPy arrays<a class="anchor-link" href="#Operators-with-two-NumPy-arrays">&#182;</a></h3><p>We can apply operators with two NumPy ararys.  Let's give it a whirl.  (This is meaningless in the context of the actual data contained in these arrays, but it's an operation we need to understand.)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span> <span class="o">+</span> <span class="n">xa_low</span>
 </pre></div>
 
 </div>
@@ -12263,13 +12558,14 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>4
-1
-10
-2.5
-1.11803398875
-</pre>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-17-2904a0f71134&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>xa_high <span class="ansi-blue-fg">+</span> xa_low
+
+<span class="ansi-red-fg">ValueError</span>: operands could not be broadcast together with shapes (44,) (57,) </pre>
 </div>
 </div>
 
@@ -12282,21 +12578,41 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Other-ways-to-make-NumPy-arrays">Other ways to make NumPy arrays<a class="anchor-link" href="#Other-ways-to-make-NumPy-arrays">&#182;</a></h2><p>There are many other ways to make NumPy arrays besides just converting lists or tuples.  Below are some examples.</p>
+<p>Yikes!  The exception tells us that the two arrays we are using the operator on need to have the same shape.  This makes sense: it we are going to do element-by-element addition, the arrays better have the same number of elements.  To continue with our operators on two arrays, we'll slice the longer NumPy array.  The basic slicing syntax is the same as for strings, lists, and tuples.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># How long our arrays will be</span>
-<span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Just take the first elements</span>
+<span class="n">xa_low_slice</span> <span class="o">=</span> <span class="n">xa_low</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">xa_high</span><span class="p">)]</span>
+</pre></div>
 
-<span class="c1"># Make a NumPy array of length n filled with zeros</span>
-<span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Ok, let's try adding arrays again.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span> <span class="o">+</span> <span class="n">xa_low_slice</span>
 </pre></div>
 
 </div>
@@ -12307,103 +12623,16 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make a NumPy array of length n filled with ones</span>
-<span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[32]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make an empty NumPy array of length n (will show zeros when displayed)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[33]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make a NumPy array filled with zeros the same shape as another NumPy array</span>
-<span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
-<span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[34]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([[0, 0],
-       [0, 0]])</pre>
+<pre>array([ 3523.,  4151.,  3961.,  3840.,  4303.,  4120.,  3901.,  3946.,
+        4041.,  3651.,  4172.,  3760.,  3967.,  3483.,  3920.,  3900.,
+        3981.,  3911.,  3960.,  3888.,  3784.,  4143.,  3692.,  3690.,
+        3831.,  3960.,  3927.,  4053.,  3755.,  3928.,  3602.,  3840.,
+        3722.,  4110.,  4013.,  3652.,  4007.,  3432.,  3561.,  4044.,
+        4142.,  4212.,  4261.,  3889.])</pre>
 </div>
 
 </div>
@@ -12417,20 +12646,17 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="NumPy-has-useful-mathematical-functions">NumPy has useful mathematical functions<a class="anchor-link" href="#NumPy-has-useful-mathematical-functions">&#182;</a></h2><p>So far, we have not done much mathematics with Python.  We have done some adding and division, but nothing like computing a logarithm, cosine, or even square roots.  The NumPy functions also work elementwise on the arrays when it is intuitive to do so. That is, they apply the function to each entry in the array. Check it out!</p>
+<p>Great!  We get element-by-element addition.  The same happens for the other operators we've discussed.  <code>np.isclose()</code> also operates element-by-element.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-
-<span class="c1"># Exponential</span>
-<span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">xa_high</span><span class="p">,</span> <span class="n">xa_low_slice</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12441,71 +12667,15 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([  2.71828183,   7.3890561 ,  20.08553692,  54.59815003])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Cosine</span>
-<span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([ 0.54030231, -0.41614684, -0.9899925 , -0.65364362])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Square root</span>
-<span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([ 1.        ,  1.41421356,  1.73205081,  2.        ])</pre>
+<pre>array([False, False, False, False, False, False, False, False, False,
+       False, False, False, False, False, False, False, False, False,
+       False, False, False, False, False, False, False, False, False,
+       False, False, False, False, False, False, False, False, False,
+       False, False, False, False, False, False, False, False], dtype=bool)</pre>
 </div>
 
 </div>
@@ -12519,87 +12689,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can even do some matrix operations (which are obviously not done elementwise), like dot products.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">my_ar</span><span class="p">,</span> <span class="n">my_ar</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>30</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>NumPy also has useful attributes, like <code>np.pi</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>3.141592653589793</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="SciPy-has-even-more-useful-functions-(in-modules)">SciPy has even more useful functions (in modules)<a class="anchor-link" href="#SciPy-has-even-more-useful-functions-(in-modules)">&#182;</a></h2><p>SciPy actually began life as a library of special functions that operate on NumPy arrays.  For example, we can compute an error function, we can use the <code>scipy.special</code> module, which contains lots of special functions.  Note that you often have to individually import the SciPy module you want to use, for example with</p>
-
-<pre><code>import scipy.special</code></pre>
+<h2 id="Slicing-NumPy-arrays">Slicing NumPy arrays<a class="anchor-link" href="#Slicing-NumPy-arrays">&#182;</a></h2><p>We already saw that we can slice NumPy arrays like lists and tuples.  Here are a few examples.</p>
 
 </div>
 </div>
@@ -12609,7 +12699,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">erf</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Reversed array</span>
+<span class="n">xa_high</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -12624,7 +12715,12 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([ 0.84270079,  0.99532227,  0.99997791,  0.99999998])</pre>
+<pre>array([ 1828.,  2131.,  1851.,  2030.,  1930.,  1660.,  1721.,  1740.,
+        1752.,  1863.,  2141.,  1701.,  1661.,  1712.,  1749.,  1642.,
+        1882.,  1821.,  1800.,  1692.,  1680.,  1671.,  1683.,  1833.,
+        1800.,  1930.,  1910.,  1821.,  1840.,  1787.,  1683.,  1809.,
+        1951.,  1892.,  1731.,  1751.,  1802.,  1912.,  1781.,  2091.,
+        1852.,  1792.,  2061.,  1683.])</pre>
 </div>
 
 </div>
@@ -12632,35 +12728,408 @@ div#notebook {
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="NumPy-and-SciPy-are-highly-optimized">NumPy and SciPy are highly optimized<a class="anchor-link" href="#NumPy-and-SciPy-are-highly-optimized">&#182;</a></h2><p>Importantly, NumPy and SciPy routines are often <em>fast</em>.  To understand why, we need to think a bit about how your computer actually runs code you write.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Interpreted-and-compiled-languages">Interpreted and compiled languages<a class="anchor-link" href="#Interpreted-and-compiled-languages">&#182;</a></h3><p>We have touched on the fact that Python is an <strong>interpreted language</strong>.  This means that the Python interpreter reads through your code, line by line, translates the instructions into machine code, and then these are executed.  As an interpreted language, code is often much easier to write, and development time is much shorter.  It is often easier to debug.  By contrast, <strong>compiled languages</strong> (the dominant ones being Fortran, C, and C++), your entire code is translated into machine language before you ever run it.  When you execute your program, it is already in machine language.  As a result, compiled code is often much faster than interpreted code.  The speed difference depends largely on the task at hand, but is over a 100 to 1000-fold difference.</p>
-<p>First, we'll demonstrate the difference between compiled and interpreted languages by looking at a function to sum the elements of an array.  Note that Python is dynamically typed, so the function below works for multiple data types, but the C function works only for double precision floating point numbers.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Python code to sum an array and print the result to the screen</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Every 5th element, starting at index 3</span>
+<span class="n">xa_high</span><span class="p">[</span><span class="mi">3</span><span class="p">::</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 1852.,  1751.,  1683.,  1930.,  1680.,  1642.,  2141.,  1660.,
+        1828.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Entries 10 to 20</span>
+<span class="n">xa_high</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 1892.,  1951.,  1809.,  1683.,  1787.,  1840.,  1821.,  1910.,
+        1930.,  1800.,  1833.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Fancy-indexing">Fancy indexing<a class="anchor-link" href="#Fancy-indexing">&#182;</a></h3><p>NumPy arrays also allow <strong>fancy indexing</strong>, where we can slice out specific values.  For example, say we wanted indices 1, 19, and 6 (in that order) from <code>xa_high</code>.  We just index with a list of the indices we want.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 2061.,  1800.,  1912.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Instead of a list, we could also use a NumPy array.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">6</span><span class="p">])]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 2061.,  1800.,  1912.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As a very nice feature, we can slice with a NumPy array of Booleans, and we'll just get back the <code>True</code> values.  So, say we only want the egg cross sectional areas that are greater than 2000 µm$^2$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Just slice out the big ones</span>
+<span class="n">xa_high</span><span class="p">[</span><span class="n">xa_high</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 2061.,  2091.,  2141.,  2030.,  2131.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If we want to know the indices where the values are high, we can use the <code>np.where()</code> function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">xa_high</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(array([ 1,  4, 33, 40, 42]),)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="NumPy-arrays-are-mutable">NumPy arrays are mutable<a class="anchor-link" href="#NumPy-arrays-are-mutable">&#182;</a></h2><p>The big bold words above say it all.  Let's look at some consequences.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make an array</span>
+<span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+
+<span class="c1"># Change an element</span>
+<span class="n">my_ar</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">6</span>
+
+<span class="c1"># See the result</span>
+<span class="n">my_ar</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[33]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1, 2, 6, 4])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, let's try working attaching another variable to the NumPy array.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Attach a new variable</span>
+<span class="n">my_ar2</span> <span class="o">=</span> <span class="n">my_ar</span>
+
+<span class="c1"># Set an entry using the new variable</span>
+<span class="n">my_ar2</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span>
+
+<span class="c1"># Does the original change? (yes.)</span>
+<span class="n">my_ar</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[34]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1, 2, 6, 9])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's see how messing with NumPy in functions affects things.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Re-instantiate my_ar</span>
+<span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="c1"># Function to normalize x (note that /= works with mutable objects)</span>
+<span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Pass it through a function</span>
+<span class="n">normalize</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
+
+<span class="c1"># Is it normalized? (Yes.)</span>
+<span class="n">my_ar</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[35]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 0.1,  0.2,  0.3,  0.4])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, be careful when writing functions.  What you do to your NumPy array in the function will happen outside of the function as well.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Slices-of-NumPy-arrays-are-views,-not-copies">Slices of NumPy arrays are <strong>views</strong>, not copies<a class="anchor-link" href="#Slices-of-NumPy-arrays-are-views,-not-copies">&#182;</a></h3><p>A very important distinction between NumPy arrays and lists is that slices of NumPy arrays are <strong>views</strong> into the original NumPy array, NOT copies.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make list and array</span>
+<span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span>
+
+<span class="c1"># Slice out of each</span>
+<span class="n">my_list_slice</span> <span class="o">=</span> <span class="n">my_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">my_ar_slice</span> <span class="o">=</span> <span class="n">my_ar</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Mess with the slices</span>
+<span class="n">my_list_slice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">my_ar_slice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span>
+
+<span class="c1"># Look at originals</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12673,7 +13142,8 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>10
+<pre>[1, 2, 3, 4]
+[1 9 3 4]
 </pre>
 </div>
 </div>
@@ -12681,27 +13151,13 @@ div#notebook {
 </div>
 </div>
 
-</div>/* C code to sum an array and print the result to the screen */
-
-#include <stdio.h>
-
-void sum_array(double a[], int n);
-
-void sum_array(doubt a[], int n) {
-   int i; 
-   double sum=0;
-   for (i = 0; i < n; i++){
-       sum += a[i];
-   }
-   printf("%d\n", sum);
-}
-
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The C code won't even execute without another function called <code>main</code> to call it.  You should notice the difference in complexity of the code.  Interpreted code is very often much easier to write!</p>
+<p>Messing with an element of a slice of a NumPy array messes with that element in the original!  This is not the case with lists.  Let's issue a warning.</p>
 
 </div>
 </div>
@@ -12711,7 +13167,172 @@ void sum_array(doubt a[], int n) {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="NumPy-and-SciPy-use-compiled-code!">NumPy and SciPy use compiled code!<a class="anchor-link" href="#NumPy-and-SciPy-use-compiled-code!">&#182;</a></h3><p>Under the hood, when you call a NumPy or SciPy function, or use one of the methods, the Python interpreter passes the arrays into pre-compiled functions.  (They are usually C or Fortran functions.)  That means that you get to use an interpreted language with near-compiled speed!  We can demonstrate the speed by comparing an explicit sum of elements of an array using a Python <strong><code>for</code></strong> loop versus NumPy.  We will use the <code>np.random</code> module to generate a large array of random numbers (we will visit random number generation in a coming lesson).  We then use the <code>%timeit</code> magic function of IPython to time the execution of the sum of the elements of the array.</p>
+<div class="alert alert-danger">
+<center>Slices of NumPy arrays are **views**, not copies.</center>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Fortunately, you can make a copy of an array using the <code>np.copy()</code> function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make a copy</span>
+<span class="n">xa_high_copy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">xa_high</span><span class="p">)</span>
+
+<span class="c1"># Mess with an entry</span>
+<span class="n">xa_high_copy</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2000</span>
+
+<span class="c1"># Check equality</span>
+<span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">xa_high</span><span class="p">,</span> <span class="n">xa_high_copy</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, messing with an entry in the copy did not affect the original.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Indexing-2D-NumPy-arrays">Indexing 2D NumPy arrays<a class="anchor-link" href="#Indexing-2D-NumPy-arrays">&#182;</a></h2><p>NumPy arrays need not be one-dimensional.  We'll create a two-dimensional NumPy array by reshaping our <code>xa_high</code> array from having shape <code>(44,)</code> to having shape <code>(11, 4)</code>.  That is, it will become an array with 11 rows and 4 columns.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># New 2D array using the reshape() method</span>
+<span class="n">my_ar</span> <span class="o">=</span> <span class="n">xa_high</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># Look at it</span>
+<span class="n">my_ar</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[ 1683.,  2061.,  1792.,  1852.],
+       [ 2091.,  1781.,  1912.,  1802.],
+       [ 1751.,  1731.,  1892.,  1951.],
+       [ 1809.,  1683.,  1787.,  1840.],
+       [ 1821.,  1910.,  1930.,  1800.],
+       [ 1833.,  1683.,  1671.,  1680.],
+       [ 1692.,  1800.,  1821.,  1882.],
+       [ 1642.,  1749.,  1712.,  1661.],
+       [ 1701.,  2141.,  1863.,  1752.],
+       [ 1740.,  1721.,  1660.,  1930.],
+       [ 2030.,  1851.,  2131.,  1828.]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Notice that it is represented as an array made out of a list of lists.  If we had a list of lists, we would index it like this:</p>
+
+<pre><code>list_of_lists[i][j]</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make list of lists</span>
+<span class="n">list_of_lists</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+
+<span class="c1"># Pull out value in first row, second column</span>
+<span class="n">list_of_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is <em>not</em> how NumPy arrays are indexed.  They are indexed much more conveniently.</p>
 
 </div>
 </div>
@@ -12721,18 +13342,7 @@ void sum_array(doubt a[], int n) {
 <div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make array of 10,000 random numbers</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-
-<span class="c1"># Sum with Python for loop</span>
-<span class="k">def</span> <span class="nf">python_sum</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="n">x_sum</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
-        <span class="n">x_sum</span> <span class="o">+=</span> <span class="n">y</span>
-    <span class="k">return</span> <span class="n">x_sum</span>
-
-<span class="c1"># Test speed</span>
-<span class="o">%</span><span class="k">timeit</span> python_sum(x)
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_ar</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -12743,11 +13353,13 @@ void sum_array(doubt a[], int n) {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1000 loops, best of 3: 1.13 ms per loop
-</pre>
+<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2061.0</pre>
 </div>
+
 </div>
 
 </div>
@@ -12759,7 +13371,46 @@ void sum_array(doubt a[], int n) {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we'll do the same test with the NumPy implementation.</p>
+<p>We essentially have a tuple in the indexing brackets.  Now, say we wanted the second row (indexing starting at 0).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_ar</span><span class="p">[</span><span class="mi">2</span><span class="p">,:]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 1751.,  1731.,  1892.,  1951.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can use Boolean indexing as before.</p>
 
 </div>
 </div>
@@ -12769,7 +13420,197 @@ void sum_array(doubt a[], int n) {
 <div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span> np.sum(x)
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_ar</span><span class="p">[</span><span class="n">my_ar</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 2061.,  2091.,  2141.,  2030.,  2131.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that this give a one-dimensional list of the entries greated than 2000.  If we wanted indices where this is the case, we can again use <code>np.where()</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">my_ar</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[46]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(array([ 0,  1,  8, 10, 10]), array([1, 0, 1, 0, 2]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This tuple of NumPy arrays is how we would index using fancy indexing to pull those values out using fancy indexing.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_ar</span><span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[47]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 2061.,  2091.,  2141.,  2030.,  2131.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>NumPy arrays can be of arbitrary integer dimension, and these principles extrapolate to 3D, 4D, etc., arrays.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Concatenating-arrays">Concatenating arrays<a class="anchor-link" href="#Concatenating-arrays">&#182;</a></h2><p>Let's say we want to study all cross sectional areas and don't care if the mother was well-fed or not.  We would want to concatenate our arrays.  The <code>np.concatenate()</code> function accomplishes this.  We simply have to pass it a tuple containing the NumPy arrays we want to concatenate.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">combined</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">xa_high</span><span class="p">,</span> <span class="n">xa_low</span><span class="p">))</span>
+
+<span class="c1"># Look at it</span>
+<span class="n">combined</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[48]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 1683.,  2061.,  1792.,  1852.,  2091.,  1781.,  1912.,  1802.,
+        1751.,  1731.,  1892.,  1951.,  1809.,  1683.,  1787.,  1840.,
+        1821.,  1910.,  1930.,  1800.,  1833.,  1683.,  1671.,  1680.,
+        1692.,  1800.,  1821.,  1882.,  1642.,  1749.,  1712.,  1661.,
+        1701.,  2141.,  1863.,  1752.,  1740.,  1721.,  1660.,  1930.,
+        2030.,  1851.,  2131.,  1828.,  1840.,  2090.,  2169.,  1988.,
+        2212.,  2339.,  1989.,  2144.,  2290.,  1920.,  2280.,  1809.,
+        2158.,  1800.,  2133.,  2060.,  2160.,  2001.,  2030.,  2088.,
+        1951.,  2460.,  2021.,  2010.,  2139.,  2160.,  2106.,  2171.,
+        2113.,  2179.,  1890.,  2179.,  2021.,  1969.,  2150.,  1900.,
+        2267.,  1711.,  1901.,  2114.,  2112.,  2361.,  2130.,  2061.,
+        2121.,  1832.,  2210.,  2130.,  2153.,  2009.,  2100.,  2252.,
+        2143.,  2252.,  2222.,  2121.,  2409.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="So,-what-is-the-difference-between-the-two-classes-of-eggs?">So, what is the difference between the two classes of eggs?<a class="anchor-link" href="#So,-what-is-the-difference-between-the-two-classes-of-eggs?">&#182;</a></h2><p>Finally, let's use our data to compare the difference in cross section areas of the eggs of mothers eating high vs. low-density food? We can use some handy NumPy functions to do it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compute 25, 50, and 75 percentiles</span>
+<span class="n">high_perc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">xa_high</span><span class="p">,</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">))</span>
+<span class="n">low_perc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">xa_low</span><span class="p">,</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">))</span>
+
+<span class="c1"># Print result</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">       25       median        75</span>
+<span class="s2">high   </span><span class="si">{0:d}</span><span class="s2">       </span><span class="si">{1:d}</span><span class="s2">        </span><span class="si">{2:d}</span><span class="s2"></span>
+<span class="s2">low    </span><span class="si">{3:d}</span><span class="s2">       </span><span class="si">{4:d}</span><span class="s2">        </span><span class="si">{5:d}</span><span class="s2"></span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">high_perc</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">low_perc</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)))))</span>
 </pre></div>
 
 </div>
@@ -12782,8 +13623,11 @@ void sum_array(doubt a[], int n) {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>The slowest run took 7.48 times longer than the fastest. This could mean that an intermediate result is being cached.
-100000 loops, best of 3: 6.77 µs per loop
+<pre>
+       25       median        75
+high   1718       1801        1884
+low    2009       2121        2171
+
 </pre>
 </div>
 </div>
@@ -12797,18 +13641,7 @@ void sum_array(doubt a[], int n) {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Wow!  We went from 1 millisecond to 6 <em>micro</em>seconds!  That's a factor of about 170!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Word-of-advice:-use-NumPy-and-SciPy">Word of advice: use NumPy and SciPy<a class="anchor-link" href="#Word-of-advice:-use-NumPy-and-SciPy">&#182;</a></h2><p>If you are writing code, and you think to yourself, "This seems like a pretty common things to do," there is a good chance the someone really smart has written code to do it.  If it's something numerical, there is a good chance it is in NumPy or SciPy.  <strong>Use these packages.</strong> Do not reinvent the wheel.  It is very rare you can beat them for performance, error checking, etc.</p>
-<p>Furthermore, NumPy and SciPy are very well unit tested.  In general, you do not need to write unit tests for well-established packages.  Obviously, if you use NumPy or SciPy within your own functions, you still need to unit test what you wrote.</p>
+<p>So, we see that the eggs from mothers eating lower-density food have larger cross-sectional areas.</p>
 
 </div>
 </div>
