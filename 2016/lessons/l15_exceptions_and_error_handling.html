@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="utf-8" />
-<title>l16_pep8</title>
+<title>l15_exceptions_and_error_handling</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11960,8 +11960,186 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-16:-Python-style">Lesson 16: Python style<a class="anchor-link" href="#Lesson-16:-Python-style">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l16_pep8.ipynb">here</a>.</em></p>
+<h1 id="Lesson-15:-Exceptions-and-error-handling">Lesson 15: Exceptions and error handling<a class="anchor-link" href="#Lesson-15:-Exceptions-and-error-handling">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l14_exceptions_and_error_handling.ipynb">here</a>.</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">bioinfo_dicts</span> <span class="k">as</span> <span class="nn">bd</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So far, we have encountered errors when we did something wrong.  For example, when we tried to change a character in a string, we got a <code>TypeError</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_str</span> <span class="o">=</span> <span class="s1">&#39;AGCTATC&#39;</span>
+<span class="n">my_str</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;G&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-2-35bd914b99af&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> my_str <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;AGCTATC&#39;</span>
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span>my_str<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;G&#39;</span>
+
+<span class="ansi-red-fg">TypeError</span>: &#39;str&#39; object does not support item assignment</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this case, the <code>TypeError</code> indicates that we tried to do something that is legal in Python for some types, but we tried to do it to a type for which it is illegal (strings are immutable).  In Python, this type of error is called an <strong>exception</strong>.  We say that the interpreter "<strong>raised an exception</strong>."  There are many kinds of built-in exceptions, and you can find a list of them, with descriptions <a href="https://docs.python.org/3.5/library/exceptions.html#bltin-exceptions">here</a>.  You can write your own kinds of exceptions, but we will not cover that in bootcamp.</p>
+<p>In this lesson, we will investigate how to handle errors in your code.  Importantly, we will also touch on the different kinds of errors and how to avoid them.  Or, more specifically, in this and the next lesson, we will learn how to use exceptions to help you write better, more bug free code.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Kinds-of-errors">Kinds of errors<a class="anchor-link" href="#Kinds-of-errors">&#182;</a></h2><p>In computer programs, we can break down errors into three types.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Syntax-errors">Syntax errors<a class="anchor-link" href="#Syntax-errors">&#182;</a></h3><p>A <strong>syntax error</strong> means you wrote something nonsensical, something the Python interpreted cannot understand.  An example of a syntax error in English would be the following.</p>
+<blockquote><p>Sir Tristram, violer d'amores, fr'over the short sea, had passen-core rearrived from North Armorica on this side the scraggy isthmus of Europe Minor to wielderfight his penisolate war: nor had topsawyer's rocks by the stream Oconee exaggerated themselse to Laurens County's gorgios while they went doublin their mumper all the time: nor avoice from afire bellowsed mishe mishe to tauftauf thuartpeatrick: not yet, though venissoon after, had a kidscad buttended a bland old isaac: not yet, though all's fair in    vanessy, were sosie sesthers wroth with twone nathandjoe.</p>
+</blockquote>
+<p>This is recognizable as English.  In fact, it is the second sentence of a very famous novel (<em>Finnegan's Wake</em> by James Joyce).  Clearly, many spelling and punctuation rules of English are violated here.  To many of us, it is nonsensical, but I do know of some people who have read the book and understand it.  So, English is fairly tolerant of a syntax error.  A simpler example would be</p>
+<blockquote><p>Boootamp is fun!</p>
+</blockquote>
+<p>This has a syntax error ("Boootcamp" is not in the English language), but we understand what it means.  A syntax error in Python would be this:</p>
+
+<pre><code>my_list = [1, 2, 3
+
+</code></pre>
+<p>We know what this means.  We are trying to create a list with three items, <code>1</code>, <code>2</code>, and <code>3</code>.  However, we forgot the closing bracket.  The Python interpreter is not forgiving; it will raise a <code>SyntaxError</code> exception.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-3-417643829e38&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">1</span>
+<span class="ansi-red-fg">    my_list = [1, 2, 3</span>
+                      ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> unexpected EOF while parsing
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Syntax errors are often the easiest to deal with, since the program will not run at all if one is present.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Runtime-errors">Runtime errors<a class="anchor-link" href="#Runtime-errors">&#182;</a></h3><p><strong>Runtime errors</strong> occur when a program is syntactically correct, so it can run, but the interpreter encountered something wrong.  The example at the start of the tutorial, trying to change a character in a string, is an example of a runtime error.  This particular one was a <code>TypeError</code>, which is a more specific type of runtime error.  Python does have a <code>RuntimeError</code>, which is just a generic error.</p>
+<p>Runtime errors are more difficult to spot than syntax errors because it is possible that a program could run all the way through without encountering the error, but only for certain inputs does it happen.  Let's consider the example of a simple function meant to add two numbers.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">add_two_things</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add two numbers.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Syntactically, this function is just fine.  We can use it and it works.</p>
 
 </div>
 </div>
@@ -11971,66 +12149,36 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">add_two_things</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>13</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This lesson is all about style.  Style in the general sense of the work is very important.  It can have a big effect on how people interact with a program or software.  As an example, we can look at the style of data presentation.</p>
-<p>The <a href="https://en.wikipedia.org/wiki/Keeling_Curve">Keeling curve</a> is a measure of the carbon dioxide concentration on top of Muana Loa over time. Let's look at a plot of the Keeling curve.</p>
-<p><img src="bad_keeling.png" alt="bad_keeling.png"></p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>I contend that this plot is horrible looking. The green color is hard to see. The dashed curve is difficult to interpret. We do not know when the measurements were made. The grid lines are obtrusive. Awful.</p>
-<p>Lest you think this plot is a ridiculous way of showing the data, I can tell you I have seen plots just like this in the literature.  Now, let's look at a nicer plot.</p>
-<p><img src="good_keeling.png" alt="good_keeling.png"></p>
 
 </div>
-</div>
-</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Here, it is clear when the measurements were made. The data are clearly visible. The grid lines are not obtrusive. It is generally pleasing to the eye. As a result, the data are easier to interpret. Style matters!</p>
-<p>(We will talk about how to make beautiful plots like the one here later in the bootcamp.)</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The same arguments about style are true for code.  Style matters!  We already discussed how important documentation is, but having a well-defined style also helps keep your code clean, easy to read, and therefore easier to debug and share.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="PEP-8">PEP 8<a class="anchor-link" href="#PEP-8">&#182;</a></h2><p>Guido van Rossum is the benevolent dictator for life (BDFL) of Python.  He invented Python, and he ultimately decides what happens with the language.  To get new features or other enhancements into the language, Guido either writes or (usually) considers a <strong>Python Enhancement Proposal</strong>, or a <strong>PEP</strong>.  Each PEP is carefully reviewed and there are many iterations with the PEP's author(s).  Ultimately, Guido decides if the PEP becomes part of the Python language.</p>
-<p>Perhaps the best-known PEPs are <strong>PEP 8</strong> and PEP 20.  This lesson is about PEP 8, but we'll pause for a moment to look at PEP 20 to understand why PEP 8 is important.  PEP 20 is "The Zen of Python."  You can see its text by doing <code>import this</code>.</p>
+<p>We can even add strings, even though it was meant to add two numbers.</p>
 
 </div>
 </div>
@@ -12040,7 +12188,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">this</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">add_two_things</span><span class="p">(</span><span class="s1">&#39;Hello, &#39;</span><span class="p">,</span> <span class="s1">&#39;world.&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12051,31 +12199,13 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>The Zen of Python, by Tim Peters
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
 
-Beautiful is better than ugly.
-Explicit is better than implicit.
-Simple is better than complex.
-Complex is better than complicated.
-Flat is better than nested.
-Sparse is better than dense.
-Readability counts.
-Special cases aren&#39;t special enough to break the rules.
-Although practicality beats purity.
-Errors should never pass silently.
-Unless explicitly silenced.
-In the face of ambiguity, refuse the temptation to guess.
-There should be one-- and preferably only one --obvious way to do it.
-Although that way may not be obvious at first unless you&#39;re Dutch.
-Now is better than never.
-Although never is often better than *right* now.
-If the implementation is hard to explain, it&#39;s a bad idea.
-If the implementation is easy to explain, it may be a good idea.
-Namespaces are one honking great idea -- let&#39;s do more of those!
-</pre>
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;Hello, world.&#39;</pre>
 </div>
+
 </div>
 
 </div>
@@ -12087,47 +12217,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>These are good ideas for coding practice in general.  Importantly, beautiful, simple, readable code is a goal of a programmer.  That's where PEP 8 comes in.  PEP8 is the <strong>Python Style Guide</strong>, written by Guido, Barry Warsaw, and Nick Coghlan.  You can read its full text in the <a href="https://www.python.org/dev/peps/pep-0008/">Python PEP index</a>, and I recommend you do that.  I also recommend you follow everything it says!  It helps you a lot.  Trust me; my life got much better after I started following PEP 8's rules.</p>
-<p>Note, though, that you code will work just fine if you break PEP 8's rules.  In fact, some companies have their own style guides.  Google's style, for example, is different than PEP 8.  And they even hired Guido after PEP 8 was released (though he now works for Dropbox)!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Key-points-of-PEP-8">Key points of PEP 8<a class="anchor-link" href="#Key-points-of-PEP-8">&#182;</a></h2><p>PEP 8 is extensive, but here are some key points for you to keep in mind as you are being style-conscious.</p>
-<ul>
-<li>Variable names need to be descriptive.</li>
-<li>Variable names are all lower case with underscores separating words.</li>
-<li>Do not name varibales <code>l</code>, <code>O</code>, or <code>I</code> because they are hard to distinguish from ones and zeros.</li>
-<li>Function names are lower case and may use underscores.</li>
-<li>Class names are in CamelCase.  (We are not explicitly covering classes in the bootcamp, though we did <a href="http://justinbois.github.io/bootcamp/2015/lessons/l10_intro_to_oop.html">last year</a>. You will come across CamelCase objects in other packages, which usually means you are instantiating a class.)</li>
-<li>Module names are short and lower case.  Underscores should be avoided unless necessary for readability.</li>
-<li>Lines are maximally 79 characters long.</li>
-<li>Doc strings are maximally 72 characters long.</li>
-<li>Avoid in-line comments; put the comment directly above the code.</li>
-<li>Avoid excessive comments that state the obvious.</li>
-<li>Generally, put single spaces around binary operators, unless omitting space improves readability.  For example, <code>x**2 + y**2</code>.  Low priority operators should have space.</li>
-<li>Assignment operators should always have single spaces around them <em>except</em> when in keyword arguments.  E.g., no space in <code>f(x, y=4)</code>.</li>
-<li>Put spaces after commas in function definitions and calls.  This also applies for lists, tuples, NumPy arrays, etc.</li>
-<li>Avoid excessive spaces within parentheses, braces, and brackets.</li>
-<li>Use a single blank line to separate logical sections of your code.</li>
-<li>Put two blank lines between functions in a <code>.py</code> file.</li>
-<li>Put all import statements at the top of the file, importing from one module per line.</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Some-examples-of-PEP-8-ified-code">Some examples of PEP 8-ified code<a class="anchor-link" href="#Some-examples-of-PEP-8-ified-code">&#182;</a></h2><p>Let's now look at some examples of code adhering to PEP 8 and code that does not.  We'll start with some code we used before to find start codons.</p>
+<p>However, when we try to add a string and a number, we get a <code>TypeError</code>, the kind of runtime error we saw before.</p>
 
 </div>
 </div>
@@ -12137,13 +12227,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seq</span><span class="o">=</span><span class="s1">&#39;AUCUGUACUAAUGCUCAGCACGACGUACG&#39;</span>
-<span class="n">c</span><span class="o">=</span><span class="s1">&#39;AUG&#39;</span>  <span class="c1"># This is the start codon</span>
-<span class="n">i</span> <span class="o">=</span><span class="mi">0</span>  <span class="c1"># Initialize sequence index</span>
-<span class="k">while</span> <span class="n">seq</span><span class="p">[</span> <span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">3</span> <span class="p">]</span><span class="o">!=</span><span class="n">c</span><span class="p">:</span>
-    <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The start codon starts at index&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">add_two_things</span><span class="p">(</span><span class="s1">&#39;a string&#39;</span><span class="p">,</span> <span class="mf">5.7</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12155,9 +12239,19 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>The start codon starts at index 10
-</pre>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-7-03a7849a7c3d&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>add_two_things<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;a string&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">5.7</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-4-fb20dd9a25a9&gt;</span> in <span class="ansi-cyan-fg">add_two_things</span><span class="ansi-blue-fg">(a, b)</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">def</span> add_two_things<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span> b<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     <span class="ansi-blue-fg">&#34;&#34;&#34;Add two numbers.&#34;&#34;&#34;</span>
+<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> a <span class="ansi-blue-fg">+</span> b
+
+<span class="ansi-red-fg">TypeError</span>: Can&#39;t convert &#39;float&#39; object to str implicitly</pre>
 </div>
 </div>
 
@@ -12170,7 +12264,8 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Compare that to the PEP 8-ified version.</p>
+<h3 id="Semantic-errors">Semantic errors<a class="anchor-link" href="#Semantic-errors">&#182;</a></h3><p>Semantic errors are perhaps the most nefarious.  They occur when your program is syntactically correct, executes without runtime errors, and then produces the wrong result.  These errors are the hardest to find and can do the most damage.  After all, when your program does not do what you designed it to do, you want it to scream out with an exception!</p>
+<p>Following is a common example of a semantic error in which we change a mutable object within a function and then try to reuse it.</p>
 
 </div>
 </div>
@@ -12180,16 +12275,26 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">start_codon</span> <span class="o">=</span> <span class="s1">&#39;AUG&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># A function to append a list onto itself, with the intention of </span>
+<span class="c1"># returning a new list, but leaving the input unaltered</span>
+<span class="k">def</span> <span class="nf">double_list</span><span class="p">(</span><span class="n">in_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Append a list to itself.&quot;&quot;&quot;</span>
+    <span class="n">in_list</span> <span class="o">+=</span> <span class="n">in_list</span>
+    <span class="k">return</span> <span class="n">in_list</span>
 
-<span class="c1"># Initialize sequence index for while loop</span>
-<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="c1"># Scan sequence until we hit the start codon</span>
-<span class="k">while</span> <span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">start_codon</span><span class="p">:</span>
-    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-    
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The start codon starts at index&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="c1"># Make a list</span>
+<span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Double it</span>
+<span class="n">my_list_double</span> <span class="o">=</span> <span class="n">double_list</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span>
+
+<span class="c1"># Later on in our program, we want a sorted my_list</span>
+<span class="n">my_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+<span class="c1"># Let&#39;s look at my_list:</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;We expect [1, 2, 3]&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;We get   &#39;</span><span class="p">,</span> <span class="n">my_list</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12202,7 +12307,8 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>The start codon starts at index 10
+<pre>We expect [1, 2, 3]
+We get    [1, 1, 2, 2, 3, 3]
 </pre>
 </div>
 </div>
@@ -12216,8 +12322,18 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The descriptive variable names, the spacing, the appropriate comments all make it much more readable.</p>
-<p>Here's another example, the dictionary mapping single-letter residue symbols to the three-letter equivalents.</p>
+<p>Yikes!  We changed <code>my_list</code> within the function unintentionally.  Question: How would you re-rewrite <code>double_list()</code> to avoid this issue?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Handling-errors-in-your-code">Handling errors in your code<a class="anchor-link" href="#Handling-errors-in-your-code">&#182;</a></h2><p>If you have a syntax error, your code will not even run.  So, we will assume we are without syntax errors in this discussion on how to handle errors.  So, how can we handle runtime errors?  In most use cases, we just write our code and let the Python interpreter tell us about errors.  However, sometimes we want to use the fact that we might encounter a runtime error within our code.  A common example of this is when importing modules that are convenient, but not necessary in your code.  Errors are handled in your code using a <strong>try block</strong>.</p>
+<p>Let's try importing a module that computes GC content.  This doesn't exist, so we will get an <code>ImportError</code>.</p>
 
 </div>
 </div>
@@ -12227,10 +12343,29 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;A&#39;</span> <span class="p">:</span> <span class="s1">&#39;Ala&#39;</span> <span class="p">,</span> <span class="s1">&#39;R&#39;</span> <span class="p">:</span> <span class="s1">&#39;Arg&#39;</span> <span class="p">,</span> <span class="s1">&#39;N&#39;</span> <span class="p">:</span> <span class="s1">&#39;Asn&#39;</span> <span class="p">,</span> <span class="s1">&#39;D&#39;</span> <span class="p">:</span> <span class="s1">&#39;Asp&#39;</span> <span class="p">,</span> <span class="s1">&#39;C&#39;</span> <span class="p">:</span> <span class="s1">&#39;Cys&#39;</span> <span class="p">,</span> <span class="s1">&#39;Q&#39;</span> <span class="p">:</span> <span class="s1">&#39;Gln&#39;</span> <span class="p">,</span> <span class="s1">&#39;E&#39;</span> <span class="p">:</span> <span class="s1">&#39;Glu&#39;</span> <span class="p">,</span> <span class="s1">&#39;G&#39;</span> <span class="p">:</span> <span class="s1">&#39;Gly&#39;</span> <span class="p">,</span> <span class="s1">&#39;H&#39;</span> <span class="p">:</span> <span class="s1">&#39;His&#39;</span> <span class="p">,</span> <span class="s1">&#39;I&#39;</span> <span class="p">:</span> <span class="s1">&#39;Ile&#39;</span> <span class="p">,</span> <span class="s1">&#39;L&#39;</span> <span class="p">:</span> <span class="s1">&#39;Leu&#39;</span> <span class="p">,</span> <span class="s1">&#39;K&#39;</span> <span class="p">:</span> <span class="s1">&#39;Lys&#39;</span> <span class="p">,</span> <span class="s1">&#39;M&#39;</span> <span class="p">:</span> <span class="s1">&#39;Met&#39;</span> <span class="p">,</span> <span class="s1">&#39;F&#39;</span> <span class="p">:</span> <span class="s1">&#39;Phe&#39;</span> <span class="p">,</span> <span class="s1">&#39;P&#39;</span> <span class="p">:</span> <span class="s1">&#39;Pro&#39;</span> <span class="p">,</span> <span class="s1">&#39;S&#39;</span> <span class="p">:</span> <span class="s1">&#39;Ser&#39;</span> <span class="p">,</span> <span class="s1">&#39;T&#39;</span> <span class="p">:</span> <span class="s1">&#39;Thr&#39;</span> <span class="p">,</span> <span class="s1">&#39;W&#39;</span> <span class="p">:</span> <span class="s1">&#39;Trp&#39;</span> <span class="p">,</span> <span class="s1">&#39;Y&#39;</span> <span class="p">:</span> <span class="s1">&#39;Tyr&#39;</span> <span class="p">,</span> <span class="s1">&#39;V&#39;</span> <span class="p">:</span> <span class="s1">&#39;Val&#39;</span> <span class="p">}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gc_content</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ImportError</span>                               Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-9-60ed85d24bf1&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> gc_content
+
+<span class="ansi-red-fg">ImportError</span>: No module named &#39;gc_content&#39;</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12240,7 +12375,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>My god, that is awful.  The PEP 8 version, where we break lines to make things clear, is so much more readable.</p>
+<p>Now, if we had the magic module, we would like to use it.  But if not, we will just hand-code a calculation of the GC content of a sequence.  We use a <strong><code>try</code></strong> block.</p>
 
 </div>
 </div>
@@ -12250,29 +12385,39 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="s1">&#39;Ala&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;R&#39;</span><span class="p">:</span> <span class="s1">&#39;Arg&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="s1">&#39;Asn&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="s1">&#39;Asp&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="s1">&#39;Cys&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="s1">&#39;Gln&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;E&#39;</span><span class="p">:</span> <span class="s1">&#39;Glu&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="s1">&#39;Gly&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="s1">&#39;His&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="s1">&#39;Ile&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="s1">&#39;Leu&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="s1">&#39;Lys&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="s1">&#39;Met&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="s1">&#39;Phe&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="s1">&#39;Pro&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="s1">&#39;Ser&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;T&#39;</span><span class="p">:</span> <span class="s1">&#39;Thr&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;W&#39;</span><span class="p">:</span> <span class="s1">&#39;Trp&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="s1">&#39;Tyr&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="s1">&#39;Val&#39;</span><span class="p">}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Try to get the gc_content module</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">gc_content</span>
+    <span class="n">have_gc</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">have_gc</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="c1"># Do whatever is necessary here, like close files</span>
+    <span class="k">pass</span>
+
+<span class="n">seq</span> <span class="o">=</span> <span class="s1">&#39;ACGATCTACGATCAGCTGCGCGCATCG&#39;</span>
+    
+<span class="k">if</span> <span class="n">have_gc</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">gc_content</span><span class="p">(</span><span class="n">seq</span><span class="p">))</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">))</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>16
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12282,7 +12427,18 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>For a final example, consider the quadratic formula.</p>
+<p>The program now runs just fine!  The <strong><code>try</code></strong> block consists of an initial <strong><code>try</code></strong> clause.  Everything under the <strong><code>try</code></strong> clause is attempted to be executed.  If it succeeds, the rest of the <strong><code>try</code></strong> block is skipped and the interpreter goes to the <code>seq = ...</code> line.</p>
+<p>If, however, there is an <code>ImportError</code>, the code after the <code>except ImportError as e</code> clause is executed.  The exception does not halt the program.  If there is some other kind of error other than an <code>ImportError</code>, the interpreter will raise an exception after it does whatever code is in the <strong><code>finally</code></strong> clause.  The <strong><code>finally</code></strong> clause is useful to tidy things up, like close open files.  It is good practice to only use exceptions that you anticipate in <strong><code>try</code></strong> blocks.  In this case, we only want to have control over <code>ImportError</code>s.  We want the interpreter to scream at us for any unanticipated errors.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Issuing-warnings">Issuing warnings<a class="anchor-link" href="#Issuing-warnings">&#182;</a></h2><p>We may want to issue a warning instead of silently continuing.  For this, the <code>warnings</code> module from the standard library is useful.  We use the <code>warnings.warn()</code> method to issue the warning.</p>
 
 </div>
 </div>
@@ -12292,31 +12448,24 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">qf</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">a</span>
-</pre></div>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Try to get the gc_content module</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">gc_content</span>
+    <span class="n">have_gc</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">have_gc</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Failed to load gc_content.  Using custom function.&#39;</span><span class="p">,</span> 
+                  <span class="ne">UserWarning</span><span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="c1"># Do whatever is necessary here, like close files</span>
+    <span class="k">pass</span>
 
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>It works just fine.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">qf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">seq</span> <span class="o">=</span> <span class="s1">&#39;ACGATCTACGATCAGCTGCGCGCATCG&#39;</span>
+    
+<span class="k">if</span> <span class="n">have_gc</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">gc_content</span><span class="p">(</span><span class="n">seq</span><span class="p">))</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -12327,48 +12476,20 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(3.0, -1.5)</pre>
-</div>
-
-</div>
-
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>16
+</pre>
 </div>
 </div>
 
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/Justin/anaconda/lib/python3.5/site-packages/ipykernel/__main__.py:8: UserWarning: Failed to load gc_content.  Using custom function.
+</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>But it is illegible.  Let's do a  PEP 8-ified version.</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">quadratic_roots</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Real roots of a second order polynomial.&quot;&quot;&quot;</span>
-    
-    <span class="c1"># Compute square root of the discriminant</span>
-    <span class="n">sqrt_disc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">c</span><span class="p">)</span>
-    
-    <span class="c1"># Compute two roots</span>
-    <span class="n">root_1</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">+</span> <span class="n">sqrt_disc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
-    <span class="n">root_2</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">-</span> <span class="n">sqrt_disc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">root_1</span><span class="p">,</span> <span class="n">root_2</span>
-</pre></div>
-
-</div>
 </div>
 </div>
 
@@ -12378,7 +12499,18 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>And this also works!</p>
+<p>Normally, we would use an <code>ImportWarning</code>, but those are ignored by default, so we have used a <code>UserWarning</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Checking-input">Checking input<a class="anchor-link" href="#Checking-input">&#182;</a></h2><p>It is often the case that you want to check the input of a function to ensure that it works properly.  In other words, you want to anticipate errors that the user (or you) might make in running your function and you want to give descriptive error messages.  For example, let's say you are writing a code that processes protein sequences that contain only the 20 naturally occurring amino acids and are represented by their one-letter abbreviation.  You may wish to check that the amino acid sequence is legitimate.  In particular, the letters <code>B</code>, <code>J</code>, <code>O</code>, <code>U</code>, <code>X</code>, and <code>Z</code>, are not abbreviations for amino acids.  (We will not use the wild card abbreviations, <code>B</code> for aspartic acid or asparagine, <code>Z</code> for glutamine or glutamic acid, or <code>X</code> for any amino acid.)</p>
+<p>To illustrate the point, we will write a simple function that converts the sequence of one-letter amino acids to the three-letter abbreviation. We'll use the dictionary that converts single-letter amino acid codes to triple letter that we encountered in the <a href="l13_dictionaries.ipynb#Useful-dictionaries-in-bioinformatics">lesson on dictionaries</a>.</p>
 
 </div>
 </div>
@@ -12388,7 +12520,50 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">quadratic_roots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">one_to_three</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a protein sequence using one-letter abbreviations</span>
+<span class="sd">    to one using three-letter abbreviations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Convert seq to upper case</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    
+    <span class="c1"># Make sure there are no illegal amino acids</span>
+    <span class="k">for</span> <span class="n">amino_acid</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">amino_acid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bd</span><span class="o">.</span><span class="n">aa</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">amino_acid</span> <span class="o">+</span> <span class="s1">&#39; is not a valid amino acid.&#39;</span><span class="p">)</span>
+            
+    <span class="c1"># Otherwise, do the conversion</span>
+    <span class="n">aa_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">amino_acid</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+        <span class="n">aa_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">bd</span><span class="o">.</span><span class="n">aa</span><span class="p">[</span><span class="n">amino_acid</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Return the result</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">aa_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, if we put in a legitimate amino acid sequence, the function works as expected.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">one_to_three</span><span class="p">(</span><span class="s1">&#39;waeifnsdfklnsae&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12399,11 +12574,11 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(3.0, -1.5)</pre>
+<pre>&#39;Trp-Ala-Glu-Ile-Phe-Asn-Ser-Asp-Phe-Lys-Leu-Asn-Ser-Ala-Glu&#39;</pre>
 </div>
 
 </div>
@@ -12417,7 +12592,56 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="This-is-really-important.">This is really important.<a class="anchor-link" href="#This-is-really-important.">&#182;</a></h2><p>I want to reiterate how important this is.  Most programmers follow these rules closely, but most scientists do not.  I can't tell you how many software packages written by scientists that I have encountered and found to be almost completely unreadable.  Many of your colleagues will pay little attention to style.  <strong>You should.</strong></p>
+<p>But, it we put in an improper amino acid, we will get a descriptive error.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">one_to_three</span><span class="p">(</span><span class="s1">&#39;waeifnsdfzklnsae&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-18-15b99f813ced&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>one_to_three<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;waeifnsdfzklnsae&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-14-85373a781082&gt;</span> in <span class="ansi-cyan-fg">one_to_three</span><span class="ansi-blue-fg">(seq)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>     <span class="ansi-green-fg">for</span> amino_acid <span class="ansi-green-fg">in</span> seq<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>         <span class="ansi-green-fg">if</span> amino_acid <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">in</span> bd<span class="ansi-blue-fg">.</span>aa<span class="ansi-blue-fg">.</span>keys<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span>amino_acid <span class="ansi-blue-fg">+</span> <span class="ansi-blue-fg">&#39; is not a valid amino acid.&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span> 
+<span class="ansi-green-intense-fg ansi-bold">     15</span>     <span class="ansi-red-fg"># Otherwise, do the conversion</span>
+
+<span class="ansi-red-fg">RuntimeError</span>: Z is not a valid amino acid.</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Good code checks for errors and gives useful error messages. We will use exception handling extensively when we go over test driven development in future lessons. Tonight in the exercises, you will combine your new file I/O skills with exceptions to validate data sets.</p>
 
 </div>
 </div>

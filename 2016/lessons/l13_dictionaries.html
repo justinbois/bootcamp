@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="utf-8" />
-<title>l16_pep8</title>
+<title>l13_dictionaries</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11960,8 +11960,216 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-16:-Python-style">Lesson 16: Python style<a class="anchor-link" href="#Lesson-16:-Python-style">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l16_pep8.ipynb">here</a>.</em></p>
+<h1 id="Lesson-13:-Dictionaries-(hash-tables)">Lesson 13: Dictionaries (hash tables)<a class="anchor-link" href="#Lesson-13:-Dictionaries-(hash-tables)">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l13_dictionaries.ipynb">here</a>.</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Mapping-objects-and-dictionaries">Mapping objects and dictionaries<a class="anchor-link" href="#Mapping-objects-and-dictionaries">&#182;</a></h2><p>A <strong>mapping object</strong> allows an arbitrary collection of objects to be indexed by an arbitrary collection of values.  That's a mouthful.  It is easier to understand instead by comparing to a sequence.</p>
+<p>Let's take a sequence of two strings, say a tuple containing a first and last name.</p>
+
+<pre><code>name = ('jane', 'doe')
+
+</code></pre>
+<p>We are restricted on how we reference the sequence.  I.e., the first name is <code>name[0]</code>, and the last name is <code>name[1]</code>.  A mapping object could instead be indexed like <code>name['first name']</code> and <code>name['last name']</code>.  You can imagine this would be very useful! A classic example in biology might be looking up amino acids that are coded for by given codons. E.g., you might want</p>
+
+<pre><code>aa['CTT']
+
+</code></pre>
+<p>to give you <code>'Leucine'</code>.</p>
+<p><strong>Dictionaries</strong> are the only built-in mapping type in Python.  You might imagine that the Oxford English Dictionary might conveniently be stored as a dictionary.  I.e., you would not want to store definitions that have to be referenced like</p>
+
+<pre><code>oed[103829]
+
+</code></pre>
+<p>Rather, you would like to get definitions like this:</p>
+
+<pre><code>ode['computer']
+
+</code></pre>
+<p>Importantly, note that Python <strong>dictionaries have no sense of order</strong>.  Unlike lists and tuples, which are ordered collections, dictionaries have no order.  The key is used to fetch the values from memory.</p>
+<p>The <strong>only exception</strong> to this rule is if you use integers as your key values. If integers are used as the key values, then Python will automatically sort the dictionary such that <code>key:value</code> pairs are listed in ascending order with respect to the key.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Dictionary-syntax">Dictionary syntax<a class="anchor-link" href="#Dictionary-syntax">&#182;</a></h2><p>The syntax for creating a dictionary, as usual, is best seen through example.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mf">27.6</span><span class="p">}</span>
+<span class="n">my_dict</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[1]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;a&#39;: 6, &#39;b&#39;: 7, &#39;c&#39;: 27.6}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A dictionary is created using curly braces (<code>{}</code>).  Each entry has a <strong>key</strong>, followed by a color, and then the value associated with the key.  In the example above, the keys are all strings, which is the most common use case.  Note that the items can be of any type; in the above example, they are <code>int</code>s and a <code>float</code>.</p>
+<p>We could also create the dictionary using the built-in <code>dict()</code> function, which expects a tuple of 2-tuples, each one containing a key-value pair.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">dict</span><span class="p">(((</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mf">27.6</span><span class="p">)))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[2]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;a&#39;: 6, &#39;b&#39;: 7, &#39;c&#39;: 27.6}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, we can make a dictionary with keyword arguments to the <code>dict()</code> function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;maybe&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[3]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;a&#39;: &#39;yes&#39;, &#39;b&#39;: &#39;no&#39;, &#39;c&#39;: &#39;maybe&#39;}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We do not need to have strings as the keys.  In fact, any <em>immutable</em> object can be a key.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;zero&#39;</span><span class="p">,</span>
+           <span class="mf">1.7</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+           <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;dummy string&#39;</span><span class="p">):</span> <span class="mf">3.14</span><span class="p">,</span>
+           <span class="s1">&#39;strings are immutable&#39;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
+<span class="n">my_dict</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[4]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{0: &#39;zero&#39;,
+ 1.7: [1, 2, 3],
+ &#39;strings are immutable&#39;: 42,
+ (5, 6, &#39;dummy string&#39;): 3.14}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, mutable objects cannot be used as keys.</p>
 
 </div>
 </div>
@@ -11971,66 +12179,41 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mutable is ok&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+           <span class="p">[</span><span class="s1">&#39;immutable&#39;</span><span class="p">,</span> <span class="s1">&#39;not&#39;</span><span class="p">,</span> <span class="s1">&#39;ok&#39;</span><span class="p">]:</span> <span class="mi">5</span><span class="p">}</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-5-13687bbbeeaa&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> my_dict = {&#39;mutable is ok&#39;: 1,
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg">            [&#39;immutable&#39;, &#39;not&#39;, &#39;ok&#39;]: 5}
+</span>
+<span class="ansi-red-fg">TypeError</span>: unhashable type: &#39;list&#39;</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This lesson is all about style.  Style in the general sense of the work is very important.  It can have a big effect on how people interact with a program or software.  As an example, we can look at the style of data presentation.</p>
-<p>The <a href="https://en.wikipedia.org/wiki/Keeling_Curve">Keeling curve</a> is a measure of the carbon dioxide concentration on top of Muana Loa over time. Let's look at a plot of the Keeling curve.</p>
-<p><img src="bad_keeling.png" alt="bad_keeling.png"></p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>I contend that this plot is horrible looking. The green color is hard to see. The dashed curve is difficult to interpret. We do not know when the measurements were made. The grid lines are obtrusive. Awful.</p>
-<p>Lest you think this plot is a ridiculous way of showing the data, I can tell you I have seen plots just like this in the literature.  Now, let's look at a nicer plot.</p>
-<p><img src="good_keeling.png" alt="good_keeling.png"></p>
 
 </div>
-</div>
-</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Here, it is clear when the measurements were made. The data are clearly visible. The grid lines are not obtrusive. It is generally pleasing to the eye. As a result, the data are easier to interpret. Style matters!</p>
-<p>(We will talk about how to make beautiful plots like the one here later in the bootcamp.)</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The same arguments about style are true for code.  Style matters!  We already discussed how important documentation is, but having a well-defined style also helps keep your code clean, easy to read, and therefore easier to debug and share.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="PEP-8">PEP 8<a class="anchor-link" href="#PEP-8">&#182;</a></h2><p>Guido van Rossum is the benevolent dictator for life (BDFL) of Python.  He invented Python, and he ultimately decides what happens with the language.  To get new features or other enhancements into the language, Guido either writes or (usually) considers a <strong>Python Enhancement Proposal</strong>, or a <strong>PEP</strong>.  Each PEP is carefully reviewed and there are many iterations with the PEP's author(s).  Ultimately, Guido decides if the PEP becomes part of the Python language.</p>
-<p>Perhaps the best-known PEPs are <strong>PEP 8</strong> and PEP 20.  This lesson is about PEP 8, but we'll pause for a moment to look at PEP 20 to understand why PEP 8 is important.  PEP 20 is "The Zen of Python."  You can see its text by doing <code>import this</code>.</p>
+<h2 id="Useful-dictionaries-in-bioinformatics">Useful dictionaries in bioinformatics<a class="anchor-link" href="#Useful-dictionaries-in-bioinformatics">&#182;</a></h2><p>It might be useful to quickly look up 3-letter amino acid codes.  Dictionaries are particularly useful for this.</p>
 
 </div>
 </div>
@@ -12040,94 +12223,39 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">this</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="s1">&#39;Ala&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;R&#39;</span><span class="p">:</span> <span class="s1">&#39;Arg&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="s1">&#39;Asn&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="s1">&#39;Asp&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="s1">&#39;Cys&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="s1">&#39;Gln&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;E&#39;</span><span class="p">:</span> <span class="s1">&#39;Glu&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="s1">&#39;Gly&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="s1">&#39;His&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="s1">&#39;Ile&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="s1">&#39;Leu&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="s1">&#39;Lys&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="s1">&#39;Met&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="s1">&#39;Phe&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="s1">&#39;Pro&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="s1">&#39;Ser&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;T&#39;</span><span class="p">:</span> <span class="s1">&#39;Thr&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;W&#39;</span><span class="p">:</span> <span class="s1">&#39;Trp&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="s1">&#39;Tyr&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="s1">&#39;Val&#39;</span><span class="p">}</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>The Zen of Python, by Tim Peters
-
-Beautiful is better than ugly.
-Explicit is better than implicit.
-Simple is better than complex.
-Complex is better than complicated.
-Flat is better than nested.
-Sparse is better than dense.
-Readability counts.
-Special cases aren&#39;t special enough to break the rules.
-Although practicality beats purity.
-Errors should never pass silently.
-Unless explicitly silenced.
-In the face of ambiguity, refuse the temptation to guess.
-There should be one-- and preferably only one --obvious way to do it.
-Although that way may not be obvious at first unless you&#39;re Dutch.
-Now is better than never.
-Although never is often better than *right* now.
-If the implementation is hard to explain, it&#39;s a bad idea.
-If the implementation is easy to explain, it may be a good idea.
-Namespaces are one honking great idea -- let&#39;s do more of those!
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>These are good ideas for coding practice in general.  Importantly, beautiful, simple, readable code is a goal of a programmer.  That's where PEP 8 comes in.  PEP8 is the <strong>Python Style Guide</strong>, written by Guido, Barry Warsaw, and Nick Coghlan.  You can read its full text in the <a href="https://www.python.org/dev/peps/pep-0008/">Python PEP index</a>, and I recommend you do that.  I also recommend you follow everything it says!  It helps you a lot.  Trust me; my life got much better after I started following PEP 8's rules.</p>
-<p>Note, though, that you code will work just fine if you break PEP 8's rules.  In fact, some companies have their own style guides.  Google's style, for example, is different than PEP 8.  And they even hired Guido after PEP 8 was released (though he now works for Dropbox)!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Key-points-of-PEP-8">Key points of PEP 8<a class="anchor-link" href="#Key-points-of-PEP-8">&#182;</a></h2><p>PEP 8 is extensive, but here are some key points for you to keep in mind as you are being style-conscious.</p>
-<ul>
-<li>Variable names need to be descriptive.</li>
-<li>Variable names are all lower case with underscores separating words.</li>
-<li>Do not name varibales <code>l</code>, <code>O</code>, or <code>I</code> because they are hard to distinguish from ones and zeros.</li>
-<li>Function names are lower case and may use underscores.</li>
-<li>Class names are in CamelCase.  (We are not explicitly covering classes in the bootcamp, though we did <a href="http://justinbois.github.io/bootcamp/2015/lessons/l10_intro_to_oop.html">last year</a>. You will come across CamelCase objects in other packages, which usually means you are instantiating a class.)</li>
-<li>Module names are short and lower case.  Underscores should be avoided unless necessary for readability.</li>
-<li>Lines are maximally 79 characters long.</li>
-<li>Doc strings are maximally 72 characters long.</li>
-<li>Avoid in-line comments; put the comment directly above the code.</li>
-<li>Avoid excessive comments that state the obvious.</li>
-<li>Generally, put single spaces around binary operators, unless omitting space improves readability.  For example, <code>x**2 + y**2</code>.  Low priority operators should have space.</li>
-<li>Assignment operators should always have single spaces around them <em>except</em> when in keyword arguments.  E.g., no space in <code>f(x, y=4)</code>.</li>
-<li>Put spaces after commas in function definitions and calls.  This also applies for lists, tuples, NumPy arrays, etc.</li>
-<li>Avoid excessive spaces within parentheses, braces, and brackets.</li>
-<li>Use a single blank line to separate logical sections of your code.</li>
-<li>Put two blank lines between functions in a <code>.py</code> file.</li>
-<li>Put all import statements at the top of the file, importing from one module per line.</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Some-examples-of-PEP-8-ified-code">Some examples of PEP 8-ified code<a class="anchor-link" href="#Some-examples-of-PEP-8-ified-code">&#182;</a></h2><p>Let's now look at some examples of code adhering to PEP 8 and code that does not.  We'll start with some code we used before to find start codons.</p>
+<p>Another useful dictionary would contain the set of codons and the amino acids they code for.  This is build in the code below using the <code>zip()</code> function we learned before.  To see the logic on how this is constructed, see the codon table <a href="https://en.wikipedia.org/wiki/DNA_codon_table">here</a>.</p>
 
 </div>
 </div>
@@ -12137,13 +12265,24 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seq</span><span class="o">=</span><span class="s1">&#39;AUCUGUACUAAUGCUCAGCACGACGUACG&#39;</span>
-<span class="n">c</span><span class="o">=</span><span class="s1">&#39;AUG&#39;</span>  <span class="c1"># This is the start codon</span>
-<span class="n">i</span> <span class="o">=</span><span class="mi">0</span>  <span class="c1"># Initialize sequence index</span>
-<span class="k">while</span> <span class="n">seq</span><span class="p">[</span> <span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">3</span> <span class="p">]</span><span class="o">!=</span><span class="n">c</span><span class="p">:</span>
-    <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The set of DNA bases</span>
+<span class="n">bases</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;G&#39;</span><span class="p">]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The start codon starts at index&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="c1"># Build list of codons</span>
+<span class="n">codon_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">first_base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">second_base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">third_base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+            <span class="n">codon_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">first_base</span> <span class="o">+</span> <span class="n">second_base</span> <span class="o">+</span> <span class="n">third_base</span><span class="p">]</span>
+
+<span class="c1"># The amino acids that are coded for (* = STOP codon)</span>
+<span class="n">amino_acids</span> <span class="o">=</span> <span class="s1">&#39;FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG&#39;</span>
+
+<span class="c1"># Build dictionary from tuple of 2-tuples (technically an iterator, but it works)</span>
+<span class="n">codons</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">codon_list</span><span class="p">,</span> <span class="n">amino_acids</span><span class="p">))</span>
+
+<span class="c1"># Show that we did it</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">codons</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12156,7 +12295,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>The start codon starts at index 10
+<pre>{&#39;GAA&#39;: &#39;E&#39;, &#39;CTC&#39;: &#39;L&#39;, &#39;AGG&#39;: &#39;R&#39;, &#39;AGC&#39;: &#39;S&#39;, &#39;GAT&#39;: &#39;D&#39;, &#39;AAT&#39;: &#39;N&#39;, &#39;CAC&#39;: &#39;H&#39;, &#39;TAT&#39;: &#39;Y&#39;, &#39;AGA&#39;: &#39;R&#39;, &#39;CTA&#39;: &#39;L&#39;, &#39;GCG&#39;: &#39;A&#39;, &#39;ACT&#39;: &#39;T&#39;, &#39;TGA&#39;: &#39;*&#39;, &#39;TGC&#39;: &#39;C&#39;, &#39;AAG&#39;: &#39;K&#39;, &#39;CCA&#39;: &#39;P&#39;, &#39;CTG&#39;: &#39;L&#39;, &#39;TCT&#39;: &#39;S&#39;, &#39;GTC&#39;: &#39;V&#39;, &#39;GAG&#39;: &#39;E&#39;, &#39;CCC&#39;: &#39;P&#39;, &#39;CCT&#39;: &#39;P&#39;, &#39;AAA&#39;: &#39;K&#39;, &#39;AGT&#39;: &#39;S&#39;, &#39;GGT&#39;: &#39;G&#39;, &#39;TTA&#39;: &#39;L&#39;, &#39;GCC&#39;: &#39;A&#39;, &#39;CGT&#39;: &#39;R&#39;, &#39;GTA&#39;: &#39;V&#39;, &#39;CAG&#39;: &#39;Q&#39;, &#39;GCA&#39;: &#39;A&#39;, &#39;ACG&#39;: &#39;T&#39;, &#39;CGG&#39;: &#39;R&#39;, &#39;GGG&#39;: &#39;G&#39;, &#39;CAT&#39;: &#39;H&#39;, &#39;TCA&#39;: &#39;S&#39;, &#39;TGG&#39;: &#39;W&#39;, &#39;CTT&#39;: &#39;L&#39;, &#39;TAG&#39;: &#39;*&#39;, &#39;GTG&#39;: &#39;V&#39;, &#39;GAC&#39;: &#39;D&#39;, &#39;TGT&#39;: &#39;C&#39;, &#39;ATT&#39;: &#39;I&#39;, &#39;TCC&#39;: &#39;S&#39;, &#39;ATA&#39;: &#39;I&#39;, &#39;GTT&#39;: &#39;V&#39;, &#39;TTG&#39;: &#39;L&#39;, &#39;TTT&#39;: &#39;F&#39;, &#39;CGA&#39;: &#39;R&#39;, &#39;ATG&#39;: &#39;M&#39;, &#39;CGC&#39;: &#39;R&#39;, &#39;AAC&#39;: &#39;N&#39;, &#39;TAA&#39;: &#39;*&#39;, &#39;GCT&#39;: &#39;A&#39;, &#39;CAA&#39;: &#39;Q&#39;, &#39;CCG&#39;: &#39;P&#39;, &#39;TCG&#39;: &#39;S&#39;, &#39;ATC&#39;: &#39;I&#39;, &#39;TAC&#39;: &#39;Y&#39;, &#39;GGC&#39;: &#39;G&#39;, &#39;GGA&#39;: &#39;G&#39;, &#39;ACA&#39;: &#39;T&#39;, &#39;TTC&#39;: &#39;F&#39;, &#39;ACC&#39;: &#39;T&#39;}
 </pre>
 </div>
 </div>
@@ -12170,7 +12309,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Compare that to the PEP 8-ified version.</p>
+<p>These two dictionaries are particularly useful, so I put them in a little module in the bootcamp repo that you can import.</p>
 
 </div>
 </div>
@@ -12180,16 +12319,137 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">start_codon</span> <span class="o">=</span> <span class="s1">&#39;AUG&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">bioinfo_dicts</span> <span class="k">as</span> <span class="nn">bd</span>
+<span class="n">bd</span><span class="o">.</span><span class="n">aa</span><span class="p">,</span> <span class="n">bd</span><span class="o">.</span><span class="n">codons</span>
+</pre></div>
 
-<span class="c1"># Initialize sequence index for while loop</span>
-<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</div>
+</div>
+</div>
 
-<span class="c1"># Scan sequence until we hit the start codon</span>
-<span class="k">while</span> <span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">start_codon</span><span class="p">:</span>
-    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-    
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The start codon starts at index&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>({&#39;A&#39;: &#39;Ala&#39;,
+  &#39;C&#39;: &#39;Cys&#39;,
+  &#39;D&#39;: &#39;Asp&#39;,
+  &#39;E&#39;: &#39;Glu&#39;,
+  &#39;F&#39;: &#39;Phe&#39;,
+  &#39;G&#39;: &#39;Gly&#39;,
+  &#39;H&#39;: &#39;His&#39;,
+  &#39;I&#39;: &#39;Ile&#39;,
+  &#39;K&#39;: &#39;Lys&#39;,
+  &#39;L&#39;: &#39;Leu&#39;,
+  &#39;M&#39;: &#39;Met&#39;,
+  &#39;N&#39;: &#39;Asn&#39;,
+  &#39;P&#39;: &#39;Pro&#39;,
+  &#39;Q&#39;: &#39;Gln&#39;,
+  &#39;R&#39;: &#39;Arg&#39;,
+  &#39;S&#39;: &#39;Ser&#39;,
+  &#39;T&#39;: &#39;Thr&#39;,
+  &#39;V&#39;: &#39;Val&#39;,
+  &#39;W&#39;: &#39;Trp&#39;,
+  &#39;Y&#39;: &#39;Tyr&#39;},
+ {&#39;AAA&#39;: &#39;K&#39;,
+  &#39;AAC&#39;: &#39;N&#39;,
+  &#39;AAG&#39;: &#39;K&#39;,
+  &#39;AAT&#39;: &#39;N&#39;,
+  &#39;ACA&#39;: &#39;T&#39;,
+  &#39;ACC&#39;: &#39;T&#39;,
+  &#39;ACG&#39;: &#39;T&#39;,
+  &#39;ACT&#39;: &#39;T&#39;,
+  &#39;AGA&#39;: &#39;R&#39;,
+  &#39;AGC&#39;: &#39;S&#39;,
+  &#39;AGG&#39;: &#39;R&#39;,
+  &#39;AGT&#39;: &#39;S&#39;,
+  &#39;ATA&#39;: &#39;I&#39;,
+  &#39;ATC&#39;: &#39;I&#39;,
+  &#39;ATG&#39;: &#39;M&#39;,
+  &#39;ATT&#39;: &#39;I&#39;,
+  &#39;CAA&#39;: &#39;Q&#39;,
+  &#39;CAC&#39;: &#39;H&#39;,
+  &#39;CAG&#39;: &#39;Q&#39;,
+  &#39;CAT&#39;: &#39;H&#39;,
+  &#39;CCA&#39;: &#39;P&#39;,
+  &#39;CCC&#39;: &#39;P&#39;,
+  &#39;CCG&#39;: &#39;P&#39;,
+  &#39;CCT&#39;: &#39;P&#39;,
+  &#39;CGA&#39;: &#39;R&#39;,
+  &#39;CGC&#39;: &#39;R&#39;,
+  &#39;CGG&#39;: &#39;R&#39;,
+  &#39;CGT&#39;: &#39;R&#39;,
+  &#39;CTA&#39;: &#39;L&#39;,
+  &#39;CTC&#39;: &#39;L&#39;,
+  &#39;CTG&#39;: &#39;L&#39;,
+  &#39;CTT&#39;: &#39;L&#39;,
+  &#39;GAA&#39;: &#39;E&#39;,
+  &#39;GAC&#39;: &#39;D&#39;,
+  &#39;GAG&#39;: &#39;E&#39;,
+  &#39;GAT&#39;: &#39;D&#39;,
+  &#39;GCA&#39;: &#39;A&#39;,
+  &#39;GCC&#39;: &#39;A&#39;,
+  &#39;GCG&#39;: &#39;A&#39;,
+  &#39;GCT&#39;: &#39;A&#39;,
+  &#39;GGA&#39;: &#39;G&#39;,
+  &#39;GGC&#39;: &#39;G&#39;,
+  &#39;GGG&#39;: &#39;G&#39;,
+  &#39;GGT&#39;: &#39;G&#39;,
+  &#39;GTA&#39;: &#39;V&#39;,
+  &#39;GTC&#39;: &#39;V&#39;,
+  &#39;GTG&#39;: &#39;V&#39;,
+  &#39;GTT&#39;: &#39;V&#39;,
+  &#39;TAA&#39;: &#39;*&#39;,
+  &#39;TAC&#39;: &#39;Y&#39;,
+  &#39;TAG&#39;: &#39;*&#39;,
+  &#39;TAT&#39;: &#39;Y&#39;,
+  &#39;TCA&#39;: &#39;S&#39;,
+  &#39;TCC&#39;: &#39;S&#39;,
+  &#39;TCG&#39;: &#39;S&#39;,
+  &#39;TCT&#39;: &#39;S&#39;,
+  &#39;TGA&#39;: &#39;*&#39;,
+  &#39;TGC&#39;: &#39;C&#39;,
+  &#39;TGG&#39;: &#39;W&#39;,
+  &#39;TGT&#39;: &#39;C&#39;,
+  &#39;TTA&#39;: &#39;L&#39;,
+  &#39;TTC&#39;: &#39;F&#39;,
+  &#39;TTG&#39;: &#39;L&#39;,
+  &#39;TTT&#39;: &#39;F&#39;})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="A-dictionary-is-an-implementation-of-a-hash-table">A dictionary is an implementation of a hash table<a class="anchor-link" href="#A-dictionary-is-an-implementation-of-a-hash-table">&#182;</a></h2><p>It is useful to stop and think about how a dictionary works.  Let's create a dictionary and look at where the values are stored in memory.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create dictionary</span>
+<span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mf">12.6</span><span class="p">}</span>
+
+<span class="c1"># Find where they are stored</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">my_dict</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]))</span>
 </pre></div>
 
 </div>
@@ -12202,7 +12462,10 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>The start codon starts at index 10
+<pre>4411067976
+4297148688
+4297148720
+4394663560
 </pre>
 </div>
 </div>
@@ -12216,97 +12479,8 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The descriptive variable names, the spacing, the appropriate comments all make it much more readable.</p>
-<p>Here's another example, the dictionary mapping single-letter residue symbols to the three-letter equivalents.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;A&#39;</span> <span class="p">:</span> <span class="s1">&#39;Ala&#39;</span> <span class="p">,</span> <span class="s1">&#39;R&#39;</span> <span class="p">:</span> <span class="s1">&#39;Arg&#39;</span> <span class="p">,</span> <span class="s1">&#39;N&#39;</span> <span class="p">:</span> <span class="s1">&#39;Asn&#39;</span> <span class="p">,</span> <span class="s1">&#39;D&#39;</span> <span class="p">:</span> <span class="s1">&#39;Asp&#39;</span> <span class="p">,</span> <span class="s1">&#39;C&#39;</span> <span class="p">:</span> <span class="s1">&#39;Cys&#39;</span> <span class="p">,</span> <span class="s1">&#39;Q&#39;</span> <span class="p">:</span> <span class="s1">&#39;Gln&#39;</span> <span class="p">,</span> <span class="s1">&#39;E&#39;</span> <span class="p">:</span> <span class="s1">&#39;Glu&#39;</span> <span class="p">,</span> <span class="s1">&#39;G&#39;</span> <span class="p">:</span> <span class="s1">&#39;Gly&#39;</span> <span class="p">,</span> <span class="s1">&#39;H&#39;</span> <span class="p">:</span> <span class="s1">&#39;His&#39;</span> <span class="p">,</span> <span class="s1">&#39;I&#39;</span> <span class="p">:</span> <span class="s1">&#39;Ile&#39;</span> <span class="p">,</span> <span class="s1">&#39;L&#39;</span> <span class="p">:</span> <span class="s1">&#39;Leu&#39;</span> <span class="p">,</span> <span class="s1">&#39;K&#39;</span> <span class="p">:</span> <span class="s1">&#39;Lys&#39;</span> <span class="p">,</span> <span class="s1">&#39;M&#39;</span> <span class="p">:</span> <span class="s1">&#39;Met&#39;</span> <span class="p">,</span> <span class="s1">&#39;F&#39;</span> <span class="p">:</span> <span class="s1">&#39;Phe&#39;</span> <span class="p">,</span> <span class="s1">&#39;P&#39;</span> <span class="p">:</span> <span class="s1">&#39;Pro&#39;</span> <span class="p">,</span> <span class="s1">&#39;S&#39;</span> <span class="p">:</span> <span class="s1">&#39;Ser&#39;</span> <span class="p">,</span> <span class="s1">&#39;T&#39;</span> <span class="p">:</span> <span class="s1">&#39;Thr&#39;</span> <span class="p">,</span> <span class="s1">&#39;W&#39;</span> <span class="p">:</span> <span class="s1">&#39;Trp&#39;</span> <span class="p">,</span> <span class="s1">&#39;Y&#39;</span> <span class="p">:</span> <span class="s1">&#39;Tyr&#39;</span> <span class="p">,</span> <span class="s1">&#39;V&#39;</span> <span class="p">:</span> <span class="s1">&#39;Val&#39;</span> <span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>My god, that is awful.  The PEP 8 version, where we break lines to make things clear, is so much more readable.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="s1">&#39;Ala&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;R&#39;</span><span class="p">:</span> <span class="s1">&#39;Arg&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="s1">&#39;Asn&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="s1">&#39;Asp&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="s1">&#39;Cys&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="s1">&#39;Gln&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;E&#39;</span><span class="p">:</span> <span class="s1">&#39;Glu&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="s1">&#39;Gly&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="s1">&#39;His&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="s1">&#39;Ile&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="s1">&#39;Leu&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="s1">&#39;Lys&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="s1">&#39;Met&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="s1">&#39;Phe&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="s1">&#39;Pro&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="s1">&#39;Ser&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;T&#39;</span><span class="p">:</span> <span class="s1">&#39;Thr&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;W&#39;</span><span class="p">:</span> <span class="s1">&#39;Trp&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="s1">&#39;Tyr&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="s1">&#39;Val&#39;</span><span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For a final example, consider the quadratic formula.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">qf</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">a</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>It works just fine.</p>
+<p>So, each entry in the dictionary is stored at a different location in memory.  The dictionary itself also have its own address.  So, when I index a dictionary with a key, how does the dictionary know which address in memory to use to fetch the value I am interested in?</p>
+<p>Dictionaries use a <strong>hash function</strong> to do this.  A hash function converts its input to an integer.  For example, we can use Python's built-in hash function to convert the keys to integers.</p>
 
 </div>
 </div>
@@ -12316,7 +12490,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">qf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">hash</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="nb">hash</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">),</span> <span class="nb">hash</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12331,7 +12505,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(3.0, -1.5)</pre>
+<pre>(-2814595941112381874, 7989021242764975940, -2146882636713932717)</pre>
 </div>
 
 </div>
@@ -12345,7 +12519,18 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>But it is illegible.  Let's do a  PEP 8-ified version.</p>
+<p>Under the hood, Python then converts these integers to integers that could correspond to locations in memory.  A collection of elements that can be indexed this way is called a <strong>hash table</strong>.  This is a very common data structure in computing.  Wikipedia has a <a href="https://en.wikipedia.org/wiki/Hash_table">pretty good discussion on them</a>.</p>
+<p>Now, given what you know about how dictionaries work, why do you think immutable objects are not acceptable as keys?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Dictionaries-are-mutable">Dictionaries are mutable<a class="anchor-link" href="#Dictionaries-are-mutable">&#182;</a></h2><p>The title says it all!  Dictionaries are mutable.  This means that they can be changed in place.  For example, if we want to add an element to a dictionary, we use simple syntax.</p>
 
 </div>
 </div>
@@ -12355,40 +12540,20 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">quadratic_roots</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Real roots of a second order polynomial.&quot;&quot;&quot;</span>
-    
-    <span class="c1"># Compute square root of the discriminant</span>
-    <span class="n">sqrt_disc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">c</span><span class="p">)</span>
-    
-    <span class="c1"># Compute two roots</span>
-    <span class="n">root_1</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">+</span> <span class="n">sqrt_disc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
-    <span class="n">root_2</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">-</span> <span class="n">sqrt_disc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Remind ourselves what the dictionary is</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_dict</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">root_1</span><span class="p">,</span> <span class="n">root_2</span>
-</pre></div>
+<span class="c1"># Add an entry</span>
+<span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Bootcamp is so much fun!&#39;</span>
 
-</div>
-</div>
-</div>
+<span class="c1"># Look at dictionary again</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_dict</span><span class="p">)</span>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>And this also works!</p>
+<span class="c1"># Change an entry</span>
+<span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;I was not satisfied with entry a.&#39;</span>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">quadratic_roots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+<span class="c1"># Look at it again</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_dict</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12399,11 +12564,84 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{&#39;c&#39;: 12.6, &#39;b&#39;: 7, &#39;a&#39;: 6}
+{&#39;d&#39;: &#39;Bootcamp is so much fun!&#39;, &#39;c&#39;: 12.6, &#39;b&#39;: 7, &#39;a&#39;: 6}
+{&#39;d&#39;: &#39;Bootcamp is so much fun!&#39;, &#39;c&#39;: 12.6, &#39;b&#39;: 7, &#39;a&#39;: &#39;I was not satisfied with entry a.&#39;}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Membership-operators-with-dictionaries">Membership operators with dictionaries<a class="anchor-link" href="#Membership-operators-with-dictionaries">&#182;</a></h2><p>The <strong><code>in</code></strong> and <strong><code>not in</code></strong> operators work with dictionaries, but both only query keys.  We see this again by example.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make a fresh my_dict</span>
+<span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+
+<span class="c1"># in works with keys</span>
+<span class="s1">&#39;b&#39;</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">my_dict</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(3.0, -1.5)</pre>
+<pre>(True, False, True)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Try it with values</span>
+<span class="mi">2</span> <span class="ow">in</span> <span class="n">my_dict</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
 </div>
 
 </div>
@@ -12417,7 +12655,591 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="This-is-really-important.">This is really important.<a class="anchor-link" href="#This-is-really-important.">&#182;</a></h2><p>I want to reiterate how important this is.  Most programmers follow these rules closely, but most scientists do not.  I can't tell you how many software packages written by scientists that I have encountered and found to be almost completely unreadable.  Many of your colleagues will pay little attention to style.  <strong>You should.</strong></p>
+<p>Yup!  We get <code>False</code>.  Why?  Because <code>2</code> is not a <em>key</em> in <code>my_dict</code>.</p>
+<p>We can also iterate over the keys in a dictionary.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">my_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>c : 3
+b : 2
+a : 1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Notice, again, that there is no sense of order in dictionaries.  We can use <code>enumerate()</code> on dictionaries, but the numbers given by <code>enumerate()</code> don't really mean anything.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">my_dict</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;   &#39;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">my_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0     c : 3
+1     b : 2
+2     a : 1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Built-in-functions-for-dictionaries">Built-in functions for dictionaries<a class="anchor-link" href="#Built-in-functions-for-dictionaries">&#182;</a></h2><p>The built-in <code>len()</code> function and <code>del</code> operation work on dictionaries.</p>
+<ul>
+<li><code>len(d)</code> gives the number of entries in dictionary <code>d</code></li>
+<li><code>del d[k]</code> deletes entry with key <code>k</code> from dictionary <code>d</code></li>
+</ul>
+<p>This is the first time we've encountered the <strong><code>del</code></strong> keyword.  This keyword is used to delete variables and their values from memory.  The <code>del</code> keyword can also be to delete items from lists.  Let's see things in practice.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create my_list and my_dict for reference</span>
+<span class="n">my_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="c1"># Print them</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;my_dict:&#39;</span><span class="p">,</span> <span class="n">my_dict</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;my_list:&#39;</span><span class="p">,</span> <span class="n">my_list</span><span class="p">)</span>
+
+<span class="c1"># Get lengths</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;length of my_dict:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_dict</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;length of my_list:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_list</span><span class="p">))</span>
+
+<span class="c1"># Delete a key from my_dict</span>
+<span class="k">del</span> <span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+
+<span class="c1"># Delete entry from my_list</span>
+<span class="k">del</span> <span class="n">my_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Show post-deleted objects</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;post-deleted my_dict:&#39;</span><span class="p">,</span> <span class="n">my_dict</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;post-deleted my_list:&#39;</span><span class="p">,</span> <span class="n">my_list</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>my_dict: {&#39;d&#39;: 4, &#39;c&#39;: 3, &#39;b&#39;: 2, &#39;a&#39;: 1}
+my_list: [1, 2, 3, 4]
+length of my_dict: 4
+length of my_list: 4
+post-deleted my_dict: {&#39;d&#39;: 4, &#39;c&#39;: 3, &#39;a&#39;: 1}
+post-deleted my_list: [1, 3, 4]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note, though, that you cannot delete an item from a tuple.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-20-477cc61ded22&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> my_tuple <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">4</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">del</span> my_tuple<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span>
+
+<span class="ansi-red-fg">TypeError</span>: &#39;tuple&#39; object doesn&#39;t support item deletion</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Dictionary-methods">Dictionary methods<a class="anchor-link" href="#Dictionary-methods">&#182;</a></h2><p>Dictionaries have several built-in methods.  Following are a few of them, assuming the dictionary is <code>d</code>.</p>
+<table>
+<thead><tr>
+<th style="text-align:left">method</th>
+<th style="text-align:left">effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>d.keys()</code></td>
+<td style="text-align:left">return keys as a tuple</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>d.pop(key)</code></td>
+<td style="text-align:left">return value associated with <code>key</code> and delete <code>key</code> from <code>d</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>d.values()</code></td>
+<td style="text-align:left">return the <code>(key, value)</code> pairs in <code>d</code> as a tuple</td>
+</tr>
+</tbody>
+</table>
+<p>Let's try these out.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">my_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>dict_keys([&#39;d&#39;, &#39;c&#39;, &#39;b&#39;, &#39;a&#39;])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that this is a <code>dict_keys</code> object.  We cannot index it.  If, say, we wanted to sort the keys and have them index-able, we would have to convert them to a list.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">my_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now let's try popping an entry out of the dictionary.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>3</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;d&#39;: 4}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>...and, as we expect, key <code>'c'</code> is now deleted, and its value was returned in the call to <code>my_dict.pop('c')</code>.  Finally, we can look at the values.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>dict_values([4, 2, 1])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We get a <code>dict_values</code> object, similar to the <code>dict_keys</code> object we got with the <code>my_dict.keys()</code> method.</p>
+<p>You can get more information about build-in methods from the <a href="https://docs.python.org/3.5/library/stdtypes.html#built-in-types">Python documentation</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="List-methods">List methods<a class="anchor-link" href="#List-methods">&#182;</a></h2><p>As you may guess, the dictionary method <code>pop()</code> has an analog that works for lists.  (Why don't the dictionary <code>key()</code> and <code>values()</code> methods work for lists?)  We take this opportunity to introduce a few more useful list methods.  Imagine the list is called <code>s</code>.</p>
+<table>
+<thead><tr>
+<th style="text-align:left">method</th>
+<th style="text-align:left">effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>s.pop(i)</code></td>
+<td style="text-align:left">return value at index <code>i</code> and delete it from the list</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>s.append(x)</code></td>
+<td style="text-align:left">Put <code>x</code> at the end of the list</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>s.insert(i, x)</code></td>
+<td style="text-align:left">Insert <code>x</code> at index <code>i</code> in the list</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>s.remove(x)</code></td>
+<td style="text-align:left">Remove the first occurence of <code>x</code> from the list</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>s.reverse()</code></td>
+<td style="text-align:left">Reverse the order of items in the list</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Using-dictionaries-as-kwargs">Using dictionaries as kwargs<a class="anchor-link" href="#Using-dictionaries-as-kwargs">&#182;</a></h2><p>A nifty feature of dictionaries is that they can be passed into functions as keyword arguments.  We covered named keyword arguments in the <a href="l07_intro_to_functions.html">Intro to functions lesson</a>.  In addition to the named keyword arguments, a function can take in arbitrary keyword arguments (<strong>not</strong> arbitrary non-keyword arguments).  This is specified in the function definition by including a last argument with a double-asterisk, <code>**</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">my_fun</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Concatenate sequences.&quot;&quot;&quot;</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">seq</span> <span class="o">+=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        
+    <span class="k">return</span> <span class="n">seq</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that kwargs ends up being passed in as a dictionary.  Let's try it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_fun</span><span class="p">(</span><span class="s1">&#39;TGACAC&#39;</span><span class="p">,</span> <span class="s1">&#39;CAGGGA&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;GGGGGGGGG&#39;</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="s1">&#39;AAAATTTTT&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;TGACACCAGGGAAAAATTTTTGGGGGGGGG&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, imagine we have a dictionary that contains our values.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;TGACAC&#39;</span><span class="p">,</span> 
+           <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="s1">&#39;CAGGGA&#39;</span><span class="p">,</span> 
+           <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;GGGGGGGGG&#39;</span><span class="p">,</span> 
+           <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="s1">&#39;AAAATTTTT&#39;</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can now pass this directly into the function by preceding it with a double asterisk.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_fun</span><span class="p">(</span><span class="o">**</span><span class="n">my_dict</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;TGACACCAGGGAGGGGGGGGGAAAATTTTT&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Beautiful!  This example is kind of trivial, but you can imagine that it can come in handy, e.g. with large sets of sequence fragments that you read in from a file.</p>
 
 </div>
 </div>
