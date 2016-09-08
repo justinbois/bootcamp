@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="utf-8" />
-<title>l24_practice_with_numpy_3</title>
+<title>l23-24_practice_with_numpy_2</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11960,18 +11960,29 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-24:-More-practice-with-Numpy-and-Matplotlib">Lesson 24: More practice with Numpy and Matplotlib<a class="anchor-link" href="#Lesson-24:-More-practice-with-Numpy-and-Matplotlib">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l24_practice_with_numpy_2">here</a>.</em></p>
+<h1 id="Lessons-23-and-24:-Practice-with-Numpy-and-Matplotlib">Lessons 23 and 24: Practice with Numpy and Matplotlib<a class="anchor-link" href="#Lessons-23-and-24:-Practice-with-Numpy-and-Matplotlib">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l23-24_practice_with_numpy_2">here</a>.</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>My solutions to these practice exercises may be found <a href="l23-24_solutions.html">here</a> after the bootcamp.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span>
 
 <span class="c1"># This is how we import the module of Matplotlib we&#39;ll be using</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -11996,7 +12007,193 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Pre-practice-example">Pre-practice example<a class="anchor-link" href="#Pre-practice-example">&#182;</a></h2><p>In addition to handling data, NumPy allows you do to <em>simulations</em>. We will do some of this in coming lessons when we deal with random number generators. For this exercise, we will use Euler's method to simulate a classic model for predator-prey population dynamics, the <a href="https://en.wikipedia.org/wiki/Lotka–Volterra_equations">Lotka-Volterra model</a>. As a warm-up example, we will simulate bacterial growth.</p>
+<h2 id="Practice-1:-Axes-with-logarithmic-scale">Practice 1: Axes with logarithmic scale<a class="anchor-link" href="#Practice-1:-Axes-with-logarithmic-scale">&#182;</a></h2><p>Sometimes you need to plot your data with a logarithmic scale. As an example, let's consider the classic genetic switch engineered by Jim Collins and coworkers (<a href="http://www.nature.com/nature/journal/v403/n6767/full/403339a0.html">Gardner, et al., <em>Nature</em>, <strong>403</strong>, 339, 2000</a>). This genetic switch was incorporated into <em>E. coli</em> and is inducible by adjusting the concentration of the lactose analog IPTG. The readout is the fluorescence intensity of GFP.</p>
+<p>Let's load in some data that have the IPTG concentrations and GFP fluorescence intensity. The data are in the file <code>~/git/data/collins_switch.csv</code>. Let's look at it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>cat data/collins_switch.csv
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It has two rows of non-data. Then, Column 1 is the IPTG concentration, column 2 is the normalized GFP expression level, and the last column is the standard error of the mean normalized GFP intensity. This gives the error bars, which we will look at in the next exercise. For now, we will just plot IPTG versus normalized GFP intensity.</p>
+<p>In looking at the data set, note that there are two entries for [IPTG] = 0.04 mM. At this concentration, the switch happens, and there are two populations of cells, one with high expression of GFP and one with low. The two data points represent these two populations of cells.</p>
+<p>Now, let's make a plot of IPTG versus GFP.</p>
+<blockquote><ol>
+<li>Load in the data set using <code>np.loadtxt()</code>. Be sure to use the <code>delimeter=','</code> and <code>skiprows=2</code> kwargs.</li>
+<li>Slice column 0 out of the data and store it as <code>iptg</code>.</li>
+<li>Slice column 1 of the data and store it as <code>gfp</code>.</li>
+<li>Make a plot of normalized GFP intensity ($y$-axis) versus IPTG concentration ($y$-axis) using <code>plt.plot()</code>. These are data, so you should not make the plot as lines. Use the <code>marker='.'</code> and <code>linestyle='none'</code> kwargs.</li>
+<li>Label your axes.</li>
+</ol>
+</blockquote>
+<p>Now that you have done that, there are some problems with the plot. It is really hard to see the data points with low concentrations of IPTG. In fact, looking at the data set, the concentration of IPTG varies over four orders of magnitude. When you have data like this, it is wise to plot them on a logarithmic scale. There are three functions in <code>matplotlib.pyplot</code> that enable you to plot on a log scale.</p>
+<ul>
+<li><code>plt.loglog()</code>: Both $x$ and $y$ axes are on a logarithmic scale.</li>
+<li><code>plt.semilogx()</code>: Only the $x$ axis is on a logarithmic scale.</li>
+<li><code>plt.semilogy()</code>: Only the $y$ axis is on a logarithmic scale.
+For this data set, it is best to have the $x$ axis on a logarithmic scale. Remake the plot you just did with <code>plt.semilogx()</code>.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Practice-2:-Plots-with-error-bars">Practice 2: Plots with error bars<a class="anchor-link" href="#Practice-2:-Plots-with-error-bars">&#182;</a></h2><p>The data set also contains the standard error of the mean, or SEM. The SEM is often displayed on plots as error bars. To make a plot with error bars, you can use the <code>plt.errorbar()</code> function.</p>
+<blockquote><ol>
+<li>Read <a href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.errorbar">the documentation of <code>plt.errorbar()</code></a>.</li>
+<li>Slice column 2 out of the Collins data set and store it as <code>sem</code>.</li>
+<li>Make a plot of the genetic switch data using <code>plt.errorbar()</code> setting the kwarg <code>yerr=sem</code>. Be sure to be using Seaborn. The default Matplotlib error bar plots are dreadful.</li>
+<li>Label your axes.</li>
+</ol>
+</blockquote>
+<p>There is a problem with this plot; it does not have the $x$-axis on a logarithmic scale, and there is no way to set the scale to be logarithmic using the <code>plt.errorbar()</code> function. You can set a logarithmic scale after the plot is generated by doing</p>
+
+<pre><code>plt.xscale('log')
+
+</code></pre>
+<p>After doing this, the plot looks much better.</p>
+<p>There is also a problem with the GFP signals at low IPTG. The error bars are tiny, so it is hard to see the symbol. Now, play with different kwargs to make your error bar plot look the way you like. I recommend these kwargs:</p>
+<ul>
+<li><code>linestyle='none'</code></li>
+<li><code>marker='.'</code></li>
+<li><code>markersize=10</code></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Practice-3:-Computing-and-plotting-a-ECDFs">Practice 3: Computing and plotting a ECDFs<a class="anchor-link" href="#Practice-3:-Computing-and-plotting-a-ECDFs">&#182;</a></h2><p>We plotted the measured cross-sectional areas of the <em>C. elegans</em> eggs from the Harvey and Orbidans paper as histograms. A histogram is a way of approximately representing the <em>probability distribution function</em>, or PDF, describing the data. The <em>cumulative distribution function</em>, or CDF, contains the same information as the PDF. It's just its integral. Importantly, we can plot the data to show what the CDF looks like, the so-called <em>empirical cumulative distribution function</em>, or ECDF, without the binning bias inherent in histograms.</p>
+<p>To plot a cumulative histogram, the $x$-values are the sorted values of the array of data.  The values of the $y$ axis are $y_j = (j+1) / n$, where $n$ is the number of data points and $0 \le j \le n-1$.</p>
+<blockquote><ol>
+<li>Write a function to compute the ECDF. The call signature is <code>ecdf(data)</code>. It returns the <code>x</code> and <code>y</code> values needed to plot the ECDF.<ul>
+<li>Compute <code>x</code> by sorting the array <code>data</code>.</li>
+<li>Compute <code>y</code>. Think carefully about how to do this. The two functions you need are <code>np.arange()</code> and <code>len()</code>.</li>
+<li>Return <code>x,y</code>.</li>
+</ul>
+</li>
+<li>Load in the data sets <code>xa_high_food.csv</code> and <code>xa_low_food.csv</code>.</li>
+<li>Generate <code>x</code> and <code>y</code> values for the ECDFs for these data sets.</li>
+<li>Plot the ECDFs got the high food and low food data as dots. That is, use the kwargs <code>marker='.'</code> and <code>linestyle='none'</code> when you call <code>plt.plot()</code>. Note that to add additional plots to a given figure, you just call <code>plt.plot()</code> again.</li>
+<li>Be sure to label your axes. "ECDF" is a reasonable label for your $y$-axis.</li>
+</ol>
+</blockquote>
+<p>I think far too few papers use ECDFs in displaying data. They are far better then histograms. I hope that now you have found them, you will use them in your own research.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Practice-4:-Setting-up-the-bootcamp_utils-module">Practice 4: Setting up the <code>bootcamp_utils</code> module<a class="anchor-link" href="#Practice-4:-Setting-up-the-bootcamp_utils-module">&#182;</a></h2><p>Speaking of your own work, hopefully what you will use some of the code you write here in bootcamp going forward. As such, set up a module, <code>bootcamp_utils</code> that contains some nice functions you write as you go through the bootcamp. We'll start with <code>ecdf()</code>.</p>
+<blockquote><ol>
+<li>Use Atom to open the file <code>~/git/bootcamp/bootcamp_utils.py</code>.</li>
+<li>Put an appropriate doc string at the top.</li>
+<li>Import Numpy at the top. Later on, as you add more functions, you might need to include more imports.</li>
+<li>Put your code for your <code>ecdf()</code> function in that file.</li>
+<li>Save and close the file.</li>
+<li>Use <code>git add</code> to put <code>bootcamp_utils.py</code> under version control.</li>
+<li>Use <code>git commit</code> to commit it. Don't forget the <code>-m</code> flag and your commit message.</li>
+<li>Use <code>git push origin master</code> to push your changes to the repository. Remember, you are working on your own fork, so there will be no conflicts with the upstream repository or with your classmates.</li>
+</ol>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Practice-5:-Are-they-Normally-distributed?">Practice 5: Are they Normally distributed?<a class="anchor-link" href="#Practice-5:-Are-they-Normally-distributed?">&#182;</a></h2><p>We might be interested to see if the egg cross-section data follow a Normal distribution. After all, this is commonly an underlying assumption when people report data from repeated measurements in the literature.</p>
+<p>One way to assess this is to plot the theoretical CDF with the same mean and standard deviation as the data on top of the ECDFs. (There are better graphical ways to do this, but this is ok.)  We know the cumulative distribution function for a Normal distribution with mean $\mu$ and standard deviation $\sigma$ is</p>
+\begin{align}
+\mathrm{cdf}(x) = \frac{1}{2}\left(1 + \mathrm{erf}\left(\frac{x - \mu}{\sqrt{2\sigma^2}}\right)\right),
+\end{align}<p>but instead of coding this up directly, we can use the <code>scipy.stats</code> to do it for us!  We just need to supply where we want it evaluated ($x$), and the mean (the location parameter) and standard deviation (the scale parameter). Something like this:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make smooth x-values</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1600</span><span class="p">,</span> <span class="mi">2500</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+<span class="c1"># Compute theoretical Normal distribution</span>
+<span class="n">cdf_theor</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">xa_low</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">xa_low</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, let's make the plot.</p>
+<blockquote><ol>
+<li>Regenerate your ECDFs. This time, import the <code>bootcamp_utils</code> module and call <code>bootcamp_utils.ecdf()</code> to get your <code>x</code> and <code>y</code> values.</li>
+<li>Plot the ECDFs as dots, as before.</li>
+<li>Make smooth curves of the Normal CDF using <code>scipy.stats.norm.cdf()</code>.</li>
+<li>Plot those curves using <code>plt.plot()</code>. You can use the <code>color='black'</code> keyword argument to set the color of the smooth curves.</li>
+<li>Don't forget to label your axes. You can also add a legend if you like.</li>
+</ol>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="A-reminder-about-documentation">A reminder about documentation<a class="anchor-link" href="#A-reminder-about-documentation">&#182;</a></h3><p>It is important to note that I didn't just memorize how all of these functions work when I wrote these practice exercises.  I looked at the online documentation.  For example, I looked at the <a href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.plot"><code>plt.plot()</code> documentation</a>, and the <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.norm.html"><code>scipy.stats.norm</code> documentation</a>.  To find those links, I just Googled "<code>plt.plot</code>" and "<code>scipy.stats</code>".</p>
+<p>These packages are all very well documented, and those docs will be your guide.  You don't need to memorize (though you will eventually just by accident).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Practice-6:-Solving-differential-equations-with-NumPy">Practice 6: Solving differential equations with NumPy<a class="anchor-link" href="#Practice-6:-Solving-differential-equations-with-NumPy">&#182;</a></h2><p>In addition to handling data, NumPy allows you do to <em>simulations</em>. We will do some of this in coming lessons when we deal with random number generators. For this exercise, we will use Euler's method to simulate a classic model for predator-prey population dynamics, the <a href="https://en.wikipedia.org/wiki/Lotka–Volterra_equations">Lotka-Volterra model</a>. As a warm-up example, we will simulate bacterial growth.</p>
 <p>Bacterial growth can be modeled by the differential equation</p>
 \begin{align}
 \frac{\mathrm{d}n}{\mathrm{d}t} = k n,
@@ -12022,7 +12219,7 @@ n(t+\Delta t) \approx n(t) + \Delta t\,f(n).
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Specify parameter</span>
@@ -12062,7 +12259,7 @@ n(t+\Delta t) \approx n(t) + \Delta t\,f(n).
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
@@ -12079,11 +12276,11 @@ n(t+\Delta t) \approx n(t) + \Delta t\,f(n).
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[4]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.text.Text at 0x11d845208&gt;</pre>
+<pre>&lt;matplotlib.text.Text at 0x116fbf470&gt;</pre>
 </div>
 
 </div>
@@ -14737,16 +14934,7 @@ height=1146
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And there is the famous exponential growth!</p>
 <p>This time stepping method is called <a href="https://en.wikipedia.org/wiki/Euler_method">Euler's method</a>, and what we're doing is called <em>numerical solution of a differential equation</em>. It is probably the simplest way to solve differential equations, and is by no means the best. Check out <code>scipy.integrate.odeint()</code> for a faster and more robust way. For our pedagogical purposes, though, Euler's method is just fine.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Practice-1:-NumPy-and-Lotka-Volterra">Practice 1: NumPy and Lotka-Volterra<a class="anchor-link" href="#Practice-1:-NumPy-and-Lotka-Volterra">&#182;</a></h2><p>In addition to handling data, NumPy allows you do to <em>simulations</em>. We will do some of this in coming lessons when we deal with random number generators. For this exercise, we will use Euler's method to simulate a classic model for predator-prey population dynamics, the <a href="https://en.wikipedia.org/wiki/Lotka–Volterra_equations">Lotka-Volterra model</a>. Since predator and prey both begin with "p," we'll call it the predators foxes ($f$) and the prey rabbits ($r$). The differential equation describing the dynamics of the rabbit population is</p>
+<p>Now it's time to simulate the Lotka-Volterra model. Since predator and prey both begin with "p," we'll call the predators foxes ($f$) and the prey rabbits ($r$). The differential equation describing the dynamics of the rabbit population is</p>
 \begin{align}
 \frac{\mathrm{d}r}{\mathrm{d}t} = \alpha r - \beta f r.
 \end{align}<p>The first term at the right hand side is exponential growth, the same you would expect for a growing bacterial colony. The second term is killing off due to predation. If $f$ is large, more rabbits get hunted down.</p>
