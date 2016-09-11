@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="utf-8" />
-<title>e04</title>
+<title>e05</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11960,8 +11960,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercise-4">Exercise 4<a class="anchor-link" href="#Exercise-4">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p><em>This exercise was generated from a Jupyter notebook.  You can download the notebook <a href="e04.ipynb">here</a>.</em></p>
+<h1 id="Exercise-5">Exercise 5<a class="anchor-link" href="#Exercise-5">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<p><em>This exercise was generated from a Jupyter notebook.  You can download the notebook <a href="e05.ipynb">here</a>.</em></p>
 
 </div>
 </div>
@@ -11971,8 +11971,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-4.1:-Long-term-trends-in-hybridization-of-Darwin-finches">Exercise 4.1: Long-term trends in hybridization of Darwin finches<a class="anchor-link" href="#Exercise-4.1:-Long-term-trends-in-hybridization-of-Darwin-finches">&#182;</a></h2><p><a href="https://en.wikipedia.org/wiki/Peter_and_Rosemary_Grant">Peter and Rosemary Grant</a> have been working on the Galápagos island of Daphne Major for over forty years.  During this time, they have collected lots and lots of data about physiological features of finches.  Last year, they published a book with a summary of some of their major results (Grant P. R., Grant B. R., <em>Data from: 40 years of evolution. Darwin's finches on Daphne Major Island</em>, Princeton University Press, 2014). They made their data from the book publicly available via the <a href="http://dx.doi.org/10.5061/dryad.g6g3h">Dryad Digital Repository</a>.</p>
-<p>We will investigate their measurements of beak depth (the distance, top to bottom, of a closed beak) and beak length (base to tip on the top) of Darwin's finches.  We will look at data from two species, <em>Geospiza fortis</em> and <em>Geospiza scandens</em>.  The Grants provided data on the finches of Daphne for the years 1973, 1975, 1987, 1991, and 2012.  I have included the data in the files <code>grant_1973.csv</code>, <code>grant_1975.csv</code>, <code>grant_1987.csv</code>, <code>grant_1991.csv</code>, and  <code>grant_2012.csv</code>. They are in almost exactly the same format is in the Dryad repository; I have only deleted blank entries at the end of the files.</p>
+<h2 id="Problem-5.1:-Growth-curves-from-a-movie">Problem 5.1: Growth curves from a movie<a class="anchor-link" href="#Problem-5.1:-Growth-curves-from-a-movie">&#182;</a></h2><p>At the dawn of the molecular revolution in biology, key experiments by Jacques Monod in which he measured growth curves of bacteria under different conditions exposed some of the mechanisms of regulation of gene expression.  Those growth curves were measured in a bulk solution..  In this exercise, we will measure bacterial growth starting from a <em>two bacteria</em>.  The movie shows <em>Bacillus subtilis</em> constitutively expressing mCherry growing under slow growth conditions.  These data were kindly donated by Jin Park from the Elowitz lab here at Caltech.</p>
+<p><strong>a)</strong> Load in the series of images contained in the directory <code>data/bacterial_growth/</code>. Be sure that however you store them (a list or tuple or other object) has the frames in the proper order.</p>
 
 </div>
 </div>
@@ -11982,7 +11982,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>a)</strong> Load each of the files into separate Pandas <code>DataFrame</code>s.  You might want to inspect the file first to make sure you know what character the comments start with and if there is a header row.</p>
+<p><strong>b)</strong> Segment the images to separate bacteria from background.  You do not need to segment individual bacteria; this would likely require some more advanced techniques involving edge detection that we haven't covered in bootcamp.</p>
 
 </div>
 </div>
@@ -11992,16 +11992,43 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>b)</strong> We would like to merge these all into one <code>DataFrame</code>.  The problem is that they have different header names, and only the 1973 file has a year entry (called <code>yearband</code>).  This is common with real data.  It is often a bit messy and requires some munging.</p>
+<p><strong>c)</strong> Show a representative image from the stack (with the segmentation overlayed in green) of images with a 10 µm scale bar burned in.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>d)</strong> Plot a growth curve for this growing colony.  What values should be on the $y$-axis?  (This is one of those times where I ask an open question for which there is no "right" answer.)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>e)</strong> Perform a regression on this growth curve to estimate the time constant for the exponential growth.  Be sure to check out the <code>README</code> file in the directory containing the images to get the appropriate metadata.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise-5.2:-Filter,-extract,-rinse,-repeat">Exercise 5.2: Filter, extract, rinse, repeat<a class="anchor-link" href="#Exercise-5.2:-Filter,-extract,-rinse,-repeat">&#182;</a></h2><p>So far we have seen that in a single (very clean) image, we can get somewhere around 20 - 30 well-separated cells in a single 100$\times$ magnification phase contrast image. However, if you wish to report a mean fluorescence intensity for a single strain, you would certainly want more cells to have a good degree of confidence. Using the principles you learned above, your job will be to report a mean fluorescence value for the HG105 <em>E. coli</em> strain using <strong>all</strong> of the images located in <code>data/HG105_images/</code>. To do this, you should do the following:</p>
 <blockquote><ol>
-<li>First, change the name of the <code>yearband</code> column of the 1973 data to <code>year</code>.  Also, make sure the year format is four digits, not two!  </li>
-<li>Next, add a <code>year</code> column to the other four <code>DataFrame</code>s.  You want tidy data, so each row in the <code>DataFrame</code> should have an entry for the year.</li>
-<li><p>Change the column names so that all the <code>DataFrame</code>s have the same column names.  I would choose column names</p>
-<p><code>['band', 'species', 'beak length (mm)', 'beak depth (mm)', 'year']</code></p>
-</li>
-<li><p>Concatenate the <code>DataFrame</code>s into a single <code>DataFrame</code>. Be careful with indices! If you use <code>pd.concat()</code>, you will need to use the <code>ignore_index=True</code> kwarg. You might also need to use the <code>axis</code> kwarg.</p>
-</li>
-<li>After doing this work, it is worth saving your tidy <code>DataFrame</code> in a CSV document. To this using the <code>to_csv()</code> method of your <code>DataFrame</code>. Since the indices are uninformative, you should use the <code>index=False</code> kwarg. (I have already done this and saved it as <code>~/git/bootcamp/data/grant_complete.csv</code>, which will help you do the rest of the exercise if you have problems with this part.)</li>
+<li>Get a list of all of the image files in <code>data/HG105_images/</code>.</li>
+<li>Separate them by phase contrast (for segmentation) and FITC (for measurement). </li>
+<li>Iterate through each image file and perform segmentation and fluorescence intensity extraction for each cell. These values should be stored in a NumPy array or Pandas <code>DataFrame</code>.  </li>
+<li>Plot a histogram of all extracted fluorescence intensities and report a mean and standard deviation as well as the number of cells you successfully measured. </li>
+<li>Obtain 95% bootstrap confidence intervals for the mean and standard deviation of the fluorescence intensities.</li>
 </ol>
 </blockquote>
 
@@ -12013,93 +12040,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>c)</strong> The <code>band</code> fields gives the number of the band on the bird's leg that was used to tag it.  Are some birds counted twice?  Are they counted twice in the same year?  Do you think you should drop duplicate birds from the same year?  How about different years?  My opinion is that you should drop duplicate birds from the same year and keep the others, but I would be open to discussion on that.  To practice your Pandas skills, though, let's delete only duplicate birds from the same year from the <code>DataFrame</code>.  When you have made this <code>DataFrame</code>, save it as a CSV file.</p>
-<p><em>Hint</em>: The <code>DataFrame</code> methods <code>duplicated()</code> and <code>drop_duplicates()</code> will be useful.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>d)</strong> Plot an ECDF of beak depths of <em>Geospiza fortis</em> specimens measured in 1987.  Plot an ECDF of the beak depths of <em>Geospiza scandens</em> from the same year.  These ECDFs should be on the same plot.  On another plot, plot ECDFs of beak lengths for the two species in 1987.  Do you see a striking phenotypic difference?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>e)</strong> Perhaps a more informative plot is to plot the measurement of each bird's beak as a point in the beak depth-beak length plane.  For the 1987 data, plot beak depth vs. beak width for <em>Geospiza fortis</em> as blue dots, and for <em>Geospiza scandens</em> as red dots.  Can you see the species demarcation?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>f)</strong> Do part (e) again for all years.  Describe what you see.  Do you see the changes in the differences between species (presumably as a result of hybridization)?  In your plots, make sure all plots have the same range on the axes.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-4.2:-Hacker-stats-on-bee-sperm-data">Exercise 4.2: Hacker stats on bee sperm data<a class="anchor-link" href="#Exercise-4.2:-Hacker-stats-on-bee-sperm-data">&#182;</a></h2><p>Neonicotinoid pesticides are thought to have inadvertent effects on service-providing insects such as bees. A recent study of this was recently <a href="http://www.nytimes.com/2016/07/29/science/neonicotinoid-insecticide-bee-sperm.html">featured in the New York Times</a>. The original paper is <a href="http://dx.doi.org/10.1098/rspb.2016.0506">Straub, et al.,  Proc. Royal Soc. B 283(1835): 20160506</a>. Straub and coworkers put their <a href="http://dx.doi.org/10.5061/dryad.bs515">data in the Dryad repository</a>, which means we can work with it!</p>
-<p>(Do you see a trend here? If you want people to think deeply about your results, explore them, learn from them, in general further science with them, <em>make your data publicly available.</em> Strongly encourage the members of your lab to do the same.)</p>
-<p>We will look at the weight of drones (male bees) using the data set stored in <code>~/git/bootcamp/data/bee_weight.csv</code> and the sperm quality of drone bees using the data set stored in <code>~/git/bootcamp/data/bee_sperm.csv</code>.</p>
-<p><strong>a)</strong> Load the drone weight data in as a Pandas <code>DataFrame</code>.</p>
-<p><strong>b)</strong> Plot ECDFs of the drone weight for control and also for those exposed to pesticide. Do you think there is a clear difference?</p>
-<p><strong>c)</strong> Compute the mean drone weight for control and those exposed to pesticide. Compute 95% bootstrap confidence intervals on the mean.</p>
-<p><strong>d)</strong> Repeat parts (a)-(c) for drone sperm. Use the <code>'Quality'</code> column as your measure. This is defined as the percent of sperm that are alive in a 500 µL sample.</p>
-<p><strong>e)</strong> As you have seen in your analysis in part (d), both the control and pesticide treatments have some outliers with very low sperm quality. This can tug heavily on the mean. So, get 95% bootstrap confidence intervals for the <em>median</em> sperm quality of the two treatments.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-4.3:-Monte-Carlo-simulation-of-transcriptional-pausing">Exercise 4.3: Monte Carlo simulation of transcriptional pausing<a class="anchor-link" href="#Exercise-4.3:-Monte-Carlo-simulation-of-transcriptional-pausing">&#182;</a></h2><p>In this exercise, we will put random number generation to use and do a <strong>Monte Carlo simulation</strong>.  The term Monte Carlo simulation is a broad term describing techniques in which a large number of random numbers are generated to (approximately) calculate properties of probability distributions.  In many cases the analytical form of these distributions is not known, so Monte Carlo methods are a great way to learn about them.</p>
-<p>Transcription, the process by which DNA is transcribed into RNA, is key process in the central dogma of molecular biology.  RNA polymerase (RNAP) is at the heart of this process.  This amazing machine glides along the DNA template, unzipping it internally, incorporating ribonucleotides at the front, and spitting RNA out the back.  Sometimes, though, the polymerase pauses and then backtracks, pushing the RNA transcript back out the front, as shown in the figure below, taken from Depken, et al., <em>Biophys. J.</em>, <strong>96</strong>, 2189-2193, 2009.</p>
-<p><img src="rnap_pause.png" alt="Schematic of a pausing RNAP from Depken, et al., *Biophys. J.*, **96**, 2189-2193, 2009"></p>
-<p>To escape these backtracks, a cleavage enzyme called TFIIS cleaves the bit on RNA hanging out of the front, and the RNAP can then go about its merry way.</p>
-<p>Researchers have long debated how these backtracks are governed.  Single molecule experiments can provide some much needed insight.  The groups of Carlos Bustamante, Steve Block, and Stephan Grill, among others, have investigated the dynamics of RNAP in the absence of TFIIS.  They can measure many individual backtracks and get statistics about how long the backtracks last.</p>
-<p>One hypothesis is that the backtracks simply consist of diffusive-like motion along the DNA stand.  That is to say, the polymerase can move forward or backward along the strand with equal probability once it is paused.  This is a one-dimensional <strong>random walk</strong>.  So, if we want to test this hypothesis, we would want to know how much time we should expect the RNAP to be in a backtrack so that we could compare to experiment.</p>
-<p>So, we seek the probability distribution of backtrack times, $P(t_{bt})$, where $t_{bt}$ is the time spent in the backtrack.  We could solve this analytically, which requires some sophisticated mathematics.  But, because we know how to draw random numbers, we can just compute this distribution directly using Monte Carlo simulation!</p>
-<p>We start at $x = 0$ at time $t = 0$. We "flip a coin," or choose a random number to decide whether we step left or right. We do this again and again, keeping track of how many steps we take and what the $x$ position is. As soon as $x$ becomes positive, we have existed the backtrack.  The total time for a backtrack is then $\tau n_\mathrm{steps}$, where $\tau$ is the time it takes to make a step.  Depken, et al., report that $\tau \approx 0.5$ seconds.</p>
-<p>We first write a function to take a step.  At the top of the function is a <strong>decorator</strong>.  We will not cover decorators here, but this particular decorator is using the <code>numba</code> package to actually <em>compile</em> the following Python code.  Remember, compiled code is <em>much</em> faster than interpreted code, and the speed boost is needed in this case.</p>
-<p><strong>a)</strong> Write a function, <code>backtrack_steps()</code>, that computes the number of steps it takes for a random walker (i.e., polymerase) starting at position $x = 0$ to get to position $x = +1$. It should return the number of steps to take the walk.</p>
-<p><strong>b)</strong> Generate 10,000 of these backtracks in order to get enough samples out of $P(t_\mathrm{bt})$. (If you are interested in a way to really speed up this calculation, ask me about <a href="http://numba.pydata.org">Numba</a>.)</p>
-<p><strong>c)</strong> Use <code>plt.hist()</code> to plot a histogram of the backtrack times. Use the <code>normed=True</code> kwarg so it approximates a probability distribution function.</p>
-<p><strong>d)</strong> You saw some craziness in part (c). That is because, while most backtracks are short, some are reeeally long. So, instead, generate an ECDF of your samples and plot the ECDF with the $x$ axis on a logarithmic scale.</p>
-<p><strong>e)</strong> A probability distribution function that obeys a power law has the property</p>
-\begin{align}
-P(t_\mathrm{bt}) \propto t_\mathrm{bt}^{-a}
-\end{align}<p>in some part of the distribution, usually for large $t_\mathrm{bt}$. If this is the case, the cumulative distribution is then</p>
-\begin{align}
-\mathrm{cdf}(t_\mathrm{bt}) \equiv F(t_\mathrm{bt})= \int_{-\infty}^{t_\mathrm{bt}} \mathrm{d}t_\mathrm{bt}'\,P(t_\mathrm{bt}') = 1 - \frac{c}{t_\mathrm{bt}^{a+1}}, \\
-\phantom{blah}
-\end{align}<p>where $c$ is some constant defined by the functional form of $P(t_\mathrm{bt})$ for small $t_\mathrm{bt}$ and the normalization condition.  If $F$ is our cumulative histogram, we can check for power law behavior by plotting the complementary cumulative distribution (CCDF), $1 - F$, versus $t_\mathrm{bt}$.  If a power law is in play, the plot will be linear on a log-log scale with a slope of $-a+1$.</p>
-<p>Plot the complementary cumulative distribution function from your samples on a log-log plot. If it is linear, then the time to exit a backtrack is a power law.</p>
-<p><strong>f)</strong>
-By doing some mathematical heavy lifting, we know that, in the limit of large $t_{bt}$,</p>
-\begin{align}
-P(t_{bt}) \propto t^{-3/2},
-\end{align}<p>so the plot you did in part (e) should have a slope of $-1/2$ on a log-log plot. Is this what you see?</p>
-<p><strong>Notes:</strong> The theory to derive the probability distribution is involved.  See, e.g., <a href="https://en.wikipedia.org/wiki/First-hitting-time_model">this</a>.  However, we were able to predict that we would see a great many short backtracks, and then see some very very long backtracks because of the power law distribution of backtrack times.  We were able to do that just by doing a simple Monte Carlo simulation.  There are many problem where the theory is <em>really</em> hard, and deriving the distribution is currently impossible, or the probability distribution has such an ugly expression that we can't really work with it.  So, Monte Carlo methods are a powerful tool for generating predictions from simply-stated, but mathematically challenging, hypotheses.</p>
-<p>Interestingly, many researchers thought (and maybe still do) there were two classes of backtracks: long and short.  There may be, but the hypothesis that the backtrack is a random walk process is commensurate with seeing both very long and very short backtracks.</p>
+<h2 id="Exercise-5.3:-Beak-depth-and-lengths">Exercise 5.3: Beak depth and lengths<a class="anchor-link" href="#Exercise-5.3:-Beak-depth-and-lengths">&#182;</a></h2><p>In <a href="../exercisez/e04.html">Exercise 4</a>, you munged and plotted some data on beak widths and depths of Darwin's finches.  In this problem, we will work to quantify these data.  We will perform a simple analysis in which we perform a linear regression to get the dependence of beak depth on beak length.</p>
+<p><strong>a)</strong> Perform a linear regression on each of the ten (year-species) pairs.  Show your regression line on plots like you make in Exercise 4.</p>
+<p><strong>b)</strong> Comment on the observed slopes and how they change over time.</p>
+<p><strong>c)</strong> Perform any other analysis on the data that you see fit or are curious about.</p>
 
 </div>
 </div>
