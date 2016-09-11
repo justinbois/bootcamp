@@ -11689,164 +11689,6 @@ ul.typeahead-list > li > a {
 .ansi-bold { font-weight: bold; }
 
     </style>
-<style type="text/css">
-    .container { width:100% !important; }
-
-body {
-    color: #333;
-    background: #f6f6f6;
-    width: 980px;
-    margin: auto;
-}
-
-#notebook_panel { /* main background */
-    color: #f6f6f6;
-    margin: auto;
-}
-
-div #notebook { /* center the content */
-    background: #4b4b4b;
-    color: #333;
-    padding-left: 1em;
-    padding-right: 1em;
-    padding-top: 2ex;
-    text-align: justify;
-}
-
-#notebook li { /* More space between bullets. */
-    margin-top: 0.8em;
-}
-
-div.text_cell {
-    text-align: justify;
-    width: 105ex /* instead of 100%, */
-}
-
-div.text_cell_render{
-    text-align: justify;
-    padding: 0em 1em 0em 1em;
-    font-family: Verdana, Geneva, sans-serif;
-    line-height: 145%; /* added for some line spacing of text. */
-    width: 842px;      /* instead of 'inherit' for shorter lines */
-    font-weight: Light;
-    font-size: 13pt;
-}
-
-div.text_cell_render.border-box-sizing.rendered_html {
-    margin: 0;
-    padding: 1em;
-    margin-left: 4ex;
-    text-align: justify;
-}
-div.cell.text_cell.border-box-sizing {
-    margin: 0;
-    padding: 0;
-    text-align: justify;
-}
-.rendered_html h1 { /* Main titles big with more space*/
-    margin-top: 2.2em;
-    line-height: 1.4em;
-    margin-bottom: 0.1em;
-    padding: 0;
-    font-family: "Open Sans", Sans-Serif;
-    font-weight: Light;
-}
-.rendered_html h2 {
-    margin-top:2.0em;
-    margin-bottome:0.0em;
-    margin: 0;
-    padding: 0;
-    font-family: "Open Sans", Sans-Serif; font-weight: Light;
-}
-.rendered_html h3 {
-    margin: 0;
-    padding: 0;
-    font-family: "Open Sans", Sans-Serif; font-weight: Light;
-}
-
-div.cell { /* set cell width to about 80 chars */
-    margin-top:1em;
-    margin-bottom:1em;
-    margin-left:auto;
-    margin-right:auto;
-    width: 842px;
-    text-align: justify;
-}
-
-.cell.command_mode.selected {
-    border-color: rgba(0,0,0,0.1);
-}
-
-.cell.edit_mode.selected {
-    border-color: rgba(0,0,0,0.15);
-    box-shadow: 0px 0px 5px #f0f0f0;
-    -webkit-box-shadow: 0px 0px 5px #f0f0f0;
-}
-
-div.cell.code_cell {  /* Area containing both code and output */
-background-color: #FFF;
-border-radius: 10px;
-border-style: solid;
-border-width: 1px;
-border-color: gray;
-padding: 1em;
-}
-
-div.cell.selected { /* Current cell */
-    border-radius: 5px;
-    border-color: #1E90FF;  /* Dodger blue*/
-    border-width: 2px;
-}
-
-div.cell.running{ /* Cell the is running */
-     border: 3px dashed #f33;
-}
-
-
-div.input_area { /* box around box with code */
-    border: none;
-    background: #f5f5f5;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    padding-top: 0.5ex;
-    padding-bottom: 0.5ex;
-    padding-left: 0.5em;
-}
-
-div.input { /* box with code */
-    width: 810px;
-}
-
-div.CodeMirror { /* code font */
-    font-family: "Droid Sans Mono", monospace;
-    font-size: 12pt;
-}
-
-div.prompt { /* remove In/Out prompt */
-    display: none;
-}
-
-div.cell.border-box-sizing.code_cell.rendered {
-    font-size: 12pt;
-}
-
-div.output_subarea {
-    border:none;
-    font-size: 12pt;
-}
-
-/* Turn off toggle cel output button. */
-div.out_prompt_overlay  {
-	height: 0%;
-}
-
-
-/* header colors and fonts */
-h1 { color: #444; }
-h2 { color: #444; }
-h3 { color: #444; font-style: italic; font-weight: normal}
-
-    </style>
 
 
 <style type="text/css">
@@ -11960,7 +11802,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-15:-Exceptions-and-error-handling">Lesson 15: Exceptions and error handling<a class="anchor-link" href="#Lesson-15:-Exceptions-and-error-handling">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-15:-Errors-and-Exception-handling">Lesson 15: Errors and Exception handling<a class="anchor-link" href="#Lesson-15:-Errors-and-Exception-handling">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l14_exceptions_and_error_handling.ipynb">here</a>.</em></p>
 
 </div>
@@ -12030,8 +11872,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this case, the <code>TypeError</code> indicates that we tried to do something that is legal in Python for some types, but we tried to do it to a type for which it is illegal (strings are immutable).  In Python, this type of error is called an <strong>exception</strong>.  We say that the interpreter "<strong>raised an exception</strong>."  There are many kinds of built-in exceptions, and you can find a list of them, with descriptions <a href="https://docs.python.org/3.5/library/exceptions.html#bltin-exceptions">here</a>.  You can write your own kinds of exceptions, but we will not cover that in bootcamp.</p>
-<p>In this lesson, we will investigate how to handle errors in your code.  Importantly, we will also touch on the different kinds of errors and how to avoid them.  Or, more specifically, in this and the next lesson, we will learn how to use exceptions to help you write better, more bug free code.</p>
+<p>In this case, the <code>TypeError</code> indicates that we tried to do something that is legal in Python for some types, but we tried to do it to a type for which it is illegal (strings are immutable).  In Python, an error detected during execution is called an <strong>exception</strong>.  We say that the interpreter "<strong>raised an exception</strong>."  There are many kinds of built-in exceptions, and you can find a list of them, with descriptions <a href="https://docs.python.org/3.5/library/exceptions.html#bltin-exceptions">here</a>.  You can write your own kinds of exceptions, but we will not cover that in bootcamp.</p>
+<p>In this lesson, we will investigate how to handle errors in your code.  Importantly, we will also touch on the different kinds of errors and how to avoid them.  Or, more specifically, in this and the next lesson, we will learn how to use exceptions to help you write better, more bug-free code.</p>
 
 </div>
 </div>
@@ -12051,11 +11893,11 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Syntax-errors">Syntax errors<a class="anchor-link" href="#Syntax-errors">&#182;</a></h3><p>A <strong>syntax error</strong> means you wrote something nonsensical, something the Python interpreted cannot understand.  An example of a syntax error in English would be the following.</p>
+<h3 id="Syntax-errors">Syntax errors<a class="anchor-link" href="#Syntax-errors">&#182;</a></h3><p>A <strong>syntax error</strong> means you wrote something nonsensical, something the Python interpreter cannot understand.  An example of a syntax error in English would be the following.</p>
 <blockquote><p>Sir Tristram, violer d'amores, fr'over the short sea, had passen-core rearrived from North Armorica on this side the scraggy isthmus of Europe Minor to wielderfight his penisolate war: nor had topsawyer's rocks by the stream Oconee exaggerated themselse to Laurens County's gorgios while they went doublin their mumper all the time: nor avoice from afire bellowsed mishe mishe to tauftauf thuartpeatrick: not yet, though venissoon after, had a kidscad buttended a bland old isaac: not yet, though all's fair in    vanessy, were sosie sesthers wroth with twone nathandjoe.</p>
 </blockquote>
 <p>This is recognizable as English.  In fact, it is the second sentence of a very famous novel (<em>Finnegan's Wake</em> by James Joyce).  Clearly, many spelling and punctuation rules of English are violated here.  To many of us, it is nonsensical, but I do know of some people who have read the book and understand it.  So, English is fairly tolerant of a syntax error.  A simpler example would be</p>
-<blockquote><p>Boootamp is fun!</p>
+<blockquote><p>Boootcamp is fun!</p>
 </blockquote>
 <p>This has a syntax error ("Boootcamp" is not in the English language), but we understand what it means.  A syntax error in Python would be this:</p>
 
@@ -12103,7 +11945,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Syntax errors are often the easiest to deal with, since the program will not run at all if one is present.</p>
+<p>Syntax errors are often the easiest to deal with, since the program will not run at all if any are present.</p>
 
 </div>
 </div>
@@ -12113,7 +11955,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Runtime-errors">Runtime errors<a class="anchor-link" href="#Runtime-errors">&#182;</a></h3><p><strong>Runtime errors</strong> occur when a program is syntactically correct, so it can run, but the interpreter encountered something wrong.  The example at the start of the tutorial, trying to change a character in a string, is an example of a runtime error.  This particular one was a <code>TypeError</code>, which is a more specific type of runtime error.  Python does have a <code>RuntimeError</code>, which is just a generic error.</p>
+<h3 id="Runtime-errors">Runtime errors<a class="anchor-link" href="#Runtime-errors">&#182;</a></h3><p><strong>Runtime errors</strong> occur when a program is syntactically correct, so it can run, but the interpreter encountered something wrong.  The example at the start of the tutorial, trying to change a character in a string, is an example of a runtime error.  This particular one was a <code>TypeError</code>, which is a more specific type of runtime error.  Python does have a <code>RuntimeError</code>, which just indicates a generic error.</p>
 <p>Runtime errors are more difficult to spot than syntax errors because it is possible that a program could run all the way through without encountering the error, but only for certain inputs does it happen.  Let's consider the example of a simple function meant to add two numbers.</p>
 
 </div>
@@ -12332,7 +12174,7 @@ We get    [1, 1, 2, 2, 3, 3]
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Handling-errors-in-your-code">Handling errors in your code<a class="anchor-link" href="#Handling-errors-in-your-code">&#182;</a></h2><p>If you have a syntax error, your code will not even run.  So, we will assume we are without syntax errors in this discussion on how to handle errors.  So, how can we handle runtime errors?  In most use cases, we just write our code and let the Python interpreter tell us about errors.  However, sometimes we want to use the fact that we might encounter a runtime error within our code.  A common example of this is when importing modules that are convenient, but not necessary in your code.  Errors are handled in your code using a <strong>try block</strong>.</p>
+<h2 id="Handling-errors-in-your-code">Handling errors in your code<a class="anchor-link" href="#Handling-errors-in-your-code">&#182;</a></h2><p>If you have a syntax error, your code will not even run.  So, we will assume we are without syntax errors in this discussion on how to handle errors.  So, how can we handle runtime errors?  In most use cases, we just write our code and let the Python interpreter tell us about these exceptions.  However, sometimes we want to use the fact that we might encounter a runtime error within our code.  A common example of this is when importing modules that are convenient, but not essential, for your code to run.  Errors are handled in your code using a <strong>try statement</strong>.</p>
 <p>Let's try importing a module that computes GC content.  This doesn't exist, so we will get an <code>ImportError</code>.</p>
 
 </div>
@@ -12375,7 +12217,7 @@ We get    [1, 1, 2, 2, 3, 3]
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, if we had the magic module, we would like to use it.  But if not, we will just hand-code a calculation of the GC content of a sequence.  We use a <strong><code>try</code></strong> block.</p>
+<p>Now, if we had the magic module, we would like to use it.  But if not, we will just hand-code a calculation of the GC content of a sequence.  We use a <strong><code>try</code></strong> statement.</p>
 
 </div>
 </div>
@@ -12427,8 +12269,8 @@ We get    [1, 1, 2, 2, 3, 3]
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The program now runs just fine!  The <strong><code>try</code></strong> block consists of an initial <strong><code>try</code></strong> clause.  Everything under the <strong><code>try</code></strong> clause is attempted to be executed.  If it succeeds, the rest of the <strong><code>try</code></strong> block is skipped and the interpreter goes to the <code>seq = ...</code> line.</p>
-<p>If, however, there is an <code>ImportError</code>, the code after the <code>except ImportError as e</code> clause is executed.  The exception does not halt the program.  If there is some other kind of error other than an <code>ImportError</code>, the interpreter will raise an exception after it does whatever code is in the <strong><code>finally</code></strong> clause.  The <strong><code>finally</code></strong> clause is useful to tidy things up, like close open files.  It is good practice to only use exceptions that you anticipate in <strong><code>try</code></strong> blocks.  In this case, we only want to have control over <code>ImportError</code>s.  We want the interpreter to scream at us for any unanticipated errors.</p>
+<p>The program now runs just fine!  The <strong><code>try</code></strong> statement consists of an initial <strong><code>try</code></strong> clause.  Everything under the <strong><code>try</code></strong> clause is attempted to be executed.  If it succeeds, the rest of the <strong><code>try</code></strong> statement is skipped, and the interpreter goes to the <code>seq = ...</code> line.</p>
+<p>If, however, there is an <code>ImportError</code>, the code within the <code>except ImportError as e</code> clause is executed.  The exception does not halt the program.  If there is some other kind of error other than an <code>ImportError</code>, the interpreter will raise an exception after it does whatever code is in the <strong><code>finally</code></strong> clause.  The <strong><code>finally</code></strong> clause is useful to tidy things up, like closing open file handles.  While it is possible for a <strong><code>try</code></strong> statement to handle any generic exception by not specifying <code>ImportError as e</code>, it is good practice to explicitly specify the exception(s) that you anticipate in <strong><code>try</code></strong> statements as shown here. In this case, we only want to have control over <code>ImportError</code>s.  We want the interpreter to scream at us for any other, unanticipated errors.</p>
 
 </div>
 </div>
@@ -12509,8 +12351,8 @@ We get    [1, 1, 2, 2, 3, 3]
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Checking-input">Checking input<a class="anchor-link" href="#Checking-input">&#182;</a></h2><p>It is often the case that you want to check the input of a function to ensure that it works properly.  In other words, you want to anticipate errors that the user (or you) might make in running your function and you want to give descriptive error messages.  For example, let's say you are writing a code that processes protein sequences that contain only the 20 naturally occurring amino acids and are represented by their one-letter abbreviation.  You may wish to check that the amino acid sequence is legitimate.  In particular, the letters <code>B</code>, <code>J</code>, <code>O</code>, <code>U</code>, <code>X</code>, and <code>Z</code>, are not abbreviations for amino acids.  (We will not use the wild card abbreviations, <code>B</code> for aspartic acid or asparagine, <code>Z</code> for glutamine or glutamic acid, or <code>X</code> for any amino acid.)</p>
-<p>To illustrate the point, we will write a simple function that converts the sequence of one-letter amino acids to the three-letter abbreviation. We'll use the dictionary that converts single-letter amino acid codes to triple letter that we encountered in the <a href="l13_dictionaries.ipynb#Useful-dictionaries-in-bioinformatics">lesson on dictionaries</a>.</p>
+<h2 id="Checking-input">Checking input<a class="anchor-link" href="#Checking-input">&#182;</a></h2><p>It is often the case that you want to check the input of a function to ensure that it works properly.  In other words, you want to anticipate errors that the user (or you) might make in running your function, and you want to give descriptive error messages.  For example, let's say you are writing a code that processes protein sequences that contain only the 20 naturally occurring amino acids represented by their one-letter abbreviation.  You may wish to check that the amino acid sequence is legitimate.  In particular, the letters <code>B</code>, <code>J</code>, <code>O</code>, <code>U</code>, <code>X</code>, and <code>Z</code>, are not valid abbreviations for standard amino acids.  (We will not use the <a href="https://en.wikipedia.org/wiki/Amino_acid#Table_of_standard_amino_acid_abbreviations_and_properties">ambiguity code</a>, <em>e.g.</em> <code>B</code> for aspartic acid or asparagine, <code>Z</code> for glutamine or glutamic acid, or <code>X</code> for any amino acid.)</p>
+<p>To illustrate the point, we will write a simple function that converts the sequence of one-letter amino acids to the three-letter abbreviation. We'll use the dictionary that converts single-letter amino acid codes to triple letter that we encountered in the <a href="l13_dictionaries.html#Useful-dictionaries-in-bioinformatics">lesson on dictionaries</a>.</p>
 
 </div>
 </div>
