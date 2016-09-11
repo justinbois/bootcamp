@@ -11802,7 +11802,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-6:-Iteration">Lesson 6: Iteration<a class="anchor-link" href="#Lesson-6:-Iteration">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-6:-Iteration">Lesson 6: Iteration<a class="anchor-link" href="#Lesson-6:-Iteration">&#182;</a></h1><p>(c) 2016 Justin Bois and Noah Nelson. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l06_iteration.ipynb">here</a>.</em></p>
 
 </div>
@@ -11833,7 +11833,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make up a random sequence</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The sequence we want to analyze</span>
 <span class="n">seq</span> <span class="o">=</span> <span class="s1">&#39;GACAGACUCCAUGCACGUGGGUAUCUGUC&#39;</span>
 
 <span class="c1"># Initialize GC counter</span>
@@ -11942,22 +11942,24 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Whoa!  It didn't seem to double any of the integers!  This is because <code>my_integers</code> was converted to an iterator in the <strong><code>for</code></strong> clause, and the iterator returns a <em>copy</em> of the item, not a reference to it.  Therefore, the <code>n</code> inside the <strong><code>for</code></strong> block is not a view into the list, so doubling it does nothing meaningful.</p>
-<p>Instead, if you want to change a list in place using a <strong><code>for</code></strong> loop, use the index given by the <code>enumerate()</code> function.  Let's try again.</p>
+<p>Whoa!  It didn't seem to double any of the integers!  This is because <code>my_integers</code> was converted to an iterator in the <strong><code>for</code></strong> clause, and the iterator returns a <em>copy</em> of the item, not a reference to it.  Therefore, the <code>n</code> inside the <strong><code>for</code></strong> block is not a view into the original list, and doubling it does nothing meaningful.</p>
+<p>We've seen how to change individual list elements with indexing:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Square each one</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">my_integers</span><span class="p">):</span>
-    <span class="n">my_integers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
-    
-<span class="c1"># Check out the result</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Don&#39;t do things this way</span>
+<span class="n">my_integers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="n">my_integers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="n">my_integers</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="n">my_integers</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="n">my_integers</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+
 <span class="n">my_integers</span>
 </pre></div>
 
@@ -11969,7 +11971,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[4]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[3]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -11987,56 +11989,18 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Much better!  Note that we used the underscore, <code>_</code>, as a throwaway variable that we do not use.  There is no rule for this, but this is typical Python syntax and helps signal that you are not going to use the variable.</p>
-<p>Now, if we tried to do a similar technique with a string, we get a <code>TypeError</code> because a string is immutable.</p>
+<p>But we'd obviously like a better way to do this, with less typing and without knowing ahead of time the length of the list. Let's look at a new concept that'll help with this example.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Try to convert capital G to lower g</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">base</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;G&#39;</span><span class="p">:</span>
-        <span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;g&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-3-3738f1d3e49b&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">for</span> i<span class="ansi-blue-fg">,</span> base <span class="ansi-green-fg">in</span> enumerate<span class="ansi-blue-fg">(</span>seq<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span>     <span class="ansi-green-fg">if</span> base <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#39;G&#39;</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg">         </span>seq<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;g&#39;</span>
-
-<span class="ansi-red-fg">TypeError</span>: &#39;str&#39; object does not support item assignment</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Iterators">Iterators<a class="anchor-link" href="#Iterators">&#182;</a></h2><p>In the previous example, we iterated over a <em>sequence</em>.  A sequence is one of many iterable objects, called <strong>iterables</strong>.  Under the hood, the Python interpreter actually converts an iterable to an <strong>iterator</strong>.  An iterator is a special object that gives values in succession.  A major difference between a <em>sequence</em> and an iterator is that you cannot index an iterator.  This seems like a trivial difference, but iterators make for more efficient computing under the hood that directly using a <em>sequence</em>.</p>
-<p>We can explicitly convert a <em>sequence</em> to an iterator using the built-in function <code>iter()</code>, but we will not bother with that here because the Python interpreter does this for you automatically when you use a <em>sequence</em> in a loop.</p>
+<h2 id="Iterators">Iterators<a class="anchor-link" href="#Iterators">&#182;</a></h2><p>In the previous example, we iterated over a <em>sequence</em>.  A sequence is one of many iterable objects, called <strong>iterables</strong>.  Under the hood, the Python interpreter actually converts an iterable to an <strong>iterator</strong>.  An iterator is a special object that gives values in succession.  A major difference between a <em>sequence</em> and an iterator is that you cannot index an iterator.  This seems like a trivial difference, but iterators make for more efficient computing under the hood than directly using a <em>sequence</em>.</p>
+<p>We can explicitly convert a <em>sequence</em> to an iterator using the built-in function <code>iter()</code>, but we will not bother with that here because the Python interpreter does this for you automatically when you use a <em>sequence</em> in a loop. (This is incidentally why the previous example didn't work - when the list is converted to an iterator, a copy is made of each element so the original list is unchanged.)</p>
 <p>Instead, we will now explore how we can create useful iterators using the <code>range()</code>, <code>enumerate()</code>, and <code>zip()</code> functions.  I know we have not yet covered functions, but the syntax should not be so complicated that you cannot understand what these functions are doing, just like with the <code>print()</code> function.</p>
 
 </div>
@@ -12170,7 +12134,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="The-enumerate()-function">The <code>enumerate()</code> function<a class="anchor-link" href="#The-enumerate()-function">&#182;</a></h3><p>Let's say we want to print the indices of all <code>G</code> bases in a DNA sequence.  We could do this by modifying our previous program.</p>
+<p>We can use the <code>range()</code> function along with the <code>len()</code> function on lists to double the elements of our list from a bit ago:</p>
 
 </div>
 </div>
@@ -12178,6 +12142,62 @@ div#notebook {
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_integers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="c1"># Since len(my_integers) = 5, this takes i from 0 to 4, </span>
+<span class="c1"># exactly the indices of my_integers</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">my_integers</span><span class="p">)):</span>
+    <span class="n">my_integers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+    
+<span class="n">my_integers</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[2, 4, 6, 8, 10]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This works, but there's an even better way to do this, with the next function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-enumerate()-function">The <code>enumerate()</code> function<a class="anchor-link" href="#The-enumerate()-function">&#182;</a></h3><p>Let's say we want to print the indices of all <code>G</code> bases in a DNA sequence.  We could do this by modifying our previous program.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Initialize GC counter</span>
@@ -12223,7 +12243,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Loop through sequence and print index of G&#39;s</span>
@@ -12262,7 +12282,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print index and identity of bases</span>
@@ -12322,14 +12342,14 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>enumerate()</code> function is really useful and should be used in favor of just doing indexing.  For example, the <code>len()</code> function gives the length of a string.  Many programmers, especially those first trained in lower-level languages, would write the above code as follows.</p>
+<p>The <code>enumerate()</code> function is really useful and should be used in favor of just doing indexing.  For example, many programmers, especially those first trained in lower-level languages, would write the above code similar to how we did the list doubling, with the <code>range()</code> and <code>len()</code> functions.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)):</span>
@@ -12388,10 +12408,95 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>enumerate()</code> is more generic and the overhead for returning a reference to an object isn't an issue. The <code>range(len())</code> construct will break on an object without support for <code>len()</code>. In addition, you are more likely to introduce bugs by imposing indexing.  It is better to use the <code>enumerate()</code> function.</p>
+<p>Using <code>enumerate()</code>, the list doubling code looks like this:</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_integers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="c1"># Double each one</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">my_integers</span><span class="p">):</span>
+    <span class="n">my_integers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+    
+<span class="c1"># Check out the result</span>
+<span class="n">my_integers</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[2, 4, 6, 8, 10]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>enumerate()</code> is more generic and the overhead for returning a reference to an object isn't an issue. The <code>range(len())</code> construct will break on an object without support for <code>len()</code>. In addition, you are more likely to introduce bugs by imposing indexing.  It is better to use the <code>enumerate()</code> function.</p>
+<p>Note that we used the underscore, <code>_</code>, as a throwaway variable that we do not use.  There is no rule for this, but this is typical Python syntax and helps signal that you are not going to use the variable.</p>
+<p>One last gotcha: if we tried to do a similar technique with a string, we get a <code>TypeError</code> because a string is immutable.  We'll revisit examples like this in the next lesson.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Try to convert capital G to lower g</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">base</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;G&#39;</span><span class="p">:</span>
+        <span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;g&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-13-3738f1d3e49b&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">for</span> i<span class="ansi-blue-fg">,</span> base <span class="ansi-green-fg">in</span> enumerate<span class="ansi-blue-fg">(</span>seq<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     <span class="ansi-green-fg">if</span> base <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#39;G&#39;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg">         </span>seq<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;g&#39;</span>
+
+<span class="ansi-red-fg">TypeError</span>: &#39;str&#39; object does not support item assignment</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -12405,7 +12510,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Lloyd&#39;</span><span class="p">,</span> <span class="s1">&#39;Holiday&#39;</span><span class="p">,</span> <span class="s1">&#39;Heath&#39;</span><span class="p">)</span>
@@ -12459,7 +12564,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">count_up</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ignition&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span> <span class="p">,</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
@@ -12510,7 +12615,7 @@ ignition
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Define start codon</span>
@@ -12594,7 +12699,7 @@ ignition
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">seq</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">103</span><span class="p">]</span>
@@ -12608,7 +12713,7 @@ ignition
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -12633,7 +12738,7 @@ ignition
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Define codon of interest</span>
@@ -12677,6 +12782,16 @@ ignition
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="for-vs-while"><strong><code>for</code></strong> vs <strong><code>while</code></strong><a class="anchor-link" href="#for-vs-while">&#182;</a></h3><p>Most anything that requires a loop can be done with either a <strong><code>for</code></strong> loop or a <strong><code>while</code></strong> loop, but there's a general rule of thumb for which type of loop to use. If you know how many times you have to do something (or if your program knows), use a <strong><code>for</code></strong> loop. If you don't know how many times the loop needs to run until you run it, use a <strong><code>while</code></strong> loop. For example, when we want to do something with each character in a string or each entry in a list, the program knows how long the sequence is and a <strong><code>for</code></strong> loop is more appropriate. In the previous examples, we don't know how long it will be before we hit the start codon - it depends on the sequence you put into the program. That makes it more suited to a <strong><code>while</code></strong> loop.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="The-break-and-else-keywords">The <strong><code>break</code></strong> and <strong><code>else</code></strong> keywords<a class="anchor-link" href="#The-break-and-else-keywords">&#182;</a></h2><p>Iteration stops in a <strong><code>for</code></strong> loop when the iterator is exhausted.  It stops in a <strong><code>while</code></strong> loop when the conditional evaluates to <code>False</code>.  These is another way to stop iteration: the <strong><code>break</code></strong> keyword.  Whenever <strong><code>break</code></strong> is encountered in a <strong><code>for</code></strong> or <strong><code>while</code></strong> loop, the iteration halts and execution continues outside the loop.  As an example, we'll do the calculation above with a <strong><code>for</code></strong> loop with a <strong><code>break</code></strong> instead of a <strong><code>while</code></strong> loop.</p>
 
 </div>
@@ -12684,7 +12799,7 @@ ignition
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Define start codon</span>
