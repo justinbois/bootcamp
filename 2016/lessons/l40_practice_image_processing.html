@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="utf-8" />
-<title>e02</title>
+<title>l40_practice_image_processing</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11960,8 +11960,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercise-2">Exercise 2<a class="anchor-link" href="#Exercise-2">&#182;</a></h1><p>(c) 2016 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p><em>This exercise was generated from a Jupyter notebook.  You can download the notebook <a href="e02.ipynb">here</a>.</em></p>
+<h1 id="Lesson-40:-Practicing-Image-Processing">Lesson 40: Practicing Image Processing<a class="anchor-link" href="#Lesson-40:-Practicing-Image-Processing">&#182;</a></h1><p>(c) 2016 Justin Bois and Griffin Chure. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l40_practice_image_processing.ipynb">here</a>.</em></p>
 
 </div>
 </div>
@@ -11971,115 +11971,24 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Exercises 2.3 and 2.4  were inspired by <a href="https://www.cs.hmc.edu/CFB">Libeskind-Hadas and Bush, <em>Computing for Biologists</em>, Cambridge University Press, 2014</a>.</p>
-<p>For all problems except for the git practice, we will work with real data from the <em>Salmonella enterica</em> genome.  The section of the genome we will work with is in the file <code>~git/bootcamp/data/salmonella_spi1_region.fna</code>.  I cut it out of the <a href="http://www.ncbi.nlm.nih.gov/nucleotide/821161554">full genome</a>.  It contains <em>Salmonella</em> pathogenicity island I (SPI1), which is contains genes for surface receptors for host-pathogen interactions.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.1:-Finish-the-Git-practice-exercises">Exercise 2.1: Finish the Git practice exercises<a class="anchor-link" href="#Exercise-2.1:-Finish-the-Git-practice-exercises">&#182;</a></h2><p>If you have not already, finish the <a href="../lessons/l12_practice_with_git.html#Practice-1:-Adding-a-file-to-your-bootcamp-repository">practice exercises with git</a>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.2:-Parsing-a-FASTA-file">Exercise 2.2: Parsing a FASTA file<a class="anchor-link" href="#Exercise-2.2:-Parsing-a-FASTA-file">&#182;</a></h2><p>There are packages, like <a href="http://biopython.org/">Biopython</a> and <a href="http://scikit-bio.org">scikit-bio</a> for processing files you encounter in bioinformatics.  In this problem, though, we will work on our file I/O skills.</p>
-<p><strong>a)</strong> Use command line tools to investigate the FASTA file.  You will notice that the first line begins with a <code>&gt;</code>, signifying that the line contains information about the sequence.  The remainder of the lines are the sequence itself.</p>
-<p><strong>b)</strong> Use the file I/O skill you have learned to read in the sequence and store it as a single string with no gaps.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.3:-Pathogenicity-islands">Exercise 2.3: Pathogenicity islands<a class="anchor-link" href="#Exercise-2.3:-Pathogenicity-islands">&#182;</a></h2><p>Pathogenicity islands are often marked by different GC content than the rest of the genome.  We will try to locate the pathogenicity island(s) in our section of the <em>Salmonella</em> genome by computing GC content.</p>
-<p><strong>a)</strong> Write a function that divides a sequence into blocks and computes the GC content for each block, returning a tuple.  The function signature should look like</p>
-
-<pre><code>gc_blocks(seq, block_size)
-
-</code></pre>
-<p>To be clear, if <code>seq = 'ATGACTACGT</code> and <code>block_size = 4</code>, the blocks to be considered are</p>
-
-<pre><code>ATGA
-CTAC
-
-</code></pre>
-<p>and the function should return <code>(0.25, 0.5)</code>.  Note that the blocks are non-overlapping and that we don't bother with the end of the sequence that does not fit completely in a block.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>b)</strong> Write a function that takes as input a sequence, block size, and a threshold GC content, and returns the original sequence where every base in a block with GC content above threshold is capitalized and every base in a block below the threshold is lowercase.  You would call the function like this:</p>
-
-<pre><code>mapped_seq = gc_map(seq, block_size, gc_thresh)
-
-</code></pre>
-<p>For example,</p>
-
-<pre><code>gc_map('ATGACTACGT', 4, 0.4)
-
-</code></pre>
-<p>returns <code>'atgaCTAC'</code>.  Note that bases not included in GC blocks are truncated.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>c)</strong> Use the <code>gc_map()</code> function to generate a GC content map for the <em>Salmonella</em> sequence with <code>block_size = 1000</code> and <code>gc_thresh = 0.45</code>.  Where do you think the pathogenicity island is?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>d)</strong> Write the GC-mapped sequence (with upper and lower characters) to a new FASTA file.  Use the same description line (which began with a <code>&gt;</code> in the original FASTA file) and have line breaks every 60 characters in the sequence.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.4:-ORF-detection">Exercise 2.4: ORF detection<a class="anchor-link" href="#Exercise-2.4:-ORF-detection">&#182;</a></h2><p><strong>a)</strong> Write a function, <code>longest_orf()</code>, that takes a DNA sequence as input and finds the longest open reading frame (ORF) in the sequence (we will not consider reverse complements).  A sequence fragment constitutes an ORF if the following are true.</p>
+<h2 id="Practice-1:-Writing-your-own-segmentation-function">Practice 1: Writing your own segmentation function<a class="anchor-link" href="#Practice-1:-Writing-your-own-segmentation-function">&#182;</a></h2><p>As you probably noticed during the previous two lessons, there are often a lot of small operations that are sometimes necessary before you can even extract the useful data from the image! Rather than writing out each step whenever you want to process an image, you should write a boilerplate function that can be used to segment <em>any</em> phase contrast image of bacteria. Your function should execute the following steps.</p>
 <ol>
-<li>It begins with <code>ATG</code>.</li>
-<li>It ends with any of <code>TGA</code>, <code>TAG</code>, or <code>TAA</code>.</li>
-<li>The total number of bases is a multiple of 3.</li>
+<li><p>Correct for uneven illumination.</p>
+</li>
+<li><p>Correct for "hot" or "bad" pixels in an image.</p>
+</li>
+<li><p>Perform a thresholding operation.</p>
+</li>
+<li><p>Remove bacteria or objects near/touching the image border.</p>
+</li>
+<li><p>Remove objects that are too large (or too small) to be bacteria. <em>Think carefully! For a multipurpose function, would you <strong>always</strong> want the same area cutoff?</em></p>
+</li>
+<li><p>Remove improperly segmented cells.</p>
+</li>
+<li><p>Return a labeled segmentation mask.</p>
+</li>
 </ol>
-<p>Note that the sequence <code>ATG</code> may appear in the middle of an ORF.  So, for example,</p>
-
-<pre><code>GGATGATGATGTAAAAC
-
-</code></pre>
-<p>has two ORFs, <code>ATGATGATGTAA</code> and <code>ATGATGTAA</code>.  You would return the first one, since it is longer of these two.</p>
-<p><em>Hint 1: The statement for this problem is a bit ambiguous as it is written.  What other specification might you need for this function?</em></p>
-<p><em>Hint 2: You might need to check the documentation of different string methods, like <code>find()</code> to see how to get the functionality you are looking for.</em></p>
+<p>Run your function on <strong>both</strong> the <em>Bacillus subtilis</em> (<a href="l38_intro_to_image_processing.html">Lesson 38</a>) and the <em>E. coli</em> (<a href="l39_segmentation.html">Lesson 39</a>) image sets. Does your function work well in both cases?</p>
 
 </div>
 </div>
@@ -12089,37 +11998,14 @@ CTAC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>b)</strong> Use your function to find the longest ORF from the section of the <em>Salmonella</em> genome we are investigating.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>c)</strong> Write a function that converts a DNA sequence into a protein sequence.  The dictionaries in the <code>bioinfo_dicts</code> module may be useful.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>d)</strong> Translate the longest ORF you generated in part (b) and perform a <a href="http://blast.ncbi.nlm.nih.gov/">BLAST search</a>.  Search for the protein sequence (a blastp query).  What gene is it?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>e)</strong> [challenge] Modify your function to return the <code>n</code> longest ORFs.  Compute the five longest ORFs for the <em>Salmonella</em> genome section we are working with.  Perform BLAST searches on them.  What are they?</p>
+<h2 id="Practice-2:-Extracting-fluorescence-information">Practice 2: Extracting fluorescence information<a class="anchor-link" href="#Practice-2:-Extracting-fluorescence-information">&#182;</a></h2><p>In the previous two lessons, we learned how to identify cellular objects in an image that is mostly non-cellular. However, we did not cover how you would extract information from one image (such as the fluorescence image) given a segmentation mask generated from another. Your goal for this practice session is to extract either the mean fluorescence intensity or (for bonus points) the total fluorescence intensity of each cell in our Lesson 39 <em>E. coli</em> image. To do this, you should:</p>
+<blockquote><ol>
+<li>Read the documentation for <a href="http://scikit-image.org/docs/dev/api/skimage.measure.html#skimage.measure.regionprops">skimage.measure.regionprops</a> and see what properties you can extract given an intensity image and a segmentation mask.</li>
+<li>Using your segmentation mask generated from question 1, extract and store the mean and/or total fluorescence intensity for each cell in a single image in an array or Pandas <code>DataFrame</code>.</li>
+<li>Generate a histogram of your extracted intensities. </li>
+</ol>
+</blockquote>
+<p>Can you get a good idea of how bright a standard cell is from processing a single image?</p>
 
 </div>
 </div>
