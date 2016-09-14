@@ -11689,6 +11689,164 @@ ul.typeahead-list > li > a {
 .ansi-bold { font-weight: bold; }
 
     </style>
+<style type="text/css">
+    .container { width:100% !important; }
+
+body {
+    color: #333;
+    background: #f6f6f6;
+    width: 980px;
+    margin: auto;
+}
+
+#notebook_panel { /* main background */
+    color: #f6f6f6;
+    margin: auto;
+}
+
+div #notebook { /* center the content */
+    background: #4b4b4b;
+    color: #333;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 2ex;
+    text-align: justify;
+}
+
+#notebook li { /* More space between bullets. */
+    margin-top: 0.8em;
+}
+
+div.text_cell {
+    text-align: justify;
+    width: 105ex /* instead of 100%, */
+}
+
+div.text_cell_render{
+    text-align: justify;
+    padding: 0em 1em 0em 1em;
+    font-family: Verdana, Geneva, sans-serif;
+    line-height: 145%; /* added for some line spacing of text. */
+    width: 842px;      /* instead of 'inherit' for shorter lines */
+    font-weight: Light;
+    font-size: 13pt;
+}
+
+div.text_cell_render.border-box-sizing.rendered_html {
+    margin: 0;
+    padding: 1em;
+    margin-left: 4ex;
+    text-align: justify;
+}
+div.cell.text_cell.border-box-sizing {
+    margin: 0;
+    padding: 0;
+    text-align: justify;
+}
+.rendered_html h1 { /* Main titles big with more space*/
+    margin-top: 2.2em;
+    line-height: 1.4em;
+    margin-bottom: 0.1em;
+    padding: 0;
+    font-family: "Open Sans", Sans-Serif;
+    font-weight: Light;
+}
+.rendered_html h2 {
+    margin-top:2.0em;
+    margin-bottome:0.0em;
+    margin: 0;
+    padding: 0;
+    font-family: "Open Sans", Sans-Serif; font-weight: Light;
+}
+.rendered_html h3 {
+    margin: 0;
+    padding: 0;
+    font-family: "Open Sans", Sans-Serif; font-weight: Light;
+}
+
+div.cell { /* set cell width to about 80 chars */
+    margin-top:1em;
+    margin-bottom:1em;
+    margin-left:auto;
+    margin-right:auto;
+    width: 842px;
+    text-align: justify;
+}
+
+.cell.command_mode.selected {
+    border-color: rgba(0,0,0,0.1);
+}
+
+.cell.edit_mode.selected {
+    border-color: rgba(0,0,0,0.15);
+    box-shadow: 0px 0px 5px #f0f0f0;
+    -webkit-box-shadow: 0px 0px 5px #f0f0f0;
+}
+
+div.cell.code_cell {  /* Area containing both code and output */
+background-color: #FFF;
+border-radius: 10px;
+border-style: solid;
+border-width: 1px;
+border-color: gray;
+padding: 1em;
+}
+
+div.cell.selected { /* Current cell */
+    border-radius: 5px;
+    border-color: #1E90FF;  /* Dodger blue*/
+    border-width: 2px;
+}
+
+div.cell.running{ /* Cell the is running */
+     border: 3px dashed #f33;
+}
+
+
+div.input_area { /* box around box with code */
+    border: none;
+    background: #f5f5f5;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding-top: 0.5ex;
+    padding-bottom: 0.5ex;
+    padding-left: 0.5em;
+}
+
+div.input { /* box with code */
+    width: 810px;
+}
+
+div.CodeMirror { /* code font */
+    font-family: "Droid Sans Mono", monospace;
+    font-size: 12pt;
+}
+
+div.prompt { /* remove In/Out prompt */
+    display: none;
+}
+
+div.cell.border-box-sizing.code_cell.rendered {
+    font-size: 12pt;
+}
+
+div.output_subarea {
+    border:none;
+    font-size: 12pt;
+}
+
+/* Turn off toggle cel output button. */
+div.out_prompt_overlay  {
+	height: 0%;
+}
+
+
+/* header colors and fonts */
+h1 { color: #444; }
+h2 { color: #444; }
+h3 { color: #444; font-style: italic; font-weight: normal}
+
+    </style>
 
 
 <style type="text/css">
@@ -11914,14 +12072,14 @@ div#notebook {
 </tr>
 <tr>
 <td style="text-align:center">Q18M</td>
-<td style="text-align:center">1328 mM$^{-1}$</td>
+<td style="text-align:center">1332 mM$^{-1}$</td>
 </tr>
 </tbody>
 </table>
 <p>Now let's get started with the analysis.</p>
 <p><strong>a)</strong> Load in the three data sets. They are in the files <code>~/git/data/wt_lac.csv</code>, <code>~/git/data/q18m_lac.csv</code>, and <code>~/git/data/q18a_lac.csv</code>. Be sure to check out the files on the command line to see what kwargs you need for <code>np.loadtxt()</code> to load them in.</p>
 <p><strong>b)</strong> Make a plot of fold change IPTG concentration for each of the three mutants. Think: should any of the axes have a logarithmic scale?</p>
-<p><strong>c)</strong> Write a function with the call signature <code>fold_change(c, RK, KdA=0.017, KdI=0.002, Kswitch=5.8)</code> to compute the fold change. It should allow <code>c</code>, the concentration of IPTG, to be passed in as a NumPy array or scalar, and <code>RK</code>, the $R/K$ ratio, must be a scalar. Remember, with NumPy arrays, you don't have to write <strong><code>for</code></strong> loops to do operations to each element of the array.</p>
+<p><strong>c)</strong> Write a function with the call signature <code>fold_change(c, RK, KdA=0.017, KdI=0.002, Kswitch=5.8)</code> to compute the theoretical fold change. It should allow <code>c</code>, the concentration of IPTG, to be passed in as a NumPy array or scalar, and <code>RK</code>, the $R/K$ ratio, must be a scalar. Remember, with NumPy arrays, you don't have to write <strong><code>for</code></strong> loops to do operations to each element of the array.</p>
 <p><strong>d)</strong> You will now plot a smooth curve showing the theoretical fold change for each mutant.</p>
 <blockquote><ol>
 <li>Make an array of closely spaced points for the IPTG concentration. <em>Hint</em>: The function <code>np.logspace()</code> will be useful.</li>
@@ -11940,15 +12098,16 @@ F(c) = -\ln\left(R/K\right) - \ln\left(\frac{\left(1 + c/K_\mathrm{d}^\mathrm{A}
 \end{align}<p>So, if we make our $x$-axis to be the Bohr parameter, all data should fall on the <em>same</em> curve. Hence the term, data collapse. (The Bohr parameter gets its name (as given by Rob Phillips) because it is inspired by the work of Christian Bohr (Niels's father), who discovered similar families of curves describing binding of oxygen to hemoglobin.)</p>
 <p>Now, we will plot the theoretical curve of fold change versus Bohr parameter.</p>
 <blockquote><ol>
+<li>Write a function with call signature <code>bohr_parameter(c, RK, KdA=0.017, KdI=0.002, Kswitch=5.8)</code> that computes the Bohr parameter.</li>
 <li>Write a function with call signature <code>fold_change_bohr(bohr_parameter)</code> that gives the fold change as a function of the Bohr parameter. </li>
 <li>Generate values of the Bohr parameter ranging from $-6$ to $6$ in order to make a smooth plot.</li>
-<li>Compute the fold change for the smooth plot and plot it as a black line using <code>plt.plot()</code>'s kwarg <code>color='black'</code>.</li>
+<li>Compute the theoretical fold change as a function of the Bohr parameter and plot it as a gray line using <code>plt.plot()</code>'s kwarg <code>color='gray'</code>.</li>
 </ol>
 </blockquote>
 <p><strong>f)</strong> Now, for each experimental curve:</p>
 <blockquote><ol>
 <li>Convert the IPTG concentration to a Bohr parameter using the given parameters.</li>
-<li>Plot the experimental fold change versus the Bohr parameter you just calculated. Plot the data as dots on the same plot that you made the universal black curve.</li>
+<li>Plot the experimental fold change versus the Bohr parameter you just calculated. Plot the data as dots on the same plot that you made the universal gray curve.</li>
 <li>Appropriately annotate your plot.</li>
 </ol>
 </blockquote>
@@ -14702,8 +14861,8 @@ height=1146
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And there is the famous exponential growth!</p>
-<p>This time stepping method is called <a href="https://en.wikipedia.org/wiki/Euler_method">Euler's method</a>, and what we're doing is called <em>numerical solution of a differential equation</em>. It is probably the simplest way to solve differential equations, and is by no means the best. Check out <code>scipy.integrate.odeint()</code> for a faster and more robust way. For our pedagogical purposes, though, Euler's method is just fine.</p>
-<p>Now it's time to simulate the Lotka-Volterra model. Since predator and prey both begin with "p," we'll call the predators foxes ($f$) and the prey rabbits ($r$). The differential equation describing the dynamics of the rabbit population is</p>
+<p>This time stepping method is called <a href="https://en.wikipedia.org/wiki/Euler_method">Euler's method</a>, and what we're doing is called <em>numerical solution of a differential equation</em>.</p>
+<p><strong>a)</strong> Now it's time to simulate the Lotka-Volterra model. Since predator and prey both begin with "p," we'll call the predators foxes ($f$) and the prey rabbits ($r$). The differential equation describing the dynamics of the rabbit population is</p>
 \begin{align}
 \frac{\mathrm{d}r}{\mathrm{d}t} = \alpha r - \beta f r.
 \end{align}<p>The first term at the right hand side is exponential growth, the same you would expect for a growing bacterial colony. The second term is killing off due to predation. If $f$ is large, more rabbits get hunted down.</p>
@@ -14717,14 +14876,16 @@ height=1146
 beta = 0.2
 delta = 0.3
 gamma = 0.8
-dt = 0.01
-t = np.arange(0, 60, dt)
+delta_t = 0.001
+t = np.arange(0, 60, delta_t)
 r[0] = 10
 f[0] = 1
 
 </code></pre>
 <p>Even though there are now two differential equations, the procedure is the same, you update each by adding $\Delta t$ times the respective derivative.</p>
 <p>When you plot the result, does it make sense?</p>
+<p><strong>b)</strong> [Bonus]  It is probably the simplest way to solve differential equations, and is by no means the best. SciPy has an ODE solver, <code>scipy.integrate.odeint()</code> that uses the more sophisticated and robust methods for solving systems of ODEs. Read the documentation about how <code>scipy.integrate.odeint()</code> works and use it to solve the Lotka-Volterra system of ODEs.</p>
+<p>This problem is tough; I'm not giving you directions, and you are kind of on your own to read the documentation and figure it out. It may be useful to read <a href="http://be150.caltech.edu/2016/handouts/intro_to_python_for_systems_biology.html">this tutorial</a> I wrote to help students solve ODEs that come up in systems biology.</p>
 
 </div>
 </div>
