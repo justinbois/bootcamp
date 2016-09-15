@@ -11973,6 +11973,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Exercise-4.1:-Long-term-trends-in-hybridization-of-Darwin-finches">Exercise 4.1: Long-term trends in hybridization of Darwin finches<a class="anchor-link" href="#Exercise-4.1:-Long-term-trends-in-hybridization-of-Darwin-finches">&#182;</a></h2><p><a href="https://en.wikipedia.org/wiki/Peter_and_Rosemary_Grant">Peter and Rosemary Grant</a> have been working on the Galápagos island of Daphne Major for over forty years.  During this time, they have collected lots and lots of data about physiological features of finches.  Last year, they published a book with a summary of some of their major results (Grant P. R., Grant B. R., <em>Data from: 40 years of evolution. Darwin's finches on Daphne Major Island</em>, Princeton University Press, 2014). They made their data from the book publicly available via the <a href="http://dx.doi.org/10.5061/dryad.g6g3h">Dryad Digital Repository</a>.</p>
 <p>We will investigate their measurements of beak depth (the distance, top to bottom, of a closed beak) and beak length (base to tip on the top) of Darwin's finches.  We will look at data from two species, <em>Geospiza fortis</em> and <em>Geospiza scandens</em>.  The Grants provided data on the finches of Daphne for the years 1973, 1975, 1987, 1991, and 2012.  I have included the data in the files <code>grant_1973.csv</code>, <code>grant_1975.csv</code>, <code>grant_1987.csv</code>, <code>grant_1991.csv</code>, and  <code>grant_2012.csv</code>. They are in almost exactly the same format is in the Dryad repository; I have only deleted blank entries at the end of the files.</p>
+<p><strong>Note</strong>: If you want to skip the munging (which is very valuable experience), you can go directly to part (d). You can load in the <code>DataFrame</code> you generate in parts (a) through (c) from the file <code>~/git/bootcamp/data/grant_complete.csv</code>.</p>
 
 </div>
 </div>
@@ -12001,7 +12002,6 @@ div#notebook {
 </li>
 <li><p>Concatenate the <code>DataFrame</code>s into a single <code>DataFrame</code>. Be careful with indices! If you use <code>pd.concat()</code>, you will need to use the <code>ignore_index=True</code> kwarg. You might also need to use the <code>axis</code> kwarg.</p>
 </li>
-<li>After doing this work, it is worth saving your tidy <code>DataFrame</code> in a CSV document. To this using the <code>to_csv()</code> method of your <code>DataFrame</code>. Since the indices are uninformative, you should use the <code>index=False</code> kwarg. (I have already done this and saved it as <code>~/git/bootcamp/data/grant_complete.csv</code>, which will help you do the rest of the exercise if you have problems with this part.)</li>
 </ol>
 </blockquote>
 
@@ -12015,6 +12015,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>c)</strong> The <code>band</code> fields gives the number of the band on the bird's leg that was used to tag it.  Are some birds counted twice?  Are they counted twice in the same year?  Do you think you should drop duplicate birds from the same year?  How about different years?  My opinion is that you should drop duplicate birds from the same year and keep the others, but I would be open to discussion on that.  To practice your Pandas skills, though, let's delete only duplicate birds from the same year from the <code>DataFrame</code>.  When you have made this <code>DataFrame</code>, save it as a CSV file.</p>
 <p><em>Hint</em>: The <code>DataFrame</code> methods <code>duplicated()</code> and <code>drop_duplicates()</code> will be useful.</p>
+<p>After doing this work, it is worth saving your tidy <code>DataFrame</code> in a CSV document. To this using the <code>to_csv()</code> method of your <code>DataFrame</code>. Since the indices are uninformative, you should use the <code>index=False</code> kwarg. (I have already done this and saved it as <code>~/git/bootcamp/data/grant_complete.csv</code>, which will help you do the rest of the exercise if you have problems with this part.)</p>
 
 </div>
 </div>
@@ -12079,7 +12080,6 @@ div#notebook {
 <p>One hypothesis is that the backtracks simply consist of diffusive-like motion along the DNA stand.  That is to say, the polymerase can move forward or backward along the strand with equal probability once it is paused.  This is a one-dimensional <strong>random walk</strong>.  So, if we want to test this hypothesis, we would want to know how much time we should expect the RNAP to be in a backtrack so that we could compare to experiment.</p>
 <p>So, we seek the probability distribution of backtrack times, $P(t_{bt})$, where $t_{bt}$ is the time spent in the backtrack.  We could solve this analytically, which requires some sophisticated mathematics.  But, because we know how to draw random numbers, we can just compute this distribution directly using Monte Carlo simulation!</p>
 <p>We start at $x = 0$ at time $t = 0$. We "flip a coin," or choose a random number to decide whether we step left or right. We do this again and again, keeping track of how many steps we take and what the $x$ position is. As soon as $x$ becomes positive, we have existed the backtrack.  The total time for a backtrack is then $\tau n_\mathrm{steps}$, where $\tau$ is the time it takes to make a step.  Depken, et al., report that $\tau \approx 0.5$ seconds.</p>
-<p>We first write a function to take a step.  At the top of the function is a <strong>decorator</strong>.  We will not cover decorators here, but this particular decorator is using the <code>numba</code> package to actually <em>compile</em> the following Python code.  Remember, compiled code is <em>much</em> faster than interpreted code, and the speed boost is needed in this case.</p>
 <p><strong>a)</strong> Write a function, <code>backtrack_steps()</code>, that computes the number of steps it takes for a random walker (i.e., polymerase) starting at position $x = 0$ to get to position $x = +1$. It should return the number of steps to take the walk.</p>
 <p><strong>b)</strong> Generate 10,000 of these backtracks in order to get enough samples out of $P(t_\mathrm{bt})$. (If you are interested in a way to really speed up this calculation, ask me about <a href="http://numba.pydata.org">Numba</a>.)</p>
 <p><strong>c)</strong> Use <code>plt.hist()</code> to plot a histogram of the backtrack times. Use the <code>normed=True</code> kwarg so it approximates a probability distribution function.</p>
@@ -12103,6 +12103,19 @@ P(t_{bt}) \propto t^{-3/2},
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
