@@ -11988,7 +11988,7 @@ div#notebook {
 <li><p>Return a labeled segmentation mask.</p>
 </li>
 </ol>
-<p>Run your function on <strong>both</strong> the <em>Bacillus subtilis</em> (<a href="l38_intro_to_image_processing.html">Lesson 38</a>) and the <em>E. coli</em> (<a href="l39_segmentation.html">Lesson 39</a>) image sets. Does your function work well in both cases?</p>
+<p>Run your function on <strong>both</strong> the <em>Bacillus subtilis</em> (Lesson 37) and the <em>E. coli</em> (Lesson 39) image sets. Does your function work well in both cases? In both of these images, the interpixel distance is 0.063 µm per pixel</p>
 
 </div>
 </div>
@@ -11998,14 +11998,54 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Practice-2:-Extracting-fluorescence-information">Practice 2: Extracting fluorescence information<a class="anchor-link" href="#Practice-2:-Extracting-fluorescence-information">&#182;</a></h2><p>In the previous two lessons, we learned how to identify cellular objects in an image that is mostly non-cellular. However, we did not cover how you would extract information from one image (such as the fluorescence image) given a segmentation mask generated from another. Your goal for this practice session is to extract either the mean fluorescence intensity or (for bonus points) the total fluorescence intensity of each cell in our Lesson 39 <em>E. coli</em> image. To do this, you should:</p>
-<blockquote><ol>
-<li>Read the documentation for <a href="http://scikit-image.org/docs/dev/api/skimage.measure.html#skimage.measure.regionprops">skimage.measure.regionprops</a> and see what properties you can extract given an intensity image and a segmentation mask.</li>
-<li>Using your segmentation mask generated from question 1, extract and store the mean and/or total fluorescence intensity for each cell in a single image in an array or Pandas <code>DataFrame</code>.</li>
-<li>Generate a histogram of your extracted intensities. </li>
+<h2 id="Practice-2:-Extracting-fluorescence-information">Practice 2: Extracting fluorescence information<a class="anchor-link" href="#Practice-2:-Extracting-fluorescence-information">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the previous two lessons, we learned how to identifiy cellular objects in an image that is mostly non-cellular. However, we did not cover how you would extract information from one image (such as the fluorescence image) given a segmentation mask generated from another. Your goal for this practice session is to extract either the mean fluorescence intensity or (for bonus points) the total fluorescence intensity of each cell in our Lesson 39 <em>E. coli</em> image. To do this, you should.</p>
+<ol>
+<li><p>Read the documentation for <a href="http://scikit-image.org/docs/dev/api/skimage.measure.html#skimage.measure.regionprops">skimage.measure.regionprops</a> and see what properties you can extract given an intensity image and a segmentation mask.</p>
+</li>
+<li><p>Using your segmentation mask generated from question 1, extract and store the mean and/or total fluorescence intensity for each cell in a single image in an array or pandas DataFrame.</p>
+</li>
+<li><p>Generate a histogram of your extracted intensities.</p>
+</li>
 </ol>
-</blockquote>
 <p>Can you get a good idea of how bright a standard cell is from processing a single image?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Practice-3:-Filter,-extract,-rinse,-repeat">Practice 3: Filter, extract, rinse, repeat<a class="anchor-link" href="#Practice-3:-Filter,-extract,-rinse,-repeat">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So far we have seen that in a single (very clean) image, we can get somewhere around 20 - 30 well-separated cells in a single 100x magnification phase contrast image. However, if you wish to report a mean fluorescence intensity for a single strain, you would certainly want more cells to have a good degree of confidence. Using the principles you learned above, your job will be to report a mean fluorescence value for the HG105 <em>E. coli</em> strain using <strong>all</strong> of the images located in <code>data/HG105_images/</code>. To do this, you should do the following:</p>
+<ol>
+<li><p>Get a list of all of the image files in <code>data/HG105_images/</code>.</p>
+</li>
+<li><p>Separate them by phase contrast (for segmentation) and FITC (for measurement).</p>
+</li>
+<li><p>Iterate through each image file and perform segmentation and fluorescence intensity extraction for each cell. These values should be stored in an array or pandas DataFrame.</p>
+</li>
+<li><p>Plot a histogram of all extracted fluorescence intensities and report a mean and standard deviation (assuming gaussianity in fluorescence) as well as the number of cells you successfully measured.</p>
+</li>
+</ol>
 
 </div>
 </div>
