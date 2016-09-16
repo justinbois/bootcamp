@@ -11972,22 +11972,16 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Practice-1:-Writing-your-own-segmentation-function">Practice 1: Writing your own segmentation function<a class="anchor-link" href="#Practice-1:-Writing-your-own-segmentation-function">&#182;</a></h2><p>As you probably noticed during the previous two lessons, there are often a lot of small operations that are sometimes necessary before you can even extract the useful data from the image! Rather than writing out each step whenever you want to process an image, you should write a boilerplate function that can be used to segment <em>any</em> phase contrast image of bacteria. Your function should execute the following steps.</p>
-<ol>
-<li><p>Correct for uneven illumination.</p>
-</li>
-<li><p>Correct for "hot" or "bad" pixels in an image.</p>
-</li>
-<li><p>Perform a thresholding operation.</p>
-</li>
-<li><p>Remove bacteria or objects near/touching the image border.</p>
-</li>
-<li><p>Remove objects that are too large (or too small) to be bacteria. <em>Think carefully! For a multipurpose function, would you <strong>always</strong> want the same area cutoff?</em></p>
-</li>
-<li><p>Remove improperly segmented cells.</p>
-</li>
-<li><p>Return a labeled segmentation mask.</p>
-</li>
+<blockquote><ol>
+<li>Correct for "hot" or "bad" pixels in an image. </li>
+<li>Correct for uneven illumination. </li>
+<li>Perform a thresholding operation.</li>
+<li>Remove bacteria or objects near/touching the image border. </li>
+<li>Remove objects that are too large (or too small) to be bacteria. <em>Think carefully! For a multipurpose function, would you <strong>always</strong> want the same area cutoff?</em></li>
+<li>Remove improperly segmented cells.</li>
+<li>Return a labeled segmentation mask. </li>
 </ol>
+</blockquote>
 <p>Run your function on <strong>both</strong> the <em>Bacillus subtilis</em> (Lesson 37) and the <em>E. coli</em> (Lesson 39) image sets. Does your function work well in both cases? In both of these images, the interpixel distance is 0.063 µm per pixel</p>
 
 </div>
@@ -11998,16 +11992,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Practice-2:-Extracting-fluorescence-information">Practice 2: Extracting fluorescence information<a class="anchor-link" href="#Practice-2:-Extracting-fluorescence-information">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In the previous two lessons, we learned how to identifiy cellular objects in an image that is mostly non-cellular. However, we did not cover how you would extract information from one image (such as the fluorescence image) given a segmentation mask generated from another. Your goal for this practice session is to extract either the mean fluorescence intensity or (for bonus points) the total fluorescence intensity of each cell in our Lesson 39 <em>E. coli</em> image. To do this, you should.</p>
+<h2 id="Practice-2:-Extracting-fluorescence-information">Practice 2: Extracting fluorescence information<a class="anchor-link" href="#Practice-2:-Extracting-fluorescence-information">&#182;</a></h2><p>In the previous two lessons, we learned how to identifiy cellular objects in an image that is mostly non-cellular. However, we did not cover how you would extract information from one image (such as the fluorescence image) given a segmentation mask generated from another. Your goal for this practice session is to extract either the mean fluorescence intensity or (for bonus points) the total fluorescence intensity of each cell in our Lesson 39 <em>E. coli</em> image. To do this, you should.</p>
 <ol>
 <li><p>Read the documentation for <a href="http://scikit-image.org/docs/dev/api/skimage.measure.html#skimage.measure.regionprops">skimage.measure.regionprops</a> and see what properties you can extract given an intensity image and a segmentation mask.</p>
 </li>
