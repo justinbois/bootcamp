@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>l34_testing_and_tdd</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l35_pytest_and_CI</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14598,646 +14598,131 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-34:-Testing-and-test-driven-development">Lesson 34: Testing and test-driven development<a class="anchor-link" href="#Lesson-34:-Testing-and-test-driven-development">&#182;</a></h1><p>(c) 2017 Justin Bois and Davi Ortega. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l34_testing_and_tdd.ipynb">here</a>.</em></p>
+<h1 id="Lesson-35:-More-pytest-and-continuous-integration">Lesson 35: More pytest and continuous integration<a class="anchor-link" href="#Lesson-35:-More-pytest-and-continuous-integration">&#182;</a></h1><p>(c) 2017 Justin Bois and Davi Ortega. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l35_pytest_and_CI.ipynb">here</a>.</em></p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># py.test gives the testing functionality</span>
-<span class="kn">import</span> <span class="nn">pytest</span>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Handling-odd-behaviors">Handling odd behaviors<a class="anchor-link" href="#Handling-odd-behaviors">&#182;</a></h2><p>To explore another feature of <code>pytest</code>, we'll consider another aspect of our <code>n_neg()</code> function.  Specifically, what should we do if an invalid sequence is entered?</p>
+<p>A sensible thing to do in this case is to make our software <em>throw</em> a <code>RuntimeError</code>.</p>
+<p>Again, in designing our test, we need to think about what constitutes an invalid sequence.  We'll only allow the 20 symbols for the residues that we used in <a href="l15_exceptions_and_error_handling.html#Checking-input">previous lessons</a> and present in the <code>bioinfo_dicts.py</code> module.  So, we adjust our test function accordingly.  We cannot use the <strong><code>assert</code></strong> statement to check for proper error handling, so we use the <code>pytest.raises()</code> function.  This function takes as its first argument the type of exception expected, and a string containing the code to be run to give the exception.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="A-note-on-assertions-vs-raising-exceptions">A note on assertions vs raising exceptions<a class="anchor-link" href="#A-note-on-assertions-vs-raising-exceptions">&#182;</a></h3><p>It is important to draw the distinction between assertions and raising exceptions in your code.</p>
+<ul>
+<li>You should raise <strong>exceptions</strong> when you are checking inputs to your function.  I.e., you are checking to make sure the user is using the function properly.</li>
+<li>You should use <strong>assertions</strong> to make sure the function operates as expected for given input.</li>
+</ul>
+<p>We should then alter the code of the <code>test_seq_feature.py</code> to include our expectation that the program should throw a <code>RuntimeError</code> if an invalid sequence is entered:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_n_neg_for_invalid_amino_acid</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
+        <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
+    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
 </pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Test-driven development</strong>, or <strong>TDD</strong>, is a paradigm for developing software.  The idea is that a programmer thinks about a design specification for a bit of code, usually a function.  I.e., she lays out what the input and output should be.  She then writes a test (that will fail) for the bit of code.  She then writes or updates the code to pass the test.  She does this <strong>incrementally</strong> as she builds her code.  Let's try this by example.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="An-example-of-TDD">An example of TDD<a class="anchor-link" href="#An-example-of-TDD">&#182;</a></h2><p>We will write a function that computes the number of negatively charged residues in a protein.  In other words, we count up the number of glutamate (<code>E</code>) and aspartate (<code>D</code>) residues.</p>
-<p>We'll call the function <code>n_neg()</code>, and will just make an empty function for now as a placeholder.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">n_neg</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
-
-    <span class="c1"># Do nothing for now</span>
-    <span class="k">pass</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, we'll write a very simple test.  It is just a conditional expression.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[3]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>False</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We failed the test!  But before we focus on the test failure, let's think about what we just did.  We defined the prototype for the function.  We know we want it to take in a sequence (a string) and return an integer.  So, in building the test, we have designed the interface for the function.</p>
-<p>Back to the test failure.  We now have a test we would like our function to pass, and we will now revisit the function to write it so that it will pass the test.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">n_neg</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
-
-    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
-    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We'll try out test again.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[5]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Hurray!  We passed our first test.  Now, lets write some more test.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>True
-True
-True
-True
-True
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Our function appears to be working well.  But let's think carefully about how we could break it.  What if we had lowercase letters?  I.e., what would we want</p>
-
-<pre><code>n_neg('acklwttae')
-
-</code></pre>
-<p>to return?  Do we allow lower case?  This is an example where coming up with tests is how we define the interface.  We weren't done designing it at the first pass!</p>
-<p>Let's say we want to allow lower case symbols.  So, before we mess with our function, let's write a test!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[7]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>False</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We failed, as expected.  Now, back to the function. We will add a line to convert the input sequence to uppercase.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">n_neg</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
-
-    <span class="c1"># Convert sequence to upper case</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-    
-    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
-    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We need to run ALL of our tests again.  We have to make sure <em>everything</em> passes.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>True
-True
-True
-True
-True
-True
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Great!  This works now.</p>
-<p>You can see how the cycle proceeds.  Right now, we might be happy with our function, but as we use it in whatever context we are working in, use cases we have not thought of might creep up.  For everything that happens, or there is a bug you find, <em>write another test that covers it</em>.  Importantly, <em>any time</em> you update your code, you need to run <em>all</em> of your tests!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-assert-statement">The assert statement<a class="anchor-link" href="#The-assert-statement">&#182;</a></h2><p>In our example, we used a bunch of print statements to check our tests.  Conveniently, Python have a built-in way to do your tests using the <strong><code>assert</code></strong> keyword.  For example, our first test using <strong><code>assert</code></strong> is as follows.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This ran without issue.  Now, let's try asserting something we know will fail.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-11-188264dd8bc1&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">assert</span> n_neg<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;E&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">2</span>
-
-<span class="ansi-red-fg">AssertionError</span>: </pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We get an <code>AssertionError</code>, indicating that our assertion failed.  We can even append the <strong><code>assert</code></strong> statement with a comment describing the error.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Failed on sequence of length 1&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-12-b6ed3249ba8a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">assert</span> n_neg<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;E&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;Failed on sequence of length 1&#39;</span>
-
-<span class="ansi-red-fg">AssertionError</span>: Failed on sequence of length 1</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>So, we see the basic syntax of <strong><code>assert</code></strong> statements.  After <strong><code>assert</code></strong>, we have a conditional expression that evaluates to <code>True</code> or <code>False</code>.  If it evaluates <code>False</code>, an <code>AssertionError</code> is raised, meaning that the test was failed.  Optionally, the conditional expression can be followed with a comma and a string that describes how it failed.  So, we could write all of our tests together as a series of assertions.  Actually, it would be best to write a <em>function</em> that does the testing.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_n_neg</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on n_neg.&quot;&quot;&quot;</span>
-
-    <span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-    <span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
-    <span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-
-
-<span class="c1"># Run all the tests</span>
-<span class="n">test_n_neg</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Excellent!  Everything passed!</p>
-<p>It might be a little underwhelming that Python exits silently when all our tests pass. Fortunately, someone else felt that way too and implemented a testing tool that is more into positive reinforcement.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Introducing--pytest">Introducing  pytest<a class="anchor-link" href="#Introducing--pytest">&#182;</a></h2><p>The <code>pytest</code> (a.k.a. <code>py.test</code>) module comes with a standard Anaconda installation and is useful tool for automating your testing.  It gives detailed feedback on your tests.  You can read its documentation <a href="http://pytest.org">here</a>.</p>
-<p>The <code>unittest</code> module from the standard library and <code>nose</code> are two other major testing packages for Python.  All three are in common usage.  We use <code>pytest</code> here because I think it is the easiest to use and understand.</p>
-<p>Pytest is not only a module but also a command line application that searches for tests in your code, runs them and let you know if they fail, and if they pass; finally some positive reinforcement.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Using-pytest">Using pytest<a class="anchor-link" href="#Using-pytest">&#182;</a></h3><p>To take the most advantage of pytest, we should take a step back, get out of the IPython environment and write the functions we have been working with in this lesson to a <code>.py</code> file. We'll call it <code>seq_features.py</code>. Its content:</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">n_neg</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
-
-    <span class="c1"># Convert sequence to upper case</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-
-    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
-    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_n_neg</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on n_neg.&quot;&quot;&quot;</span>
-
-    <span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-    <span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
-    <span class="k">assert</span> <span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-</pre></div>
-<p>Now, pytest makes it easy to verify if all these tests pass or not:</p>
-
-<pre><code>$ pytest seq_features.py
-========================== test session starts ==========================
-platform darwin -- Python 3.6.1, pytest-3.0.7, py-1.4.33, pluggy-0.4.0
-rootdir: /Users/Justin/git/programming_bootcamp/2017/lessons, inifile:
-collected 1 items 
-
-seq_features.py .
-
-======================= 1 passed in 0.00 seconds ========================</code></pre>
-<p><strong>Hint:</strong> try the option <strong><code>-v</code></strong> for even more sugar.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="pytest-is-smart">pytest is smart<a class="anchor-link" href="#pytest-is-smart">&#182;</a></h3><p>Pytest is such a smart application that you don't even need to tell it explicitly which file it should look at. By default, pytest will search for files starting with <code>test_</code> or <code>tests_</code> and ending with <code>.py</code> in the whole directory tree.</p>
-<p>It is a good idea to separate your test suite from your code. So let's make another file, named <code>test_seq_features.py</code> and place just the function with the assert statements. You can delete them now from the <code>seq_features.py</code>.</p>
-<p>You directory should have now these two files:</p>
-<p><code>seq_features.py</code></p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">n_neg</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
-
-    <span class="c1"># Convert sequence to upper case</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-
-    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
-    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
-</pre></div>
-<p>and</p>
-<p><code>test_seq_features.py</code></p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seq_features</span>
-
-<span class="k">def</span> <span class="nf">test_n_neg</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on seq_features.n_neg.&quot;&quot;&quot;</span>
-
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-</pre></div>
-<p>Note that because the <code>n_neg()</code> function is in a different file than the tests, we must import the <code>seq_features</code> module. Now you can run the test as:</p>
+<p>We also have to include <code>import pytest</code> at the beginning of the <code>test_seq_feature.py</code> file. It is clear that if <code>Z</code> is passed as the input sequence, the program should throw a <code>RuntimeError</code> saying: <em>"Z is an invalid sequence"</em>. Let's test:</p>
 
 <pre><code>$ pytest -v
-========================== test session starts ==========================
-platform darwin -- Python 3.6.1, pytest-3.0.7, py-1.4.33, pluggy-0.4.0
-rootdir: /Users/Justin/git/programming_bootcamp/2017/lessons, inifile:
-collected 1 items 
-
-test_seq_features.py .
-
-======================= 1 passed in 0.03 seconds ========================</code></pre>
-<p>Note that there is no need to pass the argument to pytest. This is particularly useful if you have many types of tests, and different applications. Since it is all about organization, now we can separate those tests into more meaningful functional units:</p>
-<p><code>test_seq_features.py</code></p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seq_features</span>
-
-<span class="k">def</span> <span class="nf">test_n_neg_for_single_E_or_D</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on n_neg.&quot;&quot;&quot;</span>
-
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-
-<span class="k">def</span> <span class="nf">test_n_neg_for_empty_sequence</span><span class="p">():</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-
-<span class="k">def</span> <span class="nf">test_n_neg_for_longer_sequences</span><span class="p">():</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
-
-<span class="k">def</span> <span class="nf">test_n_neg_for_lower_case_sequences</span><span class="p">():</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">n_neg</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-</pre></div>
-<p>And now we can run the tests again.</p>
-
-<pre><code>$ pytest -v
-============================== test session starts ===============================
+=============================== test session starts ===============================
 platform darwin -- Python 3.6.1, pytest-3.0.7, py-1.4.33, pluggy-0.4.0 -- /Users/Justin/anaconda/bin/python
 cachedir: .cache
 rootdir: /Users/Justin/git/programming_bootcamp/2017/lessons, inifile:
-collected 4 items 
+collected 5 items 
 
 test_seq_features.py::test_n_neg_for_single_E_or_D PASSED
 test_seq_features.py::test_n_neg_for_empty_sequence PASSED
 test_seq_features.py::test_n_neg_for_longer_sequences PASSED
 test_seq_features.py::test_n_neg_for_lower_case_sequences PASSED
+test_seq_features.py::test_n_neg_for_invalid_amino_acid FAILED
 
-============================ 4 passed in 0.03 seconds ============================</code></pre>
+==================================== FAILURES =====================================
+________________________ test_n_neg_for_invalid_amino_acid ________________________
+
+    def test_n_neg_for_invalid_amino_acid():
+        with pytest.raises(RuntimeError) as excinfo:
+&gt;           seq_features.n_neg('Z')
+E           Failed: DID NOT RAISE &lt;class 'RuntimeError'&gt;
+
+test_seq_features.py:24: Failed
+======================= 1 failed, 4 passed in 0.06 seconds ========================</code></pre>
+<p>Despite that all other four tests still pass, the last one fails because our program does not know yet how to throw a <code>RuntimeError</code> when it receives an invalid sequence as input. Let's fix that:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">n_neg</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert sequence to upper case</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">seq</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Z is not a valid amino acid.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+</pre></div>
+<p>re-running the test:</p>
+
+<pre><code>$ pytest -v
+=============================== test session starts ===============================
+platform darwin -- Python 3.6.1, pytest-3.0.7, py-1.4.33, pluggy-0.4.0 -- /Users/Justin/anaconda/bin/python
+cachedir: .cache
+rootdir: /Users/Justin/git/programming_bootcamp/2017/lessons, inifile:
+collected 5 items 
+
+test_seq_features.py::test_n_neg_for_single_E_or_D PASSED
+test_seq_features.py::test_n_neg_for_empty_sequence PASSED
+test_seq_features.py::test_n_neg_for_longer_sequences PASSED
+test_seq_features.py::test_n_neg_for_lower_case_sequences PASSED
+test_seq_features.py::test_n_neg_for_invalid_amino_acid PASSED
+
+============================ 5 passed in 0.03 seconds =============================</code></pre>
+<p>Obviously, this is not a very robust fix; it only works if the invalid amino acid is <code>Z</code>. We need a smarter way to fix this. What about using the bioinformatics dictionary from before?</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bioinfo_dicts</span>
+
+<span class="k">def</span> <span class="nf">n_neg</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert sequence to upper case</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="c1"># Check for a valid sequence</span>
+    <span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">aa</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bioinfo_dicts</span><span class="o">.</span><span class="n">aa</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">aa</span> <span class="o">+</span> <span class="s1">&#39; is not a valid amino acid.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+</pre></div>
+<p>running <code>pytest</code> one more time:</p>
+
+<pre><code>$  pytest -v
+============================ 5 passed in 0.03 seconds =============================
+Justin@JBMacBook [~/git/programming_bootcamp/2017/lessons]
+% py.test -v                                                                 (618)
+=============================== test session starts ===============================
+platform darwin -- Python 3.6.1, pytest-3.0.7, py-1.4.33, pluggy-0.4.0 -- /Users/Justin/anaconda/bin/python
+cachedir: .cache
+rootdir: /Users/Justin/git/programming_bootcamp/2017/lessons, inifile:
+collected 5 items 
+
+test_seq_features.py::test_n_neg_for_single_E_or_D PASSED
+test_seq_features.py::test_n_neg_for_empty_sequence PASSED
+test_seq_features.py::test_n_neg_for_longer_sequences PASSED
+test_seq_features.py::test_n_neg_for_lower_case_sequences PASSED
+test_seq_features.py::test_n_neg_for_invalid_amino_acid PASSED
+
+============================ 5 passed in 0.03 seconds =============================</code></pre>
+<p>Hurray! Everything passed beautifully.</p>
 
 </div>
 </div>
@@ -15247,9 +14732,181 @@ test_seq_features.py::test_n_neg_for_lower_case_sequences PASSED
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The obvious thing to do next is to test some other cases. Think: what else could go wrong?
-What if there is an invalid residue in the sequence? How we expect our code to behave?</p>
-<p>These and other semi-existential questions will be addressed in the next lesson.</p>
+<h2 id="Summary-of-TDD">Summary of TDD<a class="anchor-link" href="#Summary-of-TDD">&#182;</a></h2><p>Now that you have some experience with TDD and have an idea about what it is and how it works, let's formalize things by writing out the basic principles of test-driven development.</p>
+<ol>
+<li>Build your software out of <strong>small functions</strong> that do <strong>one specific thing</strong>.</li>
+<li>Build unit tests for all of your functions.</li>
+<li>Whenever you want to make any enhancements of adjustments to your code, write tests for it <strong>first</strong>.</li>
+<li>Whenever you encounter a bug, write tests for it that reproduce the behavior and then fix the code to make the entire test suite to pass.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Continuous-Integration.">Continuous Integration.<a class="anchor-link" href="#Continuous-Integration.">&#182;</a></h2><p>Fine. Now you can write tests and functions that can pass those tests and push all that to a git repository so other people can use it too.</p>
+<p>However, one of the most important forces behind software development is collaboration. Chances are that even in small projects you will collaborate with other people during development or that another researcher will suggest changes in the future.</p>
+<p>This is where <strong>continuous integration(CI)</strong> comes to play.</p>
+<p>As you will probably reuse thousands of lines of code written by someone else in your program (have you stopped to think how many lines of code are invoked when you write <code>import numpy</code>?), others will also benefit from the lines of code you are writing right now. To make sure your code is up to snuff, the software community developed the concepts around unit testing and to facilitate collaborative work they developed git. <strong>CI</strong> is the combination of the two... continuously.</p>
+<p>Ideally every time someone submits changes to the remote repository (<code>git push</code>) somebody else checks the code by first running all the tests again and making sure it does pass them all. CI is the automation of this ideal.</p>
+<p>Here we will use one of the services available in GitHub for CI called <strong>Travis CI</strong>. Since <strong>CI</strong> is to simplify our lives, the folks from Travis and GitHub made the integration as easy as possible. So let's put the program that we just wrote in CI.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="New-Travis-CI-account.">New Travis CI account.<a class="anchor-link" href="#New-Travis-CI-account.">&#182;</a></h3><p>First, go to the <a href="http://travis-ci.org/">travis-ci.org</a> and sign up with your Github account.</p>
+<p><img src='l35_travis_sign_up.png' width="800px"></p>
+<p>Then, authorize the Travis app:</p>
+<p><img src='l35_auth_travis.png' width="400px"></p>
+<p>and then you now have your own page at travis-ci.org. Great. But it looks fairly empty there. We will come back to this.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Recap-on-how-to-make-a-new-repository-on-Github">Recap on how to make a new repository on Github<a class="anchor-link" href="#Recap-on-how-to-make-a-new-repository-on-Github">&#182;</a></h3><p>Because we're now going through the process of setting up CI for a repository, let's recap how to set up a new repository hosted at GitHub. Chances are that your working directory is full of other scripts and whatnot. Let's start a new one for the sake of organization.</p>
+<p>Go to your Github page and click in <code>new repository</code> and give it a name. For this demo, we will use <code>protfeature</code> as our name.</p>
+<p><img src='l35_name_your_repo.png' width="700px"></p>
+<p>and let's initialize the repo with the default specs:</p>
+<p><img src='l35_init_repo_specs.png' width="700px"></p>
+<p>Now, let's clone this repository into our own machine with <code>$ git clone</code> and copy the programs <code>seq_features.py</code>, <code>test_seq_features.py</code> and <code>bioinfo_dicts.py</code> to the directory created during cloning. If you followed our suggestion the name of the directory is: <code>protfeature</code>. Your directory should look like this:</p>
+
+<pre><code>-rw-r--r--+ 1 Justin  staff   1.0K Jun 15 22:38 LICENSE
+-rw-r--r--+ 1 Justin  staff    13B Jun 15 22:38 README.md
+-rw-r--r--+ 1 Justin  staff   1.0K Jun 15 22:36 bioinfo_dicts.py
+-rw-r--r--+ 1 Justin  staff   428B Jun 15 22:36 seq_features.py
+-rw-r--r--+ 1 Justin  staff   669B Jun 15 22:36 test_seq_features.py</code></pre>
+<p>before we proceed let's make sure this is working. <code>pytest</code> it!!!</p>
+
+<pre><code>$ pytest
+=============================== test session starts ===============================
+platform darwin -- Python 3.6.1, pytest-3.0.7, py-1.4.33, pluggy-0.4.0
+rootdir: /Users/Justin/git/protfeature, inifile:
+collected 5 items 
+
+test_seq_features.py .....
+
+============================ 5 passed in 0.02 seconds =============================</code></pre>
+<p>Great! It works but you probably noticed that it generates a bunch of other files:</p>
+
+<pre><code>$ ls -l
+total 56
+-rw-r--r--  1 ortegad  staff  1068 Jun 14 12:49 LICENSE
+-rw-r--r--  1 ortegad  staff    35 Jun 14 12:49 README.md
+drwxr-xr-x  3 ortegad  staff   102 Jun 14 12:51 __pycache__
+-rw-r--r--  1 ortegad  staff  1005 Jun 14 12:51 bioinfo_dicts.py
+-rw-r--r--  1 ortegad  staff  1033 Jun 14 12:51 bioinfo_dicts.pyc
+-rw-r--r--  1 ortegad  staff   423 Jun 14 12:51 seq_features.py
+-rw-r--r--  1 ortegad  staff   601 Jun 14 12:51 seq_features.pyc
+-rw-r--r--  1 ortegad  staff   841 Jun 14 12:51 test_seq_features.py</code></pre>
+<p>If you do a <code>git status</code> all these files will be there waiting to be staged:</p>
+
+<pre><code>$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    .cache/
+    __pycache__/
+    bioinfo_dicts.py
+    bioinfo_dicts.pyc
+    seq_features.py
+    seq_features.pyc
+    test_seq_features.py
+
+nothing added to commit but untracked files present (use "git add" to track)</code></pre>
+<p>That is where <code>.gitignore</code> comes into play. Let's not clutter our repo with all these other files that will be generated anyways.</p>
+<p>Make a new file called <code>.gitignore</code> (the dot here is important) and put the following in it:</p>
+<div class="highlight"><pre><span></span>.cache/
+__pycache__/ <span class="c1"># There are two &#39;_&#39; in the beginning and at the end of this name</span>
+*.pyc
+</pre></div>
+<p>This tells git to ignore files with extension <code>.pyc</code> and the directory <code>__pycache__</code>.</p>
+
+<pre><code>$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    .gitignore
+    bioinfo_dicts.py
+    seq_features.py
+    test_seq_features.py
+
+nothing added to commit but untracked files present (use "git add" to track)</code></pre>
+<p>Alright! Much cleaner! let's stage, commit and push:</p>
+
+<pre><code>$ git add .
+$ git commit -m "Initial commit of protfeature"
+$ git push origin master</code></pre>
+<p>Take a look at the page of your repository on github and these files should be there already. Now we are ready for CI.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Travis-CI-interface.">Travis CI interface.<a class="anchor-link" href="#Travis-CI-interface.">&#182;</a></h2><p>Go to <a href="http://travis-ci.org">travis CI webpage</a> and you should be seen something like this:</p>
+<p><img src='l35_empty_travis.png' width="300px"></p>
+<p>click on the <code>+</code> sign left of <code>My repositories</code>. That will take you to a page listing your repositories on GitHub (if you don't see anything, click in <code>Sync account</code>).</p>
+<p><img src='l35_list_of_repos_travis.png' width="800px"></p>
+<p>Toggle the CI for the repository we are interested in.</p>
+<p><img src='l35_turn_it_on_travis.png' width="400px"></p>
+<p>Go back to the home page on Travis CI and your repository should be listed there now but nothing happens. That is because we haven't told what Travis should do. Travis CI reads a <code>.travis.yml</code> file in the main direction with instructions on what it should do with your code. (The suffix <code>.yml</code> indicates that this is a YAML, pronounced "yammal" file, an acroynm for "Yet Another Markup Language.") Let's make the <code>.travis.yml</code> file:</p>
+
+<pre><code>yml
+language: python
+python:
+  - "3.5"
+  - "3.6"
+
+# command to install dependencies
+
+# command to run tests
+script: py.test</code></pre>
+<p>This is probably the simplest <code>.travis.yml</code> possible. It tells which language our software is written oi, which versions should be able to run it and the testing command.</p>
+<p>Because we are not using any dependencies, there is nothing in the section <code>command to install dependencies</code> but if you have <code>import numpy</code> in your code, for example, you should include a line there saying something like: <code>pip install numpy</code>. If you have many dependencies, you should probably think about writing a <code>setup.py</code> file and use <code>pip</code> to help you keep track of all of them. This is a bit beyond the scope here, but if you are interested check out <a href="https://pip.pypa.io/en/stable/reference/pip_freeze/">pip freeze</a>.</p>
+<p>Now that you have added <code>.travis.yml</code>, <code>add</code>, <code>commit</code>, and <code>push</code>. Now, go to the Travis page and you should see something like this:</p>
+<p><img src='l35_travis_working.png'></p>
+<p>This is Travis cloning your repository and running your tests for you. If everything passes you should see something like this:</p>
+<p><img src='l35_travis_passing.png'></p>
+<p>and if it fails:</p>
+<p><img src='l35_travis_failing.png'></p>
+<p>You can also let people know if the current version of our program is passing the tests or not. For that, click on the badge <code>build</code> on the Travis page, select <code>Markdown</code>, copy the text and paste it on the README.md page on your repository.</p>
+<p>Next time you render the README.md page, it should look like this:</p>
+<p><img src='l35_travis_badge.png' width="600px"></p>
+<p>There, now your program is in continuous integration and everytime you receive a pull request, GitHub will let you know if their implementation passes all the tests.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Where-do-we-go-from-here?">Where do we go from here?<a class="anchor-link" href="#Where-do-we-go-from-here?">&#182;</a></h2><p>There are tons of details about <code>pytest</code> and <code>travis-ci</code> that will address most issues you will encounter while working on your program. Both of them have very good resources on their page and are well documented.</p>
+<p>This lesson was heavily based on <a href="http://katyhuff.github.io/python-testing/">Katy Huff's Software Carpentry Tutorial</a> and our own experience. Check it out for more details on TDD and CI.</p>
+<p>Finally, the next real step is for you to learn how to package your program and publish it (possibly on <a href="pypi.python.org">pypi.python.org</a>, or just hosted on GitHub). An interesting shortcut for that is to use the <a href="https://github.com/audreyr/cookiecutter-pypackage">Cookiecutter PyPackage</a>.</p>
+<p>Have fun, and always test and share your code.</p>
 
 </div>
 </div>
