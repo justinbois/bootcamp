@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>l08_string_methods</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l-01_preforming_regressions</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14598,30 +14598,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-8:-String-methods">Lesson 8: String methods<a class="anchor-link" href="#Lesson-8:-String-methods">&#182;</a></h1><p>(c) 2017 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l08_string_methods.ipynb">here</a>.</em></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In the last tutorial, we wrote some functions to parse strings and compute things like reverse complements.  This helped us practice using functions and the iteration skills we learned.</p>
-<p>You might think, "Hey, replacing characters in strings sounds like it may be pretty common."  You'd be right.  You might also think, "I bet someone, possibly someone who is a really good programmer, already has written code to do this."  You would also be right.</p>
-<p>For common tasks, there are often already methods written by someone smart, and working with strings is no different.  In this lesson, we will explore some of the string processing tools that come with Python's standard library.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Indexing-and-slicing-of-strings">Indexing and slicing of strings<a class="anchor-link" href="#Indexing-and-slicing-of-strings">&#182;</a></h2><p>Before getting into string methods, we pause to note that indexing and slicing of strings works just as it does for lists and tuples.</p>
+<h1 id="Lesson--1:-Performing-regressions">Lesson -1: Performing regressions<a class="anchor-link" href="#Lesson--1:-Performing-regressions">&#182;</a></h1><p>(c) 2017 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l-01_performing_regressions.ipynb">here</a>. This lesson was cut from the bootcamp schedule.</em></p>
 
 </div>
 </div>
@@ -14631,12 +14609,66 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_str</span> <span class="o">=</span> <span class="s1">&#39;The Dude abides.&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">my_str</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">my_str</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">my_str</span><span class="p">[::</span><span class="mi">2</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">my_str</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1"># We&#39;ll use scipy.optimize.curve_fit to do the nonlinear regression</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span>
+
+<span class="c1"># Plotting modules and settings.</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#1f77b4&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff7f0e&#39;</span><span class="p">,</span> <span class="s1">&#39;#2ca02c&#39;</span><span class="p">,</span> <span class="s1">&#39;#d62728&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;#9467bd&#39;</span><span class="p">,</span> <span class="s1">&#39;#8c564b&#39;</span><span class="p">,</span> <span class="s1">&#39;#e377c2&#39;</span><span class="p">,</span> <span class="s1">&#39;#7f7f7f&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;#bcbd22&#39;</span><span class="p">,</span> <span class="s1">&#39;#17becf&#39;</span><span class="p">]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;axes.labelsize&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">})</span>
+
+<span class="c1"># The following is specific Jupyter notebooks</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">config</span> InlineBackend.figure_formats = {&#39;png&#39;, &#39;retina&#39;}
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Bicoid-and-its-gradient">Bicoid and its gradient<a class="anchor-link" href="#Bicoid-and-its-gradient">&#182;</a></h2><p>In this tutorial, we will perform a nonlinear regression on data from a classic paper by Driever and Nüsslein-Volhard (<a href="http://www.sciencedirect.com/science/article/pii/0092867488901833"><em>Cell</em>, <strong>54</strong>, 95–104, 1988</a>).  In this paper, the authors identified Bicoid the first <strong>morphogen</strong>, a chemical substance that controls cell fate in a concentration dependent manner.  In the context of <em>Drosophila</em> embryogenesis, Bicoid (Bcd) exhibits a concentration gradient, with a high concentration in the anterior region of the embryo and a low concentration in posterior region.  Below is an image of the Bicound gradient from an immunostaining experiment from their paper.</p>
+<p><img src="bcd_immunostain.png" alt="Bicoid gradient"></p>
+<p>Driever and Nüsslein-Volhard quantified this gradient by measuring the darkness of the immunostain as a function of distance between the anterior and posterior of the embryo.  Our goal in this lesson is to perform a regression to get the characteristic length of the Bcd gradient.  Specifically, based on physical modeling we will not go into here, we expect the Bcd gradient to be exponential, or</p>
+\begin{align}
+c(x) = c_0 \mathrm{e}^{-x/\lambda},
+\end{align}<p>where $c(x)$ is the Bcd concentration at position $x$, with $x = 0$ at the anterior and $x = 1$ at the posterior.  I.e., $x$ is in units of the total AP axis length.  The Bcd concentration at the anterior is $c_0$, and the decay length, or characteristic length, of the gradient is $\lambda$.  We assume that the intensity of the immunostain is</p>
+\begin{align}
+I = a + b c,
+\end{align}<p>where $a$ is the background signal and the immunostain intensity varies linearly with Bcd concentration.  Thus, Bcd gradient, as visualized by immunostaining, is</p>
+\begin{align}
+I(x) = a + I_0\mathrm{e}^{-x/\lambda}.
+\end{align}
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-data-set">The data set<a class="anchor-link" href="#The-data-set">&#182;</a></h2><p>We will use the original data from Driever and Nüsslein-Volhard, available in <code>~/git/data/bcd_gradient.csv</code>.  We will first look at the file to see how we should import it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>head data/bcd_gradient.csv
 </pre></div>
 
 </div>
@@ -14651,10 +14683,16 @@ div#notebook {
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>u
-The Du
-TeDd bds
-.sediba eduD ehT
+<pre># Data taken from Fig. 3A of Driever and Nuesslein-Volhard, Cell,
+# 54, 95-104, 1988.  This is the normalized immunostain intensity
+# as a function of distance along the A-P axis in a wild type
+# embryo.
+fractional distance from anterior,[bcd] (a.u.)
+0.0026446672455988007,0.86309692805632854
+0.034222783610957611,0.86309692805632854
+0.068445567221915221,0.74572710237919493
+0.10262887818741613,0.65487479416273942
+0.13420699455277493,0.54511384929873385
 </pre>
 </div>
 </div>
@@ -14668,67 +14706,7 @@ TeDd bds
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Revisiting-previous-examples-using-string-methods">Revisiting previous examples using string methods<a class="anchor-link" href="#Revisiting-previous-examples-using-string-methods">&#182;</a></h2><p>We'll start by revisiting some of the examples we've seen so far.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Computing-GC-content">Computing GC content<a class="anchor-link" href="#Computing-GC-content">&#182;</a></h3><p>If you remember from <a href="l06_iteration.html">iteration lesson</a>, we started by computing the GC content of a nucleic acid sequence.  We counted the occurrences of <code>'G'</code> and <code>'C'</code> in the string using a <strong><code>for</code></strong> loop.  We can use the <code>count()</code> string method do to this.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Define sequence</span>
-<span class="n">seq</span> <span class="o">=</span> <span class="s1">&#39;GACAGACUCCAUGCACGUGGGUAUCAUGUC&#39;</span>
-
-<span class="c1"># Count G&#39;s and C&#39;s</span>
-<span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[2]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>16</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>seq.count()</code> method enabled us to count the number times <code>G</code> and <code>C</code> occurred in the string <code>seq</code>.  This notation is new.  We have a variable, followed by a dot (<code>.</code>), and then a function.  These functions are called <strong>methods</strong> in the language of object-oriented programming (OOP).  If you have a string <code>my_str</code>, and you want to execute one of Python's built-in string methods on it, the syntax is</p>
-
-<pre><code>my_str.string_method_of_choice(*args)
-
-</code></pre>
-<p>In general, the <code>count</code> method gives the number of times a substring appears in a string.  We can learn more about its behavior by playing with it.</p>
+<p>We see that this is a CSV file with two columns and comments preceded by <code>#</code>.  The header row is given.  So, we know how to use <code>pd.read_csv</code> to import the data.</p>
 
 </div>
 </div>
@@ -14738,8 +14716,11 @@ TeDd bds
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Substrings of more than one characater</span>
-<span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;GAC&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Import data set</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/bcd_gradient.csv&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+
+<span class="c1"># Inspect DataFrame</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -14754,9 +14735,58 @@ TeDd bds
 <div class="prompt output_prompt">Out[3]:</div>
 
 
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
 
-<div class="output_text output_subarea output_execute_result">
-<pre>2</pre>
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fractional distance from anterior</th>
+      <th>[bcd] (a.u.)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.002645</td>
+      <td>0.863097</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.034223</td>
+      <td>0.863097</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.068446</td>
+      <td>0.745727</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.102629</td>
+      <td>0.654875</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.134207</td>
+      <td>0.545114</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 </div>
 
 </div>
@@ -14764,67 +14794,28 @@ TeDd bds
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For ease of access, we can rename the columns.  We'll call them <code>x</code> and <code>I_bcd</code>.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Substrings cannot overlap</span>
-<span class="s1">&#39;AAAAAAA&#39;</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;AA&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Rename columns</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fractional distance from anterior&#39;</span><span class="p">:</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> 
+                        <span class="s1">&#39;[bcd] (a.u.)&#39;</span><span class="p">:</span> <span class="s1">&#39;I_bcd&#39;</span><span class="p">})</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[4]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>3</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Something that&#39;s not there.</span>
-<span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;nonsense&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[5]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>0</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -14834,99 +14825,7 @@ TeDd bds
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Finding-the-index-of-a-start-codon">Finding the index of a start codon<a class="anchor-link" href="#Finding-the-index-of-a-start-codon">&#182;</a></h3><p>A later task in the <a href="l06_iteration.html">iteration lesson</a> was to find the index of the start codon in an RNA sequence.  Let's do it with another string method.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seq</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;AUG&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[6]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>10</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Wow, that was easy.  The <code>find()</code> method gives the index where the substring argument <em>first</em> appears.  But, what if a substring is not in the string?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seq</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;nonsense&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[7]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>-1</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this case, <code>find()</code> returns <code>-1</code>.  This is not to be interpreted as index <code>-1</code>!  <code>find()</code> always returns positive indices.  Note that you should not use <code>find()</code> to <em>test</em> if a substring is present.  Use the <strong><code>in</code></strong> operator we already learned about.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Finding-the-last-index-of-a-substring">Finding the last index of a substring<a class="anchor-link" href="#Finding-the-last-index-of-a-substring">&#182;</a></h3><p>Let's say we wanted to find the last instance of the start codon.  We basically want to search from the right. This is exactly what the <code>rfind()</code> method does.</p>
+<p>Let's plot the data to see what we are dealing with.</p>
 
 </div>
 </div>
@@ -14936,7 +14835,10 @@ TeDd bds
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seq</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s1">&#39;AUG&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;I (a.u.)&#39;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;I_bcd&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14948,12 +14850,261 @@ TeDd bds
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[9]:</div>
+<div class="prompt"></div>
 
 
 
-<div class="output_text output_subarea output_execute_result">
-<pre>25</pre>
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+RU5ErkJggg==
+"
+width=391
+height=266
+>
 </div>
 
 </div>
@@ -14967,115 +15118,14 @@ TeDd bds
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Finding-the-complementary-base">Finding the complementary base<a class="anchor-link" href="#Finding-the-complementary-base">&#182;</a></h3><p>In our <a href="l07_intro_to_functions.ipynb">tutorial on functions</a>, we wrote a function to compute a complementary base comparing against both the capital and lowercase letter.  Here is that function implemented with some handy string methods.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">complement_base</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns the Watson-Crick complement of a base.&quot;&quot;&quot;</span>
-
-    <span class="c1"># Convert to lowercase</span>
-    <span class="n">base</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    
-    <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;T&#39;</span>
-    <span class="k">elif</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;A&#39;</span>
-    <span class="k">elif</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;C&#39;</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;G&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We were able to avoid all the "<code>base in 'Tt'</code>"-style operations by just converting the base to lowercase using the <code>lower()</code> method.  In general, the <code>lower()</code> method takes a string and converts any capital letters to lower case.  The <code>upper()</code> function works analogously.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">&#39;LeBron James&#39;</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[11]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;lebron james&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">&#39;Make me aLl caPS.&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[12]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;MAKE ME ALL CAPS.&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Converting-RNA-to-DNA">Converting RNA to DNA<a class="anchor-link" href="#Converting-RNA-to-DNA">&#182;</a></h3><p>We also updated the complementary base function to account for RNA or DNA.  Perhaps an easier way is just to replace all <code>U</code>s in an RNA sequence with <code>T</code>s to get a DNA sequence.  The <code>replace()</code> method makes this easy.</p>
+<h2 id="Using-scipy.optimize.leastsq()-to-perform-nonlinear-regression">Using scipy.optimize.leastsq() to perform nonlinear regression<a class="anchor-link" href="#Using-scipy.optimize.leastsq()-to-perform-nonlinear-regression">&#182;</a></h2><p>We will use <code>scipy.optimize.leastsq()</code> to preform the regression. This function solves the problem</p>
+\begin{align}
+\arg\;\min_p \sum(r(\mathbf{p}), \mathbf{a})^2.
+\end{align}<p>So, it finds the value of $\mathbf{p}$, which is possibly a vector, that minimizes the sum of the square of the values of a function that depends on $\mathbf{p}$. So, how does this relate to performing a nonlinear regression? When performing a regression by least squares, we assumed we have $(x,y)$ data, and that the values of $x$ are known more or less with certainty. The measurements in the $y$-direction are thought to follow a model function, say $f(\mathbf{p}, x)$. The difference between a data point $(x_i, y_i)$ and $f(\mathbf{p}, x_i)$, the value of $y$ predicted by the model, is called a <strong>residual</strong>,</p>
+\begin{align}
+r(\mathbf{p}, x_i) = y_i - f(\mathbf{p}, x_i).
+\end{align}<p>To perform a regression, we would like to find the set of parameters $\mathbf{p}$ that minimize the distance between the theoretical curve and the data. Because the residuals can be both positive and negative, can square them so that they are always nonnegative. (This is not actually <em>why</em> we square the residuals, but it makes intuitive sense.) Then, to try to get all points to be close to the theoretical curve, we can sum the squares of the residuals and try to minimize this sum. So, the regression problem is the minimization of the sum of squares of the residuals. This is exactly what <code>scipy.optimize.leastsq()</code> solves!</p>
+<p>Since this is our first time using it, let's read the doc string to figure out how to use it.</p>
 
 </div>
 </div>
@@ -15085,28 +15135,10 @@ TeDd bds
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seq</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span>scipy.optimize.leastsq<span class="o">?</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[13]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;GACAGACTCCATGCACGTGGGTATCATGTC&#39;</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -15116,7 +15148,70 @@ TeDd bds
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that <code>seq</code> did not change.  Remember, strings are immutable, so the <code>replace()</code> method <em>returns</em> a new string, as does <code>lower()</code>, <code>upper()</code>, and any other string method that returns a string. So, the characters stored in the variable <code>seq</code> are unchanged.</p>
+<p>We see that the function prototype is</p>
+
+<pre><code>scipy.optimize.leastsq(func, x0, args=())
+
+</code></pre>
+<p>For the regression problem, then, <code>func</code> a function that returns the residuals. It must have a call signature <code>func(p, *args)</code>, where <code>p</code> is a Numpy array with the parameter values to be determined from the regression, and <code>args</code> is a tuple containing all other parameters that need to be passed to be passed to the residual function.</p>
+<p>So, we can write a generic residual function for use in all of our basic curve fitting tasks. (<em>Note that the function <code>scipy.optimize.curve_fit()</code> does this, but I do not like its API and it has some implicit assumptions that can cause problems, so I do not advocate using it.</em>)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">resid</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Residuals for x-y curve fitting.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    p : array_like</span>
+<span class="sd">        Parameters to be determined in curve fit.</span>
+<span class="sd">    f : function</span>
+<span class="sd">        Theoretical function to be fit, with call signature</span>
+<span class="sd">        f(p, *args), where args = (x, y, arg1, arg2, ...)</span>
+<span class="sd">    args : tuple</span>
+<span class="sd">        Contains x data, y data, and any other parameters</span>
+<span class="sd">        that are not being adjusted in the curve fitting procedure</span>
+<span class="sd">        that are passed to f. args = (x, y, arg1, arg2, ...).</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    r : array_like</span>
+<span class="sd">        Residuals, y - f(p, *args)</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="k">return</span> <span class="n">y</span> <span class="o">-</span> <span class="n">f</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Defining-the-model-function">Defining the model function<a class="anchor-link" href="#Defining-the-model-function">&#182;</a></h3><p>So, our first step for using <code>scipy.optimize.leastsq()</code> is to define the fit function, which we will call <code>bcd_gradient_model</code>.  We have three parameters, $I_0$, $a$, and $\lambda$.</p>
 
 </div>
 </div>
@@ -15126,48 +15221,9 @@ TeDd bds
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seq</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[15]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;GACAGACUCCAUGCACGUGGGUAUCAUGUC&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-join()-method">The join() method<a class="anchor-link" href="#The-join()-method">&#182;</a></h2><p>One of the most useful string methods is the <code>join()</code> method.  Say we have a list of words that we want to craft into a sentence.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;The&#39;</span><span class="p">,</span> <span class="s1">&#39;Dude&#39;</span><span class="p">,</span> <span class="s1">&#39;abides.&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">bcd_gradient_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">I_0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">lam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Model for Bcd gradient: exponential decay plus background&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">I_0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="n">lam</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15180,7 +15236,32 @@ TeDd bds
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, we would like to concatenate them into a single string.  (This is sort of like the opposite of taking a string and making a list of its characters by doing a <code>list()</code> type conversion.)  We need to know what we want to put between each word.  In this case, we want a space.  Here's the nifty syntax to do that.</p>
+<p>Notice that we used <code>lam</code> as the name of the parameter $\lambda$.  This is because <code>lambda</code> is a keyword in Python.  <strong>Never</strong> name a variable <code>lambda</code>.  This is so important, I'm going to make the point more fervently, even though we already made it in a previous lesson.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div class="alert alert-danger">
+<p>**Never** name a Python variable the same as a keyword!</p><br />
+
+To see what the keywords are, do this:
+
+    `import keyword; print(keyword.kwlist)`
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There is a problem with our function, though.  It is really only defined is all of its arguments are positive.  We therefore should assure that all arguments are positive.</p>
 
 </div>
 </div>
@@ -15190,7 +15271,101 @@ TeDd bds
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">word_tuple</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">bcd_gradient_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">I_0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">lam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Model for Bcd gradient: exponential decay plus background&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;All values of x must be &gt;= 0.&#39;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">I_0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">lam</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;All parameters must be &gt;= 0.&#39;</span>
+    
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">I_0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span> <span class="o">/</span> <span class="n">lam</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Defining-the-residual-function">Defining the residual function<a class="anchor-link" href="#Defining-the-residual-function">&#182;</a></h3><p>Remember, we need to pass a function containing the <em>residuals</em> to <code>scipy.optimize.leastsq()</code>, so we need to write a function to do that. Do not forget that its call signature is <code>resids(p, *args)</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">resids</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">I_bcd</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Residuals for bcd gradient model&quot;&quot;&quot;</span>
+    <span class="n">I_0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">lam</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="k">return</span> <span class="n">I_bcd</span> <span class="o">-</span> <span class="n">bcd_gradient_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">I_0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">lam</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Initial-guess">Initial guess<a class="anchor-link" href="#Initial-guess">&#182;</a></h3><p>With our fit function in place, we now need to supply initial guesses for the parameter values, given by the kwarg <code>p0</code>. In looking at the plot, we see that we indeed have a nonzero background signal, somewhere around $a \approx 0.2$.  We also see that $I_0 \approx 0.9$ and $\lambda \approx 0.3$.  We would normally use these as our approximate guesses, but to show an additional lesson, we will guess $\lambda = 1$, making the solver do a little more work.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Specify initial guess</span>
+<span class="n">I_0_guess</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">a_guess</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">lam_guess</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="c1"># Construct initial guess array</span>
+<span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">I_0_guess</span><span class="p">,</span> <span class="n">a_guess</span><span class="p">,</span> <span class="n">lam_guess</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Performing-the-regression-(first-try)">Performing the regression (first try)<a class="anchor-link" href="#Performing-the-regression-(first-try)">&#182;</a></h3><p>When doing the curve fit, we see that it returns the optimal parameter values as well as an estimate of the covariance matrix. For reasons I will not discuss here, this covariance matrix has some assumptions under the hood that are not always appropriate, so we will just ignore it. Now we're ready to do the regression!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Set up args to be passed to scipy.optimize.leastsq (x, y values)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;I_bcd&#39;</span><span class="p">])</span>
+
+<span class="c1"># Do curve fit, but dump covariance into dummy variable</span>
+<span class="n">p</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">leastsq</span><span class="p">(</span><span class="n">resids</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">I_0 = </span><span class="si">{0:.2f}</span><span class="s2"></span>
+<span class="s2">  a = </span><span class="si">{1:.2f}</span><span class="s2"></span>
+<span class="s2">  λ = </span><span class="si">{2:.2f}</span><span class="s2"></span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
 </pre></div>
 
 </div>
@@ -15202,14 +15377,40 @@ TeDd bds
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[17]:</div>
+<div class="prompt"></div>
 
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-26-65a593dc1ee7&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> 
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-red-fg"># Do curve fit, but dump covariance into dummy variable</span>
+<span class="ansi-green-fg">----&gt; 5</span><span class="ansi-red-fg"> </span>p<span class="ansi-blue-fg">,</span> _ <span class="ansi-blue-fg">=</span> scipy<span class="ansi-blue-fg">.</span>optimize<span class="ansi-blue-fg">.</span>leastsq<span class="ansi-blue-fg">(</span>resids<span class="ansi-blue-fg">,</span> p0<span class="ansi-blue-fg">,</span> args<span class="ansi-blue-fg">=</span>args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span> 
+<span class="ansi-green-intense-fg ansi-bold">      7</span> <span class="ansi-red-fg"># Print the results</span>
 
+<span class="ansi-green-fg">/Users/Justin/anaconda/lib/python3.6/site-packages/scipy/optimize/minpack.py</span> in <span class="ansi-cyan-fg">leastsq</span><span class="ansi-blue-fg">(func, x0, args, Dfun, full_output, col_deriv, ftol, xtol, gtol, maxfev, epsfcn, factor, diag)</span>
+<span class="ansi-green-intense-fg ansi-bold">    385</span>             maxfev <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">200</span><span class="ansi-blue-fg">*</span><span class="ansi-blue-fg">(</span>n <span class="ansi-blue-fg">+</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    386</span>         retval = _minpack._lmdif(func, x0, args, full_output, ftol, xtol,
+<span class="ansi-green-fg">--&gt; 387</span><span class="ansi-red-fg">                                  gtol, maxfev, epsfcn, factor, diag)
+</span><span class="ansi-green-intense-fg ansi-bold">    388</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    389</span>         <span class="ansi-green-fg">if</span> col_deriv<span class="ansi-blue-fg">:</span>
 
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;The Dude abides.&#39;</pre>
+<span class="ansi-green-fg">&lt;ipython-input-24-dbf15bd311f2&gt;</span> in <span class="ansi-cyan-fg">resids</span><span class="ansi-blue-fg">(p, x, I_bcd)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     <span class="ansi-blue-fg">&#34;&#34;&#34;Residuals for bcd gradient model&#34;&#34;&#34;</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     I_0<span class="ansi-blue-fg">,</span> a<span class="ansi-blue-fg">,</span> lam <span class="ansi-blue-fg">=</span> p
+<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> I_bcd <span class="ansi-blue-fg">-</span> bcd_gradient_model<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">,</span> I_0<span class="ansi-blue-fg">,</span> a<span class="ansi-blue-fg">,</span> lam<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-17-4797111993e1&gt;</span> in <span class="ansi-cyan-fg">bcd_gradient_model</span><span class="ansi-blue-fg">(x, I_0, a, lam)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     <span class="ansi-blue-fg">&#34;&#34;&#34;Model for Bcd gradient: exponential decay plus background&#34;&#34;&#34;</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     <span class="ansi-green-fg">assert</span> np<span class="ansi-blue-fg">.</span>all<span class="ansi-blue-fg">(</span>np<span class="ansi-blue-fg">.</span>array<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">&gt;=</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;All values of x must be &gt;= 0.&#39;</span>
+<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">assert</span> np<span class="ansi-blue-fg">.</span>all<span class="ansi-blue-fg">(</span>np<span class="ansi-blue-fg">.</span>array<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">[</span>I_0<span class="ansi-blue-fg">,</span> a<span class="ansi-blue-fg">,</span> lam<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">&gt;=</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;All parameters must be &gt;= 0.&#39;</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> 
+<span class="ansi-green-intense-fg ansi-bold">      6</span>     <span class="ansi-green-fg">return</span> a <span class="ansi-blue-fg">+</span> I_0 <span class="ansi-blue-fg">*</span> np<span class="ansi-blue-fg">.</span>exp<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">-</span>x <span class="ansi-blue-fg">/</span> lam<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">AssertionError</span>: All parameters must be &gt;= 0.</pre>
 </div>
-
 </div>
 
 </div>
@@ -15221,64 +15422,75 @@ TeDd bds
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We now have a single string with the elements of the tuple, separated by spaces.  The string before the dot (<code>.</code>) specifies what goes between the strings in the list or tuple (or other iterable).  If we wanted "<code>*</code>" between each word, we could do that, too.</p>
+<p>Oh no!  We got an exception that we had negative parameters! This occurred because under the hood, <code>scipy.optimize.leastsq()</code> tries many sets of parameter values as it searches for those that bring the theoretical curve closest to the observed data. (It is more complicated than that, but we won't get into that here.)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Performing-the-regression-(second-try)">Performing the regression (second try)<a class="anchor-link" href="#Performing-the-regression-(second-try)">&#182;</a></h3><p>At this point, we have a few options.</p>
+<ol>
+<li>Take out our error checking on positivity of parameter. The resulting curve with negative values of $I_0$, $a$, or $\lambda$ will be so far off, the least squares routine should come back toward physical parameter values after an excursion into non-physicality.</li>
+<li>Try using something other than <code>scipy.optimize.leastsq()</code>.</li>
+<li>Adjust our theoretical function by using the logarithm of the parameter values instead of the parameter values themselves. This ensures that all parameter are positive.</li>
+</ol>
+<p>I think option 1 is off the table. We generally want to avoid "shoulds" when programming. We do not want to just hope that the solver will work, even though nonphysical parameter values are encountered.</p>
+<p>Depending on how many times I will need to do a particular type of curve fit, I typically prefer option 2. We will not do this in the bootcamp, but I often use a technique called Markov chain Monte Carlo.</p>
+<p>We'll use option 3. This still allows the solver to consider a smooth function of the parameter values. So, we just need to rewrite our residuals function to take log parameters.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">&#39; * &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">word_tuple</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">resids</span><span class="p">(</span><span class="n">log_p</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">I_bcd</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Residuals for bcd gradient model&quot;&quot;&quot;</span>
+    <span class="n">I_0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">I_bcd</span> <span class="o">-</span> <span class="n">bcd_gradient_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">I_0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">lam</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[18]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;The * Dude * abides.&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-format()-method">The format() method<a class="anchor-link" href="#The-format()-method">&#182;</a></h2><p>The <code>format()</code> method is very powerful.  We not go over all use cases here, but I'll show you what I think is most intuitive and commonly used.  Again, this is best learned by example.</p>
+<p>Now let's try our curve fit again. We need to make sure we convert our initial guesses into logarithms. Remember, now the solver will be working with logarithms of parameters.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Let&#39;s do a Mad Lib!</span>
-<span class="s2">During this bootcamp, I feel </span><span class="si">{adjective}</span><span class="s2">.</span>
-<span class="s2">The instructors give us </span><span class="si">{plural_noun}</span><span class="s2">.</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adjective</span><span class="o">=</span><span class="s1">&#39;truculent&#39;</span><span class="p">,</span> <span class="n">plural_noun</span><span class="o">=</span><span class="s1">&#39;haircuts&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Construct initial guess array</span>
+<span class="n">log_p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p0</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">my_str</span><span class="p">)</span>
+<span class="c1"># Do curve fit, but dump covariance into dummy variable</span>
+<span class="n">log_p</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">leastsq</span><span class="p">(</span><span class="n">resids</span><span class="p">,</span> <span class="n">log_p0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+
+<span class="c1"># Get the optimal parameter values</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_p</span><span class="p">)</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">I_0 = </span><span class="si">{0:.2f}</span><span class="s2"></span>
+<span class="s2">  a = </span><span class="si">{1:.2f}</span><span class="s2"></span>
+<span class="s2">  λ = </span><span class="si">{2:.2f}</span><span class="s2"></span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
 </pre></div>
 
 </div>
@@ -15294,9 +15506,9 @@ TeDd bds
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-Let&#39;s do a Mad Lib!
-During this bootcamp, I feel truculent.
-The instructors give us haircuts.
+I_0 = 0.77
+  a = 0.17
+  λ = 0.19
 
 </pre>
 </div>
@@ -15311,62 +15523,38 @@ The instructors give us haircuts.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>See the pattern?  Given a string, the <code>format()</code> method takes kwargs that are themselves strings.  Within the string, the name of the kwargs are given in braces.  Then, the arguments in the <code>format()</code> method inserts the strings at the places delimited by braces.</p>
-<p>Now, what if we want to insert a number into a string?  We could convert it to a string, but we should instead use <strong>string conversions</strong>.  These are short directives that specify how the number should be represented in a string.  A complete list is <a href="https://docs.python.org/3/library/stdtypes.html#printf-style-bytes-formatting">here</a>.  The table below shows some that are commonly used.</p>
-<table>
-<thead><tr>
-<th style="text-align:center">conversion</th>
-<th>description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><code>d</code></td>
-<td>integer</td>
-</tr>
-<tr>
-<td style="text-align:center"><code>04d</code></td>
-<td>integer with four digits, possibly with leading zeros</td>
-</tr>
-<tr>
-<td style="text-align:center"><code>f</code></td>
-<td>float, default to six digits after decimal</td>
-</tr>
-<tr>
-<td style="text-align:center"><code>.8f</code></td>
-<td>float with 8 digits after the decimal</td>
-</tr>
-<tr>
-<td style="text-align:center"><code>e</code></td>
-<td>scientific notation, default to six digits after decimal</td>
-</tr>
-<tr>
-<td style="text-align:center"><code>.16e</code></td>
-<td>scientific notation with 16 digits after the decimal</td>
-</tr>
-<tr>
-<td style="text-align:center"><code>s</code></td>
-<td>display as a string</td>
-</tr>
-</tbody>
-</table>
-<p>Below are examples of all of these.</p>
+<p>That worked!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Plotting-the-result">Plotting the result<a class="anchor-link" href="#Plotting-the-result">&#182;</a></h3><p>We can now generate a smooth curve defined by the optimal parameters we just found and plot it along with the data.  To do this, we make a densely sampled array of $x$ values and then compute the fitting function for these values.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are </span><span class="si">{n:d}</span><span class="s1"> states.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Your file number is </span><span class="si">{n:d}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">23</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;π is approximately </span><span class="si">{pi:f}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pi</span><span class="o">=</span><span class="mf">3.14</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;e is approximately </span><span class="si">{e:.8f}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="o">=</span><span class="mf">2.7182818284590451</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Avogadro&#39;s number is approximately </span><span class="si">{N_A:e}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">N_A</span><span class="o">=</span><span class="mf">6.022e23</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ε_0 is approximately </span><span class="si">{eps_0:.16e}</span><span class="s1"> F/m.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">eps_0</span><span class="o">=</span><span class="mf">8.854187817e-12</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;That </span><span class="si">{thing:s}</span><span class="s1"> really tied the room together.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">thing</span><span class="o">=</span><span class="s1">&#39;rug&#39;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Smooth x values (100 values between zero and one)</span>
+<span class="n">x_smooth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Compute smooth curve</span>
+<span class="n">I_smooth</span> <span class="o">=</span> <span class="n">bcd_gradient_model</span><span class="p">(</span><span class="n">x_smooth</span><span class="p">,</span> <span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+
+<span class="c1"># Plot everything together</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;I (a.u.)&#39;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_smooth</span><span class="p">,</span> <span class="n">I_smooth</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;I_bcd&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15380,16 +15568,456 @@ The instructors give us haircuts.
 <div class="output_area">
 <div class="prompt"></div>
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>There are 50 states.
-Your file number is 23.
-π is approximately 3.140000.
-e is approximately 2.71828183.
-Avogadro&#39;s number is approximately 6.022000e+23.
-ε_0 is approximately 8.8541878170000005e-12 F/m.
-That rug really tied the room together.
-</pre>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwkAAAIVCAYAAACa+LPYAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
+AAAWJQAAFiUBSVIk8AAAIABJREFUeJzs3XuYVdWd5//3Kaoo5A4qIiKCFixEQ4F4IYiI0RhNI8m0
+xmCi/tJ2zMW06cz8umeSnt8kJplJnJmedGKPpqNJTHxUGh8NETXeA0QUUUuuIgtQkJvIReR+qcv5
+/XFOHepgFbc6Vbvq1Pv1POfZrLUv9dGNyfnW2nutVDqdRpIkSZLqlSQdQJIkSVLbYpEgSZIkKY9F
+giRJkqQ8FgmSJEmS8lgkSJIkScpjkSBJkiQpj0WCJEmSpDwWCZIkSZLyWCRIkiRJymORIEmSJCmP
+RYIkSZKkPBYJkiRJkvKUJh2go6mqqkonnUGSJEkdx5gxY1LHeo4jCZIkSZLyOJKQkDFjxrT6z6yq
+qkrsZ6t1eI87Bu9zx+B97hi8z8UvyXtc/7OPhyMJkiRJkvJYJEiSJEnKY5EgSZIkKY9FgiRJkqQ8
+FgmSJEmS8lgkSJIkScpjkSBJkiQpj0WCJEmSpDwWCZIkSZLyWCRIkiRJymORIEmSJCmPRYIkSZKk
+PBYJkiRJkvJYJEiSJEnKY5EgSZIkKY9FQgeRTqfZuXMnNTU1SUeRJElSG1eadAC1jscff5yFCxdS
+VlbG8OHD6dWrV9KRJEmS1EY5ktBBLF26FIDq6mpee+21hNNIkiSpLbNI6CD69OmT+/OKFSsSTCJJ
+kqS2ziKhgxg2bFjuz5s3b2bbtm0JppEkSVJbZpHQQQwdOjSv7WiCJEmSmmKR0EEMHDiQsrKyXHv5
+8uUJppEkSVJbZpHQQZSUlNCvX79ce/Xq1Rw4cCDBRJIkSWqrLBI6kIZFQm1tLatWrUowjSRJktoq
+i4QO5OSTTyaVSuXaPnIkSZKkxlgkdCCdO3f+2FSo6XQ6wUSSJElqiywSOpiGjxzt3LmTjRs3JphG
+kiRJbZFFQgdzyimn5LWdClWSJEmHskjoYLp3706vXr1ybYsESZIkHcoioYNJpVJ5qy+vW7eO3bt3
+J5hIkiRJbY1FQgd06OrLK1euTCiJJEmS2iKLhA5oyJAhrr4sSZKkJpUmHaClhBBKgduBW4EhwPvA
+/cCdMcbqozh/FPAjYEK2603gpzHG51smcespLS1lyJAhueLgnXfeoba2lk6dOiWcTJIkSW1BMY8k
+3A38DNgK/AJYT+ZL/9QjnRhCuBR4BZgEzAJ+BwwAng0hfKtl4rauho8c7d+/n7Vr1yaYRpIkSW1J
+URYJIYRxwNeAR4EJMcbvkhkReAC4NoQw6TDndgJ+C5wAXB9j/HyM8TvAaOAl4F9CCEObOr+9aPjy
+MvjIkSRJkg4qyiIBqP9t/w9jjGmA7PZ7QBr46mHOvQA4E3g2xvhofWeMcW/2/DLg71oidGvq2bNn
+3poJToUqSZKkesVaJEwAtsQYlzTsjDFuAJYDlx7m3CHZ7auN7FuU3Y5vdsI2oOFowpYtW/jwww8T
+TCNJkqS2ouiKhBBCOTAQeKeJQ1YDvUMIJzexf392W97IvvpVyM447oBtyKFToTqaIEmSJCjO2Y36
+ZrcfNbF/e3bbC9jcyP6q7PaaEMJ/izHWNNg3ucG5zVJVVXXkg1pI/c9Op9N07tyZAwcOAPDGG29Q
+WlqMfyU6niT/fqn1eJ87Bu9zx+B9Ln7t7R4X3UgCmXcG4OCIwKHq+7s0tjPG+B6ZF57PAaaFEIaF
+EHqFEL4E/BTYA6QKmDcxqVSKfv365dpbt27NFQySJEnquIrx18Z7s9vOTeyvf4xo92GucStwEvDX
+2Q9ANfD/kpk1qdmPG40ZM6a5lzhm9RVsw5/drVs3pk2bBmRGFrp168bIkSNbPZsKo7F7rOLjfe4Y
+vM8dg/e5+CV5j5szelGMIwnbgTqafiSoV4PjGhVj/Aj4FHAl8F3gNqAixvivQH/gg4KlTdhZZ52V
+94hRjDHBNJIkSWoLim4kIcZ4IITwHgdnKTrUEGBzjPGwU/lkp0x9PvsBIIRwBpkRhlcKFDdxZWVl
+nHXWWbniYOXKldTU1PhugiRJUgdWjCMJAHOA/iGEvBXDQggDgGE0Pr1p/TFlIYSVIYQ/NLK7/tGj
+ZwuWtA0IIeT+fODAAVatWpVgGkmSJCWtWIuEB7Lbn4QQSgBCCCkyLx4D3NvUiTHGamAtcHUIoaK+
+P4RwFvBPZB41+l0LZE7MsGHDSKUOvou9bNmyBNNIkiQpaUVZJMQYXwCmAdcCc0MIdwKzgZvJzFz0
+VP2xIYQ7Qgh3HHKJfwA6Zc+9K4Twb2SmRu0B3Bhj3NPy/xStp1u3bpx++um5doyRdDqdYCJJkiQl
+qSiLhKybgO+TeYfgO2ReOP4+mS/5Db8B/yD7yYkxVpFZVXkhcCOZx4xmAZ/MFiBFZ/jw4bk/7969
+m3Xr1iWYRpIkSUkq2rdTs48N/Tj7Odxxja55EGN8DbiiBaK1SSEEnnvuuVw7xpg3uiBJkqSOo5hH
+EnQM+vbtm7ewmu8lSJIkdVwWCcppOMvR1q1b2bJlS4JpJEmSlBSLBOU0fC8BHE2QJEnqqCwSlHPq
+qafSs2fPXNvVlyVJkjomiwTlpFKpvEeO1q1bx86dOxNMJEmSpCRYJChPwyIBYPny5QklkSRJUlIs
+EpRn8ODBlJeX59q+lyBJktTxFO06Cfq4OWv28tiy3ax/7E8M7ded2y6rYHLlgLxjOnXqxLBhw1i8
+eDEAq1atYv/+/XmFQ70ZCzdwz8yVrNi0q8nrSZIkqf1xJKGDmLFwA/8ybztrttdQW5dm2cadfHvq
+fGYs3PCxYxs+clRbW8vKlSsbvd63p85n2cadR7yeJEmS2heLhA7inpkf/6LfVH9FRQWdOnXKtRub
+5ehYridJkqT2xSKhg1ixaVej/Ssb6S8vL2fIkCG5doyRmpqa476eJEmS2heLhA5iaL/ujfZXNNF/
+9tln5/584MAB3n333WZdT5IkSe2HRUIHcdtlFcfUP3z4cFKpVK69dOnSZl1PkiRJ7YezG3UQkysH
+sOrdd/nDst2s31lLxRFmI+ratStDhgzJjSDEGKmtrc29q1B/3j0zV7Jy064jXk+SJEnth0VCBzJ+
+0AmMH3QCY8aMOarjzz777FyRsG/fPlatWkVFxcGRgsmVAywKJEmSipCPG6lJR3rkSJIkScXJIkFN
+6t69O2eccUauvWzZMmpraxNMJEmSpNZgkaDDajjL0d69e3nvvfcSTCNJkqTWYJGgw2pYJICPHEmS
+JHUEFgk6rB49ejBo0KBc++2336auri7BRJIkSWppFgk6ooajCXv27GHNmjUJppEkSVJLs0jQEfnI
+kSRJUsdikaAj6tWrFwMHDsy13377bdLpdIKJJEmS1JIsEnRUGo4m7Nq1i7Vr1yaYRpIkSS3JIkFH
+ZcSIEXltHzmSJEkqXhYJOiq9e/dmwIABubaPHEmSJBUviwQdtYaPHO3YsYP169cnmEaSJEktxSJB
+R81HjiRJkjoGiwQdtb59+9K/f/9ce+nSpT5yJEmSVIQsEnRMGj5ytH37dtatW5dgGkmSJLUEiwQd
+k3PPPTevvWTJkoSSSJIkqaVYJOiY9O3bN2+Wo7feeou6uroEE0mSJKnQLBJ0zBqOJuzevZvVq1cn
+F0aSJEkFZ5GgY3bOOefktRcvXpxQEkmSJLUEiwQds549e3LGGWfk2suWLaOmpibBRJIkSSokiwQd
+l4aPHO3bt4933nknwTSSJEkqpNKkA7SUEEIpcDtwKzAEeB+4H7gzxlh9FOePBH4MTABOAJYD/zfG
+eG+LhW5HRowYwdNPP517aXnJkiWEEBJOJUmSpEIo5pGEu4GfAVuBXwDrgR8BU490YgihEngF+Cvg
+aeCXQHfgVyGE/9lSgduTrl27cuaZZ+baMUYOHDiQYCJJkiQVSlEWCSGEccDXgEeBCTHG75IZEXgA
+uDaEMOkIl/jvQDfguhjjl2KM/xEYSWY04R9CCENaLn370fCRo+rqapYvX55gGkmSJBVKURYJwLey
+2x/GGNMA2e33gDTw1SOcfwGwLcb4x/qOGOMuMqMQJcCFBU/cDg0fPpzS0oNPrLmwmiRJUnEo1iJh
+ArAlxpj3rTXGuIHMaMClRzh/K9AzhNDnkP7TstvNBUnZzpWXlzN06NBce8WKFezduzfBRJIkSSqE
+oisSQgjlwECgqel2VgO9QwgnH+Yy/wZ0Ah4OIVSEEHqEEG4BvgK8CcwuXOL2reEjR3V1dSxbtizB
+NJIkSSqEYpzdqG92+1ET+7dnt71oYkQgxvivIYQaMi88r2iw63lgSoyxtrkhq6qqmnuJNvGza2tr
+KS0tza2T8Morr+RmPFJykvz7pdbjfe4YvM8dg/e5+LW3e1x0IwlAWXa7v4n99f1dmrpACGEsmfcX
+DpB52fku4G3gCuBHIYRUYaK2f506deKUU07Jtbds2cL+/U39q5ckSVJ7UIwjCfUPxXduYn95dru7
+sZ0hhJ7AU2QKqPNijMuz/Z2Bh8i8FL0UuKc5IceMGdOc049LfQVb6J/ds2dPHn744Vy7tLQ0kX8+
+tdw9Vtvife4YvM8dg/e5+CV5j5szelGMIwnbgToyjxM1pleD4xozmcwjS3fVFwgAMcYDwN9lm19p
+fsziceaZZ3LCCSfk2s5yJEmS1L4VXZGQ/TL/HplVlhszBNgcY/ywif2nZ7dvN3LtD4AtwKDm5iwm
+nTp14uyzz861165dy7Zt2xJMJEmSpOYouiIhaw7QP4QwrGFnCGEAMAx49TDnfpDdDjt0R3ZK1BOB
+jQXKWTRGjhyZ1160aFFCSSRJktRcxVokPJDd/iSEUAKQfdn4p9n+ew9z7pPAHuD2EMKZ9Z0hhE7A
+z4AUmUXV1MCgQYPo1evgE16LFi0inU4nmEiSJEnHqyiLhBjjC8A04FpgbgjhTjJrG9wMPErmxWQA
+Qgh3hBDuaHDuJjLvHvQFFoQQfhtC+BlQReZdhNnAz1vnn6T9SKVSeaMJH374IevXr08wkSRJko5X
+URYJWTcB3wdOAr4D9M+2b4wxNvwV9w+yn5wY4/1kpjudC/w1mRmNyoH/Bnwmxugcn42orKzMay9c
+uDChJJIkSWqOYpwCFYAYYzXw4+zncMc1uuZBjHEmMLMFohWtE088kdNOOy03gvDWW2/xmc98htLS
+ov1rJkmSVJSKeSRBCWg4mrB3715WrFhxmKMlSZLUFlkkqKDOOeccSkoO/rVyliNJkqT2xyJBBdW1
+a1eGDTs4e+zy5cvZs2dPgokkSZJ0rCwSVHANZzmqq6vjrbfeSjCNJEmSjpVFggpu6NChdOnSJdf2
+kSNJkqT2xSJBBVdaWsq5556ba69bt46tW7cmmEiSJEnHwiJBLaLhI0fgaIIkSVJ7YpGgFjFw4ED6
+9u2bay9atIh0On2YMyRJktRWWCSoRaRSqbzRhI8++og1a9YkmEiSJElHyyJBLebQR44WLlyYUBJJ
+kiQdC4sEtZg+ffowaNCgXHvp0qVUV1cnmEiSJElHwyJBLarhaML+/ftZtmxZgmkkSZJ0NCwS1KLO
+OeccSktLc+358+cnmEaSJElHwyJBLapLly6MGDEi1161ahXbtm1LMJEkSZKOxCJBLW706NF57QUL
+FiSURJIkSUfDIkEt7owzzqBPnz659oIFC6irq0swkSRJkg7HIkEtLpVK5Y0m7Nixg3ffffdjx81Y
+uIGrfv4XzvqnP3HVz//CjIUbWjOmJEmSsiwS1CoqKytJpVK59qEvMM9YuIFvT53Pso07qa1Ls2zj
+Tr49db6FgiRJUgIsEtQqevbsSUVFRa69bNky9uzZk2vfM3Nlo+c11S9JkqSWY5GgVtPwkaO6ujoW
+LVqUa6/YtKvRc1Y20S9JkqSWY5GgVjNs2DC6du2aa8+fP590Og3A0H7dGz2nool+SZIktRyLBLWa
+Tp06UVlZmWtv2rSJDRsy7xzcdllFo+c01S9JkqSWY5GgVnXomgn1LzBPrhzAXTeMZnj/HpSWpBje
+vwd33TCayZUDkogpSZLUoZUmHUAdy8knn8zAgQNZt24dAEuWLOEzn/kMZWVlTK4cYFEgSZLUBjiS
+oFbXcDRh//79LF26NME0kiRJOpRFglrdOeecQ1lZWa596JoJkiRJSpZFglpdeXk555xzTq793nvv
+sXXr1gQTSZIkqSGLBCXi0BeY33zzzYSSSJIk6VAWCUrE6aefzkknnZRrz58/n5qamgQTSZIkqZ5F
+ghKRSqU4//zzc+29e/fy9ttvJ5hIkiRJ9SwSlJjKykpKSw/OwvvGG28kmEaSJEn1LBKUmC5dunDu
+uefm2mvWrGHTpk0JJpIkSRJYJChhDR85AkcTJEmS2gKLBCVqwIABnHrqqbn2okWLOHDgQIKJJEmS
+ZJGgRB36AvP+/ftZsmRJgokkSZJkkaDEnXvuuZSXl+faPnIkSZKUrNIjH9I+hRBKgduBW4EhwPvA
+/cCdMcbqw5w3EZh5pOvHGFOFSarOnTszcuRIXn/9dQDef/99NmzYwIABAxJOJkmS1DEVbZEA3A18
+DZgDzAAuBn4EVALXHea81cAPm9h3IXA18JeCpRQAY8aMyRUJkBlNmDx5coKJJEmSOq6iLBJCCOPI
+FAiPAtfHGNMhhBTwO+DmEMKkGOOTjZ0bY1wN3NHINXsBi4EtwBdbJnnHdcopp3D66aezdu1aAJYs
+WcKVV15Jly5dEk4mSZLU8RTrOwnfym5/GGNMA2S33wPSwFeP45r/DJwO/H2McWNBUipPwxeYq6ur
+WbhwYYJpJEmSOq5iLRImAFtijHnT5MQYNwDLgUuP5WIhhHOBW4A5McaHC5ZSeUaMGMEJJ5yQa1dV
+VZFOpxNMJEmS1DEVXZEQQigHBgLvNHHIaqB3COHkY7jsT8j8u/ovzUunwyktLWXUqFG59ubNm1mz
+Zk2CiSRJkjqmYnwnoW92+1ET+7dnt72AzUe6WAhhKDCJzCjCK82Pl1FVVVWoS7Wrn30kDadCBXj2
+2WcZM2ZMQmnar7Z8j1U43ueOwfvcMXifi197u8dFN5IAlGW3+5vYX99/tG/E/h2QAv5Xc0Lp6HTv
+3p2TTz44yLNx40b27t2bYCJJkqSOpxhHEuq/UXZuYn/9r6p3H+lCIYROwJeADUCjsyEdryR+O15f
+wbb138z37NmThx/OvPqRTqfZv38/48ePTzhV+9Be7rGax/vcMXifOwbvc/FL8h43Z/SiGEcStgN1
+ZB4nakyvBscdyTjgJOCx+lmS1PIqKiro27dvrl1VVUV1dZPr30mSJKnAiq5IiDEeAN4js8pyY4YA
+m2OMHx7F5T6b3T5aiGw6OqlUigsvvDDX3rt3L0uWLDnMGZIkSSqkoisSsuYA/UMIwxp2hhAGAMOA
+V4/yOmOBamBeYePpSEaNGkXnzgefGJs3b57ToUqSJLWSYi0SHshufxJCKAHIrrj802z/vUd5nVHA
+0hhjUy9Bq4WUl5fnTYf6wQcfOB2qJElSKynKIiHG+AIwDbgWmBtCuBOYDdxM5tGhp+qPDSHcEUK4
+49BrhBBOBHqTeWlZCWj4yBFkRhMkSZLU8oqySMi6Cfg+mRePvwP0z7ZvPOQl5B9kP4c6Mbs9mhec
+1QJOPPFEKioqcu1ly5axfbu3Q5IkqaUV4xSoAMQYq4EfZz+HOy7VRP9yMusjKEEXXXQRK1euBDLT
+ob7++utcccUVCaeSJEkqbsU8kqAicNZZZ3HiiSfm2m+++abToUqSJLUwiwS1aY1Nh7p48eIEE0mS
+JBU/iwS1eZWVlU6HKkmS1IosEtTmlZeXM3r06Fx706ZNvPfeewkmkiRJKm4WCWoXDp0Ode7cuQkl
+kSRJKn4WCWoX+vbty7BhBxfQXr58OVu2bEkwkSRJUvGySFC78clPfjKv7WiCJElSy7BIULtxxhln
+MGDAgFx74cKF7N69O8FEkiRJxckiQe1GKpXKG02ora3ltddeSzCRJElScbJIULsyYsQIevXqlWu/
+/vrrLq4mSZJUYBYJaldKSkoYO3Zsrr13714WLFiQYCJJkqTiY5Ggdmf06NF06dIl1547dy51dXWN
+Hjtj4Qau+vlfOOuf/sRVP/8LMxZuaK2YkiRJ7ZZFgtqd8vJyxowZk2tv27aNGOPHjpuxcAPfnjqf
+ZRt3UluXZtnGnXx76nwLBUmSpCOwSFC7dNFFF1FScvCv7yuvvPKxY+6ZubLRc5vqlyRJUoZFgtql
+Hj16MHLkyFx73bp1rF27Nu+YFZt2NXruyib6JUmSlGGRoHbr0MXVDh1NGNqve6PnVTTRL0mSpAyL
+BLVb/fr1o6KiItdetmwZW7duzbVvu6yisdOa7JckSVKGRYLatXHjxuW1586dm/vz5MoB3HXDaIb3
+70FpSYrh/Xtw1w2jmVw54NDLSJIkqYHSpANIzTF48GD69+/Pxo0bAViwYAGXXnopPXr0ADKFgkWB
+JEnSsWmVkYQQQucQQr8QwqAQwkkhhLLW+LkqfqlUiosvvjjXrq2tzRtNkCRJ0rFrkZGEEMIFwGeB
+ccC5QP9DDkmHENYBS4FZwLMxxoUtkUXFb8SIEcycOZMPP/wQgDfeeINLLrmEE044IeFkkiRJ7VPB
+ioQQQh/gVuAbwBkNdqUaOTwFnJ79fAb4aQhhKfAr4L4Y4/5C5VLxKykpYfz48cyYMQOA6upq5s2b
+x8SJE5MNJkmS1E41+3GjEEL3EMIdwCrgp8BgMkVA/WcXsBpYAMwB3gBWAPsPOe4c4BfAuyGE20MI
+5c3Npo5j5MiR9OzZM9eeN28e+/dba0qSJB2PZo0khBCuA34OnMrBEYNFwNPAq8CiGOOqw5x/OnA+
+MBG4ChiavdbPgf8SQvi7GOMfm5NRHUOnTp0YN24czzzzDAD79u3jjTfeyHtfQZIkSUfnuIqEEEIv
+4D7gWjLFwUbgfjKPCq0+2uvEGNcCa4Hp2euOAr6S/QwAHgsh/B74+xjjzuPJqo7jvPPO46WXXmL3
+7t1AZjrUCy+8kLIy35OXJEk6Fsf7uNFC4DpgM3A7MDjG+F+PpUBoTIxxQYzxO8BA4B+BLWQKBl9q
+1hGVlZUxduzYXHv37t0sWLAgwUSSJEnt0/EWCf2B/wkMjTHeHWM8UMBMxBh3xRj/D3Am8BMyowrS
+EV1wwQWUlx98neXll1+mtrY2wUSSJEntz/EWCZ+IMX6vpR8BijHujjH+f2SmUZWOqLy8nAsvvDDX
+3r59O4sXL04wkSRJUvtzXEVCjHFFoYMc4eetbM2fp/Zt7Nixee8hzJkzh7q6ugQTSZIktS+tsuKy
+1Jq6du3KmDFjcu2tW7eybNmyBBNJkiS1LxYJKkrjxo2jU6dOufZLL71EOp1OMJEkSVL7YZGgotSj
+Rw9GjRqVa2/cuNHRBEmSpKPUJoqEEMK72c87SWdR8Rg/fjwlJQf/is+ePdvRBEmSpKPQJooEYHCD
+j1QQvXv3zhtN+OCDD3j77bcTTCRJktQ+tJUiQWoREyZMcDRBkiTpGLWVIuFvsp9bkg6i4tKrVy/O
+O++8XHvTpk0sXbo0wUSSJEltX2nSAQBijL8v9DVDCKXA7cCtwBDgfeB+4M4YY/VRnN8F+M/AjcAg
+YD0wA/hhjPGjQudVy7nkkkuYP39+buXlWbNmcfbZZ+eNMEiSJOmgYv6WdDfwM2Ar8AsyX/J/BEw9
+0okhhDLgaeCHwAbgLmAt8B3gmRBC5xbKrBbQs2fPvNGELVu28NZbbyWYSJIkqW0ryiIhhDAO+Brw
+KDAhxvhdYALwAHBtCGHSES7x98BE4H/HGCfGGP9zjHEimcLjImBKS2VXyxg/fnzeugmzZ892FWZJ
+kqQmFGWRAHwru/1hjDENkN1+D0gDXz3C+X8HrAb+6yH9/wz8HthbsKRqFT179vzYKsxLlixJMJEk
+SVLbVdB3EkII32/uNWKMPypAlAnAlhhj3rfAGOOGEMJy4NKmTgwhjADOAO469N2FGONq4CsFyKcE
+jB8/njfffJOamhogM5pw7rnn+m6CJEnSIVKFnA4yhFBH5jf1xy3G2OnIRx02QzmwD5gXYxzbyP5n
+gM8A/WKMmxvZfz0wDfg6sI7MaMJo4CMy7zN8P8a4+3jzVVVVOf9mgt566y1WrVqVa1dWVnL66acn
+mEiSJKlljRkzJnWs57TEr1BTzfgUQt/stqkZiLZnt72a2D8gu70GeCp7nX8DNgL/icyLy2UFyKkE
+VFRU5I0crFixwncTJEmSDlHoKVD/5iiO6QL0Bj5B5jf6JwJzgRuA4/4NfQP1X+D3N7G/vr9LE/u7
+ZbeTgK/FGO8DCCF0IjOS8AXgNjIzJh23hs/Ht5aqqqrEfnZbsmvXLubOnQvAnj17SKVSRfPvxHvc
+MXifOwbvc8fgfS5+Sd7j+p99PApaJBzregchhN7Aw2SKhV/FGK8uQIz6l4qbmqa0PLttqiCp/7Xy
+/PoCASDGWBtC+EcyRcL1NLNIUHIuvvhiqqqqOHDgAJB5N2HkyJF07uzMtpIkSZDw7EbZRcmuJ/Mo
+z5UhhEJMLbqdzBf9ph4n6tXguKbOB3jz0B0xxvfIPH50VnMCKlndunXjk5/8ZK69a9cu5s2bl2Ai
+SZKktiXxaV1ijLvIrISc4ugeVzrS9Q4A75FZZbkxQ4DNMcYPm9i/Irtt6tfKpcCe40+otuCTn/wk
+Xbt2zbVffvll9u51ZltJkiRoA0VCVv3yt5UFut4coH8IYVjDzhDCAGAY8Ophzn0NOABcmn0PoeH5
+w4HuwKIC5VRCysvLmTBhQq69f/9+5syZk2AiSZKktqOtFAl9stueBbreA9ntT0IIJQAhhBTw02z/
+vU2dGGPcTmYK1EHAd+v7szMa/a9s87cFyqkEjRkzht69e+far732Gjt27EgwkSRJUtvQVoqEG7Pb
+jYW4WIzxBTJf9K8F5oYQ7gRmAzcDj5KZ2hSAEMIdIYQ7DrnEPwArgf8eQng+hPDPZEYYrgGmxRhn
+FCKnklVaWsrEiRNz7ZqaGmbNmpVYHkmSpLYi0SIhhHBWCOHfgbFkFmGbWcDL3wR8HzgJ+A7QP9u+
+McbYcEHe/MTOAAAgAElEQVSzH2Q/OTHGTdlMdwHDgb8DTgD+M/DlAmZUwj7xiU/Qr1+/XHvBggVs
+2bIlwUSSJEnJK+gUqCGEd4/h5/YEejToSwP/t1BZYozVwI+zn8Md1+gibjHGrcDfZz8qUiUlJVx+
++eVMnToVgHQ6zZ///Geuv/76hJNJkiQlp9CLqQ0m82X/aBz65fz7Mcb5hY0jHdnQoUMZNGgQa9as
+AeDtt99m/fr1nHbaaQknkyRJSkZLPG6UOooPwD5gDfAIcHmM8SctkEU6olQqxeWXX57X98ILL5BO
+H229K0mSVFwKveJyW3kRWjomgwYNYtiwYSxfvhyA1atXs3LlSoYOHZpwMkmSpNbnl3op6/LLLyeV
+OvgU3HPPPUdtbW2CiSRJkpJhkSBl9evXj1GjRuXaW7Zs4c0330wwkSRJUjIsEqQGPvWpT9G5c+dc
+e9asWezbty/BRJIkSa2vTRQJIYQJ9Z+ks6hj6969O+PHj8+19+zZw0svvZRgIkmSpNbXJooEYBaZ
+hdT+nHAOibFjx9KzZ89ce968eWzbti3BRJIkSa2rrRQJkD89qpSYsrIyrrjiily7traWF154IcFE
+kiRJrastFQlSm3HuuefmLaa2dOnS3GJrkiRJxa5NFAkxxpLsp1PSWSTILLB25ZVX5vU999xzLrAm
+SZI6hDZRJEht0aBBgxgxYkSuvX79ehYvXpxgIkmSpNZhkSAdxhVXXEGnTgcHuF588UWqq6sTTCRJ
+ktTyLBKkw+jTpw8XXXRRrr1jxw5efvnlBBNJkiS1vDZRJIQQSkIIlSGE/510FulQl1xyCV27ds21
+X375ZadElSRJRa20JS4aQrgG+H+A4UBXoBMfn940BZQBXYBuHCxY/rElMknHq0uXLlx++eU88cQT
+ANTU1PDss88yZcqUhJNJkiS1jIIXCSGEfwb+4yHdDQuEdBP9h+6T2ozRo0fzwKy3mL25Cx+lT6D3
+wr3s6F3F164ak3Q0SZKkgivo40YhhAuB/5RtpshfIC19mP408AhwSyHzSIXyxKL3+eOmvmxLdyVN
+im3prvxk1kb++ObapKNJkiQVXKHfSWj4Jf8h4GygHLibTFHwr2RGL04GPgO8wMFiYVGM8fcFziMV
+xD0zVzba/7Onl7RyEkmSpJZX6CJhPJlRgfkxxptiRjUwM7v/6hhjXYxxa4zx+RjjlcD9ZAqFH4QQ
+Bhc4j1QQKzbtarR/7c5aduzY0cppJEmSWlahi4RTs9tHDul/M7s9K4Rw8iH7vgV8QGaE4WsFziMV
+xNB+3Rvt753ay3PPPdfKaSRJklpWoYuEHtntqoadMcbVwN5sc+Qh+/YBD5MZTbi0wHmkgrjtsopG
++0eWvs9bb73FqlWrGt0vSZLUHhW6SKh/7qKxWYrqv0UNb2Rf/YPdjX8TkxI2uXIAd90wmuH9e1Ba
+kuKsE7twadk7nFmaWS/h6aefpra2NuGUkiRJhVHoKVA/APoAgxvZ9w6ZF5lHNLJvf3bbq8B5pIKZ
+XDmAyZUDcu3p03ewaFGmSNi8eTPz5s1j3LhxScWTJEkqmEKPJLxK5rGh6xrZF7P7GvsWNSy7rSlw
+HqnFXHHFFXTu3DnXnjVrFh999FGCiSRJkgqj0EXCjOz2ghDCr0MIvRvsey27HRlC+Gx9Z/ZF5q+T
+eUTJB7vVbvTo0YNPfepTuXZ1dTV/+tOfSKddE1CSJLVvBS0SYoyPc/D9gr8B1oYQLsm2nwI+zP75
+sRDC/SGEu4D5wCnZfqeJUbtywQUXMGDAwUeQVqxYwdKlSxNMJEmS1HyFHkkA+DzwPplHi7oCuwBi
+jHuBf8r2dwZuJjP9af20qduBn7VAHqnFlJSUMGnSJFKpVK7vmWeeYd++fQmmkiRJap6CFwkxxnfJ
+vKD8P8i8rPxug333Av8VqCVTLNR/NgKTY4zrC51HammnnnoqY8eOzbV37drFiy++mGAiSZKk5in0
+7EYAxBh3Av8t+zl0309DCL8HPgucRKaIeCrGuLslskitYeLEiSxdupTt27cD8MYbbzBy5EhOP/30
+hJNJkiQduxYpEo4kxrgB+HUSP1tqCZ07d+azn/0sU6dOzfU9+eSTfO1rX6NTp04JJpMkSTp2x/W4
+UQihrNBB2tLPk47HsGHDGDHi4DIgmzZtYu7cuQkmkiRJOj7H+07CWyGEqwuapAkhhCuBxa3xs6Tm
+uuqqqygvL8+1Z8+ezbZt2xJMJEmSdOyOt0gYDDwZQng6hPCJAubJCSGcH0J4BniaxldwltqcHj16
+cPnll+faNTU1PPHEE66dIEmS2pXjLRLGk1n47DPA/BDCYyGEK5obJoRQGkL4fAjhz8A84EpgGY2v
+0iy1Seeffz4DBw7MtVetWkVVVVWCiSRJko7Ncb24HGN8LYQwCvgp8E0yayN8PoSwBngc+BMwL8a4
+/UjXCiH0BS4lM9vR54G+ZKZFTQP/CvyXGOMxTzofQigFbgduBYaQWbvhfuDOGGP1UZz/EpliqDHf
+jDH+27FmUseQSqW45ppruPfee6mtrQXg+eefp6Kigt69ex/hbEmSpOQd9+xGMcZdwO3Z6Uz/N5kv
++meQ+WJ+O0AIYR2ZFZg3kVksbRdQDvQCBgEhu61XvyLVDOCOGOOC480H3A18DZiTvd7FwI+ASuC6
+ozh/JBCBf29k3xvNyKUOoF+/flx66aX8+c9/BuDAgQM88cQT3HjjjXkLr0mSJLVFzZ4CNcb4BnBZ
+COFy4D+ReQSp/jGmgdnP4dR/Y6oFngB+HGOc35xMIYRxZAqER4HrY4zpEEIK+B1wcwhhUozxycOc
+PxjoCfwmxnhHc7Ko47r44ot5++23ef/99wF49913mT9/Puedd17CySRJkg6vYCsuxxhfjDH+FXAW
+8I/ATGAP+SsrH/rZDTxDprg4Pcb4180tELK+ld3+MMaYzuZLA98j8xjTV49w/sjsdlEBsqiDKikp
+4XOf+xwlJQf/M3vuuefYsWNHgqkkSZKOrOCLqcUY3wP+D/B/QgglwJlkZifqQ+ZRo73AR8BKYE39
+l/gCmwBsiTEuOSTbhhDCcjKPRh2ORYIK4pRTTmHChAnMmjULgP379/PEE0/wpS99yceOJElSm9Wi
+Ky7HGOvIFAMrW/LnNBRCKCfziNO8Jg5ZnTksnBxj3NzEMSPJjDiMDyH8msy7E9vIPL70g6N5IVuq
+N378eJYtW8bGjRsBWLlyJQsXLmTUqFEJJ5MkSWpcqtjmbw8hnApsAJ6NMV7VyP5pwPXA0Bhjo8VL
+CGEZmcJgO5nCYBeZ0YdRZF7EvjjGeFzPjFRVVRXXv3Adle3btzNnzpzcegllZWVceumldOnSJeFk
+kiSp2I0ZM+aYH18o2DsJbUhZdru/if31/Y1+O8s+IvURsAA4J8b41Rjjd4AxwK+Ac4E7CpZWHUKv
+Xr2oqKjItaurq1m0aJGLrEmSpDapRR83Ssje7LZzE/vLs9vdje3MPiI1trH+EMI/ADcBN5B52fq4
+jRkzpjmnH5f6Bb2S+NmCUaNGce+997Jp0yaA3LaQ98N73DF4nzsG73PH4H0ufkne4+Ys5lqMIwnb
+gToyazE0pleD445Jdm2I5UD/EILPieiYdOrUic9//vMfm+1o69atCaaSJEn6uKIrEmKMB4D3yKyy
+3JghwOYY44eN7Qwh9A4hjAshDGvi/BPIFCFHXLVZOtSpp57KxIkTc+3q6mqmT5+eW5lZkiSpLSi6
+IiFrDpnf9ud90Q8hDACGAa8e5tzzgJeBfz50R/al6DOB+TFGv9XpuFx88cUMGnRwofH169fz0ksv
+JZhIkiQpX7EWCQ9ktz/JvohMdsXln2b77z3MuXOAjcBnQwgT6jtDCJ2B/0vmxei7C55YHUZJSQmf
+//zn6dz54Gszf/nLX1i3bl2CqSRJkg4qyiIhxvgCMA24FpgbQrgTmA3cTGZK06fqjw0h3BFCuKPB
+uQeAW8msk/BCCOHBEMIvyMx29NfAvwO/a51/EhWrPn36cPXVV+fa6XSa6dOnc+DAgQRTSZIkZRRl
+kZB1E/B94CTgO0D/bPvGQ1Z5/kH2kxNjfBK4BHgemAR8ncw7CLcDX26hVaLVwVRWVnL22Wfn2h9+
++CHPPfdcgokkSZIyinEKVABijNXAj7Ofwx3X6OISMcZXgb9qgWgSAKlUikmTJrF27Vp27doFZKYq
+GzZsGMOGNfXevCRJUssr5pEEqc3r2rUrn/vc5/L6Hn/8cXbu3JlQIkmSJIsEKXEVFRVccMEFufae
+PXuYPn06dXV1CaaSJEkd2XE9bhRCaKnpP9MxxqJ9BEpqyqc//WlWr17N5s2bAVi1ahVz5sxhwoQJ
+RzhTkiSp8I53JCHVYFvoj9ThlJWVcd1111FaerBGnjVrFu+9916CqSRJUkfVnMeN/EIvFciMhRu4
++eFl/GbXKP64bwTv1vQhnU7zhz/8gT179iQdT5IkdTDH9WhPjNF3GaQCmbFwA9+eOj/X3kZXZlef
+BbzDmTu28fjjjzNlyhRSKetySZLUOvyyLyXsnpkrG+1fVHMqAMuXL2fevHmtGUmSJHVwFglSwlZs
+2tVo/0fpE3J/fv7559mwYUNrRZIkSR2cRYKUsKH9ujfaf3rPg08D1tXV8eijj7Jv377WiiVJkjow
+iwQpYbddVtFo/z989hN5Ky9v27aN6dOnk06nWyuaJEnqoCwSpIRNrhzAXTeMZnj/HpSWpBjevwd3
+3TCayaNO43Of+xw9e/bMHbt8+XLmzJmTYFpJktQRuHCZ1AZMrhzA5MoBH+vv2rUrX/jCF7j//vtz
+KzDPnDmT0047jTPPPLO1Y0qSpA7CkQSpjRs4cCBXXXVVrp1Op3nsscfYvn17gqkkSVIxs0iQ2oHz
+zz+fysrKXHvPnj088sgj1NTUJJhKkiQVK4sEqR1IpVL81V/9Faecckqub8OGDTzzzDMJppIkScXK
+IkFqJ8rKyrj++uspLy/P9VVVVbFw4cIEU0mSpGJkkSC1I3379uU//If/kNf35JNPutCaJEkqKIsE
+qZ0JIXDJJZfk2jU1NUybNo1duxpfuVmSJOlYWSRI7dDEiRM566yzcu0dO3Ywbdo0amtrE0wlSZKK
+hUWC1A6VlJRw3XXXceKJJ+b61q1bx+LFi12RWZIkNZtFgtROdenShSlTpuS9yLxu3TpWrVqVYCpJ
+klQMLBKkduykk07iuuuuI5VK5fqWLl3KypUrE0wlSZLaO4sEqZ2rqKjg05/+dF7fo48+ypYtWxJK
+JEmS2juLBKkIjB07Nm9F5v379/Pv//7v7N27N8FUkiSpvbJIkIpAKpVi0qRJ9O7dO9e3detWHnnk
+EWc8kiRJx8wiQSoSpaWlnH/++XTp0iXXt3r1ambMmOGMR5Ik6ZhYJEhFpEuXLlxwwQV07tw517do
+0SJmz56dYCpJktTeWCRIRaZXr14fm/Fo9uzZLFiwIMFUkiSpPSlNOoCkwhs6dCi9PvEpfvfa+3yU
+PoHeqb2smj6H7/fsyZlnnpl0PEmS1MY5kiAVoRkLN/Av87azLd2VNCm2pbsya/8QfvLgs2zevDnp
+eJIkqY2zSJCK0D0zG19MrWrvSTz00EPs3LmzlRNJkqT2xCJBKkIrNu1qtP+jdBe2b9/OQw89xL59
++1o5lSRJai8sEqQiNLRf90b7e6cyhcEHH3zA1KlTqa6ubs1YkiSpnbBIkIrQbZdVNNp/QfdtuT+v
+WbOGxx57jLq6utaKJUmS2gmLBKkITa4cwF03jGZ4/x6UlqQY3r8Hd90wmh/97WTKy8tzx8UYeeKJ
+J1xsTZIk5XEKVKlITa4cwOTKAR/rnzJlCg8++CC1tbUALFiwgK5du/LpT3+6tSNKkqQ2qmiLhBBC
+KXA7cCswBHgfuB+4M8Z4TA9ihxA6AS8DF8UYU0c6XmrLBg8ezHXXXccjjzySG0F45ZVX6NatG+PG
+jUs4nSRJaguK+XGju4GfAVuBXwDrgR8BU4/jWt8BLipcNClZw4cPZ9KkSXl9zz//PPPnz08okSRJ
+akuKskgIIYwDvgY8CkyIMX4XmAA8AFwbQph0uPMPuVYF8OMWCSol6LzzzuPyyy/P65sxYwaLFy9O
+KJEkSWorirJIAL6V3f4wxpgGyG6/B6SBrx7NRUIIKeDXwAZgeQvklBJ18cUXM3bs2Ly+6dOn8/bb
+byeUSJIktQXFWiRMALbEGJc07Iwx1n/Zv/Qor/P17LG3AnsLmlBqA1KpFFdeeSXnnXderi+dTvPo
+o4+yfLl1sSRJHVXRFQkhhHJgIPBOE4esBnqHEE4+wnVOB/4X8JsY48yChpTakFQqxaRJk6isrMz1
+1dXV8cgjj/Duu+8mmEySJCWlGGc36pvdftTE/u3ZbS9g82Gu8ytgF/APBcqVp6qqqiUu2+Z/tlrH
+8dzj0047jc2bN7NhwwYAamtreeihh7jooos48cQTCx1RBeB/yx2D97lj8D4Xv/Z2j4tuJAEoy273
+N7G/vr9LUxcIIdwMXA3cHmNsqtiQikpJSQmjRo3ilFNOyfXV1dXx2muvsW3btsOcKUmSik0xjiTU
+vzvQuYn99cvN7m5sZwjhFOBfgOkxxscKnC1nzJgxLXXpJtVXsEn8bLWOQtzj0aNHM23aNFauXAlk
+RhRef/11vvzlLzNo0KCC5FTz+N9yx+B97hi8z8UvyXvcnNGLYhxJ2A7UkXmcqDG9GhzXmLuBThyc
+IUnqUEpLS7n++usZMmRIru/AgQM8+OCDrF69OrlgkiSp1RRdkRBjPAC8R2aV5cYMATbHGD9sYv+1
+ZAqJDSGEdP0HqATItlcXNrXUtpSVlTFlyhQGDx6c66uuruahhx5i1apVyQWTJEmtouiKhKw5QP8Q
+wrCGnSGEAcAw4NXDnPvDJj4fNNj/80IHltqazp0786UvfYkzzzwz11dTU8PDDz/MO+80NXmYJEkq
+BsX4TgJkVla+CfhJCOH6GGNddmG0n2b339vUiTHGOxrrDyF8Hjilqf1SMaofUXjkkUdy7yjU1NQw
+depUvvjFLzJ06NCEE0qSpJZQlCMJMcYXgGlkHh2aG0K4E5gN3Aw8CjxVf2wI4Y4Qwh1J5JTag7Ky
+Mr74xS+y5+QR/HHfCH63dwyP7Q785MFniTEmHU+SJLWAoiwSsm4Cvg+cBHwH6J9t3xhjTDc47gfZ
+j6Qm/OmtTUxb05Vt6a6kSbEt3ZWZ+4fw04eeY9GiRUnHkyRJBVasjxsRY6wGfpz9HO641FFeb1Qh
+cknt0T0zVzbav7C6P9OnT2ffvn1ceOGFrZxKkiS1lGIeSZBUICs27Wq0/6N0Zk3Cp59+mtmzZ5NO
+pxs9TpIktS8WCZKOaGi/7o32907ty/151qxZPPvssxYKkiQVAYsESUd022UVjfZ/cWSfvPa8efN4
+/PHHqaura41YkiSphRTtOwmSCmdy5QAg827Cyk27qOjXndsuq2By5QBefbU7zz77bO7YhQsXsm/f
+Pq699lrKysqSiixJkprBIkHSUZlcOSBXLDQ0duxYTjjhBB5//PHco0YxRh544AGmTJlCt27dWjuq
+JElqJh83ktRslZWVfPGLX6RTp065vnXr1vHb3/6WDz/8MMFkkiTpeFgkSCqIEAI33XQTXbp0yfV9
++OGH/OY3v2HdunUJJpMkScfKIkFSwZxxxhnccsst9OrVK9e3Z88efv/737s6syRJ7YhFgqSCOvnk
+k/nbv/1bTj311FxfTU0N06ZN4/XXX08wmSRJOloWCZIKrkePHnzlK1+houLg1KnpdJo//elPPP30
+006RKklSG2eRIKlFdO7cmSlTpjB69Oi8/tdee42HH36Yffv2NXGmJElKmkWCpBbTqVMnrrnmGi67
+7LK8/nfeeYdf//rXznwkSVIbZZEgqUWlUikmTJjAF77wBUpLDy7NsnXrVu677z5WrVqVYDpJktQY
+iwRJrWLEiBH8zd/8DT169Mj17du3jwcffJA33ngjwWSSJOlQFgmSWs2AAQO49dZbGTDg4MrNdXV1
+PPXUUzz55JPU1NQkmE6SJNWzSJDUqupnPjrnnHPy+quqqvj973/Pjh07EkomSZLqWSRIanVlZWVc
+e+21TJw4Ma9/3bp13Hvvvbz33nvJBJMkSYBFgqSEpFIptvceyqwu4/jd3jH8cd8I3q3pw+7du3ng
+gQeYN28e6XQ66ZiSJHVIFgmSEjFj4Qa+PXU+q7YdIE2KbemuzK4+i3dr+lBXV8czzzzD9OnTOXDg
+QNJRJUnqcCwSJCXinpkrG+1fVHNq7s+LFy/m17/+NZs2bWqtWJIkCYsESQlZsWlXo/076Eoqlcq1
+N2/ezH333ceCBQtaK5okSR2eRYKkRAzt173x/lN6cNNNN9GtW7dcX01NDY8//jh//OMfffxIkqRW
+YJEgKRG3XVbRZP+QIUP4+te/zuDBg/P2LVy4kPvuu8/HjyRJamEWCZISMblyAHfdMJrh/XtQWpJi
+eP8e3HXDaCZXZhZa69EjM6Jw6aWX5p23ZcsW7rvvPqqqqpz9SJKkFlKadABJHdfkygG5oqAxJSUl
+TJw4kUGDBvGHP/yB3bt3A5nHj5588klWrFjB5MmT6dq1a2tFliSpQ3AkQVKbd+aZZ/KNb3yDIUOG
+5PXHGPnlL3/JO++8k1AySZKKk0WCpHahe/fu3HjjjXzqU5+ipOTg/3Tt2rWLBx98kGeeeYaampoE
+E0qSVDwsEiS1GyUlJVxyySXccsst9O3bN2/fvHnzuO+++/jggw8SSidJUvGwSJDU7px22ml8/etf
+Z/To0Xn9mzZt4t577+Uvf/kLdXV1CaWTJKn9s0iQ1C517tyZyZMnc/3113PCCSfk+uvq6pg5cya/
++c1vnCpVkqTjZJEgqV07++yz+cY3vsFZZ52V179hwwbuvfde5syZ46iCJEnHyCJBUrvXs2dPvvzl
+LzNp0iQ6d+6c66+treXFF1/kt7/9LZs3b04woSRJ7YtFgqSikEqlGDNmDN/85jc/NlXq+vXr+dWv
+fsXs2bOpra1NKKEkSe2HRYKkotK7d29uuukmPvvZz1JWVpbrr62tZdasWfzqV79i7dq1CSaUJKnt
+s0iQVHRSqRQXXHAB3/zmNxk8eHDevs2bN/Pb3/6Wp556iv379ycTUJKkNs4iQVLR6tOnDzfffDPX
+XHMNXbp0ydv3xhtvcPfdd7Ns2TLS6XRCCSVJaptKkw7QUkIIpcDtwK3AEOB94H7gzhhj9VGcfw7w
+Y+CTQA9gAfCzGOMfWiy0pIJLpVKcd955DBs2jKeffpqlS5fm9u3cuZNp06YxdOhQrrrqqo8t0CZJ
+UkdVzCMJdwM/A7YCvwDWAz8Cph7pxBBCJfAacBXwNHAfcBrwWAjhH1sqsKSW0717d77whS8wZcoU
+evbsmbdvxYoV3HPPPcyaNYvq6iP+DkGSpKJXlEVCCGEc8DXgUWBCjPG7wATgAeDaEMKkI1zil0AZ
+cEmM8ZYY438EPgGsBH4UQjix5dJLakkhBG677TYuvPBCUqlUrr+2tpbZs2fzy1/+kuXLlyeYUJKk
+5BVlkQB8K7v9YYwxDZDdfg9IA19t6sQQQk+gG/BkjLGqvj/GuAt4AugCjG6h3JJaQXl5OVdffTW3
+3norAwcOzNu3bds2pk6dytSpU9m6dWtCCSVJSlaxvpMwAdgSY1zSsDPGuCGEsBy4tKkTY4w7gMom
+dg/Pbj8oSEpJiTr11FO55ZZbWLBgAS+88AJ79uzJ7Vu+fDkrV67koosuYsKECR978VmSpGJWdEVC
+CKEcGAjMa+KQ1ZnDwskxxiMuwRpC6ETmxedvA1eTGWFYXKC4khKWSqUYPXo0w4cP58UXX6SqKjeA
+SF1dHXPnzmXhwoVcdtllnHfeeZSUFOsArCRJB6WKbeq/EMKpwAbg2RjjVY3snwZcDwyNMa48iuu9
+BIzPNl8GPhNj3H28+aqqqorrX7hUZD766CPeeusttm3b9rF9PXr04JxzzuGkk04qyM+as2Yvjy3b
+zbodNQzsWcq1w7sxftAJBbm2JEn1xowZkzryUfmK8Vdi9UusNrVKUn3/0T47MAv4Z2AucDHw5xCC
+8yRKRap3796MGzeO0aNHf+wRo507d/Lqq68yb948duzY0ayfM2fNXv5l3nbWbK+hLg1rttfwL/O2
+M2fN3mZdV5KkQii6x42A+v+H7dzE/vL/v707DY/rqvM8/i25tFqWbFmybNlOvMg6XuItNomz2E4C
+CUlYQoAnkO6EgRkIQwIkLA1005CQDNCEmXQcQgboJjT08wxNA90z2ROSGNuJTUyUYMeOfSxvihfJ
+lmxrsfal5sW9Va4rVckqVZVUVfp9nuc+t+65i07pqEr3f8/mrodVG2Ct/VbwtTHmQeBvcOZPuCvq
+ScOwatWqeE4fkWAzirH42TI6VMaJdcMNN7B161ZeffVVz9CoDQ0NNDQ0sHz5cq666iomT54c87W/
+uWVzxPRna/u5++ahy0/lPD6onMcHlXPmG8syDm9CG6tMrEloBvqB4ij7i8OOi9XfA+3ATSM4V0TS
+THZ2NuvXr+fzn/88y5YtG7R/x44dPProo7zwwgt0dMRWA1Bz8mzE9P1R0kVEREZTxgUJ1tpuoBan
+s3Ekc4EGa+3pSDuNMSXGmA8YYwbdEbjXrgMS0yBZRNJCUVERN998M3fccQfz5s3z7Ovr62Pbtm1s
+2LCBzZs309UVraWj14JphRHTK6Oki4iIjKaMCxJcrwDTjTFV4YnGmAqgCvjTEOcuAp4A7h24wxhT
+DFwIHEhcVkUkXcyYMYPbb7+d2267jenTp3v2dXV1sXHjRjZs2DCoeVIkd15dGVO6iIjIaMrUIOFX
+7vp7xpgsAGOMD/i+m/6zIc79E/AOcJMxJjiqEcYYP/BjnH4cjyc8xyKSEE/sOM71D29m/t89w/UP
+b+aJHccT/jPmz5/PHXfcwc033zyoP0JHRwcvvvgiGzZs4LXXXqO3tzfiNT64vIJHbl3JwumT8Gf5
+WEwy1BYAACAASURBVDh9Eo/cupIPLq9IeH5FRERilYkdl7HWvugOdfoxYJsxZiNwObAW+B3wdPBY
+Y8x97jnBdZ8x5r+5x7xkjPl3oBG4Fljipm8YtTcjIsP2xI7jfPHXb4a299a3hrYTffPt8/lYtmwZ
+ixcvprq6mi1bttDWdm48hLa2Np577jm2bt3KFVdcwcUXX4zf7/3K/eDyCgUFIiKSkjK1JgHgduDb
+OP0H7gGmu9u3WWvD5yq4lwFNi6y1L+IEFS8AHwA+BwSALwM3WWsjPxoUkTH12MbIU59ES08Ev9/P
+pZdeyt133821115LQUGBZ39LSwvPPvssGzZsYNu2bXR3dyctLyIiIomSkTUJANbaHpyhSh84z3ER
+J5ew1lbjBAgikibGcsSg7OxsLr/8clatWsX27dvZunUrnZ2dof1nz57lhRde4JVXXmHNmjVccskl
+5ObmDnFFERGRsZPJNQkiMs6kwohBubm5rF27lrvvvpv169cPmpCtvb2dl19+mYcffpiXX36Zs2c1
+5KmIiKQeBQkikjFSacSgvLw8rrrqKu655x6uueaaQc2QOjs72bJlCw8//DBPPvkkp06dGvU8ioiI
+RJOxzY1EZPwJdgJ+bON+9p88S+W0Qu68unJMOwcHaxYuvfRSqqur2bp1q6f2oK+vjzfeeIM33niD
+RYsWcfnllzNr1qwxy6+IiAgoSBCRDJOqIwbl5ORw2WWXsXr1at588022bdtGU1OT55g9e/awZ88e
+Zs+ezZo1a1i4cCFZWarwFRGR0acgQURkFGVnZ3PJJZewevVq3n77bbZu3UpdXZ3nmCNHjnDkyBGK
+i4u55JJLWLlyJfn5+WOUYxERGY8UJIiIjIGsrCwuuugilixZwuHDh3n11Vc5cMA7mXtzczN/+MMf
++OMf/8jy5cu59NJLKS0tHaMci4jIeKIgQUTkPJ7YcZzHNu6n5uRZFiS4n4PP52Pu3LnMnTuX+vp6
+XnvtNd566y36+vpCx/T09PD666/z+uuvM3fuXEpKSigvL0/IzxcREYlEQYKIyBBGcxbn6dOnc9NN
+N/Hud7+b6upq/vznP3tmcQY4dOgQhw4dIjc3l7a2NlatWsWkSZMSmg8REREFCSIiQxhqFudkdZAu
+LCxk/fr1XHHFFezevZvXXnttUL+Frq4uNm3axObNm1m4cCEXX3wx8+bNU0dnERFJCAUJIiJDGMtZ
+nP1+P8uXL2fZsmUcPXqU119/nd27d3uaIgUCgdCoSMXFxaxYsYKVK1dSXFyc9PyJiEjmUpAgIjKE
+BdMK2VvfOih9NGdx9vl8zJ49m9mzZ3Pdddfx1FNPUVtbS0dHh+e45uZmNm3axKZNm6isrGTlypVU
+VVXh9+urXkREYqP/HCIiQ7jz6kpPn4Tw9LEwceJEKisrmT9/PkVFRVRXV1NTU0MgEPAct3//fvbv
+309eXh4XXXQRK1asoKKiAp/PNyb5FhGR9KIgQURkCKk4izM4tQtVVVVUVVXR0tLCX/7yF958881B
+E7R1dnaGRkYqLS0NNV8qKioao5yLiEg6UJAgInIeqTqLc1BRURHr1q1j7dq1HDp0iDfeeIO9e/d6
++i4ANDY28tJLL/HSSy8xZ84cli5dyqJFizRRm4iIDKIgQUQkQzy5s47HNh6l5mQB80uv5MY5Eyg8
+bTl27NigYw8fPszhw4d5+umnWbBgAUuXLqWqqors7OwxyLmIiKQaBQkiIhlg4HwO+062se8kPHLr
+jdx0UzY7duxg586dtLZ6O2H39/djrcVaS05ODlVVVSxevJjKykoFDCIi45iCBBGRDDDkfA73rOM9
+73kP11xzDYcPH+att95iz549dHV1eY7t7u5m165d7Nq1SwGDiMg4pyBBRCQDDGc+h6ysLObNm8e8
+efN43/veR01NDW+99Rb79u0b1H9hYMBQWVnJwoULWbBgAXl5eUl9LyIiMvYUJIiIZIBY53Pw+/0s
+WrSIRYsW0dnZyd69e9m9ezcHDx6kv7/fc2x3dzdvv/02b7/9dijQWLhwIcYYCgtHNl/EEzuO89jG
+/dScPMuCFBkxSkREzlGQICKSAeKZzyEvL48VK1awYsUKOjo62Lt3L2+//XbEgKG/vz80B8NTTz3F
+rFmzWLBgAcYYpk2bNqx5GAb2n9hb3xraVqAgIpIaFCSIiGSARM3nkJ+fz8qVK1m5cmUoYNi7dy8H
+DhwY1CQJ4OjRoxw9epSNGzdSXFwcChjmzJkTdabnIftPKEgQEUkJChJERDJEoudzCA8Yuru72b9/
+P3v37mXfvn2DOj0DNDc3hyZu8/v9zJ07l8rKSiorKykpKQkdN5z+EyIiMrYUJIiIyHnl5OSwePFi
+Fi9eTF9fH4cOHcJay759+2hpaRl0fG9vLzU1NdTU1ABQUlJCZWUl8+fPp7JsIvbE4IAgWv8JEREZ
+fQoSREQkJhMmTAjVENx4442cPHmSffv2sW/fPo4ePRrxnNOnT7N9+3a2b9/OjP6pWOYOOmY4/SdG
+mzpYi8h4pSBBRERGzOfzUV5eTnl5OWvXrqWtrY2amhoOHDjAgQMH6OjoGHTO3KxTBLL72dk7g6ZA
+HiVZXVx3gY/yziOcODFh2B2gk00drEVkPFOQICIiQ4rlafrEiRNDIyX19/dz/PjxUNBw7Nix0HHz
+/GeY5z9z7sQT8NxzuwAoKChgzpw5oaW0tHRMgoZkdrBWDYWIpDoFCSIiElU8T9OzsrKYNWsWs2bN
+4uqrr6a9vZ1Dhw5x8OBBDh48SFNTU8Tz2tvbQ/MygBM0XHjhhVxwwQVceOGFlJeXk5WVlaB3GF2y
+OlirhkJE0oGCBBERiSqRT9MLCgpYsmQJS5YsIRAIcObMmVDAcPjw4YhNk8AJGvbs2cOePXsAyM3N
+Zfbs2aFl5syZ5OTkxPbGhiHWCeqGS0PAikg6UJAgIiJRJetpus/no6SkhJKSElavXk0gEODEiRMc
+PnyYQ4cOUVtbG3GYVYCurq7QhG7Ba02fPj0UNMyaNYvi4uK4myjFM0HdUDQErIikAwUJIiISVbKe
+pg8UvNGfPn06a9asob+/n/r6empra3nnnXeora2NWtMQCASoq6ujrq6O7du3A07fiFmzZjFz5kxm
+zZpFRUUFubm5MeUpURPUDTRav1MRkXgoSBARkaiS9TT9fLKysqioqKCiooLLLruMQCBAY2MjtbW1
+1NbWcuTIEZqbm6Oe39bWhrUWa20oraysLHTNiooKpk+fHnVW6KBET1AHY/c7FRGJhYIEERGJKllP
+02Pl8/koKyujrKyM1atXA9DS0sKRI0dCy6tHOtnRM52mQD6TfR0s89d5RlBqaGigoaGBHTt2AE4g
+Mm3aNGbMmBFaysvLyc7OTup7SZXfqYjIUBQkiIjIkJLxND0RioqKQh2hn9hxnD8eOPd0/kyggE09
+84ED3qFWwwSbNNXX1/Pmm865Pp+P0tLSUMAQbAJVUFCQ0Lyn6u9URCRIQYKIiKS9aCMG1U1Zxtev
+n8axY8c4fvw4dXV1UTtEg9O/IVjjEG7SpEmhSeOCy9SpU5kwYUJC34eISKpQkCAiImkv2ohBBxvb
+Wbx4MYsXLwacIODUqVMcP348tNTX19PT0zPk9VtbW2ltbQ2NqAROc6XS0lKmTZsWWsrKypg8efKo
+zOMgIpJMChJERCTtDXfEoGBzotLSUpYtWwY4zY5Onz5NXV0d9fX1oZGSOjs7h/yZ/f39nDx5kpMn
+T3rS/X4/paWloT4UZWVllJaWMmXKlKTWPGgWZxFJpIwNEowxfuALwGeAuUAd8AvgH6y1Qz8ycs5f
+BXwLWAtMAo4AvwUesNa2JSvfIiISu3hGDArWCJSWlrJ06VLAqXFoaWnhxIkT1NfXh9anT58+7/V6
+e3tDfR0G/pySkhJKS0uZOnVq6GdOnTqV/Pz8Yb7TyDSLs4gkWsYGCcCPgTuAV4AngCuA+4HlwEeH
+OtEYczXwnLv5e+A4sA74OnCNMWadtXboR0wiIjJqEj1ikM/no7i4mOLiYqqqqkLp3d3dNDQ0cPLk
+SU6cOEFDQwMnTpygre38z476+/tpbGyksbFx0L78/HymTp3K1KlTKSkpYerUqTQ3Nw+7w3SyZnFW
+7YTI+JWRQYIx5nKcAOF3wC3W2oAxxgf8C/AJY8z7rbVPDXGJx4As4Apr7Xb3mj7gpzg1E3cCDyXx
+LYiISIxGY8SgnJwcZs6cycyZMz3pbW1toQ7P4ctwggeAjo4Ojh49ytGjRwft27JlS2h26ilTpniW
+wsJCfD5fUmZxVu2EyPiWkUECcJe7/o61NgDgBgp/C9wOfBqIGCQYYxYDC4HfBwOEsPPvxwkSbkBB
+goiIuCZOnMjEiROZM2eOJ729vT1UexC+NDU1EQgEhnXt9vZ22tvbIwYQfr+fyZMnU5Yzm/rOwf0d
+4pnFOVm1E+lANSgimRskrAMarbW7whOttceNMfuA9UOc24LTrGhXhH3BcfNG/q0rIiLjRkFBARdc
+cAEXXHCBJ723t5fTp09z6tSp0BLcHm7tQ/A6jY2NmL4+6pk/aP/M5l089tiuUNOpgcukSZOidqZO
+Ru1EOlANiojDN9wnGenCGJMLdAKvWWvXRNj/HPBeYJq1tmHg/vNc+w6cJkc/t9Z+eiT5q66uzqxf
+uIiIJFRPTw/t7e20tbXR1tbmeT3UHA8He6ews3cGTYE8Jvs6B804HU1ubi75+fnk5eWF1nl5efxg
+p59jZwf/y7qw2M9D15XG9R4T6ZV3Ovj93jaOtvQyq8jPRxZO5MoLRt4R/EsvNPJOc++g9FR73yKx
+WLVqlS/WczKxJqHEXTdF2d/srouBYQcJxphynI7PAD8bWdZERESGlp2dHXrSP1BfX1+o+VFwaWtr
+o6OjgwXtLcMKCgbq6uqKGHxU9k7hWITaiVX5jVh7KhRM5ObmhpbRnh/ilXc6+MfXmkPb7zT3hrZH
+GigcbRkcIAyVLpKpMjFIyHbX0R63BNPzhntBY0wx8DRQDjwS3ldhpFatWhXvJWJWXV09Zj9bRofK
+eHxQOY8PsZZzIBCgo6ODpqYmmpqaOHPmDM3NzZ7lfHM/hHMCjgODaieKm89Q0xz5nIKCAgoLC5k0
+aRKFhYWhvhqFhYWh7cLCQvLz8xMSUHxzy+aI6c/W9nP3zSP7fFRt2Rxxzo0F5ZOS8pnT5znzjWUZ
+B3/2SGRikNDhrnOi7M9118Nq9GmMKcMZDvVinM7OX4krdyIiIkng8/koKCigoKCAiorIbee7urpo
+amqipaWF5uZmWlpaPK+bm5vp6+sLHT/Pfyam2olg7cbACeYiKSgoCAUNEydODOU9+Dp8nZeXFzGo
+SEa/iXjm3BDJJJkYJDQD/TjNiSIpDjtuSMaY+cDzwHycuRZusdaqvlFERNJSbm4u5eXllJeXR9wf
+rI1obW0NBRAtLS20trZy9uxZWltbaW1tjalzdTTBgKKhYXgtf/Pz80OBREFBAfn5+UwvyOZYhHhg
+XmkBvb29+P2x3+Ykes6N8U4jRaWvjAsSrLXdxphanFmWI5kLNFhrh5w20xizAidAmAb8Evi0AgQR
+Eclk4bUR0QIJcPpGBIOG8HVwCQYSZ8+epb+/PyF56+jooKOjg1OnToXSovWbmHFmJ9/97ib8fj/5
++fmhZWDn7EjbeXl5XL+olA8sm4HPF3NfTwmjkaLSW8YFCa5XgNuNMVXW2n3BRGNMBVAFPDnUycaY
+SuAFoAxnPoSvBudbEBERGe8mTJgQtXN1uEAgQGdnJ2fPng0FDcGRmiIt3d3dMeUjWr+JYBOp3t7e
+UO1HrLKyssjNzQ11zo7UUXvg9sAlJycn6hCz48F4nmsjE2RqkPArnEnTvmeMucVa2+/OmPx9d3/U
+0YmMMVnAr3EChA3WWvVBEBERGQGfzxd6il9WVnbe43t7e0MjNoWv29vb6ejoGDSyU0dHB/OIrd/E
+cPX394dqL+Lh9/vJyckJBQ0D101NTfj9fjo6OkJpwSU7OzvidrrUcIzXuTYyRUYGCdbaF40xvwE+
+BmwzxmwELgfWAr/DGakIAGPMfe4597lJHwJW44yCdDa4f4B6a+1PkpV/ERGRTHS+9ul+v5+ioiKK
+ioqGdb1AIEBPT08ogAiuOzs7Qzf44UswvbOzk56enmS9TY/e3l56e3vZ1ZLLzt6pNAXymezrYJn/
+uCe4qampGfY1/X5/KGAIXweXnJycUHASnh6+BK8x8PXzexr52Su17G9oi7sPwYJphRFHiopnJnAZ
+PRkZJLhuB3YDnwTuAd4Bvg08OKDp0L3u+j53vc5d5wLfjHLtHYCCBBERkWFKRvt0n88Xesp+vqZP
+A/X19XmChmhLcB6JgdtDTWw30MHeKWzqOdd34kygwN0+MKJakGDgEW8tx0AD8xkso2eeeYYlhR2h
+YMLv93uW7OxsJkyYMCj92pn97K0f/HM+ungStbW1+P3+0HmR1llZWWlTa5KJMjZIsNb2AA+4y1DH
++QZs34MTVIiIiEiCpFr79AkTJoTmcRiJQCBAd3e3J2jo7OwclNbV1cXzf+qGCBUXu/pnUuVvpbd3
+ZOOinJtlO1g7MbxZtqPZ2TsjYvprLcXM6D42omuuzx48E/ixba/zL9uGd34wYAguA7fPt2RlZZ03
+Pfz1ltp2/n1XM7VN3cyZkstfX1zGdaYkdEz4euDr8O1MCG4yNkgQERGR1JFp7dN9Pl+og/L5fO6P
+zwCDxz9pDuRz/fXXEwgEWL58OV1dXXR3d4eWnp4ez3Z42rZjPWyy564VrJ0oKmpgfnYTPT09oWW4
+mgKRZ6luCgx7/tlBYp1rY6BgrcloGFiTcvB0Fw+8eJTNmzbF/B58Pl8ocAgEAmRnZ9PT08OaNWsS
+ne2kUZAgIiIiSTee26ef7737fL5Qn4DheujhzcDga9Zkz+NH96wLbQcCgdCNdnjgEL4E9730TD3v
+tPQNuuaMAh9LFi+hr68vdHz4Nfv6+jxp4RPypZNoNSk7e2fEHCQEAgH6+vpCv4ve3l6ef/55li5d
+OuLaq9GmIEFERESSbjzPZDzke++tG9E1h1szEx6A5OdHrikI+qrveMR8fuOmi2NqEhYMTCIFD0O9
+Dl9HS4t3GUoyalLCFRQUxBQIjjUFCSIiIpJ043km46Hee3X1yIKEZNTMJKqMRlIzMlr6+/vp6+sL
+rcNfb3n8L+xvHNwZfG5JPrd+6FbPsf39/YNeR9ru7++nrq6OCRMmcO2115KTkzMG73pkFCSIiIjI
+qPjg8opxERREkuj3nqyamUwvo2A/gUi+eO3CiL/Te967mKqqkf9OqqurAYacxTwVKUgQERERSTPj
+uWYmWfQ79VKQICIiIpKGMv2p/1jQ7/ScyPUtIiIiIiIybilIEBERERERDwUJIiIiIiLioSBBRERE
+REQ8FCSIiIiIiIiHggQREREREfFQkCAiIiIiIh4KEkRERERExENBgoiIiIiIeChIEBERERERDwUJ
+IiIiIiLioSBBREREREQ8FCSIiIiIiIiHggQREREREfHwBQKBsc7DuFJdXa1fuIiIiIiMmlWrVvli
+PUc1CSIiIiIi4qGaBBERERER8VBNgoiIiIiIeChIEBERERERDwUJIiIiIiLioSBBREREREQ8FCSI
+iIiIiIiHggQREREREfFQkCAiIiIiIh4KEkRERERExENBgoiIiIiIeChIEBERERERDwUJIiIiIiLi
+oSBBREREREQ8/GOdAYmfMcYPfAH4DDAXqAN+AfyDtbZnGOeXAPcD7wemAXuAB621v0lapiUmCSjj
+VcC3gLXAJOAI8FvgAWttW7LyLbGJt5wHXGsC8CpwqbXWl+i8ysgl4POcB3wNuA24ADgGPAF8x1rb
+lKx8S2wSUM7LgAeAdUA+sA941Fr7s6RlWkbMGFOBc/90r7X24WGek9L3X6pJyAw/Bh4CTgEbcP5h
+3A/8+nwnGmMmAn8APgf8CXgUmAz8mzHm88nKsMQsnjK+GtgK3AA8DzziXufrwEb3hkNSw4jLOYJ7
+gEsTlzVJoHg+z9nAs8B3gOM4n+cjOOX9nDEmJ0l5ltjFU87Lcb6334dT3v8bKAR+aoz5QbIyLCNj
+jCkE/gMoiuGclL//UpCQ5owxlwN3AL8D1llrv4Hz1OFXwEeMMe8/zyXuBi4Gvmit/bi19mvACmA3
+8ANjzLTk5V6GIwFl/BjOZ32ttfavrLVfxbl5/CfgXcCdScu8DFsCyjn8WpU4TyAlxSToO/sq4IfW
+2qustV+z1l6Fc0N6KfDxZOVdhi8B5fw/gInAR93v7S8By3BqE75qjJmbvNxLLIwxFwKbiP2hTMrf
+fylISH93uevvWGsDAO76b4EA8OnznH8ncAL4STDBWtsKfBcoAP4q0RmWmI24jI0xi4GFwP+z1m4P
+prvn3+9u3pCMTEvM4v0sA2CM8QH/jPOUeV8S8inxibecPw8cBr45IP1/Ar8EOhKWU4lHvOX8LuCM
+tfb/BhOstWdxaiGygEsSnmOJmTHmHuAtYDnwcoynp/z9l4KE9LcOaLTW7gpPtNYGbxDWRzvRGDMf
+mAlssdb2Ddi90V1HPV9GzYjLGGjBaVb0eIR9Xe66MBGZlLjFU87hPuse+xl0w5iK4vnOXgxcCDwx
+sE27tfawtfaT1trfJiHPErt4P8+ngCJjzJQB6TPddUNCcinxugeoxSnvfx3uSely/6UgIY0ZY3KB
+WcCBKIccBiYbY8qi7J/vrgedb62tBzqBqjizKXGIt4yttUettQ9aa5+JsPtmd7077oxKXBLwWQ5e
+ZzbwIPBza+3GoY6V0ZeAcr7IXe82xtxojHnVGNNujDlujPlfbhtnGWMJ+jz/BJgA/B9jTKUxZpIx
+5r8CnwTewGneImPvs8AKa+3WGM9Li/svBQnprcRdRxvNotldF0fZP/U857cMca6MjnjLOCJjTDnn
+mhtppIyxl6hy/ilwFvhqIjIlCRdvOVe46w8AT7vX+QlQD3wZp+NydgLyKfGJ+/Nsrf0RTnOUdwM1
+OP+Pf47zlPnaCE+fZQxYa58fYVmkxf2XgoT0Fvxn0BVlfzA92ug1wzlfI9+MrXjLeBBjTDHODUY5
+8Eh4XwUZM3GXszHmEzj9S76gYTBTVrzlHKwpeD9wh7X2fdbaL+O0X/8tcCUaiCAVJOLzvAan/0I3
+TmfnR3CGx3wPcL/b90jSV1rcfylISG/B9sbRhrzLddfRxsEfzvkaQ39sxVvGHm719svAKuAp4Ctx
+5U4SJa5ydmuG/hH4T2vt7xOcN0mceD/P/e76TWvtPwUT3SeZf+Nu3hJXDiUR4v08F+E8yJkEXGyt
+/S/W2rtxRr75PU6n6M8lLrsyBtLi/ktBQnprxvmnEa1KqjjsuEjODDhuoKIhzpXREW8Zh7gdpbbh
+DLn2BM7Qer2JyKTELd5y/jFO++W7ouyX1BBvOQfT3xi4w1pbi9N0Yf7AfTLq4i3nD+I0WXrEWhsa
+ocxa240zuhU4fRMkfaXF/ZeChDTmfmHU4szkGMlcoMFaezrK/n1hx3kYY2bgVHXZePMpI5eAMgbA
+GLMCZ2Ke+TjDJH7EWhutmlNGWQLK+SM4/2yOG2MCwQVnWD7c7cOJzbXEKgHlXOOuoz199APtI8+h
+JEICynm2u94T4dongEacmbYlfaXF/ZeChPT3CjDdGOPpBe9OD16FM4tfRNbad4B3gCuNMQP/Fq5y
+19sSl1UZoRGXsXtcJfACzpTvDwGfUg1CSoqnnL8TZTkRtv/hRGdYRiSect6O00Z9vTFmwoDzF+IM
+Z7wzsdmVEYqnnIOf20Gj27hDok7F6awuaSpd7r8UJKS/X7nr7wX/0NwOTd930883cs2/4gzVFpoC
+3BgzCWeing5iGPdXkmbEZewe/2ugDNhgrf1KcGIfSTkjLmdr7X2RFtwbCXdbQUJqiKecm4Hf4DxF
+/kYw3R3R6EF3M9KcKDL64vnf/BROjdAXjDHzgoluYPgQ4MP5Xpf0lvL3X75AQPcL6c4Y82/Ax3Ce
+Mm0ELgfW4kwHf0vwptAYcx84Nwxh5xYBrwMLgP/AGbP3I8A8nFFSHh2t9yHRjbSMjTEfxuno1oUz
+I2ukGoR6a+1PIqTLKIvnsxzlen8BlltrNRJKConzO3sa8CpQCbwI7MAZJnMF8Btr7cdH633I0OIs
+50/hzJze5h7fBFyD04RwE/BeNRlNLcaYTwK/AL408KFMut5/qSYhM9wOfBsoxZn9b7q7fduAp8b3
+ukuItbYF50vrcXd9F86X0a2p8AcqISMt43XuOhfn6cS9EZb/ntScSyxG/FmWtBLPd/ZJYA3OkJgL
+cZ5C5gNfA/466TmXWMRTzr/AGe50G/BhnP/NucC3UICQjtLy/ks1CSIiIiIi4qGaBBERERER8VCQ
+ICIiIiIiHgoSRERERETEQ0GCiIiIiIh4KEgQEREREREPBQkiIiIiIuKhIEFERERERDwUJIiIiIiI
+iIeCBBERERER8VCQICIiIiIiHgoSRERERETEQ0GCiIiIiIh4KEgQEREREREPBQkiIiIiIuKhIEFE
+RERERDwUJIiIiIiIiIeCBBERERER8fCPdQZEREQAjDElwFtAhZv0fWvt30U59lPA4+7mMWC5tfZU
+8nMpIjI++AKBwFjnQUREBABjzPXAs+5mL7DKWrtzwDFzgR3AJCAAvMda+/KoZlREJMOpuZGIiKQM
+a+1zwE/dTT/wz8aYCcH9xpgs4Fc4AQLADxUgiIgknoIEERFJNV8BDriv3wXcHbbva8CV7uvXgb8f
+xXyJiIwbam4kIiIpxxhzBbAZ52FWG7AImAL8Gchx0y621u4bs0yKiGQw1SSIiEjKsda+CvzQ3ZwI
+/Aj4JU6AAPBFBQgiIsmjmgQREUlJxpgcnJqDZQN2/dZae8sYZElEZNxQTYKIiKQka203cDvQHZZ8
+BPjs2ORIRGT8UJAgIiKp7DDQGLbdD/SNTVZERMYPBQkiIpLKHuHc5GoAFwIbxigvIiLjhvokKVeX
+vAAAAZ5JREFUiIhISjLGfAj4T3dzD+ADFrrbN1lrnxiTjImIjAMKEkREJOUYY8qAXcA0nCZGV+JM
+rrYJJ1g4AVxkrW2MehERERkxNTcSEZFU9FOcAAHgR9babdbaLZybjbk87LWIiCSYggQREUkpxphP
+ADe7m4eAb4bt/jpwzH39YWPM7aOZNxGR8ULNjUREJGUYY2YDbwHFbtK11toXBxzzASDYH6EJWGqt
+PTp6uRQRyXyqSRARkZRgjPEBv+BcgPD4wAABwFr7JPAbd3My8Lh7roiIJIiCBBERSRV3Ae92X9cB
+Xxni2C8Cp9zX17rniohIgqi5kYiIiIiIeKgmQUREREREPBQkiIiIiIiIh4IEERERERHxUJAgIiIi
+IiIeChJERERERMRDQYKIiIiIiHgoSBAREREREQ8FCSIiIiIi4qEgQUREREREPBQkiIiIiIiIh4IE
+ERERERHxUJAgIiIiIiIeChJERERERMRDQYKIiIiIiHgoSBAREREREQ8FCSIiIiIi4qEgQURERERE
+PBQkiIiIiIiIh4IEERERERHx+P/iSbXz+hjgjgAAAABJRU5ErkJggg==
+"
+width=388
+height=266
+>
 </div>
+
 </div>
 
 </div>
@@ -15401,76 +16029,7 @@ That rug really tied the room together.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Note the syntax.  In the braces, we specify the name of the kwarg, and then we put a colon followed by the string conversion. Note also that I used double quotes on the outside of the string containing Avogadro's number so that I could include an apostrophe in the string.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="f-strings">f-strings<a class="anchor-link" href="#f-strings">&#182;</a></h2><p>New to Python 3.6 are <strong>f-strings</strong>. These are strings that are prefixed with an <code>f</code> or <code>F</code> that allow convenient insertion of entries into strings. Here are some examples.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_states</span> <span class="o">=</span> <span class="mi">50</span>
-<span class="n">file_number</span> <span class="o">=</span> <span class="mi">23</span>
-<span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14</span>
-<span class="n">e</span> <span class="o">=</span> <span class="mf">2.7182818284590451</span>
-<span class="n">N_A</span> <span class="o">=</span> <span class="mf">6.022e23</span>
-<span class="n">eps_0</span><span class="o">=</span><span class="mf">8.854187817e-12</span>
-<span class="n">thing</span> <span class="o">=</span> <span class="s1">&#39;rug&#39;</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;There are </span><span class="si">{n_states}</span><span class="s1"> states.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Your file number is </span><span class="si">{file_number}</span><span class="s1">.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;π is approximately </span><span class="si">{pi}</span><span class="s1">.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;e is approximately </span><span class="si">{e:.8f}</span><span class="s1">.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Avogadro&#39;s number is approximately </span><span class="si">{N_A}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;ε_0 is approximately </span><span class="si">{eps_0}</span><span class="s1"> F/m.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;That </span><span class="si">{thing}</span><span class="s1"> really tied the room together.&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>There are 50 states.
-Your file number is 23.
-π is approximately 3.14.
-e is approximately 2.71828183.
-Avogadro&#39;s number is approximately 6.022e+23.
-ε_0 is approximately 8.854187817e-12 F/m.
-That rug really tied the room together.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="There-are-many-more-string-methods">There are many more string methods<a class="anchor-link" href="#There-are-many-more-string-methods">&#182;</a></h2><p>You can find a complete list of string methods from <a href="https://docs.python.org/3/library/stdtypes.html#string-methods">the Python doc pages</a>.  Various methods will come in handy when parsing strings going forward.</p>
+<p>So, we have determined the length scale of the Bcd gradient: about 20% of the total embryo length.</p>
 
 </div>
 </div>
