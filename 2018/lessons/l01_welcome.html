@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>l00_configuring_your_computer</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l01_welcome</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14985,10 +14985,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-0:-Configuring-your-computer">Lesson 0: Configuring your computer<a class="anchor-link" href="#Lesson-0:-Configuring-your-computer">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-1:-Welcome-and-Introduction-to-JupyterLab">Lesson 1: Welcome and Introduction to JupyterLab<a class="anchor-link" href="#Lesson-1:-Welcome-and-Introduction-to-JupyterLab">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l00_configuring_your_computer.ipynb">here</a>.</em></p>
+<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l01_welcome.ipynb">here</a>.</em></p>
 <p><br /> <br /></p>
 
 </div>
@@ -14998,13 +14998,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this lesson, you will set up a Python computing environment for scientific computing. There are two main ways people set up Python for scientific computing.</p>
-<ol>
-<li>By downloading and installing package by package with tools like <a href="https://help.ubuntu.com/community/AptGet/Howto">apt-get</a>, <a href="https://docs.python.org/3/installing/">pip</a>, etc.</li>
-<li>By downloading and installing a Python distribution that contains binaries of many of the scientific packages needed. The major distributions of these are <a href="https://store.continuum.io/cshop/anaconda/">Anaconda</a> and <a href="https://www.enthought.com/products/canopy/">Enthought Canopy</a>. Both contain IDEs.</li>
-</ol>
-<p>In this class, we will use Anaconda, with its associated package manager, <code>conda</code>. It has recently become the de facto package manager/distribution for scientific use.</p>
-<p>Before we get rolling with the Anaconda distribution, we have some considerations and installations to get out of the way first.</p>
+<h2 id="Greetings!">Greetings!<a class="anchor-link" href="#Greetings!">&#182;</a></h2><p>Welcome to the Introduction to Programming for the Biological Sciences Bootcamp!  We will be using Python as the programming language, and we will use this first lesson to make sure your Python distribution is working properly.  We will also make sure you have a way to use the command line on your machine.</p>
+<p>Prior to starting the bootcamp, you should have completed <a href="l00_configuring_your_computer.html">Lesson 0: Configuring your computer</a>.</p>
 
 </div>
 </div>
@@ -15013,77 +15008,15 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="macOS-users:-Install-XCode">macOS users: Install XCode<a class="anchor-link" href="#macOS-users:-Install-XCode">&#182;</a></h2><p>If you are using macOS, you should <a href="https://developer.apple.com/xcode/">install XCode</a>, if you haven't already. It's a large piece of software, taking up about 5GB on your hard drive, so make sure you have enough space. Please install this ahead of the bootcamp, since if students install this during the bootcamp, it will overwhelm the wireless.</p>
+<h2 id="The-Python-interpreter">The Python interpreter<a class="anchor-link" href="#The-Python-interpreter">&#182;</a></h2><p>Before diving into the Python interpreter, I pause here to remind you that this programming bootcamp is not meant to teach Python syntax (though you will lean that). The things you learn here are meant to help you understand, and ultimately do, computer programming more generally. Think of it this way: this bootcamp is meant to help you unleash the power of your computer on your biological problems. Python is just the language of instruction. That said, let's start talking about how Python works and how it relates to IPython, which we will use extensively in the course.</p>
+<p>Python is an <strong>interpreted language</strong>, which means that each line of code you write is translated, or <em>interpreted</em>, into a set of instructions that your machine can understand by the <strong>Python interpreter</strong>. This stands in contrast to <strong>compiled languages</strong>.  For these languages (the dominant ones being Fortran, C, and C++), your entire code is translated into machine language before you ever run it. When you execute your program, it is already in machine language.</p>
+<p>So, whenever you want your Python code to run, you give it to the Python interpreter.</p>
+<p>There are many ways to launch the Python interpreter. One way is to type</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Windows-users:-Install-Git-and-Chrome-or-Firefox">Windows users: Install Git and Chrome or Firefox<a class="anchor-link" href="#Windows-users:-Install-Git-and-Chrome-or-Firefox">&#182;</a></h2><p>We will be using <a href="http://jupyterlab.readthedocs.io/en/stable/index.html">JupyterLab</a> in the bootcamp. It is browser-based, and Chrome, Firefox, and Safari are supported. Internet Explorer is <strong>not</strong>. Therefore, if you are a Windows user, you need to be sure you have either Chrome of Firefox installed.</p>
-<p>Git is installed on Macs with XCode. For Windows users, you need to install Git. You can do this by following the instructions <a href="https://gitforwindows.org">here</a>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Python-2-vs-Python-3">Python 2 vs Python 3<a class="anchor-link" href="#Python-2-vs-Python-3">&#182;</a></h2><p>We are at an interesting point in Python's history.  Python is currently in version 3.6 (as of June 1, 2017). The problem is that Python 3.x is not backwards compatible with Python 2.x. Many scientific packages were written in Python 2.x and have been very slow to update to Python 3. However, Python 3 is Python's present and future, so all packages eventually need to work in Python 3. Today, most important scientific packages work in Python 3 (and some now <em>only</em> in Python 3). All of the packages we will use do, so we will use Python 3 in this course.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Downloading-and-installing-Anaconda">Downloading and installing Anaconda<a class="anchor-link" href="#Downloading-and-installing-Anaconda">&#182;</a></h2><p>Downloading and installing Anaconda is simple.</p>
-<ol>
-<li>Go to the <a href="https://anaconda.com/">Anaconda homepage</a> and download the graphical installer.  </li>
-<li>Be sure to download Anaconda for Python 3.6.</li>
-<li>Follow the on-screen instructions for installation. (You may be prompted to install Microsoft Visual Studio Code, which is a good editor, and you may install it if you like, but we will not be using it in the bootcamp.)</li>
-</ol>
-<p>That's it!  After you do that, you will have a functioning Python distribution.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Launching-JupyterLab-and-a-terminal">Launching JupyterLab and a terminal<a class="anchor-link" href="#Launching-JupyterLab-and-a-terminal">&#182;</a></h2><p>After installing the Anaconda distribution, you should be able to launch the <strong>Anaconda Navigator</strong>. If you're using macOS, this is available in your <code>Applications</code> menu. If you are using Windows, you can do this from the Start menu. Launch Anaconda Navigator.</p>
-<p>We will be using JupyterLab throughout the bootcamp (more on that in <a href="l01_welcome.html">Lesson 1</a>). You should see an option to launch JupyterLab. When you do that, a new browser window or tab will open with JupyterLab running. Within the JupyterLab window, you will have the option to launch a notebook, a console, a terminal, or a text editor. We will use all of these during the bootcamp. For the updating and installation of necessary packages, click on <code>Terminal</code> to launch a terminal. You will get a terminal window (probably black) with a bash prompt. We refer to this text interface in the terminal as the <strong>command line</strong>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-conda-package-manager">The conda package manager<a class="anchor-link" href="#The-conda-package-manager">&#182;</a></h2><p>conda is a package manager for keeping all of your packages up-to-date.  It has plenty of functionality beyond our basic usage in class, which you can learn more about by reading the <a href="http://conda.pydata.org/docs/get-started.html">docs</a>.  We will primarily be using conda to install and update packages.</p>
-<p>conda works from the command line.  Now that you know how to get a command line prompt, you can start using conda.  The first thing we'll do is update conda itself.  To do this, enter the following on the command line:</p>
-
-<pre><code>conda update conda
+<pre><code>python
 
 </code></pre>
-<p>If conda is out of date and needs to be updated, you will be prompted to perform the update.  Just type <code>y</code>, and the update will proceed.</p>
-<p>Now that conda is updated, we'll use it to see what packages are installed.  Type the following on the command line:</p>
-
-<pre><code>conda list
-
-</code></pre>
-<p>This gives a list of all packages and their versions that are installed.  Now, we'll update all packages, so type the following on the command line:</p>
-
-<pre><code>conda update --all
-
-</code></pre>
-<p>If anything is out of date, you will be prompted to perform the updates. (If everything is up to date, you will just see a list of all the installed packages.)  They may even be some downgrades.  This happens when there are package conflicts where one package requires an earlier version of another.  conda is very smart and figures all of this out for you, so you can almost always say "yes" (or "<code>y</code>") to conda when it prompts you.</p>
+<p>on the command line of a terminal. This launches the vanilla Python interpreter. We will never really use this in the bootcamp. Rather, we will have a <em>greatly</em> enhanced Python experience, either using <strong>IPython</strong>, a feature-rich, enhanced interactive Python available through JupyterLab's console, or using a <strong>notebook</strong>, also launchable in JupyterLab.</p>
 
 </div>
 </div>
@@ -15092,134 +15025,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Optional-installations">Optional installations<a class="anchor-link" href="#Optional-installations">&#182;</a></h2><p>We will be using <a href="https://altair-viz.github.io/">Altair</a> for most of our plotting. By default, Altair only exports graphics as PNG and HTML (which is really all you need, at least for sharing plots and for the <strong>paper of the future</strong>, which is not a PDF and is interactive). However, many of use are still publishing the paper of the present, which is typically a PDF, and we want <strong>vector graphics</strong> for our plots. To enable Altair to publish vector graphics, you will need to install the <a href="https://www.google.com/chrome">Google Chrome</a> web browser and <a href="http://chromedriver.chromium.org">ChromeDriver</a>. To install Chrome, simply <a href="https://www.google.com/chrome">download it</a> and follow the on-screen instructions. You do not need to make it your default browser if you do not want to. To install ChromeDriver, download the <a href="http://chromedriver.chromium.org/downloads">most recent ZIPped binary</a> (choose the zip file that matches your operating system). Unzip it, and save the binary to a directory in your <code>PATH</code>. (If you don't know what <code>PATH</code> means, it's ok; we'll cover is in <a href="l02_basic_command_line_skills.html">Lesson 2</a>.) If you're using macOS or Linux, you can do the following on the command line, assuming you saved the unzipped file in the <code>Downloads/</code> folder in your home directory.</p>
-
-<pre><code>mkdir -p /usr/local/bin
-mv ~/Downloads/chromedriver /usr/local/bin/
-
-</code></pre>
-<p>Again, this installation is not necessary for the bootcamp, but will allow you to export SVGs from Altair.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Necessary-installations">Necessary installations<a class="anchor-link" href="#Necessary-installations">&#182;</a></h2><p>There are several additional installations you need to do for the bootcamp. First, you need to tell conda in what <strong>channels</strong> to look for packages. A channel is a URL specifying directories containing conda packages. Not all of the packages are in the default channel of conda, so we will instruct conda to look in the <code>conda-forge</code> and <code>bioconda</code> channels as well as the <code>defaults</code> channel. To do this, execute the following on the command line.</p>
-
-<pre><code>conda config --add channels conda-forge
-conda config --add channels bioconda
-conda config --add channels defaults
-
-</code></pre>
-<p>Next, we will install the plotting packages <a href="https://altair-viz.github.io/">Altair</a> and <a href="http://holoviews.org">Holoviews</a>,  and <a href="https://www.seleniumhq.org">Selenium</a> and <a href="https://nodejs.org/">node.js</a>, which are utilities we won't use directly but may be useful under the hood. To do this, execute the following on the command line.</p>
-
-<pre><code>conda install altair holoviews selenium nodejs
-
-</code></pre>
-<p>Finally, we need to configure JupyterLab to work with some of the packages we will use in bootcamp.</p>
-
-<pre><code>jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager
-jupyter labextension install --no-build jupyterlab_bokeh
-jupyter labextension install --no-build @pyviz/jupyterlab_holoviews
-
-</code></pre>
-<p>You may also wish to install a spell-checker (this one isn't necessary). I suspect this spell-checker will either be improved or replaced in the future, but it is all that is currently available (as of June 7, 2018).</p>
-
-<pre><code>jupyter labextension install --no-build @ijmbarr/jupyterlab_spellchecker
-
-</code></pre>
-<p>After installing all of these extensions, you can rebuild JupyterLab.</p>
-
-<pre><code>jupyter lab build
-
-</code></pre>
-<p>You should close your JupyterLab session and relaunch it after you have completed the build. As before, after JupyterLab launched, launch a new terminal window so that you can proceed with setting up Git.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Setting-up-Git">Setting up Git<a class="anchor-link" href="#Setting-up-Git">&#182;</a></h2><p>Git features heavily in the bootcamp. We use it for <strong>version control</strong> and also for sharing files, data, and code we will use in the bootcamp.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Set-up-a-GitHub-account">Set up a GitHub account<a class="anchor-link" href="#Set-up-a-GitHub-account">&#182;</a></h4><p>Go to <a href="http://github.com/">http://github.com/</a> to get an account. You should register with your Caltech address so you get free private repositories as academics. You should also think carefully about picking your user name. There is a good chance other people in your professional life will see this.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Forking-the-bootcamp-repository">Forking the bootcamp repository<a class="anchor-link" href="#Forking-the-bootcamp-repository">&#182;</a></h4><p>Let's say you want to do some work on a project with code stored in a <strong>repository</strong>, but you are not an active collaborator. For example, there could be a useful package a lab at another university put on GitHub for a certain kind of image segmentation that is useful for your research. You want to do something <em>almost</em> exactly like the package does, but need to make some small modifications yourself. You want to clone the repository and add a couple functions and maybe modify one or two they already have, leaving much of the rest of the repository untouched. Of course, you also want to update your local copy of all that untouched (but still used) code when the maintainers update it.</p>
-<p>This is kind of exactly what you want to do here in the bootcamp. We have a repository that has data sets and a couple tutorials, but you want to write your Python code right in that repository. If I update the data sets, you want to be able to pull in my changes, but still have your code in place.</p>
-<p>There is a nice way to do this called <strong>forking</strong>. To fork a repository on GitHub, simply navigate got the website of the repository and click the Fork button. Be sure you are logged in as yourself when you do this. <a href="https://github.com/justinbois/bootcamp/">Here</a> is the GitHub page for the bootcamp.</p>
-<p><img src="bootcamp_github_page.png" alt="bootcamp_github_page.png"></p>
-<p>The fork button is in the upper right. Just click the button, and you now have a <strong>fork</strong> of the bootcamp repository on your GitHub account.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Cloning-your-fork-to-your-local-machine">Cloning your fork to your local machine<a class="anchor-link" href="#Cloning-your-fork-to-your-local-machine">&#182;</a></h4><p>Now you can clone your fork of the repository to your local machine. We will keep all of your material under version control in a directory called <code>git</code> in your home directory. Do the following on the command line.</p>
-
-<pre><code>mkdir -p ~/git
-
-</code></pre>
-<p>Now, being sure you are in the <code>~/git</code> directory, you can clone <em>your forked copy of the repository</em> (not the original <code>bootcamp</code> repository). To do this, navigate your browser to the forked copy of the <code>bootcamp</code> repository on your account (this is where clicking the "Fork" button took you in your browser).</p>
-<p>Click the green <code>Clone or download</code> button and copy the URL of the forked repository. Now, you can clone it by doing the following on the command line, making the obvious substitution for <code>the_url_you_just_copied</code>.</p>
-
-<pre><code>cd ~/git
-git clone the_url_you_just_copied
-
-</code></pre>
-<p>You now have a local copy of your own fork of the bootcamp repository. You can add files and edit it. When you commit and push, it will all be on your account, and the master repository will not see the changes.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Syncing-your-forked-repository-to-the-upstream-repository">Syncing your forked repository to the upstream repository<a class="anchor-link" href="#Syncing-your-forked-repository-to-the-upstream-repository">&#182;</a></h4><p>As I mentioned before, you want to be able to sync your repository with the original <code>bootcamp</code> repository so you can retrieve any updates in it. The original repository is typically called the <strong>upstream repository</strong>, since presumably you are changing it, so you are downstream. You want the upstream repository to be a <strong>remote</strong> repository, which is just what we call a repository we track and fetch and merge from. To see which repositories are remote, do the following on the command line.</p>
-
-<pre><code>cd bootcamp
-git remote -v
-
-</code></pre>
-<p>The <code>-v</code> just means "verbose," so it will also tell you the URLs. Entering that now will show a single repository, <code>origin</code>, which you can fetch from and push to. In your case, <code>origin</code> your fork of the bootcamp repository.</p>
-<p>We now want to add the upstream repository. To do this, add the <strong>original</strong> bootcamp repository as the upstream repository.</p>
-
-<pre><code>git remote add upstream https://github.com/justinbois/bootcamp.git
-
-</code></pre>
-<p>Now try doing <code>git remote -v</code>, and you will see that you are now also tracking the upstream repository.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Checking-your-distribution">Checking your distribution<a class="anchor-link" href="#Checking-your-distribution">&#182;</a></h2><p>We'll now run a quick test to make sure things are working properly.  We will make a quick plot that requires some of the scientific libraries we will use in the bootcamp.</p>
-<p>Use the JupyterLab launcher (you can get a new launcher by clicking on the <code>+</code> icon on the left pane of your JupyterLab window) to launch a notebook. In the first cell (the box next to the <code>In [ ]:</code> prompt), paste the code below. To run the code, press <code>Shift+Enter</code> while the cursor is active inside the cell. You should see a plot that looks like the one below. If you do, you have a functioning Python environment for scientific computing!</p>
+<h2 id="Hello,-world.-and-the-print()-function">Hello, world. and the print() function<a class="anchor-link" href="#Hello,-world.-and-the-print()-function">&#182;</a></h2><p>Traditionally, the first program anyone writes when learning a new language is called "<code>Hello, world.</code>"  In this program, the words "<code>Hello, world.</code>" are printed on the screen.  The original <code>Hello, world.</code> was likely written by Brian Kernighan, one of the inventors of Unix, and the author of the classic and authoritative <a href="http://www.amazon.com/The-Programming-Language-Brian-Kernighan/dp/0131103628">book</a> on the C programming language.  In his original, the printed text was "<code>hello, world</code>" (no period or capital <code>H</code>), but people use lots of variants.</p>
+<p>We will first write and run this little program using a JupyterLab console. After launching JupyterLab, you probably already have the Launcher in your JupyterLab window. If you do not, you can expand the <code>Files</code> tab at the left of your JupyterLab window (if it is not already expanded) by clicking on that tab, or alternatively hit <code>ctrl+b</code> (or <code>cmd+b</code> on macOS). At the top of the <code>Files</code> tab is a <code>+</code> sign, which gives you a Jupyter Launcher.</p>
+<p>In the Jupyter Launcher, click the <code>Python 3</code> icon under <code>Console</code>. This will launch a console, which has a large white space above a prompt that says <code>In []:</code>. You can enter Python code in this prompt, and it will be executed.</p>
+<p>To print <code>Hello, world.</code>, enter the code below. To execute the code, hit <code>shift+enter</code>.</p>
 
 </div>
 </div>
@@ -15229,43 +15038,7 @@ git remote -v
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="nn">alt</span>
-
-<span class="c1"># Generate plotting values</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span>
-<span class="n">y</span> <span class="o">=</span> <span class="mi">13</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
-
-<span class="c1"># Build a data frame for plotting</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
-                   <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span>
-                   <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="n">t</span><span class="p">})</span>
-
-<span class="n">df_text</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]})</span>
-
-<span class="c1"># Make a plot</span>
-<span class="n">heart</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">(</span>
-            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
-            <span class="n">x</span><span class="o">=</span><span class="s1">&#39;x:Q&#39;</span><span class="p">,</span>
-            <span class="n">y</span><span class="o">=</span><span class="s1">&#39;y:Q&#39;</span><span class="p">,</span>
-            <span class="n">order</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df_text</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">mark_text</span><span class="p">(</span>
-            <span class="n">text</span><span class="o">=</span><span class="s1">&#39;bootcamp&#39;</span><span class="p">,</span>
-            <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
-            <span class="n">baseline</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span>
-            <span class="n">size</span><span class="o">=</span><span class="mi">30</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
-            <span class="n">x</span><span class="o">=</span><span class="s1">&#39;x:Q&#39;</span><span class="p">,</span>
-            <span class="n">y</span><span class="o">=</span><span class="s1">&#39;y:Q&#39;</span><span class="p">)</span>
-
-<span class="p">(</span><span class="n">heart</span> <span class="o">+</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">interactive</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hello, world.&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15278,14 +15051,275 @@ git remote -v
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[1]:</div>
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Hello, world.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Hooray!  We just printed <code>Hello, world.</code> to the screen.  To do this, we used Python's built-in <code>print()</code> function.  The <code>print()</code> function takes as an <strong>argument</strong> a <strong>string</strong>.  It then prints that string to the screen.  We will learn more about function syntax later, but we can already see the rough syntax with the <code>print()</code> function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id=".py-files">.py files<a class="anchor-link" href="#.py-files">&#182;</a></h2><p>Now let's use our new knowledge of the <code>print()</code> function to have our computer say a bit more than just <code>Hello, world.</code> Type these lines in at the prompt, hitting <code>enter</code> each time you need a new line. After you've typed them all in, hit <code>shift+enter</code> to run them.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The first few lines from The Zen of Python by Tim Peters</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Beautiful is better than ugly.&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Explicit is better than implicit.&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Simple is better than complex.&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Complex is better than complicated.&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>While the console prompt was nice entering all of this,a better option is to store them in a file, and then have the Python interpreter run the lines in the file. This is how you typically store Python code, and the suffix of such files is <code>.py</code>.</p>
+<p>So, let's create a <code>.py</code> file. To do this, use the JupyterLab Launcher to launch a text editor. Once it is launched, you can right click on the tab of the text editor window to change the name. We will call this file <code>zen.py</code>. Within this file, enter the four lines of code  you previously entered in the console prompt. Be sure to save it.</p>
+<p>To run the code in this file, you can invoke the Python interpreter at the command line, followed by the file name. I.e., enter</p>
+
+<pre><code>python zen.py
+
+</code></pre>
+<p>at the command line. Note that when you run code this way, the interpreter exits after completion of running the code, and you do not get a prompt.</p>
+<p>To run the code in this file using the Jupyter console, you can use the <code>%run</code> <strong>magic function</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">run</span> zen.py
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To shur down the console, you can clide on the <code>Running</code> tab at the left of the JupyterLab window and click on <code>SHUTDOWN</code> next to the console.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Jupyter">Jupyter<a class="anchor-link" href="#Jupyter">&#182;</a></h2><p>At this point, we have introduced JupyterLab, its text editor, and the console, as well as the Python interpreter itself. You might be asking....</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="What-is-Jupyter?">What is Jupyter?<a class="anchor-link" href="#What-is-Jupyter?">&#182;</a></h3><p>From the <a href="http://jupyter.org">Project Jupyter website</a>:</p>
+<blockquote><p>Project Jupyter is an open source project was born out of the IPython Project in 2014 as it evolved to support interactive data science and scientific computing across all programming languages.</p>
+</blockquote>
+<p>So, Jupyter is an extension of IPython the pushes interactive computing further. It is language agnostic as its name suggests.  The name "Jupyter" is a combination of <a href="http://julialang.org/">Julia</a> (a new language for scientific computing), <a href="http://python.org/">Python</a> (which you know and love), and <a href="https://www.r-project.org">R</a> (the dominant tool for statistical computation).  However, you can run over 40 different languages in a JupyterLab, not just Julia, Python, and R.</p>
+<p>Central to Jupyter/JupyterLab are <strong>Jupyter notebooks</strong>. In fact, the document you are reading right now was generated from a Jupyter notebook. We will use Jupyter notebooks extensively in the bootcamp, along with <code>.py</code> files and the console.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Why-Jupyter-notebooks?">Why Jupyter notebooks?<a class="anchor-link" href="#Why-Jupyter-notebooks?">&#182;</a></h2><p>When writing code you will reuse, you should develop full tested modules using <code>.py</code> files. You can always import those modules when you are using a Jupyter notebook (more on modules and importing them later in the bootcamp). So, a Jupyter notebook is not good for an application where you are building reusable code or scripts. However, Jupyter notebooks are <strong>very</strong> useful in the following applications.</p>
+<ol>
+<li><em>Exploring data/analysis.</em> Jupyter notebooks are great for trying things out with code, or exploring a data set. This is an important part of the research process. The layout of Jupyter notebooks is great for organizing thoughts as you synthesize them.</li>
+<li><em>Developing image processing pipelines.</em> This is really just a special case of (1), but it worth mentioning separately because Jupyter notebooks are especially useful when figuring out what steps are best for extracting useful data from images, which happens all-too-often in biology. Using the Jupyter notebook, you can write down what you hope to accomplish in each step of processing and then graphically show the results as images as you go through the analysis. We will do this later in the bootcamp.</li>
+<li><em>Sharing your thinking in your analysis.</em> Because you can combine nicely formatted text and executable code, Jupyter notebooks are great for sharing how you go about doing your calculations with collaborators and with readers of your publications. Famously, LIGO used <a href="https://losc.ligo.org/s/events/GW150914/GW150914_tutorial.html">a Jupyter notebook</a> to explain the signal processing involved in their first discovery of a gravitational wave.</li>
+<li><em>Pedagogy.</em> All of the content in this class, including this lesson, was developed using Jupyter notebooks!</li>
+</ol>
+<p>Now that we know what Jupyter notebooks are and what the motivation is for using them, let's start!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Launching-a-Jupyter-notebook">Launching a Jupyter notebook<a class="anchor-link" href="#Launching-a-Jupyter-notebook">&#182;</a></h3><p>To launch a Jupyter notebook, click on the <code>Notebook</code> icon of the JupyterLab launcher. If you want to open an existing notebook, right click on it in the <code>Files</code> tab of the JupyterLab window and open it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Cells">Cells<a class="anchor-link" href="#Cells">&#182;</a></h3><p>A Jupyter notebook consists of <strong>cells</strong>.  The two main types of cells you will use are <strong>code cells</strong> and <strong>markdown cells</strong>, and we will go into their properties in depth momentarily.  First, an overview.</p>
+<p>A code cell contains actual code that you want to run.  You can specify a cell as a code cell using the pulldown menu in the toolbar of your Jupyter notebook.  Otherwise, you can can hit <code>esc</code> and then <code>y</code> (denoted "<code>esc, y</code>") while a cell is selected to specify that it is a code cell.  Note that you will have to hit enter after doing this to start editing it.</p>
+<p>If you want to execute the code in a code cell, hit "<code>shift + enter</code>."  Note that code cells are executed in the order you shift-enter them.  That is to say, the ordering of the cells for which you hit "<code>Shift + Enter</code>" is the order in which the code is executed.  If you did not explicitly execute a cell early in the document, its results are not known to the Python interpreter. <strong>This is a very important point and is often a source of confusion and frustration for students.</strong></p>
+<p>Markdown cells contain text.  The text is written in <strong>markdown</strong>, a lightweight markup language.  You can read about its syntax <a href="http://daringfireball.net/projects/markdown/syntax">here</a>.  Note that you can also insert HTML into markdown cells, and this will be rendered properly.  As you are typing the contents of these cells, the results appear as text.  Hitting "<code>Shift + Enter</code>" renders the text in the formatting you specify.</p>
+<p>You can specify a cell as being a markdown cell in the Jupyter toolbar, or by hitting "<code>esc, m</code>" in the cell.  Again, you have to hit enter after using the quick keys to bring the cell into edit mode.</p>
+<p>In general, when you want to add a new cell, you can click the <code>+</code> icon on the notebook toolbar.  The shortcut to insert a cell below is "<code>esc, b</code>" and to insert a cell above is "<code>esc, a</code>."  Alternatively, you  can execute a cell and automatically add a new one below it by hitting "<code>alt + enter</code>."</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Code-cells">Code cells<a class="anchor-link" href="#Code-cells">&#182;</a></h2><p>Below is an example of a code cell printing <code>hello, world.</code>  Notice that the output of the print statement appears in the same cell, though separate from the code block.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Say hello to the world.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;hello, world.&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>hello, world.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you evaluate a Python expression that returns a value, that value is displayed as output of the code cell.  This only happens, however, for the last line of the code cell.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Would show 9 if this were the last line, but it is not, so shows nothing</span>
+<span class="mi">4</span> <span class="o">+</span> <span class="mi">5</span>
+
+<span class="c1"># I hope we see 11.</span>
+<span class="mi">5</span> <span class="o">+</span> <span class="mi">6</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[5]:</div>
 
 
 
 
-<div class="output_png output_subarea output_execute_result">
-<img src="data:image/png;base64,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JcZO9l/ry88RCs9spkB55jMXShgcVBOgy0PXhr4LdTINMyu5hSZOOUhoJ+2l3RQ37VhKktUwc4atXxPT+20ek2CkGj82h7XzPYvfwnwfbzm0WZ6QTIEyKS4NnQztDe0PPQ7KE5hYZAAMJW8nL2EmJvud3Zw+DF0F6mIX2yJmUdtk33pMgMwDHNMLoBdA/wmlLOyYlNbbbOtMRsJVfhfJswh3xjYW8054ZcOrSCfpMyO3Pusp7aOdtNclSE7ZsC4QuPVYVRJuW8bmQ5lU4wcTjrtqT/sYih++HewjbJdd/JU2z75Tbn2ZXYNYxb7EfuPkBMyMdQuRTf3xwP7Ek8zYxI83MbeN7wfbIOS24ZjlGODFkxPa7+5q8cTRHyNun5aZtsNT9wAPOyWVsAiFV5quozKhhiDpJMJAMNYMc0nf75Ah2FzOhrQfbAN2TEpsnZK3Kt0gcn7FdEXmbGbypzwFjSnRl4zGh7s9xnFLmQJl0o9N/AQTc9v4foTcNi7e00bydv2nHfNjoZSRUPanlhUGOF9dsB7rrSekUMQNHCZwikuOzodYAlzaD/rSDnV+xJZofNuvgh+xyXow2LGPOSDwzoTzg2PZBb2Y2qMdxg71DI61bdJ+hNo2jJmuz7gp+fNOmFvm1MVczEp8AjzDoMYg7mwoBlu7spGdM9YOyaAcY2B27UHu5B+70I9Yxm21rNU21ZJq/H5FGBONp6ISRUAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAEREAERKDoBPiuWr7fdaQ5yvcH8zV2fM2gRAREQAREQAREAAT4XlS+z5IJktNY3hkMUyUiIAIiIAIikD0B/wXQ/MshiQiIQJUEYn05dZXuaTcREAEjwD+sdfKum9FUBERABERABESggwC/o+QtV3cLlt9bSkRABERABERABEDA/R8f/+SYD/AwYVJj/sswmC8RAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQAREQARHoCYH/B2PF5eMbO1oFAAAAAElFTkSuQmCC"
->
+<div class="output_text output_subarea output_execute_result">
+<pre>11</pre>
 </div>
 
 </div>
@@ -15293,6 +15327,81 @@ git remote -v
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note, however, if the last line does not return a value, such as if we assigned value to a variable, there is no visible output from the code cell.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Variable assignment, so no visible output.</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">6</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># However, now if we ask for a, its value will be displayed</span>
+<span class="n">a</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[7]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>11</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Display-of-graphics">Display of graphics<a class="anchor-link" href="#Display-of-graphics">&#182;</a></h3><p>When we learn about plotting with <a href="https://altair-viz.github.io">Altair</a> and <a href="https://bokeh.pydata.org/">Bokeh</a> later in the bootcamp, you will learn about displaying graphics in Jupyter notebooks.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Onwards!">Onwards!<a class="anchor-link" href="#Onwards!">&#182;</a></h2><p>You now have been introduced to our main tools for the bootcamp. Next up, we will learn about how to navigate the command line of your computer.</p>
+
+</div>
+</div>
 </div>
     </div>
   </div>
