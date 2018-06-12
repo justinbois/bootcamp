@@ -1,8 +1,8 @@
 """
-Convert DNA sequences to RNA.
+Utilities for parsing nucleic acid sequences.
 """
 
-def rna(seq):
+def dna_to_rna(seq):
     """
     Convert a DNA sequence to RNA.
     """
