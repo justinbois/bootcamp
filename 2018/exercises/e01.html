@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>l01_welcome</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>e01</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14985,10 +14985,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-1:-Welcome-and-Introduction-to-JupyterLab">Lesson 1: Welcome and Introduction to JupyterLab<a class="anchor-link" href="#Lesson-1:-Welcome-and-Introduction-to-JupyterLab">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-9:-Review-of-exercise-1">Lesson 9: Review of exercise 1<a class="anchor-link" href="#Lesson-9:-Review-of-exercise-1">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l01_welcome.ipynb">here</a>.</em></p>
+<p><em>This exercise was generated from an Jupyter notebook.  You can download the notebook <a href="e01.ipynb">here</a>.</em></p>
 <p><br /> <br /></p>
 
 </div>
@@ -14998,25 +14998,21 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Greetings!">Greetings!<a class="anchor-link" href="#Greetings!">&#182;</a></h2><p>Welcome to the Introduction to Programming for the Biological Sciences Bootcamp!  We will be using Python as the programming language, and we will use this first lesson to make sure your Python distribution is working properly.  We will also make sure you have a way to use the command line on your machine.</p>
-<p>Prior to starting the bootcamp, you should have completed <a href="l00_configuring_your_computer.html">Lesson 0: Configuring your computer</a>.</p>
+<h2 id="Exercise-1.1:-Command-line-exercises">Exercise 1.1: Command line exercises<a class="anchor-link" href="#Exercise-1.1:-Command-line-exercises">&#182;</a></h2><p>In this problem, you will play around with the command line on your machine and get more familiar with it.</p>
+<p><strong>a)</strong> Let's play around with some options for the <code>ls</code> command. First <code>cd</code> into a directory that has some interesting files in it (like <code>~git/bootcamp/command_line_tutorial</code>). Try the following if you are using <code>bash</code>.</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-Python-interpreter">The Python interpreter<a class="anchor-link" href="#The-Python-interpreter">&#182;</a></h2><p>Before diving into the Python interpreter, I pause here to remind you that this programming bootcamp is not meant to teach Python syntax (though you will lean that). The things you learn here are meant to help you understand, and ultimately do, computer programming more generally. Think of it this way: this bootcamp is meant to help you unleash the power of your computer on your biological problems. Python is just the language of instruction. That said, let's start talking about how Python works and how it relates to IPython, which we will use extensively in the course.</p>
-<p>Python is an <strong>interpreted language</strong>, which means that each line of code you write is translated, or <em>interpreted</em>, into a set of instructions that your machine can understand by the <strong>Python interpreter</strong>. This stands in contrast to <strong>compiled languages</strong>.  For these languages (the dominant ones being Fortran, C, and C++), your entire code is translated into machine language before you ever run it. When you execute your program, it is already in machine language.</p>
-<p>So, whenever you want your Python code to run, you give it to the Python interpreter.</p>
-<p>There are many ways to launch the Python interpreter. One way is to type</p>
-
-<pre><code>python
+<pre><code>ls -F
+ls -G    # Might not be as cool with Git Bash on Windows
+ls -l
+ls -lh
+ls -lS
+ls -FGLh
 
 </code></pre>
-<p>on the command line of a terminal. This launches the vanilla Python interpreter. We will never really use this in the bootcamp. Rather, we will have a <em>greatly</em> enhanced Python experience, either using <strong>IPython</strong>, a feature-rich, enhanced interactive Python available through JupyterLab's console, or using a <strong>notebook</strong>, also launchable in JupyterLab.</p>
+<p>You should be able to infer what these different options do, but you should talk with the TAs as well.</p>
+<p>Normally, files that begin with a dot (<code>.</code>) are omitted when listing things.  They are also generally omitted when you use your OS's GUI-based file handling system (like Finder on Macs).  To see them, use <code>ls -a</code>.  So, <code>cd</code> into your home directory (you remember how to do that, right?), and then do</p>
+
+<pre><code>ls -a</code></pre>
 
 </div>
 </div>
@@ -15025,50 +15021,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Hello,-world.-and-the-print()-function">Hello, world. and the print() function<a class="anchor-link" href="#Hello,-world.-and-the-print()-function">&#182;</a></h2><p>Traditionally, the first program anyone writes when learning a new language is called "<code>Hello, world.</code>"  In this program, the words "<code>Hello, world.</code>" are printed on the screen.  The original <code>Hello, world.</code> was likely written by Brian Kernighan, one of the inventors of Unix, and the author of the classic and authoritative <a href="http://www.amazon.com/The-Programming-Language-Brian-Kernighan/dp/0131103628">book</a> on the C programming language.  In his original, the printed text was "<code>hello, world</code>" (no period or capital <code>H</code>), but people use lots of variants.</p>
-<p>We will first write and run this little program using a JupyterLab console. After launching JupyterLab, you probably already have the Launcher in your JupyterLab window. If you do not, you can expand the <code>Files</code> tab at the left of your JupyterLab window (if it is not already expanded) by clicking on that tab, or alternatively hit <code>ctrl+b</code> (or <code>cmd+b</code> on macOS). At the top of the <code>Files</code> tab is a <code>+</code> sign, which gives you a Jupyter Launcher.</p>
-<p>In the Jupyter Launcher, click the <code>Python 3</code> icon under <code>Console</code>. This will launch a console, which has a large white space above a prompt that says <code>In []:</code>. You can enter Python code in this prompt, and it will be executed.</p>
-<p>To print <code>Hello, world.</code>, enter the code below. To execute the code, hit <code>shift+enter</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hello, world.&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Hello, world.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Hooray!  We just printed <code>Hello, world.</code> to the screen.  To do this, we used Python's built-in <code>print()</code> function.  The <code>print()</code> function takes as an <strong>argument</strong> a <strong>string</strong>.  It then prints that string to the screen.  We will learn more about function syntax later, but we can already see the rough syntax with the <code>print()</code> function.</p>
+<p><strong>b)</strong> The nuclear option to delete <em>everything</em> in a directory is <code>rm -rf</code>.  The <code>r</code> means to delete recursively, and the <code>f</code> means to "force" deletion.  I was going to give you an exercise that uses the nuclear option, but I'm not going to do that.  So, just forget I said anything.  For this part of the problem, I want you to discuss with your neighbor <em>when</em> the nuclear option might be used, and what needs to be in place before exercising it.</p>
 
 </div>
 </div>
@@ -15077,106 +15030,52 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id=".py-files">.py files<a class="anchor-link" href="#.py-files">&#182;</a></h2><p>Now let's use our new knowledge of the <code>print()</code> function to have our computer say a bit more than just <code>Hello, world.</code> Type these lines in at the prompt, hitting <code>enter</code> each time you need a new line. After you've typed them all in, hit <code>shift+enter</code> to run them.</p>
+<p><strong>c)</strong> Try doing this if you are using macOS or Linux:</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The first few lines from The Zen of Python by Tim Peters</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Beautiful is better than ugly.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Explicit is better than implicit.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Simple is better than complex.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Complex is better than complicated.&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Beautiful is better than ugly.
-Explicit is better than implicit.
-Simple is better than complex.
-Complex is better than complicated.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that the first line is preceded with a <code>#</code> sign, and the Python interpreter ignored it. The <code>#</code> sign denotes a <strong>comment</strong>, which is ignored by the interpreted, <em>but very very important for the human!</em></p>
-<p>While the console prompt was nice entering all of this, a better option is to store them in a file, and then have the Python interpreter run the lines in the file. This is how you typically store Python code, and the suffix of such files is <code>.py</code>.</p>
-<p>So, let's create a <code>.py</code> file. To do this, use the JupyterLab Launcher to launch a text editor. Once it is launched, you can right click on the tab of the text editor window to change the name. We will call this file <code>zen.py</code>. Within this file, enter the four lines of code  you previously entered in the console prompt. Be sure to save it.</p>
-<p>To run the code in this file, you can invoke the Python interpreter at the command line, followed by the file name. I.e., enter</p>
-
-<pre><code>python zen.py
+<pre><code>ls /
 
 </code></pre>
-<p>at the command line. Note that when you run code this way, the interpreter exits after completion of running the code, and you do not get a prompt.</p>
-<p>To run the code in this file using the Jupyter console, you can use the <code>%run</code> <strong>magic function</strong>.</p>
+<p>What is <code>/</code>?  Try <code>cd</code>-ing there and seeing what's in there.  <strong>Do not delete anything!</strong></p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">run</span> zen.py
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><br /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise-1.2:-Making-your-.bashrc-file">Exercise 1.2: Making your .bashrc file<a class="anchor-link" href="#Exercise-1.2:-Making-your-.bashrc-file">&#182;</a></h2><p>Having a <code>.bashrc</code> file allows you to configure your <code>bash</code> shell how you like.</p>
+<p><strong>a)</strong> Create a <code>.bashrc</code> file in your home directory. If you already have a <code>.bashrc</code> file, open it up for editing using Jupyter's text editor.</p>
+<p><strong>b)</strong> It is often useful to <code>alias</code> functions to other functions.  For example, I am always worried I will accidentally delete things by accident.  I therefore have the following line in my <code>.bashrc</code> file.</p>
+
+<pre><code>alias rm="rm -i"
+
+</code></pre>
+<p>You should create aliases for commands like <code>ls</code> based on the flags you like to <em>always</em> use. Do the same for <code>rm</code> and <code>mv</code> (I use the <code>-i</code> flag with these). To figure out what flags are available, you can look at the <code>man</code> pages.  Asking Google will usually give you the information you need on flags.</p>
+<p>If you like, you can use my <code>.bashrc</code> file, available in <code>~/git/bootcamp/misc/jb_bashrc</code>.</p>
+<p><strong>c)</strong> Depending on your operating system, your <code>~/.bashrc</code> file may or may not be properly loaded upon opening a new bash shell. You may, e.g. for new macOS versions, need to explicitly source your <code>.bashrc</code> file in your <code>.bash_profile</code> file. Therefore, you should add the following to the bottom of your <code>.bash_profile</code> file.</p>
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="o">[</span> -f <span class="nv">$HOME</span>/.bashrc <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    . <span class="nv">$HOME</span>/.bashrc
+<span class="k">fi</span>
 </pre></div>
 
 </div>
 </div>
 </div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Beautiful is better than ugly.
-Explicit is better than implicit.
-Simple is better than complex.
-Complex is better than complicated.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To shur down the console, you can clide on the <code>Running</code> tab at the left of the JupyterLab window and click on <code>SHUTDOWN</code> next to the console.</p>
+<p><br /></p>
 
 </div>
 </div>
@@ -15185,7 +15084,9 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Jupyter">Jupyter<a class="anchor-link" href="#Jupyter">&#182;</a></h2><p>At this point, we have introduced JupyterLab, its text editor, and the console, as well as the Python interpreter itself. You might be asking....</p>
+<h2 id="Exercise-1.3:-Using-string-methods">Exercise 1.3: Using string methods<a class="anchor-link" href="#Exercise-1.3:-Using-string-methods">&#182;</a></h2><p>In <a href="../lessons/l07_intro_to_functions.html">Lesson 7</a>, we wrote a function to compute the reverse complement of a sequence.</p>
+<p><strong>a)</strong> Write that function again, still using a <strong><code>for</code></strong> loop, but do not use the built-in <code>reversed()</code> function.</p>
+<p><strong>b)</strong> Write the function one more time, but without any loops.</p>
 
 </div>
 </div>
@@ -15194,11 +15095,7 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="What-is-Jupyter?">What is Jupyter?<a class="anchor-link" href="#What-is-Jupyter?">&#182;</a></h3><p>From the <a href="http://jupyter.org">Project Jupyter website</a>:</p>
-<blockquote><p>Project Jupyter is an open source project was born out of the IPython Project in 2014 as it evolved to support interactive data science and scientific computing across all programming languages.</p>
-</blockquote>
-<p>So, Jupyter is an extension of IPython the pushes interactive computing further. It is language agnostic as its name suggests.  The name "Jupyter" is a combination of <a href="http://julialang.org/">Julia</a> (a new language for scientific computing), <a href="http://python.org/">Python</a> (which you know and love), and <a href="https://www.r-project.org">R</a> (the dominant tool for statistical computation).  However, you can run over 40 different languages in a JupyterLab, not just Julia, Python, and R.</p>
-<p>Central to Jupyter/JupyterLab are <strong>Jupyter notebooks</strong>. In fact, the document you are reading right now was generated from a Jupyter notebook. We will use Jupyter notebooks extensively in the bootcamp, along with <code>.py</code> files and the console.</p>
+<p><br /></p>
 
 </div>
 </div>
@@ -15207,14 +15104,22 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Why-Jupyter-notebooks?">Why Jupyter notebooks?<a class="anchor-link" href="#Why-Jupyter-notebooks?">&#182;</a></h2><p>When writing code you will reuse, you should develop full tested modules using <code>.py</code> files. You can always import those modules when you are using a Jupyter notebook (more on modules and importing them later in the bootcamp). So, a Jupyter notebook is not good for an application where you are building reusable code or scripts. However, Jupyter notebooks are <strong>very</strong> useful in the following applications.</p>
-<ol>
-<li><em>Exploring data/analysis.</em> Jupyter notebooks are great for trying things out with code, or exploring a data set. This is an important part of the research process. The layout of Jupyter notebooks is great for organizing thoughts as you synthesize them.</li>
-<li><em>Developing image processing pipelines.</em> This is really just a special case of (1), but it worth mentioning separately because Jupyter notebooks are especially useful when figuring out what steps are best for extracting useful data from images, which happens all-too-often in biology. Using the Jupyter notebook, you can write down what you hope to accomplish in each step of processing and then graphically show the results as images as you go through the analysis. We will do this later in the bootcamp.</li>
-<li><em>Sharing your thinking in your analysis.</em> Because you can combine nicely formatted text and executable code, Jupyter notebooks are great for sharing how you go about doing your calculations with collaborators and with readers of your publications. Famously, LIGO used <a href="https://losc.ligo.org/s/events/GW150914/GW150914_tutorial.html">a Jupyter notebook</a> to explain the signal processing involved in their first discovery of a gravitational wave.</li>
-<li><em>Pedagogy.</em> All of the content in this class, including this lesson, was developed using Jupyter notebooks!</li>
-</ol>
-<p>Now that we know what Jupyter notebooks are and what the motivation is for using them, let's start!</p>
+<h2 id="Exercise-1.4:-Longest-common-substring">Exercise 1.4: Longest common substring<a class="anchor-link" href="#Exercise-1.4:-Longest-common-substring">&#182;</a></h2><p>Write a function that takes two sequences and returns the longest common substring.  A substring is a contiguous portion of a string.  For example:</p>
+<p>Substrings of <code>ATGCATAT</code>:</p>
+
+<pre><code>TGCA
+T
+TAT
+
+</code></pre>
+<p>Not substrings of <code>ATGCATAT</code>:</p>
+
+<pre><code>AGCA              # Skipped T
+CCATA             # Added another C
+Hello, world.     # Has nothing to do with the input sequence
+
+</code></pre>
+<p>There may be more than one longest common substring; you only need to return one of them.</p>
 
 </div>
 </div>
@@ -15223,7 +15128,7 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Launching-a-Jupyter-notebook">Launching a Jupyter notebook<a class="anchor-link" href="#Launching-a-Jupyter-notebook">&#182;</a></h3><p>To launch a Jupyter notebook, click on the <code>Notebook</code> icon of the JupyterLab launcher. If you want to open an existing notebook, right click on it in the <code>Files</code> tab of the JupyterLab window and open it.</p>
+<p><br /></p>
 
 </div>
 </div>
@@ -15232,12 +15137,16 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Cells">Cells<a class="anchor-link" href="#Cells">&#182;</a></h3><p>A Jupyter notebook consists of <strong>cells</strong>.  The two main types of cells you will use are <strong>code cells</strong> and <strong>markdown cells</strong>, and we will go into their properties in depth momentarily.  First, an overview.</p>
-<p>A code cell contains actual code that you want to run.  You can specify a cell as a code cell using the pulldown menu in the toolbar of your Jupyter notebook.  Otherwise, you can can hit <code>esc</code> and then <code>y</code> (denoted "<code>esc, y</code>") while a cell is selected to specify that it is a code cell.  Note that you will have to hit enter after doing this to start editing it.</p>
-<p>If you want to execute the code in a code cell, hit "<code>shift + enter</code>."  Note that code cells are executed in the order you shift-enter them.  That is to say, the ordering of the cells for which you hit "<code>Shift + Enter</code>" is the order in which the code is executed.  If you did not explicitly execute a cell early in the document, its results are not known to the Python interpreter. <strong>This is a very important point and is often a source of confusion and frustration for students.</strong></p>
-<p>Markdown cells contain text.  The text is written in <strong>markdown</strong>, a lightweight markup language.  You can read about its syntax <a href="http://daringfireball.net/projects/markdown/syntax">here</a>.  Note that you can also insert HTML into markdown cells, and this will be rendered properly.  As you are typing the contents of these cells, the results appear as text.  Hitting "<code>Shift + Enter</code>" renders the text in the formatting you specify.</p>
-<p>You can specify a cell as being a markdown cell in the Jupyter toolbar, or by hitting "<code>esc, m</code>" in the cell.  Again, you have to hit enter after using the quick keys to bring the cell into edit mode.</p>
-<p>In general, when you want to add a new cell, you can click the <code>+</code> icon on the notebook toolbar.  The shortcut to insert a cell below is "<code>esc, b</code>" and to insert a cell above is "<code>esc, a</code>."  Alternatively, you  can execute a cell and automatically add a new one below it by hitting "<code>alt + enter</code>."</p>
+<h2 id="Exercise-1.5:-RNA-secondary-structure-validator">Exercise 1.5: RNA secondary structure validator<a class="anchor-link" href="#Exercise-1.5:-RNA-secondary-structure-validator">&#182;</a></h2><p>In this problem, we will write a function that takes an RNA sequence and an RNA secondary structure and decides if the secondary structure is possible given the sequence.  Remember, single stranded RNA can fold back on itself and form base pairs.  An RNA secondary structure is simply the list of base pairs that are present.  We will represent the base pairs in dot-parentheses notation.  For example, a sequence/secondary structure pair would be</p>
+
+<pre><code>0123456789
+GCAUCUAUGC
+(((....)))
+
+</code></pre>
+<p>For convenience of discussion, I have labeled the indices of the bases on the top row.  In this case, base <code>0</code>, a <code>G</code>, pairs with base <code>9</code>, a <code>C</code>.  Base <code>1</code> pairs with base <code>8</code>, and base <code>2</code> pairs with base <code>7</code>.  Bases <code>3</code>, <code>4</code>, <code>5</code>, and <code>6</code> are unpaired.  (This structure is aptly called a "hairpin.")</p>
+<p>I hope the dot-parentheses notation is clear.  An open parenthesis is paired with the parenthesis that closes it.  Dots are unpaired.</p>
+<p>So, the goal of our function is to check all base pairs present in a secondary structure and see if they are with <code>G-C</code>, <code>A-U</code>, or (optionally) <code>G-U</code>.</p>
 
 </div>
 </div>
@@ -15246,151 +15155,7 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Code-cells">Code cells<a class="anchor-link" href="#Code-cells">&#182;</a></h2><p>Below is an example of a code cell printing <code>hello, world.</code>  Notice that the output of the print statement appears in the same cell, though separate from the code block.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Say hello to the world.</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;hello, world.&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>hello, world.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If you evaluate a Python expression that returns a value, that value is displayed as output of the code cell.  This only happens, however, for the last line of the code cell.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Would show 9 if this were the last line, but it is not, so shows nothing</span>
-<span class="mi">4</span> <span class="o">+</span> <span class="mi">5</span>
-
-<span class="c1"># I hope we see 11.</span>
-<span class="mi">5</span> <span class="o">+</span> <span class="mi">6</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[5]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>11</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Note, however, if the last line does not return a value, such as if we assigned value to a variable, there is no visible output from the code cell.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Variable assignment, so no visible output.</span>
-<span class="n">a</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">6</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># However, now if we ask for a, its value will be displayed</span>
-<span class="n">a</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[7]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>11</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Display-of-graphics">Display of graphics<a class="anchor-link" href="#Display-of-graphics">&#182;</a></h3><p>When we learn about plotting with <a href="https://altair-viz.github.io">Altair</a> and <a href="https://bokeh.pydata.org/">Bokeh</a> later in the bootcamp, you will learn about displaying graphics in Jupyter notebooks.</p>
+<p><strong>a)</strong> Write a function to make sure that the number of closed parentheses is equal to the number of open parentheses, a requirement for a valid secondary structure.  It should return <code>True</code> if the parentheses are valid and <code>False</code> otherwise.</p>
 
 </div>
 </div>
@@ -15399,7 +15164,51 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Onwards!">Onwards!<a class="anchor-link" href="#Onwards!">&#182;</a></h2><p>You now have been introduced to our main tools for the bootcamp. Next up, we will learn about how to navigate the command line of your computer.</p>
+<p><strong>b)</strong> Write a function that converts the dot-parens notation to a tuple of 2-tuples representing the base pairs.  We'll call this function <code>dotparen_to_bp()</code>.  An example input/output of this function would be:</p>
+
+<pre><code>dotparen_to_bp('(((...)))')
+
+((0, 9), (1, 8), (2, 7))
+
+</code></pre>
+<p><em>Hint</em>: You might find the <code>pop()</code> method of lists useful.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>c)</strong> Because of sterics, the minimal length of a hairpin loop is three bases.  A hairpin loop is a series of unpaired bases that are closed by a base pair.  For example, the secondary structure <code>(.(....).)</code> has a single hairpin loop of length 4.  So, the structure <code>((((..))))</code> is not valid because it has a hairpin loop of only two bases.</p>
+<p>Write a function that verifies that a list of base pairs (as outputted by <code>dotparen_to_bp()</code>) satisfies the minimal hairpin length requirement.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>d)</strong> Now write your validator function.  The function definition should look like this:</p>
+
+<pre><code>def rna_ss_validator(seq, sec_struc, wobble=True):
+
+</code></pre>
+<p>It should return <code>True</code> if the sequence is commensurate with a valid secondary structure and <code>False</code> otherwise.  The <code>wobble</code> keyword argument is <code>True</code> if we allow wobble pairs (<code>G</code> paired with <code>U</code>).  Here are some expected results:</p>
+<p>Returns <code>True</code>:</p>
+
+<pre><code>rna_ss_validator('GCAUCUAUGC', '(((....)))')
+rna_ss_validator('GCAUCUAUGU', '(((....)))') 
+rna_ss_validator('GCAUCUAUGU', '(.(....).)') 
+
+</code></pre>
+<p>Returns <code>False</code>:</p>
+
+<pre><code>rna_ss_validator('GCAUCUACGC', '(((....)))')
+rna_ss_validator('GCAUCUAUGU', '(((....)))', wobble=False) 
+rna_ss_validator('GCAUCUAUGU', '(.(....)).') 
+rna_ss_validator('GCCCUUGGCA', '(.((..))).')</code></pre>
 
 </div>
 </div>

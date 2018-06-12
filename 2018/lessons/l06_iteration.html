@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>l01_welcome</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l06_iteration</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14985,10 +14985,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-1:-Welcome-and-Introduction-to-JupyterLab">Lesson 1: Welcome and Introduction to JupyterLab<a class="anchor-link" href="#Lesson-1:-Welcome-and-Introduction-to-JupyterLab">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-6:-Iteration">Lesson 6: Iteration<a class="anchor-link" href="#Lesson-6:-Iteration">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l01_welcome.ipynb">here</a>.</em></p>
+<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l06_iteration.ipynb">here</a>.</em></p>
 <p><br /> <br /></p>
 
 </div>
@@ -14998,8 +14998,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Greetings!">Greetings!<a class="anchor-link" href="#Greetings!">&#182;</a></h2><p>Welcome to the Introduction to Programming for the Biological Sciences Bootcamp!  We will be using Python as the programming language, and we will use this first lesson to make sure your Python distribution is working properly.  We will also make sure you have a way to use the command line on your machine.</p>
-<p>Prior to starting the bootcamp, you should have completed <a href="l00_configuring_your_computer.html">Lesson 0: Configuring your computer</a>.</p>
+<p>We often want a computer program to do a similar operation many times.  For example, we may want to analyze many codons, one after another, and find the start and stop codons in order to determine the length of the open reading frame.  Or, as a simpler example, we may wish to find the GC content of a specific sequence.  We check each base to see if it is <code>G</code> or <code>C</code> and keep a count.  Doing these repeated operations in a program is called <strong>iteration</strong>.</p>
 
 </div>
 </div>
@@ -15008,27 +15007,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-Python-interpreter">The Python interpreter<a class="anchor-link" href="#The-Python-interpreter">&#182;</a></h2><p>Before diving into the Python interpreter, I pause here to remind you that this programming bootcamp is not meant to teach Python syntax (though you will lean that). The things you learn here are meant to help you understand, and ultimately do, computer programming more generally. Think of it this way: this bootcamp is meant to help you unleash the power of your computer on your biological problems. Python is just the language of instruction. That said, let's start talking about how Python works and how it relates to IPython, which we will use extensively in the course.</p>
-<p>Python is an <strong>interpreted language</strong>, which means that each line of code you write is translated, or <em>interpreted</em>, into a set of instructions that your machine can understand by the <strong>Python interpreter</strong>. This stands in contrast to <strong>compiled languages</strong>.  For these languages (the dominant ones being Fortran, C, and C++), your entire code is translated into machine language before you ever run it. When you execute your program, it is already in machine language.</p>
-<p>So, whenever you want your Python code to run, you give it to the Python interpreter.</p>
-<p>There are many ways to launch the Python interpreter. One way is to type</p>
-
-<pre><code>python
-
-</code></pre>
-<p>on the command line of a terminal. This launches the vanilla Python interpreter. We will never really use this in the bootcamp. Rather, we will have a <em>greatly</em> enhanced Python experience, either using <strong>IPython</strong>, a feature-rich, enhanced interactive Python available through JupyterLab's console, or using a <strong>notebook</strong>, also launchable in JupyterLab.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Hello,-world.-and-the-print()-function">Hello, world. and the print() function<a class="anchor-link" href="#Hello,-world.-and-the-print()-function">&#182;</a></h2><p>Traditionally, the first program anyone writes when learning a new language is called "<code>Hello, world.</code>"  In this program, the words "<code>Hello, world.</code>" are printed on the screen.  The original <code>Hello, world.</code> was likely written by Brian Kernighan, one of the inventors of Unix, and the author of the classic and authoritative <a href="http://www.amazon.com/The-Programming-Language-Brian-Kernighan/dp/0131103628">book</a> on the C programming language.  In his original, the printed text was "<code>hello, world</code>" (no period or capital <code>H</code>), but people use lots of variants.</p>
-<p>We will first write and run this little program using a JupyterLab console. After launching JupyterLab, you probably already have the Launcher in your JupyterLab window. If you do not, you can expand the <code>Files</code> tab at the left of your JupyterLab window (if it is not already expanded) by clicking on that tab, or alternatively hit <code>ctrl+b</code> (or <code>cmd+b</code> on macOS). At the top of the <code>Files</code> tab is a <code>+</code> sign, which gives you a Jupyter Launcher.</p>
-<p>In the Jupyter Launcher, click the <code>Python 3</code> icon under <code>Console</code>. This will launch a console, which has a large white space above a prompt that says <code>In []:</code>. You can enter Python code in this prompt, and it will be executed.</p>
-<p>To print <code>Hello, world.</code>, enter the code below. To execute the code, hit <code>shift+enter</code>.</p>
+<h2 id="Introducing-the-for-loop">Introducing the for loop<a class="anchor-link" href="#Introducing-the-for-loop">&#182;</a></h2><p>The first method of iteration we will discuss is the <strong><code>for</code> loop</strong>. As an example of its use, we compute the GC content of an RNA sequence.</p>
 
 </div>
 </div>
@@ -15038,7 +15017,23 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hello, world.&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The sequence we want to analyze</span>
+<span class="n">seq</span> <span class="o">=</span> <span class="s1">&#39;GACAGACUCCAUGCACGUGGGUAUCUGUC&#39;</span>
+
+<span class="c1"># Initialize GC counter</span>
+<span class="n">n_gc</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Initialize sequence length</span>
+<span class="n">len_seq</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Loop through sequence and count G&#39;s and C&#39;s</span>
+<span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+    <span class="n">len_seq</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">base</span> <span class="ow">in</span> <span class="s1">&#39;GCgc&#39;</span><span class="p">:</span>
+        <span class="n">n_gc</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+<span class="c1"># Divide to get GC content</span>
+<span class="n">n_gc</span> <span class="o">/</span> <span class="n">len_seq</span>
 </pre></div>
 
 </div>
@@ -15051,13 +15046,15 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[1]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Hello, world.
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.5517241379310345</pre>
 </div>
+
 </div>
 
 </div>
@@ -15068,7 +15065,14 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Hooray!  We just printed <code>Hello, world.</code> to the screen.  To do this, we used Python's built-in <code>print()</code> function.  The <code>print()</code> function takes as an <strong>argument</strong> a <strong>string</strong>.  It then prints that string to the screen.  We will learn more about function syntax later, but we can already see the rough syntax with the <code>print()</code> function.</p>
+<p>Let's look carefully at what we did here.  We took a string containing a sequence of nucleotides and then we did something for each character (base) in that string (nucleic acid sequence).  A string is a <strong><em>sequence</em></strong> in the sense of the programming language as well; just like a list or tuple, the string is an ordered collection of characters.  (So as not to confuse between biological sequences and <em>sequences</em> as a part of the Python language, we will always write the latter in italics.)</p>
+<p>Now, let's translate the new syntax in the above code to English.</p>
+<p><strong>Python</strong>: <code>for base in seq</code>:</p>
+<p><strong>English</strong>: for each character in the string whose variable name is <code>seq</code>, do the following, with that character taking the name <code>base</code></p>
+<p>This exposes a general way of doing things repeatedly in Python.  For every item in a sequence, we do something.  That something follows the <strong><code>for</code></strong> clause and is contained in an indentation block.  When we do this, we say are "looping over a <em>sequence</em>."  In the context of a <strong><code>for</code></strong> clause, the membership operator, <strong><code>in</code></strong>, means that we consider in order each item in the <em>sequence</em> or iterator (we'll talk about iterators in a moment).</p>
+<p>Now, looking within the loop, the first thing we do is increment the length of the sequence.  For each base we encounter in the loop, we add one to the sequence length.  Makes sense!</p>
+<p>Next, we have an <strong><code>if</code></strong> statement.  We use the membership operator again.  We ask if the current base is a <code>G</code> or a <code>C</code>.  To be safe, we also included lower case characters in case the sequence was entered that way.  If the base is a <code>G</code> or a <code>C</code>, we increment the counter of GC bases by one.</p>
+<p>Finally, we get the fractional GC content by dividing the number of GC's by the total length of the sequence.</p>
 
 </div>
 </div>
@@ -15077,7 +15081,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id=".py-files">.py files<a class="anchor-link" href="#.py-files">&#182;</a></h2><p>Now let's use our new knowledge of the <code>print()</code> function to have our computer say a bit more than just <code>Hello, world.</code> Type these lines in at the prompt, hitting <code>enter</code> each time you need a new line. After you've typed them all in, hit <code>shift+enter</code> to run them.</p>
+<h3 id="Aside:-the-len()-function">Aside: the len() function<a class="anchor-link" href="#Aside:-the-len()-function">&#182;</a></h3><p>Note in the last example that we determined the length of the RNA sequence by iterating the <code>len_seq</code> counter within the <strong><code>for</code></strong> loop. This works, but Python has a built-in function (like <code>print()</code> is a built-in function) to compute the length of a string (or list, tuple, or other <em>sequence</em>). To find out the length of a <em>sequence</em>, simply use it as an argument to the <code>len()</code> function.</p>
 
 </div>
 </div>
@@ -15087,11 +15091,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The first few lines from The Zen of Python by Tim Peters</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Beautiful is better than ugly.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Explicit is better than implicit.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Simple is better than complex.&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Complex is better than complicated.&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15104,16 +15104,15 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[2]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Beautiful is better than ugly.
-Explicit is better than implicit.
-Simple is better than complex.
-Complex is better than complicated.
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>29</pre>
 </div>
+
 </div>
 
 </div>
@@ -15124,16 +15123,7 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that the first line is preceded with a <code>#</code> sign, and the Python interpreter ignored it. The <code>#</code> sign denotes a <strong>comment</strong>, which is ignored by the interpreted, <em>but very very important for the human!</em></p>
-<p>While the console prompt was nice entering all of this, a better option is to store them in a file, and then have the Python interpreter run the lines in the file. This is how you typically store Python code, and the suffix of such files is <code>.py</code>.</p>
-<p>So, let's create a <code>.py</code> file. To do this, use the JupyterLab Launcher to launch a text editor. Once it is launched, you can right click on the tab of the text editor window to change the name. We will call this file <code>zen.py</code>. Within this file, enter the four lines of code  you previously entered in the console prompt. Be sure to save it.</p>
-<p>To run the code in this file, you can invoke the Python interpreter at the command line, followed by the file name. I.e., enter</p>
-
-<pre><code>python zen.py
-
-</code></pre>
-<p>at the command line. Note that when you run code this way, the interpreter exits after completion of running the code, and you do not get a prompt.</p>
-<p>To run the code in this file using the Jupyter console, you can use the <code>%run</code> <strong>magic function</strong>.</p>
+<h3 id="Example-and-watchout:-modifying-a-list">Example and watchout: modifying a list<a class="anchor-link" href="#Example-and-watchout:-modifying-a-list">&#182;</a></h3><p>Let's look at another example of iterating through a list.  Say we have a list of integers, and we want to change it by doubling each one.  Let's just do it.</p>
 
 </div>
 </div>
@@ -15143,7 +15133,15 @@ Complex is better than complicated.
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">run</span> zen.py
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># We&#39;ll do one through 5</span>
+<span class="n">my_integers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="c1"># Double each one</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">my_integers</span><span class="p">:</span>
+    <span class="n">n</span> <span class="o">*=</span> <span class="mi">2</span>
+    
+<span class="c1"># Check out the result</span>
+<span class="n">my_integers</span>
 </pre></div>
 
 </div>
@@ -15156,16 +15154,15 @@ Complex is better than complicated.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[3]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Beautiful is better than ugly.
-Explicit is better than implicit.
-Simple is better than complex.
-Complex is better than complicated.
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[1, 2, 3, 4, 5]</pre>
 </div>
+
 </div>
 
 </div>
@@ -15176,77 +15173,8 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To shur down the console, you can clide on the <code>Running</code> tab at the left of the JupyterLab window and click on <code>SHUTDOWN</code> next to the console.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Jupyter">Jupyter<a class="anchor-link" href="#Jupyter">&#182;</a></h2><p>At this point, we have introduced JupyterLab, its text editor, and the console, as well as the Python interpreter itself. You might be asking....</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="What-is-Jupyter?">What is Jupyter?<a class="anchor-link" href="#What-is-Jupyter?">&#182;</a></h3><p>From the <a href="http://jupyter.org">Project Jupyter website</a>:</p>
-<blockquote><p>Project Jupyter is an open source project was born out of the IPython Project in 2014 as it evolved to support interactive data science and scientific computing across all programming languages.</p>
-</blockquote>
-<p>So, Jupyter is an extension of IPython the pushes interactive computing further. It is language agnostic as its name suggests.  The name "Jupyter" is a combination of <a href="http://julialang.org/">Julia</a> (a new language for scientific computing), <a href="http://python.org/">Python</a> (which you know and love), and <a href="https://www.r-project.org">R</a> (the dominant tool for statistical computation).  However, you can run over 40 different languages in a JupyterLab, not just Julia, Python, and R.</p>
-<p>Central to Jupyter/JupyterLab are <strong>Jupyter notebooks</strong>. In fact, the document you are reading right now was generated from a Jupyter notebook. We will use Jupyter notebooks extensively in the bootcamp, along with <code>.py</code> files and the console.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Why-Jupyter-notebooks?">Why Jupyter notebooks?<a class="anchor-link" href="#Why-Jupyter-notebooks?">&#182;</a></h2><p>When writing code you will reuse, you should develop full tested modules using <code>.py</code> files. You can always import those modules when you are using a Jupyter notebook (more on modules and importing them later in the bootcamp). So, a Jupyter notebook is not good for an application where you are building reusable code or scripts. However, Jupyter notebooks are <strong>very</strong> useful in the following applications.</p>
-<ol>
-<li><em>Exploring data/analysis.</em> Jupyter notebooks are great for trying things out with code, or exploring a data set. This is an important part of the research process. The layout of Jupyter notebooks is great for organizing thoughts as you synthesize them.</li>
-<li><em>Developing image processing pipelines.</em> This is really just a special case of (1), but it worth mentioning separately because Jupyter notebooks are especially useful when figuring out what steps are best for extracting useful data from images, which happens all-too-often in biology. Using the Jupyter notebook, you can write down what you hope to accomplish in each step of processing and then graphically show the results as images as you go through the analysis. We will do this later in the bootcamp.</li>
-<li><em>Sharing your thinking in your analysis.</em> Because you can combine nicely formatted text and executable code, Jupyter notebooks are great for sharing how you go about doing your calculations with collaborators and with readers of your publications. Famously, LIGO used <a href="https://losc.ligo.org/s/events/GW150914/GW150914_tutorial.html">a Jupyter notebook</a> to explain the signal processing involved in their first discovery of a gravitational wave.</li>
-<li><em>Pedagogy.</em> All of the content in this class, including this lesson, was developed using Jupyter notebooks!</li>
-</ol>
-<p>Now that we know what Jupyter notebooks are and what the motivation is for using them, let's start!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Launching-a-Jupyter-notebook">Launching a Jupyter notebook<a class="anchor-link" href="#Launching-a-Jupyter-notebook">&#182;</a></h3><p>To launch a Jupyter notebook, click on the <code>Notebook</code> icon of the JupyterLab launcher. If you want to open an existing notebook, right click on it in the <code>Files</code> tab of the JupyterLab window and open it.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Cells">Cells<a class="anchor-link" href="#Cells">&#182;</a></h3><p>A Jupyter notebook consists of <strong>cells</strong>.  The two main types of cells you will use are <strong>code cells</strong> and <strong>markdown cells</strong>, and we will go into their properties in depth momentarily.  First, an overview.</p>
-<p>A code cell contains actual code that you want to run.  You can specify a cell as a code cell using the pulldown menu in the toolbar of your Jupyter notebook.  Otherwise, you can can hit <code>esc</code> and then <code>y</code> (denoted "<code>esc, y</code>") while a cell is selected to specify that it is a code cell.  Note that you will have to hit enter after doing this to start editing it.</p>
-<p>If you want to execute the code in a code cell, hit "<code>shift + enter</code>."  Note that code cells are executed in the order you shift-enter them.  That is to say, the ordering of the cells for which you hit "<code>Shift + Enter</code>" is the order in which the code is executed.  If you did not explicitly execute a cell early in the document, its results are not known to the Python interpreter. <strong>This is a very important point and is often a source of confusion and frustration for students.</strong></p>
-<p>Markdown cells contain text.  The text is written in <strong>markdown</strong>, a lightweight markup language.  You can read about its syntax <a href="http://daringfireball.net/projects/markdown/syntax">here</a>.  Note that you can also insert HTML into markdown cells, and this will be rendered properly.  As you are typing the contents of these cells, the results appear as text.  Hitting "<code>Shift + Enter</code>" renders the text in the formatting you specify.</p>
-<p>You can specify a cell as being a markdown cell in the Jupyter toolbar, or by hitting "<code>esc, m</code>" in the cell.  Again, you have to hit enter after using the quick keys to bring the cell into edit mode.</p>
-<p>In general, when you want to add a new cell, you can click the <code>+</code> icon on the notebook toolbar.  The shortcut to insert a cell below is "<code>esc, b</code>" and to insert a cell above is "<code>esc, a</code>."  Alternatively, you  can execute a cell and automatically add a new one below it by hitting "<code>alt + enter</code>."</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Code-cells">Code cells<a class="anchor-link" href="#Code-cells">&#182;</a></h2><p>Below is an example of a code cell printing <code>hello, world.</code>  Notice that the output of the print statement appears in the same cell, though separate from the code block.</p>
+<p>Whoa!  It didn't seem to double any of the integers!  This is because <code>my_integers</code> was converted to an <strong>iterator</strong> in the <strong><code>for</code></strong> clause, and the iterator returns a <em>copy</em> of the item, not a reference to it.  Therefore, the <code>n</code> inside the <strong><code>for</code></strong> block is not a view into the original list, and doubling it does nothing meaningful.</p>
+<p>We've seen how to change individual list elements with indexing:</p>
 
 </div>
 </div>
@@ -15256,8 +15184,77 @@ Complex is better than complicated.
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Say hello to the world.</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;hello, world.&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Don&#39;t do things this way</span>
+<span class="n">my_integers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="n">my_integers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="n">my_integers</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="n">my_integers</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="n">my_integers</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+
+<span class="n">my_integers</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[2, 4, 6, 8, 10]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But we'd obviously like a better way to do this, with less typing and without knowing ahead of time the length of the list. Let's look at a new concept that'll help with this example.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Iterators">Iterators<a class="anchor-link" href="#Iterators">&#182;</a></h2><p>In the previous example, we iterated over a <em>sequence</em>.  A sequence is one of many iterable objects, called <strong>iterables</strong>.  Under the hood, the Python interpreter actually converts an iterable to an <strong>iterator</strong>.  An iterator is a special object that gives values in succession.  A major difference between a <em>sequence</em> and an iterator is that you cannot index an iterator.  This seems like a trivial difference, but iterators make for more efficient computing than directly using a <em>sequence</em> with indexing.</p>
+<p>We can explicitly convert a <em>sequence</em> to an iterator using the built-in function <code>iter()</code>, but we will not bother with that here because the Python interpreter does this for you automatically when you use a <em>sequence</em> in a loop. (This is incidentally why the previous example didn't work - when the list is converted to an iterator, a copy is made of each element so the original list is unchanged.)</p>
+<p>Instead, we will now explore how we can create useful iterators using the <code>range()</code>, <code>enumerate()</code>, and <code>zip()</code> functions.  I know we have not yet covered functions, but the syntax should not be so complicated that you cannot understand what these functions are doing, just like with the <code>print()</code> and <code>len()</code> functions.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-range()-function">The range() function<a class="anchor-link" href="#The-range()-function">&#182;</a></h3><p>The <code>range()</code> function gives an iterable that enables counting.  Let's look at an example.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;  &#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15274,8 +15271,7 @@ Complex is better than complicated.
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>hello, world.
-</pre>
+<pre>0  1  2  3  4  5  6  7  8  9  </pre>
 </div>
 </div>
 
@@ -15287,21 +15283,27 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you evaluate a Python expression that returns a value, that value is displayed as output of the code cell.  This only happens, however, for the last line of the code cell.</p>
+<p>We see that <code>range(10)</code> gives us ten numbers, from <code>0</code> to <code>9</code>.  As with indexing, <code>range()</code> inclusively starts at zero by default, and the ending is exclusive.</p>
+<p>It turns out that the arguments of the <code>range()</code> function work much like indexing.  If you have a single argument, you get that many numbers, starting at 0 and incrementing by one.  If you give two arguments, you start inclusively at the first and increment by one ending exclusively at the second argument.  Finally, you can specify a stride with the third argument.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Would show 9 if this were the last line, but it is not, so shows nothing</span>
-<span class="mi">4</span> <span class="o">+</span> <span class="mi">5</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print numbers 2 through 9</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;  &#39;</span><span class="p">)</span>
 
-<span class="c1"># I hope we see 11.</span>
-<span class="mi">5</span> <span class="o">+</span> <span class="mi">6</span>
+<span class="c1"># Print a newline</span>
+<span class="nb">print</span><span class="p">()</span>
+    
+<span class="c1"># Print even numbers, 2 through 9</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;     &#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15314,15 +15316,13 @@ Complex is better than complicated.
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[5]:</div>
+<div class="prompt"></div>
 
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>11</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2  3  4  5  6  7  8  9  
+2     4     6     8     </pre>
 </div>
-
 </div>
 
 </div>
@@ -15333,32 +15333,17 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Note, however, if the last line does not return a value, such as if we assigned value to a variable, there is no visible output from the code cell.</p>
+<p>It is often useful to make a list or tuple that has the same entries that a corresponding <code>range</code> object would have.  We can do this with type conversion.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Variable assignment, so no visible output.</span>
-<span class="n">a</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">6</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># However, now if we ask for a, its value will be displayed</span>
-<span class="n">a</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -15377,7 +15362,7 @@ Complex is better than complicated.
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>11</pre>
+<pre>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</pre>
 </div>
 
 </div>
@@ -15390,7 +15375,56 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Display-of-graphics">Display of graphics<a class="anchor-link" href="#Display-of-graphics">&#182;</a></h3><p>When we learn about plotting with <a href="https://altair-viz.github.io">Altair</a> and <a href="https://bokeh.pydata.org/">Bokeh</a> later in the bootcamp, you will learn about displaying graphics in Jupyter notebooks.</p>
+<p>We can use the <code>range()</code> function along with the <code>len()</code> function on lists to double the elements of our list from a bit ago:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_integers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="c1"># Since len(my_integers) = 5, this takes i from 0 to 4, </span>
+<span class="c1"># exactly the indices of my_integers</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">my_integers</span><span class="p">)):</span>
+    <span class="n">my_integers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+    
+<span class="n">my_integers</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[8]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[2, 4, 6, 8, 10]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This works, but there's an even better way to do this, with the next function.</p>
 
 </div>
 </div>
@@ -15399,7 +15433,686 @@ Complex is better than complicated.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Onwards!">Onwards!<a class="anchor-link" href="#Onwards!">&#182;</a></h2><p>You now have been introduced to our main tools for the bootcamp. Next up, we will learn about how to navigate the command line of your computer.</p>
+<h3 id="The-enumerate()-function">The enumerate() function<a class="anchor-link" href="#The-enumerate()-function">&#182;</a></h3><p>Let's say we want to print the indices of all <code>G</code> bases in a DNA sequence.  We could do this by modifying our previous program.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Initialize GC counter</span>
+<span class="n">n_gc</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Initialized sequence length</span>
+<span class="n">len_seq</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Loop through sequence and print index of G&#39;s</span>
+<span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">base</span> <span class="ow">in</span> <span class="s1">&#39;Gg&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">len_seq</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;  &#39;</span><span class="p">)</span>
+    <span class="n">len_seq</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0  4  12  16  18  19  20  26  </pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is not so bad, but there is an easier way to do this.  The <code>enumerate()</code> function gives an iterator that provides <em>both</em> the index and the item of a <em>sequence</em>.  Again, this is best demonstrated in practice.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Loop through sequence and print index of G&#39;s</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">base</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">base</span> <span class="ow">in</span> <span class="s1">&#39;Gg&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;  &#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0  4  12  16  18  19  20  26  </pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>enumerate()</code> function allowed us to use an index and a base at the same time.  To make it more clear, we can print the index and base type for each base in the sequence.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print index and identity of bases</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">base</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0 G
+1 A
+2 C
+3 A
+4 G
+5 A
+6 C
+7 U
+8 C
+9 C
+10 A
+11 U
+12 G
+13 C
+14 A
+15 C
+16 G
+17 U
+18 G
+19 G
+20 G
+21 U
+22 A
+23 U
+24 C
+25 U
+26 G
+27 U
+28 C
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>enumerate()</code> function is really useful and should be used in favor of just doing indexing.  For example, many programmers, especially those first trained in lower-level languages, would write the above code similar to how we did the list doubling, with the <code>range()</code> and <code>len()</code> functions, but this is not good practice in Python.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0 G
+1 A
+2 C
+3 A
+4 G
+5 A
+6 C
+7 U
+8 C
+9 C
+10 A
+11 U
+12 G
+13 C
+14 A
+15 C
+16 G
+17 U
+18 G
+19 G
+20 G
+21 U
+22 A
+23 U
+24 C
+25 U
+26 G
+27 U
+28 C
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using <code>enumerate()</code>, the list doubling code looks like this:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_integers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="c1"># Double each one</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">my_integers</span><span class="p">):</span>
+    <span class="n">my_integers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+    
+<span class="c1"># Check out the result</span>
+<span class="n">my_integers</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[13]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[2, 4, 6, 8, 10]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>enumerate()</code> is more generic and the overhead for returning a reference to an object isn't an issue. The <code>range(len())</code> construct will break on an object without support for <code>len()</code>. In addition, you are more likely to introduce bugs by imposing indexing.  It is better to use the <code>enumerate()</code> function.</p>
+<p>Note that we used the underscore, <code>_</code>, as a throwaway variable that we do not use.  There is no rule for this, but this is typical Python syntax and helps signal that you are not going to use the variable.</p>
+<p>One last gotcha: if we tried to do a similar technique with a string, we get a <code>TypeError</code> because a string is immutable.  We'll revisit examples like this in <a href="l08_string_methods.html">lesson 8</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Try to convert capital G to lower g</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">base</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;G&#39;</span><span class="p">:</span>
+        <span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;g&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-14-caac05059a6e&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">for</span> i<span class="ansi-blue-fg">,</span> base <span class="ansi-green-fg">in</span> enumerate<span class="ansi-blue-fg">(</span>seq<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     <span class="ansi-green-fg">if</span> base <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#39;G&#39;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg">         </span>seq<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;g&#39;</span>
+
+<span class="ansi-red-fg">TypeError</span>: &#39;str&#39; object does not support item assignment</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-zip()-function">The zip() function<a class="anchor-link" href="#The-zip()-function">&#182;</a></h3><p>The <code>zip()</code> function enables us to iterate over several iterables at once.  In the example below we iterate over the jersey numbers, names, and positions of the players on the US women's national soccer team who scored in the World Cup final in 2015.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Lloyd&#39;</span><span class="p">,</span> <span class="s1">&#39;Holiday&#39;</span><span class="p">,</span> <span class="s1">&#39;Heath&#39;</span><span class="p">)</span>
+<span class="n">positions</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;MF&#39;</span><span class="p">,</span> <span class="s1">&#39;MF&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">)</span>
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10 Lloyd MF
+12 Holiday MF
+17 Heath F
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We should probably have Lloyd's name three times, since she scored a hat trick.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-reversed()-function">The reversed() function<a class="anchor-link" href="#The-reversed()-function">&#182;</a></h3><p>This function is useful for giving an iterator that goes in the reverse direction.  We'll see that this can be convenient in the next lesson.  For now, let's pretend we're NASA and need to count down.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">count_up</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ignition&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span> <span class="p">,</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">count_up</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+ignition
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-while-loop">The while loop<a class="anchor-link" href="#The-while-loop">&#182;</a></h2><p>The <strong><code>for</code></strong> loop is very powerful and allows us to construct iterative calculations.  When we use a <strong><code>for</code></strong> loop, we need to set up an iterator.  A <strong><code>while</code></strong> loop, on the other hand, allows iteration until a conditional reads <code>False</code>.</p>
+<p>As an example of a <strong><code>while</code></strong> loop, we will calculate the length of a sequence before hitting a start codon.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Define start codon</span>
+<span class="n">start_codon</span> <span class="o">=</span> <span class="s1">&#39;AUG&#39;</span>
+
+<span class="c1"># Initialize sequence index</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Scan sequence until we hit the start codon</span>
+<span class="k">while</span> <span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">start_codon</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+<span class="c1"># Show the result</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The start codon starts at index&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The start codon starts at index 10
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's walk through the <strong><code>while</code></strong> loop.  The value of <code>i</code> is changing with each iteration, being incremented by one.  Each time we consider doing another iteration, the conditional is checked: do the next three bases match the start codon?  We set up the conditional to evaluate to <code>True</code> when the bases are <em>not</em> the start codon, so the iteration continues.  In other words, iteration continues in a <strong><code>while</code></strong> loop until the conditional returns <code>False</code>.</p>
+<p>Notice that we sliced the string the same way we sliced lists and tuples.  In the case of strings, a slice gives another string, i.e., a sequential collection of characters.</p>
+<p>Let's try looking for another codon....  But, let's actually not do that.  If you run the code below, it will run forever and nothing will get printed to the screen.</p>
+<div class="highlight"><pre><span></span><span class="c1"># Define codon of interest</span>
+<span class="n">codon</span> <span class="o">=</span> <span class="s1">&#39;GCC&#39;</span>
+
+<span class="c1"># Initialize sequence index</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Scan sequence until we hit the start codon, but DON&#39;T DO THIS!!!!!</span>
+<span class="k">while</span> <span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">codon</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1"># Show the result</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;The codon starts at index&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The reason this runs forever is that the conditional never returns <code>False</code>.  If we slice a string beyond the length of the string we get an empty string result.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seq</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">103</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[18]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This does not equal the codon we're interested in, so the <strong><code>while</code></strong> loop keeps going. Forever. This is called an <strong>infinite loop</strong>, and you definitely to not want these in your code! We can fix it by making a conditional that will evaluate to <code>False</code> if we reach the end of the string.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Define codon of interest</span>
+<span class="n">codon</span> <span class="o">=</span> <span class="s1">&#39;GCC&#39;</span>
+
+<span class="c1"># Initialize sequence index</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Scan sequence until we hit the start codon or the end of the sequence</span>
+<span class="k">while</span> <span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">codon</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+<span class="c1"># Show the result</span>
+<span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Codon not found in sequence.&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The codon starts at index&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Codon not found in sequence.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="for-vs-while"><strong>for</strong> vs <strong>while</strong><a class="anchor-link" href="#for-vs-while">&#182;</a></h3><p>Most anything that requires a loop can be done with either a <strong><code>for</code></strong> loop or a <strong><code>while</code></strong> loop, but there's a general rule of thumb for which type of loop to use. If you know how many times you have to do something (or if your program knows), use a <strong><code>for</code></strong> loop. If you don't know how many times the loop needs to run until you run it, use a <strong><code>while</code></strong> loop. For example, when we want to do something with each character in a string or each entry in a list, the program knows how long the sequence is and a <strong><code>for</code></strong> loop is more appropriate. In the previous examples, we don't know how long it will be before we hit the start codon; it depends on the sequence you put into the program. That makes it more suited to a <strong><code>while</code></strong> loop.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-break-and-else-keywords">The <strong>break</strong> and <strong>else</strong> keywords<a class="anchor-link" href="#The-break-and-else-keywords">&#182;</a></h2><p>Iteration stops in a <strong><code>for</code></strong> loop when the iterator is exhausted.  It stops in a <strong><code>while</code></strong> loop when the conditional evaluates to <code>False</code>.  These is another way to stop iteration: the <strong><code>break</code></strong> keyword.  Whenever <strong><code>break</code></strong> is encountered in a <strong><code>for</code></strong> or <strong><code>while</code></strong> loop, the iteration halts and execution continues outside the loop.  As an example, we'll do the calculation above with a <strong><code>for</code></strong> loop with a <strong><code>break</code></strong> instead of a <strong><code>while</code></strong> loop.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Define start codon</span>
+<span class="n">start_codon</span> <span class="o">=</span> <span class="s1">&#39;AUG&#39;</span>
+
+<span class="c1"># Scan sequence until we hit the start codon</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">start_codon</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The start codon starts at index&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">break</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Codon not found in sequence.&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The start codon starts at index 10
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Notice that we have an <strong><code>else</code></strong> block after the <strong><code>for</code></strong> loop.  In Python, <strong><code>for</code></strong> and <strong><code>while</code></strong> loops can have an <strong><code>else</code></strong> statement after the code block to be evaluated in the loop.  The contents of the <strong><code>else</code></strong> block are evaluated if the loop completes <strong>without</strong> encountering a <strong><code>break</code></strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="A-note-about-use-of-the-word-&quot;codon&quot;">A note about use of the word "codon"<a class="anchor-link" href="#A-note-about-use-of-the-word-&quot;codon&quot;">&#182;</a></h3><p>The astute biologists among you will note that we have not really been using the word "codon" properly here. We are taking it to mean any three consecutive bases, but the more precise definition of a codon means that it is three consecutive bases that code for an amino acid. That means that for a three-base sequence to be a codon, it must be in-register with the start codon. We will see how this distinction could lead to problems when we discuss <strong>test-driven development</strong>.</p>
 
 </div>
 </div>
