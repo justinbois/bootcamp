@@ -15276,7 +15276,7 @@ two middle values of ``V_sorted`` when ``N`` is even.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Writing-your-own-module">Writing your own module<a class="anchor-link" href="#Writing-your-own-module">&#182;</a></h2><p>To write your own module, you need to create a <code>.py</code> file and save it. You can do this using the text editor in JupyterLab. Let's call our module <code>nautils</code>, for "nucleic acid utilities." So, we create a file called <code>nautils.py</code>.  We'll build this module to have two functions, based on things we've already written.  We'll have a function <code>dna_to_rna()</code>, which converts a DNA sequence to an RNA sequence (just changes <code>T</code> to <code>U</code>), and another function <code>reverse_rna_complement()</code>, which returns the reverse RNA complement of a DNA template.  The contents of <code>nautils.py</code> should look as follows.</p>
+<h2 id="Writing-your-own-module">Writing your own module<a class="anchor-link" href="#Writing-your-own-module">&#182;</a></h2><p>To write your own module, you need to create a <code>.py</code> file and save it. You can do this using the text editor in JupyterLab. Let's call our module <code>na_utils</code>, for "nucleic acid utilities." So, we create a file called <code>na_utils.py</code>.  We'll build this module to have two functions, based on things we've already written.  We'll have a function <code>dna_to_rna()</code>, which converts a DNA sequence to an RNA sequence (just changes <code>T</code> to <code>U</code>), and another function <code>reverse_rna_complement()</code>, which returns the reverse RNA complement of a DNA template.  The contents of <code>na_utils.py</code> should look as follows.</p>
 <div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Utilities for parsing nucleic acid sequences.</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -15337,7 +15337,7 @@ two middle values of ``V_sorted`` when ``N`` is even.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Note that the file starts with a doc string saying what the module contains.</p>
-<p>I then have my two functions, each with doc strings.  We will now import the module and then use these functions. In order for the import to work, the file <code>nautils.py</code> must be in your present working directory, since this is where the Python interpreter will look for your module. In general, if you execute the code</p>
+<p>I then have my two functions, each with doc strings.  We will now import the module and then use these functions. In order for the import to work, the file <code>na_utils.py</code> must be in your present working directory, since this is where the Python interpreter will look for your module. In general, if you execute the code</p>
 
 <pre><code>import my_module
 
@@ -15352,13 +15352,13 @@ two middle values of ``V_sorted`` when ``N`` is even.
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nautils</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">na_utils</span>
 
 <span class="c1"># Sequence</span>
 <span class="n">seq</span> <span class="o">=</span> <span class="s1">&#39;GACGATCTAGGCGACCGACTGGCATCG&#39;</span>
 
 <span class="c1"># Convert to RNA</span>
-<span class="n">nautils</span><span class="o">.</span><span class="n">rna</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+<span class="n">na_utils</span><span class="o">.</span><span class="n">rna</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15400,7 +15400,7 @@ two middle values of ``V_sorted`` when ``N`` is even.
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nautils</span><span class="o">.</span><span class="n">reverse_rna_complement</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">na_utils</span><span class="o">.</span><span class="n">reverse_rna_complement</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15451,7 +15451,7 @@ two middle values of ``V_sorted`` when ``N`` is even.
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nautils</span><span class="o">.</span><span class="n">rna</span><span class="p">(</span><span class="s1">&#39;You can observe a lot by just watching.&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">na_utils</span><span class="o">.</span><span class="n">rna</span><span class="p">(</span><span class="s1">&#39;You can observe a lot by just watching.&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15511,7 +15511,7 @@ two middle values of ``V_sorted`` when ``N`` is even.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Package-management">Package management<a class="anchor-link" href="#Package-management">&#182;</a></h2><p>When we wrote the <code>dnatorna</code> module, we stored it in the directory that we were working in, or the <code>pwd</code>. But what if you write a module that you want to use regardless of what directory your are in? To allow this kind of usage, you can use the <code>setuptools</code> module of the standard library to manage your packages. You should read <a href="https://docs.python.org/3/tutorial/modules.html#packages">the documentation on Python packages and modules</a> to understand the details of how this is done, but what we present here is sufficient to get simple packages running and installed.</p>
+<h2 id="Package-management">Package management<a class="anchor-link" href="#Package-management">&#182;</a></h2><p>When we wrote the <code>na_utils</code> module, we stored it in the directory that we were working in, or the <code>pwd</code>. But what if you write a module that you want to use regardless of what directory your are in? To allow this kind of usage, you can use the <code>setuptools</code> module of the standard library to manage your packages. You should read <a href="https://docs.python.org/3/tutorial/modules.html#packages">the documentation on Python packages and modules</a> to understand the details of how this is done, but what we present here is sufficient to get simple packages running and installed.</p>
 
 </div>
 </div>
@@ -15520,44 +15520,53 @@ two middle values of ``V_sorted`` when ``N`` is even.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Package-architecture">Package architecture<a class="anchor-link" href="#Package-architecture">&#182;</a></h3><p>In order for the tools in <code>setuptools</code> to effectively install your modules for widespread use, you need to follow a specific architecture for your package. I made an example <code>nautils</code> package that is present in the <code>~/git/bootcamp/modules</code> folder. To make sure you have it, you should do the following (described in the <a href="l12_version_control_with_git.html">next lesson about Git</a> on the command line.</p>
+<h3 id="Package-architecture">Package architecture<a class="anchor-link" href="#Package-architecture">&#182;</a></h3><p>In order for the tools in <code>setuptools</code> to effectively install your modules for widespread use, you need to follow a specific architecture for your package. I made an example <code>bootcamp_utils</code> package that is present in the <code>~/git/bootcamp/modules</code> folder. To make sure you have it, you should do the following (described in the <a href="l12_version_control_with_git.html">next lesson about Git</a>) on the command line.</p>
 
 <pre><code>git pull upstream master
 
 </code></pre>
 <p>The file structure is of the package is</p>
 
-<pre><code>/nautils
-  /nautils
+<pre><code>/bootcamp_utils
+  /bootcamp_utils
     __init__.py
-    nautils.py
+    na_utils.py
+    bioinfo_dicts.py
+    ...
 setup.py
 README.md
 
 </code></pre>
-<p>You can use your command line skills to make the directories and use the JupyterLab text editor to make the files (in this case, four of them, <code>__init__.py</code>, <code>nautils.py</code>, <code>setup.py</code>, and <code>README.md</code>).</p>
-<p>It is essential that the name of the root directory be the name of the package, and that there be a subdirectory with the same name. That subdirectory must contain a file <code>__init__.py</code>. This file contains information about the package and how the modules of the package are imported, but it may be empty for simple modules. In this case, I included a string with the name and version of the package. Here are the contents of <code>__init__.py</code>.</p>
-<div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;nautils&#39;</span>
-<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;0.0.1&#39;</span>
+<p>The ellipsis above signifies that there are other files in there that we are not going to use yet. I am trying to keep it simple for now to show how package management works.</p>
+<p>To set up the package, you can use your command line skills to make the directories and use the JupyterLab text editor to make the files (in this case, four of them, <code>__init__.py</code>, <code>na_utils.py</code>, <code>bioinfo_dicts.py</code> (the little module we mentioned in the <a href="l10_dictionaries.html#Useful-dictionaries-in-bioinformatics">lesson on dictionaries</a>, <code>setup.py</code>, and <code>README.md</code>).</p>
+<p>It is essential that the name of the root directory be the name of the package, and that there be a subdirectory with the same name. That subdirectory must contain a file <code>__init__.py</code>. This file contains information about the package and how the modules of the package are imported, but it may be empty for simple modules. In this case, I included a string with the name and version of the package, as well as instructions to import appropriate modules. Here are the contents of <code>__init__.py</code>. The first two lines of code tell the interpreter what to import when running <code>import bootcamp_utils</code>.</p>
+<div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Top-level package for utilities for bootcamp.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.na_utils</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.bioinfo_dicts</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Justin Bois&#39;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;bois@caltech.edu&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.0.1&#39;</span>
 </pre></div>
-<p>Also within the subdirectory are the <code>.py</code> files containing the code of the package. In our case, this is a single file, <code>nautils.py</code>.</p>
+<p>Also within the subdirectory are the <code>.py</code> files containing the code of the package. In our case, we have, <code>na_utils.py</code> and <code>bioinfo_dicts.py</code>.</p>
 <p>It is also good practice to have a README file (which I suggest you write in Markdown) that has information about the package and what it does. Since this little demo package is kind of trivial, the README is quite short. Here are the contents I made for <code>README.md</code> (shown in unrendered raw Markdown).</p>
 
-<pre><code># nautils
+<pre><code># bootcamp_utils
 
-Utilities for converting DNA sequences into RNA sequences.</code></pre>
-<p>Finally, in the main directory, we need to have a file called <code>setup.py</code>, which contains the instructions for <code>setuptools</code> to install the package. WE use the <code>setuptools.setup()</code> function to do the installation.</p>
+Utilities for use in the Introduction to Programming in the Biological Sciences Bootcamp.</code></pre>
+<p>Finally, in the main directory, we need to have a file called <code>setup.py</code>, which contains the instructions for <code>setuptools</code> to install the package. We use the <code>setuptools.setup()</code> function to do the installation.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">setuptools</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;README.md&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
     <span class="n">long_description</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
 <span class="n">setuptools</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;nautils&#39;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bootcamp_utils&#39;</span><span class="p">,</span>
     <span class="n">version</span><span class="o">=</span><span class="s1">&#39;0.0.1&#39;</span><span class="p">,</span>
     <span class="n">author</span><span class="o">=</span><span class="s1">&#39;Justin Bois&#39;</span><span class="p">,</span>
     <span class="n">author_email</span><span class="o">=</span><span class="s1">&#39;bois@caltech.edu&#39;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Utilities for parsing nucleic acid sequences.&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Utilities for use in bootcamp.&#39;</span><span class="p">,</span>
     <span class="n">long_description</span><span class="o">=</span><span class="n">long_description</span><span class="p">,</span>
     <span class="n">long_description_content_type</span><span class="o">=</span><span class="s1">&#39;ext/markdown&#39;</span><span class="p">,</span>
     <span class="n">packages</span><span class="o">=</span><span class="n">setuptools</span><span class="o">.</span><span class="n">find_packages</span><span class="p">(),</span>
@@ -15578,7 +15587,7 @@ Utilities for converting DNA sequences into RNA sequences.</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Installing-your-package">Installing your package<a class="anchor-link" href="#Installing-your-package">&#182;</a></h3><p>To install your package, you use <code>pip</code>, which is a self-referential acronym <strong><code>P</code></strong><code>ip</code> <strong><code>I</code></strong><code>nstalls</code> <strong><code>P</code></strong><code>ackages</code>. To install a your package, make sure you are in the directory immediately above your package, in this case <code>~/git/bootcamp/modules/</code>. Then, do the following on the command line.</p>
 
-<pre><code>pip install -e dnatorna
+<pre><code>pip install -e bootcamp_utils
 
 </code></pre>
 <p>The <code>-e</code> flag is important, which tells <code>pip</code> that this is a local, editable package.</p>
