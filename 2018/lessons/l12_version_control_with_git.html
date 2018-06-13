@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>l11_packages_and_modules</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l12_version_control_with_git</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14985,10 +14985,11 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-11:-Packages-and-modules">Lesson 11: Packages and modules<a class="anchor-link" href="#Lesson-11:-Packages-and-modules">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-12:-Version-control-with-Git">Lesson 12: Version control with Git<a class="anchor-link" href="#Lesson-12:-Version-control-with-Git">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<p>Parts of this lesson are based on a <a href="http://swcarpentry.github.io/git-novice/">similar lesson from Software Carpentry</a>, itself also licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l11_packages_and_modules.ipynb">here</a>.</em></p>
+<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l12_version_control_with_git.ipynb">here</a>.</em></p>
 <p><br /> <br /></p>
 
 </div>
@@ -14998,214 +14999,60 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The Python Standard Library has lots of built-in <strong>modules</strong> that contain useful functions and data types for doing specific tasks. You can also use modules from outside the standard library. And you will undoubtedly write your own modules!</p>
-<p>A module is contained in a file that ends with <code>.py</code>.  This file can have <strong>classes</strong>, functions, and other objects. We will not discuss defining your own classes in the bootcamp, so your modules will essentially just contain functions.</p>
-<p>A <strong>package</strong> contains several related modules that are all grouped together under one name.  We will extensively use the <a href="http://www.numpy.org">NumPy</a>, <a href="http://www.scipy.org/">SciPy</a>, <a href="http://pandas.pydata.org">Pandas</a>, and <a href="https://altair-viz.github.io">Altair</a> packages, among others, in the bootcamp, and I'm sure you will also use them beyond. As such, the first module we will consider is NumPy. We will talk a <strong>lot</strong> more about NumPy later in the bootcamp.</p>
+<p>Keeping track of all of the changes in your project over time is good practice. How many times have you edited something in something you were writing and then wanted to go back and see what you had in the first place? Wouldn't it be great to know what changes you made and when you made them?</p>
+<p>A <strong>version control system</strong> facilitates this process of keeping track of changes over time. Beyond that, it allows multiple people to collaborate and work on parts of the same project simultaneously.</p>
+<p>There are many version control systems. The four most prominent, in order of age, oldest to youngest, are CVS, Subversion, Git, and Mercurial (the first version of Git was released about two weeks before Mercurial, so they are really the same age). Today, Git dominates.</p>
+<p>Git was developed by <a href="https://en.wikipedia.org/wiki/Linus_Torvalds">Linus Torvalds</a>, the person who developed the Linux operating system. He named Linux after himself, and he decided to also name Git after himself ("git" is British slang for a stupid person). Try typing</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Example:-I-want-to-compute-the-mean-and-median-of-a-list-of-numbers">Example: I want to compute the mean and median of a list of numbers<a class="anchor-link" href="#Example:-I-want-to-compute-the-mean-and-median-of-a-list-of-numbers">&#182;</a></h2><p>Say I have a list of numbers and I want to compute the mean. This happens all the time; you repeat a measurement multiple times and you want to compute the mean. We could write a function to do this.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the mean of a sequence of numbers.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>And it works as expected.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">mean</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">mean</span><span class="p">((</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>3.0
-3.275
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In addition to the mean, we might also want to compute the median, the standard deviation, etc. These seem like really common tasks. Remember my advice: if you want to do something that seems really common, a good programmer (or a team of them) probably already wrote something to do that. Means, medians, standard deviations, and lots and lots and lots of other numerical things are included in the <strong>Numpy module</strong>. To get access to it, we have to <strong>import</strong> it.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>That's it!  We now have the <code>numpy</code> module available for use.  Remember, in Python everything is an object, so if we want to access the methods and attributes, available in the <code>numpy</code> module, we use dot syntax. In a Jupyter notebook or in the JupyterLab console, you can type</p>
-
-<pre><code>numpy.
+<pre><code>man git
 
 </code></pre>
-<p>(note the dot) and hit tab, and we will see what is available. For Numpy, there is a huge number of options!</p>
-<p>So, let's try to use Numpy's <code>numpy.mean()</code> function to compute a mean.</p>
+<p>on the command line and read what the <code>NAME</code> of the software is.</p>
+<p>Using Git as a version control system allows communication with remote repositories such as <a href="http://github.com/">GitHub</a> or <a href="http://bitbucket.org">Bitbucket</a>. Both services provide university-affiliated people with a <code>.edu</code> email address with perks that include free private repositories. We will use GitHub for our bootcamp, and you should already have set up an account.</p>
+<p>Remote repositories are not only a great way for keeping your data safe. They are also an excellent tool for collaboration since Git allows multiple users to edit the shared files simultaneously and has a method to merge changes afterwards.  Public repositories can also serve as a vehicle to distribute code (or other files).</p>
+<p>You can find more information about Git <a href="https://git-scm.com/documentation">here</a>. It is well documented. Here is an <a href="https://education.github.com/git-cheat-sheet-education.pdf">excellent one-page (front-and-back) cheatsheet</a>.</p>
+<p>Let's get started. You all should have a version of Git installed on your computers. Open the terminal and navigate into your <code>~/git</code> directory.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>3.0
-3.275
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Great! We get the same values! Now, we can use the <code>numpy.median()</code> function to compute the median.</p>
+<h2 id="Configuring-Git">Configuring Git<a class="anchor-link" href="#Configuring-Git">&#182;</a></h2><p>While you already used Git in <a href="l00_configuring_your_machine.html">lesson 0</a>, you still have some configuring to do. For this, and everthing else in the tutorial, we'll use the command line. We will do the configuration with <code>--global</code> flags, which means these specifications work for all of your repositories. First, we'll specify the name and email address of the person working with Git on your machine (that's you!).</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">median</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">median</span><span class="p">((</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)))</span>
-</pre></div>
+<pre><code>git config --global user.name "YOUR NAME"
+git config --global user.email "YOUR EMAIL ADDRESS"
 
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>3.0
-2.85
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This is nice. It gives the median, including when we have an even number of elements in the sequence of numbers, in which case it automatically interpolates. It is really important to know that it does this interpolation, since if you are not expecting it, it can give unexpected results. So, here is an important piece of advice:</p>
-<div class="alert alert-info">
-<center>Always check the doc strings of external module functions.</center>
-</div><p>We can access the doc string of the <code>numpy.median()</code> function in JupyterLab by typing</p>
-
-<pre><code>numpy.median?
 
 </code></pre>
-<p>and looking at the output. An important part of that output:</p>
+<!--
+Git requires a text editor. You can specify Atom as your text editor if you like. (I recommend this, since the default is vi, which can be quite difficult to use for those not accustomed to it.)
 
-<pre><code>Notes
------
-Given a vector ``V`` of length ``N``, the median of ``V`` is the
-middle value of a sorted copy of ``V``, ``V_sorted`` - i
-e., ``V_sorted[(N-1)/2]``, when ``N`` is odd, and the average of the
-two middle values of ``V_sorted`` when ``N`` is even.
+    git config --global core.editor "atom --wait"
+-->
+
+<p>Git is very well documented and help is easily available. If you need to know more about <code>config</code>, for example, just enter:</p>
+
+<pre><code>git help config</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Cloning-Repositories">Cloning Repositories<a class="anchor-link" href="#Cloning-Repositories">&#182;</a></h2><p>You have already cloned the <code>bootcamp</code> repository in <a href="l00_configuring_your_machine.html">lesson 0</a>. We'll practice that again here, and clone one of the zillions of public repositories that are hosted on GitHub. We will clone a simple package, called <code>insulter</code> that will hurl Shakespearean insults at you.</p>
+
+<pre><code>git clone https://gist.github.com/3165396.git insulter
 
 </code></pre>
-<p>This is where the documentation tells you that the median will be reported as the average of two middle values when the number of elements is even. Note that you could also read the documentation <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.median.html">here</a>, which is a bit easier to read.</p>
+<p>Note that the insulter package is now on your machine. You have a copy of it on your own hard drive. You do not need to be connected to the internet to use it.</p>
+<p>Now, <code>cd</code> to <code>insulter</code> and you can start using it, thou wayward tickle-brained flap-dragon!</p>
+
+<pre><code>python insulter.py</code></pre>
 
 </div>
 </div>
@@ -15214,360 +15061,44 @@ two middle values of ``V_sorted`` when ``N`` is even.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-as-keyword">The as keyword<a class="anchor-link" href="#The-as-keyword">&#182;</a></h2><p>We use Numpy all the time. Typing <code>numpy</code> over and over again can get annoying. So, it is common practice to use the <code>as</code> keyword to import a module with an alias. Numpy's alias is traditionally <code>np</code>.</p>
+<h2 id="Pulling-in-changes">Pulling in changes<a class="anchor-link" href="#Pulling-in-changes">&#182;</a></h2><p>Actively developed repositories are constantly being updated. After you clone the repository, its authors may add or edit things in the repository. For you to get those changes, you need to <strong>fetch</strong> them and then <strong>merge</strong> them into what you have locally.</p>
+<p>To fetch the updated repository, you guessed it, you do:</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">((</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[6]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>2.85</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>I prefer to do things this way, though <a href="http://nbviewer.jupyter.org/github/barbagroup/jupyter-tutorial/blob/master/3--Jupyter%20like%20a%20pro.ipynb">some purists differ</a>. We will use traditional aliases for major packages like Numpy, Pandas, and Altair throughout the bootcamp.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Third-party-packages">Third party packages<a class="anchor-link" href="#Third-party-packages">&#182;</a></h2><p>Standard Python installations come with the standard library. Numpy and other useful packages are not in the standard library. Outside of the standard library, there are several packages available.  Several. Ha! There are currently (June 12, 2018) about 142,000 packages available through the <a href="https://pypi.python.org/pypi">Python Package Index</a>, PyPI. Usually, you can ask Google about what you are trying to do, and there is often a third party module to help you do it. The most useful (for scientific computing) and thoroughly tested packages and modules are available using <code>conda</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Writing-your-own-module">Writing your own module<a class="anchor-link" href="#Writing-your-own-module">&#182;</a></h2><p>To write your own module, you need to create a <code>.py</code> file and save it. You can do this using the text editor in JupyterLab. Let's call our module <code>nautils</code>, for "nucleic acid utilities." So, we create a file called <code>nautils.py</code>.  We'll build this module to have two functions, based on things we've already written.  We'll have a function <code>dna_to_rna()</code>, which converts a DNA sequence to an RNA sequence (just changes <code>T</code> to <code>U</code>), and another function <code>reverse_rna_complement()</code>, which returns the reverse RNA complement of a DNA template.  The contents of <code>nautils.py</code> should look as follows.</p>
-<div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Utilities for parsing nucleic acid sequences.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
-<span class="k">def</span> <span class="nf">dna_to_rna</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert a DNA sequence to RNA.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1"># Determine if original sequence was uppercase</span>
-    <span class="n">seq_upper</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span>
-
-    <span class="c1"># Convert to lowercase</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-
-    <span class="c1"># Swap out &#39;t&#39; for &#39;u&#39;</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;u&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Return upper or lower case RNA sequence</span>
-    <span class="k">if</span> <span class="n">seq_upper</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">seq</span>
-
-
-<span class="k">def</span> <span class="nf">reverse_rna_complement</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert a DNA sequence into its reverse complement as RNA.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1"># Determine if original was uppercase</span>
-    <span class="n">seq_upper</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span>
-
-    <span class="c1"># Reverse sequence</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-    <span class="c1"># Convert to upper</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-
-    <span class="c1"># Compute complement</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;u&#39;</span><span class="p">)</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Return result</span>
-    <span class="k">if</span> <span class="n">seq_upper</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">seq</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that the file starts with a doc string saying what the module contains.</p>
-<p>I then have my two functions, each with doc strings.  We will now import the module and then use these functions. In order for the import to work, the file <code>nautils.py</code> must be in your present working directory, since this is where the Python interpreter will look for your module. In general, if you execute the code</p>
-
-<pre><code>import my_module
+<pre><code>git fetch
 
 </code></pre>
-<p>the Python interpreter will look first in the <code>pwd</code> to find <code>my_module.py</code>.</p>
+<p>The result is stored in a hidden directory, <code>.git/FETCH_HEAD</code>. (Directories that begin with a <code>.</code> are hidden; you don't see them when you type <code>ls</code>.)</p>
+<p>Now that there are changes, you would like to update your local repository. Provided you do not have any local edits, this is seamless. You just do</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nautils</span>
-
-<span class="c1"># Sequence</span>
-<span class="n">seq</span> <span class="o">=</span> <span class="s1">&#39;GACGATCTAGGCGACCGACTGGCATCG&#39;</span>
-
-<span class="c1"># Convert to RNA</span>
-<span class="n">nautils</span><span class="o">.</span><span class="n">rna</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[7]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;GACGAUCUAGGCGACCGACUGGCAUCG&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can also compute the reverse RNA complement.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nautils</span><span class="o">.</span><span class="n">reverse_rna_complement</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[8]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;CGAUGCCAGUCGGUCGCCUAGAUCGUC&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Wonderful!  You now have your own functioning module!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="A-quick-note-on-error-checking">A quick note on error checking<a class="anchor-link" href="#A-quick-note-on-error-checking">&#182;</a></h4><p>These functions have minimal error checking of the input. For example, the <code>rna()</code> function will take gibberish in and give jibberish out.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nautils</span><span class="o">.</span><span class="n">rna</span><span class="p">(</span><span class="s1">&#39;You can observe a lot by just watching.&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[9]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;you can observe a lou by jusu wauching.&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In general, checking input and handling errors is an essential part of writing functions, and we will cover that in <a href="l13_exceptions_and_error_handling.html">a later lesson</a>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Importing-modules-in-your-.py-files-and-notebooks">Importing modules in your .py files and notebooks<a class="anchor-link" href="#Importing-modules-in-your-.py-files-and-notebooks">&#182;</a></h2><p>As our first foray into the glory of <a href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a>, the Python style guide, we quote:</p>
-<blockquote><p>Imports are always put at the top of the file, just after any module comments and docstrings, and before module globals and constants.</p>
-<p>Imports should be grouped in the following order:</p>
-<ol>
-<li>standard library imports</li>
-<li>related third party imports</li>
-<li>local application/library specific imports</li>
-</ol>
-<p>You should put a blank line between each group of imports.</p>
-</blockquote>
-<p>You should follow this guide. I generally do it for Jupyter notebooks as well, with my first cell having all of the imports I need. in the first code cell. Therefore, going forward all of our lessons will have all necessary imports at the top of the document.  The only exception is when we are explicitly demonstrating a concept that requires an import.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Package-management">Package management<a class="anchor-link" href="#Package-management">&#182;</a></h2><p>When we wrote the <code>dnatorna</code> module, we stored it in the directory that we were working in, or the <code>pwd</code>. But what if you write a module that you want to use regardless of what directory your are in? To allow this kind of usage, you can use the <code>setuptools</code> module of the standard library to manage your packages. You should read <a href="https://docs.python.org/3/tutorial/modules.html#packages">the documentation on Python packages and modules</a> to understand the details of how this is done, but what we present here is sufficient to get simple packages running and installed.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Package-architecture">Package architecture<a class="anchor-link" href="#Package-architecture">&#182;</a></h3><p>In order for the tools in <code>setuptools</code> to effectively install your modules for widespread use, you need to follow a specific architecture for your package. I made an example <code>nautils</code> package that is present in the <code>~/git/bootcamp/modules</code> folder. To make sure you have it, you should do the following (described in the <a href="l12_version_control_with_git.html">next lesson about Git</a> on the command line.</p>
-
-<pre><code>git pull upstream master
+<pre><code>git merge FETCH_HEAD
 
 </code></pre>
-<p>The file structure is of the package is</p>
+<p>Now your repository will be up to date.</p>
+<p>A shortcut for the commands</p>
 
-<pre><code>/nautils
-  /nautils
-    __init__.py
-    nautils.py
-setup.py
-README.md
+<pre><code>git fetch
+git merge FETCH_HEAD
 
 </code></pre>
-<p>You can use your command line skills to make the directories and use the JupyterLab text editor to make the files (in this case, four of them, <code>__init__.py</code>, <code>nautils.py</code>, <code>setup.py</code>, and <code>README.md</code>).</p>
-<p>It is essential that the name of the root directory be the name of the package, and that there be a subdirectory with the same name. That subdirectory must contain a file <code>__init__.py</code>. This file contains information about the package and how the modules of the package are imported, but it may be empty for simple modules. In this case, I included a string with the name and version of the package. Here are the contents of <code>__init__.py</code>.</p>
-<div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;nautils&#39;</span>
-<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;0.0.1&#39;</span>
-</pre></div>
-<p>Also within the subdirectory are the <code>.py</code> files containing the code of the package. In our case, this is a single file, <code>nautils.py</code>.</p>
-<p>It is also good practice to have a README file (which I suggest you write in Markdown) that has information about the package and what it does. Since this little demo package is kind of trivial, the README is quite short. Here are the contents I made for <code>README.md</code> (shown in unrendered raw Markdown).</p>
+<p>run in succession is</p>
 
-<pre><code># nautils
+<pre><code>git pull
 
-Utilities for converting DNA sequences into RNA sequences.</code></pre>
-<p>Finally, in the main directory, we need to have a file called <code>setup.py</code>, which contains the instructions for <code>setuptools</code> to install the package. WE use the <code>setuptools.setup()</code> function to do the installation.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">setuptools</span>
+</code></pre>
+<p>In practice, you will use this a lot, but, as you will see, we will use fetching and merging on a forked repository in the next lesson, so it can be useful.</p>
+<p>Let's try doing this with the <code>bootcamp</code> repository. <code>cd</code> into <code>~/git/bootcamp/</code>. Now, type</p>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;README.md&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
-    <span class="n">long_description</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<pre><code>git pull
 
-<span class="n">setuptools</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;nautils&#39;</span><span class="p">,</span>
-    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;0.0.1&#39;</span><span class="p">,</span>
-    <span class="n">author</span><span class="o">=</span><span class="s1">&#39;Justin Bois&#39;</span><span class="p">,</span>
-    <span class="n">author_email</span><span class="o">=</span><span class="s1">&#39;bois@caltech.edu&#39;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Utilities for parsing nucleic acid sequences.&#39;</span><span class="p">,</span>
-    <span class="n">long_description</span><span class="o">=</span><span class="n">long_description</span><span class="p">,</span>
-    <span class="n">long_description_content_type</span><span class="o">=</span><span class="s1">&#39;ext/markdown&#39;</span><span class="p">,</span>
-    <span class="n">packages</span><span class="o">=</span><span class="n">setuptools</span><span class="o">.</span><span class="n">find_packages</span><span class="p">(),</span>
-    <span class="n">classifiers</span><span class="o">=</span><span class="p">(</span>
-        <span class="s2">&quot;Programming Language :: Python :: 3&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Operating System :: OS Independent&quot;</span><span class="p">,</span>
-    <span class="p">),</span>
-<span class="p">)</span>
-</pre></div>
-<p>This is a minimal <code>setup.py</code> function, but will be sufficient for most packages you write for your own use. For your use, you make obvious changes to the <code>name</code>, <code>author</code>, etc., fields.</p>
+</code></pre>
+<p>This will "pull" in any changes make to the repository. Throughout the bootcamp, we may need to update files in the repository, so you may need to <code>git pull</code> throughout the bootcamp.</p>
+<p>Note that <code>git pull</code> is actually shorthand for</p>
+
+<pre><code>git pull origin master
+
+</code></pre>
+<p>which is the more verbose way of saying that you want to pull the master <strong>branch</strong> from the remote repository named <code>origin</code>.</p>
+<p>Generally it is good practice to pull before you start working each day to make sure you pull in any updates your collaborators may have made.</p>
 
 </div>
 </div>
@@ -15576,13 +15107,139 @@ Utilities for converting DNA sequences into RNA sequences.</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Installing-your-package">Installing your package<a class="anchor-link" href="#Installing-your-package">&#182;</a></h3><p>To install your package, you use <code>pip</code>, which is a self-referential acronym <strong><code>P</code></strong><code>ip</code> <strong><code>I</code></strong><code>nstalls</code> <strong><code>P</code></strong><code>ackages</code>. To install a your package, make sure you are in the directory immediately above your package, in this case <code>~/git/bootcamp/modules/</code>. Then, do the following on the command line.</p>
+<h3 id="Pulling-in-changes-from-an-upstream-repository">Pulling in changes from an upstream repository<a class="anchor-link" href="#Pulling-in-changes-from-an-upstream-repository">&#182;</a></h3><p>As you saw in <a href="l00_configuring_your_machine.html">lesson 0</a>, it is sometimes useful to pull from an upstream repository. In <a href="l00_configuring_your_machine.html">lesson 0</a>, you added an upstream remote repository to the bootcamp repository. To pull from the upstream repository, you need to use the more verbose version of <code>git pull</code>.</p>
 
-<pre><code>pip install -e dnatorna
+<pre><code>git pull upstream master</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Creating-your-own-repository">Creating your own repository<a class="anchor-link" href="#Creating-your-own-repository">&#182;</a></h2><p>Now, you will create your own repository for practice. We will call the repository <code>nautils</code>, for "nucleic acid utilities." We have already made the repository in the last lesson (or you can copy it from <code>~/git/bootcamp/modules/</code>) and now we want to put it under version control.</p>
+<p>Only in rare circumstances would you not want to host your repository remotely, so we will take an easy path toward creating a repository using GitHub. Prior to the bootcamp, you all should have set up a GitHub account. Log in to GitHub. In the upper right corner of the page, click on the "<strong><code>+</code></strong>" icon and select "New repository." You will then get a page that looks like this:</p>
+<p><img src="github2.png" alt="github2.png"></p>
+<p>I called the new repository <code>nautils</code>, and gave a little description. You can choose the repository to be either private of public; if you are not an academic, you have to pay for private repositories. Public repositories can be viewed by anyone. I will choose public for this one.</p>
+<p>I have checked the box to initialized the repository with a README. This is convenient because GitHub will set up the repository and populate it with a README file that you can generate right in your browser. After clicking "Create repository," you will get a page that looks like this:</p>
+<p><img src="github3.png" alt="github3.png"></p>
+<p>This is the main page for your repository. It is created! Right now, the repository only exists on GitHub. You need to clone it to get it on your own machine. To do that, click the "Clone or download" button and copy the web URL.</p>
+<p>Now, it is time to clone your repository on your own machine. I think you know the drill. First, <code>cd</code> to your <code>~/git</code> directory (if that is where you choose to keep your repositories). Then do this:</p>
+
+<pre><code>git clone the_url_you_just_copied
 
 </code></pre>
-<p>The <code>-e</code> flag is important, which tells <code>pip</code> that this is a local, editable package.</p>
-<p>Your package is now accessible on your machine whenever you run the Python interpreter!</p>
+<p>If you now <code>cd</code> into the <code>nautils</code> directory, you can see the <code>README.md</code> file there.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Adding-files-to-your-repository">Adding files to your repository<a class="anchor-link" href="#Adding-files-to-your-repository">&#182;</a></h2><p>Now, let's update the repository. We will add the package we built in the last lesson. To do this, copy the contents of the <code>~/git/bootcamp/modules/nautils/</code> directory and into the <code>~/git/nautils/</code> directory. On my machine, this is accomplished by:</p>
+
+<pre><code>cd ~/git/bootcamp/modules/nautils/
+cp -r * ~/git/nautils/
+
+</code></pre>
+<p>This instructs the operating system to copy all of the contents of <code>~/git/bootcamp/modules/nautils/</code> to your new repository. (The <code>*</code> is a <strong>wildcard character</strong>, which means every file in this case.) We verify that it is there by typing <code>ls</code>. So, it is in the repository, right? Let's ask Git. <code>git status</code> is a useful command that checks what is in the repository and in your working directory on your machine, and let's you know the status of all files and directories.</p>
+
+<pre><code>git status
+
+</code></pre>
+<p>The output looks like this:</p>
+
+<pre><code>On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   README.md
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    nautils/
+    setup.py
+
+no changes added to commit (use "git add" and/or "git commit -a")</code></pre>
+<p>It tells us that because we copied over the <code>README.md</code>, the <code>README.md</code> file that was in the repository when you created it on GitHub has been modified. It further says that the contents of the directory <code>nautils/</code> and the file <code>setup.py</code> are not under version control, even though they exist in the directory that is under version control. We need to explicitly tell Git that this file needs to be tracked. We also need to tell it that we want to add the modified <code>README.md</code> file to the repository. We do this using the <code>git add</code> command.</p>
+
+<pre><code>git add nautils
+git add setup.py
+git add README.md
+
+</code></pre>
+<p>We have now added what we needed, so we have changed the repository.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Committing-and-pushing-changes">Committing and pushing changes<a class="anchor-link" href="#Committing-and-pushing-changes">&#182;</a></h2><p>Now, if we type <code>git status</code>, we get updated information.</p>
+
+<pre><code>On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   README.md
+    new file:   nautils/__init__.py
+    new file:   nautils/nautils.py
+    new file:   setup.py</code></pre>
+<p>It tells use we have new files and a modified file. It says these are part of "Changes to be committed." A <strong>commit</strong> is essentially a revision of a repository. It marks a point in the development of the repository that you want to mark. So, let's commit the present state of the repository.</p>
+
+<pre><code>git commit -m "Added DNA to RNA conversion functionality."
+
+</code></pre>
+<p>The <code>-m</code> after <code>git commit</code> specifies the <strong>commit message</strong>. This is a brief bit of text that describes what has changed in the repository. Upon committing, the something like the following is printed to the screen:</p>
+
+<pre><code>[master cfaa162] Added DNA to RNA conversion functionality.
+ 4 files changed, 73 insertions(+), 1 deletion(-)
+ create mode 100644 nautils/__init__.py
+ create mode 100644 nautils/nautils.py
+ create mode 100644 setup.py</code></pre>
+<p>The number <code>cfaa162</code> (yours will be different) is the short version of the commit identifier. If you ever want to go back to a previous version of the repository, this identifier will be a great help.</p>
+<p>Now, the commit is still only on your local machine. In order for your collaborators (or the whole world, if it is a public repo) to have access to it (and in order for it to appear on GitHub), you need to <strong><code>push</code></strong> it. To do that, we do this:</p>
+
+<pre><code>git push origin master
+
+</code></pre>
+<p>Here, <code>origin</code> is a nickname for your remote repository. <code>master</code> is the name of the branch we are pushing to in the GitHub repository. I.e., it is the master copy. (We will not talk about branches or branching in this lesson.)</p>
+<p>Now, let's look at our repository on GitHub. You can just refresh the main page of the repository. It now looks like this:</p>
+<p><img src="github4.png" alt="github4.png"></p>
+<p>We now have our updates in the master branch, out there in the cloud for sharing.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id=".gitignore">.gitignore<a class="anchor-link" href="#.gitignore">&#182;</a></h2><p>Notice that before you added the files to your repository, Git let you know that there was an untracked file in your directory. Sometimes you do want to have files in the directories of your repository, but not keep those files under version control. Examples of these might be binary files, large data sets, images, etc.</p>
+<p>Fortunately, you can tell Git to ignore certain files. This is done using a <a href="https://git-scm.com/docs/gitignore"><code>.gitignore</code> file</a>. Each line of of the <code>.gitignore</code> file says which files to ignore. For example, to ignore all files that end with <code>.tif</code>, you would include the line</p>
+
+<pre><code>*.tif
+
+</code></pre>
+<p>in your <code>.gitignore</code> file. The <code>*</code> is a <strong>wildcard character</strong> which says to ignore all files that have a file name ending with <code>.tif</code>, regardless of what the prefix is. Now, whenever you you use <code>git status</code>, any file ending with <code>*.tif</code> that happens to be on your machine within the directories containing your repository will be ignored by Git.</p>
+<p>Just because <code>*.tif</code> appears in a <code>.gitignore</code> file does not mean that <em>all</em> <code>.tif</code> files will be ignored. If you explicitly add a file to the repository, Git will keep track of it. E.g., if you did</p>
+
+<pre><code>git add myfile.tif
+
+</code></pre>
+<p>then <code>myfile.tif</code> will be under version control, even if other <code>.tif</code> files laying around are not. (<em>Note, though, that you typically do not want to have binary files under version control. You typically only keep code under control. Typically only data sets used to test code are included in the repository. Version control is not really for data, but for code.</em>)</p>
+<p>Finally, since it begins with a <code>.</code>. When you put a <code>.gitignore</code> file in a directory,  the <code>.gitignore</code> file will not show up when you run <code>ls</code> at the command line without the <code>-a</code> flag.</p>
 
 </div>
 </div>
