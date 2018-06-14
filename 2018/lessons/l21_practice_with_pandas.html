@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>l20_split_apply_combine</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l21_practice_with_pandas</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14985,10 +14985,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-20:-Tidy-data-and-split-apply-combine">Lesson 20: Tidy data and split-apply-combine<a class="anchor-link" href="#Lesson-20:-Tidy-data-and-split-apply-combine">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-21:-Practice-with-Pandas">Lesson 21: Practice with Pandas<a class="anchor-link" href="#Lesson-21:-Practice-with-Pandas">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l20_split_apply_combine.ipynb">here</a>.</em></p>
+<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l21_practice_with_pandas.ipynb">here</a>.</em></p>
 <p><br /> <br /></p>
 
 </div>
@@ -14999,8 +14999,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 </pre></div>
 
 </div>
@@ -15012,7 +15011,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In the last lesson, we learned about Pandas and dipped our toe in to see its power.  In this lesson, we will work with a more complicated data set and use Pandas to handle it and pull out what we need.</p>
+<p>Pandas can be a bit frustrating during your first experiences with it. In this lesson, we will practice using Pandas. The more and more you use it, the more distant the memory of life without it will become.</p>
 
 </div>
 </div>
@@ -15021,40 +15020,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Tidy-data">Tidy data<a class="anchor-link" href="#Tidy-data">&#182;</a></h2><p><a href="https://en.wikipedia.org/wiki/Hadley_Wickham">Hadley Wickham</a> wrote a <a href="http://dx.doi.org/10.18637/jss.v059.i10">great article</a> in favor of "tidy data."  Tidy <code>DataFrame</code>s follow the rules:</p>
-<ol>
-<li>Each variable is a column.</li>
-<li>Each observation is a row.</li>
-<li>Each type of observation has its own separate <code>DataFrame</code>.</li>
-</ol>
-<p>This is less pretty to visualize as a table, but we rarely look at data in tables. Indeed, the representation of data which is convenient for visualization is different from that which is convenient for analysis. A tidy <code>DataFrame</code> is almost always <strong>much</strong> easier to work with than non-tidy formats.</p>
-<p>You may raise some objections about tidy data. Here are a few, and my responses.</p>
-<p><strong>Objection:</strong> Looking at a table of tidy data is ugly. It is not intuitively organized. I would almost never display a tidy data table in a publication.</p>
-<p><strong>Response:</strong> Correct! Having tabular data in a format that is easy to read as a human studying a table is a very different thing than having it in a format that is easy to explore and work with using a computer. As my friend <a href="https://chendaniely.github.io">Daniel Chen</a> put it, "There are data formats that are better for reporting and data formats that are better for analysis." We are using the tidy data frames for analysis, not reporting (though we will see in the coming lessons that having the data in a tidy format makes making plots much easier, and plots are a key medium for reporting.)</p>
-<p><br /></p>
-<p><strong>Objection:</strong> Isn't it better to sometimes have data arranged in other ways? Say in a matrix?</p>
-<p><strong>Response:</strong> This is certainly true for things like images, or raster-style data in general. It makes more sense to organize an image in a 2D matrix than to have it organized as a data frame with three columns (row in image, column in image, intensity of pixel), where each row corresponds to a single pixel. For an image, indexing it by row and column is always unambiguous, <code>my_image[i, j]</code> means the pixel at row <code>i</code> and column <code>j</code>.</p>
-<p>For other data, though, the matrix layout suffers from the fact that there may be more than one way to construct a matrix. If you know a data frame is tidy, you already know its structure. You need only to ask what the columns are, and then you immediately know how to access data. In other formats, you might have to read and write extensive comments to understand the structure of the data. Of course, you <em>can</em> read and write comments, but it opens the door for the possibility of misinterpretation or mistakes.</p>
-<p><br /></p>
-<p><strong>Objection:</strong> But what about time series? Clearly, that can be in matrix format. One column is time, and then subsequent columns are observations made at that time.</p>
-<p><strong>Response:</strong> Yes, that is true. But then the matrix-style described could be considered tidy, since each row is a single observation (time point) that has many facets.</p>
-<p><br /></p>
-<p><strong>Objection:</strong> Isn't this an inefficient use of memory? There tend to be lots of repeated entries in tidy data frames.</p>
-<p><strong>Response:</strong> Yes, there are more efficient ways of storing and accessing data. But for data sets that are not "big data," this is seldom a real issue. The extra expense in memory, as well as the extra expense in access, is a small prices to pay for the simplicity and speed of the human user in accessing the data.</p>
-<p><br /></p>
-<p><strong>Objection:</strong> Once it's tidy, we pretty much have to use Boolean indexing to get what we want, and that can be slower than other methods of accessing data. What about performance?</p>
-<p><strong>Response:</strong> See the previous response. Speed of access really only because of a problem with big, high-throughput data sets. In those cases, there are often many things you need to be clever about.</p>
-<p><br /></p>
-<p><strong>Conclusion:</strong> I really think that tidying a data set allows for fluid exploration. We will focus on tidy data sets going forward. The techniques for bringing untidy data into tidy format use many of Pandas's functions, but are largely beyond the scope of this bootcamp. You will explore that a little bit in the exercises, but for more of the bootcamp, our data sets are already tidy.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-data-set">The data set<a class="anchor-link" href="#The-data-set">&#182;</a></h2><p>We will again use the data set from the <a href="https://doi.org/10.1098/rsos.160321">Beattie, et al. paper</a> on facial matching under sleep deprivation. Let's load in the original data set and add the column on insomnia as we did in the<a href="l19_intro_to_pandas.html">last lesson</a>.</p>
+<h2 id="The-data-set">The data set<a class="anchor-link" href="#The-data-set">&#182;</a></h2><p>The data set comes from <a href="https://doi.org/10.1038/srep05225">Kleinteich and Gorb, <em>Sci. Rep.</em>, <strong>4</strong>, 5355, 2014</a>, and was <a href="http://www.nytimes.com/2014/08/25/science/a-frog-thats-a-living-breathing-pac-man.html">featured in the New York Times</a>.  They measured several properties about the tongue strikes of horned frogs.  Let's take a look at the data set, which is in the file <code>~git/data/frog_tongue_adhesion.csv</code>.</p>
 
 </div>
 </div>
@@ -15064,11 +15030,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/gfmt_sleep.csv&#39;</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sci&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">16</span>
-
-<span class="c1"># Take a look</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>head -20 data/frog_tongue_adhesion.csv
 </pre></div>
 
 </div>
@@ -15081,148 +15043,32 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[2]:</div>
+<div class="prompt"></div>
 
 
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>participant number</th>
-      <th>gender</th>
-      <th>age</th>
-      <th>correct hit percentage</th>
-      <th>correct reject percentage</th>
-      <th>percent correct</th>
-      <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
-      <th>confidence when correct</th>
-      <th>confidence when incorrect</th>
-      <th>sci</th>
-      <th>psqi</th>
-      <th>ess</th>
-      <th>insomnia</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>8</td>
-      <td>f</td>
-      <td>39</td>
-      <td>65</td>
-      <td>80</td>
-      <td>72.5</td>
-      <td>91.0</td>
-      <td>90.0</td>
-      <td>93.0</td>
-      <td>83.5</td>
-      <td>93.0</td>
-      <td>90.0</td>
-      <td>9</td>
-      <td>13</td>
-      <td>2</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>16</td>
-      <td>m</td>
-      <td>42</td>
-      <td>90</td>
-      <td>90</td>
-      <td>90.0</td>
-      <td>75.5</td>
-      <td>55.5</td>
-      <td>70.5</td>
-      <td>50.0</td>
-      <td>75.0</td>
-      <td>50.0</td>
-      <td>4</td>
-      <td>11</td>
-      <td>7</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>18</td>
-      <td>f</td>
-      <td>31</td>
-      <td>90</td>
-      <td>95</td>
-      <td>92.5</td>
-      <td>89.5</td>
-      <td>90.0</td>
-      <td>86.0</td>
-      <td>81.0</td>
-      <td>89.0</td>
-      <td>88.0</td>
-      <td>10</td>
-      <td>9</td>
-      <td>3</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>22</td>
-      <td>f</td>
-      <td>35</td>
-      <td>100</td>
-      <td>75</td>
-      <td>87.5</td>
-      <td>89.5</td>
-      <td>NaN</td>
-      <td>71.0</td>
-      <td>80.0</td>
-      <td>88.0</td>
-      <td>80.0</td>
-      <td>13</td>
-      <td>8</td>
-      <td>20</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>27</td>
-      <td>f</td>
-      <td>74</td>
-      <td>60</td>
-      <td>65</td>
-      <td>62.5</td>
-      <td>68.5</td>
-      <td>49.0</td>
-      <td>61.0</td>
-      <td>49.0</td>
-      <td>65.0</td>
-      <td>49.0</td>
-      <td>13</td>
-      <td>9</td>
-      <td>12</td>
-      <td>True</td>
-    </tr>
-  </tbody>
-</table>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre># These data are from the paper,
+#   Kleinteich and Gorb, Sci. Rep., 4, 5225, 2014.
+# It was featured in the New York Times.
+#    http://www.nytimes.com/2014/08/25/science/a-frog-thats-a-living-breathing-pac-man.html
+#
+# The authors included the data in their supplemental information.
+#
+# Importantly, the ID refers to the identifites of the frogs they tested.
+#   I:   adult, 63 mm snout-vent-length (SVL) and 63.1 g body weight,
+#        Ceratophrys cranwelli crossed with Ceratophrys cornuta
+#   II:  adult, 70 mm SVL and 72.7 g body weight,
+#        Ceratophrys cranwelli crossed with Ceratophrys cornuta
+#   III: juvenile, 28 mm SVL and 12.7 g body weight, Ceratophrys cranwelli
+#   IV:  juvenile, 31 mm SVL and 12.7 g body weight, Ceratophrys cranwelli
+date,ID,trial number,impact force (mN),impact time (ms),impact force / body weight,adhesive force (mN),time frog pulls on target (ms),adhesive force / body weight,adhesive impulse (N-s),total contact area (mm2),contact area without mucus (mm2),contact area with mucus / contact area without mucus,contact pressure (Pa),adhesive strength (Pa)
+2013_02_26,I,3,1205,46,1.95,-785,884,1.27,-0.290,387,70,0.82,3117,-2030
+2013_02_26,I,4,2527,44,4.08,-983,248,1.59,-0.181,101,94,0.07,24923,-9695
+2013_03_01,I,1,1745,34,2.82,-850,211,1.37,-0.157,83,79,0.05,21020,-10239
+2013_03_01,I,2,1556,41,2.51,-455,1025,0.74,-0.170,330,158,0.52,4718,-1381
+2013_03_01,I,3,493,36,0.80,-974,499,1.57,-0.423,245,216,0.12,2012,-3975
+</pre>
 </div>
-</div>
-
 </div>
 
 </div>
@@ -15233,33 +15079,9 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This data set is in tidy format. Each row represents a single test on a single participant. The aspects of that person's test are given in each column. We already saw the power of having the data in this format when we did Boolean indexing in the last lesson. Now, we will see how this format allows use to easily do an operation we do again and again with data sets, <strong>split-apply-combine</strong>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Split-apply-combine">Split-apply-combine<a class="anchor-link" href="#Split-apply-combine">&#182;</a></h2><p>Let's say we want to compute the median percent correct face matchings for subjects with insomnia and the median percent correct face matchings for those without. Ignoring for the second the mechanics of how we would do this with Python, let's think about it in English. What do we need to do?</p>
-<ol>
-<li><strong>Split</strong> the data set up according to the <code>'insomnia'</code> field, i.e., split it up so we have a separate data set for the two classes of subjects, those with insomnia and those without.</li>
-<li><strong>Apply</strong> a median function to the activity in these split data sets.</li>
-<li><strong>Combine</strong> the results of these averages on the split data set into a new, summary data set that contains the two classes (insomniac and not) and means for each.</li>
-</ol>
-<p>We see that the strategy we want is a <strong>split-apply-combine</strong> strategy. This idea was put forward by Hadley Wickham in <a href="http://dx.doi.org/10.18637/jss.v040.i01">this paper</a>. It turns out that this is a strategy we want to use <em>very</em> often. Split the data in terms of some criterion. (We may want to split by genotype.) Apply some function to the split-up data. Combine the results into a new data frame.</p>
-<p>Note that if the data are tidy, this procedure makes a lot of sense. Choose the column you want to use to split by. All rows with like entries in the splitting column are then grouped into a new data set. You can then apply any function you want into these new data sets. You can then combine the results into a new data frame.</p>
-<p>Pandas's split-apply-combine operations are achieved using the <code>groupby()</code> method. You can think of <code>groupby()</code> as the splitting part. You can then apply functions to the resulting <code>DataFrameGroupBy</code> object. The <a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html">Pandas documentation on split-apply-combine</a> is excellent and worth reading through. It is extensive though, so don't let yourself get intimidated by it.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Aggregation:-Median-percent-correct">Aggregation: Median percent correct<a class="anchor-link" href="#Aggregation:-Median-percent-correct">&#182;</a></h3><p>Let's go ahead and do our first split-apply-combine on this tidy data set. First, we will split the data set up by insomnia condition.</p>
+<p>The first lines all begin with <code>#</code> signs, signifying that they are comments and not data. They do give important information, though, such as the meaning of the ID data. The ID refers to which specific frog was tested.</p>
+<p>Immediately after the comments, we have a row of comma-separated headers. This row sets the number of columns in this data set and labels the meaning of the columns. So, we see that the first column is the date of the experiment, the second column is the ID of the frog, the third is the trial number, and so on.</p>
+<p>After this row, each row represents a single experiment where the frog struck the target. So, these data are already in tidy format. Let's go ahead and load the data into a <code>DataFrame</code>.</p>
 
 </div>
 </div>
@@ -15269,10 +15091,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grouped</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;insomnia&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Load the data</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/frog_tongue_adhesion.csv&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
 
 <span class="c1"># Take a look</span>
-<span class="n">grouped</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -15289,51 +15112,6 @@ div#notebook {
 
 
 
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;pandas.core.groupby.groupby.DataFrameGroupBy object at 0x111040978&gt;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>There is not much to see in the <code>DataFrameGroupBy</code> object that resulted. But there is a lot we can do with this object. Typing <code>grouped.</code> and hitting tab will show you the many possibilities. For most of these possibilities, the apply and combine steps happen together and a new <code>DataFrame</code> is returned. The <code>grouped.median()</code> method is exactly what we want.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_median</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
-
-<span class="c1"># Take a look</span>
-<span class="n">df_median</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[4]:</div>
-
-
-
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <style scoped>
@@ -15353,1453 +15131,113 @@ div#notebook {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>participant number</th>
-      <th>age</th>
-      <th>correct hit percentage</th>
-      <th>correct reject percentage</th>
-      <th>percent correct</th>
-      <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
-      <th>confidence when correct</th>
-      <th>confidence when incorrect</th>
-      <th>sci</th>
-      <th>psqi</th>
-      <th>ess</th>
-    </tr>
-    <tr>
-      <th>insomnia</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>False</th>
-      <td>54</td>
-      <td>36</td>
-      <td>90</td>
-      <td>80</td>
-      <td>85.0</td>
-      <td>74.5</td>
-      <td>55.5</td>
-      <td>71.5</td>
-      <td>59.0</td>
-      <td>75.0</td>
-      <td>59.25</td>
-      <td>26</td>
-      <td>4</td>
-      <td>6</td>
-    </tr>
-    <tr>
-      <th>True</th>
-      <td>46</td>
-      <td>39</td>
-      <td>90</td>
-      <td>75</td>
-      <td>75.0</td>
-      <td>76.5</td>
-      <td>72.0</td>
-      <td>71.0</td>
-      <td>68.5</td>
-      <td>77.0</td>
-      <td>65.00</td>
-      <td>14</td>
-      <td>9</td>
-      <td>7</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In the outputted <code>DataFrame</code> has the medians of all quantities, including the <code>percent correct</code> that we wanted. Note that this <code>DataFrame</code> has <code>insomnia</code> as the name of the row index. If we want to instead keep <code>insomnia</code> (which, remember, is what we used to split up the data set before we computed the summary statistics) as a column, we can use the <code>reset_index()</code> method.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_median</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[5]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>insomnia</th>
-      <th>participant number</th>
-      <th>age</th>
-      <th>correct hit percentage</th>
-      <th>correct reject percentage</th>
-      <th>percent correct</th>
-      <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
-      <th>confidence when correct</th>
-      <th>confidence when incorrect</th>
-      <th>sci</th>
-      <th>psqi</th>
-      <th>ess</th>
+      <th>date</th>
+      <th>ID</th>
+      <th>trial number</th>
+      <th>impact force (mN)</th>
+      <th>impact time (ms)</th>
+      <th>impact force / body weight</th>
+      <th>adhesive force (mN)</th>
+      <th>time frog pulls on target (ms)</th>
+      <th>adhesive force / body weight</th>
+      <th>adhesive impulse (N-s)</th>
+      <th>total contact area (mm2)</th>
+      <th>contact area without mucus (mm2)</th>
+      <th>contact area with mucus / contact area without mucus</th>
+      <th>contact pressure (Pa)</th>
+      <th>adhesive strength (Pa)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>False</td>
-      <td>54</td>
-      <td>36</td>
-      <td>90</td>
-      <td>80</td>
-      <td>85.0</td>
-      <td>74.5</td>
-      <td>55.5</td>
-      <td>71.5</td>
-      <td>59.0</td>
-      <td>75.0</td>
-      <td>59.25</td>
-      <td>26</td>
-      <td>4</td>
-      <td>6</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>True</td>
-      <td>46</td>
-      <td>39</td>
-      <td>90</td>
-      <td>75</td>
-      <td>75.0</td>
-      <td>76.5</td>
-      <td>72.0</td>
-      <td>71.0</td>
-      <td>68.5</td>
-      <td>77.0</td>
-      <td>65.00</td>
-      <td>14</td>
-      <td>9</td>
-      <td>7</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can also used multiple columns in our <code>groupby()</code> operation. For example, we may wish to look at four groups, male insomniacs, female insomniacs, male non-insomniacs, and female non-insomniacs. To do this, we simple pass in a list of columns into <code>df.groupby()</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;insomnia&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[6]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>gender</th>
-      <th>insomnia</th>
-      <th>participant number</th>
-      <th>age</th>
-      <th>correct hit percentage</th>
-      <th>correct reject percentage</th>
-      <th>percent correct</th>
-      <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
-      <th>confidence when correct</th>
-      <th>confidence when incorrect</th>
-      <th>sci</th>
-      <th>psqi</th>
-      <th>ess</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>f</td>
-      <td>False</td>
-      <td>58.0</td>
-      <td>36.0</td>
-      <td>85.0</td>
-      <td>80.0</td>
-      <td>85.00</td>
-      <td>74.00</td>
-      <td>55.00</td>
-      <td>70.50</td>
-      <td>60.00</td>
-      <td>74.00</td>
-      <td>58.75</td>
-      <td>26.0</td>
-      <td>4.0</td>
-      <td>7.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>f</td>
-      <td>True</td>
-      <td>46.0</td>
-      <td>39.0</td>
-      <td>80.0</td>
-      <td>75.0</td>
-      <td>72.50</td>
-      <td>76.50</td>
-      <td>73.75</td>
-      <td>71.00</td>
-      <td>68.50</td>
-      <td>77.00</td>
-      <td>70.50</td>
-      <td>14.0</td>
-      <td>9.0</td>
-      <td>7.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>m</td>
-      <td>False</td>
-      <td>41.0</td>
-      <td>38.5</td>
-      <td>90.0</td>
-      <td>80.0</td>
-      <td>82.50</td>
-      <td>76.00</td>
-      <td>57.75</td>
-      <td>74.25</td>
-      <td>54.75</td>
-      <td>76.25</td>
-      <td>59.25</td>
-      <td>29.0</td>
-      <td>3.0</td>
-      <td>6.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>m</td>
-      <td>True</td>
-      <td>55.5</td>
-      <td>37.0</td>
-      <td>95.0</td>
-      <td>82.5</td>
-      <td>83.75</td>
-      <td>83.75</td>
-      <td>55.50</td>
-      <td>75.75</td>
-      <td>73.25</td>
-      <td>81.25</td>
-      <td>62.50</td>
-      <td>14.0</td>
-      <td>9.0</td>
-      <td>8.0</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This type of operation is called an <strong>aggregation</strong>. That is, we split the data set up into groups, and then computed a summary statistic for each group, in this case the median.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Transformation">Transformation<a class="anchor-link" href="#Transformation">&#182;</a></h2><p>Instead of summarizing data in a group with single summary statistics by aggregation, we can also do a <strong>transformation</strong> in which each row gets a new entry within a given group. As a simple example, we could generate a column that gives the rank of each participate in terms of percent correct for an insomniac group versus non-insomniac groups. That is, we perform a rank ordering with the insomniac group and within the non-insomniac group.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grouped</span><span class="p">[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[7]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>0      11.0
-1      21.5
-2      23.0
-3      19.5
-4       3.5
-5       2.0
-6      17.0
-7       6.0
-8      21.5
-9      12.5
-10      3.5
-11     24.0
-12     15.0
-13     15.0
-14      5.0
-15      8.5
-16      8.5
-17     15.0
-18     18.0
-19     12.5
-20      8.5
-21     25.0
-22     19.5
-23      1.0
-24      8.5
-25     15.0
-26     41.0
-27     19.0
-28      9.5
-29     72.0
-       ... 
-72     52.5
-73     74.0
-74     67.5
-75     76.0
-76      4.5
-77     72.0
-78     25.0
-79     25.0
-80     34.0
-81      1.0
-82     52.5
-83     41.0
-84     52.5
-85     25.0
-86      6.5
-87     15.0
-88     41.0
-89     67.5
-90     41.0
-91     15.0
-92     61.0
-93     61.0
-94      2.0
-95     52.5
-96      4.5
-97     25.0
-98     52.5
-99     19.0
-100    11.5
-101     6.5
-Name: percent correct, Length: 102, dtype: float64</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This gave us a column of ranks with the indexing of the original <code>DataFrame</code> preserved. We can put this column into the <code>DataFrame</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;rank grouped by insomnia&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)</span>
-
-<span class="c1"># Take a look</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[8]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>participant number</th>
-      <th>gender</th>
-      <th>age</th>
-      <th>correct hit percentage</th>
-      <th>correct reject percentage</th>
-      <th>percent correct</th>
-      <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
-      <th>confidence when correct</th>
-      <th>confidence when incorrect</th>
-      <th>sci</th>
-      <th>psqi</th>
-      <th>ess</th>
-      <th>insomnia</th>
-      <th>rank grouped by insomnia</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>8</td>
-      <td>f</td>
-      <td>39</td>
-      <td>65</td>
-      <td>80</td>
-      <td>72.5</td>
-      <td>91.0</td>
-      <td>90.0</td>
-      <td>93.0</td>
-      <td>83.5</td>
-      <td>93.0</td>
-      <td>90.0</td>
-      <td>9</td>
-      <td>13</td>
-      <td>2</td>
-      <td>True</td>
-      <td>11.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>16</td>
-      <td>m</td>
-      <td>42</td>
-      <td>90</td>
-      <td>90</td>
-      <td>90.0</td>
-      <td>75.5</td>
-      <td>55.5</td>
-      <td>70.5</td>
-      <td>50.0</td>
-      <td>75.0</td>
-      <td>50.0</td>
-      <td>4</td>
-      <td>11</td>
-      <td>7</td>
-      <td>True</td>
-      <td>21.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>18</td>
-      <td>f</td>
-      <td>31</td>
-      <td>90</td>
-      <td>95</td>
-      <td>92.5</td>
-      <td>89.5</td>
-      <td>90.0</td>
-      <td>86.0</td>
-      <td>81.0</td>
-      <td>89.0</td>
-      <td>88.0</td>
-      <td>10</td>
-      <td>9</td>
+      <td>2013_02_26</td>
+      <td>I</td>
       <td>3</td>
-      <td>True</td>
-      <td>23.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>22</td>
-      <td>f</td>
-      <td>35</td>
-      <td>100</td>
-      <td>75</td>
-      <td>87.5</td>
-      <td>89.5</td>
-      <td>NaN</td>
-      <td>71.0</td>
-      <td>80.0</td>
-      <td>88.0</td>
-      <td>80.0</td>
-      <td>13</td>
-      <td>8</td>
-      <td>20</td>
-      <td>True</td>
-      <td>19.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>27</td>
-      <td>f</td>
-      <td>74</td>
-      <td>60</td>
-      <td>65</td>
-      <td>62.5</td>
-      <td>68.5</td>
-      <td>49.0</td>
-      <td>61.0</td>
-      <td>49.0</td>
-      <td>65.0</td>
-      <td>49.0</td>
-      <td>13</td>
-      <td>9</td>
-      <td>12</td>
-      <td>True</td>
-      <td>3.0</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>To verify that this worked correctly, and also to show some nice sorting properties of <code>DataFrames</code>, we will sort the <code>DataFrame</code> by <code>insomnia</code> and then by <code>percent correct</code> and make sure the ranks worked accordingly.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_sorted</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">,</span> <span class="s1">&#39;percent correct&#39;</span><span class="p">])</span>
-
-<span class="c1"># Look at relevant columns</span>
-<span class="n">df_sorted</span><span class="p">[[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">,</span> <span class="s1">&#39;percent correct&#39;</span><span class="p">,</span> <span class="s1">&#39;rank grouped by insomnia&#39;</span><span class="p">]]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[9]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>insomnia</th>
-      <th>percent correct</th>
-      <th>rank grouped by insomnia</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>81</th>
-      <td>False</td>
-      <td>40.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>94</th>
-      <td>False</td>
-      <td>55.0</td>
-      <td>2.0</td>
-    </tr>
-    <tr>
-      <th>39</th>
-      <td>False</td>
-      <td>57.5</td>
-      <td>3.0</td>
-    </tr>
-    <tr>
-      <th>76</th>
-      <td>False</td>
-      <td>60.0</td>
-      <td>4.0</td>
-    </tr>
-    <tr>
-      <th>96</th>
-      <td>False</td>
-      <td>60.0</td>
-      <td>5.0</td>
-    </tr>
-    <tr>
-      <th>86</th>
-      <td>False</td>
-      <td>62.5</td>
-      <td>6.0</td>
-    </tr>
-    <tr>
-      <th>101</th>
-      <td>False</td>
-      <td>62.5</td>
-      <td>7.0</td>
-    </tr>
-    <tr>
-      <th>41</th>
-      <td>False</td>
-      <td>65.0</td>
-      <td>8.0</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>False</td>
-      <td>67.5</td>
-      <td>9.0</td>
-    </tr>
-    <tr>
-      <th>50</th>
-      <td>False</td>
-      <td>67.5</td>
-      <td>10.0</td>
-    </tr>
-    <tr>
-      <th>34</th>
-      <td>False</td>
-      <td>70.0</td>
-      <td>11.0</td>
-    </tr>
-    <tr>
-      <th>100</th>
-      <td>False</td>
-      <td>70.0</td>
-      <td>12.0</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>False</td>
-      <td>72.5</td>
-      <td>13.0</td>
-    </tr>
-    <tr>
-      <th>52</th>
-      <td>False</td>
-      <td>72.5</td>
-      <td>14.0</td>
-    </tr>
-    <tr>
-      <th>53</th>
-      <td>False</td>
-      <td>72.5</td>
-      <td>15.0</td>
-    </tr>
-    <tr>
-      <th>87</th>
-      <td>False</td>
-      <td>72.5</td>
-      <td>16.0</td>
-    </tr>
-    <tr>
-      <th>91</th>
-      <td>False</td>
-      <td>72.5</td>
-      <td>17.0</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>False</td>
-      <td>75.0</td>
-      <td>18.0</td>
-    </tr>
-    <tr>
-      <th>49</th>
-      <td>False</td>
-      <td>75.0</td>
-      <td>19.0</td>
-    </tr>
-    <tr>
-      <th>99</th>
-      <td>False</td>
-      <td>75.0</td>
-      <td>20.0</td>
-    </tr>
-    <tr>
-      <th>36</th>
-      <td>False</td>
-      <td>77.5</td>
-      <td>21.0</td>
-    </tr>
-    <tr>
-      <th>43</th>
-      <td>False</td>
-      <td>77.5</td>
-      <td>22.0</td>
-    </tr>
-    <tr>
-      <th>51</th>
-      <td>False</td>
-      <td>77.5</td>
-      <td>23.0</td>
-    </tr>
-    <tr>
-      <th>64</th>
-      <td>False</td>
-      <td>77.5</td>
-      <td>24.0</td>
-    </tr>
-    <tr>
-      <th>68</th>
-      <td>False</td>
-      <td>77.5</td>
-      <td>25.0</td>
-    </tr>
-    <tr>
-      <th>78</th>
-      <td>False</td>
-      <td>77.5</td>
-      <td>26.0</td>
-    </tr>
-    <tr>
-      <th>79</th>
-      <td>False</td>
-      <td>77.5</td>
-      <td>27.0</td>
-    </tr>
-    <tr>
-      <th>85</th>
-      <td>False</td>
-      <td>77.5</td>
-      <td>28.0</td>
-    </tr>
-    <tr>
-      <th>97</th>
-      <td>False</td>
-      <td>77.5</td>
-      <td>29.0</td>
-    </tr>
-    <tr>
-      <th>44</th>
-      <td>False</td>
-      <td>80.0</td>
-      <td>30.0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>77</th>
-      <td>False</td>
-      <td>95.0</td>
-      <td>73.0</td>
-    </tr>
-    <tr>
-      <th>73</th>
-      <td>False</td>
-      <td>97.5</td>
-      <td>74.0</td>
-    </tr>
-    <tr>
-      <th>33</th>
-      <td>False</td>
-      <td>100.0</td>
-      <td>75.0</td>
-    </tr>
-    <tr>
-      <th>70</th>
-      <td>False</td>
-      <td>100.0</td>
-      <td>76.0</td>
-    </tr>
-    <tr>
-      <th>75</th>
-      <td>False</td>
-      <td>100.0</td>
-      <td>77.0</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>True</td>
-      <td>45.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>True</td>
-      <td>50.0</td>
-      <td>2.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>True</td>
-      <td>62.5</td>
-      <td>3.0</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>True</td>
-      <td>62.5</td>
-      <td>4.0</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>True</td>
-      <td>65.0</td>
-      <td>5.0</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>True</td>
-      <td>67.5</td>
-      <td>6.0</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>True</td>
-      <td>70.0</td>
-      <td>7.0</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>True</td>
-      <td>70.0</td>
-      <td>8.0</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>True</td>
-      <td>70.0</td>
-      <td>9.0</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>True</td>
-      <td>70.0</td>
-      <td>10.0</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>True</td>
-      <td>72.5</td>
-      <td>11.0</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>True</td>
-      <td>75.0</td>
-      <td>12.0</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>True</td>
-      <td>75.0</td>
-      <td>13.0</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>True</td>
-      <td>80.0</td>
-      <td>14.0</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>True</td>
-      <td>80.0</td>
-      <td>15.0</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>True</td>
-      <td>80.0</td>
-      <td>16.0</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>True</td>
-      <td>82.5</td>
-      <td>17.0</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>True</td>
-      <td>85.0</td>
-      <td>18.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>True</td>
-      <td>87.5</td>
-      <td>19.0</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>True</td>
-      <td>87.5</td>
-      <td>20.0</td>
+      <td>1205</td>
+      <td>46</td>
+      <td>1.95</td>
+      <td>-785</td>
+      <td>884</td>
+      <td>1.27</td>
+      <td>-0.290</td>
+      <td>387</td>
+      <td>70</td>
+      <td>0.82</td>
+      <td>3117</td>
+      <td>-2030</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>True</td>
-      <td>90.0</td>
-      <td>21.0</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>True</td>
-      <td>90.0</td>
-      <td>22.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>True</td>
-      <td>92.5</td>
-      <td>23.0</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>True</td>
-      <td>95.0</td>
-      <td>24.0</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>True</td>
-      <td>97.5</td>
-      <td>25.0</td>
-    </tr>
-  </tbody>
-</table>
-<p>102 rows × 3 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Indeed it worked!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Aggregating-and-transforming-with-custom-functions">Aggregating and transforming with custom functions<a class="anchor-link" href="#Aggregating-and-transforming-with-custom-functions">&#182;</a></h2><p>Let's say we want to compute the coefficient of variation (CoV, the standard deviation divided by the mean) of data in columns of groups in the <code>DataFrame</code>. There is no built-in function to do this. We have to write our own function to compute the CoV and then use it with the <code>agg()</code> method of a <code>DataFrameGroupBy</code> object. In the function below, the values of each column are denoted by <code>data</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">coeff_of_var</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute coefficient of variation from an array of data.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we can apply it as an aggregating function.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grouped</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">coeff_of_var</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[11]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>participant number</th>
-      <th>age</th>
-      <th>correct hit percentage</th>
-      <th>correct reject percentage</th>
-      <th>percent correct</th>
-      <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
-      <th>confidence when correct</th>
-      <th>confidence when incorrect</th>
-      <th>sci</th>
-      <th>psqi</th>
-      <th>ess</th>
-    </tr>
-    <tr>
-      <th>insomnia</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>False</th>
-      <td>0.586191</td>
-      <td>0.384262</td>
-      <td>0.166784</td>
-      <td>0.184061</td>
-      <td>0.138785</td>
-      <td>0.195978</td>
-      <td>0.350286</td>
-      <td>0.204312</td>
-      <td>0.298216</td>
-      <td>0.187304</td>
-      <td>0.262509</td>
-      <td>0.175245</td>
-      <td>0.577869</td>
-      <td>0.571566</td>
-    </tr>
-    <tr>
-      <th>True</th>
-      <td>0.536117</td>
-      <td>0.313853</td>
-      <td>0.218834</td>
-      <td>0.325760</td>
-      <td>0.171856</td>
-      <td>0.156219</td>
-      <td>0.225440</td>
-      <td>0.222827</td>
-      <td>0.211512</td>
-      <td>0.160061</td>
-      <td>0.197484</td>
-      <td>0.381907</td>
-      <td>0.299741</td>
-      <td>0.681514</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can take a similar approach with a transformation. In this case, we will actually do something useful. We will compute the <code>y</code>-values we need for plotting an <strong>empirical cumulative distribution function</strong> (ECDF), which we will use in our upcoming lessons with plotting. As we will soon see, the <code>y</code>-values of an ECDF are the rankings of the entries, divided by the total number of entries. We will want to plot ECDFs for each group, so we apply the function for each group. First, we define the function.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">ecdf_y</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Give y-values of an ECDF for an unsorted column in a data frame.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, we can compute the ECDF on the data set grouped by insomnia state.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ecdf_y grouped by insomnia&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">ecdf_y</span><span class="p">)</span>
-
-<span class="c1"># Take a look</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[13]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>participant number</th>
-      <th>gender</th>
-      <th>age</th>
-      <th>correct hit percentage</th>
-      <th>correct reject percentage</th>
-      <th>percent correct</th>
-      <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
-      <th>confidence when correct</th>
-      <th>confidence when incorrect</th>
-      <th>sci</th>
-      <th>psqi</th>
-      <th>ess</th>
-      <th>insomnia</th>
-      <th>rank grouped by insomnia</th>
-      <th>ecdf_y grouped by insomnia</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>8</td>
-      <td>f</td>
-      <td>39</td>
-      <td>65</td>
-      <td>80</td>
-      <td>72.5</td>
-      <td>91.0</td>
-      <td>90.0</td>
-      <td>93.0</td>
-      <td>83.5</td>
-      <td>93.0</td>
-      <td>90.0</td>
-      <td>9</td>
-      <td>13</td>
-      <td>2</td>
-      <td>True</td>
-      <td>11.0</td>
-      <td>0.44</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>16</td>
-      <td>m</td>
-      <td>42</td>
-      <td>90</td>
-      <td>90</td>
-      <td>90.0</td>
-      <td>75.5</td>
-      <td>55.5</td>
-      <td>70.5</td>
-      <td>50.0</td>
-      <td>75.0</td>
-      <td>50.0</td>
+      <td>2013_02_26</td>
+      <td>I</td>
       <td>4</td>
-      <td>11</td>
-      <td>7</td>
-      <td>True</td>
-      <td>21.0</td>
-      <td>0.84</td>
+      <td>2527</td>
+      <td>44</td>
+      <td>4.08</td>
+      <td>-983</td>
+      <td>248</td>
+      <td>1.59</td>
+      <td>-0.181</td>
+      <td>101</td>
+      <td>94</td>
+      <td>0.07</td>
+      <td>24923</td>
+      <td>-9695</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>18</td>
-      <td>f</td>
-      <td>31</td>
-      <td>90</td>
-      <td>95</td>
-      <td>92.5</td>
-      <td>89.5</td>
-      <td>90.0</td>
-      <td>86.0</td>
-      <td>81.0</td>
-      <td>89.0</td>
-      <td>88.0</td>
-      <td>10</td>
-      <td>9</td>
-      <td>3</td>
-      <td>True</td>
-      <td>23.0</td>
-      <td>0.92</td>
+      <td>2013_03_01</td>
+      <td>I</td>
+      <td>1</td>
+      <td>1745</td>
+      <td>34</td>
+      <td>2.82</td>
+      <td>-850</td>
+      <td>211</td>
+      <td>1.37</td>
+      <td>-0.157</td>
+      <td>83</td>
+      <td>79</td>
+      <td>0.05</td>
+      <td>21020</td>
+      <td>-10239</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>22</td>
-      <td>f</td>
-      <td>35</td>
-      <td>100</td>
-      <td>75</td>
-      <td>87.5</td>
-      <td>89.5</td>
-      <td>NaN</td>
-      <td>71.0</td>
-      <td>80.0</td>
-      <td>88.0</td>
-      <td>80.0</td>
-      <td>13</td>
-      <td>8</td>
-      <td>20</td>
-      <td>True</td>
-      <td>19.0</td>
-      <td>0.76</td>
+      <td>2013_03_01</td>
+      <td>I</td>
+      <td>2</td>
+      <td>1556</td>
+      <td>41</td>
+      <td>2.51</td>
+      <td>-455</td>
+      <td>1025</td>
+      <td>0.74</td>
+      <td>-0.170</td>
+      <td>330</td>
+      <td>158</td>
+      <td>0.52</td>
+      <td>4718</td>
+      <td>-1381</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>27</td>
-      <td>f</td>
-      <td>74</td>
-      <td>60</td>
-      <td>65</td>
-      <td>62.5</td>
-      <td>68.5</td>
-      <td>49.0</td>
-      <td>61.0</td>
-      <td>49.0</td>
-      <td>65.0</td>
-      <td>49.0</td>
-      <td>13</td>
-      <td>9</td>
-      <td>12</td>
-      <td>True</td>
-      <td>3.0</td>
+      <td>2013_03_01</td>
+      <td>I</td>
+      <td>3</td>
+      <td>493</td>
+      <td>36</td>
+      <td>0.80</td>
+      <td>-974</td>
+      <td>499</td>
+      <td>1.57</td>
+      <td>-0.423</td>
+      <td>245</td>
+      <td>216</td>
       <td>0.12</td>
+      <td>2012</td>
+      <td>-3975</td>
     </tr>
   </tbody>
 </table>
@@ -16816,138 +15254,22 @@ Name: percent correct, Length: 102, dtype: float64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You now have tremendous power in your hands. When your data are tidy, you can rapidly accelerate the ubiquitous split-apply-combine methods. Importantly, you now have a logic framework to think about how you slice and dice your data. As a final, simple example, I will show you how to go start to finish after loading the data set into a <code>DataFrame</code>, splitting by insomnia and gender, and then getting the quartiles and extrema, in addition to the mean and standard deviation, in the percent of correct facial matchings.</p>
+<h2 id="Practice-1:-Mastering-.loc">Practice 1: Mastering .loc<a class="anchor-link" href="#Practice-1:-Mastering-.loc">&#182;</a></h2><p>Your goal here is to extract certain entries out of the <code>DataFrame</code>.</p>
+<p><strong>a)</strong> Extract the impact time of all impacts that had an adhesive strength of magnitude greater than 2000 Pa.</p>
+<p><strong>b)</strong> Extract the impact force and adhesive force for all of Frog II's strikes.</p>
+<p><strong>c)</strong> Extract the adhesive force and the time the frog pulls on the target for juvenile frogs (Frogs III and IV). <em>Hint</em>: We saw the <code>&amp;</code> operator for Boolean indexing across more than one column. The <code>|</code> operator signifies OR, and works analogously. You could also approach this using the <code>isin()</code> method of a Pandas <code>Series</code>.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;insomnia&#39;</span><span class="p">])[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[14]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>count</th>
-      <th>mean</th>
-      <th>std</th>
-      <th>min</th>
-      <th>25%</th>
-      <th>50%</th>
-      <th>75%</th>
-      <th>max</th>
-    </tr>
-    <tr>
-      <th>gender</th>
-      <th>insomnia</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="2" valign="top">f</th>
-      <th>False</th>
-      <td>55.0</td>
-      <td>82.045455</td>
-      <td>10.844982</td>
-      <td>55.0</td>
-      <td>75.000</td>
-      <td>85.00</td>
-      <td>88.750</td>
-      <td>100.0</td>
-    </tr>
-    <tr>
-      <th>True</th>
-      <td>19.0</td>
-      <td>73.947368</td>
-      <td>13.624829</td>
-      <td>45.0</td>
-      <td>67.500</td>
-      <td>72.50</td>
-      <td>83.750</td>
-      <td>95.0</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">m</th>
-      <th>False</th>
-      <td>22.0</td>
-      <td>80.000000</td>
-      <td>12.770875</td>
-      <td>40.0</td>
-      <td>77.500</td>
-      <td>82.50</td>
-      <td>89.375</td>
-      <td>95.0</td>
-    </tr>
-    <tr>
-      <th>True</th>
-      <td>6.0</td>
-      <td>82.916667</td>
-      <td>10.655593</td>
-      <td>67.5</td>
-      <td>76.875</td>
-      <td>83.75</td>
-      <td>88.750</td>
-      <td>97.5</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Yes, that's right. One single, clean, easy to read line of code. In coming tutorials, we will see how to use tidy data to quickly generate plots.</p>
+<h2 id="Practice-2:-Split-Apply-Combine-of-the-frog-data-set">Practice 2: Split-Apply-Combine of the frog data set<a class="anchor-link" href="#Practice-2:-Split-Apply-Combine-of-the-frog-data-set">&#182;</a></h2><p>You'll now practice your split-apply-combine skills.</p>
+<p><strong>a)</strong> Compute standard deviation of the impact forces for each frog.</p>
+<p><strong>b)</strong> Compute the coefficient of variation of the impact forces <em>and</em> adhesive forces for each frog.</p>
+<p><strong>c)</strong> And now, finally.... Compute a <code>DataFrame</code> that has the mean, median, standard deviation, and coefficient of variation of the impact forces and adhesive forces for each frog. After you make this <code>DataFrame</code>, you might want to explore using the <code>pd.melt()</code> function to make it tidy. You can read <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.melt.html">the documentation</a> and/or ask a TA to help you.</p>
 
 </div>
 </div>
