@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>l16_file_io</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l18_pep8</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14985,10 +14985,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-16:-File-I/O">Lesson 16: File I/O<a class="anchor-link" href="#Lesson-16:-File-I/O">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-18:-Python-style">Lesson 18: Python style<a class="anchor-link" href="#Lesson-18:-Python-style">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l16_file_io.ipynb">here</a>.</em></p>
+<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l18_pep8.ipynb">here</a>.</em></p>
 <p><br /> <br /></p>
 
 </div>
@@ -14999,8 +14999,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The only module we need is os from the standard library</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 
 </div>
@@ -15012,7 +15011,9 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Reading data in from files and then writing your results out again is one of the most common practices in scientific computing.  In this tutorial, we will learn about some of Python's File I/O capabilities.  We will use a PDB file as an example.  The PDB file contains the crystal structure for the tetramerization domain of <a href="https://en.wikipedia.org/wiki/P53">p53</a>.  It is stored in the  file <code>~git/bootcamp/data/1OLG.pdb</code>. (Make sure you launch your notebook from the <code>~git/bootcamp/</code> directory.) Note that <code>1OLG</code> is its unique <a href="http://www.rcsb.org/pdb/explore/explore.do?structureId=1olg">Protein Databank</a> identifier.</p>
+<p>This lesson is all about style. Style in the general sense of the word is very important. It can have a big effect on how people interact with a program or software. As an example, we can look at the style of data presentation.</p>
+<p>The <a href="https://en.wikipedia.org/wiki/Keeling_Curve">Keeling curve</a> is a measure of the carbon dioxide concentration on top of Muana Loa over time. Let's look at a plot of the Keeling curve.</p>
+<p><img src="bad_keeling.png" alt="bad_keeling.png"></p>
 
 </div>
 </div>
@@ -15021,7 +15022,42 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="File-objects">File objects<a class="anchor-link" href="#File-objects">&#182;</a></h2><p>To open a file, we use the built-in <code>open()</code> function.  We'll invoke this function by example and look at its output.</p>
+<p>I contend that this plot is horrible looking. The green color is hard to see. The dashed curve is difficult to interpret. We do not know when the measurements were made. The grid lines are obtrusive. Awful.</p>
+<p>Lest you think this plot is a ridiculous way of showing the data, I can tell you I have seen plots just like this in the literature.  Now, let's look at a nicer plot.</p>
+<p><img src="good_keeling.png" alt="good_keeling.png"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here, it is clear when the measurements were made. The data are clearly visible. The grid lines are not obtrusive. It is generally pleasing to the eye. As a result, the data are easier to interpret. Style matters!</p>
+<p>(We will talk about how to make beautiful plots like the one here later in the bootcamp.)</p>
+<p>The same arguments about style are true for code.  Style matters!  We already discussed how important documentation is, but having a well-defined style also helps keep your code clean, easy to read, and therefore easier to debug and share.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Coding-style-in-general-and-Future-You">Coding style in general and Future You<a class="anchor-link" href="#Coding-style-in-general-and-Future-You">&#182;</a></h2><p>The book, <em><a href="http://shop.oreilly.com/product/9780596802301.do">The Art of Readable Code</a></em> by Boswell and Foucher is a treasure trove of tips about writing well-styled code. At the beginning of their book, they state <strong>the Fundamental Theorem of Readability</strong>.</p>
+<blockquote><p>Code should be written to minimize the time it would take for someone else to understand it.</p>
+</blockquote>
+<p>This is in general good advice, and this is the essential motivation for using the suggestions in PEP8. Before we dive into PEP8, I want to introduce you to the most important person in the world, Future You. When you are writing code, the person at the front of your mind should be Future You. You <em>really</em> want to make that person happy. Because as far as coding goes, Future You is really someone else, and you want to minimize the time it takes for Future You to understand what Present You (a.k.a. you) did.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="PEP-8">PEP 8<a class="anchor-link" href="#PEP-8">&#182;</a></h2><p>Guido van Rossum is the benevolent dictator for life (<a href="https://en.wikipedia.org/wiki/Benevolent_dictator_for_life">BDFL</a>) of Python.  He invented Python, and he ultimately decides what happens with the language.  To get new features or other enhancements into the language, Guido either writes or (usually) considers a <strong><a href="https://www.python.org/dev/peps/">Python Enhancement Proposal</a></strong>, or a <strong>PEP</strong>.  Each PEP is carefully reviewed, and often there are many iterations with the PEP's author(s).  Ultimately, Guido decides if the PEP becomes part of the Python language.</p>
+<p>Perhaps the best-known PEPs are <strong>PEP 8</strong> and PEP 20.  This lesson is about PEP 8, but we'll pause for a moment to look at PEP 20 to understand why PEP 8 is important.  PEP 20 is "The Zen of Python."  You can see its text by running <code>import this</code>.</p>
 
 </div>
 </div>
@@ -15031,11 +15067,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Open file</span>
-<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
-
-<span class="c1"># What is f?</span>
-<span class="n">f</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">this</span>
 </pre></div>
 
 </div>
@@ -15048,15 +15080,33 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[2]:</div>
+<div class="prompt"></div>
 
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The Zen of Python, by Tim Peters
 
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;_io.TextIOWrapper name=&#39;data/1OLG.pdb&#39; mode=&#39;r&#39; encoding=&#39;UTF-8&#39;&gt;</pre>
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren&#39;t special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you&#39;re Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it&#39;s a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let&#39;s do more of those!
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -15067,40 +15117,9 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>So, <code>f</code> is some weird looking type.  It is a Python <code>file</code> object, which has methods and attributes, just like any other object.  We'll explore those in a moment, but first, let's look at how we opened the file.  The first argument to <code>open()</code> is a string that has the name of the file, with the full path if necessary.  The second argument is a string that says what we will be doing with the file.  I.e., are we reading or writing to the file?  The possible strings for this second argument are</p>
-<table>
-<thead><tr>
-<th style="text-align:left">string</th>
-<th style="text-align:left">meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>'r'</code></td>
-<td style="text-align:left">open a text file for reading</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>'w'</code></td>
-<td style="text-align:left">create and open a text file for writing</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>'a'</code></td>
-<td style="text-align:left">append an existing text file</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>'r+'</code></td>
-<td style="text-align:left">open a text file for reading and writing</td>
-</tr>
-<tr>
-<td style="text-align:left">append <code>'b'</code> to any of the above</td>
-<td style="text-align:left">same as above, except for binary files</td>
-</tr>
-</tbody>
-</table>
-<p>We will mostly be working with text files in the bootcamp, so the first three are the most useful.  A big warning, though....</p>
-<div class="alert alert-danger">
-<center>Trying to open an existing file with `'w'` will wipe it out and create a new file.</center>
-</div>
+<p>These are good ideas for coding practice in general.  Importantly, beautiful, simple, readable code is a goal of a programmer.  That's where PEP 8 comes in.  PEP8 is the <strong>Python Style Guide</strong>, written by Guido, Barry Warsaw, and Nick Coghlan.  You can read its full text in the <a href="https://www.python.org/dev/peps/pep-0008/">Python PEP index</a>, and I recommend you do that.  I also recommend you follow everything it says!  It helps you a lot.  Trust me; my life got much better after I started following PEP 8's rules.</p>
+<p>Note, though, that your code will work just fine if you break PEP 8's rules. In fact, some companies have their own style guides. <a href="https://google.github.io/styleguide/pyguide.html">Google's olf style</a> was deprecated and replaced by a <a href="https://github.com/google/styleguide/blob/gh-pages/pyguide.md">much more PEP8 adherent style</a>.</p>
+
 </div>
 </div>
 </div>
@@ -15108,25 +15127,35 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Reading-data-out-of-the-file-with-file-object-methods">Reading data out of the file with file object methods<a class="anchor-link" href="#Reading-data-out-of-the-file-with-file-object-methods">&#182;</a></h3><p>Now, let's look at the file object.  You can type <code>f.</code> followed by tab to see its attributes and methods.  We will focus on the methods <code>f.read()</code> and <code>f.readlines()</code>.  What do they do?</p>
-<table>
-<thead><tr>
-<th style="text-align:left">method</th>
-<th style="text-align:left">task</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>f.read()</code></td>
-<td style="text-align:left">Read the entire contents of the file into a string</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>f.readlines()</code></td>
-<td style="text-align:left">Read the entire file into a list with each item being a string representing a line</td>
-</tr>
-</tbody>
-</table>
-<p>First, we'll try using the first method to get a single string with the entire contents of the file.</p>
+<h2 id="Key-points-of-PEP-8">Key points of PEP 8<a class="anchor-link" href="#Key-points-of-PEP-8">&#182;</a></h2><p>PEP 8 is extensive, but here are some key points for you to keep in mind as you are being style-conscious.</p>
+<ul>
+<li>Variable names need to be descriptive.</li>
+<li>Variable names are all lower case with underscores separating words.</li>
+<li>Do not name varibales <code>l</code>, <code>O</code>, or <code>I</code> because they are hard to distinguish from ones and zeros.</li>
+<li>Function names are lower case and may use underscores.</li>
+<li>Class names are in CamelCase.  (We are not explicitly covering classes in the bootcamp, though we did <a href="http://justinbois.github.io/bootcamp/2015/lessons/l10_intro_to_oop.html">in the past</a>. You will come across CamelCase objects in other packages, which usually means you are instantiating a class.)</li>
+<li>Module names are short and lower case.  Underscores should be avoided unless necessary for readability.</li>
+<li>Lines are maximally 79 characters long.</li>
+<li>Lines in doc strings are maximally 72 characters long.</li>
+<li>Avoid in-line comments; put the comment directly above the code.</li>
+<li>Avoid excessive comments that state the obvious.</li>
+<li>Generally, put single spaces around binary operators, unless omitting space improves readability.  For example, <code>x**2 + y**2</code>.  Low precedence operators should have space.</li>
+<li>Assignment operators should always have single spaces around them <em>except</em> when in keyword arguments.  E.g., no space in <code>f(x, y=4)</code>.</li>
+<li>Put spaces after commas in function definitions and calls.  This also applies for lists, tuples, NumPy arrays, etc.</li>
+<li>Avoid excessive spaces within parentheses, braces, and brackets.</li>
+<li>Use a single blank line to separate logical sections of your code.</li>
+<li>Put two blank lines between functions in a <code>.py</code> file.</li>
+<li>Put all import statements at the top of the file, importing from one module per line.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Some-examples-of-PEP-8-ified-code">Some examples of PEP 8-ified code<a class="anchor-link" href="#Some-examples-of-PEP-8-ified-code">&#182;</a></h2><p>Let's now look at some examples of code adhering to PEP 8 and code that does not.  We'll start with some code we used before to find start codons.</p>
 
 </div>
 </div>
@@ -15136,11 +15165,13 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Read file into string</span>
-<span class="n">f_str</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seq</span><span class="o">=</span><span class="s1">&#39;AUCUGUACUAAUGCUCAGCACGACGUACG&#39;</span>
+<span class="n">c</span><span class="o">=</span><span class="s1">&#39;AUG&#39;</span>  <span class="c1"># This is the start codon</span>
+<span class="n">i</span> <span class="o">=</span><span class="mi">0</span>  <span class="c1"># Initialize sequence index</span>
+<span class="k">while</span> <span class="n">seq</span><span class="p">[</span> <span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">3</span> <span class="p">]</span><span class="o">!=</span><span class="n">c</span><span class="p">:</span>
+    <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
 
-<span class="c1"># Let&#39;s look at the first 1000 characters</span>
-<span class="n">f_str</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The start codon starts at index&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15153,15 +15184,13 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[3]:</div>
+<div class="prompt"></div>
 
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \nTITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \nTITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \nCOMPND    MOL_ID: 1;                                                            \nCOMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);             \nCOMPND   3 CHAIN: A, B, C, D;                                                   \nCOMPND   4 ENGINEERED: YES                                                      \nSOURCE    MOL_ID: 1;                                                            \nSOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   \nSOURCE   3 ORGANISM_COMMON: HUMAN;                                              \nSOURCE   4 ORGANISM_TAXID: 9606                                                 \nKEYWDS    ANTI-ONCOGENE                                                         \nEXPDTA    SOLUTION NMR      &#39;</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The start codon starts at index 10
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -15172,8 +15201,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We see lots of <code>\n</code>, which signifies a new line.  The backslash is known as an <strong>escape character</strong>, meaning that the <code>n</code> after it does not signify the letter n, but that <code>\n</code> together means a new line.</p>
-<p>Now, let's try reading it in as a list.</p>
+<p>Compare that to the PEP 8-ified version.</p>
 
 </div>
 </div>
@@ -15183,11 +15211,16 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Read contents of the file in as a list</span>
-<span class="n">f_list</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">start_codon</span> <span class="o">=</span> <span class="s1">&#39;AUG&#39;</span>
 
-<span class="c1"># Look at the list</span>
-<span class="n">f_list</span>
+<span class="c1"># Initialize sequence index for while loop</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Scan sequence until we hit the start codon</span>
+<span class="k">while</span> <span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">start_codon</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The start codon starts at index&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15200,15 +15233,13 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[4]:</div>
+<div class="prompt"></div>
 
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[]</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The start codon starts at index 10
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -15219,7 +15250,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Wait a minute!  I got an empty list!  That is because you can only scan through a file object once without "rewinding."  To rewind, we use the <code>f.seek()</code> method.  This method takes an argument of which byte you want to go to as you are reading the file.  To go to the beginning, we do <code>f.seek(0)</code>.  Let's try again.</p>
+<p>The descriptive variable names, the spacing, the appropriate comments all make it much more readable.</p>
+<p>Here's another example, the dictionary mapping single-letter residue symbols to the three-letter equivalents.</p>
 
 </div>
 </div>
@@ -15229,46 +15261,10 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Go to the beginning of the file</span>
-<span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># Read the contents in as a list</span>
-<span class="n">f_list</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-
-<span class="c1"># Check out the first 10 entries</span>
-<span class="n">f_list</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;A&#39;</span> <span class="p">:</span> <span class="s1">&#39;Ala&#39;</span> <span class="p">,</span> <span class="s1">&#39;R&#39;</span> <span class="p">:</span> <span class="s1">&#39;Arg&#39;</span> <span class="p">,</span> <span class="s1">&#39;N&#39;</span> <span class="p">:</span> <span class="s1">&#39;Asn&#39;</span> <span class="p">,</span> <span class="s1">&#39;D&#39;</span> <span class="p">:</span> <span class="s1">&#39;Asp&#39;</span> <span class="p">,</span> <span class="s1">&#39;C&#39;</span> <span class="p">:</span> <span class="s1">&#39;Cys&#39;</span> <span class="p">,</span> <span class="s1">&#39;Q&#39;</span> <span class="p">:</span> <span class="s1">&#39;Gln&#39;</span> <span class="p">,</span> <span class="s1">&#39;E&#39;</span> <span class="p">:</span> <span class="s1">&#39;Glu&#39;</span> <span class="p">,</span> <span class="s1">&#39;G&#39;</span> <span class="p">:</span> <span class="s1">&#39;Gly&#39;</span> <span class="p">,</span> <span class="s1">&#39;H&#39;</span> <span class="p">:</span> <span class="s1">&#39;His&#39;</span> <span class="p">,</span> <span class="s1">&#39;I&#39;</span> <span class="p">:</span> <span class="s1">&#39;Ile&#39;</span> <span class="p">,</span> <span class="s1">&#39;L&#39;</span> <span class="p">:</span> <span class="s1">&#39;Leu&#39;</span> <span class="p">,</span> <span class="s1">&#39;K&#39;</span> <span class="p">:</span> <span class="s1">&#39;Lys&#39;</span> <span class="p">,</span> <span class="s1">&#39;M&#39;</span> <span class="p">:</span> <span class="s1">&#39;Met&#39;</span> <span class="p">,</span> <span class="s1">&#39;F&#39;</span> <span class="p">:</span> <span class="s1">&#39;Phe&#39;</span> <span class="p">,</span> <span class="s1">&#39;P&#39;</span> <span class="p">:</span> <span class="s1">&#39;Pro&#39;</span> <span class="p">,</span> <span class="s1">&#39;S&#39;</span> <span class="p">:</span> <span class="s1">&#39;Ser&#39;</span> <span class="p">,</span> <span class="s1">&#39;T&#39;</span> <span class="p">:</span> <span class="s1">&#39;Thr&#39;</span> <span class="p">,</span> <span class="s1">&#39;W&#39;</span> <span class="p">:</span> <span class="s1">&#39;Trp&#39;</span> <span class="p">,</span> <span class="s1">&#39;Y&#39;</span> <span class="p">:</span> <span class="s1">&#39;Tyr&#39;</span> <span class="p">,</span> <span class="s1">&#39;V&#39;</span> <span class="p">:</span> <span class="s1">&#39;Val&#39;</span> <span class="p">}</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[5]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \n&#39;,
- &#39;TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \n&#39;,
- &#39;TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \n&#39;,
- &#39;COMPND    MOL_ID: 1;                                                            \n&#39;,
- &#39;COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);             \n&#39;,
- &#39;COMPND   3 CHAIN: A, B, C, D;                                                   \n&#39;,
- &#39;COMPND   4 ENGINEERED: YES                                                      \n&#39;,
- &#39;SOURCE    MOL_ID: 1;                                                            \n&#39;,
- &#39;SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   \n&#39;,
- &#39;SOURCE   3 ORGANISM_COMMON: HUMAN;                                              \n&#39;]</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -15277,7 +15273,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We see that each entry is a line, including the newline character.  To look at lines in files, the <code>rstrip()</code> method for strings can come it handy.  It strips all whitespace, including newlines, from the end of a string.</p>
+<p>My god, that is awful.  The PEP 8 version, where we break lines to make things clear, is so much more readable.</p>
 
 </div>
 </div>
@@ -15287,30 +15283,29 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="s1">&#39;Ala&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;R&#39;</span><span class="p">:</span> <span class="s1">&#39;Arg&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="s1">&#39;Asn&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="s1">&#39;Asp&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="s1">&#39;Cys&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="s1">&#39;Gln&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;E&#39;</span><span class="p">:</span> <span class="s1">&#39;Glu&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="s1">&#39;Gly&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="s1">&#39;His&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="s1">&#39;Ile&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="s1">&#39;Leu&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="s1">&#39;Lys&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="s1">&#39;Met&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="s1">&#39;Phe&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="s1">&#39;Pro&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="s1">&#39;Ser&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;T&#39;</span><span class="p">:</span> <span class="s1">&#39;Thr&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;W&#39;</span><span class="p">:</span> <span class="s1">&#39;Trp&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="s1">&#39;Tyr&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="s1">&#39;Val&#39;</span><span class="p">}</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[6]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG&#39;</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -15319,8 +15314,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Much nicer!</p>
-<p>Now, for something <strong>very</strong> important.  Whenever we open a file, we must close it when we are done with it.  This is important because unexpected things can happen when the file is still open.  We can check to see if it is closed.</p>
+<p>For a final example, consider the quadratic formula.</p>
 
 </div>
 </div>
@@ -15330,30 +15324,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">closed</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">qf</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">a</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[7]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>False</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -15362,7 +15337,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Ok, better close it!  We just use the <code>f.close()</code> method.</p>
+<p>It works just fine.</p>
 
 </div>
 </div>
@@ -15372,10 +15347,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-<span class="c1"># Is it closed?</span>
-<span class="n">f</span><span class="o">.</span><span class="n">closed</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">qf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15394,7 +15366,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
+<pre>(3.0, -1.5)</pre>
 </div>
 
 </div>
@@ -15407,8 +15379,38 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Using-context-managers-with-files">Using context managers with files<a class="anchor-link" href="#Using-context-managers-with-files">&#182;</a></h3><p>Python has a wonderful keyword, <strong><code>with</code></strong>.  This keyword enables <strong>context management</strong>.  Upon entry into a <strong><code>with</code></strong> block, variables have certain meaning.  Upon exit, certain operations take place.  For file objects created by opening them, the file is automatically closed upon exit, <strong>even if there is an error</strong>.  This is important.  If your program raises an exception before you have a chance to close the file, it won't get closed and you could be in trouble. If you use context management, the file will still get closed.</p>
-<p>Let's see how it works.</p>
+<p>But it is illegible.  Let's do a  PEP 8-ified version.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">quadratic_roots</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Real roots of a second order polynomial.&quot;&quot;&quot;</span>
+    <span class="c1"># Compute square root of the discriminant</span>
+    <span class="n">sqrt_disc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">)</span>
+    
+    <span class="c1"># Compute two roots</span>
+    <span class="n">root_1</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">+</span> <span class="n">sqrt_disc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">root_2</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">-</span> <span class="n">sqrt_disc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">root_1</span><span class="p">,</span> <span class="n">root_2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And this also works!</p>
 
 </div>
 </div>
@@ -15418,15 +15420,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f_lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In the with block, is the file closed?&#39;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">closed</span><span class="p">)</span>
-    
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Out of the with block, is the file closed?&#39;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">closed</span><span class="p">)</span>
-
-<span class="c1"># Check the first three lines</span>
-<span class="nb">print</span><span class="p">()</span>
-<span class="n">f_lines</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">quadratic_roots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15436,19 +15430,6 @@ div#notebook {
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>In the with block, is the file closed? False
-Out of the with block, is the file closed? True
-
-</pre>
-</div>
-</div>
 
 <div class="output_area">
 
@@ -15458,9 +15439,7 @@ Out of the with block, is the file closed? True
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \n&#39;,
- &#39;TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \n&#39;,
- &#39;TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \n&#39;]</pre>
+<pre>(3.0, -1.5)</pre>
 </div>
 
 </div>
@@ -15473,8 +15452,7 @@ Out of the with block, is the file closed? True
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The syntax is almost like English.  We do what is written in the <strong><code>with</code></strong> block with an open file object that we will name <code>f</code>.</p>
-<p>The results look good!  In general, you should use context management when working with files.  It keeps you out of trouble with open files.  And it is much cleaner.  This is worth making official:</p>
+<h2 id="Line-breaks">Line breaks<a class="anchor-link" href="#Line-breaks">&#182;</a></h2><p>PEP8 does not comment extensively on line breaks. I have found that choosing how to do line breaks is often one of the more challenging aspects of making readable code. The Boswell and Foucher book spends lots of space discussing it. There are lots of considerations for choosing line breaks. One of my favorite discussions on this is <a href="http://treyhunner.com/2017/07/craft-your-python-like-poetry/">this blog post from Trey Hunner</a>. It's definitely worth a read, and is about as concise as anything I could put here in this lesson.</p>
 
 </div>
 </div>
@@ -15483,501 +15461,7 @@ Out of the with block, is the file closed? True
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<div class="alert alert-info">
-<center>Use context management using **`with`** when working with files.</center>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Reading-line-by-line">Reading line-by-line<a class="anchor-link" href="#Reading-line-by-line">&#182;</a></h3><p>What if we do not want to read the entire file into a list?  For example, if a file is several gigabytes, we do not want to spend all of our RAM storing a list.  Instead, we can read it line-by-line.  Conveniently, the file object can be used as an iterator.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print the first ten lines of the file</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
-            <span class="k">break</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG
-TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION
-TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR
-COMPND    MOL_ID: 1;
-COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);
-COMPND   3 CHAIN: A, B, C, D;
-COMPND   4 ENGINEERED: YES
-SOURCE    MOL_ID: 1;
-SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;
-SOURCE   3 ORGANISM_COMMON: HUMAN;
-SOURCE   4 ORGANISM_TAXID: 9606
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Alternatively, we can use the method <code>f.readline()</code> to read a single line in the file and return it as a string.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print the first ten lines of the file</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
-        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG
-TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION
-TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR
-COMPND    MOL_ID: 1;
-COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);
-COMPND   3 CHAIN: A, B, C, D;
-COMPND   4 ENGINEERED: YES
-SOURCE    MOL_ID: 1;
-SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;
-SOURCE   3 ORGANISM_COMMON: HUMAN;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Writing-to-a-file">Writing to a file<a class="anchor-link" href="#Writing-to-a-file">&#182;</a></h2><p>Writing to a file has similar syntax.  We already saw how to open a file for writing.  Again, context management is useful.  However, before trying to open a file, we should check to make sure a file of the same name does not exist before opening it.  The <code>os.path</code> module is useful.  The function <code>os.path.isfile()</code> function checks to see if a file exists.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[13]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>So, now we're ready to open a file to write.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;mastery.txt&#39;</span><span class="p">):</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;File mastery.txt already exists.&#39;</span><span class="p">)</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;mastery.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;This is my file.&#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;There are many like it, but this one is mine.&#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;I must master my file like I must master my life.&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that we can use the <code>f.write()</code> method to write strings to a file.  Let's look at the file contents.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>cat mastery.txt
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>This is my file.There are many like it, but this one is mine.I must master my file like I must master my life.</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Ah!  There are no newlines!  When writing to a file, unlike when you use the <code>print()</code> function, you must include the newline characters.  Let's try again, intentionally obliterating our first attempt.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;mastery.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;This is my file.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;There are many like it, but this one is mine.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;I must master my file like I must master my life.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    
-<span class="o">!</span>cat mastery.txt
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>This is my file.
-There are many like it, but this one is mine.
-I must master my file like I must master my life.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>That's better.  Note also that <code>f.write()</code> <strong>only</strong> takes strings as arguments.  You cannot pass numbers.  They must be converted to strings first.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># This will result in an exception</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;gimme_phi.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;The golden ratio is φ = &#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mf">1.61803398875</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-17-9265e8a96772&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">with</span> open<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;gimme_phi.txt&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;w&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> f<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span>     f<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;The golden ratio is φ = &#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg">     </span>f<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1.61803398875</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">TypeError</span>: write() argument must be str, not float</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Yup.  It must be a string.  Let's try again.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;gimme_phi.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;The golden ratio is φ = &#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{phi:.8f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phi</span><span class="o">=</span><span class="mf">1.61803398875</span><span class="p">))</span>
-
-<span class="o">!</span>cat gimme_phi.txt
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>The golden ratio is φ = 1.61803399</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>That works!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="An-exercise:-extract-atomic-coordinates-for-first-chain-in-tetramer">An exercise: extract atomic coordinates for first chain in tetramer<a class="anchor-link" href="#An-exercise:-extract-atomic-coordinates-for-first-chain-in-tetramer">&#182;</a></h2><p>As an example on how to do file I/O, we will take the PDB file and extract only the <code>ATOM</code> records for the first chain of the tetramer and write only those entries to a new file.</p>
-<p>It is useful to know that according to the <a href="http://www.wwpdb.org/documentation/file-format-content/format33/sect9.html#ATOM">PDB format specification</a>, column 21 in the <code>ATOM</code> entry gives the ID of the chain.</p>
-<p>We also conveniently use the fact that we can have multiple files open in our <strong><code>with</code></strong> block, separating them with commas.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;atoms_chain_A.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
-    <span class="c1"># Put the ATOM lines from chain A in new file</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">21</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ATOM&#39;</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span>
-            <span class="n">f_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's see how we did!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>head -10 atoms_chain_A.txt
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>ATOM      1  N   LYS A 319      18.634  25.437  10.685  1.00  4.81           N  
-ATOM      2  CA  LYS A 319      17.984  25.295   9.354  1.00  4.32           C  
-ATOM      3  C   LYS A 319      18.160  23.876   8.818  1.00  3.74           C  
-ATOM      4  O   LYS A 319      19.259  23.441   8.537  1.00  3.67           O  
-ATOM      5  CB  LYS A 319      18.609  26.282   8.371  1.00  4.67           C  
-ATOM      6  CG  LYS A 319      18.003  26.056   6.986  1.00  5.15           C  
-ATOM      7  CD  LYS A 319      16.476  26.057   7.091  1.00  5.90           C  
-ATOM      8  CE  LYS A 319      16.014  27.341   7.784  1.00  6.51           C  
-ATOM      9  NZ  LYS A 319      16.388  28.518   6.952  1.00  7.33           N  
-ATOM     10  H1  LYS A 319      18.414  24.606  11.281  1.00  5.09           H  
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>tail -10 atoms_chain_A.txt
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>ATOM    689  HD2 PRO A 359       0.183  25.663  13.542  1.00  4.71           H  
-ATOM    690  HD3 PRO A 359       0.246  23.956  13.062  1.00  4.53           H  
-ATOM    691  N   GLY A 360      -3.984  26.791  10.832  1.00  5.45           N  
-ATOM    692  CA  GLY A 360      -4.489  28.138  10.445  1.00  5.95           C  
-ATOM    693  C   GLY A 360      -5.981  28.236  10.765  1.00  6.77           C  
-ATOM    694  O   GLY A 360      -6.401  27.621  11.732  1.00  7.24           O  
-ATOM    695  OXT GLY A 360      -6.679  28.924  10.039  1.00  7.15           O  
-ATOM    696  H   GLY A 360      -4.589  26.020  10.828  1.00  5.72           H  
-ATOM    697  HA2 GLY A 360      -3.950  28.896  10.995  1.00  5.99           H  
-ATOM    698  HA3 GLY A 360      -4.341  28.288   9.386  1.00  6.05           H  
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Nice!</p>
+<h2 id="This-is-really-important.">This is really important.<a class="anchor-link" href="#This-is-really-important.">&#182;</a></h2><p>I want to reiterate how important this is.  Most programmers follow these rules closely, but most scientists do not.  I can't tell you how many software packages written by scientists that I have encountered and found to be almost completely unreadable.  Many of your colleagues will pay little attention to style.  <strong>You should.</strong></p>
 
 </div>
 </div>

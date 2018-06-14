@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>l16_file_io</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l19_intro_to_pandas</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14985,10 +14985,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-16:-File-I/O">Lesson 16: File I/O<a class="anchor-link" href="#Lesson-16:-File-I/O">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-19:-Introduction-to-Pandas">Lesson 19: Introduction to Pandas<a class="anchor-link" href="#Lesson-19:-Introduction-to-Pandas">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l16_file_io.ipynb">here</a>.</em></p>
+<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l19_intro_to_pandas.ipynb">here</a>.</em></p>
 <p><br /> <br /></p>
 
 </div>
@@ -14999,8 +14999,10 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The only module we need is os from the standard library</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Pandas, conventionally imported as pd</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 </pre></div>
 
 </div>
@@ -15012,7 +15014,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Reading data in from files and then writing your results out again is one of the most common practices in scientific computing.  In this tutorial, we will learn about some of Python's File I/O capabilities.  We will use a PDB file as an example.  The PDB file contains the crystal structure for the tetramerization domain of <a href="https://en.wikipedia.org/wiki/P53">p53</a>.  It is stored in the  file <code>~git/bootcamp/data/1OLG.pdb</code>. (Make sure you launch your notebook from the <code>~git/bootcamp/</code> directory.) Note that <code>1OLG</code> is its unique <a href="http://www.rcsb.org/pdb/explore/explore.do?structureId=1olg">Protein Databank</a> identifier.</p>
+<p>Throughout your research career, you will undoubtedly need to handle data, possibly lots of data.  The data comes in lots of formats, and you will spend much of your time <strong>wrangling</strong> the data to get it into a usable form.</p>
+<p>Pandas is the primary tool in the SciPy stack for handling data.  Its primary object, the <code>DataFrame</code> is extremely useful in wrangling data.  We will explore some of that functionality here, and will put it to use in the next lesson.</p>
 
 </div>
 </div>
@@ -15021,7 +15024,13 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="File-objects">File objects<a class="anchor-link" href="#File-objects">&#182;</a></h2><p>To open a file, we use the built-in <code>open()</code> function.  We'll invoke this function by example and look at its output.</p>
+<h2 id="The-data-set">The data set<a class="anchor-link" href="#The-data-set">&#182;</a></h2><p>We will explore using Pandas with a real data set. We will use a data set published in <a href="https://doi.org/10.1098/rsos.160321">Beattie, et al., Perceptual impairment in face identification with poor sleep, <em>Royal Society Open Science</em>, <strong>3</strong>, 160321, 2016</a>. In this paper, researchers used the <a href="https://doi.org/10.3758/BRM.42.1.286">Glasgow Factial Matching Test</a> (GMFT) to investigate how sleep deprivation affects a subject's ability to match faces, as well as the confidence the subject has in those matches. Briefly, the test works by having subjects look at a pair of faces. Two such pairs are shown below.</p>
+<p><img src="gfmt_faces.png" alt="gfmt_faces.png" width="300"></p>
+<p>The top two pictures are the same person, the bottom two pictures are different people. For each pair of faces, the subject gets as much time as he or she needs and then says whether or not they are the same person. The subject then rates his or her confidence in the choice.</p>
+<p>In this study, subjects also took surveys to determine properties about their sleep. The Sleep Condition Indicator (SCI) is a measure of insomnia disorder over the past month (scores of 16 and below indicate insomnia). The Pittsburgh Sleep Quality Index (PSQI) quantifies how well a subject sleeps in terms of interruptions, latency, etc. A higher score indicates poorer sleep. The Epworth Sleepiness Scale (ESS) assesses daytime drowsiness.</p>
+<p>The data set is stored in the file <code>~/git/bootcamp/data/gfmt_sleep.csv</code>. The contents of this file were adapted from <a href="https://doi.org/10.5061/dryad.r620r">the Excel file posted on the public Dryad repository</a>. (Note this: if you want other people to use and explore your data, make it publicly available.)</p>
+<p>This is a <strong>CSV file</strong>, where CSV stands for comma-separated value. This is a text file that is easily read into data structures in many programming languages. You should generally always store your data in such a format, not necessarily CSV, but a format that is open, has a well-defined specification, and is readable in many contexts. Excel files do not meet these criteria. Neither to <code>.mat</code> files.</p>
+<p>Let's take a look at the CSV file.</p>
 
 </div>
 </div>
@@ -15031,11 +15040,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Open file</span>
-<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
-
-<span class="c1"># What is f?</span>
-<span class="n">f</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>head gfmt_sleep.csv
 </pre></div>
 
 </div>
@@ -15048,15 +15053,22 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[2]:</div>
+<div class="prompt"></div>
 
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;_io.TextIOWrapper name=&#39;data/1OLG.pdb&#39; mode=&#39;r&#39; encoding=&#39;UTF-8&#39;&gt;</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>﻿participant number,gender,age,correct hit percentage,correct reject percentage,percent correct,confidence when correct hit,confidence incorrect hit,confidence correct reject,confidence incorrect reject,confidence when correct,confidence when incorrect,sci,psqi,ess
+8,f,39,65,80,72.5,91,90,93,83.5,93,90,9,13,2
+16,m,42,90,90,90,75.5,55.5,70.5,50,75,50,4,11,7
+18,f,31,90,95,92.5,89.5,90,86,81,89,88,10,9,3
+22,f,35,100,75,87.5,89.5,*,71,80,88,80,13,8,20
+27,f,74,60,65,62.5,68.5,49,61,49,65,49,13,9,12
+28,f,61,80,20,50,71,63,31,72.5,64.5,70.5,15,14,2
+30,m,32,90,75,82.5,67,56.5,66,65,66,64,16,9,3
+33,m,62,45,90,67.5,54,37,65,81.5,62,61,14,9,9
+34,f,33,80,100,90,70.5,76.5,64.5,*,68,76.5,14,12,10
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -15067,40 +15079,9 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>So, <code>f</code> is some weird looking type.  It is a Python <code>file</code> object, which has methods and attributes, just like any other object.  We'll explore those in a moment, but first, let's look at how we opened the file.  The first argument to <code>open()</code> is a string that has the name of the file, with the full path if necessary.  The second argument is a string that says what we will be doing with the file.  I.e., are we reading or writing to the file?  The possible strings for this second argument are</p>
-<table>
-<thead><tr>
-<th style="text-align:left">string</th>
-<th style="text-align:left">meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>'r'</code></td>
-<td style="text-align:left">open a text file for reading</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>'w'</code></td>
-<td style="text-align:left">create and open a text file for writing</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>'a'</code></td>
-<td style="text-align:left">append an existing text file</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>'r+'</code></td>
-<td style="text-align:left">open a text file for reading and writing</td>
-</tr>
-<tr>
-<td style="text-align:left">append <code>'b'</code> to any of the above</td>
-<td style="text-align:left">same as above, except for binary files</td>
-</tr>
-</tbody>
-</table>
-<p>We will mostly be working with text files in the bootcamp, so the first three are the most useful.  A big warning, though....</p>
-<div class="alert alert-danger">
-<center>Trying to open an existing file with `'w'` will wipe it out and create a new file.</center>
-</div>
+<p>The first line contains the <strong>headers</strong> for each column. They are participant number, gender, age, etc. The data follow. There are two important things to note here. First, notice that the <code>gender</code> column has string data (<code>m</code> or <code>f</code>), while the rest of the data are numeric. Note also that there are some <strong>missing data</strong>, denoted by the <code>*</code>s in the file.</p>
+<p>Given the file I/O skills you recently learned, you could write some functions to parse this file and extra the data you want. You can imagine that this might be kind of painful. However, if the file format is nice and clean, like we more or less have here, we can use pre-built tools. Pandas has a very powerful function, <code>pd.read_csv()</code> that can read in a CSV file and store the contents in a convenient data structure called a <code>DataFrame</code>.</p>
+
 </div>
 </div>
 </div>
@@ -15108,25 +15089,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Reading-data-out-of-the-file-with-file-object-methods">Reading data out of the file with file object methods<a class="anchor-link" href="#Reading-data-out-of-the-file-with-file-object-methods">&#182;</a></h3><p>Now, let's look at the file object.  You can type <code>f.</code> followed by tab to see its attributes and methods.  We will focus on the methods <code>f.read()</code> and <code>f.readlines()</code>.  What do they do?</p>
-<table>
-<thead><tr>
-<th style="text-align:left">method</th>
-<th style="text-align:left">task</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>f.read()</code></td>
-<td style="text-align:left">Read the entire contents of the file into a string</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>f.readlines()</code></td>
-<td style="text-align:left">Read the entire file into a list with each item being a string representing a line</td>
-</tr>
-</tbody>
-</table>
-<p>First, we'll try using the first method to get a single string with the entire contents of the file.</p>
+<h2 id="Reading-in-data">Reading in data<a class="anchor-link" href="#Reading-in-data">&#182;</a></h2><p>Let's first look at the doc string of <code>pd.read_csv()</code>.</p>
 
 </div>
 </div>
@@ -15136,11 +15099,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Read file into string</span>
-<span class="n">f_str</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-
-<span class="c1"># Let&#39;s look at the first 1000 characters</span>
-<span class="n">f_str</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span>pd.read_csv<span class="o">?</span>
 </pre></div>
 
 </div>
@@ -15153,13 +15112,279 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[3]:</div>
+<div class="prompt"></div>
 
 
 
 
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \nTITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \nTITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \nCOMPND    MOL_ID: 1;                                                            \nCOMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);             \nCOMPND   3 CHAIN: A, B, C, D;                                                   \nCOMPND   4 ENGINEERED: YES                                                      \nSOURCE    MOL_ID: 1;                                                            \nSOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   \nSOURCE   3 ORGANISM_COMMON: HUMAN;                                              \nSOURCE   4 ORGANISM_TAXID: 9606                                                 \nKEYWDS    ANTI-ONCOGENE                                                         \nEXPDTA    SOLUTION NMR      &#39;</pre>
+<div class="output_text output_subarea ">
+<pre><span class="ansi-red-fg">Signature:</span> pd<span class="ansi-blue-fg">.</span>read_csv<span class="ansi-blue-fg">(</span>filepath_or_buffer<span class="ansi-blue-fg">,</span> sep<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;,&#39;</span><span class="ansi-blue-fg">,</span> delimiter<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> header<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;infer&#39;</span><span class="ansi-blue-fg">,</span> names<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> index_col<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> usecols<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> squeeze<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span> prefix<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> mangle_dupe_cols<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> engine<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> converters<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> true_values<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> false_values<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> skipinitialspace<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span> skiprows<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> nrows<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> na_values<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> keep_default_na<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> na_filter<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> verbose<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span> skip_blank_lines<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> parse_dates<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span> infer_datetime_format<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span> keep_date_col<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span> date_parser<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> dayfirst<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span> iterator<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span> chunksize<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> compression<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;infer&#39;</span><span class="ansi-blue-fg">,</span> thousands<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> decimal<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">b&#39;.&#39;</span><span class="ansi-blue-fg">,</span> lineterminator<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> quotechar<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;&#34;&#39;</span><span class="ansi-blue-fg">,</span> quoting<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span> escapechar<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> comment<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> encoding<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> dialect<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> tupleize_cols<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> error_bad_lines<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> warn_bad_lines<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> skipfooter<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span> doublequote<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> delim_whitespace<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span> low_memory<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> memory_map<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span> float_precision<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Docstring:</span>
+Read CSV (comma-separated) file into DataFrame
+
+Also supports optionally iterating or breaking of the file
+into chunks.
+
+Additional help can be found in the `online docs for IO Tools
+&lt;http://pandas.pydata.org/pandas-docs/stable/io.html&gt;`_.
+
+Parameters
+----------
+filepath_or_buffer : str, pathlib.Path, py._path.local.LocalPath or any \
+object with a read() method (such as a file handle or StringIO)
+    The string could be a URL. Valid URL schemes include http, ftp, s3, and
+    file. For file URLs, a host is expected. For instance, a local file could
+    be file://localhost/path/to/table.csv
+sep : str, default &#39;,&#39;
+    Delimiter to use. If sep is None, the C engine cannot automatically detect
+    the separator, but the Python parsing engine can, meaning the latter will
+    be used and automatically detect the separator by Python&#39;s builtin sniffer
+    tool, ``csv.Sniffer``. In addition, separators longer than 1 character and
+    different from ``&#39;\s+&#39;`` will be interpreted as regular expressions and
+    will also force the use of the Python parsing engine. Note that regex
+    delimiters are prone to ignoring quoted data. Regex example: ``&#39;\r\t&#39;``
+delimiter : str, default ``None``
+    Alternative argument name for sep.
+delim_whitespace : boolean, default False
+    Specifies whether or not whitespace (e.g. ``&#39; &#39;`` or ``&#39;\t&#39;``) will be
+    used as the sep. Equivalent to setting ``sep=&#39;\s+&#39;``. If this option
+    is set to True, nothing should be passed in for the ``delimiter``
+    parameter.
+
+    .. versionadded:: 0.18.1 support for the Python parser.
+
+header : int or list of ints, default &#39;infer&#39;
+    Row number(s) to use as the column names, and the start of the
+    data.  Default behavior is to infer the column names: if no names
+    are passed the behavior is identical to ``header=0`` and column
+    names are inferred from the first line of the file, if column
+    names are passed explicitly then the behavior is identical to
+    ``header=None``. Explicitly pass ``header=0`` to be able to
+    replace existing names. The header can be a list of integers that
+    specify row locations for a multi-index on the columns
+    e.g. [0,1,3]. Intervening rows that are not specified will be
+    skipped (e.g. 2 in this example is skipped). Note that this
+    parameter ignores commented lines and empty lines if
+    ``skip_blank_lines=True``, so header=0 denotes the first line of
+    data rather than the first line of the file.
+names : array-like, default None
+    List of column names to use. If file contains no header row, then you
+    should explicitly pass header=None. Duplicates in this list will cause
+    a ``UserWarning`` to be issued.
+index_col : int or sequence or False, default None
+    Column to use as the row labels of the DataFrame. If a sequence is given, a
+    MultiIndex is used. If you have a malformed file with delimiters at the end
+    of each line, you might consider index_col=False to force pandas to _not_
+    use the first column as the index (row names)
+usecols : list-like or callable, default None
+    Return a subset of the columns. If list-like, all elements must either
+    be positional (i.e. integer indices into the document columns) or strings
+    that correspond to column names provided either by the user in `names` or
+    inferred from the document header row(s). For example, a valid list-like
+    `usecols` parameter would be [0, 1, 2] or [&#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;]. Element
+    order is ignored, so ``usecols=[0, 1]`` is the same as ``[1, 0]``.
+    To instantiate a DataFrame from ``data`` with element order preserved use
+    ``pd.read_csv(data, usecols=[&#39;foo&#39;, &#39;bar&#39;])[[&#39;foo&#39;, &#39;bar&#39;]]`` for columns
+    in ``[&#39;foo&#39;, &#39;bar&#39;]`` order or
+    ``pd.read_csv(data, usecols=[&#39;foo&#39;, &#39;bar&#39;])[[&#39;bar&#39;, &#39;foo&#39;]]``
+    for ``[&#39;bar&#39;, &#39;foo&#39;]`` order.
+
+    If callable, the callable function will be evaluated against the column
+    names, returning names where the callable function evaluates to True. An
+    example of a valid callable argument would be ``lambda x: x.upper() in
+    [&#39;AAA&#39;, &#39;BBB&#39;, &#39;DDD&#39;]``. Using this parameter results in much faster
+    parsing time and lower memory usage.
+squeeze : boolean, default False
+    If the parsed data only contains one column then return a Series
+prefix : str, default None
+    Prefix to add to column numbers when no header, e.g. &#39;X&#39; for X0, X1, ...
+mangle_dupe_cols : boolean, default True
+    Duplicate columns will be specified as &#39;X&#39;, &#39;X.1&#39;, ...&#39;X.N&#39;, rather than
+    &#39;X&#39;...&#39;X&#39;. Passing in False will cause data to be overwritten if there
+    are duplicate names in the columns.
+dtype : Type name or dict of column -&gt; type, default None
+    Data type for data or columns. E.g. {&#39;a&#39;: np.float64, &#39;b&#39;: np.int32}
+    Use `str` or `object` together with suitable `na_values` settings
+    to preserve and not interpret dtype.
+    If converters are specified, they will be applied INSTEAD
+    of dtype conversion.
+engine : {&#39;c&#39;, &#39;python&#39;}, optional
+    Parser engine to use. The C engine is faster while the python engine is
+    currently more feature-complete.
+converters : dict, default None
+    Dict of functions for converting values in certain columns. Keys can either
+    be integers or column labels
+true_values : list, default None
+    Values to consider as True
+false_values : list, default None
+    Values to consider as False
+skipinitialspace : boolean, default False
+    Skip spaces after delimiter.
+skiprows : list-like or integer or callable, default None
+    Line numbers to skip (0-indexed) or number of lines to skip (int)
+    at the start of the file.
+
+    If callable, the callable function will be evaluated against the row
+    indices, returning True if the row should be skipped and False otherwise.
+    An example of a valid callable argument would be ``lambda x: x in [0, 2]``.
+skipfooter : int, default 0
+    Number of lines at bottom of file to skip (Unsupported with engine=&#39;c&#39;)
+nrows : int, default None
+    Number of rows of file to read. Useful for reading pieces of large files
+na_values : scalar, str, list-like, or dict, default None
+    Additional strings to recognize as NA/NaN. If dict passed, specific
+    per-column NA values.  By default the following values are interpreted as
+    NaN: &#39;&#39;, &#39;#N/A&#39;, &#39;#N/A N/A&#39;, &#39;#NA&#39;, &#39;-1.#IND&#39;, &#39;-1.#QNAN&#39;, &#39;-NaN&#39;, &#39;-nan&#39;,
+    &#39;1.#IND&#39;, &#39;1.#QNAN&#39;, &#39;N/A&#39;, &#39;NA&#39;, &#39;NULL&#39;, &#39;NaN&#39;, &#39;n/a&#39;, &#39;nan&#39;,
+    &#39;null&#39;.
+keep_default_na : bool, default True
+    Whether or not to include the default NaN values when parsing the data.
+    Depending on whether `na_values` is passed in, the behavior is as follows:
+
+    * If `keep_default_na` is True, and `na_values` are specified, `na_values`
+      is appended to the default NaN values used for parsing.
+    * If `keep_default_na` is True, and `na_values` are not specified, only
+      the default NaN values are used for parsing.
+    * If `keep_default_na` is False, and `na_values` are specified, only
+      the NaN values specified `na_values` are used for parsing.
+    * If `keep_default_na` is False, and `na_values` are not specified, no
+      strings will be parsed as NaN.
+
+    Note that if `na_filter` is passed in as False, the `keep_default_na` and
+    `na_values` parameters will be ignored.
+na_filter : boolean, default True
+    Detect missing value markers (empty strings and the value of na_values). In
+    data without any NAs, passing na_filter=False can improve the performance
+    of reading a large file
+verbose : boolean, default False
+    Indicate number of NA values placed in non-numeric columns
+skip_blank_lines : boolean, default True
+    If True, skip over blank lines rather than interpreting as NaN values
+parse_dates : boolean or list of ints or names or list of lists or dict, default False
+
+    * boolean. If True -&gt; try parsing the index.
+    * list of ints or names. e.g. If [1, 2, 3] -&gt; try parsing columns 1, 2, 3
+      each as a separate date column.
+    * list of lists. e.g.  If [[1, 3]] -&gt; combine columns 1 and 3 and parse as
+      a single date column.
+    * dict, e.g. {&#39;foo&#39; : [1, 3]} -&gt; parse columns 1, 3 as date and call result
+      &#39;foo&#39;
+
+    If a column or index contains an unparseable date, the entire column or
+    index will be returned unaltered as an object data type. For non-standard
+    datetime parsing, use ``pd.to_datetime`` after ``pd.read_csv``
+
+    Note: A fast-path exists for iso8601-formatted dates.
+infer_datetime_format : boolean, default False
+    If True and `parse_dates` is enabled, pandas will attempt to infer the
+    format of the datetime strings in the columns, and if it can be inferred,
+    switch to a faster method of parsing them. In some cases this can increase
+    the parsing speed by 5-10x.
+keep_date_col : boolean, default False
+    If True and `parse_dates` specifies combining multiple columns then
+    keep the original columns.
+date_parser : function, default None
+    Function to use for converting a sequence of string columns to an array of
+    datetime instances. The default uses ``dateutil.parser.parser`` to do the
+    conversion. Pandas will try to call `date_parser` in three different ways,
+    advancing to the next if an exception occurs: 1) Pass one or more arrays
+    (as defined by `parse_dates`) as arguments; 2) concatenate (row-wise) the
+    string values from the columns defined by `parse_dates` into a single array
+    and pass that; and 3) call `date_parser` once for each row using one or
+    more strings (corresponding to the columns defined by `parse_dates`) as
+    arguments.
+dayfirst : boolean, default False
+    DD/MM format dates, international and European format
+iterator : boolean, default False
+    Return TextFileReader object for iteration or getting chunks with
+    ``get_chunk()``.
+chunksize : int, default None
+    Return TextFileReader object for iteration.
+    See the `IO Tools docs
+    &lt;http://pandas.pydata.org/pandas-docs/stable/io.html#io-chunking&gt;`_
+    for more information on ``iterator`` and ``chunksize``.
+compression : {&#39;infer&#39;, &#39;gzip&#39;, &#39;bz2&#39;, &#39;zip&#39;, &#39;xz&#39;, None}, default &#39;infer&#39;
+    For on-the-fly decompression of on-disk data. If &#39;infer&#39; and
+    `filepath_or_buffer` is path-like, then detect compression from the
+    following extensions: &#39;.gz&#39;, &#39;.bz2&#39;, &#39;.zip&#39;, or &#39;.xz&#39; (otherwise no
+    decompression). If using &#39;zip&#39;, the ZIP file must contain only one data
+    file to be read in. Set to None for no decompression.
+
+    .. versionadded:: 0.18.1 support for &#39;zip&#39; and &#39;xz&#39; compression.
+
+thousands : str, default None
+    Thousands separator
+decimal : str, default &#39;.&#39;
+    Character to recognize as decimal point (e.g. use &#39;,&#39; for European data).
+float_precision : string, default None
+    Specifies which converter the C engine should use for floating-point
+    values. The options are `None` for the ordinary converter,
+    `high` for the high-precision converter, and `round_trip` for the
+    round-trip converter.
+lineterminator : str (length 1), default None
+    Character to break file into lines. Only valid with C parser.
+quotechar : str (length 1), optional
+    The character used to denote the start and end of a quoted item. Quoted
+    items can include the delimiter and it will be ignored.
+quoting : int or csv.QUOTE_* instance, default 0
+    Control field quoting behavior per ``csv.QUOTE_*`` constants. Use one of
+    QUOTE_MINIMAL (0), QUOTE_ALL (1), QUOTE_NONNUMERIC (2) or QUOTE_NONE (3).
+doublequote : boolean, default ``True``
+   When quotechar is specified and quoting is not ``QUOTE_NONE``, indicate
+   whether or not to interpret two consecutive quotechar elements INSIDE a
+   field as a single ``quotechar`` element.
+escapechar : str (length 1), default None
+    One-character string used to escape delimiter when quoting is QUOTE_NONE.
+comment : str, default None
+    Indicates remainder of line should not be parsed. If found at the beginning
+    of a line, the line will be ignored altogether. This parameter must be a
+    single character. Like empty lines (as long as ``skip_blank_lines=True``),
+    fully commented lines are ignored by the parameter `header` but not by
+    `skiprows`. For example, if ``comment=&#39;#&#39;``, parsing
+    ``#empty\na,b,c\n1,2,3`` with ``header=0`` will result in &#39;a,b,c&#39; being
+    treated as the header.
+encoding : str, default None
+    Encoding to use for UTF when reading/writing (ex. &#39;utf-8&#39;). `List of Python
+    standard encodings
+    &lt;https://docs.python.org/3/library/codecs.html#standard-encodings&gt;`_
+dialect : str or csv.Dialect instance, default None
+    If provided, this parameter will override values (default or not) for the
+    following parameters: `delimiter`, `doublequote`, `escapechar`,
+    `skipinitialspace`, `quotechar`, and `quoting`. If it is necessary to
+    override values, a ParserWarning will be issued. See csv.Dialect
+    documentation for more details.
+tupleize_cols : boolean, default False
+    .. deprecated:: 0.21.0
+       This argument will be removed and will always convert to MultiIndex
+
+    Leave a list of tuples on columns as is (default is to convert to
+    a MultiIndex on the columns)
+error_bad_lines : boolean, default True
+    Lines with too many fields (e.g. a csv line with too many commas) will by
+    default cause an exception to be raised, and no DataFrame will be returned.
+    If False, then these &#34;bad lines&#34; will dropped from the DataFrame that is
+    returned.
+warn_bad_lines : boolean, default True
+    If error_bad_lines is False, and warn_bad_lines is True, a warning for each
+    &#34;bad line&#34; will be output.
+low_memory : boolean, default True
+    Internally process the file in chunks, resulting in lower memory use
+    while parsing, but possibly mixed type inference.  To ensure no mixed
+    types either set False, or specify the type with the `dtype` parameter.
+    Note that the entire file is read into a single DataFrame regardless,
+    use the `chunksize` or `iterator` parameter to return the data in chunks.
+    (Only valid with C parser)
+memory_map : boolean, default False
+    If a filepath is provided for `filepath_or_buffer`, map the file object
+    directly onto memory and access the data directly from there. Using this
+    option can improve performance because there is no longer any I/O overhead.
+
+Returns
+-------
+result : DataFrame or TextParser
+<span class="ansi-red-fg">File:</span>      ~/anaconda3/lib/python3.6/site-packages/pandas/io/parsers.py
+<span class="ansi-red-fg">Type:</span>      function
+</pre>
 </div>
 
 </div>
@@ -15172,8 +15397,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We see lots of <code>\n</code>, which signifies a new line.  The backslash is known as an <strong>escape character</strong>, meaning that the <code>n</code> after it does not signify the letter n, but that <code>\n</code> together means a new line.</p>
-<p>Now, let's try reading it in as a list.</p>
+<p>Holy cow! There are so many options we can specify for reading in a CSV file. You will likely find reasons to use many of these throughout your research. For this particular data set, we really only need the <code>na_values</code> kwarg. This specifies what characters signify that a data point is missing. The resulting <code>DataFrame</code> is populated with a <strong>NaN</strong>, or not-a-number, wherever this character is present in the file. In this case, we want <code>na_values='*'</code>. So, let's load in the data set.</p>
 
 </div>
 </div>
@@ -15183,11 +15407,10 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Read contents of the file in as a list</span>
-<span class="n">f_list</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;gfmt_sleep.csv&#39;</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
 
-<span class="c1"># Look at the list</span>
-<span class="n">f_list</span>
+<span class="c1"># Check the type</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15206,7 +15429,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[]</pre>
+<pre>pandas.core.frame.DataFrame</pre>
 </div>
 
 </div>
@@ -15219,7 +15442,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Wait a minute!  I got an empty list!  That is because you can only scan through a file object once without "rewinding."  To rewind, we use the <code>f.seek()</code> method.  This method takes an argument of which byte you want to go to as you are reading the file.  To go to the beginning, we do <code>f.seek(0)</code>.  Let's try again.</p>
+<p>We now have the data stored in a <code>DataFrame</code>. We can look at it in the Jupyter notebook.</p>
 
 </div>
 </div>
@@ -15229,14 +15452,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Go to the beginning of the file</span>
-<span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># Read the contents in as a list</span>
-<span class="n">f_list</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-
-<span class="c1"># Check out the first 10 entries</span>
-<span class="n">f_list</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span>
 </pre></div>
 
 </div>
@@ -15253,18 +15469,1145 @@ div#notebook {
 
 
 
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \n&#39;,
- &#39;TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \n&#39;,
- &#39;TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \n&#39;,
- &#39;COMPND    MOL_ID: 1;                                                            \n&#39;,
- &#39;COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);             \n&#39;,
- &#39;COMPND   3 CHAIN: A, B, C, D;                                                   \n&#39;,
- &#39;COMPND   4 ENGINEERED: YES                                                      \n&#39;,
- &#39;SOURCE    MOL_ID: 1;                                                            \n&#39;,
- &#39;SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   \n&#39;,
- &#39;SOURCE   3 ORGANISM_COMMON: HUMAN;                                              \n&#39;]</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8</td>
+      <td>f</td>
+      <td>39</td>
+      <td>65</td>
+      <td>80</td>
+      <td>72.5</td>
+      <td>91.0</td>
+      <td>90.0</td>
+      <td>93.0</td>
+      <td>83.5</td>
+      <td>93.0</td>
+      <td>90.0</td>
+      <td>9</td>
+      <td>13</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>16</td>
+      <td>m</td>
+      <td>42</td>
+      <td>90</td>
+      <td>90</td>
+      <td>90.0</td>
+      <td>75.5</td>
+      <td>55.5</td>
+      <td>70.5</td>
+      <td>50.0</td>
+      <td>75.0</td>
+      <td>50.0</td>
+      <td>4</td>
+      <td>11</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>18</td>
+      <td>f</td>
+      <td>31</td>
+      <td>90</td>
+      <td>95</td>
+      <td>92.5</td>
+      <td>89.5</td>
+      <td>90.0</td>
+      <td>86.0</td>
+      <td>81.0</td>
+      <td>89.0</td>
+      <td>88.0</td>
+      <td>10</td>
+      <td>9</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>22</td>
+      <td>f</td>
+      <td>35</td>
+      <td>100</td>
+      <td>75</td>
+      <td>87.5</td>
+      <td>89.5</td>
+      <td>NaN</td>
+      <td>71.0</td>
+      <td>80.0</td>
+      <td>88.0</td>
+      <td>80.0</td>
+      <td>13</td>
+      <td>8</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>27</td>
+      <td>f</td>
+      <td>74</td>
+      <td>60</td>
+      <td>65</td>
+      <td>62.5</td>
+      <td>68.5</td>
+      <td>49.0</td>
+      <td>61.0</td>
+      <td>49.0</td>
+      <td>65.0</td>
+      <td>49.0</td>
+      <td>13</td>
+      <td>9</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>28</td>
+      <td>f</td>
+      <td>61</td>
+      <td>80</td>
+      <td>20</td>
+      <td>50.0</td>
+      <td>71.0</td>
+      <td>63.0</td>
+      <td>31.0</td>
+      <td>72.5</td>
+      <td>64.5</td>
+      <td>70.5</td>
+      <td>15</td>
+      <td>14</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>30</td>
+      <td>m</td>
+      <td>32</td>
+      <td>90</td>
+      <td>75</td>
+      <td>82.5</td>
+      <td>67.0</td>
+      <td>56.5</td>
+      <td>66.0</td>
+      <td>65.0</td>
+      <td>66.0</td>
+      <td>64.0</td>
+      <td>16</td>
+      <td>9</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>33</td>
+      <td>m</td>
+      <td>62</td>
+      <td>45</td>
+      <td>90</td>
+      <td>67.5</td>
+      <td>54.0</td>
+      <td>37.0</td>
+      <td>65.0</td>
+      <td>81.5</td>
+      <td>62.0</td>
+      <td>61.0</td>
+      <td>14</td>
+      <td>9</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>34</td>
+      <td>f</td>
+      <td>33</td>
+      <td>80</td>
+      <td>100</td>
+      <td>90.0</td>
+      <td>70.5</td>
+      <td>76.5</td>
+      <td>64.5</td>
+      <td>NaN</td>
+      <td>68.0</td>
+      <td>76.5</td>
+      <td>14</td>
+      <td>12</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>35</td>
+      <td>f</td>
+      <td>53</td>
+      <td>100</td>
+      <td>50</td>
+      <td>75.0</td>
+      <td>74.5</td>
+      <td>NaN</td>
+      <td>60.5</td>
+      <td>65.0</td>
+      <td>71.0</td>
+      <td>65.0</td>
+      <td>14</td>
+      <td>8</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>38</td>
+      <td>f</td>
+      <td>41</td>
+      <td>70</td>
+      <td>55</td>
+      <td>62.5</td>
+      <td>82.0</td>
+      <td>61.5</td>
+      <td>73.0</td>
+      <td>69.0</td>
+      <td>82.0</td>
+      <td>64.0</td>
+      <td>14</td>
+      <td>5</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>41</td>
+      <td>f</td>
+      <td>36</td>
+      <td>90</td>
+      <td>100</td>
+      <td>95.0</td>
+      <td>76.5</td>
+      <td>75.5</td>
+      <td>75.0</td>
+      <td>NaN</td>
+      <td>76.0</td>
+      <td>75.5</td>
+      <td>15</td>
+      <td>7</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>46</td>
+      <td>f</td>
+      <td>40</td>
+      <td>95</td>
+      <td>65</td>
+      <td>80.0</td>
+      <td>80.0</td>
+      <td>89.0</td>
+      <td>79.0</td>
+      <td>58.5</td>
+      <td>79.5</td>
+      <td>63.0</td>
+      <td>10</td>
+      <td>12</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>49</td>
+      <td>f</td>
+      <td>24</td>
+      <td>85</td>
+      <td>75</td>
+      <td>80.0</td>
+      <td>58.0</td>
+      <td>50.0</td>
+      <td>49.0</td>
+      <td>68.0</td>
+      <td>55.0</td>
+      <td>59.0</td>
+      <td>14</td>
+      <td>13</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>55</td>
+      <td>f</td>
+      <td>32</td>
+      <td>75</td>
+      <td>55</td>
+      <td>65.0</td>
+      <td>85.0</td>
+      <td>81.0</td>
+      <td>85.0</td>
+      <td>86.0</td>
+      <td>85.0</td>
+      <td>83.5</td>
+      <td>5</td>
+      <td>13</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>71</td>
+      <td>f</td>
+      <td>40</td>
+      <td>40</td>
+      <td>100</td>
+      <td>70.0</td>
+      <td>69.0</td>
+      <td>56.0</td>
+      <td>70.0</td>
+      <td>NaN</td>
+      <td>70.0</td>
+      <td>56.0</td>
+      <td>0</td>
+      <td>11</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>76</td>
+      <td>f</td>
+      <td>61</td>
+      <td>100</td>
+      <td>40</td>
+      <td>70.0</td>
+      <td>69.5</td>
+      <td>NaN</td>
+      <td>44.5</td>
+      <td>73.0</td>
+      <td>54.5</td>
+      <td>73.0</td>
+      <td>16</td>
+      <td>4</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>77</td>
+      <td>f</td>
+      <td>42</td>
+      <td>70</td>
+      <td>90</td>
+      <td>80.0</td>
+      <td>87.0</td>
+      <td>72.0</td>
+      <td>90.5</td>
+      <td>43.5</td>
+      <td>88.5</td>
+      <td>64.0</td>
+      <td>11</td>
+      <td>10</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>78</td>
+      <td>m</td>
+      <td>31</td>
+      <td>100</td>
+      <td>70</td>
+      <td>85.0</td>
+      <td>92.0</td>
+      <td>NaN</td>
+      <td>81.0</td>
+      <td>60.0</td>
+      <td>87.5</td>
+      <td>60.0</td>
+      <td>14</td>
+      <td>6</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>80</td>
+      <td>m</td>
+      <td>28</td>
+      <td>100</td>
+      <td>50</td>
+      <td>75.0</td>
+      <td>100.0</td>
+      <td>NaN</td>
+      <td>100.0</td>
+      <td>100.0</td>
+      <td>100.0</td>
+      <td>100.0</td>
+      <td>12</td>
+      <td>7</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>89</td>
+      <td>f</td>
+      <td>26</td>
+      <td>60</td>
+      <td>80</td>
+      <td>70.0</td>
+      <td>70.0</td>
+      <td>77.0</td>
+      <td>82.0</td>
+      <td>67.5</td>
+      <td>77.0</td>
+      <td>70.5</td>
+      <td>14</td>
+      <td>8</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>90</td>
+      <td>m</td>
+      <td>45</td>
+      <td>100</td>
+      <td>95</td>
+      <td>97.5</td>
+      <td>100.0</td>
+      <td>NaN</td>
+      <td>100.0</td>
+      <td>100.0</td>
+      <td>100.0</td>
+      <td>100.0</td>
+      <td>14</td>
+      <td>9</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>93</td>
+      <td>f</td>
+      <td>28</td>
+      <td>100</td>
+      <td>75</td>
+      <td>87.5</td>
+      <td>89.5</td>
+      <td>NaN</td>
+      <td>67.0</td>
+      <td>60.0</td>
+      <td>80.0</td>
+      <td>60.0</td>
+      <td>16</td>
+      <td>7</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>100</td>
+      <td>f</td>
+      <td>44</td>
+      <td>65</td>
+      <td>25</td>
+      <td>45.0</td>
+      <td>62.0</td>
+      <td>72.0</td>
+      <td>87.0</td>
+      <td>77.0</td>
+      <td>69.5</td>
+      <td>73.5</td>
+      <td>1</td>
+      <td>15</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>101</td>
+      <td>f</td>
+      <td>28</td>
+      <td>100</td>
+      <td>40</td>
+      <td>70.0</td>
+      <td>87.0</td>
+      <td>NaN</td>
+      <td>68.0</td>
+      <td>54.0</td>
+      <td>81.0</td>
+      <td>54.0</td>
+      <td>14</td>
+      <td>7</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>1</td>
+      <td>f</td>
+      <td>42</td>
+      <td>80</td>
+      <td>65</td>
+      <td>72.5</td>
+      <td>51.5</td>
+      <td>44.5</td>
+      <td>43.0</td>
+      <td>49.0</td>
+      <td>51.0</td>
+      <td>49.0</td>
+      <td>29</td>
+      <td>1</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>2</td>
+      <td>f</td>
+      <td>45</td>
+      <td>80</td>
+      <td>90</td>
+      <td>85.0</td>
+      <td>75.0</td>
+      <td>55.5</td>
+      <td>80.0</td>
+      <td>75.0</td>
+      <td>78.5</td>
+      <td>67.0</td>
+      <td>19</td>
+      <td>5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>3</td>
+      <td>f</td>
+      <td>16</td>
+      <td>70</td>
+      <td>80</td>
+      <td>75.0</td>
+      <td>70.0</td>
+      <td>57.0</td>
+      <td>54.0</td>
+      <td>53.0</td>
+      <td>57.0</td>
+      <td>54.5</td>
+      <td>23</td>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>4</td>
+      <td>f</td>
+      <td>21</td>
+      <td>70</td>
+      <td>65</td>
+      <td>67.5</td>
+      <td>63.5</td>
+      <td>64.0</td>
+      <td>50.0</td>
+      <td>50.0</td>
+      <td>60.0</td>
+      <td>50.0</td>
+      <td>26</td>
+      <td>5</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>5</td>
+      <td>f</td>
+      <td>18</td>
+      <td>90</td>
+      <td>100</td>
+      <td>95.0</td>
+      <td>76.5</td>
+      <td>83.0</td>
+      <td>80.0</td>
+      <td>NaN</td>
+      <td>80.0</td>
+      <td>83.0</td>
+      <td>21</td>
+      <td>7</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>64</td>
+      <td>f</td>
+      <td>69</td>
+      <td>95</td>
+      <td>80</td>
+      <td>87.5</td>
+      <td>80.0</td>
+      <td>65.0</td>
+      <td>78.5</td>
+      <td>70.5</td>
+      <td>80.0</td>
+      <td>70.0</td>
+      <td>31</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>65</td>
+      <td>f</td>
+      <td>31</td>
+      <td>100</td>
+      <td>95</td>
+      <td>97.5</td>
+      <td>98.0</td>
+      <td>NaN</td>
+      <td>90.0</td>
+      <td>40.0</td>
+      <td>92.0</td>
+      <td>40.0</td>
+      <td>27</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>66</td>
+      <td>f</td>
+      <td>44</td>
+      <td>90</td>
+      <td>95</td>
+      <td>92.5</td>
+      <td>87.0</td>
+      <td>47.5</td>
+      <td>69.0</td>
+      <td>87.0</td>
+      <td>83.0</td>
+      <td>67.0</td>
+      <td>32</td>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>67</td>
+      <td>f</td>
+      <td>25</td>
+      <td>100</td>
+      <td>100</td>
+      <td>100.0</td>
+      <td>61.5</td>
+      <td>NaN</td>
+      <td>58.5</td>
+      <td>NaN</td>
+      <td>60.5</td>
+      <td>NaN</td>
+      <td>28</td>
+      <td>8</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>68</td>
+      <td>f</td>
+      <td>45</td>
+      <td>70</td>
+      <td>50</td>
+      <td>60.0</td>
+      <td>80.5</td>
+      <td>51.5</td>
+      <td>63.0</td>
+      <td>69.0</td>
+      <td>72.5</td>
+      <td>61.5</td>
+      <td>25</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>69</td>
+      <td>f</td>
+      <td>47</td>
+      <td>90</td>
+      <td>100</td>
+      <td>95.0</td>
+      <td>100.0</td>
+      <td>NaN</td>
+      <td>71.5</td>
+      <td>83.0</td>
+      <td>97.5</td>
+      <td>83.0</td>
+      <td>30</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>70</td>
+      <td>f</td>
+      <td>33</td>
+      <td>85</td>
+      <td>70</td>
+      <td>77.5</td>
+      <td>70.0</td>
+      <td>38.0</td>
+      <td>58.5</td>
+      <td>65.0</td>
+      <td>68.0</td>
+      <td>40.0</td>
+      <td>21</td>
+      <td>7</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>72</td>
+      <td>f</td>
+      <td>18</td>
+      <td>80</td>
+      <td>75</td>
+      <td>77.5</td>
+      <td>67.5</td>
+      <td>51.5</td>
+      <td>66.0</td>
+      <td>57.0</td>
+      <td>67.0</td>
+      <td>53.0</td>
+      <td>29</td>
+      <td>4</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>80</th>
+      <td>73</td>
+      <td>f</td>
+      <td>74</td>
+      <td>85</td>
+      <td>80</td>
+      <td>82.5</td>
+      <td>66.0</td>
+      <td>55.0</td>
+      <td>63.0</td>
+      <td>50.5</td>
+      <td>65.0</td>
+      <td>55.0</td>
+      <td>20</td>
+      <td>1</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>74</td>
+      <td>m</td>
+      <td>21</td>
+      <td>40</td>
+      <td>40</td>
+      <td>40.0</td>
+      <td>90.5</td>
+      <td>80.0</td>
+      <td>74.5</td>
+      <td>83.0</td>
+      <td>82.0</td>
+      <td>81.0</td>
+      <td>22</td>
+      <td>7</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>82</th>
+      <td>75</td>
+      <td>f</td>
+      <td>45</td>
+      <td>80</td>
+      <td>95</td>
+      <td>87.5</td>
+      <td>74.0</td>
+      <td>67.0</td>
+      <td>76.0</td>
+      <td>17.0</td>
+      <td>75.0</td>
+      <td>64.0</td>
+      <td>23</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>83</th>
+      <td>79</td>
+      <td>f</td>
+      <td>37</td>
+      <td>90</td>
+      <td>80</td>
+      <td>85.0</td>
+      <td>95.5</td>
+      <td>68.0</td>
+      <td>83.5</td>
+      <td>83.0</td>
+      <td>94.0</td>
+      <td>71.0</td>
+      <td>20</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>81</td>
+      <td>m</td>
+      <td>41</td>
+      <td>90</td>
+      <td>85</td>
+      <td>87.5</td>
+      <td>80.0</td>
+      <td>59.5</td>
+      <td>70.0</td>
+      <td>41.0</td>
+      <td>77.0</td>
+      <td>59.0</td>
+      <td>17</td>
+      <td>6</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>82</td>
+      <td>f</td>
+      <td>41</td>
+      <td>80</td>
+      <td>75</td>
+      <td>77.5</td>
+      <td>94.5</td>
+      <td>61.5</td>
+      <td>86.0</td>
+      <td>74.0</td>
+      <td>92.0</td>
+      <td>67.0</td>
+      <td>27</td>
+      <td>4</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>83</td>
+      <td>f</td>
+      <td>34</td>
+      <td>90</td>
+      <td>35</td>
+      <td>62.5</td>
+      <td>81.0</td>
+      <td>52.0</td>
+      <td>71.0</td>
+      <td>58.0</td>
+      <td>81.0</td>
+      <td>58.0</td>
+      <td>27</td>
+      <td>2</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>87</th>
+      <td>84</td>
+      <td>f</td>
+      <td>39</td>
+      <td>75</td>
+      <td>70</td>
+      <td>72.5</td>
+      <td>57.0</td>
+      <td>57.0</td>
+      <td>59.5</td>
+      <td>50.0</td>
+      <td>58.0</td>
+      <td>50.0</td>
+      <td>22</td>
+      <td>3</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>85</td>
+      <td>f</td>
+      <td>18</td>
+      <td>85</td>
+      <td>85</td>
+      <td>85.0</td>
+      <td>93.0</td>
+      <td>92.0</td>
+      <td>91.0</td>
+      <td>89.0</td>
+      <td>91.5</td>
+      <td>91.0</td>
+      <td>25</td>
+      <td>4</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>86</td>
+      <td>f</td>
+      <td>31</td>
+      <td>100</td>
+      <td>85</td>
+      <td>92.5</td>
+      <td>100.0</td>
+      <td>NaN</td>
+      <td>100.0</td>
+      <td>50.0</td>
+      <td>100.0</td>
+      <td>50.0</td>
+      <td>30</td>
+      <td>3</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>87</td>
+      <td>m</td>
+      <td>26</td>
+      <td>95</td>
+      <td>75</td>
+      <td>85.0</td>
+      <td>85.0</td>
+      <td>88.0</td>
+      <td>82.0</td>
+      <td>82.0</td>
+      <td>85.0</td>
+      <td>85.0</td>
+      <td>32</td>
+      <td>1</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>88</td>
+      <td>m</td>
+      <td>66</td>
+      <td>60</td>
+      <td>85</td>
+      <td>72.5</td>
+      <td>67.5</td>
+      <td>66.0</td>
+      <td>74.0</td>
+      <td>57.0</td>
+      <td>74.0</td>
+      <td>64.0</td>
+      <td>30</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>92</th>
+      <td>91</td>
+      <td>m</td>
+      <td>62</td>
+      <td>100</td>
+      <td>80</td>
+      <td>90.0</td>
+      <td>81.0</td>
+      <td>NaN</td>
+      <td>74.5</td>
+      <td>82.0</td>
+      <td>79.5</td>
+      <td>82.0</td>
+      <td>32</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>92</td>
+      <td>m</td>
+      <td>22</td>
+      <td>85</td>
+      <td>95</td>
+      <td>90.0</td>
+      <td>66.0</td>
+      <td>56.0</td>
+      <td>72.0</td>
+      <td>63.0</td>
+      <td>70.5</td>
+      <td>59.5</td>
+      <td>28</td>
+      <td>1</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>94</th>
+      <td>94</td>
+      <td>f</td>
+      <td>41</td>
+      <td>35</td>
+      <td>75</td>
+      <td>55.0</td>
+      <td>55.0</td>
+      <td>61.0</td>
+      <td>80.0</td>
+      <td>57.0</td>
+      <td>72.0</td>
+      <td>60.0</td>
+      <td>31</td>
+      <td>1</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>95</td>
+      <td>m</td>
+      <td>46</td>
+      <td>95</td>
+      <td>80</td>
+      <td>87.5</td>
+      <td>90.0</td>
+      <td>75.0</td>
+      <td>80.0</td>
+      <td>80.0</td>
+      <td>85.0</td>
+      <td>75.0</td>
+      <td>29</td>
+      <td>3</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>96</td>
+      <td>f</td>
+      <td>56</td>
+      <td>70</td>
+      <td>50</td>
+      <td>60.0</td>
+      <td>63.0</td>
+      <td>52.5</td>
+      <td>67.5</td>
+      <td>65.5</td>
+      <td>64.0</td>
+      <td>59.5</td>
+      <td>26</td>
+      <td>6</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>97</td>
+      <td>f</td>
+      <td>23</td>
+      <td>70</td>
+      <td>85</td>
+      <td>77.5</td>
+      <td>77.0</td>
+      <td>66.5</td>
+      <td>77.0</td>
+      <td>77.5</td>
+      <td>77.0</td>
+      <td>74.0</td>
+      <td>20</td>
+      <td>8</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>98</td>
+      <td>f</td>
+      <td>70</td>
+      <td>90</td>
+      <td>85</td>
+      <td>87.5</td>
+      <td>65.5</td>
+      <td>85.5</td>
+      <td>87.0</td>
+      <td>80.0</td>
+      <td>74.0</td>
+      <td>80.0</td>
+      <td>19</td>
+      <td>8</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>99</td>
+      <td>f</td>
+      <td>24</td>
+      <td>70</td>
+      <td>80</td>
+      <td>75.0</td>
+      <td>61.5</td>
+      <td>81.0</td>
+      <td>70.0</td>
+      <td>61.0</td>
+      <td>65.0</td>
+      <td>81.0</td>
+      <td>31</td>
+      <td>2</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>102</td>
+      <td>f</td>
+      <td>40</td>
+      <td>75</td>
+      <td>65</td>
+      <td>70.0</td>
+      <td>53.0</td>
+      <td>37.0</td>
+      <td>84.0</td>
+      <td>52.0</td>
+      <td>81.0</td>
+      <td>51.0</td>
+      <td>22</td>
+      <td>4</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>101</th>
+      <td>103</td>
+      <td>f</td>
+      <td>33</td>
+      <td>85</td>
+      <td>40</td>
+      <td>62.5</td>
+      <td>80.0</td>
+      <td>27.0</td>
+      <td>31.0</td>
+      <td>82.5</td>
+      <td>81.0</td>
+      <td>73.0</td>
+      <td>24</td>
+      <td>5</td>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
+<p>102 rows × 15 columns</p>
+</div>
 </div>
 
 </div>
@@ -15277,7 +16620,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We see that each entry is a line, including the newline character.  To look at lines in files, the <code>rstrip()</code> method for strings can come it handy.  It strips all whitespace, including newlines, from the end of a string.</p>
+<p>This is a nice representation of the data, but we really do not need to display that much. Instead, we can use the <code>head()</code> method of <code>DataFrame</code>s to look at the first few rows.</p>
 
 </div>
 </div>
@@ -15287,7 +16630,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -15304,9 +16647,136 @@ div#notebook {
 
 
 
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG&#39;</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8</td>
+      <td>f</td>
+      <td>39</td>
+      <td>65</td>
+      <td>80</td>
+      <td>72.5</td>
+      <td>91.0</td>
+      <td>90.0</td>
+      <td>93.0</td>
+      <td>83.5</td>
+      <td>93.0</td>
+      <td>90.0</td>
+      <td>9</td>
+      <td>13</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>16</td>
+      <td>m</td>
+      <td>42</td>
+      <td>90</td>
+      <td>90</td>
+      <td>90.0</td>
+      <td>75.5</td>
+      <td>55.5</td>
+      <td>70.5</td>
+      <td>50.0</td>
+      <td>75.0</td>
+      <td>50.0</td>
+      <td>4</td>
+      <td>11</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>18</td>
+      <td>f</td>
+      <td>31</td>
+      <td>90</td>
+      <td>95</td>
+      <td>92.5</td>
+      <td>89.5</td>
+      <td>90.0</td>
+      <td>86.0</td>
+      <td>81.0</td>
+      <td>89.0</td>
+      <td>88.0</td>
+      <td>10</td>
+      <td>9</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>22</td>
+      <td>f</td>
+      <td>35</td>
+      <td>100</td>
+      <td>75</td>
+      <td>87.5</td>
+      <td>89.5</td>
+      <td>NaN</td>
+      <td>71.0</td>
+      <td>80.0</td>
+      <td>88.0</td>
+      <td>80.0</td>
+      <td>13</td>
+      <td>8</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>27</td>
+      <td>f</td>
+      <td>74</td>
+      <td>60</td>
+      <td>65</td>
+      <td>62.5</td>
+      <td>68.5</td>
+      <td>49.0</td>
+      <td>61.0</td>
+      <td>49.0</td>
+      <td>65.0</td>
+      <td>49.0</td>
+      <td>13</td>
+      <td>9</td>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 </div>
 
 </div>
@@ -15319,8 +16789,16 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Much nicer!</p>
-<p>Now, for something <strong>very</strong> important.  Whenever we open a file, we must close it when we are done with it.  This is important because unexpected things can happen when the file is still open.  We can check to see if it is closed.</p>
+<p>This is more manageable and gives us an overview of what the columns are. Note also the the missing data was populated with NaN.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Indexing-data-frames">Indexing data frames<a class="anchor-link" href="#Indexing-data-frames">&#182;</a></h2><p>The <code>DataFrame</code> is a convenient data structure for many reasons that will become clear as we start exploring. Let's start by looking at how <code>DataFrame</code>s are indexed. Let's try to look at the first row.</p>
 
 </div>
 </div>
@@ -15330,448 +16808,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">closed</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[7]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>False</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Ok, better close it!  We just use the <code>f.close()</code> method.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-<span class="c1"># Is it closed?</span>
-<span class="n">f</span><span class="o">.</span><span class="n">closed</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[8]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Using-context-managers-with-files">Using context managers with files<a class="anchor-link" href="#Using-context-managers-with-files">&#182;</a></h3><p>Python has a wonderful keyword, <strong><code>with</code></strong>.  This keyword enables <strong>context management</strong>.  Upon entry into a <strong><code>with</code></strong> block, variables have certain meaning.  Upon exit, certain operations take place.  For file objects created by opening them, the file is automatically closed upon exit, <strong>even if there is an error</strong>.  This is important.  If your program raises an exception before you have a chance to close the file, it won't get closed and you could be in trouble. If you use context management, the file will still get closed.</p>
-<p>Let's see how it works.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f_lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In the with block, is the file closed?&#39;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">closed</span><span class="p">)</span>
-    
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Out of the with block, is the file closed?&#39;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">closed</span><span class="p">)</span>
-
-<span class="c1"># Check the first three lines</span>
-<span class="nb">print</span><span class="p">()</span>
-<span class="n">f_lines</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>In the with block, is the file closed? False
-Out of the with block, is the file closed? True
-
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[10]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \n&#39;,
- &#39;TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \n&#39;,
- &#39;TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \n&#39;]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The syntax is almost like English.  We do what is written in the <strong><code>with</code></strong> block with an open file object that we will name <code>f</code>.</p>
-<p>The results look good!  In general, you should use context management when working with files.  It keeps you out of trouble with open files.  And it is much cleaner.  This is worth making official:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="alert alert-info">
-<center>Use context management using **`with`** when working with files.</center>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Reading-line-by-line">Reading line-by-line<a class="anchor-link" href="#Reading-line-by-line">&#182;</a></h3><p>What if we do not want to read the entire file into a list?  For example, if a file is several gigabytes, we do not want to spend all of our RAM storing a list.  Instead, we can read it line-by-line.  Conveniently, the file object can be used as an iterator.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print the first ten lines of the file</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
-            <span class="k">break</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG
-TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION
-TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR
-COMPND    MOL_ID: 1;
-COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);
-COMPND   3 CHAIN: A, B, C, D;
-COMPND   4 ENGINEERED: YES
-SOURCE    MOL_ID: 1;
-SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;
-SOURCE   3 ORGANISM_COMMON: HUMAN;
-SOURCE   4 ORGANISM_TAXID: 9606
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Alternatively, we can use the method <code>f.readline()</code> to read a single line in the file and return it as a string.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print the first ten lines of the file</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
-        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG
-TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION
-TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR
-COMPND    MOL_ID: 1;
-COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);
-COMPND   3 CHAIN: A, B, C, D;
-COMPND   4 ENGINEERED: YES
-SOURCE    MOL_ID: 1;
-SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;
-SOURCE   3 ORGANISM_COMMON: HUMAN;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Writing-to-a-file">Writing to a file<a class="anchor-link" href="#Writing-to-a-file">&#182;</a></h2><p>Writing to a file has similar syntax.  We already saw how to open a file for writing.  Again, context management is useful.  However, before trying to open a file, we should check to make sure a file of the same name does not exist before opening it.  The <code>os.path</code> module is useful.  The function <code>os.path.isfile()</code> function checks to see if a file exists.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[13]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>So, now we're ready to open a file to write.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;mastery.txt&#39;</span><span class="p">):</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;File mastery.txt already exists.&#39;</span><span class="p">)</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;mastery.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;This is my file.&#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;There are many like it, but this one is mine.&#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;I must master my file like I must master my life.&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that we can use the <code>f.write()</code> method to write strings to a file.  Let's look at the file contents.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>cat mastery.txt
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>This is my file.There are many like it, but this one is mine.I must master my file like I must master my life.</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Ah!  There are no newlines!  When writing to a file, unlike when you use the <code>print()</code> function, you must include the newline characters.  Let's try again, intentionally obliterating our first attempt.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;mastery.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;This is my file.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;There are many like it, but this one is mine.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;I must master my file like I must master my life.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    
-<span class="o">!</span>cat mastery.txt
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>This is my file.
-There are many like it, but this one is mine.
-I must master my file like I must master my life.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>That's better.  Note also that <code>f.write()</code> <strong>only</strong> takes strings as arguments.  You cannot pass numbers.  They must be converted to strings first.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># This will result in an exception</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;gimme_phi.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;The golden ratio is φ = &#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mf">1.61803398875</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -15790,13 +16827,72 @@ I must master my file like I must master my life.
 <div class="output_subarea output_text output_error">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-17-9265e8a96772&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">with</span> open<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;gimme_phi.txt&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;w&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> f<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span>     f<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;The golden ratio is φ = &#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg">     </span>f<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1.61803398875</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
+<span class="ansi-green-fg">~/anaconda3/lib/python3.6/site-packages/pandas/core/indexes/base.py</span> in <span class="ansi-cyan-fg">get_loc</span><span class="ansi-blue-fg">(self, key, method, tolerance)</span>
+<span class="ansi-green-intense-fg ansi-bold">   3062</span>             <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 3063</span><span class="ansi-red-fg">                 </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_engine<span class="ansi-blue-fg">.</span>get_loc<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   3064</span>             <span class="ansi-green-fg">except</span> KeyError<span class="ansi-blue-fg">:</span>
 
-<span class="ansi-red-fg">TypeError</span>: write() argument must be str, not float</pre>
+<span class="ansi-green-fg">pandas/_libs/index.pyx</span> in <span class="ansi-cyan-fg">pandas._libs.index.IndexEngine.get_loc</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-green-fg">pandas/_libs/index.pyx</span> in <span class="ansi-cyan-fg">pandas._libs.index.IndexEngine.get_loc</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-green-fg">pandas/_libs/hashtable_class_helper.pxi</span> in <span class="ansi-cyan-fg">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-green-fg">pandas/_libs/hashtable_class_helper.pxi</span> in <span class="ansi-cyan-fg">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-red-fg">KeyError</span>: 0
+
+During handling of the above exception, another exception occurred:
+
+<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-7-ad11118bc8f3&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>df<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span>
+
+<span class="ansi-green-fg">~/anaconda3/lib/python3.6/site-packages/pandas/core/frame.py</span> in <span class="ansi-cyan-fg">__getitem__</span><span class="ansi-blue-fg">(self, key)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2683</span>             <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_getitem_multilevel<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2684</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 2685</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_getitem_column<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2686</span> 
+<span class="ansi-green-intense-fg ansi-bold">   2687</span>     <span class="ansi-green-fg">def</span> _getitem_column<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/anaconda3/lib/python3.6/site-packages/pandas/core/frame.py</span> in <span class="ansi-cyan-fg">_getitem_column</span><span class="ansi-blue-fg">(self, key)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2690</span>         <span class="ansi-red-fg"># get column</span>
+<span class="ansi-green-intense-fg ansi-bold">   2691</span>         <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>columns<span class="ansi-blue-fg">.</span>is_unique<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 2692</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_get_item_cache<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2693</span> 
+<span class="ansi-green-intense-fg ansi-bold">   2694</span>         <span class="ansi-red-fg"># duplicate columns &amp; possible reduce dimensionality</span>
+
+<span class="ansi-green-fg">~/anaconda3/lib/python3.6/site-packages/pandas/core/generic.py</span> in <span class="ansi-cyan-fg">_get_item_cache</span><span class="ansi-blue-fg">(self, item)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2484</span>         res <span class="ansi-blue-fg">=</span> cache<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span>item<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2485</span>         <span class="ansi-green-fg">if</span> res <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 2486</span><span class="ansi-red-fg">             </span>values <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_data<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span>item<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2487</span>             res <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_box_item_values<span class="ansi-blue-fg">(</span>item<span class="ansi-blue-fg">,</span> values<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2488</span>             cache<span class="ansi-blue-fg">[</span>item<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> res
+
+<span class="ansi-green-fg">~/anaconda3/lib/python3.6/site-packages/pandas/core/internals.py</span> in <span class="ansi-cyan-fg">get</span><span class="ansi-blue-fg">(self, item, fastpath)</span>
+<span class="ansi-green-intense-fg ansi-bold">   4113</span> 
+<span class="ansi-green-intense-fg ansi-bold">   4114</span>             <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> isna<span class="ansi-blue-fg">(</span>item<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 4115</span><span class="ansi-red-fg">                 </span>loc <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>items<span class="ansi-blue-fg">.</span>get_loc<span class="ansi-blue-fg">(</span>item<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   4116</span>             <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   4117</span>                 indexer <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>arange<span class="ansi-blue-fg">(</span>len<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>items<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">[</span>isna<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>items<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">]</span>
+
+<span class="ansi-green-fg">~/anaconda3/lib/python3.6/site-packages/pandas/core/indexes/base.py</span> in <span class="ansi-cyan-fg">get_loc</span><span class="ansi-blue-fg">(self, key, method, tolerance)</span>
+<span class="ansi-green-intense-fg ansi-bold">   3063</span>                 <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_engine<span class="ansi-blue-fg">.</span>get_loc<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   3064</span>             <span class="ansi-green-fg">except</span> KeyError<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 3065</span><span class="ansi-red-fg">                 </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_engine<span class="ansi-blue-fg">.</span>get_loc<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_maybe_cast_indexer<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   3066</span> 
+<span class="ansi-green-intense-fg ansi-bold">   3067</span>         indexer <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>get_indexer<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">[</span>key<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> method<span class="ansi-blue-fg">=</span>method<span class="ansi-blue-fg">,</span> tolerance<span class="ansi-blue-fg">=</span>tolerance<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">pandas/_libs/index.pyx</span> in <span class="ansi-cyan-fg">pandas._libs.index.IndexEngine.get_loc</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-green-fg">pandas/_libs/index.pyx</span> in <span class="ansi-cyan-fg">pandas._libs.index.IndexEngine.get_loc</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-green-fg">pandas/_libs/hashtable_class_helper.pxi</span> in <span class="ansi-cyan-fg">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-green-fg">pandas/_libs/hashtable_class_helper.pxi</span> in <span class="ansi-cyan-fg">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-red-fg">KeyError</span>: 0</pre>
 </div>
 </div>
 
@@ -15808,7 +16904,1186 @@ I must master my file like I must master my life.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Yup.  It must be a string.  Let's try again.</p>
+<p>Yikes! Lots of errors. The problem is that we tried to index numerically by row. <strong>We index <code>DataFrame</code>s, by columns.</strong> And there is no column that has the name <code>0</code>, though there could be. Instead, a might want to look at the column with the percentage of correct face matching tasks.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[8]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0       72.5
+1       90.0
+2       92.5
+3       87.5
+4       62.5
+5       50.0
+6       82.5
+7       67.5
+8       90.0
+9       75.0
+10      62.5
+11      95.0
+12      80.0
+13      80.0
+14      65.0
+15      70.0
+16      70.0
+17      80.0
+18      85.0
+19      75.0
+20      70.0
+21      97.5
+22      87.5
+23      45.0
+24      70.0
+25      72.5
+26      85.0
+27      75.0
+28      67.5
+29      95.0
+       ...  
+72      87.5
+73      97.5
+74      92.5
+75     100.0
+76      60.0
+77      95.0
+78      77.5
+79      77.5
+80      82.5
+81      40.0
+82      87.5
+83      85.0
+84      87.5
+85      77.5
+86      62.5
+87      72.5
+88      85.0
+89      92.5
+90      85.0
+91      72.5
+92      90.0
+93      90.0
+94      55.0
+95      87.5
+96      60.0
+97      77.5
+98      87.5
+99      75.0
+100     70.0
+101     62.5
+Name: percent correct, Length: 102, dtype: float64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This gave us the numbers we were after. Notice that when it was printed, the index of the rows came along with it. If we wanted to pull out a single percentage correct, say corresponding to index <code>4</code>, we can do that.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[9]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>62.5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, this is <strong>not</strong> the preferred way to do this. It is better to use <strong><code>.loc</code></strong>. This give the location in the <code>DataFrame</code> we want.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;percent correct&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[10]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>62.5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It is also important to note that <strong>row indices need not be integers</strong>. And you should not count on them being integers. In practice I almost never use row indices, but rather use <strong>Boolean indexing</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Boolean-indexing-of-data-frames">Boolean indexing of data frames<a class="anchor-link" href="#Boolean-indexing-of-data-frames">&#182;</a></h2><p>Let's say I wanted the percent correct of participant number 42. I can use Boolean indexing to specify the row. Specifically, I want the row for which <code>df['participant number'] == 42</code>. You can essentially plop this syntax directly when using <code>.loc</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;participant number&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">42</span><span class="p">,</span> <span class="s1">&#39;percent correct&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[11]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>54    85.0
+Name: percent correct, dtype: float64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If I want to pull the whole record for that participant, I can use <code>:</code> for the column index.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;participant number&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">42</span><span class="p">,</span> <span class="p">:]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[12]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>54</th>
+      <td>42</td>
+      <td>m</td>
+      <td>29</td>
+      <td>100</td>
+      <td>70</td>
+      <td>85.0</td>
+      <td>75.0</td>
+      <td>NaN</td>
+      <td>64.5</td>
+      <td>43.0</td>
+      <td>74.0</td>
+      <td>43.0</td>
+      <td>32</td>
+      <td>1</td>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Notice that the index, <code>54</code>, comes along for the ride, but we do not need it.</p>
+<p>Now, let's pull out all records of females under the age of 21. We can again use Boolean indexing, but we need to use an <code>&amp;</code> operator. We did not cover this bitwise operator before, but the syntax is self-explanatory in the below. Note that it is important that each Boolean operation you are doing is in parentheses.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">21</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;f&#39;</span><span class="p">),</span> <span class="p">:]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[13]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>27</th>
+      <td>3</td>
+      <td>f</td>
+      <td>16</td>
+      <td>70</td>
+      <td>80</td>
+      <td>75.0</td>
+      <td>70.0</td>
+      <td>57.0</td>
+      <td>54.0</td>
+      <td>53.0</td>
+      <td>57.0</td>
+      <td>54.5</td>
+      <td>23</td>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>5</td>
+      <td>f</td>
+      <td>18</td>
+      <td>90</td>
+      <td>100</td>
+      <td>95.0</td>
+      <td>76.5</td>
+      <td>83.0</td>
+      <td>80.0</td>
+      <td>NaN</td>
+      <td>80.0</td>
+      <td>83.0</td>
+      <td>21</td>
+      <td>7</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>58</td>
+      <td>f</td>
+      <td>16</td>
+      <td>85</td>
+      <td>85</td>
+      <td>85.0</td>
+      <td>55.0</td>
+      <td>30.0</td>
+      <td>50.0</td>
+      <td>40.0</td>
+      <td>52.5</td>
+      <td>35.0</td>
+      <td>29</td>
+      <td>2</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>72</td>
+      <td>f</td>
+      <td>18</td>
+      <td>80</td>
+      <td>75</td>
+      <td>77.5</td>
+      <td>67.5</td>
+      <td>51.5</td>
+      <td>66.0</td>
+      <td>57.0</td>
+      <td>67.0</td>
+      <td>53.0</td>
+      <td>29</td>
+      <td>4</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>85</td>
+      <td>f</td>
+      <td>18</td>
+      <td>85</td>
+      <td>85</td>
+      <td>85.0</td>
+      <td>93.0</td>
+      <td>92.0</td>
+      <td>91.0</td>
+      <td>89.0</td>
+      <td>91.5</td>
+      <td>91.0</td>
+      <td>25</td>
+      <td>4</td>
+      <td>21</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can do something even more complicated, like pull out all females under 30 who got more than 85% of the face matching tasks correct. The code is clearer if we set up our Boolean indexing first, as follows.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">inds</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;f&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">85</span><span class="p">)</span>
+
+<span class="c1"># Take a look</span>
+<span class="n">inds</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[14]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0      False
+1      False
+2      False
+3      False
+4      False
+5      False
+6      False
+7      False
+8      False
+9      False
+10     False
+11     False
+12     False
+13     False
+14     False
+15     False
+16     False
+17     False
+18     False
+19     False
+20     False
+21     False
+22      True
+23     False
+24     False
+25     False
+26     False
+27     False
+28     False
+29      True
+       ...  
+72     False
+73     False
+74     False
+75      True
+76     False
+77     False
+78     False
+79     False
+80     False
+81     False
+82     False
+83     False
+84     False
+85     False
+86     False
+87     False
+88     False
+89     False
+90     False
+91     False
+92     False
+93     False
+94     False
+95     False
+96     False
+97     False
+98     False
+99     False
+100    False
+101    False
+Length: 102, dtype: bool</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Notice that <code>inds</code> is an array (actually a Pandas <code>Series</code>, a essentially a <code>DataFrame</code> with one column) of <code>True</code>s and <code>False</code>s. When we index with it using <code>.loc</code>, we get back rows where <code>inds</code> is <code>True</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">inds</span><span class="p">,</span> <span class="p">:]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[15]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>22</th>
+      <td>93</td>
+      <td>f</td>
+      <td>28</td>
+      <td>100</td>
+      <td>75</td>
+      <td>87.5</td>
+      <td>89.5</td>
+      <td>NaN</td>
+      <td>67.0</td>
+      <td>60.0</td>
+      <td>80.0</td>
+      <td>60.0</td>
+      <td>16</td>
+      <td>7</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>5</td>
+      <td>f</td>
+      <td>18</td>
+      <td>90</td>
+      <td>100</td>
+      <td>95.0</td>
+      <td>76.5</td>
+      <td>83.0</td>
+      <td>80.0</td>
+      <td>NaN</td>
+      <td>80.0</td>
+      <td>83.0</td>
+      <td>21</td>
+      <td>7</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>6</td>
+      <td>f</td>
+      <td>28</td>
+      <td>95</td>
+      <td>80</td>
+      <td>87.5</td>
+      <td>100.0</td>
+      <td>85.0</td>
+      <td>94.0</td>
+      <td>61.0</td>
+      <td>99.0</td>
+      <td>65.0</td>
+      <td>19</td>
+      <td>7</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>10</td>
+      <td>f</td>
+      <td>25</td>
+      <td>100</td>
+      <td>100</td>
+      <td>100.0</td>
+      <td>90.0</td>
+      <td>NaN</td>
+      <td>85.0</td>
+      <td>NaN</td>
+      <td>90.0</td>
+      <td>NaN</td>
+      <td>17</td>
+      <td>10</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>44</td>
+      <td>f</td>
+      <td>21</td>
+      <td>85</td>
+      <td>90</td>
+      <td>87.5</td>
+      <td>66.0</td>
+      <td>29.0</td>
+      <td>70.0</td>
+      <td>29.0</td>
+      <td>67.0</td>
+      <td>29.0</td>
+      <td>26</td>
+      <td>7</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>48</td>
+      <td>f</td>
+      <td>23</td>
+      <td>90</td>
+      <td>85</td>
+      <td>87.5</td>
+      <td>67.0</td>
+      <td>47.0</td>
+      <td>69.0</td>
+      <td>40.0</td>
+      <td>67.0</td>
+      <td>40.0</td>
+      <td>18</td>
+      <td>6</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>51</td>
+      <td>f</td>
+      <td>24</td>
+      <td>85</td>
+      <td>95</td>
+      <td>90.0</td>
+      <td>97.0</td>
+      <td>41.0</td>
+      <td>74.0</td>
+      <td>73.0</td>
+      <td>83.0</td>
+      <td>55.5</td>
+      <td>29</td>
+      <td>1</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>67</td>
+      <td>f</td>
+      <td>25</td>
+      <td>100</td>
+      <td>100</td>
+      <td>100.0</td>
+      <td>61.5</td>
+      <td>NaN</td>
+      <td>58.5</td>
+      <td>NaN</td>
+      <td>60.5</td>
+      <td>NaN</td>
+      <td>28</td>
+      <td>8</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Of interest in this exercise in Boolean indexing is that we never had to write a loop. To produce our indices, we could have done the following.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Initialize array of Boolean indices</span>
+<span class="n">inds</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># Iterate over the rows of the DataFrame to check if the row should be included</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span> <span class="ow">and</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;f&#39;</span> <span class="ow">and</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">85</span><span class="p">:</span>
+        <span class="n">inds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># Make our seleciton with Boolean indexing</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">inds</span><span class="p">,</span> <span class="p">:]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[16]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>22</th>
+      <td>93</td>
+      <td>f</td>
+      <td>28</td>
+      <td>100</td>
+      <td>75</td>
+      <td>87.5</td>
+      <td>89.5</td>
+      <td>NaN</td>
+      <td>67.0</td>
+      <td>60.0</td>
+      <td>80.0</td>
+      <td>60.0</td>
+      <td>16</td>
+      <td>7</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>5</td>
+      <td>f</td>
+      <td>18</td>
+      <td>90</td>
+      <td>100</td>
+      <td>95.0</td>
+      <td>76.5</td>
+      <td>83.0</td>
+      <td>80.0</td>
+      <td>NaN</td>
+      <td>80.0</td>
+      <td>83.0</td>
+      <td>21</td>
+      <td>7</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>6</td>
+      <td>f</td>
+      <td>28</td>
+      <td>95</td>
+      <td>80</td>
+      <td>87.5</td>
+      <td>100.0</td>
+      <td>85.0</td>
+      <td>94.0</td>
+      <td>61.0</td>
+      <td>99.0</td>
+      <td>65.0</td>
+      <td>19</td>
+      <td>7</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>10</td>
+      <td>f</td>
+      <td>25</td>
+      <td>100</td>
+      <td>100</td>
+      <td>100.0</td>
+      <td>90.0</td>
+      <td>NaN</td>
+      <td>85.0</td>
+      <td>NaN</td>
+      <td>90.0</td>
+      <td>NaN</td>
+      <td>17</td>
+      <td>10</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>44</td>
+      <td>f</td>
+      <td>21</td>
+      <td>85</td>
+      <td>90</td>
+      <td>87.5</td>
+      <td>66.0</td>
+      <td>29.0</td>
+      <td>70.0</td>
+      <td>29.0</td>
+      <td>67.0</td>
+      <td>29.0</td>
+      <td>26</td>
+      <td>7</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>48</td>
+      <td>f</td>
+      <td>23</td>
+      <td>90</td>
+      <td>85</td>
+      <td>87.5</td>
+      <td>67.0</td>
+      <td>47.0</td>
+      <td>69.0</td>
+      <td>40.0</td>
+      <td>67.0</td>
+      <td>40.0</td>
+      <td>18</td>
+      <td>6</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>51</td>
+      <td>f</td>
+      <td>24</td>
+      <td>85</td>
+      <td>95</td>
+      <td>90.0</td>
+      <td>97.0</td>
+      <td>41.0</td>
+      <td>74.0</td>
+      <td>73.0</td>
+      <td>83.0</td>
+      <td>55.5</td>
+      <td>29</td>
+      <td>1</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>67</td>
+      <td>f</td>
+      <td>25</td>
+      <td>100</td>
+      <td>100</td>
+      <td>100.0</td>
+      <td>61.5</td>
+      <td>NaN</td>
+      <td>58.5</td>
+      <td>NaN</td>
+      <td>60.5</td>
+      <td>NaN</td>
+      <td>28</td>
+      <td>8</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This feature, where the looping is done automatically on Pandas objects like <code>DataFrame</code>s, is very powerful and saves us writing lots of lines of code. This example also showed how to use the <code>iterrows()</code> method of a <code>DataFrame</code> to iterate over the rows of a <code>DataFrame</code>. It is actually rare that you will need to do that, as we'll show next when computing with <code>DataFrames</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Calculating-with-data-frames">Calculating with data frames<a class="anchor-link" href="#Calculating-with-data-frames">&#182;</a></h2><p>Recall that a subject is said to suffer from insomnia if he or she has an SCI of 16 or below. We might like to add a column to the <code>DataFrame</code> that specifies whether or not the subject suffers from insomnia. We can conveniently compute with columns. This is done elementwise.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;sci&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">16</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[17]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0       True
+1       True
+2       True
+3       True
+4       True
+5       True
+6       True
+7       True
+8       True
+9       True
+10      True
+11      True
+12      True
+13      True
+14      True
+15      True
+16      True
+17      True
+18      True
+19      True
+20      True
+21      True
+22      True
+23      True
+24      True
+25     False
+26     False
+27     False
+28     False
+29     False
+       ...  
+72     False
+73     False
+74     False
+75     False
+76     False
+77     False
+78     False
+79     False
+80     False
+81     False
+82     False
+83     False
+84     False
+85     False
+86     False
+87     False
+88     False
+89     False
+90     False
+91     False
+92     False
+93     False
+94     False
+95     False
+96     False
+97     False
+98     False
+99     False
+100    False
+101    False
+Name: sci, Length: 102, dtype: bool</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This tells use how is an insomniac. We can simply add this back to the <code>DataFrame</code>.</p>
 
 </div>
 </div>
@@ -15818,11 +18093,11 @@ I must master my file like I must master my life.
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;gimme_phi.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;The golden ratio is φ = &#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{phi:.8f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phi</span><span class="o">=</span><span class="mf">1.61803398875</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Add the column to the DataFrame</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sci&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">16</span>
 
-<span class="o">!</span>cat gimme_phi.txt
+<span class="c1"># Take a look</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -15835,12 +18110,148 @@ I must master my file like I must master my life.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[18]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>The golden ratio is φ = 1.61803399</pre>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+      <th>insomnia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8</td>
+      <td>f</td>
+      <td>39</td>
+      <td>65</td>
+      <td>80</td>
+      <td>72.5</td>
+      <td>91.0</td>
+      <td>90.0</td>
+      <td>93.0</td>
+      <td>83.5</td>
+      <td>93.0</td>
+      <td>90.0</td>
+      <td>9</td>
+      <td>13</td>
+      <td>2</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>16</td>
+      <td>m</td>
+      <td>42</td>
+      <td>90</td>
+      <td>90</td>
+      <td>90.0</td>
+      <td>75.5</td>
+      <td>55.5</td>
+      <td>70.5</td>
+      <td>50.0</td>
+      <td>75.0</td>
+      <td>50.0</td>
+      <td>4</td>
+      <td>11</td>
+      <td>7</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>18</td>
+      <td>f</td>
+      <td>31</td>
+      <td>90</td>
+      <td>95</td>
+      <td>92.5</td>
+      <td>89.5</td>
+      <td>90.0</td>
+      <td>86.0</td>
+      <td>81.0</td>
+      <td>89.0</td>
+      <td>88.0</td>
+      <td>10</td>
+      <td>9</td>
+      <td>3</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>22</td>
+      <td>f</td>
+      <td>35</td>
+      <td>100</td>
+      <td>75</td>
+      <td>87.5</td>
+      <td>89.5</td>
+      <td>NaN</td>
+      <td>71.0</td>
+      <td>80.0</td>
+      <td>88.0</td>
+      <td>80.0</td>
+      <td>13</td>
+      <td>8</td>
+      <td>20</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>27</td>
+      <td>f</td>
+      <td>74</td>
+      <td>60</td>
+      <td>65</td>
+      <td>62.5</td>
+      <td>68.5</td>
+      <td>49.0</td>
+      <td>61.0</td>
+      <td>49.0</td>
+      <td>65.0</td>
+      <td>49.0</td>
+      <td>13</td>
+      <td>9</td>
+      <td>12</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
 </div>
+</div>
+
 </div>
 
 </div>
@@ -15851,18 +18262,7 @@ I must master my file like I must master my life.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>That works!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="An-exercise:-extract-atomic-coordinates-for-first-chain-in-tetramer">An exercise: extract atomic coordinates for first chain in tetramer<a class="anchor-link" href="#An-exercise:-extract-atomic-coordinates-for-first-chain-in-tetramer">&#182;</a></h2><p>As an example on how to do file I/O, we will take the PDB file and extract only the <code>ATOM</code> records for the first chain of the tetramer and write only those entries to a new file.</p>
-<p>It is useful to know that according to the <a href="http://www.wwpdb.org/documentation/file-format-content/format33/sect9.html#ATOM">PDB format specification</a>, column 21 in the <code>ATOM</code> entry gives the ID of the chain.</p>
-<p>We also conveniently use the fact that we can have multiple files open in our <strong><code>with</code></strong> block, separating them with commas.</p>
+<p>Remember when we briefly say the <code>np.mean()</code> function? We can compute with that as well. Let's compare the mean percent correct for insomniacs versus those who are not.</p>
 
 </div>
 </div>
@@ -15872,14 +18272,30 @@ I must master my file like I must master my life.
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;atoms_chain_A.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
-    <span class="c1"># Put the ATOM lines from chain A in new file</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">21</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ATOM&#39;</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span>
-            <span class="n">f_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Insomniacs:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">],</span> <span class="s1">&#39;percent correct&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Control:   &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">],</span> <span class="s1">&#39;percent correct&#39;</span><span class="p">]))</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Insomniacs: 76.1
+Control:    81.46103896103897
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -15888,7 +18304,231 @@ I must master my file like I must master my life.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's see how we did!</p>
+<p>Notice that I used the <code>~</code> operator, which is a bit switcher. It changes all <code>True</code>s to <code>False</code>s and vice versa. In this case, it functions like NOT.</p>
+<p>We will do a lot more computing with Pandas <code>DataFrame</code>s in the next lessons. For our last demonstration in this lesson, we can quickly compute summary statistics about each column of a <code>DataFrame</code> using its <code>describe()</code> method.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[25]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>102.000000</td>
+      <td>102.000000</td>
+      <td>102.000000</td>
+      <td>102.000000</td>
+      <td>102.000000</td>
+      <td>102.000000</td>
+      <td>84.000000</td>
+      <td>102.000000</td>
+      <td>93.000000</td>
+      <td>102.000000</td>
+      <td>99.000000</td>
+      <td>102.000000</td>
+      <td>102.000000</td>
+      <td>102.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>52.049020</td>
+      <td>37.921569</td>
+      <td>83.088235</td>
+      <td>77.205882</td>
+      <td>80.147059</td>
+      <td>74.990196</td>
+      <td>58.565476</td>
+      <td>71.137255</td>
+      <td>61.220430</td>
+      <td>74.642157</td>
+      <td>61.979798</td>
+      <td>22.245098</td>
+      <td>5.274510</td>
+      <td>7.294118</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>30.020909</td>
+      <td>14.029450</td>
+      <td>15.091210</td>
+      <td>17.569854</td>
+      <td>12.047881</td>
+      <td>14.165916</td>
+      <td>19.560653</td>
+      <td>14.987479</td>
+      <td>17.671283</td>
+      <td>13.619725</td>
+      <td>15.921670</td>
+      <td>7.547128</td>
+      <td>3.404007</td>
+      <td>4.426715</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+      <td>16.000000</td>
+      <td>35.000000</td>
+      <td>20.000000</td>
+      <td>40.000000</td>
+      <td>29.500000</td>
+      <td>7.000000</td>
+      <td>19.000000</td>
+      <td>17.000000</td>
+      <td>24.000000</td>
+      <td>24.500000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>26.250000</td>
+      <td>26.500000</td>
+      <td>75.000000</td>
+      <td>70.000000</td>
+      <td>72.500000</td>
+      <td>66.000000</td>
+      <td>46.375000</td>
+      <td>64.625000</td>
+      <td>50.000000</td>
+      <td>66.000000</td>
+      <td>51.000000</td>
+      <td>17.000000</td>
+      <td>3.000000</td>
+      <td>4.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>52.500000</td>
+      <td>36.500000</td>
+      <td>90.000000</td>
+      <td>80.000000</td>
+      <td>83.750000</td>
+      <td>75.000000</td>
+      <td>56.250000</td>
+      <td>71.250000</td>
+      <td>61.000000</td>
+      <td>75.750000</td>
+      <td>61.500000</td>
+      <td>23.500000</td>
+      <td>5.000000</td>
+      <td>7.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>77.750000</td>
+      <td>45.000000</td>
+      <td>95.000000</td>
+      <td>90.000000</td>
+      <td>87.500000</td>
+      <td>86.500000</td>
+      <td>73.500000</td>
+      <td>80.000000</td>
+      <td>74.000000</td>
+      <td>82.375000</td>
+      <td>73.000000</td>
+      <td>29.000000</td>
+      <td>7.000000</td>
+      <td>10.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>103.000000</td>
+      <td>74.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>92.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>32.000000</td>
+      <td>15.000000</td>
+      <td>21.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This gives us a <code>DataFrame</code> with summary statistics. Note that in this <code>DataFrame</code>, the row indices are not integers, but are the names of the summary statistics.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Outputting-a-new-CSV-file">Outputting a new CSV file<a class="anchor-link" href="#Outputting-a-new-CSV-file">&#182;</a></h3><p>Now that we added the insomniac column, we might like to save our <code>DataFrame</code> as a new CSV that we can reload later. We use <code>df.to_csv()</code> for this with the <code>index</code> kwarg to ask Pandas not to explicitly write the indices to the file.</p>
 
 </div>
 </div>
@@ -15898,47 +18538,29 @@ I must master my file like I must master my life.
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>head -10 atoms_chain_A.txt
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;gfmt_sleep_with_insomnia.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>ATOM      1  N   LYS A 319      18.634  25.437  10.685  1.00  4.81           N  
-ATOM      2  CA  LYS A 319      17.984  25.295   9.354  1.00  4.32           C  
-ATOM      3  C   LYS A 319      18.160  23.876   8.818  1.00  3.74           C  
-ATOM      4  O   LYS A 319      19.259  23.441   8.537  1.00  3.67           O  
-ATOM      5  CB  LYS A 319      18.609  26.282   8.371  1.00  4.67           C  
-ATOM      6  CG  LYS A 319      18.003  26.056   6.986  1.00  5.15           C  
-ATOM      7  CD  LYS A 319      16.476  26.057   7.091  1.00  5.90           C  
-ATOM      8  CE  LYS A 319      16.014  27.341   7.784  1.00  6.51           C  
-ATOM      9  NZ  LYS A 319      16.388  28.518   6.952  1.00  7.33           N  
-ATOM     10  H1  LYS A 319      18.414  24.606  11.281  1.00  5.09           H  
-</pre>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's take a look at what this file looks like.</p>
 
 </div>
 </div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>tail -10 atoms_chain_A.txt
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>head gfmt_sleep_with_insomnia.csv
 </pre></div>
 
 </div>
@@ -15955,16 +18577,16 @@ ATOM     10  H1  LYS A 319      18.414  24.606  11.281  1.00  5.09           H
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>ATOM    689  HD2 PRO A 359       0.183  25.663  13.542  1.00  4.71           H  
-ATOM    690  HD3 PRO A 359       0.246  23.956  13.062  1.00  4.53           H  
-ATOM    691  N   GLY A 360      -3.984  26.791  10.832  1.00  5.45           N  
-ATOM    692  CA  GLY A 360      -4.489  28.138  10.445  1.00  5.95           C  
-ATOM    693  C   GLY A 360      -5.981  28.236  10.765  1.00  6.77           C  
-ATOM    694  O   GLY A 360      -6.401  27.621  11.732  1.00  7.24           O  
-ATOM    695  OXT GLY A 360      -6.679  28.924  10.039  1.00  7.15           O  
-ATOM    696  H   GLY A 360      -4.589  26.020  10.828  1.00  5.72           H  
-ATOM    697  HA2 GLY A 360      -3.950  28.896  10.995  1.00  5.99           H  
-ATOM    698  HA3 GLY A 360      -4.341  28.288   9.386  1.00  6.05           H  
+<pre>participant number,gender,age,correct hit percentage,correct reject percentage,percent correct,confidence when correct hit,confidence incorrect hit,confidence correct reject,confidence incorrect reject,confidence when correct,confidence when incorrect,sci,psqi,ess,insomnia
+8,f,39,65,80,72.5,91.0,90.0,93.0,83.5,93.0,90.0,9,13,2,True
+16,m,42,90,90,90.0,75.5,55.5,70.5,50.0,75.0,50.0,4,11,7,True
+18,f,31,90,95,92.5,89.5,90.0,86.0,81.0,89.0,88.0,10,9,3,True
+22,f,35,100,75,87.5,89.5,,71.0,80.0,88.0,80.0,13,8,20,True
+27,f,74,60,65,62.5,68.5,49.0,61.0,49.0,65.0,49.0,13,9,12,True
+28,f,61,80,20,50.0,71.0,63.0,31.0,72.5,64.5,70.5,15,14,2,True
+30,m,32,90,75,82.5,67.0,56.5,66.0,65.0,66.0,64.0,16,9,3,True
+33,m,62,45,90,67.5,54.0,37.0,65.0,81.5,62.0,61.0,14,9,9,True
+34,f,33,80,100,90.0,70.5,76.5,64.5,,68.0,76.5,14,12,10,True
 </pre>
 </div>
 </div>
@@ -15977,7 +18599,7 @@ ATOM    698  HA3 GLY A 360      -4.341  28.288   9.386  1.00  6.05           H
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Nice!</p>
+<p>Very nice. Notice that by default Pandas leave an empty field for NaNs, and we do not need the <code>na_values</code> kwarg when we load in this CSV file.</p>
 
 </div>
 </div>
