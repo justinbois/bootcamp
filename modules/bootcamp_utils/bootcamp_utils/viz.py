@@ -26,7 +26,9 @@ def _box_and_whisker(data):
 def _jitter(x, jitter_width=0.2):
     """Make x-coordinates for a jitter plot."""
     return (pd.Categorical(x).codes 
-            + np.random.uniform(low=-jitter_width, high=jitter_width, size=len(x)))
+            + np.random.uniform(low=-jitter_width,
+                                high=jitter_width,
+                                size=len(x)))
 
 
 def _ecdf_vals(data, formal=False):
