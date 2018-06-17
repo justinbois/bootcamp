@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>e02</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l26_intro_to_numpy_and_scipy</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14985,355 +14985,891 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercise-2">Exercise 2<a class="anchor-link" href="#Exercise-2">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p>Exercises 2.2 and 2.3  were inspired by <a href="https://www.cs.hmc.edu/CFB">Libeskind-Hadas and Bush, <em>Computing for Biologists</em>, Cambridge University Press, 2014</a>.</p>
+<h1 id="Lesson-26:-Introduction-to-Numpy-and-Scipy">Lesson 26: Introduction to Numpy and Scipy<a class="anchor-link" href="#Lesson-26:-Introduction-to-Numpy-and-Scipy">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This exercise was generated from a Jupyter notebook.  You can download the notebook <a href="e02.ipynb">here</a>.</em></p>
+<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l26_intro_to_numpy_and_scipy.ipynb">here</a>.</em></p>
 <p><br /> <br /></p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For all problems except for practice with TDD and refactoring, we will work with real data from the <em>Salmonella enterica</em> genome.  The section of the genome we will work with is in the file <code>~git/bootcamp/data/salmonella_spi1_region.fna</code>.  I cut it out of the <a href="http://www.ncbi.nlm.nih.gov/nucleotide/821161554">full genome</a>.  It contains <em>Salmonella</em> pathogenicity island I (SPI1), which is contains genes for surface receptors for host-pathogen interactions.</p>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Numy, the engine of scientific computing in Python</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.1:-Parsing-a-FASTA-file">Exercise 2.1: Parsing a FASTA file<a class="anchor-link" href="#Exercise-2.1:-Parsing-a-FASTA-file">&#182;</a></h2><p>There are packages, like <a href="http://biopython.org/">Biopython</a> and <a href="http://scikit-bio.org">scikit-bio</a> for processing files you encounter in bioinformatics.  In this problem, though, we will work on our file I/O skills.</p>
-<p><strong>a)</strong> Use command line tools to investigate the FASTA file, which is located at <code>~git/bootcamp/data/salmonella_spi1_region.fna</code>. You will notice that the first line begins with a <code>&gt;</code>, signifying that the line contains information about the sequence.  The remainder of the lines are the sequence itself.</p>
-<p><strong>b)</strong> Use the file I/O skill you have learned to read in the sequence and store it as a single string with no gaps.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.2:-Pathogenicity-islands">Exercise 2.2: Pathogenicity islands<a class="anchor-link" href="#Exercise-2.2:-Pathogenicity-islands">&#182;</a></h2><p>Pathogenicity islands are often marked by different GC content than the rest of the genome.  We will try to locate the pathogenicity island(s) in our section of the <em>Salmonella</em> genome by computing GC content.</p>
-<p><strong>a)</strong> Use principles of TDD to write a function that divides a sequence into blocks and computes the GC content for each block, returning a tuple. The function signature should look like</p>
-
-<pre><code>gc_blocks(seq, block_size)
-
-</code></pre>
-<p>To be clear, if <code>seq = 'ATGACTACGT'</code> and <code>block_size = 4</code>, the blocks to be considered are</p>
-
-<pre><code>ATGA
-CTAC
-
-</code></pre>
-<p>and the function should return <code>(0.25, 0.5)</code>. Note that the blocks are non-overlapping and that we don't bother with the fact that end of the sequence that does not fit completely in a block.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>b)</strong> Write a function that takes as input a sequence, block size, and a threshold GC content, and returns the original sequence where every base in a block with GC content above threshold is capitalized and every base below the threshold is lowercase.  You would call the function like this:</p>
-
-<pre><code>mapped_seq = gc_map(seq, block_size, gc_thresh)
-
-</code></pre>
-<p>For example,</p>
-
-<pre><code>gc_map('ATGACTACGT', 4, 0.4)
-
-</code></pre>
-<p>returns <code>'atgaCTAC'</code>. Note that bases not included in GC blocks are not included in the output sequence. Again, use principles of TDD.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>c)</strong> Use the <code>gc_map()</code> function to generate a GC content map for the <em>Salmonella</em> sequence with <code>block_size = 1000</code> and <code>gc_thresh = 0.45</code>.  Where do you think the pathogenicity island is?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>d)</strong> Write the GC-mapped sequence (with upper and lower characters) to a new FASTA file.  Use the same description line (which began with a <code>&gt;</code> in the original FASTA file), and have line breaks every 60 characters in the sequence.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.3:-ORF-detection">Exercise 2.3: ORF detection<a class="anchor-link" href="#Exercise-2.3:-ORF-detection">&#182;</a></h2><p>For this problem, again use principles of TDD to help you write your functions.</p>
-<p><strong>a)</strong> Write a function, <code>longest_orf()</code>, that takes a DNA sequence as input and finds the longest open reading frame (ORF) in the sequence (we will not consider reverse complements).  A sequence fragment constitutes an ORF if the following are all true.</p>
-<ol>
-<li>It begins with <code>ATG</code>.</li>
-<li>It ends with any of <code>TGA</code>, <code>TAG</code>, or <code>TAA</code>.</li>
-<li>The total number of bases is a multiple of 3.</li>
-</ol>
-<p>Note that the sequence <code>ATG</code> may appear in the middle of an ORF.  So, for example,</p>
-
-<pre><code>GGATGATGATGTAAAAC
-
-</code></pre>
-<p>has two ORFs, <code>ATGATGATGTAA</code> and <code>ATGATGTAA</code>.  You would return the first one, since it is longer of these two.</p>
-<p><em>Hint: The statement for this problem is a bit ambiguous as it is written.  What other specification might you need for this function?</em></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>b)</strong> Use your function to find the longest ORF from the section of the <em>Salmonella</em> genome we are investigating.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>c)</strong> Write a function that converts a DNA sequence into a protein sequence. You can of course use the <code>bootcamp_utils</code> module.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>d)</strong> Translate the longest ORF you generated in part (b) into a protein sequence and perform a <a href="http://blast.ncbi.nlm.nih.gov/">BLAST search</a>.  Search for the protein sequence (a blastp query).  What gene is it?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>e)</strong> [<em>Bonus challenge</em>] Modify your function to return the <code>n</code> longest ORFs.  Compute the five longest ORFs for the <em>Salmonella</em> genome section we are working with.  Perform BLAST searches on them.  What are they?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.4:-Code-refactoring-challenge">Exercise 2.4: Code refactoring challenge<a class="anchor-link" href="#Exercise-2.4:-Code-refactoring-challenge">&#182;</a></h2><p>Refer back to the exercises on TDD. You wrote some functions in the file <code>seq_features.py</code> that compute the number of positively and negatively charged residues in a protein.</p>
-<p>Let's say we want to add some functionality. Equilibrium charges (i.e., the charge of an amino acid over an ensemble of amino acids) are fractional are dependent on pH. If a given residue has a dissociation constant $K_a$ and in a solution with a hydrogen ion concentration of [H$^+$], then the fraction $f$ of residues that are deprotonated is</p>
-<p>\begin{align}
-f = \frac{K_a/[\mathrm{H}^+]}{1 + K_a/[\mathrm{H}^+]}.
-\end{align}</p>
-<p>So if we want to compute the equilibrium charge, this is a quantitative property, not just a number of charged residues, as we have been computing in <code>number_positives()</code> and <code>number_negatives()</code>. Importantly, we would like to compute the net charge of a protein as a function of pH. You want a function with signature <code>net_charge(seq, pH=7)</code> that returns the equilibrium net charge of the sequence.</p>
-<p>You have some decisions to make. Will you refactor <code>number_positives()</code> and <code>number_negatives()</code> and use them in <code>net_charge()</code>? Will you instead write new functions? Do you need to consider positives and negatives separately?</p>
-<p>Your task is to add the <code>net_charge()</code> functionality to the <code>seq_features.py</code> module using principles of TDD. (Remember that you can't test for exact equality of floats, so you will have to test for approximate equality in some of your tests.) Here are a couple more specifications/useful information for this task.</p>
-<ul>
-<li>Treat all residues except aspartic acid, glutamic acid, arginine, lysine, and histidine as having zero charge.</li>
-<li>The pKₐ of the respective residues are in the table below.</li>
-</ul>
-<table>
-<thead><tr>
-<th style="text-align:left">Residue</th>
-<th style="text-align:center">shorthand</th>
-<th style="text-align:right">pKₐ</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">aspartic acid</td>
-<td style="text-align:center">D</td>
-<td style="text-align:right">3.9</td>
-</tr>
-<tr>
-<td style="text-align:left">glutamic acid</td>
-<td style="text-align:center">E</td>
-<td style="text-align:right">4.3</td>
-</tr>
-<tr>
-<td style="text-align:left">arginine</td>
-<td style="text-align:center">R</td>
-<td style="text-align:right">12.0</td>
-</tr>
-<tr>
-<td style="text-align:left">lysine</td>
-<td style="text-align:center">K</td>
-<td style="text-align:right">10.5</td>
-</tr>
-<tr>
-<td style="text-align:left">histidine</td>
-<td style="text-align:center">H</td>
-<td style="text-align:right">6.08</td>
-</tr>
-</tbody>
-</table>
-<p>As you get started, the current state as of the completion of the TDD lessons of the two <code>.py</code> files are as follows.</p>
-<p><code>seq_features.py</code></p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bootcamp_utils</span>
-
-<span class="k">def</span> <span class="nf">is_valid_sequence</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">aa</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bootcamp_utils</span><span class="o">.</span><span class="n">aa</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">aa</span> <span class="o">+</span> <span class="s1">&#39; is not a valid amino acid.&#39;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
-    <span class="c1"># Convert sequence to upper case</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-
-    <span class="c1"># Check for a valid sequence</span>
-    <span class="n">is_valid_sequence</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
-
-    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
-    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">number_positives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of positive residues a protein sequence&quot;&quot;&quot;</span>
-    <span class="c1"># Convert sequence to upper case</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-
-    <span class="c1"># Check for a valid sequence</span>
-    <span class="n">is_valid_sequence</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
+<span class="c1"># We&#39;ll demo a bit of Scipy</span>
+<span class="kn">import</span> <span class="nn">scipy.special</span>
 </pre></div>
-<p><code>test_seq_features.py</code></p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
-<span class="kn">import</span> <span class="nn">seq_features</span>
 
-<span class="k">def</span> <span class="nf">test_number_negatives_single_E_or_D</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for single AA&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</div>
+</div>
+</div>
 
-<span class="k">def</span> <span class="nf">test_number_negatives_for_empty</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for empty entry&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this lesson, you will learn about <a href="http://www.numpy.org"><strong>NumPy</strong></a>, arguably <em>the</em> most important package for scientific computing.</p>
+<p>NumPy is part of the <a href="http://www.scipy.org/stackspec.html"><strong>SciPy stack</strong></a>, a collection of packages for doing various scientific computations. Most of the SciPy stack is built on NumPy and its poweful <code>ndarray</code> data type. We will devote the entire next lesson to <code>ndarray</code>s, but for now, we will take a brief tour through what NumPy and SciPy offer.</p>
 
-<span class="k">def</span> <span class="nf">test_number_negatives_for_short_sequences</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for short sequence&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="A-very-brief-introduction-to-NumPy-arrays">A very brief introduction to NumPy arrays<a class="anchor-link" href="#A-very-brief-introduction-to-NumPy-arrays">&#182;</a></h2><p>The central object for NumPy and SciPy is the <code>ndarray</code>, commonly referred to as a "NumPy array."  This is an array object that is convenient for scientific computing.  We will go over it in depth in the next lesson, but for now, let's just create some NumPy arrays and see how operators work on them.</p>
+<p>Just like with type conversions with lists, tuples, and other data types we've looked at, we can convert a list to a NumPy array using</p>
 
-<span class="k">def</span> <span class="nf">test_number_negatives_for_lowercase</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for lowercase&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<pre><code>np.array()
 
-<span class="k">def</span> <span class="nf">test_number_negatives_for_invalid_amino_acid</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
+</code></pre>
+<p>Note that above we imported the NumPy package "<strong><code>as</code></strong> <code>np</code>".  This is for convenience; it allow us to use <code>np</code> as a prefix instead of <code>numpy</code>.  NumPy is in <strong>very</strong> widespread use, and the convention is to use the <code>np</code> abbreviation.</p>
 
-<span class="k">def</span> <span class="nf">test_number_positives_single_R_K_or_H</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for single AA&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create a NumPy array from a list</span>
+<span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
 
-<span class="k">def</span> <span class="nf">test_number_positives_for_empty</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for empty entry&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_short_sequences</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for short sequence&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;RCKLWTTRE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_lowercase</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for lowercase&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;rcklwttre&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_invalid_amino_acid</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_number_negatives_for_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;AZK&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;AZK&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_is_valid_sequence_for_invalid_amino_acid</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>    
-
-<span class="k">def</span> <span class="nf">test_is_valid_sequence_for_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;AZK&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_is_valid_sequence_for_other_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;ALKSAYGS&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span>
-
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;AZLL&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;ALLBJ&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;B is not a valid amino acid&quot;</span><span class="p">)</span>
-
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;AL%J&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% i</span><span class="s2">s not a valid amino acid&quot;</span><span class="p">)</span>
+<span class="c1"># Look at it</span>
+<span class="n">my_ar</span>
 </pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1, 2, 3, 4])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We see that the list has been converted, and it is explicitly shown as an array.  It has several attributes and lots of methods.  The most important attributes are probably the data type of its elements and the shape of the array.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The data type of stored entries</span>
+<span class="n">my_ar</span><span class="o">.</span><span class="n">dtype</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>dtype(&#39;int64&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The shape of the array</span>
+<span class="n">my_ar</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[5]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(4,)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There are also lots of methods.  The one I use most often is <code>astype()</code>, which converts the data type of the array.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_ar</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[6]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1., 2., 3., 4.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There are many others. For example, we can compute summary statistics about the entries in the array.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4
+1
+10
+2.5
+1.118033988749895
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Importantly, NumPy arrays can be arguments to NumPy functions. In this case, these functions do the same operations as the methods we just looked at.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4
+1
+10
+2.5
+1.118033988749895
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Other-ways-to-make-NumPy-arrays">Other ways to make NumPy arrays<a class="anchor-link" href="#Other-ways-to-make-NumPy-arrays">&#182;</a></h2><p>There are many other ways to make NumPy arrays besides just converting lists or tuples.  Below are some examples.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># How long our arrays will be</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># Make a NumPy array of length n filled with zeros</span>
+<span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[9]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make a NumPy array of length n filled with ones</span>
+<span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[10]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make an empty NumPy array of length n without initializing entries</span>
+<span class="c1"># (while it initially holds whatever values were previously in the memory</span>
+<span class="c1"># locations assigned, ones will be displayed)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[11]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make a NumPy array filled with zeros the same shape as another NumPy array</span>
+<span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[12]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[0, 0],
+       [0, 0]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="NumPy-has-useful-mathematical-functions">NumPy has useful mathematical functions<a class="anchor-link" href="#NumPy-has-useful-mathematical-functions">&#182;</a></h2><p>So far, we have not done much mathematics with Python.  We have done some adding and division, but nothing like computing a logarithm or cosine.  The NumPy functions also work elementwise on the arrays when it is intuitive to do so (just like we have seen in Pandas <code>DataFrame</code>s). That is, they apply the function to each entry in the array. Check it out!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+
+<span class="c1"># Exponential</span>
+<span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[13]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 2.71828183,  7.3890561 , 20.08553692, 54.59815003])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Cosine</span>
+<span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[14]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 0.54030231, -0.41614684, -0.9899925 , -0.65364362])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Square root</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[15]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1.        , 1.41421356, 1.73205081, 2.        ])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can even do some matrix operations (which are obviously not done elementwise), like dot products.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">my_ar</span><span class="p">,</span> <span class="n">my_ar</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[16]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>30</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>NumPy also has useful attributes, like <code>np.pi</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[17]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>3.141592653589793</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="SciPy-has-even-more-useful-functions-(in-modules)">SciPy has even more useful functions (in modules)<a class="anchor-link" href="#SciPy-has-even-more-useful-functions-(in-modules)">&#182;</a></h2><p>SciPy actually began life as a library of special functions that operate on NumPy arrays. For example, we can compute an error function using the <code>scipy.special</code> module, which contains lots of special functions.  Note that you often have to individually import the SciPy module you want to use, for example with</p>
+
+<pre><code>import scipy.special</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">erf</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[18]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0.84270079, 0.99532227, 0.99997791, 0.99999998])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="NumPy-and-SciPy-are-highly-optimized">NumPy and SciPy are highly optimized<a class="anchor-link" href="#NumPy-and-SciPy-are-highly-optimized">&#182;</a></h2><p>Importantly, NumPy and SciPy routines are often <em>fast</em>.  To understand why, we need to think a bit about how your computer actually runs code you write.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Interpreted-and-compiled-languages">Interpreted and compiled languages<a class="anchor-link" href="#Interpreted-and-compiled-languages">&#182;</a></h3><p>We have touched on the fact that Python is an <strong>interpreted language</strong>.  This means that the Python interpreter reads through your code, line by line, translates the commands into instructions that your computer's processor can execute, and then these are executed. It also does <a href="https://en.wikipedia.org/wiki/Garbage_collection_(computer_science"><strong>garbage collection</strong></a>), which manages memory usage in your programs for you.  As an interpreted language, code is often much easier to write, and development time is much shorter.  It is often easier to debug.  By contrast, with <strong>compiled languages</strong> (the dominant ones being Fortran, C, and C++), your entire source code is translated into machine code before you ever run it.  When you execute your program, it is already in machine code.  As a result, compiled code is often much faster than interpreted code.  The speed difference depends largely on the task at hand, but there is often over a 100-fold difference.</p>
+<p>First, we'll demonstrate the difference between compiled and interpreted languages by looking at a function to sum the elements of an array.  Note that Python is <a href="http://stackoverflow.com/a/34004445/2320823">dynamically typed</a>, so the function below works for multiple data types, but the C function works only for <a href="https://en.wikipedia.org/wiki/Double-precision_floating-point_format">double precision floating point</a> numbers.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Python code to sum an array and print the result to the screen</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">my_ar</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div class="highlight"><pre><span></span><span class="cm">/* C code to sum an array and print the result to the screen */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">sum_array</span><span class="p">(</span><span class="kt">double</span> <span class="n">a</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">sum_array</span><span class="p">(</span><span class="kt">double</span> <span class="n">a</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+   <span class="kt">int</span> <span class="n">i</span><span class="p">;</span> 
+   <span class="kt">double</span> <span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+   <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+       <span class="n">sum</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+   <span class="p">}</span>
+   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%g</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">sum</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The C code won't even execute without another function called <code>main</code> to call it.  You should notice the difference in complexity of the code.  Interpreted code is very often much easier to write!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="NumPy-and-SciPy-use-compiled-code!">NumPy and SciPy use compiled code!<a class="anchor-link" href="#NumPy-and-SciPy-use-compiled-code!">&#182;</a></h3><p>Under the hood, when you call a NumPy or SciPy function, or use one of the methods, the Python interpreter passes the arrays into pre-compiled functions. (They are usually C or Fortran functions.)  That means that you get to use an interpreted language with near-compiled speed! We can demonstrate the speed by comparing an explicit sum of elements of an array using a Python <strong><code>for</code></strong> loop versus NumPy. We will use the <code>np.random</code> module to generate a large array of random numbers (we will visit random number generation in a coming lesson). We then use the <code>%timeit</code> magic function of IPython to time the execution of the sum of the elements of the array.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make array of 10,000 random numbers</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+
+<span class="c1"># Sum with Python for loop</span>
+<span class="k">def</span> <span class="nf">python_sum</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x_sum</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+        <span class="n">x_sum</span> <span class="o">+=</span> <span class="n">y</span>
+    <span class="k">return</span> <span class="n">x_sum</span>
+
+<span class="c1"># Test speed</span>
+<span class="o">%</span><span class="k">timeit</span> python_sum(x)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.03 ms ± 14.4 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we'll do the same test with the NumPy implementation.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span> np.sum(x)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>6.04 µs ± 84.6 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Wow!  We went from 1 millisecond to 6 <em>micro</em>seconds!  That's a factor of about 170!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Word-of-advice:-use-NumPy-and-SciPy">Word of advice: use NumPy and SciPy<a class="anchor-link" href="#Word-of-advice:-use-NumPy-and-SciPy">&#182;</a></h2><p>If you are writing code and you think to yourself, "This seems like a pretty common things to do," there is a good chance the someone really smart has written code to do it.  If it's something numerical, there is a good chance it is in NumPy or SciPy.  <strong>Use these packages.</strong> Do not reinvent the wheel.  It is very rare you can beat them for performance, error checking, etc.</p>
+<p>Furthermore, NumPy and SciPy are very well tested (and we learned the importance of that in the test-driven development lessons).  In general, you do not need to write unit tests for well-established packages.  Obviously, if you use NumPy or SciPy within your own functions, you still need to test what you wrote.</p>
 
 </div>
 </div>

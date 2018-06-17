@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>e02</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l14_testing_and_tdd</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14985,11 +14985,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercise-2">Exercise 2<a class="anchor-link" href="#Exercise-2">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p>Exercises 2.2 and 2.3  were inspired by <a href="https://www.cs.hmc.edu/CFB">Libeskind-Hadas and Bush, <em>Computing for Biologists</em>, Cambridge University Press, 2014</a>.</p>
+<h1 id="Lesson-14:-Testing-and-test-driven-development">Lesson 14: Testing and test-driven development<a class="anchor-link" href="#Lesson-14:-Testing-and-test-driven-development">&#182;</a></h1><p>(c) 2018 Justin Bois and Davi Ortega. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This exercise was generated from a Jupyter notebook.  You can download the notebook <a href="e02.ipynb">here</a>.</em></p>
+<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l14_testing_and_tdd.ipynb">here</a>.</em></p>
 <p><br /> <br /></p>
 
 </div>
@@ -14999,7 +14998,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>For all problems except for practice with TDD and refactoring, we will work with real data from the <em>Salmonella enterica</em> genome.  The section of the genome we will work with is in the file <code>~git/bootcamp/data/salmonella_spi1_region.fna</code>.  I cut it out of the <a href="http://www.ncbi.nlm.nih.gov/nucleotide/821161554">full genome</a>.  It contains <em>Salmonella</em> pathogenicity island I (SPI1), which is contains genes for surface receptors for host-pathogen interactions.</p>
+<p><strong>Test-driven development</strong>, or <strong>TDD</strong>, is a paradigm for developing software.  The idea is that a programmer thinks about a design specification for a bit of code, usually a function.  I.e., she lays out what the input and output should be.  She then writes a test (that will fail) for the bit of code.  She then writes or updates the code to pass the test.  She does this <strong>incrementally</strong> as she builds her code.  Let's try this by example.</p>
 
 </div>
 </div>
@@ -15008,332 +15007,885 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
+<h2 id="An-example-of-TDD">An example of TDD<a class="anchor-link" href="#An-example-of-TDD">&#182;</a></h2><p>We will write a function that computes the number of negatively charged residues in a protein.  In other words, we count up the number of glutamate (<code>E</code>) and aspartate (<code>D</code>) residues.</p>
+<p>We'll call the function <code>number_negatives()</code>, and will just make an empty function for now as a placeholder.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.1:-Parsing-a-FASTA-file">Exercise 2.1: Parsing a FASTA file<a class="anchor-link" href="#Exercise-2.1:-Parsing-a-FASTA-file">&#182;</a></h2><p>There are packages, like <a href="http://biopython.org/">Biopython</a> and <a href="http://scikit-bio.org">scikit-bio</a> for processing files you encounter in bioinformatics.  In this problem, though, we will work on our file I/O skills.</p>
-<p><strong>a)</strong> Use command line tools to investigate the FASTA file, which is located at <code>~git/bootcamp/data/salmonella_spi1_region.fna</code>. You will notice that the first line begins with a <code>&gt;</code>, signifying that the line contains information about the sequence.  The remainder of the lines are the sequence itself.</p>
-<p><strong>b)</strong> Use the file I/O skill you have learned to read in the sequence and store it as a single string with no gaps.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.2:-Pathogenicity-islands">Exercise 2.2: Pathogenicity islands<a class="anchor-link" href="#Exercise-2.2:-Pathogenicity-islands">&#182;</a></h2><p>Pathogenicity islands are often marked by different GC content than the rest of the genome.  We will try to locate the pathogenicity island(s) in our section of the <em>Salmonella</em> genome by computing GC content.</p>
-<p><strong>a)</strong> Use principles of TDD to write a function that divides a sequence into blocks and computes the GC content for each block, returning a tuple. The function signature should look like</p>
-
-<pre><code>gc_blocks(seq, block_size)
-
-</code></pre>
-<p>To be clear, if <code>seq = 'ATGACTACGT'</code> and <code>block_size = 4</code>, the blocks to be considered are</p>
-
-<pre><code>ATGA
-CTAC
-
-</code></pre>
-<p>and the function should return <code>(0.25, 0.5)</code>. Note that the blocks are non-overlapping and that we don't bother with the fact that end of the sequence that does not fit completely in a block.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>b)</strong> Write a function that takes as input a sequence, block size, and a threshold GC content, and returns the original sequence where every base in a block with GC content above threshold is capitalized and every base below the threshold is lowercase.  You would call the function like this:</p>
-
-<pre><code>mapped_seq = gc_map(seq, block_size, gc_thresh)
-
-</code></pre>
-<p>For example,</p>
-
-<pre><code>gc_map('ATGACTACGT', 4, 0.4)
-
-</code></pre>
-<p>returns <code>'atgaCTAC'</code>. Note that bases not included in GC blocks are not included in the output sequence. Again, use principles of TDD.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>c)</strong> Use the <code>gc_map()</code> function to generate a GC content map for the <em>Salmonella</em> sequence with <code>block_size = 1000</code> and <code>gc_thresh = 0.45</code>.  Where do you think the pathogenicity island is?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>d)</strong> Write the GC-mapped sequence (with upper and lower characters) to a new FASTA file.  Use the same description line (which began with a <code>&gt;</code> in the original FASTA file), and have line breaks every 60 characters in the sequence.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.3:-ORF-detection">Exercise 2.3: ORF detection<a class="anchor-link" href="#Exercise-2.3:-ORF-detection">&#182;</a></h2><p>For this problem, again use principles of TDD to help you write your functions.</p>
-<p><strong>a)</strong> Write a function, <code>longest_orf()</code>, that takes a DNA sequence as input and finds the longest open reading frame (ORF) in the sequence (we will not consider reverse complements).  A sequence fragment constitutes an ORF if the following are all true.</p>
-<ol>
-<li>It begins with <code>ATG</code>.</li>
-<li>It ends with any of <code>TGA</code>, <code>TAG</code>, or <code>TAA</code>.</li>
-<li>The total number of bases is a multiple of 3.</li>
-</ol>
-<p>Note that the sequence <code>ATG</code> may appear in the middle of an ORF.  So, for example,</p>
-
-<pre><code>GGATGATGATGTAAAAC
-
-</code></pre>
-<p>has two ORFs, <code>ATGATGATGTAA</code> and <code>ATGATGTAA</code>.  You would return the first one, since it is longer of these two.</p>
-<p><em>Hint: The statement for this problem is a bit ambiguous as it is written.  What other specification might you need for this function?</em></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>b)</strong> Use your function to find the longest ORF from the section of the <em>Salmonella</em> genome we are investigating.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>c)</strong> Write a function that converts a DNA sequence into a protein sequence. You can of course use the <code>bootcamp_utils</code> module.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>d)</strong> Translate the longest ORF you generated in part (b) into a protein sequence and perform a <a href="http://blast.ncbi.nlm.nih.gov/">BLAST search</a>.  Search for the protein sequence (a blastp query).  What gene is it?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>e)</strong> [<em>Bonus challenge</em>] Modify your function to return the <code>n</code> longest ORFs.  Compute the five longest ORFs for the <em>Salmonella</em> genome section we are working with.  Perform BLAST searches on them.  What are they?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.4:-Code-refactoring-challenge">Exercise 2.4: Code refactoring challenge<a class="anchor-link" href="#Exercise-2.4:-Code-refactoring-challenge">&#182;</a></h2><p>Refer back to the exercises on TDD. You wrote some functions in the file <code>seq_features.py</code> that compute the number of positively and negatively charged residues in a protein.</p>
-<p>Let's say we want to add some functionality. Equilibrium charges (i.e., the charge of an amino acid over an ensemble of amino acids) are fractional are dependent on pH. If a given residue has a dissociation constant $K_a$ and in a solution with a hydrogen ion concentration of [H$^+$], then the fraction $f$ of residues that are deprotonated is</p>
-<p>\begin{align}
-f = \frac{K_a/[\mathrm{H}^+]}{1 + K_a/[\mathrm{H}^+]}.
-\end{align}</p>
-<p>So if we want to compute the equilibrium charge, this is a quantitative property, not just a number of charged residues, as we have been computing in <code>number_positives()</code> and <code>number_negatives()</code>. Importantly, we would like to compute the net charge of a protein as a function of pH. You want a function with signature <code>net_charge(seq, pH=7)</code> that returns the equilibrium net charge of the sequence.</p>
-<p>You have some decisions to make. Will you refactor <code>number_positives()</code> and <code>number_negatives()</code> and use them in <code>net_charge()</code>? Will you instead write new functions? Do you need to consider positives and negatives separately?</p>
-<p>Your task is to add the <code>net_charge()</code> functionality to the <code>seq_features.py</code> module using principles of TDD. (Remember that you can't test for exact equality of floats, so you will have to test for approximate equality in some of your tests.) Here are a couple more specifications/useful information for this task.</p>
-<ul>
-<li>Treat all residues except aspartic acid, glutamic acid, arginine, lysine, and histidine as having zero charge.</li>
-<li>The pKₐ of the respective residues are in the table below.</li>
-</ul>
-<table>
-<thead><tr>
-<th style="text-align:left">Residue</th>
-<th style="text-align:center">shorthand</th>
-<th style="text-align:right">pKₐ</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">aspartic acid</td>
-<td style="text-align:center">D</td>
-<td style="text-align:right">3.9</td>
-</tr>
-<tr>
-<td style="text-align:left">glutamic acid</td>
-<td style="text-align:center">E</td>
-<td style="text-align:right">4.3</td>
-</tr>
-<tr>
-<td style="text-align:left">arginine</td>
-<td style="text-align:center">R</td>
-<td style="text-align:right">12.0</td>
-</tr>
-<tr>
-<td style="text-align:left">lysine</td>
-<td style="text-align:center">K</td>
-<td style="text-align:right">10.5</td>
-</tr>
-<tr>
-<td style="text-align:left">histidine</td>
-<td style="text-align:center">H</td>
-<td style="text-align:right">6.08</td>
-</tr>
-</tbody>
-</table>
-<p>As you get started, the current state as of the completion of the TDD lessons of the two <code>.py</code> files are as follows.</p>
-<p><code>seq_features.py</code></p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bootcamp_utils</span>
-
-<span class="k">def</span> <span class="nf">is_valid_sequence</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">aa</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bootcamp_utils</span><span class="o">.</span><span class="n">aa</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">aa</span> <span class="o">+</span> <span class="s1">&#39; is not a valid amino acid.&#39;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
+    <span class="c1"># Do nothing for now</span>
+    <span class="k">pass</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, we'll write a trivial test.  It is just a conditional expression stating the obvious: the number of negative charges in a sequence with a single <code>glutamate</code> should be <code>1</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[2]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It should have been <code>1</code>, but our function did not calculate that correctly, thus the <code>False</code> output. We failed the test! But before we focus on the test failure, let's think about what we just did.</p>
+<p>We defined the prototype for the function.  We know we want it to take in a sequence (a string) and return an integer.  So, in building the test, we have designed the interface for the function.</p>
+<p>Back to the test failure. We will now revisit the function to write it so that it will pass the test.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
+    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We'll try out test again.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Hurray!  We passed our first test.  Now, lets write some more test based on what we expect from this function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>True
+True
+True
+True
+True
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Our function appears to be working well.  But let's think carefully about how it could break. What if we input lowercase letters?  I.e., what would we want</p>
+
+<pre><code>number_negatives('acklwttae')
+
+</code></pre>
+<p>to return?  Should we allow lowercase inputs?</p>
+<p>This is an example where coming up with tests is how we define the interface of the function, or in other words, how the function should behave giving a range of inputs. Note that we weren't done designing it on the first pass!</p>
+<p>Moving on, let's say we want to allow lowercase symbols. But, before we mess with our function, let's write a test that defines the expected behavior.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[6]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We failed, as expected.  Now, back to the function. We will add a line to convert the input sequence to uppercase.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
     <span class="c1"># Convert sequence to upper case</span>
     <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    
+    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+</pre></div>
 
-    <span class="c1"># Check for a valid sequence</span>
-    <span class="n">is_valid_sequence</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's try the test again</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[8]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that this passes, we need to make sure all the old tests also pass.  We have to make sure <em>everything</em> passes.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>True
+True
+True
+True
+True
+True
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Great!  This works now.</p>
+<p>You can see how the cycle proceeds. Right now we might be happy with our function, but use cases we have not thought of might creep up as we use the function in different contexts. For every unexpected behavior or bug you find, <em>write another test that covers it</em>. Importantly, <em>any time</em> you update your code, you need to run <em>all</em> of your tests to make sure the function is still performing in all cases after the update!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-assert-statement">The assert statement<a class="anchor-link" href="#The-assert-statement">&#182;</a></h2><p>In our example, we used a bunch of print statements to check our tests.  Conveniently, Python has a built-in way to do your tests using the <strong><code>assert</code></strong> keyword.  For example, our first test using <strong><code>assert</code></strong> is as follows.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This ran without issue.  Now, let's try asserting something we know will fail.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-11-00481010d899&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">assert</span> number_negatives<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;E&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">2</span>
+
+<span class="ansi-red-fg">AssertionError</span>: </pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We get an <code>AssertionError</code>, indicating that our assertion failed.  We can even append the <strong><code>assert</code></strong> statement with a comment describing the error.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Failed on sequence of length 1&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-12-5e254ff6a8dd&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">assert</span> number_negatives<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;E&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;Failed on sequence of length 1&#39;</span>
+
+<span class="ansi-red-fg">AssertionError</span>: Failed on sequence of length 1</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, we see the basic syntax of <strong><code>assert</code></strong> statements.  After <strong><code>assert</code></strong>, we have a conditional expression that evaluates to <code>True</code> or <code>False</code>.  If it evaluates <code>False</code>, an <code>AssertionError</code> is raised, meaning that the test was failed.  Optionally, the conditional expression can be followed with a comma and a string that describes how it failed.  So, we could write all of our tests together as a series of assertions.  Actually, it would be best to write a <em>function</em> that does all the testing.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_number_negatives</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negatives.&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+
+
+<span class="c1"># Run all the tests</span>
+<span class="n">test_number_negatives</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Excellent!  Everything passed!</p>
+<p>It might be a little <strong>underwhelming</strong> that Python exits silently when all our tests pass. Fortunately, someone else felt that way too and implemented a testing tool that is more into positive reinforcement.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Introducing--pytest">Introducing  pytest<a class="anchor-link" href="#Introducing--pytest">&#182;</a></h2><p>The <code>pytest</code> (a.k.a. <code>py.test</code>) module comes with a standard Anaconda installation and is useful tool for automating our testing.  It gives detailed feedback on tests and you can read its documentation <a href="http://pytest.org">here</a>.</p>
+<p>The <code>unittest</code> module from the standard library and <code>nose</code> are two other major testing packages for Python.  All three are in common usage.  We use <code>pytest</code> here because I think it is the easiest to use and understand.</p>
+<p>Pytest is not only a module but also a command line application that searches for tests in your code, runs them and let you know if they fail, and if they pass; finally some positive reinforcement.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Using-pytest">Using pytest<a class="anchor-link" href="#Using-pytest">&#182;</a></h3><p>To take the most advantage of pytest, we should take a step back and write the functions we have been working with in this lesson to a <code>.py</code> file. Using the Jupyter Lab text editor, we'll write <code>seq_features_and_tests.py</code>. Copy the following in the text editor.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert sequence to upper case</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
     <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
     <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">number_positives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of positive residues a protein sequence&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">test_number_negatives</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on n_neg.&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+<p>Now, pytest makes it easy to verify if all these tests pass or not:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pytest seq_features_and_tests.py
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.6.5, pytest-3.6.0, py-1.5.3, pluggy-0.6.0
+rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2018/lessons, inifile:
+plugins: remotedata-0.3.0, openfiles-0.3.0, doctestplus-0.1.3, arraydiff-0.2, hypothesis-3.57.0
+collected 1 item                                                               
+
+seq_features_and_tests.py .<span class="ansi-cyan-fg">                                              [100%]</span>
+
+<span class="ansi-green-intense-fg ansi-bold">=========================== 1 passed in 0.03 seconds ===========================</span>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can try the option <strong><code>-v</code></strong> for even more sugar.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pytest -v seq_features_and_tests.py
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.6.5, pytest-3.6.0, py-1.5.3, pluggy-0.6.0 -- /Users/bois/anaconda3/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2018/lessons, inifile:
+plugins: remotedata-0.3.0, openfiles-0.3.0, doctestplus-0.1.3, arraydiff-0.2, hypothesis-3.57.0
+collected 1 item                                                               
+
+seq_features_and_tests.py::test_number_negatives <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">                  [100%]</span>
+
+<span class="ansi-green-intense-fg ansi-bold">=========================== 1 passed in 0.01 seconds ===========================</span>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Separating-tests-in-functional-units">Separating tests in functional units<a class="anchor-link" href="#Separating-tests-in-functional-units">&#182;</a></h4><p>In more complicated set of tests, it is a good idea to separate the tests by meaningful functional units, so when something breaks, we can easily find the problem and fix it.</p>
+<p><code>pytest</code> allows us to build multiple test functions with different names that indicates what they are testing. For example, let's change the content of the file <code>seq_feature_and_tests.py</code> to this:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
     <span class="c1"># Convert sequence to upper case</span>
     <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
-    <span class="c1"># Check for a valid sequence</span>
-    <span class="n">is_valid_sequence</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_number_negatives_for_single_AA</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for single AA&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">test_number_negatives_for_empty</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for empty entry&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">test_number_negatives_for_short_sequence</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for short sequence&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
+
+<span class="k">def</span> <span class="nf">test_number_negatives_for_lowercase</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for lowercase&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
 </pre></div>
+<p>and let's run it again without <code>-v</code> and with.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pytest seq_features_and_tests.py
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.6.5, pytest-3.6.0, py-1.5.3, pluggy-0.6.0
+rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2018/lessons, inifile:
+plugins: remotedata-0.3.0, openfiles-0.3.0, doctestplus-0.1.3, arraydiff-0.2, hypothesis-3.57.0
+collected 4 items                                                              
+
+seq_features_and_tests.py ....<span class="ansi-cyan-fg">                                           [100%]</span>
+
+<span class="ansi-green-intense-fg ansi-bold">=========================== 4 passed in 0.05 seconds ===========================</span>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Look! Four dots instead of 1. And when we run it with the <code>-v</code> flag, it lists all four tests.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pytest -v seq_features_and_tests.py
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.6.5, pytest-3.6.0, py-1.5.3, pluggy-0.6.0 -- /Users/bois/anaconda3/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2018/lessons, inifile:
+plugins: remotedata-0.3.0, openfiles-0.3.0, doctestplus-0.1.3, arraydiff-0.2, hypothesis-3.57.0
+collected 4 items                                                              
+
+seq_features_and_tests.py::test_number_negatives_for_single_AA <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">    [ 25%]</span>
+seq_features_and_tests.py::test_number_negatives_for_empty <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">        [ 50%]</span>
+seq_features_and_tests.py::test_number_negatives_for_short_sequence <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg"> [ 75%]</span>
+seq_features_and_tests.py::test_number_negatives_for_lowercase <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">    [100%]</span>
+
+<span class="ansi-green-intense-fg ansi-bold">=========================== 4 passed in 0.01 seconds ===========================</span>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="pytest-is-smart">pytest is smart<a class="anchor-link" href="#pytest-is-smart">&#182;</a></h3><p>Pytest is such a smart application that you don't even need to tell it explicitly which file it should look at. By default, pytest will search for files starting with <code>test_</code> and ending with <code>.py</code> in the whole directory tree.</p>
+<p>Also, for the sake of clarity, let's separate our functions from our code. So let's make another file, named <code>test_seq_features.py</code> and place just the functions with the assert statements. You can delete them now from the <code>seq_features_and_tests.py</code> and rename that file to <code>seq_features.py</code>.</p>
+<p>The directory should have now these two files:</p>
+<p><code>seq_features.py</code></p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert sequence to upper case</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+</pre></div>
+<p>and</p>
 <p><code>test_seq_features.py</code></p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
-<span class="kn">import</span> <span class="nn">seq_features</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seq_features</span>
 
 <span class="k">def</span> <span class="nf">test_number_negatives_single_E_or_D</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for single AA&quot;&quot;&quot;</span>
+
     <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
 
 <span class="k">def</span> <span class="nf">test_number_negatives_for_empty</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for empty entry&quot;&quot;&quot;</span>
+
     <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 
 <span class="k">def</span> <span class="nf">test_number_negatives_for_short_sequences</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for short sequence&quot;&quot;&quot;</span>
+
     <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
 
 <span class="k">def</span> <span class="nf">test_number_negatives_for_lowercase</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for lowercase&quot;&quot;&quot;</span>
+
     <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-
-<span class="k">def</span> <span class="nf">test_number_negatives_for_invalid_amino_acid</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_single_R_K_or_H</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for single AA&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_empty</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for empty entry&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_short_sequences</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for short sequence&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;RCKLWTTRE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_lowercase</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for lowercase&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;rcklwttre&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_invalid_amino_acid</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_number_negatives_for_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;AZK&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;AZK&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_is_valid_sequence_for_invalid_amino_acid</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>    
-
-<span class="k">def</span> <span class="nf">test_is_valid_sequence_for_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;AZK&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_is_valid_sequence_for_other_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;ALKSAYGS&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span>
-
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;AZLL&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;ALLBJ&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;B is not a valid amino acid&quot;</span><span class="p">)</span>
-
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;AL%J&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% i</span><span class="s2">s not a valid amino acid&quot;</span><span class="p">)</span>
 </pre></div>
+<p>Note that because the <code>number_negatives()</code> function is in a different file than the tests, we must import the <code>seq_features</code> module in the file with tests.</p>
+<p>Now you can run the test as:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pytest -v
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.6.5, pytest-3.6.0, py-1.5.3, pluggy-0.6.0 -- /Users/bois/anaconda3/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2018/lessons, inifile:
+plugins: remotedata-0.3.0, openfiles-0.3.0, doctestplus-0.1.3, arraydiff-0.2, hypothesis-3.57.0
+collected 4 items                                                              
+
+test_seq_features.py::test_number_negatives_single_E_or_D <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">         [ 25%]</span>
+test_seq_features.py::test_number_negatives_for_empty <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">             [ 50%]</span>
+test_seq_features.py::test_number_negatives_for_short_sequences <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">   [ 75%]</span>
+test_seq_features.py::test_number_negatives_for_lowercase <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">         [100%]</span>
+
+<span class="ansi-green-intense-fg ansi-bold">=========================== 4 passed in 0.20 seconds ===========================</span>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The obvious thing to do next is to test some other cases. Think: what else could go wrong?
+What if there is an invalid residue in the sequence? How we expect our code to behave?</p>
+<p>These and other semi-existential questions will be addressed in the next lesson.</p>
 
 </div>
 </div>

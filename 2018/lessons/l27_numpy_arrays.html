@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>e02</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l27_numpy_arrays</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14985,50 +14985,38 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercise-2">Exercise 2<a class="anchor-link" href="#Exercise-2">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p>Exercises 2.2 and 2.3  were inspired by <a href="https://www.cs.hmc.edu/CFB">Libeskind-Hadas and Bush, <em>Computing for Biologists</em>, Cambridge University Press, 2014</a>.</p>
+<h1 id="Lesson-27:-Numpy-arrays-and-operations-with-them">Lesson 27: Numpy arrays and operations with them<a class="anchor-link" href="#Lesson-27:-Numpy-arrays-and-operations-with-them">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This exercise was generated from a Jupyter notebook.  You can download the notebook <a href="e02.ipynb">here</a>.</em></p>
+<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l27_numpy_arrays.ipynb">here</a>.</em></p>
 <p><br /> <br /></p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For all problems except for practice with TDD and refactoring, we will work with real data from the <em>Salmonella enterica</em> genome.  The section of the genome we will work with is in the file <code>~git/bootcamp/data/salmonella_spi1_region.fna</code>.  I cut it out of the <a href="http://www.ncbi.nlm.nih.gov/nucleotide/821161554">full genome</a>.  It contains <em>Salmonella</em> pathogenicity island I (SPI1), which is contains genes for surface receptors for host-pathogen interactions.</p>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="nn">alt</span>
+
+<span class="kn">import</span> <span class="nn">bootcamp_utils</span>
+</pre></div>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
 
 </div>
-</div>
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.1:-Parsing-a-FASTA-file">Exercise 2.1: Parsing a FASTA file<a class="anchor-link" href="#Exercise-2.1:-Parsing-a-FASTA-file">&#182;</a></h2><p>There are packages, like <a href="http://biopython.org/">Biopython</a> and <a href="http://scikit-bio.org">scikit-bio</a> for processing files you encounter in bioinformatics.  In this problem, though, we will work on our file I/O skills.</p>
-<p><strong>a)</strong> Use command line tools to investigate the FASTA file, which is located at <code>~git/bootcamp/data/salmonella_spi1_region.fna</code>. You will notice that the first line begins with a <code>&gt;</code>, signifying that the line contains information about the sequence.  The remainder of the lines are the sequence itself.</p>
-<p><strong>b)</strong> Use the file I/O skill you have learned to read in the sequence and store it as a single string with no gaps.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
+<p>We just got an introduction to NumPy and SciPy. The packages are extensive. At the center is the NumPy array data type.  We will explore this data type in this tutorial. It is worth noting that under the hood of many of the operations we do with Pandas <code>DataFrame</code>s are done with NumPy arrays. As you understand how NumPy arrays work, you will also better understand what Pandas is doing.</p>
+<p>As it is always more fun to work with a real biological application, we will populate our NumPy arrays with data. In their 2011 <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0025840">paper in PLoS ONE</a>, Harvey and Orbidans measured the cross-sectional area of <em>C. elegans</em> eggs that came from mothers who had a high concentration of food and from mothers of a low concentration of food.  I digitized the data from their plots, and they are available in the file <code>data/c_elegans_egg_xa.csv</code> in the bootcamp repository.</p>
 
 </div>
 </div>
@@ -15037,306 +15025,1857 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.2:-Pathogenicity-islands">Exercise 2.2: Pathogenicity islands<a class="anchor-link" href="#Exercise-2.2:-Pathogenicity-islands">&#182;</a></h2><p>Pathogenicity islands are often marked by different GC content than the rest of the genome.  We will try to locate the pathogenicity island(s) in our section of the <em>Salmonella</em> genome by computing GC content.</p>
-<p><strong>a)</strong> Use principles of TDD to write a function that divides a sequence into blocks and computes the GC content for each block, returning a tuple. The function signature should look like</p>
-
-<pre><code>gc_blocks(seq, block_size)
-
-</code></pre>
-<p>To be clear, if <code>seq = 'ATGACTACGT'</code> and <code>block_size = 4</code>, the blocks to be considered are</p>
-
-<pre><code>ATGA
-CTAC
-
-</code></pre>
-<p>and the function should return <code>(0.25, 0.5)</code>. Note that the blocks are non-overlapping and that we don't bother with the fact that end of the sequence that does not fit completely in a block.</p>
+<h2 id="Extracting-Numpy-arrays-from-Pandas-data-frames">Extracting Numpy arrays from Pandas data frames<a class="anchor-link" href="#Extracting-Numpy-arrays-from-Pandas-data-frames">&#182;</a></h2><p>NumPy has a primitive function for loading in data from text files, <code>np.loadtxt()</code>, but with Panda's <code>read_csv()</code>, there is really no reason to ever use it. So, we will load in the (tidy) data using Pandas.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>b)</strong> Write a function that takes as input a sequence, block size, and a threshold GC content, and returns the original sequence where every base in a block with GC content above threshold is capitalized and every base below the threshold is lowercase.  You would call the function like this:</p>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/c_elegans_egg_xa.csv&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
 
-<pre><code>mapped_seq = gc_map(seq, block_size, gc_thresh)
-
-</code></pre>
-<p>For example,</p>
-
-<pre><code>gc_map('ATGACTACGT', 4, 0.4)
-
-</code></pre>
-<p>returns <code>'atgaCTAC'</code>. Note that bases not included in GC blocks are not included in the output sequence. Again, use principles of TDD.</p>
+<span class="c1"># Take a look</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>c)</strong> Use the <code>gc_map()</code> function to generate a GC content map for the <em>Salmonella</em> sequence with <code>block_size = 1000</code> and <code>gc_thresh = 0.45</code>.  Where do you think the pathogenicity island is?</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>d)</strong> Write the GC-mapped sequence (with upper and lower characters) to a new FASTA file.  Use the same description line (which began with a <code>&gt;</code> in the original FASTA file), and have line breaks every 60 characters in the sequence.</p>
+<div class="output_wrapper">
+<div class="output">
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.3:-ORF-detection">Exercise 2.3: ORF detection<a class="anchor-link" href="#Exercise-2.3:-ORF-detection">&#182;</a></h2><p>For this problem, again use principles of TDD to help you write your functions.</p>
-<p><strong>a)</strong> Write a function, <code>longest_orf()</code>, that takes a DNA sequence as input and finds the longest open reading frame (ORF) in the sequence (we will not consider reverse complements).  A sequence fragment constitutes an ORF if the following are all true.</p>
-<ol>
-<li>It begins with <code>ATG</code>.</li>
-<li>It ends with any of <code>TGA</code>, <code>TAG</code>, or <code>TAA</code>.</li>
-<li>The total number of bases is a multiple of 3.</li>
-</ol>
-<p>Note that the sequence <code>ATG</code> may appear in the middle of an ORF.  So, for example,</p>
+<div class="output_area">
 
-<pre><code>GGATGATGATGTAAAAC
+<div class="prompt output_prompt">Out[2]:</div>
 
-</code></pre>
-<p>has two ORFs, <code>ATGATGATGTAA</code> and <code>ATGATGTAA</code>.  You would return the first one, since it is longer of these two.</p>
-<p><em>Hint: The statement for this problem is a bit ambiguous as it is written.  What other specification might you need for this function?</em></p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>b)</strong> Use your function to find the longest ORF from the section of the <em>Salmonella</em> genome we are investigating.</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>c)</strong> Write a function that converts a DNA sequence into a protein sequence. You can of course use the <code>bootcamp_utils</code> module.</p>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>d)</strong> Translate the longest ORF you generated in part (b) into a protein sequence and perform a <a href="http://blast.ncbi.nlm.nih.gov/">BLAST search</a>.  Search for the protein sequence (a blastp query).  What gene is it?</p>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>e)</strong> [<em>Bonus challenge</em>] Modify your function to return the <code>n</code> longest ORFs.  Compute the five longest ORFs for the <em>Salmonella</em> genome section we are working with.  Perform BLAST searches on them.  What are they?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.4:-Code-refactoring-challenge">Exercise 2.4: Code refactoring challenge<a class="anchor-link" href="#Exercise-2.4:-Code-refactoring-challenge">&#182;</a></h2><p>Refer back to the exercises on TDD. You wrote some functions in the file <code>seq_features.py</code> that compute the number of positively and negatively charged residues in a protein.</p>
-<p>Let's say we want to add some functionality. Equilibrium charges (i.e., the charge of an amino acid over an ensemble of amino acids) are fractional are dependent on pH. If a given residue has a dissociation constant $K_a$ and in a solution with a hydrogen ion concentration of [H$^+$], then the fraction $f$ of residues that are deprotonated is</p>
-<p>\begin{align}
-f = \frac{K_a/[\mathrm{H}^+]}{1 + K_a/[\mathrm{H}^+]}.
-\end{align}</p>
-<p>So if we want to compute the equilibrium charge, this is a quantitative property, not just a number of charged residues, as we have been computing in <code>number_positives()</code> and <code>number_negatives()</code>. Importantly, we would like to compute the net charge of a protein as a function of pH. You want a function with signature <code>net_charge(seq, pH=7)</code> that returns the equilibrium net charge of the sequence.</p>
-<p>You have some decisions to make. Will you refactor <code>number_positives()</code> and <code>number_negatives()</code> and use them in <code>net_charge()</code>? Will you instead write new functions? Do you need to consider positives and negatives separately?</p>
-<p>Your task is to add the <code>net_charge()</code> functionality to the <code>seq_features.py</code> module using principles of TDD. (Remember that you can't test for exact equality of floats, so you will have to test for approximate equality in some of your tests.) Here are a couple more specifications/useful information for this task.</p>
-<ul>
-<li>Treat all residues except aspartic acid, glutamic acid, arginine, lysine, and histidine as having zero charge.</li>
-<li>The pKₐ of the respective residues are in the table below.</li>
-</ul>
-<table>
-<thead><tr>
-<th style="text-align:left">Residue</th>
-<th style="text-align:center">shorthand</th>
-<th style="text-align:right">pKₐ</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">aspartic acid</td>
-<td style="text-align:center">D</td>
-<td style="text-align:right">3.9</td>
-</tr>
-<tr>
-<td style="text-align:left">glutamic acid</td>
-<td style="text-align:center">E</td>
-<td style="text-align:right">4.3</td>
-</tr>
-<tr>
-<td style="text-align:left">arginine</td>
-<td style="text-align:center">R</td>
-<td style="text-align:right">12.0</td>
-</tr>
-<tr>
-<td style="text-align:left">lysine</td>
-<td style="text-align:center">K</td>
-<td style="text-align:right">10.5</td>
-</tr>
-<tr>
-<td style="text-align:left">histidine</td>
-<td style="text-align:center">H</td>
-<td style="text-align:right">6.08</td>
-</tr>
-</tbody>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>food</th>
+      <th>area (sq um)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>high</td>
+      <td>1683</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>high</td>
+      <td>2061</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>high</td>
+      <td>1792</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>high</td>
+      <td>1852</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>high</td>
+      <td>2091</td>
+    </tr>
+  </tbody>
 </table>
-<p>As you get started, the current state as of the completion of the TDD lessons of the two <code>.py</code> files are as follows.</p>
-<p><code>seq_features.py</code></p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bootcamp_utils</span>
+</div>
+</div>
 
-<span class="k">def</span> <span class="nf">is_valid_sequence</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">aa</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bootcamp_utils</span><span class="o">.</span><span class="n">aa</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">aa</span> <span class="o">+</span> <span class="s1">&#39; is not a valid amino acid.&#39;</span><span class="p">)</span>
+</div>
 
-<span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
-    <span class="c1"># Convert sequence to upper case</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</div>
+</div>
 
-    <span class="c1"># Check for a valid sequence</span>
-    <span class="n">is_valid_sequence</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Just for fun, let's make a quick plot. We can do this because we went high level first.</p>
 
-    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
-    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">number_positives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of positive residues a protein sequence&quot;&quot;&quot;</span>
-    <span class="c1"># Convert sequence to upper case</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-
-    <span class="c1"># Check for a valid sequence</span>
-    <span class="n">is_valid_sequence</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
-</pre></div>
-<p><code>test_seq_features.py</code></p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
-<span class="kn">import</span> <span class="nn">seq_features</span>
-
-<span class="k">def</span> <span class="nf">test_number_negatives_single_E_or_D</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for single AA&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-
-<span class="k">def</span> <span class="nf">test_number_negatives_for_empty</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for empty entry&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-
-<span class="k">def</span> <span class="nf">test_number_negatives_for_short_sequences</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for short sequence&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
-
-<span class="k">def</span> <span class="nf">test_number_negatives_for_lowercase</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for lowercase&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-
-<span class="k">def</span> <span class="nf">test_number_negatives_for_invalid_amino_acid</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_single_R_K_or_H</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for single AA&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_empty</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for empty entry&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_short_sequences</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for short sequence&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;RCKLWTTRE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_lowercase</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for lowercase&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;rcklwttre&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_invalid_amino_acid</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_number_negatives_for_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;AZK&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;AZK&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_is_valid_sequence_for_invalid_amino_acid</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>    
-
-<span class="k">def</span> <span class="nf">test_is_valid_sequence_for_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;AZK&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_is_valid_sequence_for_other_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;ALKSAYGS&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span>
-
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;AZLL&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;ALLBJ&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;B is not a valid amino acid&quot;</span><span class="p">)</span>
-
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;AL%J&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% i</span><span class="s2">s not a valid amino acid&quot;</span><span class="p">)</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bootcamp_utils</span><span class="o">.</span><span class="n">altair_jitter</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                             <span class="n">encode_x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s1">&#39;food:N&#39;</span><span class="p">),</span> 
+                             <span class="n">encode_y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s1">&#39;area (sq um):Q&#39;</span><span class="p">,</span>
+                                            <span class="n">title</span><span class="o">=</span><span class="s1">&#39;area (µm²)&#39;</span><span class="p">,</span> 
+                                            <span class="n">scale</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">zero</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span>
+                             <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+                             <span class="n">width</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span><span class="o">.</span><span class="n">configure_point</span><span class="p">(</span><span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                        <span class="n">opacity</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
+<div class="output_png output_subarea output_execute_result">
+<img src="data:image/png;base64,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"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It looks like worms that eat more food have smaller eggs.</p>
+<p>If we wanted to extract the measurements for worms with high food, we can do so using Boolean indexing in Pandas.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;food&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;area (sq um)&#39;</span><span class="p">]</span>
+
+<span class="c1"># Take a look at the data type</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">xa_high</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>pandas.core.series.Series</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The result is a Pandas <code>Series</code>, which is kind of like a single-column <code>DataFrame</code>. If we want to convert this to a Numpy array, we use the <code>.values</code> attribute.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;food&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;area (sq um)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="nb">type</span><span class="p">(</span><span class="n">xa_high</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[5]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>numpy.ndarray</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we have a Numpy array! Let's pull out the low food cross sectional areas as well.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_low</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;food&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;low&#39;</span><span class="p">,</span> <span class="s1">&#39;area (sq um)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And now let's take a look at these arrays.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[7]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1683, 2061, 1792, 1852, 2091, 1781, 1912, 1802, 1751, 1731, 1892,
+       1951, 1809, 1683, 1787, 1840, 1821, 1910, 1930, 1800, 1833, 1683,
+       1671, 1680, 1692, 1800, 1821, 1882, 1642, 1749, 1712, 1661, 1701,
+       2141, 1863, 1752, 1740, 1721, 1660, 1930, 2030, 1851, 2131, 1828])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_low</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[8]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1840, 2090, 2169, 1988, 2212, 2339, 1989, 2144, 2290, 1920, 2280,
+       1809, 2158, 1800, 2133, 2060, 2160, 2001, 2030, 2088, 1951, 2460,
+       2021, 2010, 2139, 2160, 2106, 2171, 2113, 2179, 1890, 2179, 2021,
+       1969, 2150, 1900, 2267, 1711, 1901, 2114, 2112, 2361, 2130, 2061,
+       2121, 1832, 2210, 2130, 2153, 2009, 2100, 2252, 2143, 2252, 2222,
+       2121, 2409])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will use these arrays as examples to learn about Numpy arrays.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Operators-and-NumPy-arrays">Operators and NumPy arrays<a class="anchor-link" href="#Operators-and-NumPy-arrays">&#182;</a></h2><p>We saw in the previous tutorial that NumPy arrays are a special data type.  They have well-defined ways in which our familiar operators work with them.  Let's learn about this by example.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Scalars-and-NumPy-arrays">Scalars and NumPy arrays<a class="anchor-link" href="#Scalars-and-NumPy-arrays">&#182;</a></h3><p>We'll start with multiplying by an array by a constant.  Say we wanted to convert the units of the cross sectional area from µm$^2$ to mm$^2$.  This means we have to divide every entry by 10$^6$ (or multiply by 10$^{-6}$).  Multiplication by a scalar works elementwise on NumPy arrays.  Check it out.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span> <span class="o">/</span> <span class="mf">1e6</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[9]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0.001683, 0.002061, 0.001792, 0.001852, 0.002091, 0.001781,
+       0.001912, 0.001802, 0.001751, 0.001731, 0.001892, 0.001951,
+       0.001809, 0.001683, 0.001787, 0.00184 , 0.001821, 0.00191 ,
+       0.00193 , 0.0018  , 0.001833, 0.001683, 0.001671, 0.00168 ,
+       0.001692, 0.0018  , 0.001821, 0.001882, 0.001642, 0.001749,
+       0.001712, 0.001661, 0.001701, 0.002141, 0.001863, 0.001752,
+       0.00174 , 0.001721, 0.00166 , 0.00193 , 0.00203 , 0.001851,
+       0.002131, 0.001828])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Notice that <code>1e6</code> is how we represent numbers in Python in scientific notation, and that dividing the NumPy array by this number resulted in every entry in the array being divided.  The <code>+</code>, <code>-</code>, and <code>*</code> operators all work in this way.  For example:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span> <span class="o">+</span> <span class="mi">1000</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[10]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([2683, 3061, 2792, 2852, 3091, 2781, 2912, 2802, 2751, 2731, 2892,
+       2951, 2809, 2683, 2787, 2840, 2821, 2910, 2930, 2800, 2833, 2683,
+       2671, 2680, 2692, 2800, 2821, 2882, 2642, 2749, 2712, 2661, 2701,
+       3141, 2863, 2752, 2740, 2721, 2660, 2930, 3030, 2851, 3131, 2828])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Booleans-with-NumPy-arrays-and-scalars">Booleans with NumPy arrays and scalars<a class="anchor-link" href="#Booleans-with-NumPy-arrays-and-scalars">&#182;</a></h3><p>Let's see what happens when we compare a NumPy array to a scalar.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span> <span class="o">&lt;</span> <span class="mi">2000</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[11]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ True, False,  True,  True, False,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True, False,  True,  True,
+        True,  True,  True,  True, False,  True, False,  True])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We get an array of Booleans!  The comparison is elementwise.  This is important to know because we cannot use these comparisons with an <strong><code>if</code></strong> clause.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">xa_high</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Nothing to print, really.  This will just be an error.&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-12-4902263a5f2f&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">if</span> xa_high <span class="ansi-blue-fg">&gt;</span> <span class="ansi-cyan-fg">2000</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;Nothing to print, really.  This will just be an error.&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">ValueError</span>: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's take the advice from the exception and use the <code>.any()</code> or <code>.all()</code> operators.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Check if any values are biggern than 2000</span>
+<span class="p">(</span><span class="n">xa_high</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[13]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Remember, the expresson <code>(xa_high &gt; 2000)</code> is itself a NumPy array of Booleans.  The <code>any()</code> method returns <code>True</code> if <em>any</em> of the entries in that array are <code>True</code>.  Similarly, the <code>all()</code> method returns <code>True</code> if <em>all</em> entries in the array are <code>True</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">xa_high</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[14]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Yup!  At least one cross sectional area is greater than 2000 µm$^2$ but not all of them.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Equality-checks-with-NumPy-arrays">Equality checks with NumPy arrays<a class="anchor-link" href="#Equality-checks-with-NumPy-arrays">&#182;</a></h3><p>Remember, you should never use the equality operator (<code>==</code>) with <code>float</code>s. Fortunately, NumPy offers a couple nice functions to check if two numbers are <em>almost</em> equal. This helps deal with the numerical precision issues when comparing <code>float</code>s. The <code>np.isclose()</code> function checks to see if two numbers are close in value, and this is really useful in writing tests. It works elementwise for NumPy arrays.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compare two numbers</span>
+<span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.29999999999</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[15]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compare an array to a scalar</span>
+<span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">xa_high</span><span class="p">,</span> <span class="mi">1800</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[16]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([False, False, False, False, False, False, False, False, False,
+       False, False, False, False, False, False, False, False, False,
+       False,  True, False, False, False, False, False,  True, False,
+       False, False, False, False, False, False, False, False, False,
+       False, False, False, False, False, False, False, False])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A couple cross sectional areas are 1800 µm$^2$.  The <code>np.allclose()</code> function checks to see if all values in a NumPy array are close.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">xa_high</span><span class="p">,</span> <span class="mi">1800</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[17]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Operators-with-two-NumPy-arrays">Operators with two NumPy arrays<a class="anchor-link" href="#Operators-with-two-NumPy-arrays">&#182;</a></h3><p>We can apply operators with two NumPy ararys.  Let's give it a whirl. (This is meaningless in the context of the actual data contained in these arrays, but it's an operation we need to understand.)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span> <span class="o">+</span> <span class="n">xa_low</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-18-1c97330e8422&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>xa_high <span class="ansi-blue-fg">+</span> xa_low
+
+<span class="ansi-red-fg">ValueError</span>: operands could not be broadcast together with shapes (44,) (57,) </pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Yikes! The exception tells us that the two arrays we are using the operator on need to have the same shape. This makes sense: if we are going to do element-by-element addition, the arrays better have the same number of elements. To continue with our operators on two arrays, we'll slice the longer NumPy array. The basic slicing syntax is the same as for strings, lists, and tuples.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Just take the first elements</span>
+<span class="n">xa_low_slice</span> <span class="o">=</span> <span class="n">xa_low</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">xa_high</span><span class="p">)]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Ok, let's try adding arrays again.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span> <span class="o">+</span> <span class="n">xa_low_slice</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[20]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([3523, 4151, 3961, 3840, 4303, 4120, 3901, 3946, 4041, 3651, 4172,
+       3760, 3967, 3483, 3920, 3900, 3981, 3911, 3960, 3888, 3784, 4143,
+       3692, 3690, 3831, 3960, 3927, 4053, 3755, 3928, 3602, 3840, 3722,
+       4110, 4013, 3652, 4007, 3432, 3561, 4044, 4142, 4212, 4261, 3889])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Great!  We get element-by-element addition.  The same happens for the other operators we've discussed.  <code>np.isclose()</code> also operates element-by-element.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">xa_high</span><span class="p">,</span> <span class="n">xa_low_slice</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[21]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([False, False, False, False, False, False, False, False, False,
+       False, False, False, False, False, False, False, False, False,
+       False, False, False, False, False, False, False, False, False,
+       False, False, False, False, False, False, False, False, False,
+       False, False, False, False, False, False, False, False])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Slicing-NumPy-arrays">Slicing NumPy arrays<a class="anchor-link" href="#Slicing-NumPy-arrays">&#182;</a></h2><p>We already saw that we can slice NumPy arrays like lists and tuples.  Here are a few examples.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Reversed array</span>
+<span class="n">xa_high</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[22]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1828, 2131, 1851, 2030, 1930, 1660, 1721, 1740, 1752, 1863, 2141,
+       1701, 1661, 1712, 1749, 1642, 1882, 1821, 1800, 1692, 1680, 1671,
+       1683, 1833, 1800, 1930, 1910, 1821, 1840, 1787, 1683, 1809, 1951,
+       1892, 1731, 1751, 1802, 1912, 1781, 2091, 1852, 1792, 2061, 1683])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Every 5th element, starting at index 3</span>
+<span class="n">xa_high</span><span class="p">[</span><span class="mi">3</span><span class="p">::</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[23]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1852, 1751, 1683, 1930, 1680, 1642, 2141, 1660, 1828])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Entries 10 to 20</span>
+<span class="n">xa_high</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[24]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1892, 1951, 1809, 1683, 1787, 1840, 1821, 1910, 1930, 1800, 1833])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Fancy-indexing">Fancy indexing<a class="anchor-link" href="#Fancy-indexing">&#182;</a></h3><p>NumPy arrays also allow <strong>fancy indexing</strong>, where we can slice out specific values.  For example, say we wanted indices 1, 19, and 6 (in that order) from <code>xa_high</code>.  We just index with a list of the indices we want.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[25]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([2061, 1800, 1912])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Instead of a list, we could also use a NumPy array.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xa_high</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">6</span><span class="p">])]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[26]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([2061, 1800, 1912])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As a very nice feature, we can use Boolean indexing with Numpy arrays, just like with Pandas using <code>.loc</code>. Say we only want the egg cross sectional areas that are greater than 2000 µm$^2$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Just slice out the big ones</span>
+<span class="n">xa_high</span><span class="p">[</span><span class="n">xa_high</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[27]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([2061, 2091, 2141, 2030, 2131])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If we want to know the indices where the values are high, we can use the <code>np.where()</code> function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">xa_high</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[28]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(array([ 1,  4, 33, 40, 42]),)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="NumPy-arrays-are-mutable">NumPy arrays are mutable<a class="anchor-link" href="#NumPy-arrays-are-mutable">&#182;</a></h2><p>Yes, NumPy arrays are mutable.  Let's look at some consequences.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make an array</span>
+<span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+
+<span class="c1"># Change an element</span>
+<span class="n">my_ar</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">6</span>
+
+<span class="c1"># See the result</span>
+<span class="n">my_ar</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[29]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1, 2, 6, 4])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, let's try working attaching another variable to the NumPy array.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Attach a new variable</span>
+<span class="n">my_ar2</span> <span class="o">=</span> <span class="n">my_ar</span>
+
+<span class="c1"># Set an entry using the new variable</span>
+<span class="n">my_ar2</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span>
+
+<span class="c1"># Does the original change? (yes.)</span>
+<span class="n">my_ar</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[30]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1, 2, 6, 9])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's see how messing with NumPy in functions affects things.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Re-instantiate my_ar</span>
+<span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="c1"># Function to normalize x (note that /= works with mutable objects)</span>
+<span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Pass it through a function</span>
+<span class="n">normalize</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
+
+<span class="c1"># Is it normalized even though we didn&#39;t return anything? (Yes.)</span>
+<span class="n">my_ar</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[31]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0.1, 0.2, 0.3, 0.4])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, be careful when writing functions.  What you do to your NumPy array inside the function will happen outside of the function as well.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Slices-of-NumPy-arrays-are-views,-not-copies">Slices of NumPy arrays are <strong>views</strong>, not copies<a class="anchor-link" href="#Slices-of-NumPy-arrays-are-views,-not-copies">&#182;</a></h3><p>A very important distinction between NumPy arrays and lists is that slices of NumPy arrays are <strong>views</strong> into the original NumPy array, NOT copies.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make list and array</span>
+<span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">my_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span>
+
+<span class="c1"># Slice out of each</span>
+<span class="n">my_list_slice</span> <span class="o">=</span> <span class="n">my_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">my_ar_slice</span> <span class="o">=</span> <span class="n">my_ar</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Mess with the slices</span>
+<span class="n">my_list_slice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">my_ar_slice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span>
+
+<span class="c1"># Look at originals</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_ar</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1, 2, 3, 4]
+[1 9 3 4]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Messing with an element of a slice of a NumPy array messes with that element in the original!  This is not the case with lists.  Let's issue a warning.</p>
+<div class="alert alert-danger">
+<center>Slices of NumPy arrays are **views**, not copies.</center>
+</div><p>Fortunately, you can make a copy of an array using the <code>np.copy()</code> function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make a copy</span>
+<span class="n">xa_high_copy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">xa_high</span><span class="p">)</span>
+
+<span class="c1"># Mess with an entry</span>
+<span class="n">xa_high_copy</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2000</span>
+
+<span class="c1"># Check equality</span>
+<span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">xa_high</span><span class="p">,</span> <span class="n">xa_high_copy</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[33]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, messing with an entry in the copy did not affect the original.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Indexing-2D-NumPy-arrays">Indexing 2D NumPy arrays<a class="anchor-link" href="#Indexing-2D-NumPy-arrays">&#182;</a></h2><p>NumPy arrays need not be one-dimensional.  We'll create a two-dimensional NumPy array by reshaping our <code>xa_high</code> array from having shape <code>(44,)</code> to having shape <code>(11, 4)</code>.  That is, it will become an array with 11 rows and 4 columns.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># New 2D array using the reshape() method</span>
+<span class="n">my_ar</span> <span class="o">=</span> <span class="n">xa_high</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># Look at it</span>
+<span class="n">my_ar</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[34]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[1683, 2061, 1792, 1852],
+       [2091, 1781, 1912, 1802],
+       [1751, 1731, 1892, 1951],
+       [1809, 1683, 1787, 1840],
+       [1821, 1910, 1930, 1800],
+       [1833, 1683, 1671, 1680],
+       [1692, 1800, 1821, 1882],
+       [1642, 1749, 1712, 1661],
+       [1701, 2141, 1863, 1752],
+       [1740, 1721, 1660, 1930],
+       [2030, 1851, 2131, 1828]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Notice that it is represented as an array made out of a list of lists.  If we had a list of lists, we would index it like this:</p>
+
+<pre><code>list_of_lists[i][j]</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make list of lists</span>
+<span class="n">list_of_lists</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+
+<span class="c1"># Pull out value in first row, second column</span>
+<span class="n">list_of_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[35]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Though this will work with NumPy arrays, this is <em>not</em> how NumPy arrays are indexed.  They are indexed much more conveniently.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_ar</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[36]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2061</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We essentially have a tuple in the indexing brackets.  Now, say we wanted the second row (indexing starting at 0).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_ar</span><span class="p">[</span><span class="mi">2</span><span class="p">,:]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[37]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1751, 1731, 1892, 1951])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can use Boolean indexing as before.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_ar</span><span class="p">[</span><span class="n">my_ar</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[38]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([2061, 2091, 2141, 2030, 2131])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that this gives a one-dimensional list of the entries greater than 2000. If we wanted indices where this is the case, we can again use <code>np.where()</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">my_ar</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[39]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(array([ 0,  1,  8, 10, 10]), array([1, 0, 1, 0, 2]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This tuple of NumPy arrays is how we would index using fancy indexing to pull those values out using fancy indexing.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_ar</span><span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[40]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([2061, 2091, 2141, 2030, 2131])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>NumPy arrays can be of arbitrary integer dimension, and these principles extrapolate to 3D, 4D, etc., arrays.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Concatenating-arrays">Concatenating arrays<a class="anchor-link" href="#Concatenating-arrays">&#182;</a></h2><p>Let's say we want to study all cross sectional areas and don't care if the mother was well-fed or not.  We would want to concatenate our arrays.  The <code>np.concatenate()</code> function accomplishes this.  We simply have to pass it a tuple containing the NumPy arrays we want to concatenate.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">combined</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">xa_high</span><span class="p">,</span> <span class="n">xa_low</span><span class="p">))</span>
+
+<span class="c1"># Look at it</span>
+<span class="n">combined</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[41]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1683, 2061, 1792, 1852, 2091, 1781, 1912, 1802, 1751, 1731, 1892,
+       1951, 1809, 1683, 1787, 1840, 1821, 1910, 1930, 1800, 1833, 1683,
+       1671, 1680, 1692, 1800, 1821, 1882, 1642, 1749, 1712, 1661, 1701,
+       2141, 1863, 1752, 1740, 1721, 1660, 1930, 2030, 1851, 2131, 1828,
+       1840, 2090, 2169, 1988, 2212, 2339, 1989, 2144, 2290, 1920, 2280,
+       1809, 2158, 1800, 2133, 2060, 2160, 2001, 2030, 2088, 1951, 2460,
+       2021, 2010, 2139, 2160, 2106, 2171, 2113, 2179, 1890, 2179, 2021,
+       1969, 2150, 1900, 2267, 1711, 1901, 2114, 2112, 2361, 2130, 2061,
+       2121, 1832, 2210, 2130, 2153, 2009, 2100, 2252, 2143, 2252, 2222,
+       2121, 2409])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
     </div>
   </div>
