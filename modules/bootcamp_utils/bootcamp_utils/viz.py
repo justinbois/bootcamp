@@ -175,7 +175,7 @@ def ecdf_dataframe(data=None, x=None, color=None, formal=False):
             if type(g[0]) == tuple:
                 cat = ', '.join([str(c) for c in g[0]])
             else:
-                cat = str(g[0])
+                cat = g[0]
 
             x_ecdf, y_ecdf = ecdf_vals(g[1][x],
                                        formal=formal,
