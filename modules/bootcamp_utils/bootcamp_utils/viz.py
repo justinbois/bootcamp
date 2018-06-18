@@ -31,9 +31,8 @@ def _jitter(x, jitter_width=0.2):
                                 size=len(x)))
 
 
-def _ecdf_vals(data, formal=False):
-    """
-    Get x, y, values of an ECDF for plotting.
+def ecdf_vals(data, formal=False, x_min=None, x_max=None):
+    """Get x, y, values of an ECDF for plotting.
 
     Parameters
     ----------
@@ -42,6 +41,12 @@ def _ecdf_vals(data, formal=False):
     formal : bool, default False
         If True, generate x and y values for formal ECDF (staircase). If
         False, generate x and y values for ECDF as dots.
+    x_min : float, 'infer', or None
+        Minimum value of x to plot. If 'infer', use a 5% buffer. Ignored
+        if `formal` is False.
+    x_max : float, 'infer', or None
+        Maximum value of x to plot. If 'infer', use a 5% buffer. Ignored
+        if `formal` is False.
 
     Returns
     -------
@@ -69,14 +74,119 @@ def _ecdf_vals(data, formal=False):
         x_formal[2::2] = x
         x_formal[3:-1:2] = x[1:]
         x_formal[-1] = x[-1]
+        
+        # Put lines at y=0
+        if x_min is not None:
+            if x_min == 'infer':
+                x_min = x.min() - (x.max() - x.min())*0.05
+            elif x_min > x.min():
+                raise RuntimeError('x_min > x.min().')
+            x_formal = np.concatenate(((x_min,), x_formal))
+            y_formal = np.concatenate(((0,), y_formal))
+
+        # Put lines at y=y.max()
+        if x_max is not None:
+            if x_max == 'infer':
+                x_max = x.max() + (x.max() - x.min())*0.05
+            elif x_max < x.max():
+                raise RuntimeError('x_max < x.max().')
+            x_formal = np.concatenate((x_formal, (x_max,)))
+            y_formal = np.concatenate((y_formal, (y.max(),)))
 
         return x_formal, y_formal
     else:
         return x, y
 
 
-def altair_ecdf():
-    pass
+def ecdf_y(data):
+    """Give y-values of an ECDF for an unsorted column in a data frame.
+    
+    Parameters
+    ----------
+    data : Pandas Series
+        Series (or column of a DataFrame) from which to generate ECDF
+        values
+
+    Returns
+    -------
+    output : Pandas Series
+        Corresponding y-values for an ECDF when plotted with dots.
+
+    Notes
+    -----
+    .. This only works for plotting an ECDF with points, not for formal
+       ECDFs
+    """
+    return data.rank(method='first') / len(data)
+
+
+def ecdf_dataframe(data=None, x=None, color=None, formal=False):
+    """Generate a DataFrame that can be used for plotting ECDFs.
+
+    Parameters
+    ----------
+    data : Pandas DataFrame
+        A tidy data frame.
+    x : valid column name of Pandas DataFrame
+        Column of data frame containing values to use in ECDF plot.
+    color : valid column name of Pandas DataFrame or list of column 
+            names
+        Column(s) of DataFrame to use for grouping the data. A unique
+        set of ECDF values is made for each. If None, no groupby 
+        operations are performed and a single ECDF is generated.
+    formal : bool, default False
+        If True, generate x and y values for formal ECDF (staircase). If
+        False, generate x and y values for ECDF as dots.
+
+
+    Returns
+    -------
+    output : Pandas DataFrame
+        Pandas DataFrame with two or three columns.
+            x : Column named for inputted `x`, data values.
+            'ECDF': Values for y-values for plotting the ECDF
+            color : Keys for groups. Omitted if `color` is None.
+    """
+    if data is None:
+        raise RuntimeError('`data` must be specified.')
+    if x is None:
+        raise RuntimeError('`x` must be specified.')
+
+    # Determine ranges of plots
+    if formal:
+        data_min = data[x].min()
+        data_max = data[x].max()
+        x_min = data_min - (data_max - data_min) * 0.05
+        x_max = data_max + (data_max - data_min) * 0.05
+    else:
+        x_min = None
+        x_max = None
+
+    if color is None:
+        x_ecdf, y_ecdf = ecdf_vals(data[x].values,
+                                   formal=formal, 
+                                   x_min=x_min, 
+                                   x_max=x_max)
+        return pd.DataFrame({x: x_ecdf, 'ECDF': y_ecdf})
+    else:
+        grouped = data.groupby(color)
+        df_list = []
+        for g in grouped:
+            if type(g[0]) == tuple:
+                cat = ', '.join([str(c) for c in g[0]])
+            else:
+                cat = str(g[0])
+
+            x_ecdf, y_ecdf = ecdf_vals(g[1][x],
+                                       formal=formal,
+                                       x_min=x_min, 
+                                       x_max=x_max)
+
+            df_list.append(pd.DataFrame(data={color: [cat]*len(x_ecdf),
+                                              x: x_ecdf, 
+                                              'ECDF': y_ecdf}))
+
+        return pd.concat(df_list, ignore_index=True)
 
 
 def altair_jitter(data=None, encode_x=None, encode_y=None, 
