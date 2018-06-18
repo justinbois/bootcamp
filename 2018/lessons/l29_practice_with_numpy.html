@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>e02</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l29_practice_with_numpy</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14985,50 +14985,39 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Exercise-2">Exercise 2<a class="anchor-link" href="#Exercise-2">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p>Exercises 2.2 and 2.3  were inspired by <a href="https://www.cs.hmc.edu/CFB">Libeskind-Hadas and Bush, <em>Computing for Biologists</em>, Cambridge University Press, 2014</a>.</p>
+<h1 id="Lesson-29:-Practice-with-Numpy">Lesson 29: Practice with Numpy<a class="anchor-link" href="#Lesson-29:-Practice-with-Numpy">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This exercise was generated from a Jupyter notebook.  You can download the notebook <a href="e02.ipynb">here</a>.</em></p>
+<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l29_practice_with_numpy.ipynb">here</a>.</em></p>
 <p><br /> <br /></p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For all problems except for practice with TDD and refactoring, we will work with real data from the <em>Salmonella enterica</em> genome.  The section of the genome we will work with is in the file <code>~git/bootcamp/data/salmonella_spi1_region.fna</code>.  I cut it out of the <a href="http://www.ncbi.nlm.nih.gov/nucleotide/821161554">full genome</a>.  It contains <em>Salmonella</em> pathogenicity island I (SPI1), which is contains genes for surface receptors for host-pathogen interactions.</p>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="nn">alt</span>
+
+<span class="kn">import</span> <span class="nn">bootcamp_utils</span>
+</pre></div>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
 
 </div>
-</div>
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.1:-Parsing-a-FASTA-file">Exercise 2.1: Parsing a FASTA file<a class="anchor-link" href="#Exercise-2.1:-Parsing-a-FASTA-file">&#182;</a></h2><p>There are packages, like <a href="http://biopython.org/">Biopython</a> and <a href="http://scikit-bio.org">scikit-bio</a> for processing files you encounter in bioinformatics.  In this problem, though, we will work on our file I/O skills.</p>
-<p><strong>a)</strong> Use command line tools to investigate the FASTA file, which is located at <code>~git/bootcamp/data/salmonella_spi1_region.fna</code>. You will notice that the first line begins with a <code>&gt;</code>, signifying that the line contains information about the sequence.  The remainder of the lines are the sequence itself.</p>
-<p><strong>b)</strong> Use the file I/O skill you have learned to read in the sequence and store it as a single string with no gaps.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
+<p>Numpy arrays can take a while to get the hang of. Therefore, it's important to practice practice practice!</p>
 
 </div>
 </div>
@@ -15037,123 +15026,13 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.2:-Pathogenicity-islands">Exercise 2.2: Pathogenicity islands<a class="anchor-link" href="#Exercise-2.2:-Pathogenicity-islands">&#182;</a></h2><p>Pathogenicity islands are often marked by different GC content than the rest of the genome.  We will try to locate the pathogenicity island(s) in our section of the <em>Salmonella</em> genome by computing GC content.</p>
-<p><strong>a)</strong> Use principles of TDD to write a function that divides a sequence into blocks and computes the GC content for each block, returning a tuple. The function signature should look like</p>
-
-<pre><code>gc_blocks(seq, block_size)
-
-</code></pre>
-<p>To be clear, if <code>seq = 'ATGACTACGT'</code> and <code>block_size = 4</code>, the blocks to be considered are</p>
-
-<pre><code>ATGA
-CTAC
-
-</code></pre>
-<p>and the function should return <code>(0.25, 0.5)</code>. Note that the blocks are non-overlapping and that we don't bother with the fact that end of the sequence that does not fit completely in a block.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>b)</strong> Write a function that takes as input a sequence, block size, and a threshold GC content, and returns the original sequence where every base in a block with GC content above threshold is capitalized and every base below the threshold is lowercase.  You would call the function like this:</p>
-
-<pre><code>mapped_seq = gc_map(seq, block_size, gc_thresh)
-
-</code></pre>
-<p>For example,</p>
-
-<pre><code>gc_map('ATGACTACGT', 4, 0.4)
-
-</code></pre>
-<p>returns <code>'atgaCTAC'</code>. Note that bases not included in GC blocks are not included in the output sequence. Again, use principles of TDD.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>c)</strong> Use the <code>gc_map()</code> function to generate a GC content map for the <em>Salmonella</em> sequence with <code>block_size = 1000</code> and <code>gc_thresh = 0.45</code>.  Where do you think the pathogenicity island is?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>d)</strong> Write the GC-mapped sequence (with upper and lower characters) to a new FASTA file.  Use the same description line (which began with a <code>&gt;</code> in the original FASTA file), and have line breaks every 60 characters in the sequence.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><br /></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.3:-ORF-detection">Exercise 2.3: ORF detection<a class="anchor-link" href="#Exercise-2.3:-ORF-detection">&#182;</a></h2><p>For this problem, again use principles of TDD to help you write your functions.</p>
-<p><strong>a)</strong> Write a function, <code>longest_orf()</code>, that takes a DNA sequence as input and finds the longest open reading frame (ORF) in the sequence (we will not consider reverse complements).  A sequence fragment constitutes an ORF if the following are all true.</p>
+<h2 id="Practice-1:-Generating-arrays-of-sequential-numbers">Practice 1: Generating arrays of sequential numbers<a class="anchor-link" href="#Practice-1:-Generating-arrays-of-sequential-numbers">&#182;</a></h2><p>The functions <code>np.arange()</code> and <code>np.linspace()</code> are really useful, as we've seen in the last lesson when plotting smooth functions.</p>
 <ol>
-<li>It begins with <code>ATG</code>.</li>
-<li>It ends with any of <code>TGA</code>, <code>TAG</code>, or <code>TAA</code>.</li>
-<li>The total number of bases is a multiple of 3.</li>
+<li>Read their documentation (either using JupyterLab, e.g., <code>np.arange?</code>, or by reading the respective webpages (<a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html"><code>np.arange</code></a>, <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.linspace.html"><code>np.linspace</code></a>)).</li>
+<li>Use <code>np.arange()</code> to make an array of numbers 0 through 10.</li>
+<li>Do the same using <code>np.linspace()</code>.</li>
+<li>Make sure the data type of each of those arrays is a <code>float</code>.</li>
 </ol>
-<p>Note that the sequence <code>ATG</code> may appear in the middle of an ORF.  So, for example,</p>
-
-<pre><code>GGATGATGATGTAAAAC
-
-</code></pre>
-<p>has two ORFs, <code>ATGATGATGTAA</code> and <code>ATGATGTAA</code>.  You would return the first one, since it is longer of these two.</p>
-<p><em>Hint: The statement for this problem is a bit ambiguous as it is written.  What other specification might you need for this function?</em></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>b)</strong> Use your function to find the longest ORF from the section of the <em>Salmonella</em> genome we are investigating.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>c)</strong> Write a function that converts a DNA sequence into a protein sequence. You can of course use the <code>bootcamp_utils</code> module.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>d)</strong> Translate the longest ORF you generated in part (b) into a protein sequence and perform a <a href="http://blast.ncbi.nlm.nih.gov/">BLAST search</a>.  Search for the protein sequence (a blastp query).  What gene is it?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>e)</strong> [<em>Bonus challenge</em>] Modify your function to return the <code>n</code> longest ORFs.  Compute the five longest ORFs for the <em>Salmonella</em> genome section we are working with.  Perform BLAST searches on them.  What are they?</p>
 
 </div>
 </div>
@@ -15171,176 +15050,207 @@ CTAC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-2.4:-Code-refactoring-challenge">Exercise 2.4: Code refactoring challenge<a class="anchor-link" href="#Exercise-2.4:-Code-refactoring-challenge">&#182;</a></h2><p>Refer back to the exercises on TDD. You wrote some functions in the file <code>seq_features.py</code> that compute the number of positively and negatively charged residues in a protein.</p>
-<p>Let's say we want to add some functionality. First, we want to compute the net charge for a sequence. That is the sum of the positively charged residues minus the sum o the negatively charged residues. Second, we want to include pH dependence on the protonation state of the residues, and therefore the charge. We will approximate the pH dependence as follows. All residues have their respective positive of negative charge, except as indicated below.</p>
-<ul>
-<li>Below pH 4, glutamic acid and aspartic acid have no charge.</li>
-<li>Above pH 8, histidine has no charge.</li>
-<li>Above pH 10, arginine and lysine have no charge.</li>
-</ul>
-<p><strong>a)</strong> You want a function with signature <code>net_charge(seq, pH=7)</code> that returns the equilibrium net charge of the sequence. Your task it to add this functionality to the <code>seq_features.py</code> module using principle of TDD. Think carefully. You have some decisions to make. How will you write <code>net_charge(seq, pH=7)</code>? How will you refactor <code>number_positives()</code> and <code>number_negatives()</code>?</p>
-<p>As you get started, the current state as of the completion of the TDD lessons of the two <code>.py</code> files are as follows.</p>
-<p><code>seq_features.py</code></p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">bootcamp_utils</span>
+<h2 id="Practice-2:-Computing-things!">Practice 2: Computing things!<a class="anchor-link" href="#Practice-2:-Computing-things!">&#182;</a></h2><p>In the last lesson, we looked at a data set from Harvey and Orbidans on the cross-sectional area of <em>C. elegans</em> eggs. Recall, we loaded the data and converted everything to Numpy arrays like this:</p>
 
-<span class="k">def</span> <span class="nf">is_valid_sequence</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">aa</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bootcamp_utils</span><span class="o">.</span><span class="n">aa</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">aa</span> <span class="o">+</span> <span class="s1">&#39; is not a valid amino acid.&#39;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
-    <span class="c1"># Convert sequence to upper case</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-
-    <span class="c1"># Check for a valid sequence</span>
-    <span class="n">is_valid_sequence</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
-
-    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
-    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">number_positives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of positive residues a protein sequence&quot;&quot;&quot;</span>
-    <span class="c1"># Convert sequence to upper case</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-
-    <span class="c1"># Check for a valid sequence</span>
-    <span class="n">is_valid_sequence</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/c_elegans_egg_xa.csv&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+<span class="n">xa_high</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;food&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;area (sq um)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">xa_low</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;food&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;low&#39;</span><span class="p">,</span> <span class="s1">&#39;area (sq um)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
-<p><code>test_seq_features.py</code></p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
-<span class="kn">import</span> <span class="nn">seq_features</span>
 
-<span class="k">def</span> <span class="nf">test_number_negatives_single_E_or_D</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for single AA&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</div>
+</div>
+</div>
 
-<span class="k">def</span> <span class="nf">test_number_negatives_for_empty</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for empty entry&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we would like to compute the diameter of the egg from the cross-sectional area. Write a function that takes in an array of cross-sectional areas and returns an array of diameters. Recall that the diameter $d$ and cross-sectional area $A$ are related by $A = \pi d^2/4$. There should be no <code>for</code> loops in your function!</p>
+<p>Below, is a skeleton for your function for you to fill in.</p>
 
-<span class="k">def</span> <span class="nf">test_number_negatives_for_short_sequences</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for short sequence&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
-
-<span class="k">def</span> <span class="nf">test_number_negatives_for_lowercase</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for lowercase&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-
-<span class="k">def</span> <span class="nf">test_number_negatives_for_invalid_amino_acid</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_single_R_K_or_H</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for single AA&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_empty</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for empty entry&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_short_sequences</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for short sequence&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;RCKLWTTRE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_lowercase</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_positives for lowercase&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;rcklwttre&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_invalid_amino_acid</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_number_negatives_for_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;AZK&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_number_positives_for_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">number_positives</span><span class="p">(</span><span class="s1">&#39;AZK&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_is_valid_sequence_for_invalid_amino_acid</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>    
-
-<span class="k">def</span> <span class="nf">test_is_valid_sequence_for_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;AZK&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">test_is_valid_sequence_for_other_invalid_amino_acid_anywhere</span><span class="p">():</span>
-    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;ALKSAYGS&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span>
-
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;AZLL&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;Z is not a valid amino acid&quot;</span><span class="p">)</span>
-
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;ALLBJ&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;B is not a valid amino acid&quot;</span><span class="p">)</span>
-
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">excinfo</span><span class="p">:</span>
-        <span class="n">seq_features</span><span class="o">.</span><span class="n">is_valid_sequence</span><span class="p">(</span><span class="s1">&#39;AL%J&#39;</span><span class="p">)</span>
-    <span class="n">excinfo</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% i</span><span class="s2">s not a valid amino acid&quot;</span><span class="p">)</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">xa_to_diameter</span><span class="p">(</span><span class="n">xa</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert an array of cross-sectional areas</span>
+<span class="sd">    to diameters with commensurate units.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Compute diameter from area</span>
+    <span class="n">diameter</span> <span class="o">=</span> <span class="n">____</span>
+    
+    <span class="k">return</span> <span class="n">diameter</span>
 </pre></div>
-<p><strong>b)</strong>
-If we want to be more precise, equilibrium charge of a residue is a fractional quantity. I.e., some fraction of the time it can be changed, and others not. Working out the chemical equilibria, if a given residue has a dissociation constant $K_a$ and in a solution with a hydrogen ion concentration of [H$^+$], then the fraction $f$ of residues that are deprotonated is</p>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Use your function to compute the diameters of the eggs.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><br /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Practice-3:-Working-with-two-dimensional-arrays">Practice 3: Working with two-dimensional arrays<a class="anchor-link" href="#Practice-3:-Working-with-two-dimensional-arrays">&#182;</a></h2><p>Numpy enables you do to matrix calculations on two-dimensional arrays. In exercise, you will practice doing matrix calculations on arrays. We'll start by making a matrix and a vector to practice with. You can copy and paste the code below.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">6.7</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">]])</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">,</span> <span class="mf">3.9</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, let's practice slicing.</p>
+<ol>
+<li>Print row 1 (remember, indexing starts at zero) of <code>A</code>.</li>
+<li>Print columns 1 and 3 of <code>A</code>.</li>
+<li>Print the values of every entry in <code>A</code> that is greater than 2.</li>
+<li>Print the diagonal of <code>A</code>. using the <code>np.diag()</code> function.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>np.linalg</code> module has some powerful linear algebra tools.</p>
+<ol>
+<li>First, we'll solve the linear system $\mathsf{A}\cdot \mathbf{x} = \mathbf{b}$. Try it out: use <code>np.linalg.solve()</code>. Store your answer in the Numpy array <code>x</code>.</li>
+<li>Now do <code>np.dot(A, x)</code> to verify that $\mathsf{A}\cdot \mathbf{x} = \mathbf{b}$.</li>
+<li>Use <code>np.transpose()</code> to compute the transpose of <code>A</code>.</li>
+<li>Use <code>np.linalg.inv()</code> to compute the inverse of <code>A</code>.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Sometimes you want to convert a two-dimensional array to a one-dimensional array. This can be done with <code>np.ravel()</code>.</p>
+<ol>
+<li>See what happens when you do <code>B = np.ravel(A)</code>.</li>
+<li>Look of the documentation for <code>np.reshape()</code>. Then, reshape <code>B</code> to make it look like <code>A</code> again.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><br /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Practice-5:-Are-they-Normally-distributed?">Practice 5: Are they Normally distributed?<a class="anchor-link" href="#Practice-5:-Are-they-Normally-distributed?">&#182;</a></h2><p>We might be interested to see if the egg cross-section data follow a Normal distribution. After all, this is commonly an underlying assumption when people report data from repeated measurements in the literature.</p>
+<p>One way to assess this is to plot the theoretical CDF with the same mean and standard deviation as the data on top of the ECDFs. (There are better graphical ways to do this, but this is ok for our purposes here.)  We know the cumulative distribution function for a Normal distribution with mean $\mu$ and standard deviation $\sigma$ is</p>
 <p>\begin{align}
-f = \frac{K_a/[\mathrm{H}^+]}{1 + K_a/[\mathrm{H}^+]}.
+\mathrm{cdf}(x) = \frac{1}{2}\left(1 + \mathrm{erf}\left(\frac{x - \mu}{\sqrt{2\sigma^2}}\right)\right),
 \end{align}</p>
-<p>So if we want to compute the equilibrium charge, this is a quantitative property, not just a number of charged residues, as we have been computing in <code>number_positives()</code> and <code>number_negatives()</code>. Now that we're using fractional charges, it is important to remember that you can't test for exact equality of floats, so you will have to test for approximate equality in some of your tests. Here are a couple more specifications/useful information for this task.</p>
-<ul>
-<li>Treat all residues except aspartic acid, glutamic acid, arginine, lysine, and histidine as having zero charge.</li>
-<li>The pKₐ of the respective residues are in the table below.</li>
-</ul>
-<table>
-<thead><tr>
-<th style="text-align:left">Residue</th>
-<th style="text-align:center">shorthand</th>
-<th style="text-align:right">pKₐ</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">aspartic acid</td>
-<td style="text-align:center">D</td>
-<td style="text-align:right">3.9</td>
-</tr>
-<tr>
-<td style="text-align:left">glutamic acid</td>
-<td style="text-align:center">E</td>
-<td style="text-align:right">4.3</td>
-</tr>
-<tr>
-<td style="text-align:left">arginine</td>
-<td style="text-align:center">R</td>
-<td style="text-align:right">12.0</td>
-</tr>
-<tr>
-<td style="text-align:left">lysine</td>
-<td style="text-align:center">K</td>
-<td style="text-align:right">10.5</td>
-</tr>
-<tr>
-<td style="text-align:left">histidine</td>
-<td style="text-align:center">H</td>
-<td style="text-align:right">6.08</td>
-</tr>
-</tbody>
-</table>
-<p>Think about the problem again. How will you write <code>net_charge(seq, pH=7)</code>? What refactoring of other functions is necessary? Go ahead and attack this problem using principles of TDD.</p>
+<p>but instead of coding this up directly, we can use the <code>scipy.stats</code> to do it for us!  We just need to supply where we want the CDF evaluated ($x$), and the mean (the location parameter) and standard deviation (the scale parameter). Something like this:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make smooth x-values</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1600</span><span class="p">,</span> <span class="mi">2500</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+<span class="c1"># Compute theoretical Normal distribution</span>
+<span class="n">cdf_theor</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">xa_low</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">xa_low</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, let's make the plot.</p>
+<blockquote><ol>
+<li>Generate a data frame that you can use to plot the ECDFs of egg cross-sectional area for worms with high food and low food. I would prefer to plot it with the "dot" style, but it is up to you.</li>
+<li>Make smooth curves of the Normal CDF using <code>scipy.stats.norm.cdf()</code> and place them in a data frame suitable for plotting.</li>
+<li>Make plots of the smooth curves and the data.</li>
+</ol>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="A-reminder-about-documentation">A reminder about documentation<a class="anchor-link" href="#A-reminder-about-documentation">&#182;</a></h3><p>It is important to note that I didn't just memorize how all of these functions work when I wrote these practice exercises.  I looked at the online documentation.  For example, I looked at the <a href="https://altair-viz.github.io/user_guide/API.html#altair.Color"><code>alt.Color</code> documentation</a>, and the <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.norm.html"><code>scipy.stats.norm</code> documentation</a>.  To find those links, I just Googled "Altair color legend" and "<code>scipy.stats</code>".</p>
+<p>These packages are all very well documented, and those docs will be your guide.  You don't need to memorize (though you will eventually just by accident).</p>
 
 </div>
 </div>
