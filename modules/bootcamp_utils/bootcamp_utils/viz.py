@@ -116,18 +116,19 @@ def ecdf_vals(data, formal=False, x_min=None, x_max=None):
 
     if formal:
         # Set up output arrays
-        x_formal = np.empty(2*len(x))
-        y_formal = np.empty(2*len(x))
+        x_formal = np.empty(2*(len(x) + 1))
+        y_formal = np.empty(2*(len(x) + 1))
 
         # y-values for steps
-        y_formal[:1] = 0
-        y_formal[1::2] = y
+        y_formal[:2] = 0
         y_formal[2::2] = y
+        y_formal[3::2] = y
 
         # x- values for steps
         x_formal[0] = x[0]
-        x_formal[1::2] = x
-        x_formal[2:-1:2] = x[1:]
+        x_formal[1] = x[0]
+        x_formal[2::2] = x
+        x_formal[3:-1:2] = x[1:]
         x_formal[-1] = x[-1]
         
         # Put lines at y=0
@@ -723,10 +724,10 @@ def bokeh_ecdf(data, p=None, x_axis_label=None, y_axis_label='ECDF',
         Plot populated with ECDF.
     """
     # Check data to make sure legit
-    data = utils._convert_data(data)
+    data = _convert_data(data)
 
     # Data points on ECDF
-    x, y = _ecdf_vals(data, formal)
+    x, y = ecdf_vals(data, formal)
 
     # Instantiate Bokeh plot if not already passed in
     if p is None:
@@ -904,7 +905,7 @@ def _catplot(df, cats, val, kind, p=None, x_axis_label=None,
     # Get GroupBy object, sorted if need be
     if kind == 'colored_ecdf':
         df_sorted = df.sort_values(by=val)
-        _, df_sorted['__ecdf_y_values'] = _ecdf_vals(df_sorted[val])
+        _, df_sorted['__ecdf_y_values'] = ecdf_vals(df_sorted[val])
         gb = df_sorted.groupby(cats)
     else:
         gb = df.groupby(cats)
@@ -993,13 +994,13 @@ def _catplot(df, cats, val, kind, p=None, x_axis_label=None,
 
             if kind == 'ecdf':
                 if palette is None:
-                    ecdf(g[1][val],
+                    bokeh_ecdf(g[1][val],
                          formal=formal,
                          p=p, 
                          legend=legend, 
                          **kwargs)
                 else:
-                    ecdf(g[1][val],
+                    bokeh_ecdf(g[1][val],
                          formal=formal,
                          p=p,
                          legend=legend,
