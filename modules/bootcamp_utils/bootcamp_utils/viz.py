@@ -1809,7 +1809,7 @@ def bokeh_contour(X, Y, Z, levels=None, p=None, overlaid=False,
 
     if p is None:
         if overlaid:
-            p = imshow(Z,
+            p = bokeh_imshow(Z,
                        color_mapper=color_mapper,
                        plot_height=plot_height,
                        plot_width=plot_width,
@@ -2023,7 +2023,7 @@ def bokeh_im_click(im, color_mapper=None, plot_height=400, plot_width=None,
             div.text = lines.join("\\n");
         """ % (attributes, style))
 
-    p = imshow(im,
+    p = bokeh_imshow(im,
                color_mapper=color_mapper,
                plot_height=plot_height, 
                plot_width=plot_width,
