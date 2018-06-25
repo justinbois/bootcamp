@@ -809,7 +809,7 @@ def bokeh_histogram(data, bins=10, p=None, x_axis_label=None,
     if kind == 'step_filled':
         x2 = [e0.min(), e0.max()]
         y2 = [0, 0]
-        p = fill_between(e0, f0, x2, y2, show_line=True, p=p, **kwargs)
+        p = bokeh_fill_between(e0, f0, x2, y2, show_line=True, p=p, **kwargs)
 
     return p
 
