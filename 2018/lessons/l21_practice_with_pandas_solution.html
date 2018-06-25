@@ -14985,8 +14985,11 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-31:-Practice-with-Pandas">Lesson 31: Practice with Pandas<a class="anchor-link" href="#Lesson-31:-Practice-with-Pandas">&#182;</a></h1><p>(c) 2017 Justin Bois. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-<p><em>This tutorial was generated from a Jupyter notebook.  You can download the notebook <a href="l32_practice_with_pandas.ipynb">here</a>.</em></p>
+<h1 id="Lesson-21:-Practice-with-Pandas-solution">Lesson 21: Practice with Pandas <em>solution</em><a class="anchor-link" href="#Lesson-21:-Practice-with-Pandas-solution">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
+<p><img src="caltech_rosen.png"></p>
+<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l21_practice_with_pandas_solution.ipynb">here</a>.</em></p>
+<p><br /> <br /></p>
 
 </div>
 </div>
@@ -15018,7 +15021,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Practice-1:-Mastering-.loc">Practice 1: Mastering .loc<a class="anchor-link" href="#Practice-1:-Mastering-.loc">&#182;</a></h2><p>We will again use the frog tongue adhesion data set. Your goal here is to extract certain entries out of the <code>DataFrame</code>. If it is not in your namespace, load in the <code>DataFrame</code> using <code>pd.read_csv()</code>.</p>
+<h2 id="The-data-set">The data set<a class="anchor-link" href="#The-data-set">&#182;</a></h2><p>The data set comes from <a href="https://doi.org/10.1038/srep05225">Kleinteich and Gorb, <em>Sci. Rep.</em>, <strong>4</strong>, 5355, 2014</a>, and was <a href="http://www.nytimes.com/2014/08/25/science/a-frog-thats-a-living-breathing-pac-man.html">featured in the New York Times</a>.  They measured several properties about the tongue strikes of horned frogs.  Let's take a look at the data set, which is in the file <code>~git/data/frog_tongue_adhesion.csv</code>.</p>
 
 </div>
 </div>
@@ -15028,30 +15031,59 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/frog_tongue_adhesion.csv&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>head -20 data/frog_tongue_adhesion.csv
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre># These data are from the paper,
+#   Kleinteich and Gorb, Sci. Rep., 4, 5225, 2014.
+# It was featured in the New York Times.
+#    http://www.nytimes.com/2014/08/25/science/a-frog-thats-a-living-breathing-pac-man.html
+#
+# The authors included the data in their supplemental information.
+#
+# Importantly, the ID refers to the identifites of the frogs they tested.
+#   I:   adult, 63 mm snout-vent-length (SVL) and 63.1 g body weight,
+#        Ceratophrys cranwelli crossed with Ceratophrys cornuta
+#   II:  adult, 70 mm SVL and 72.7 g body weight,
+#        Ceratophrys cranwelli crossed with Ceratophrys cornuta
+#   III: juvenile, 28 mm SVL and 12.7 g body weight, Ceratophrys cranwelli
+#   IV:  juvenile, 31 mm SVL and 12.7 g body weight, Ceratophrys cranwelli
+date,ID,trial number,impact force (mN),impact time (ms),impact force / body weight,adhesive force (mN),time frog pulls on target (ms),adhesive force / body weight,adhesive impulse (N-s),total contact area (mm2),contact area without mucus (mm2),contact area with mucus / contact area without mucus,contact pressure (Pa),adhesive strength (Pa)
+2013_02_26,I,3,1205,46,1.95,-785,884,1.27,-0.290,387,70,0.82,3117,-2030
+2013_02_26,I,4,2527,44,4.08,-983,248,1.59,-0.181,101,94,0.07,24923,-9695
+2013_03_01,I,1,1745,34,2.82,-850,211,1.37,-0.157,83,79,0.05,21020,-10239
+2013_03_01,I,2,1556,41,2.51,-455,1025,0.74,-0.170,330,158,0.52,4718,-1381
+2013_03_01,I,3,493,36,0.80,-974,499,1.57,-0.423,245,216,0.12,2012,-3975
+</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>a)</strong> Extract the impact time of all impacts that had an adhesive strength of magnitude greater than 2000 Pa.</p>
-<p><strong>b)</strong> Extract the impact force and adhesive force for all of Frog II's strikes.</p>
-<p><strong>c)</strong> Extract the adhesive force and the time the frog pulls on the target for juvenile frogs (Frogs III and IV).</p>
 
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Practice-1:-solution">Practice 1: solution<a class="anchor-link" href="#Practice-1:-solution">&#182;</a></h3>
+<p>The first lines all begin with <code>#</code> signs, signifying that they are comments and not data. They do give important information, though, such as the meaning of the ID data. The ID refers to which specific frog was tested.</p>
+<p>Immediately after the comments, we have a row of comma-separated headers. This row sets the number of columns in this data set and labels the meaning of the columns. So, we see that the first column is the date of the experiment, the second column is the ID of the frog, the third is the trial number, and so on.</p>
+<p>After this row, each row represents a single experiment where the frog struck the target. So, these data are already in tidy format. Let's go ahead and load the data into a <code>DataFrame</code>.</p>
+
 </div>
 </div>
 </div>
@@ -15060,8 +15092,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># a) impact times for frogs with |adh. strenght| &lt; 2000.</span>
-<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;adhesive strength (Pa)&#39;</span><span class="p">])</span><span class="o">&lt;</span><span class="mi">2000</span><span class="p">,</span> <span class="s1">&#39;impact time (ms)&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Load the data</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/frog_tongue_adhesion.csv&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+
+<span class="c1"># Take a look</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -15078,41 +15113,136 @@ div#notebook {
 
 
 
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<div class="output_text output_subarea output_execute_result">
-<pre>3      41
-5      31
-6      43
-9      41
-10     40
-12     29
-15     31
-16     34
-18     34
-20     18
-21     55
-22     51
-26     28
-28     72
-30     33
-32     39
-34     28
-36     26
-40     88
-41    143
-43     35
-46     38
-48     29
-56     36
-58     40
-63     38
-64     31
-70     23
-72     29
-76     39
-77     76
-79     36
-Name: impact time (ms), dtype: int64</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>ID</th>
+      <th>trial number</th>
+      <th>impact force (mN)</th>
+      <th>impact time (ms)</th>
+      <th>impact force / body weight</th>
+      <th>adhesive force (mN)</th>
+      <th>time frog pulls on target (ms)</th>
+      <th>adhesive force / body weight</th>
+      <th>adhesive impulse (N-s)</th>
+      <th>total contact area (mm2)</th>
+      <th>contact area without mucus (mm2)</th>
+      <th>contact area with mucus / contact area without mucus</th>
+      <th>contact pressure (Pa)</th>
+      <th>adhesive strength (Pa)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013_02_26</td>
+      <td>I</td>
+      <td>3</td>
+      <td>1205</td>
+      <td>46</td>
+      <td>1.95</td>
+      <td>-785</td>
+      <td>884</td>
+      <td>1.27</td>
+      <td>-0.290</td>
+      <td>387</td>
+      <td>70</td>
+      <td>0.82</td>
+      <td>3117</td>
+      <td>-2030</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013_02_26</td>
+      <td>I</td>
+      <td>4</td>
+      <td>2527</td>
+      <td>44</td>
+      <td>4.08</td>
+      <td>-983</td>
+      <td>248</td>
+      <td>1.59</td>
+      <td>-0.181</td>
+      <td>101</td>
+      <td>94</td>
+      <td>0.07</td>
+      <td>24923</td>
+      <td>-9695</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013_03_01</td>
+      <td>I</td>
+      <td>1</td>
+      <td>1745</td>
+      <td>34</td>
+      <td>2.82</td>
+      <td>-850</td>
+      <td>211</td>
+      <td>1.37</td>
+      <td>-0.157</td>
+      <td>83</td>
+      <td>79</td>
+      <td>0.05</td>
+      <td>21020</td>
+      <td>-10239</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013_03_01</td>
+      <td>I</td>
+      <td>2</td>
+      <td>1556</td>
+      <td>41</td>
+      <td>2.51</td>
+      <td>-455</td>
+      <td>1025</td>
+      <td>0.74</td>
+      <td>-0.170</td>
+      <td>330</td>
+      <td>158</td>
+      <td>0.52</td>
+      <td>4718</td>
+      <td>-1381</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013_03_01</td>
+      <td>I</td>
+      <td>3</td>
+      <td>493</td>
+      <td>36</td>
+      <td>0.80</td>
+      <td>-974</td>
+      <td>499</td>
+      <td>1.57</td>
+      <td>-0.423</td>
+      <td>245</td>
+      <td>216</td>
+      <td>0.12</td>
+      <td>2012</td>
+      <td>-3975</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 </div>
 
 </div>
@@ -15120,14 +15250,34 @@ Name: impact time (ms), dtype: int64</pre>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Practice-1:-Mastering-.loc">Practice 1: Mastering .loc<a class="anchor-link" href="#Practice-1:-Mastering-.loc">&#182;</a></h2><p>Your goal here is to extract certain entries out of the <code>DataFrame</code>.</p>
+<p><strong>a)</strong> Extract the impact time of all impacts that had an adhesive strength of magnitude greater than 2000 Pa.</p>
+<p><strong>b)</strong> Extract the impact force and adhesive force for all of Frog II's strikes.</p>
+<p><strong>c)</strong> Extract the adhesive force and the time the frog pulls on the target for juvenile frogs (Frogs III and IV). <em>Hint</em>: We saw the <code>&amp;</code> operator for Boolean indexing across more than one column. The <code>|</code> operator signifies OR, and works analogously. You could also approach this using the <code>isin()</code> method of a Pandas <code>Series</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Practice-1:-solution">Practice 1: solution<a class="anchor-link" href="#Practice-1:-solution">&#182;</a></h3>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># b) Impact force and adhesive force for Frog II</span>
-<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;II&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;impact force (mN)&#39;</span><span class="p">,</span> <span class="s1">&#39;adhesive force (mN)&#39;</span><span class="p">]]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># a) impact times for frogs with |adh. strength| &gt; 2000.</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;adhesive strength (Pa)&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">,</span> <span class="s1">&#39;impact time (ms)&#39;</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -15144,19 +15294,101 @@ Name: impact time (ms), dtype: int64</pre>
 
 
 
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0      46
+1      44
+2      34
+4      36
+7      46
+8      50
+11     48
+13     31
+14     38
+17     60
+19     40
+23     59
+24     33
+25     43
+27     31
+29     42
+31     57
+33     21
+35     29
+37     31
+38     15
+39     42
+42    105
+44     29
+45     16
+47     31
+49     32
+50     30
+51     16
+52     27
+53     30
+54     35
+55     39
+57     34
+59     34
+60     26
+61     20
+62     55
+65     33
+66     74
+67     26
+68     27
+69     33
+71      6
+73     31
+74     34
+75     38
+78     33
+Name: impact time (ms), dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># b) Impact force and adhesive force for Frog II</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;II&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;impact force (mN)&#39;</span><span class="p">,</span> <span class="s1">&#39;adhesive force (mN)&#39;</span><span class="p">]]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[5]:</div>
+
+
+
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -15281,7 +15513,7 @@ Name: impact time (ms), dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># c) Adhesive force and time frog pulls for frogs III and IV</span>
@@ -15299,23 +15531,23 @@ Name: impact time (ms), dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[5]:</div>
+<div class="prompt output_prompt">Out[6]:</div>
 
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -15542,550 +15774,10 @@ Name: impact time (ms), dtype: int64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Practice-2:-The-power-of-groupby()">Practice 2: The power of <code>groupby()</code><a class="anchor-link" href="#Practice-2:-The-power-of-groupby()">&#182;</a></h2><p>In addition to his tidy data paper, Hadley Wickham also wrote an <a href="https://www.jstatsoft.org/index.php/jss/article/view/v040i01/v40i01.pdf">influential paper</a> on the <strong>split-apply-combine</strong> idea. To quote him, "You see the split-apply-combine strategy whenever you break up a big problem into manageable pieces, operate on each piece independently and then put all the pieces back together." An example of a split-apply-combine operation on our present data set is this:</p>
-<ol>
-<li><strong>Split</strong> the data up into four groups, one for each of the four frogs.</li>
-<li>Compute the mean impact force for each frog. Here, we are <strong>apply</strong>ing the mean function to the split data.</li>
-<li><strong>Combine</strong> the results into a new set of four data points containing the mean impact force of each frog.</li>
-</ol>
-<p>You can imagine that split-apply-combine operations happy very often in analyzing biological data.</p>
-<p>The <code>groupby()</code> method of Pandas enables convenient split-apply-combine. It works by splitting up a <code>DataFrame</code> based on some criterion. Once that happens, we can then apply a function to these split up <code>DataFrame</code>. Upon application of the function, we get a recombined <code>DataFrame</code> with the result.</p>
-<p>This is best shown by example. We'll compute mean impact force of each frog. First, though, let's do it the "long way."</p>
-<blockquote><ol>
-<li>Extract all of Frog I's impact forces and compute the mean.</li>
-<li>Do the same for the other three frogs.</li>
-<li>Write a <code>for</code> loop to do this and return a NumPy array with the four mean impact forces.</li>
-</ol>
-</blockquote>
-<p>Well, we can actually do it with a list comprehension in one line, but you can imagine such operations can get clunky in a hurry.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[(</span><span class="n">frog_id</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">frog_id</span><span class="p">,</span> <span class="s1">&#39;impact force (mN)&#39;</span><span class="p">]))</span> 
-                                             <span class="k">for</span> <span class="n">frog_id</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[10]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[(&#39;I&#39;, 1530.2), (&#39;II&#39;, 707.35), (&#39;III&#39;, 550.1), (&#39;IV&#39;, 419.1)]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, unfortunately, you don't get a <code>DataFrame</code> out of this. You only get a list of typles with the frog IDs and mean impact forces. It would require more code to get these back into a convenient <code>DataFrame</code>.</p>
-<p>Using <code>groupby()</code>, eliminates this hassle. Let's see by example.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make a GroupBy object</span>
-<span class="n">gb</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">)</span>
-
-<span class="c1"># Apply the np.mean function to the grouped object</span>
-<span class="n">df_mean</span> <span class="o">=</span> <span class="n">gb</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
-
-<span class="c1"># Look at the new DataFrame</span>
-<span class="n">df_mean</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[18]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>date</th>
-      <th>trial number</th>
-      <th>impact force (mN)</th>
-      <th>impact time (ms)</th>
-      <th>impact force / body weight</th>
-      <th>adhesive force (mN)</th>
-      <th>time frog pulls on target (ms)</th>
-      <th>adhesive force / body weight</th>
-      <th>adhesive impulse (N-s)</th>
-      <th>total contact area (mm2)</th>
-      <th>contact area without mucus (mm2)</th>
-      <th>contact area with mucus / contact area without mucus</th>
-      <th>contact pressure (Pa)</th>
-      <th>adhesive strength (Pa)</th>
-    </tr>
-    <tr>
-      <th>ID</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>I</th>
-      <td>1.006511e+158</td>
-      <td>2.85</td>
-      <td>1530.20</td>
-      <td>39.85</td>
-      <td>2.4715</td>
-      <td>-658.40</td>
-      <td>798.55</td>
-      <td>1.0645</td>
-      <td>-0.31375</td>
-      <td>264.35</td>
-      <td>135.80</td>
-      <td>0.3950</td>
-      <td>7644.75</td>
-      <td>-3253.2</td>
-    </tr>
-    <tr>
-      <th>II</th>
-      <td>1.006516e+158</td>
-      <td>2.15</td>
-      <td>707.35</td>
-      <td>37.65</td>
-      <td>1.6640</td>
-      <td>-462.30</td>
-      <td>1443.70</td>
-      <td>1.0875</td>
-      <td>-0.20625</td>
-      <td>195.25</td>
-      <td>31.75</td>
-      <td>0.7825</td>
-      <td>4568.80</td>
-      <td>-3339.3</td>
-    </tr>
-    <tr>
-      <th>III</th>
-      <td>1.006526e+158</td>
-      <td>2.25</td>
-      <td>550.10</td>
-      <td>43.35</td>
-      <td>4.4260</td>
-      <td>-206.75</td>
-      <td>1047.70</td>
-      <td>1.6635</td>
-      <td>-0.10275</td>
-      <td>91.05</td>
-      <td>34.65</td>
-      <td>0.4705</td>
-      <td>8322.30</td>
-      <td>-2917.6</td>
-    </tr>
-    <tr>
-      <th>IV</th>
-      <td>1.006526e+158</td>
-      <td>2.35</td>
-      <td>419.10</td>
-      <td>35.40</td>
-      <td>3.1200</td>
-      <td>-263.60</td>
-      <td>1239.85</td>
-      <td>1.9640</td>
-      <td>-0.12710</td>
-      <td>115.25</td>
-      <td>43.40</td>
-      <td>0.6280</td>
-      <td>3756.80</td>
-      <td>-2513.4</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Sweet! Look at that! We actually calculated the mean of every variable for each frog. We have a <code>DataFrame</code> with the results. We can pull the mean impact force for a frog of interest using <code>loc</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_mean</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;III&#39;</span><span class="p">,</span> <span class="s1">&#39;impact force (mN)&#39;</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[19]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>550.10000000000002</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, what if we want more information, like both the mean and the median? We can apply multiple functions to a <code>GroupBy</code> object using the <code>agg()</code> method. The argument of this method is a list of functions you want to apply.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_mean_median</span> <span class="o">=</span> <span class="n">gb</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">])</span>
-<span class="n">df_mean_median</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[20]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr>
-      <th></th>
-      <th colspan="2" halign="left">trial number</th>
-      <th colspan="2" halign="left">impact force (mN)</th>
-      <th colspan="2" halign="left">impact time (ms)</th>
-      <th colspan="2" halign="left">impact force / body weight</th>
-      <th colspan="2" halign="left">adhesive force (mN)</th>
-      <th>...</th>
-      <th colspan="2" halign="left">total contact area (mm2)</th>
-      <th colspan="2" halign="left">contact area without mucus (mm2)</th>
-      <th colspan="2" halign="left">contact area with mucus / contact area without mucus</th>
-      <th colspan="2" halign="left">contact pressure (Pa)</th>
-      <th colspan="2" halign="left">adhesive strength (Pa)</th>
-    </tr>
-    <tr>
-      <th></th>
-      <th>mean</th>
-      <th>median</th>
-      <th>mean</th>
-      <th>median</th>
-      <th>mean</th>
-      <th>median</th>
-      <th>mean</th>
-      <th>median</th>
-      <th>mean</th>
-      <th>median</th>
-      <th>...</th>
-      <th>mean</th>
-      <th>median</th>
-      <th>mean</th>
-      <th>median</th>
-      <th>mean</th>
-      <th>median</th>
-      <th>mean</th>
-      <th>median</th>
-      <th>mean</th>
-      <th>median</th>
-    </tr>
-    <tr>
-      <th>ID</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>I</th>
-      <td>2.85</td>
-      <td>3</td>
-      <td>1530.20</td>
-      <td>1550.5</td>
-      <td>39.85</td>
-      <td>40</td>
-      <td>2.4715</td>
-      <td>2.505</td>
-      <td>-658.40</td>
-      <td>-664.5</td>
-      <td>...</td>
-      <td>264.35</td>
-      <td>262.5</td>
-      <td>135.80</td>
-      <td>126.5</td>
-      <td>0.3950</td>
-      <td>0.325</td>
-      <td>7644.75</td>
-      <td>5697.0</td>
-      <td>-3253.2</td>
-      <td>-2051.5</td>
-    </tr>
-    <tr>
-      <th>II</th>
-      <td>2.15</td>
-      <td>2</td>
-      <td>707.35</td>
-      <td>573.0</td>
-      <td>37.65</td>
-      <td>33</td>
-      <td>1.6640</td>
-      <td>1.345</td>
-      <td>-462.30</td>
-      <td>-517.0</td>
-      <td>...</td>
-      <td>195.25</td>
-      <td>198.0</td>
-      <td>31.75</td>
-      <td>25.0</td>
-      <td>0.7825</td>
-      <td>0.830</td>
-      <td>4568.80</td>
-      <td>2632.5</td>
-      <td>-3339.3</td>
-      <td>-2066.5</td>
-    </tr>
-    <tr>
-      <th>III</th>
-      <td>2.25</td>
-      <td>2</td>
-      <td>550.10</td>
-      <td>544.0</td>
-      <td>43.35</td>
-      <td>34</td>
-      <td>4.4260</td>
-      <td>4.380</td>
-      <td>-206.75</td>
-      <td>-201.5</td>
-      <td>...</td>
-      <td>91.05</td>
-      <td>102.5</td>
-      <td>34.65</td>
-      <td>23.0</td>
-      <td>0.4705</td>
-      <td>0.450</td>
-      <td>8322.30</td>
-      <td>5558.5</td>
-      <td>-2917.6</td>
-      <td>-2454.5</td>
-    </tr>
-    <tr>
-      <th>IV</th>
-      <td>2.35</td>
-      <td>2</td>
-      <td>419.10</td>
-      <td>460.5</td>
-      <td>35.40</td>
-      <td>33</td>
-      <td>3.1200</td>
-      <td>3.425</td>
-      <td>-263.60</td>
-      <td>-233.5</td>
-      <td>...</td>
-      <td>115.25</td>
-      <td>126.0</td>
-      <td>43.40</td>
-      <td>40.5</td>
-      <td>0.6280</td>
-      <td>0.770</td>
-      <td>3756.80</td>
-      <td>3311.5</td>
-      <td>-2513.4</td>
-      <td>-2165.5</td>
-    </tr>
-  </tbody>
-</table>
-<p>4 rows × 26 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We now have a <strong>MultiIndex</strong> for the column headers. We can index with tuples.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_mean_median</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">(</span><span class="s1">&#39;impact force (mN)&#39;</span><span class="p">,</span> <span class="s1">&#39;median&#39;</span><span class="p">)]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[21]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>ID
-I      1550.5
-II      573.0
-III     544.0
-IV      460.5
-Name: (impact force (mN), median), dtype: float64</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, let's practice with <code>groupby()</code>.</p>
+<h2 id="Practice-2:-Split-Apply-Combine-of-the-frog-data-set">Practice 2: Split-Apply-Combine of the frog data set<a class="anchor-link" href="#Practice-2:-Split-Apply-Combine-of-the-frog-data-set">&#182;</a></h2><p>You'll now practice your split-apply-combine skills.</p>
 <p><strong>a)</strong> Compute standard deviation of the impact forces for each frog.</p>
-<p><strong>b)</strong> Write a function, <code>coeff_of_var(data)</code>, which computes the coefficient of variation of a data set. This is the standard deviation divided by the absolute value of the mean.</p>
-<p><strong>c)</strong> Compute the coefficient of variation of the impact forces <em>and</em> adhesive forces for each frog.</p>
-<p><strong>d)</strong> And now, finally.... Compute a <code>DataFrame</code> that has the mean, median, standard deviation, and coefficient of variation of the impact forces and adhesive forces for each frog.</p>
+<p><strong>b)</strong> Compute the coefficient of variation of the impact forces <em>and</em> adhesive forces for each frog.</p>
+<p><strong>c)</strong> And now, finally.... Compute a <code>DataFrame</code> that has the mean, median, standard deviation, and coefficient of variation of the impact forces and adhesive forces for each frog. After you make this <code>DataFrame</code>, you might want to explore using the <code>pd.melt()</code> function to make it tidy. You can read <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.melt.html">the documentation</a> and/or ask a TA to help you.</p>
 
 </div>
 </div>
@@ -16100,11 +15792,13 @@ Name: (impact force (mN), median), dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># a) standard deviation of impact forces</span>
-<span class="n">gb</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">)[</span><span class="s1">&#39;impact force (mN)&#39;</span><span class="p">]</span>
+<span class="n">grouped</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">)</span>
+
+<span class="n">grouped</span><span class="p">[</span><span class="s1">&#39;impact force (mN)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -16117,17 +15811,17 @@ Name: (impact force (mN), median), dtype: float64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[23]:</div>
+<div class="prompt output_prompt">Out[7]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>ID
-I      614.250731
-II     413.822821
-III    121.127165
-IV     228.917431
+I      630.207952
+II     424.573256
+III    124.273849
+IV     234.864328
 Name: impact force (mN), dtype: float64</pre>
 </div>
 
@@ -16139,19 +15833,19 @@ Name: impact force (mN), dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># b and c: coeff. of variation for impact and adhesive force</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># b) coeff. of variation for impact and adhesive force</span>
 <span class="k">def</span> <span class="nf">coeff_of_var</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Coefficient of variation.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
 
-<span class="c1"># Make GroupBy object with two columns of interest in DataFrame for convenience</span>
-<span class="n">gb</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="s1">&#39;impact force (mN)&#39;</span><span class="p">,</span> <span class="s1">&#39;adhesive force (mN)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">)</span>
+<span class="c1"># Make DataFrameGroupBy object with two columns of interest in DataFrame for convenience</span>
+<span class="n">grouped</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="s1">&#39;impact force (mN)&#39;</span><span class="p">,</span> <span class="s1">&#39;adhesive force (mN)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">)</span>
 
 <span class="c1"># Applot the coeff_of_var_function</span>
-<span class="n">gb</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">coeff_of_var</span><span class="p">)</span>
+<span class="n">grouped</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">coeff_of_var</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -16164,56 +15858,56 @@ Name: impact force (mN), dtype: float64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[24]:</div>
+<div class="prompt output_prompt">Out[8]:</div>
 
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>ID</th>
       <th>impact force (mN)</th>
       <th>adhesive force (mN)</th>
-    </tr>
-    <tr>
-      <th>ID</th>
-      <th></th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>I</th>
+      <th>0</th>
+      <td>I</td>
       <td>0.401419</td>
       <td>0.247435</td>
     </tr>
     <tr>
-      <th>II</th>
+      <th>1</th>
+      <td>II</td>
       <td>0.585033</td>
       <td>0.429701</td>
     </tr>
     <tr>
-      <th>III</th>
+      <th>2</th>
+      <td>III</td>
       <td>0.220191</td>
       <td>0.415435</td>
     </tr>
     <tr>
-      <th>IV</th>
+      <th>3</th>
+      <td>IV</td>
       <td>0.546212</td>
       <td>0.308042</td>
     </tr>
@@ -16230,11 +15924,11 @@ Name: impact force (mN), dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># d) Apply all of the great stats functions!</span>
-<span class="n">df_result</span> <span class="o">=</span> <span class="n">gb</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">,</span> <span class="n">coeff_of_var</span><span class="p">])</span>
+<span class="n">df_result</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">,</span> <span class="n">coeff_of_var</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 
 <span class="n">df_result</span>
 </pre></div>
@@ -16249,34 +15943,36 @@ Name: impact force (mN), dtype: float64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[25]:</div>
+<div class="prompt output_prompt">Out[9]:</div>
 
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
     }
 </style>
 <table border="1" class="dataframe">
   <thead>
     <tr>
       <th></th>
+      <th>ID</th>
       <th colspan="4" halign="left">impact force (mN)</th>
       <th colspan="4" halign="left">adhesive force (mN)</th>
     </tr>
     <tr>
       <th></th>
+      <th></th>
       <th>mean</th>
       <th>median</th>
       <th>std</th>
@@ -16285,22 +15981,12 @@ Name: impact force (mN), dtype: float64</pre>
       <th>median</th>
       <th>std</th>
       <th>coeff_of_var</th>
-    </tr>
-    <tr>
-      <th>ID</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>I</th>
+      <th>0</th>
+      <td>I</td>
       <td>1530.20</td>
       <td>1550.5</td>
       <td>630.207952</td>
@@ -16311,7 +15997,8 @@ Name: impact force (mN), dtype: float64</pre>
       <td>0.247435</td>
     </tr>
     <tr>
-      <th>II</th>
+      <th>1</th>
+      <td>II</td>
       <td>707.35</td>
       <td>573.0</td>
       <td>424.573256</td>
@@ -16322,7 +16009,8 @@ Name: impact force (mN), dtype: float64</pre>
       <td>0.429701</td>
     </tr>
     <tr>
-      <th>III</th>
+      <th>2</th>
+      <td>III</td>
       <td>550.10</td>
       <td>544.0</td>
       <td>124.273849</td>
@@ -16333,7 +16021,8 @@ Name: impact force (mN), dtype: float64</pre>
       <td>0.415435</td>
     </tr>
     <tr>
-      <th>IV</th>
+      <th>3</th>
+      <td>IV</td>
       <td>419.10</td>
       <td>460.5</td>
       <td>234.864328</td>
@@ -16365,13 +16054,10 @@ Name: impact force (mN), dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># First make the index (frog ID) column of DataFrame</span>
-<span class="n">df_result</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_result</span><span class="o">.</span><span class="n">index</span>
-
-<span class="c1"># Melt the DataFrame to make it tidy</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Melt the DataFrame to make it tidy</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">df_result</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;statistic&#39;</span><span class="p">],</span> <span class="n">id_vars</span><span class="o">=</span><span class="s1">&#39;ID&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -16385,23 +16071,23 @@ Name: impact force (mN), dtype: float64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[26]:</div>
+<div class="prompt output_prompt">Out[10]:</div>
 
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">

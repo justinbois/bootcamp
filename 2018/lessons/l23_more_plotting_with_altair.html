@@ -15290,6 +15290,20 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="A-watch-out-about-column-names">A watch-out about column names<a class="anchor-link" href="#A-watch-out-about-column-names">&#182;</a></h2><p>Because of <a href="https://vega.github.io/vega-lite/docs/field.html">Vega's specifications</a>, Altair will not interpret brackets, dots, quotes, or percent signs in field names. That means that if you have a column in a data frame that has one of those characters, you will need to change the name of the column so that it does not have those characters. For example, you might have a column representing the concentration of a chemical, like <code>[IPTG (mM)]</code>. In this case, you can use</p>
+<div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;[IPTG (mM)]&#39;</span><span class="p">:</span> <span class="s1">&#39;iptg conc (mM)&#39;</span><span class="p">})</span>
+</pre></div>
+<p>to rename the appropriate column. You can then proceed to use the data frame in Altair, but you will need to be explicit about the axis label, encoding with something like</p>
+<div class="highlight"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s1">&#39;iptg conc (mM)&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;[IPTG (mM)]&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Top-level-properties">Top-level properties<a class="anchor-link" href="#Top-level-properties">&#182;</a></h2><p>We may also want to set some global, or top-level, properties of the plot, such as its height and width (which are specified in units of pixels), label font size and weight, etc. These things can be adjusted using the <code>configure_*()</code> methods (see <a href="https://altair-viz.github.io/user_guide/configuration.html">Altair docs</a>). Again, let's learn by example.</p>
 
 </div>
