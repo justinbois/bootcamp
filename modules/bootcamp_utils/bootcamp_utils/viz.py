@@ -666,7 +666,7 @@ def bokeh_fill_between(x1, y1, x2, y2, x_axis_label=None, y_axis_label=None,
             y=np.concatenate((y1, y2[::-1])),
             alpha=fill_alpha,
             fill_color=fill_color,
-            line_width=0,
+            line_alpha=0,
             **kwargs)
 
     if show_line:
