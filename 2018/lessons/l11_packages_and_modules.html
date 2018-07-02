@@ -15520,15 +15520,11 @@ two middle values of ``V_sorted`` when ``N`` is even.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Package-architecture">Package architecture<a class="anchor-link" href="#Package-architecture">&#182;</a></h3><p>In order for the tools in <code>setuptools</code> to effectively install your modules for widespread use, you need to follow a specific architecture for your package. I made an example <code>bootcamp_utils</code> package that is present in the <code>~/git/bootcamp/modules</code> folder. To make sure you have it, you should do the following (described in the <a href="l12_version_control_with_git.html">next lesson about Git</a>) on the command line.</p>
-
-<pre><code>git pull upstream master
-
-</code></pre>
+<h3 id="Package-architecture">Package architecture<a class="anchor-link" href="#Package-architecture">&#182;</a></h3><p>In order for the tools in <code>setuptools</code> to effectively install your modules for widespread use, you need to follow a specific architecture for your package. I made an example <code>jb_bootcamp</code> package that is present in the <code>~/git/bootcamp/modules</code> folder.</p>
 <p>The file structure is of the package is</p>
 
-<pre><code>/bootcamp_utils
-  /bootcamp_utils
+<pre><code>/jb_bootcamp
+  /jb_bootcamp
     __init__.py
     na_utils.py
     bioinfo_dicts.py
@@ -15539,7 +15535,7 @@ README.md
 </code></pre>
 <p>The ellipsis above signifies that there are other files in there that we are not going to use yet. I am trying to keep it simple for now to show how package management works.</p>
 <p>To set up the package, you can use your command line skills to make the directories and use the JupyterLab text editor to make the files (in this case, four of them, <code>__init__.py</code>, <code>na_utils.py</code>, <code>bioinfo_dicts.py</code> (the little module we mentioned in the <a href="l10_dictionaries.html#Useful-dictionaries-in-bioinformatics">lesson on dictionaries</a>, <code>setup.py</code>, and <code>README.md</code>).</p>
-<p>It is essential that the name of the root directory be the name of the package, and that there be a subdirectory with the same name. That subdirectory must contain a file <code>__init__.py</code>. This file contains information about the package and how the modules of the package are imported, but it may be empty for simple modules. In this case, I included a string with the name and version of the package, as well as instructions to import appropriate modules. Here are the contents of <code>__init__.py</code>. The first two lines of code tell the interpreter what to import when running <code>import bootcamp_utils</code>.</p>
+<p>It is essential that the name of the root directory be the name of the package, and that there be a subdirectory with the same name. That subdirectory must contain a file <code>__init__.py</code>. This file contains information about the package and how the modules of the package are imported, but it may be empty for simple modules. In this case, I included a string with the name and version of the package, as well as instructions to import appropriate modules. Here are the contents of <code>__init__.py</code>. The first two lines of code tell the interpreter what to import when running <code>import jb_bootcamp</code>.</p>
 <div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Top-level package for utilities for bootcamp.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">.na_utils</span> <span class="kn">import</span> <span class="o">*</span>
@@ -15552,17 +15548,17 @@ README.md
 <p>Also within the subdirectory are the <code>.py</code> files containing the code of the package. In our case, we have, <code>na_utils.py</code> and <code>bioinfo_dicts.py</code>.</p>
 <p>It is also good practice to have a README file (which I suggest you write in Markdown) that has information about the package and what it does. Since this little demo package is kind of trivial, the README is quite short. Here are the contents I made for <code>README.md</code> (shown in unrendered raw Markdown).</p>
 
-<pre><code># bootcamp_utils
+<pre><code># jb_bootcamp
 
 Utilities for use in the Introduction to Programming in the Biological Sciences Bootcamp.</code></pre>
 <p>Finally, in the main directory, we need to have a file called <code>setup.py</code>, which contains the instructions for <code>setuptools</code> to install the package. We use the <code>setuptools.setup()</code> function to do the installation.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">setuptools</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;README.md&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
-    <span class="n">long_description</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;README.md&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">long_description</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
 <span class="n">setuptools</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bootcamp_utils&#39;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;jb_bootcamp&#39;</span><span class="p">,</span>
     <span class="n">version</span><span class="o">=</span><span class="s1">&#39;0.0.1&#39;</span><span class="p">,</span>
     <span class="n">author</span><span class="o">=</span><span class="s1">&#39;Justin Bois&#39;</span><span class="p">,</span>
     <span class="n">author_email</span><span class="o">=</span><span class="s1">&#39;bois@caltech.edu&#39;</span><span class="p">,</span>
@@ -15585,13 +15581,7 @@ Utilities for use in the Introduction to Programming in the Biological Sciences 
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Installing-your-package">Installing your package<a class="anchor-link" href="#Installing-your-package">&#182;</a></h3><p>To install your package, you use <code>pip</code>, which is a self-referential acronym <strong><code>P</code></strong><code>ip</code> <strong><code>I</code></strong><code>nstalls</code> <strong><code>P</code></strong><code>ackages</code>. To install a your package, make sure you are in the directory immediately above your package, in this case <code>~/git/bootcamp/modules/</code>. Then, do the following on the command line.</p>
-
-<pre><code>pip install -e bootcamp_utils
-
-</code></pre>
-<p>The <code>-e</code> flag is important, which tells <code>pip</code> that this is a local, editable package.</p>
-<p>Your package is now accessible on your machine whenever you run the Python interpreter!</p>
+<h3 id="Installing-your-package">Installing your package<a class="anchor-link" href="#Installing-your-package">&#182;</a></h3><p>You will install your package after the next lesson, when we put it under version control.</p>
 
 </div>
 </div>

@@ -15097,7 +15097,7 @@ git merge FETCH_HEAD
 <pre><code>git pull origin master
 
 </code></pre>
-<p>which is the more verbose way of saying that you want to pull the master <strong>branch</strong> from the remote repository named <code>origin</code>.</p>
+<p>which is the more verbose way of saying that you want to pull the master <strong>branch</strong> from the remote repository named <code>origin</code>. We will not discuss branching in this bootcamp, but it is an important concept to learn about.</p>
 <p>Generally it is good practice to pull before you start working each day to make sure you pull in any updates your collaborators may have made.</p>
 
 </div>
@@ -15118,10 +15118,10 @@ git merge FETCH_HEAD
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Creating-your-own-repository">Creating your own repository<a class="anchor-link" href="#Creating-your-own-repository">&#182;</a></h2><p>Now, you will create your own repository for practice. We will call the repository <code>bootcamp_utils</code>. We have already made the repository in the last lesson. Actually, because there are some other goodies in there we may use later, you should copy it from <code>~/git/bootcamp/modules/</code>. We are using this as an example of how you can put packages under version control, and you can add to it if you like for your own use.</p>
+<h2 id="Creating-your-own-repository">Creating your own repository<a class="anchor-link" href="#Creating-your-own-repository">&#182;</a></h2><p>Now, you will create your own repository for practice. For this bootcamp, let's name the repository with your initials followed by <code>_bootcamp</code>. In my case, my repository is <code>jb_bootcamp</code>.</p>
 <p>Only in rare circumstances would you not want to host your repository remotely, so we will take an easy path toward creating a repository using GitHub. Prior to the bootcamp, you all should have set up a GitHub account. Log in to GitHub. In the upper right corner of the page, click on the "<strong><code>+</code></strong>" icon and select "New repository." You will then get a page that looks like this:</p>
 <p><img src="github2.png" alt="github2.png"></p>
-<p>I called the new repository <code>bootcamp_utils</code>, and gave a little description. You can choose the repository to be either private of public; if you are not an academic, you have to pay for private repositories. Public repositories can be viewed by anyone. I will choose public for this one.</p>
+<p>I called the new repository <code>jb_bootcamp</code> (yours will obviously have your own initials, and you can substitute them for <code>jb</code> wherever you see that in this lesson), and gave a little description. You can choose the repository to be either private of public; if you are not an academic, you have to pay for private repositories. Public repositories can be viewed by anyone. I will choose public for this one.</p>
 <p>I have checked the box to initialized the repository with a README. This is convenient because GitHub will set up the repository and populate it with a README file that you can generate right in your browser. I also selected to add a Python <code>.gitignore</code>, which is convenient for keeping your version control clean (more on that <a href="#.gitignore">later</a>). Finally, I chose an MIT license, which is a liberal license that will let others use your code if they would like to.</p>
 <p>After clicking "Create repository," you will get a page that looks like this:</p>
 <p><img src="github3.png" alt="github3.png"></p>
@@ -15131,7 +15131,7 @@ git merge FETCH_HEAD
 <pre><code>git clone the_url_you_just_copied
 
 </code></pre>
-<p>If you now <code>cd</code> into the <code>bootcamp_utils</code> directory, you can see the <code>README.md</code> and <code>LICENSE</code> files there.</p>
+<p>If you now <code>cd</code> into the <code>jb_bootcamp</code> directory, you can see the <code>README.md</code> and <code>LICENSE</code> files there.</p>
 
 </div>
 </div>
@@ -15140,15 +15140,15 @@ git merge FETCH_HEAD
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Adding-files-to-your-repository">Adding files to your repository<a class="anchor-link" href="#Adding-files-to-your-repository">&#182;</a></h2><p>Now, let's update the repository. We will add the package we built in the last lesson. To do this, copy the contents of the <code>~/git/bootcamp/modules/bootcamp_utils/</code> directory and into the <code>~/git/bootcamp_utils/</code> directory. On my machine, this is accomplished by:</p>
+<h2 id="Adding-files-to-your-repository">Adding files to your repository<a class="anchor-link" href="#Adding-files-to-your-repository">&#182;</a></h2><p>Now, let's update the repository. We will add the package we built in the last lesson. Conveniently, I already included its contents in the directory <code>~/git/bootcamp/modules/jb_bootcamp/</code>. Copy the contents of the <code>~/git/bootcamp/modules/jb_bootcamp/</code> directory and into the <code>~/git/jb_bootcamp/</code> directory. On my machine, this is accomplished by:</p>
 
-<pre><code>cd ~/git/bootcamp/modules/bootcamp_utils/
-cp -r * ~/git/bootcamp_utils/
+<pre><code>cd ~/git/bootcamp/modules/jb_bootcamp/
+cp -r * ~/git/jb_bootcamp/
 
 </code></pre>
-<p>This instructs the operating system to copy all of the contents of <code>~/git/bootcamp/modules/bootcamp_utils/</code> to your new repository. (The <code>*</code> is a <strong>wildcard character</strong>, which means every file in this case.) We verify that it is there by <code>cd</code>-ing into the new repository and typing <code>ls</code>.</p>
+<p>This instructs the operating system to copy all of the contents of <code>~/git/bootcamp/modules/jb_bootcamp/</code> to your new repository. (The <code>*</code> is a <strong>wildcard character</strong>, which means every file in this case.) We verify that it is there by <code>cd</code>-ing into the new repository and typing <code>ls</code>.</p>
 
-<pre><code>cd ~/git/bootcamp_utils/
+<pre><code>cd ~/git/jb_bootcamp/
 ls
 
 </code></pre>
@@ -15160,7 +15160,7 @@ ls
 <p>The output looks like this:</p>
 
 <pre><code>On branch master
-Your branch is up to date with 'origin/master'.
+Your branch is up-to-date with 'origin/master'.
 
 Changes not staged for commit:
   (use "git add &lt;file&gt;..." to update what will be committed)
@@ -15171,13 +15171,15 @@ Changes not staged for commit:
 Untracked files:
   (use "git add &lt;file&gt;..." to include in what will be committed)
 
-    bootcamp_utils/
+    jb_bootcamp/
     setup.py
 
 no changes added to commit (use "git add" and/or "git commit -a")</code></pre>
-<p>It tells us that because we copied over the <code>README.md</code>, the <code>README.md</code> file that was in the repository when you created it on GitHub has been modified. It further says that the contents of the directory <code>bootcamp_utils/</code> and the file <code>setup.py</code> are not under version control, even though they exist in the directory that is under version control. We need to explicitly tell Git which files need to be tracked. We also need to tell it that we want to add the modified <code>README.md</code> file to the repository. We do this using the <code>git add</code> command.</p>
+<p>It tells us that because we copied over the <code>README.md</code>, the <code>README.md</code> file that was in the repository when you created it on GitHub has been modified. It further says that the contents of the directory <code>jb_bootcamp/</code> and the file <code>setup.py</code> are not under version control, even though they exist in the directory that is under version control.</p>
+<p>Before proceeding, you should change the files <code>setup.py</code> and <code>jb_bootcamp/__init__.py</code> to have your name, package name, contact information, etc., instead of mine.</p>
+<p>Now, we need to explicitly tell Git which files need to be tracked. We also need to tell it that we want to add the modified <code>README.md</code> file to the repository. We do this using the <code>git add</code> command.</p>
 
-<pre><code>git add bootcamp_utils
+<pre><code>git add jb_bootcamp
 git add setup.py
 git add README.md
 
@@ -15194,15 +15196,15 @@ git add README.md
 <h2 id="Committing-and-pushing-changes">Committing and pushing changes<a class="anchor-link" href="#Committing-and-pushing-changes">&#182;</a></h2><p>Now, if we type <code>git status</code>, we get updated information.</p>
 
 <pre><code>On branch master
-Your branch is up to date with 'origin/master'.
+Your branch is up-to-date with 'origin/master'.
 
 Changes to be committed:
   (use "git reset HEAD &lt;file&gt;..." to unstage)
 
     modified:   README.md
-    new file:   bootcamp_utils/__init__.py
-    new file:   bootcamp_utils/bioinfo_dicts.py
-    new file:   bootcamp_utils/na_utils.py
+    new file:   jb_bootcamp/__init__.py
+    new file:   jb_bootcamp/bioinfo_dicts.py
+    new file:   jb_bootcamp/na_utils.py
     new file:   setup.py</code></pre>
 <p>It tells use we have new files and a modified file. It says these are part of "Changes to be committed." A <strong>commit</strong> is essentially a revision of a repository. It marks a point in the development of the repository that you want to mark. So, let's commit the present state of the repository.</p>
 
@@ -15211,13 +15213,13 @@ Changes to be committed:
 </code></pre>
 <p>The <code>-m</code> after <code>git commit</code> specifies the <strong>commit message</strong>. This is a brief bit of text that describes what has changed in the repository. Upon committing, the something like the following is printed to the screen:</p>
 
-<pre><code>[master f99e0e2] Initial commit of bootcamp utilities.
+<pre><code>[master 27aba6d] Initial commit of bootcamp utilities.
  5 files changed, 120 insertions(+), 1 deletion(-)
- create mode 100644 bootcamp_utils/__init__.py
- create mode 100644 bootcamp_utils/bioinfo_dicts.py
- create mode 100644 bootcamp_utils/na_utils.py
+ create mode 100644 jb_bootcamp/__init__.py
+ create mode 100644 jb_bootcamp/bioinfo_dicts.py
+ create mode 100644 jb_bootcamp/na_utils.py
  create mode 100644 setup.py</code></pre>
-<p>The number <code>f99e0e2</code> (yours will be different) is the short version of the commit identifier. If you ever want to go back to a previous version of the repository, this identifier will be a great help.</p>
+<p>The number <code>27aba6d</code> (yours will be different) is the short version of the commit identifier. If you ever want to go back to a previous version of the repository, this identifier will be a great help.</p>
 <p>Now, the commit is still only on your local machine. In order for your collaborators (or the whole world, if it is a public repo) to have access to it (and in order for it to appear on GitHub), you need to <strong><code>push</code></strong> it. To do that, we do this:</p>
 
 <pre><code>git push origin master
@@ -15249,6 +15251,21 @@ Changes to be committed:
 </code></pre>
 <p>then <code>myfile.tif</code> will be under version control, even if other <code>.tif</code> files laying around are not. (<em>Note, though, that you typically do not want to have binary files under version control. You typically only keep code under control. Typically only data sets used to test code are included in the repository. Version control is not really for data, but for code.</em>)</p>
 <p>Finally, since it begins with a <code>.</code>. When you put a <code>.gitignore</code> file in a directory,  the <code>.gitignore</code> file will not show up when you run <code>ls</code> at the command line without the <code>-a</code> flag.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Installing-your-package">Installing your package<a class="anchor-link" href="#Installing-your-package">&#182;</a></h2><p>To install your package, you use <code>pip</code>, which is a self-referential acronym <strong><code>P</code></strong><code>ip</code> <strong><code>I</code></strong><code>nstalls</code> <strong><code>P</code></strong><code>ackages</code>. To install a your package, make sure you are in the directory immediately above your package, in this case <code>~/git</code>. Then, do the following on the command line.</p>
+
+<pre><code>pip install -e jb_bootcamp
+
+</code></pre>
+<p>The <code>-e</code> flag is important, which tells <code>pip</code> that this is a local, editable package.</p>
+<p>Your package is now accessible on your machine whenever you run the Python interpreter!</p>
 
 </div>
 </div>
