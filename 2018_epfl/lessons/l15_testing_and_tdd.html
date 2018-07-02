@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>l16_file_io</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>l15_testing_and_tdd</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -14985,11 +14985,30 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-16:-File-I/O">Lesson 16: File I/O<a class="anchor-link" href="#Lesson-16:-File-I/O">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-15:-Testing-and-test-driven-development">Lesson 15: Testing and test-driven development<a class="anchor-link" href="#Lesson-15:-Testing-and-test-driven-development">&#182;</a></h1><p>(c) 2018 Justin Bois and Davi Ortega. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l16_file_io.ipynb">here</a>.</em></p>
+<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l15_testing_and_tdd.ipynb">here</a>.</em></p>
 <p><br /> <br /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Test-driven development</strong>, or <strong>TDD</strong>, is a paradigm for developing software.  The idea is that a programmer thinks about a design specification for a bit of code, usually a function.  I.e., she lays out what the input and output should be.  She then writes a test (that will fail) for the bit of code.  She then writes or updates the code to pass the test.  She does this <strong>incrementally</strong> as she builds her code.  Let's try this by example.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="An-example-of-TDD">An example of TDD<a class="anchor-link" href="#An-example-of-TDD">&#182;</a></h2><p>We will write a function that computes the number of negatively charged residues in a protein.  In other words, we count up the number of glutamate (<code>E</code>) and aspartate (<code>D</code>) residues.</p>
+<p>We'll call the function <code>number_negatives()</code>, and will just make an empty function for now as a placeholder.</p>
 
 </div>
 </div>
@@ -14999,8 +15018,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The only module we need is os from the standard library</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
+    <span class="c1"># Do nothing for now</span>
+    <span class="k">pass</span>
 </pre></div>
 
 </div>
@@ -15012,16 +15034,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Reading data in from files and then writing your results out again is one of the most common practices in scientific computing.  In this tutorial, we will learn about some of Python's File I/O capabilities.  We will use a PDB file as an example.  The PDB file contains the crystal structure for the tetramerization domain of <a href="https://en.wikipedia.org/wiki/P53">p53</a>.  It is stored in the  file <code>~git/bootcamp/data/1OLG.pdb</code>. (Make sure you launch your notebook from the <code>~git/bootcamp/</code> directory.) Note that <code>1OLG</code> is its unique <a href="http://www.rcsb.org/pdb/explore/explore.do?structureId=1olg">Protein Databank</a> identifier.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="File-objects">File objects<a class="anchor-link" href="#File-objects">&#182;</a></h2><p>To open a file, we use the built-in <code>open()</code> function.  We'll invoke this function by example and look at its output.</p>
+<p>Now, we'll write a trivial test.  It is just a conditional expression stating the obvious: the number of negative charges in a sequence with a single <code>glutamate</code> should be <code>1</code>.</p>
 
 </div>
 </div>
@@ -15031,11 +15044,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Open file</span>
-<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
-
-<span class="c1"># What is f?</span>
-<span class="n">f</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
 </pre></div>
 
 </div>
@@ -15054,7 +15063,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;_io.TextIOWrapper name=&#39;data/1OLG.pdb&#39; mode=&#39;r&#39; encoding=&#39;UTF-8&#39;&gt;</pre>
+<pre>False</pre>
 </div>
 
 </div>
@@ -15067,66 +15076,9 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>So, <code>f</code> is some weird looking type.  It is a Python <code>file</code> object, which has methods and attributes, just like any other object.  We'll explore those in a moment, but first, let's look at how we opened the file.  The first argument to <code>open()</code> is a string that has the name of the file, with the full path if necessary.  The second argument is a string that says what we will be doing with the file.  I.e., are we reading or writing to the file?  The possible strings for this second argument are</p>
-<table>
-<thead><tr>
-<th style="text-align:left">string</th>
-<th style="text-align:left">meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>'r'</code></td>
-<td style="text-align:left">open a text file for reading</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>'w'</code></td>
-<td style="text-align:left">create and open a text file for writing</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>'a'</code></td>
-<td style="text-align:left">append an existing text file</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>'r+'</code></td>
-<td style="text-align:left">open a text file for reading and writing</td>
-</tr>
-<tr>
-<td style="text-align:left">append <code>'b'</code> to any of the above</td>
-<td style="text-align:left">same as above, except for binary files</td>
-</tr>
-</tbody>
-</table>
-<p>We will mostly be working with text files in the bootcamp, so the first three are the most useful.  A big warning, though....</p>
-<div class="alert alert-danger">
-<center>Trying to open an existing file with `'w'` will wipe it out and create a new file.</center>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Reading-data-out-of-the-file-with-file-object-methods">Reading data out of the file with file object methods<a class="anchor-link" href="#Reading-data-out-of-the-file-with-file-object-methods">&#182;</a></h3><p>Now, let's look at the file object.  You can type <code>f.</code> followed by tab to see its attributes and methods.  We will focus on the methods <code>f.read()</code> and <code>f.readlines()</code>.  What do they do?</p>
-<table>
-<thead><tr>
-<th style="text-align:left">method</th>
-<th style="text-align:left">task</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>f.read()</code></td>
-<td style="text-align:left">Read the entire contents of the file into a string</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>f.readlines()</code></td>
-<td style="text-align:left">Read the entire file into a list with each item being a string representing a line</td>
-</tr>
-</tbody>
-</table>
-<p>First, we'll try using the first method to get a single string with the entire contents of the file.</p>
+<p>It should have been <code>1</code>, but our function did not calculate that correctly, thus the <code>False</code> output. We failed the test! But before we focus on the test failure, let's think about what we just did.</p>
+<p>We defined the prototype for the function.  We know we want it to take in a sequence (a string) and return an integer.  So, in building the test, we have designed the interface for the function.</p>
+<p>Back to the test failure. We will now revisit the function to write it so that it will pass the test.</p>
 
 </div>
 </div>
@@ -15136,34 +15088,14 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Read file into string</span>
-<span class="n">f_str</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
 
-<span class="c1"># Let&#39;s look at the first 1000 characters</span>
-<span class="n">f_str</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span>
+    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[3]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \nTITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \nTITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \nCOMPND    MOL_ID: 1;                                                            \nCOMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);             \nCOMPND   3 CHAIN: A, B, C, D;                                                   \nCOMPND   4 ENGINEERED: YES                                                      \nSOURCE    MOL_ID: 1;                                                            \nSOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   \nSOURCE   3 ORGANISM_COMMON: HUMAN;                                              \nSOURCE   4 ORGANISM_TAXID: 9606                                                 \nKEYWDS    ANTI-ONCOGENE                                                         \nEXPDTA    SOLUTION NMR      &#39;</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -15172,8 +15104,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We see lots of <code>\n</code>, which signifies a new line.  The backslash is known as an <strong>escape character</strong>, meaning that the <code>n</code> after it does not signify the letter n, but that <code>\n</code> together means a new line.</p>
-<p>Now, let's try reading it in as a list.</p>
+<p>We'll try out test again.</p>
 
 </div>
 </div>
@@ -15183,11 +15114,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Read contents of the file in as a list</span>
-<span class="n">f_list</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-
-<span class="c1"># Look at the list</span>
-<span class="n">f_list</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
 </pre></div>
 
 </div>
@@ -15206,7 +15133,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[]</pre>
+<pre>True</pre>
 </div>
 
 </div>
@@ -15219,7 +15146,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Wait a minute!  I got an empty list!  That is because you can only scan through a file object once without "rewinding."  To rewind, we use the <code>f.seek()</code> method.  This method takes an argument of which byte you want to go to as you are reading the file.  To go to the beginning, we do <code>f.seek(0)</code>.  Let's try again.</p>
+<p>Hurray!  We passed our first test.  Now, lets write some more test based on what we expect from this function.</p>
 
 </div>
 </div>
@@ -15229,14 +15156,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Go to the beginning of the file</span>
-<span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># Read the contents in as a list</span>
-<span class="n">f_list</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-
-<span class="c1"># Check out the first 10 entries</span>
-<span class="n">f_list</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15249,24 +15173,17 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[5]:</div>
+<div class="prompt"></div>
 
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \n&#39;,
- &#39;TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \n&#39;,
- &#39;TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \n&#39;,
- &#39;COMPND    MOL_ID: 1;                                                            \n&#39;,
- &#39;COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);             \n&#39;,
- &#39;COMPND   3 CHAIN: A, B, C, D;                                                   \n&#39;,
- &#39;COMPND   4 ENGINEERED: YES                                                      \n&#39;,
- &#39;SOURCE    MOL_ID: 1;                                                            \n&#39;,
- &#39;SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   \n&#39;,
- &#39;SOURCE   3 ORGANISM_COMMON: HUMAN;                                              \n&#39;]</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>True
+True
+True
+True
+True
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -15277,7 +15194,14 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We see that each entry is a line, including the newline character.  To look at lines in files, the <code>rstrip()</code> method for strings can come it handy.  It strips all whitespace, including newlines, from the end of a string.</p>
+<p>Our function appears to be working well.  But let's think carefully about how it could break. What if we input lowercase letters?  I.e., what would we want</p>
+
+<pre><code>number_negatives('acklwttae')
+
+</code></pre>
+<p>to return?  Should we allow lowercase inputs?</p>
+<p>This is an example where coming up with tests is how we define the interface of the function, or in other words, how the function should behave giving a range of inputs. Note that we weren't done designing it on the first pass!</p>
+<p>Moving on, let's say we want to allow lowercase symbols. But, before we mess with our function, let's write a test that defines the expected behavior.</p>
 
 </div>
 </div>
@@ -15287,7 +15211,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
 </pre></div>
 
 </div>
@@ -15306,49 +15230,6 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Much nicer!</p>
-<p>Now, for something <strong>very</strong> important.  Whenever we open a file, we must close it when we are done with it.  This is important because unexpected things can happen when the file is still open.  We can check to see if it is closed.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">closed</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[7]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
 <pre>False</pre>
 </div>
 
@@ -15362,7 +15243,36 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Ok, better close it!  We just use the <code>f.close()</code> method.</p>
+<p>We failed, as expected.  Now, back to the function. We will add a line to convert the input sequence to uppercase.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert sequence to upper case</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    
+    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's try the test again</p>
 
 </div>
 </div>
@@ -15372,10 +15282,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-<span class="c1"># Is it closed?</span>
-<span class="n">f</span><span class="o">.</span><span class="n">closed</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
 </pre></div>
 
 </div>
@@ -15407,8 +15314,67 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Using-context-managers-with-files">Using context managers with files<a class="anchor-link" href="#Using-context-managers-with-files">&#182;</a></h3><p>Python has a wonderful keyword, <strong><code>with</code></strong>.  This keyword enables <strong>context management</strong>.  Upon entry into a <strong><code>with</code></strong> block, variables have certain meaning.  Upon exit, certain operations take place.  For file objects created by opening them, the file is automatically closed upon exit, <strong>even if there is an error</strong>.  This is important.  If your program raises an exception before you have a chance to close the file, it won't get closed and you could be in trouble. If you use context management, the file will still get closed.</p>
-<p>Let's see how it works.</p>
+<p>Now that this passes, we need to make sure all the old tests also pass.  We have to make sure <em>everything</em> passes.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>True
+True
+True
+True
+True
+True
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Great!  This works now.</p>
+<p>You can see how the cycle proceeds. Right now we might be happy with our function, but use cases we have not thought of might creep up as we use the function in different contexts. For every unexpected behavior or bug you find, <em>write another test that covers it</em>. Importantly, <em>any time</em> you update your code, you need to run <em>all</em> of your tests to make sure the function is still performing in all cases after the update!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-assert-statement">The assert statement<a class="anchor-link" href="#The-assert-statement">&#182;</a></h2><p>In our example, we used a bunch of print statements to check our tests.  Conveniently, Python has a built-in way to do your tests using the <strong><code>assert</code></strong> keyword.  For example, our first test using <strong><code>assert</code></strong> is as follows.</p>
 
 </div>
 </div>
@@ -15418,82 +15384,19 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f_lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In the with block, is the file closed?&#39;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">closed</span><span class="p">)</span>
-    
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Out of the with block, is the file closed?&#39;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">closed</span><span class="p">)</span>
-
-<span class="c1"># Check the first three lines</span>
-<span class="nb">print</span><span class="p">()</span>
-<span class="n">f_lines</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>In the with block, is the file closed? False
-Out of the with block, is the file closed? True
-
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[10]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \n&#39;,
- &#39;TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \n&#39;,
- &#39;TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \n&#39;]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The syntax is almost like English.  We do what is written in the <strong><code>with</code></strong> block with an open file object that we will name <code>f</code>.</p>
-<p>The results look good!  In general, you should use context management when working with files.  It keeps you out of trouble with open files.  And it is much cleaner.  This is worth making official:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="alert alert-info">
-<center>Use context management using **`with`** when working with files.</center>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Reading-line-by-line">Reading line-by-line<a class="anchor-link" href="#Reading-line-by-line">&#182;</a></h3><p>What if we do not want to read the entire file into a list?  For example, if a file is several gigabytes, we do not want to spend all of our RAM storing a list.  Instead, we can read it line-by-line.  Conveniently, the file object can be used as an iterator.</p>
+<p>This ran without issue.  Now, let's try asserting something we know will fail.</p>
 
 </div>
 </div>
@@ -15503,275 +15406,7 @@ Out of the with block, is the file closed? True
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print the first ten lines of the file</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
-            <span class="k">break</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG
-TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION
-TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR
-COMPND    MOL_ID: 1;
-COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);
-COMPND   3 CHAIN: A, B, C, D;
-COMPND   4 ENGINEERED: YES
-SOURCE    MOL_ID: 1;
-SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;
-SOURCE   3 ORGANISM_COMMON: HUMAN;
-SOURCE   4 ORGANISM_TAXID: 9606
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Alternatively, we can use the method <code>f.readline()</code> to read a single line in the file and return it as a string.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print the first ten lines of the file</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
-        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG
-TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION
-TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR
-COMPND    MOL_ID: 1;
-COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);
-COMPND   3 CHAIN: A, B, C, D;
-COMPND   4 ENGINEERED: YES
-SOURCE    MOL_ID: 1;
-SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;
-SOURCE   3 ORGANISM_COMMON: HUMAN;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Writing-to-a-file">Writing to a file<a class="anchor-link" href="#Writing-to-a-file">&#182;</a></h2><p>Writing to a file has similar syntax.  We already saw how to open a file for writing.  Again, context management is useful.  However, before trying to open a file, we should check to make sure a file of the same name does not exist before opening it.  The <code>os.path</code> module is useful.  The function <code>os.path.isfile()</code> function checks to see if a file exists.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[13]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>So, now we're ready to open a file to write.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;mastery.txt&#39;</span><span class="p">):</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;File mastery.txt already exists.&#39;</span><span class="p">)</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;mastery.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;This is my file.&#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;There are many like it, but this one is mine.&#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;I must master my file like I must master my life.&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that we can use the <code>f.write()</code> method to write strings to a file.  Let's look at the file contents.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>cat mastery.txt
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>This is my file.There are many like it, but this one is mine.I must master my file like I must master my life.</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Ah!  There are no newlines!  When writing to a file, unlike when you use the <code>print()</code> function, you must include the newline characters.  Let's try again, intentionally obliterating our first attempt.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;mastery.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;This is my file.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;There are many like it, but this one is mine.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;I must master my file like I must master my life.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    
-<span class="o">!</span>cat mastery.txt
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>This is my file.
-There are many like it, but this one is mine.
-I must master my file like I must master my life.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>That's better.  Note also that <code>f.write()</code> <strong>only</strong> takes strings as arguments.  You cannot pass numbers.  They must be converted to strings first.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># This will result in an exception</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;gimme_phi.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;The golden ratio is φ = &#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mf">1.61803398875</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
 </pre></div>
 
 </div>
@@ -15790,13 +15425,11 @@ I must master my file like I must master my life.
 <div class="output_subarea output_text output_error">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-17-9265e8a96772&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">with</span> open<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;gimme_phi.txt&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;w&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> f<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span>     f<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;The golden ratio is φ = &#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg">     </span>f<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1.61803398875</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-11-00481010d899&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">assert</span> number_negatives<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;E&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">2</span>
 
-<span class="ansi-red-fg">TypeError</span>: write() argument must be str, not float</pre>
+<span class="ansi-red-fg">AssertionError</span>: </pre>
 </div>
 </div>
 
@@ -15808,7 +15441,257 @@ I must master my file like I must master my life.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Yup.  It must be a string.  Let's try again.</p>
+<p>We get an <code>AssertionError</code>, indicating that our assertion failed.  We can even append the <strong><code>assert</code></strong> statement with a comment describing the error.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Failed on sequence of length 1&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-12-5e254ff6a8dd&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">assert</span> number_negatives<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;E&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;Failed on sequence of length 1&#39;</span>
+
+<span class="ansi-red-fg">AssertionError</span>: Failed on sequence of length 1</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, we see the basic syntax of <strong><code>assert</code></strong> statements.  After <strong><code>assert</code></strong>, we have a conditional expression that evaluates to <code>True</code> or <code>False</code>.  If it evaluates <code>False</code>, an <code>AssertionError</code> is raised, meaning that the test was failed.  Optionally, the conditional expression can be followed with a comma and a string that describes how it failed.  So, we could write all of our tests together as a series of assertions.  Actually, it would be best to write a <em>function</em> that does all the testing.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_number_negatives</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negatives.&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+
+
+<span class="c1"># Run all the tests</span>
+<span class="n">test_number_negatives</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Excellent!  Everything passed!</p>
+<p>It might be a little <strong>underwhelming</strong> that Python exits silently when all our tests pass. Fortunately, someone else felt that way too and implemented a testing tool that is more into positive reinforcement.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Introducing--pytest">Introducing  pytest<a class="anchor-link" href="#Introducing--pytest">&#182;</a></h2><p>The <code>pytest</code> (a.k.a. <code>py.test</code>) module comes with a standard Anaconda installation and is useful tool for automating our testing.  It gives detailed feedback on tests and you can read its documentation <a href="http://pytest.org">here</a>.</p>
+<p>The <code>unittest</code> module from the standard library and <code>nose</code> are two other major testing packages for Python.  All three are in common usage.  We use <code>pytest</code> here because I think it is the easiest to use and understand.</p>
+<p>Pytest is not only a module but also a command line application that searches for tests in your code, runs them and let you know if they fail, and if they pass; finally some positive reinforcement.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Using-pytest">Using pytest<a class="anchor-link" href="#Using-pytest">&#182;</a></h3><p>To take the most advantage of pytest, we should take a step back and write the functions we have been working with in this lesson to a <code>.py</code> file. Using the Jupyter Lab text editor, we'll write <code>seq_features_and_tests.py</code>. Copy the following in the text editor.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert sequence to upper case</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_number_negatives</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on n_neg.&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+<p>Now, pytest makes it easy to verify if all these tests pass or not:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pytest seq_features_and_tests.py
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.6.5, pytest-3.6.0, py-1.5.3, pluggy-0.6.0
+rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2018/lessons, inifile:
+plugins: remotedata-0.3.0, openfiles-0.3.0, doctestplus-0.1.3, arraydiff-0.2, hypothesis-3.57.0
+collected 1 item                                                               
+
+seq_features_and_tests.py .<span class="ansi-cyan-fg">                                              [100%]</span>
+
+<span class="ansi-green-intense-fg ansi-bold">=========================== 1 passed in 0.03 seconds ===========================</span>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can try the option <strong><code>-v</code></strong> for even more sugar.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pytest -v seq_features_and_tests.py
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.6.5, pytest-3.6.0, py-1.5.3, pluggy-0.6.0 -- /Users/bois/anaconda3/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2018/lessons, inifile:
+plugins: remotedata-0.3.0, openfiles-0.3.0, doctestplus-0.1.3, arraydiff-0.2, hypothesis-3.57.0
+collected 1 item                                                               
+
+seq_features_and_tests.py::test_number_negatives <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">                  [100%]</span>
+
+<span class="ansi-green-intense-fg ansi-bold">=========================== 1 passed in 0.01 seconds ===========================</span>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Separating-tests-in-functional-units">Separating tests in functional units<a class="anchor-link" href="#Separating-tests-in-functional-units">&#182;</a></h4><p>In more complicated set of tests, it is a good idea to separate the tests by meaningful functional units, so when something breaks, we can easily find the problem and fix it.</p>
+<p><code>pytest</code> allows us to build multiple test functions with different names that indicates what they are testing. For example, let's change the content of the file <code>seq_feature_and_tests.py</code> to this:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert sequence to upper case</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_number_negatives_for_single_AA</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for single AA&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">test_number_negatives_for_empty</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for empty entry&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">test_number_negatives_for_short_sequence</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for short sequence&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
+
+<span class="k">def</span> <span class="nf">test_number_negatives_for_lowercase</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for lowercase&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+<p>and let's run it again without <code>-v</code> and with.</p>
 
 </div>
 </div>
@@ -15818,11 +15701,7 @@ I must master my file like I must master my life.
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;gimme_phi.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;The golden ratio is φ = &#39;</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{phi:.8f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phi</span><span class="o">=</span><span class="mf">1.61803398875</span><span class="p">))</span>
-
-<span class="o">!</span>cat gimme_phi.txt
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pytest seq_features_and_tests.py
 </pre></div>
 
 </div>
@@ -15839,7 +15718,16 @@ I must master my file like I must master my life.
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>The golden ratio is φ = 1.61803399</pre>
+<pre><span class="ansi-bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.6.5, pytest-3.6.0, py-1.5.3, pluggy-0.6.0
+rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2018/lessons, inifile:
+plugins: remotedata-0.3.0, openfiles-0.3.0, doctestplus-0.1.3, arraydiff-0.2, hypothesis-3.57.0
+collected 4 items                                                              
+
+seq_features_and_tests.py ....<span class="ansi-cyan-fg">                                           [100%]</span>
+
+<span class="ansi-green-intense-fg ansi-bold">=========================== 4 passed in 0.05 seconds ===========================</span>
+</pre>
 </div>
 </div>
 
@@ -15851,18 +15739,7 @@ I must master my file like I must master my life.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>That works!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="An-exercise:-extract-atomic-coordinates-for-first-chain-in-tetramer">An exercise: extract atomic coordinates for first chain in tetramer<a class="anchor-link" href="#An-exercise:-extract-atomic-coordinates-for-first-chain-in-tetramer">&#182;</a></h2><p>As an example on how to do file I/O, we will take the PDB file and extract only the <code>ATOM</code> records for the first chain of the tetramer and write only those entries to a new file.</p>
-<p>It is useful to know that according to the <a href="http://www.wwpdb.org/documentation/file-format-content/format33/sect9.html#ATOM">PDB format specification</a>, column 21 in the <code>ATOM</code> entry gives the ID of the chain.</p>
-<p>We also conveniently use the fact that we can have multiple files open in our <strong><code>with</code></strong> block, separating them with commas.</p>
+<p>Look! Four dots instead of 1. And when we run it with the <code>-v</code> flag, it lists all four tests.</p>
 
 </div>
 </div>
@@ -15872,14 +15749,40 @@ I must master my file like I must master my life.
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;atoms_chain_A.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
-    <span class="c1"># Put the ATOM lines from chain A in new file</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">21</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ATOM&#39;</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span>
-            <span class="n">f_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pytest -v seq_features_and_tests.py
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.6.5, pytest-3.6.0, py-1.5.3, pluggy-0.6.0 -- /Users/bois/anaconda3/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2018/lessons, inifile:
+plugins: remotedata-0.3.0, openfiles-0.3.0, doctestplus-0.1.3, arraydiff-0.2, hypothesis-3.57.0
+collected 4 items                                                              
+
+seq_features_and_tests.py::test_number_negatives_for_single_AA <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">    [ 25%]</span>
+seq_features_and_tests.py::test_number_negatives_for_empty <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">        [ 50%]</span>
+seq_features_and_tests.py::test_number_negatives_for_short_sequence <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg"> [ 75%]</span>
+seq_features_and_tests.py::test_number_negatives_for_lowercase <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">    [100%]</span>
+
+<span class="ansi-green-intense-fg ansi-bold">=========================== 4 passed in 0.01 seconds ===========================</span>
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -15888,7 +15791,47 @@ I must master my file like I must master my life.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's see how we did!</p>
+<h3 id="pytest-is-smart">pytest is smart<a class="anchor-link" href="#pytest-is-smart">&#182;</a></h3><p>Pytest is such a smart application that you don't even need to tell it explicitly which file it should look at. By default, pytest will search for files starting with <code>test_</code> and ending with <code>.py</code> in the whole directory tree.</p>
+<p>Also, for the sake of clarity, let's separate our functions from our code. So let's make another file, named <code>test_seq_features.py</code> and place just the functions with the assert statements. You can delete them now from the <code>seq_features_and_tests.py</code> and rename that file to <code>seq_features.py</code>.</p>
+<p>The directory should have now these two files:</p>
+<p><code>seq_features.py</code></p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">number_negatives</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of negative residues a protein sequence&quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert sequence to upper case</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="c1"># Count E&#39;s and D&#39;s, since these are the negative residues</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+</pre></div>
+<p>and</p>
+<p><code>test_seq_features.py</code></p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seq_features</span>
+
+<span class="k">def</span> <span class="nf">test_number_negatives_single_E_or_D</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for single AA&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">test_number_negatives_for_empty</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for empty entry&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">test_number_negatives_for_short_sequences</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for short sequence&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;ACKLWTTAE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;DDDDEEEE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
+
+<span class="k">def</span> <span class="nf">test_number_negatives_for_lowercase</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Perform unit tests on number_negative for lowercase&quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">seq_features</span><span class="o">.</span><span class="n">number_negatives</span><span class="p">(</span><span class="s1">&#39;acklwttae&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+<p>Note that because the <code>number_negatives()</code> function is in a different file than the tests, we must import the <code>seq_features</code> module in the file with tests.</p>
+<p>Now you can run the test as:</p>
 
 </div>
 </div>
@@ -15898,7 +15841,7 @@ I must master my file like I must master my life.
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>head -10 atoms_chain_A.txt
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pytest -v
 </pre></div>
 
 </div>
@@ -15915,56 +15858,19 @@ I must master my file like I must master my life.
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>ATOM      1  N   LYS A 319      18.634  25.437  10.685  1.00  4.81           N  
-ATOM      2  CA  LYS A 319      17.984  25.295   9.354  1.00  4.32           C  
-ATOM      3  C   LYS A 319      18.160  23.876   8.818  1.00  3.74           C  
-ATOM      4  O   LYS A 319      19.259  23.441   8.537  1.00  3.67           O  
-ATOM      5  CB  LYS A 319      18.609  26.282   8.371  1.00  4.67           C  
-ATOM      6  CG  LYS A 319      18.003  26.056   6.986  1.00  5.15           C  
-ATOM      7  CD  LYS A 319      16.476  26.057   7.091  1.00  5.90           C  
-ATOM      8  CE  LYS A 319      16.014  27.341   7.784  1.00  6.51           C  
-ATOM      9  NZ  LYS A 319      16.388  28.518   6.952  1.00  7.33           N  
-ATOM     10  H1  LYS A 319      18.414  24.606  11.281  1.00  5.09           H  
-</pre>
-</div>
-</div>
+<pre><span class="ansi-bold">============================= test session starts ==============================</span>
+platform darwin -- Python 3.6.5, pytest-3.6.0, py-1.5.3, pluggy-0.6.0 -- /Users/bois/anaconda3/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2018/lessons, inifile:
+plugins: remotedata-0.3.0, openfiles-0.3.0, doctestplus-0.1.3, arraydiff-0.2, hypothesis-3.57.0
+collected 4 items                                                              
 
-</div>
-</div>
+test_seq_features.py::test_number_negatives_single_E_or_D <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">         [ 25%]</span>
+test_seq_features.py::test_number_negatives_for_empty <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">             [ 50%]</span>
+test_seq_features.py::test_number_negatives_for_short_sequences <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">   [ 75%]</span>
+test_seq_features.py::test_number_negatives_for_lowercase <span class="ansi-green-fg">PASSED</span><span class="ansi-cyan-fg">         [100%]</span>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>tail -10 atoms_chain_A.txt
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>ATOM    689  HD2 PRO A 359       0.183  25.663  13.542  1.00  4.71           H  
-ATOM    690  HD3 PRO A 359       0.246  23.956  13.062  1.00  4.53           H  
-ATOM    691  N   GLY A 360      -3.984  26.791  10.832  1.00  5.45           N  
-ATOM    692  CA  GLY A 360      -4.489  28.138  10.445  1.00  5.95           C  
-ATOM    693  C   GLY A 360      -5.981  28.236  10.765  1.00  6.77           C  
-ATOM    694  O   GLY A 360      -6.401  27.621  11.732  1.00  7.24           O  
-ATOM    695  OXT GLY A 360      -6.679  28.924  10.039  1.00  7.15           O  
-ATOM    696  H   GLY A 360      -4.589  26.020  10.828  1.00  5.72           H  
-ATOM    697  HA2 GLY A 360      -3.950  28.896  10.995  1.00  5.99           H  
-ATOM    698  HA3 GLY A 360      -4.341  28.288   9.386  1.00  6.05           H  
+<span class="ansi-green-intense-fg ansi-bold">=========================== 4 passed in 0.20 seconds ===========================</span>
 </pre>
 </div>
 </div>
@@ -15977,7 +15883,9 @@ ATOM    698  HA3 GLY A 360      -4.341  28.288   9.386  1.00  6.05           H
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Nice!</p>
+<p>The obvious thing to do next is to test some other cases. Think: what else could go wrong?
+What if there is an invalid residue in the sequence? How we expect our code to behave?</p>
+<p>These and other semi-existential questions will be addressed in the next lesson.</p>
 
 </div>
 </div>
