@@ -14999,8 +14999,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The only module we need is os from the standard library</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># os and glob are staples for File I/O stuff</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+
+<span class="kn">import</span> <span class="nn">bootcamp_utils</span>
 </pre></div>
 
 </div>
@@ -15667,6 +15670,33 @@ SOURCE   3 ORGANISM_COMMON: HUMAN;
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-13-4ef12a631dce&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">if</span> os<span class="ansi-blue-fg">.</span>path<span class="ansi-blue-fg">.</span>isfile<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;mastery.txt&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;File mastery.txt already exists.&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> 
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-green-fg">with</span> open<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;mastery.txt&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;w&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> f<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>     f<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;This is my file.&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">RuntimeError</span>: File mastery.txt already exists.</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
@@ -15699,7 +15729,10 @@ SOURCE   3 ORGANISM_COMMON: HUMAN;
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>This is my file.There are many like it, but this one is mine.I must master my file like I must master my life.</pre>
+<pre>This is my file.
+There are many like it, but this one is mine.
+I must master my file like I must master my life.
+</pre>
 </div>
 </div>
 
@@ -15981,6 +16014,134 @@ ATOM    698  HA3 GLY A 360      -4.341  28.288   9.386  1.00  6.05           H
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Finding-files-and-with-glob">Finding files and with glob<a class="anchor-link" href="#Finding-files-and-with-glob">&#182;</a></h2><p>In the above snippet of code, we extracted all atom records from a PDB file. We might want to do this (or some other operation) for many files. For example, the directory <code>~/git/data/</code> has four PDB files in it. For the present discussion, let's say we want to pull the sequence of chain A out of each PDB file.</p>
+<p>The <code>glob</code> module from the standard library enables us to get a list of all files that match a pattern. In our case, we want all files matching <code>data/*.pdb</code>, where <code>*</code> is a <strong>wild card character</strong>, meaning that any matches of characters where <code>*</code> appears are allowed. Let's see what <code>glob.glob()</code> gives us.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">file_list</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;data/*.pdb&#39;</span><span class="p">)</span>
+
+<span class="n">file_list</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[21]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;data/1OLG.pdb&#39;, &#39;data/1J6Z.pdb&#39;, &#39;data/1FAG.pdb&#39;, &#39;data/2ERK.pdb&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have the four PDB files. We can now loop over them and pull out the sequences.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Dictionary to hold sequences</span>
+<span class="n">seqs</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># Loop through all matching files</span>
+<span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+    <span class="c1"># Extract PDB ID</span>
+    <span class="n">pdb_id</span> <span class="o">=</span> <span class="n">file_name</span><span class="p">[</span><span class="n">file_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">file_name</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)]</span>
+    
+    <span class="c1"># Initialize sequence string, which we build as we go along</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">11</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;SEQRES&#39;</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span>
+                <span class="n">seq</span> <span class="o">+=</span> <span class="n">line</span><span class="p">[</span><span class="mi">19</span><span class="p">:]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+
+    <span class="c1"># Build sequence with dash-joined three letter codes</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+
+    <span class="c1"># Store in the dictionary</span>
+    <span class="n">seqs</span><span class="p">[</span><span class="n">pdb_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">seq</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's take a look at what we got! We'll look at actin.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seqs</span><span class="p">[</span><span class="s1">&#39;1J6Z&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[23]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;ASP-GLU-ASP-GLU-THR-THR-ALA-LEU-VAL-CYS-ASP-ASN-GLY-SER-GLY-LEU-VAL-LYS-ALA-GLY-PHE-ALA-GLY-ASP-ASP-ALA-PRO-ARG-ALA-VAL-PHE-PRO-SER-ILE-VAL-GLY-ARG-PRO-ARG-HIS-GLN-GLY-VAL-MET-VAL-GLY-MET-GLY-GLN-LYS-ASP-SER-TYR-VAL-GLY-ASP-GLU-ALA-GLN-SER-LYS-ARG-GLY-ILE-LEU-THR-LEU-LYS-TYR-PRO-ILE-GLU-HIC-GLY-ILE-ILE-THR-ASN-TRP-ASP-ASP-MET-GLU-LYS-ILE-TRP-HIS-HIS-THR-PHE-TYR-ASN-GLU-LEU-ARG-VAL-ALA-PRO-GLU-GLU-HIS-PRO-THR-LEU-LEU-THR-GLU-ALA-PRO-LEU-ASN-PRO-LYS-ALA-ASN-ARG-GLU-LYS-MET-THR-GLN-ILE-MET-PHE-GLU-THR-PHE-ASN-VAL-PRO-ALA-MET-TYR-VAL-ALA-ILE-GLN-ALA-VAL-LEU-SER-LEU-TYR-ALA-SER-GLY-ARG-THR-THR-GLY-ILE-VAL-LEU-ASP-SER-GLY-ASP-GLY-VAL-THR-HIS-ASN-VAL-PRO-ILE-TYR-GLU-GLY-TYR-ALA-LEU-PRO-HIS-ALA-ILE-MET-ARG-LEU-ASP-LEU-ALA-GLY-ARG-ASP-LEU-THR-ASP-TYR-LEU-MET-LYS-ILE-LEU-THR-GLU-ARG-GLY-TYR-SER-PHE-VAL-THR-THR-ALA-GLU-ARG-GLU-ILE-VAL-ARG-ASP-ILE-LYS-GLU-LYS-LEU-CYS-TYR-VAL-ALA-LEU-ASP-PHE-GLU-ASN-GLU-MET-ALA-THR-ALA-ALA-SER-SER-SER-SER-LEU-GLU-LYS-SER-TYR-GLU-LEU-PRO-ASP-GLY-GLN-VAL-ILE-THR-ILE-GLY-ASN-GLU-ARG-PHE-ARG-CYS-PRO-GLU-THR-LEU-PHE-GLN-PRO-SER-PHE-ILE-GLY-MET-GLU-SER-ALA-GLY-ILE-HIS-GLU-THR-THR-TYR-ASN-SER-ILE-MET-LYS-CYS-ASP-ILE-ASP-ILE-ARG-LYS-ASP-LEU-TYR-ALA-ASN-ASN-VAL-MET-SER-GLY-GLY-THR-THR-MET-TYR-PRO-GLY-ILE-ALA-ASP-ARG-MET-GLN-LYS-GLU-ILE-THR-ALA-LEU-ALA-PRO-SER-THR-MET-LYS-ILE-LYS-ILE-ILE-ALA-PRO-PRO-GLU-ARG-LYS-TYR-SER-VAL-TRP-ILE-GLY-GLY-SER-ILE-LEU-ALA-SER-LEU-SER-THR-PHE-GLN-GLN-MET-TRP-ILE-THR-LYS-GLN-GLU-TYR-ASP-GLU-ALA-GLY-PRO-SER-ILE-VAL-HIS-ARG-LYS-CYS-PHE&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
     </div>
   </div>
