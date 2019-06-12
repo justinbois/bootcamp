@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>l00_configuring_your_computer</title>
+<title>l12_version_control_with_git</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13128,12 +13128,12 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-0:-Configuring-your-computer">Lesson 0: Configuring your computer<a class="anchor-link" href="#Lesson-0:-Configuring-your-computer">&#182;</a></h1><p>(c) 2019 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-12:-Version-control-with-Git">Lesson 12: Version control with Git<a class="anchor-link" href="#Lesson-12:-Version-control-with-Git">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<p>Parts of this lesson are based on a <a href="http://swcarpentry.github.io/git-novice/">similar lesson from Software Carpentry</a>, itself also licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l00_configuring_your_computer.ipynb">here</a>.</em></p>
-<p><hr/>
-<br /></p>
+<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l12_version_control_with_git.ipynb">here</a>.</em></p>
+<p><br /> <br /></p>
 
 </div>
 </div>
@@ -13141,79 +13141,19 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this lesson, you will set up a Python computing environment for scientific computing. There are two main ways people set up Python for scientific computing.</p>
-<ol>
-<li>By downloading and installing package by package with tools like <a href="https://help.ubuntu.com/community/AptGet/Howto">apt-get</a>, <a href="https://docs.python.org/3/installing/">pip</a>, etc.</li>
-<li>By downloading and installing a Python distribution that contains binaries of many of the scientific packages needed. The major distributions of these are <a href="https://www.anaconda.com">Anaconda</a> and <a href="https://www.enthought.com/product/canopy/">Enthought Canopy</a>. Both contain IDEs.</li>
-</ol>
-<p>In this class, we will use Anaconda, with its associated package manager, <code>conda</code>. It has become the de facto package manager/distribution for scientific use.</p>
-<p>Before we get rolling with the Anaconda distribution, we have some considerations and installations to get out of the way first.</p>
+<p>Keeping track of all of the changes in your project over time is good practice. How many times have you edited something in something you were writing and then wanted to go back and see what you had in the first place? Wouldn't it be great to know what changes you made and when you made them?</p>
+<p>A <strong>version control system</strong> facilitates this process of keeping track of changes over time. Beyond that, it allows multiple people to collaborate and work on parts of the same project simultaneously.</p>
+<p>There are many version control systems. The four most prominent, in order of age, oldest to youngest, are CVS, Subversion, Git, and Mercurial (the first version of Git was released about two weeks before Mercurial, so they are really the same age). Today, Git dominates.</p>
+<p>Git was developed by <a href="https://en.wikipedia.org/wiki/Linus_Torvalds">Linus Torvalds</a>, the person who developed the Linux operating system. He named Linux after himself, and he decided to also name Git after himself ("git" is British slang for a stupid person). Try typing</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="macOS-users:-Install-XCode">macOS users: Install XCode<a class="anchor-link" href="#macOS-users:-Install-XCode">&#182;</a></h2><p>If you are using macOS, you should install <a href="https://developer.apple.com/xcode/">XCode</a>, if you haven't already. It's a large piece of software, taking up about 5GB on your hard drive, so make sure you have enough space. Please install this ahead of the bootcamp, since if students install this during the bootcamp, it will overwhelm the wireless. You can install it through the App Store.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Windows-users:-Install-Git-and-Chrome-or-Firefox">Windows users: Install Git and Chrome or Firefox<a class="anchor-link" href="#Windows-users:-Install-Git-and-Chrome-or-Firefox">&#182;</a></h2><p>We will be using <a href="https://jupyterlab.readthedocs.io/en/stable/">JupyterLab</a> in the bootcamp. It is browser-based, and Chrome, Firefox, and Safari are supported. Internet Explorer is <strong>not</strong>. Therefore, if you are a Windows user, you need to be sure you have either Chrome of Firefox installed.</p>
-<p>Git is installed on Macs with XCode. For Windows users, you need to install Git. You can do this by following the instructions <a href="https://gitforwindows.org">here</a>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Downloading-and-installing-Anaconda">Downloading and installing Anaconda<a class="anchor-link" href="#Downloading-and-installing-Anaconda">&#182;</a></h2><p>Downloading and installing Anaconda is simple.</p>
-<ol>
-<li>Go to the <a href="https://www.anaconda.com/distribution/">Anaconda distribution homepage</a> and download the graphical installer.  </li>
-<li>Be sure to download Anaconda for Python 3.7 for the appropriate operating system.</li>
-<li>Follow the on-screen instructions for installation. When prompted, be sure to "Install for me only."</li>
-<li>You may be prompted for optional installations, like <a href="https://www.jetbrains.com/pycharm/">PyCharm</a>. You will not need these for the bootcamp.</li>
-</ol>
-<p>That's it!  After you do that, you will have a functioning Python distribution.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Launching-JupyterLab-and-a-terminal">Launching JupyterLab and a terminal<a class="anchor-link" href="#Launching-JupyterLab-and-a-terminal">&#182;</a></h2><p>After installing the Anaconda distribution, you should be able to launch the <strong>Anaconda Navigator</strong>. If you're using macOS, this is available in your <code>Applications</code> menu. If you are using Windows, you can do this from the Start menu. Launch Anaconda Navigator.</p>
-<p>We will be using JupyterLab throughout the bootcamp (more on that in <a href="l01_welcome.html">Lesson 1</a>). You should see an option to launch JupyterLab. When you do that, a new browser window or tab will open with JupyterLab running. Within the JupyterLab window, you will have the option to launch a notebook, a console, a terminal, or a text editor. We will use all of these during the bootcamp. For the updating and installation of necessary packages, click on <code>Terminal</code> to launch a terminal. You will get a terminal window (probably black) with a bash prompt. We refer to this text interface in the terminal as the <strong>command line</strong>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-conda-package-manager">The conda package manager<a class="anchor-link" href="#The-conda-package-manager">&#182;</a></h2><p>conda is a package manager for keeping all of your packages up-to-date.  It has plenty of functionality beyond our basic usage in class, which you can learn more about by reading the <a href="http://conda.pydata.org/docs/get-started.html">docs</a>.  We will primarily be using conda to install and update packages.</p>
-<p>conda works from the command line.  Now that you know how to get a command line prompt, you can start using conda.  The first thing we'll do is update conda itself.  To do this, enter the following on the command line:</p>
-
-<pre><code>conda update conda
+<pre><code>man git
 
 </code></pre>
-<p>You may get a deprecation warning, which you can ignore. If conda is out of date and needs to be updated, you will be prompted to perform the update.  Just type <code>y</code>, and the update will proceed.</p>
-<p>Now that conda is updated, we'll use it to see what packages are installed.  Type the following on the command line:</p>
-
-<pre><code>conda list
-
-</code></pre>
-<p>This gives a list of all packages and their versions that are installed.  Now, we'll update all packages, so type the following on the command line:</p>
-
-<pre><code>conda update --all
-
-</code></pre>
-<p>If anything is out of date, you will be prompted to perform the updates. (If everything is up to date, you will just see a list of all the installed packages.)  They may even be some downgrades.  This happens when there are package conflicts where one package requires an earlier version of another.  conda is very smart and figures all of this out for you, so you can almost always say "yes" (or "<code>y</code>") to conda when it prompts you.</p>
+<p>on the command line and read what the <code>NAME</code> of the software is.</p>
+<p>Using Git as a version control system allows communication with remote repositories such as <a href="http://github.com/">GitHub</a> or <a href="http://bitbucket.org">Bitbucket</a>. Both services provide university-affiliated people with a <code>.edu</code> email address with perks that include free private repositories. We will use GitHub for our bootcamp, and you should already have set up an account.</p>
+<p>Remote repositories are not only a great way for keeping your data safe. They are also an excellent tool for collaboration since Git allows multiple users to edit the shared files simultaneously and has a method to merge changes afterwards.  Public repositories can also serve as a vehicle to distribute code (or other files).</p>
+<p>You can find more information about Git <a href="https://git-scm.com/documentation">here</a>. It is well documented. Here is an <a href="https://education.github.com/git-cheat-sheet-education.pdf">excellent one-page (front-and-back) cheatsheet</a>.</p>
+<p>Let's get started. You all should have a version of Git installed on your computers. Open the terminal and navigate into your <code>~/git</code> directory.</p>
 
 </div>
 </div>
@@ -13221,37 +13161,22 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Installations">Installations<a class="anchor-link" href="#Installations">&#182;</a></h2><p>There are several additional installations you need to do for the bootcamp. We will first install some plotting packages we need, which are available as <a href="http://pyviz.org">PyViz</a>.</p>
+<h2 id="Configuring-Git">Configuring Git<a class="anchor-link" href="#Configuring-Git">&#182;</a></h2><p>While you already used Git in <a href="l00_configuring_your_computer.html">lesson 0</a>, you still have some configuring to do. For this, and everything else in the tutorial, we'll use the command line. We will do the configuration with <code>--global</code> flags, which means these specifications work for all of your repositories. First, we'll specify the name and email address of the person working with Git on your machine (that's you!).</p>
 
-<pre><code>conda install -c pyviz pyviz
+<pre><code>git config --global user.name "YOUR NAME"
+git config --global user.email "YOUR EMAIL ADDRESS"
 
-</code></pre>
-<p>Some packages may again be downgraded with the installation of PyViz, and that is ok. Next, to configure JupyterLab, we need to install <a href="https://nodejs.org/">node.js</a>.</p>
-
-<pre><code>conda install nodejs 
 
 </code></pre>
-<p>We will also install <a href="https://github.com/rasbt/watermark">watermark</a>, which enables us to conveniently display version numbers of the software we are using. For this installation, we will use <code>pip</code>.</p>
+<!--
+Git requires a text editor. You can specify Atom as your text editor if you like. (I recommend this, since the default is vi, which can be quite difficult to use for those not accustomed to it.)
 
-<pre><code>pip install watermark
+    git config --global core.editor "atom --wait"
+-->
 
-</code></pre>
-<p>Finally, we need to configure JupyterLab to work with the plotting packages we will use.</p>
+<p>Git is very well documented and help is easily available. If you need to know more about <code>config</code>, for example, just enter:</p>
 
-<pre><code>jupyter labextension install --no-build @pyviz/jupyterlab_pyviz
-
-</code></pre>
-<p>You may also wish to install a spell-checker (this one isn't necessary).</p>
-
-<pre><code>jupyter labextension install --no-build @ijmbarr/jupyterlab_spellchecker
-
-</code></pre>
-<p>After installing all of these extensions, you can rebuild JupyterLab.</p>
-
-<pre><code>jupyter lab build
-
-</code></pre>
-<p>You should close your JupyterLab session and terminate Anaconda Navigator after you have completed the build. Relaunch Anaconda Navigator and launch a fresh JupyterLab instance. As before, after JupyterLab launches, launch a new terminal window so that you can proceed with setting up Git.</p>
+<pre><code>git help config</code></pre>
 
 </div>
 </div>
@@ -13259,48 +13184,15 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Setting-up-Git">Setting up Git<a class="anchor-link" href="#Setting-up-Git">&#182;</a></h2><p>Git features heavily in the bootcamp. We use it for <strong>version control</strong> and also for sharing files, data, and code we will use in the bootcamp.</p>
+<h2 id="Cloning-Repositories">Cloning Repositories<a class="anchor-link" href="#Cloning-Repositories">&#182;</a></h2><p>You have already cloned the <code>bootcamp</code> repository in <a href="l00_configuring_your_computer.html">lesson 0</a>. We'll practice that again here, and clone one of the zillions of public repositories that are hosted on GitHub. We will clone a simple package, called <code>insulter</code> that will hurl Shakespearean insults at you.</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Set-up-a-GitHub-account">Set up a GitHub account<a class="anchor-link" href="#Set-up-a-GitHub-account">&#182;</a></h4><p>Go to <a href="http://github.com/">http://github.com/</a> to get an account. You should register with your Caltech address so you get free private repositories as academics. You should also think carefully about picking your user name. There is a good chance other people in your professional life will see this.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Forking-the-bootcamp-repository">Forking the bootcamp repository<a class="anchor-link" href="#Forking-the-bootcamp-repository">&#182;</a></h4><p>Let's say you want to do some work on a project with code stored in a <strong>repository</strong>, but you are not an active collaborator. For example, there could be a useful package a lab at another university put on GitHub for a certain kind of image segmentation that is useful for your research. You want to do something <em>almost</em> exactly like the package does, but need to make some small modifications yourself. You want to clone the repository and add a couple functions and maybe modify one or two they already have, leaving much of the rest of the repository untouched. Of course, you also want to update your local copy of all that untouched (but still used) code when the maintainers update it.</p>
-<p>This is kind of exactly what you want to do here in the bootcamp. We have a repository that has data sets and a couple tutorials, but you want to write your Python code right in that repository. If I update the data sets, you want to be able to pull in my changes, but still have your code in place.</p>
-<p>There is a nice way to do this called <strong>forking</strong>. To fork a repository on GitHub, simply navigate got the website of the repository and click the Fork button. Be sure you are logged in as yourself when you do this. Click <a href="https://github.com/justinbois/bootcamp/">this link</a> to go to the GitHub page for the bootcamp.</p>
-<center>
-<img src="bootcamp_github_page.png" width="500px">
-</center><p>The fork button is in the upper right. Just click the button, and you now have a <strong>fork</strong> of the bootcamp repository on your GitHub account.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Cloning-your-fork-to-your-local-machine">Cloning your fork to your local machine<a class="anchor-link" href="#Cloning-your-fork-to-your-local-machine">&#182;</a></h4><p>Now you can clone your fork of the repository to your local machine. We will keep all of your material under version control in a directory called <code>git</code> in your home directory. Do the following on the command line.</p>
-
-<pre><code>mkdir -p ~/git
+<pre><code>git clone https://gist.github.com/3165396.git insulter
 
 </code></pre>
-<p>Now, being sure you are in the <code>~/git</code> directory, you can clone <em>your forked copy of the repository</em> (not the original <code>bootcamp</code> repository). To do this, navigate your browser to the forked copy of the <code>bootcamp</code> repository on your account (this is where clicking the "Fork" button took you in your browser).</p>
-<p>Click the green <code>Clone or download</code> button and copy the URL of the forked repository. Now, you can clone it by doing the following on the command line, making the obvious substitution for <code>the_url_you_just_copied</code>.</p>
+<p>Note that the insulter package is now on your machine. You have a copy of it on your own hard drive. You do not need to be connected to the internet to use it.</p>
+<p>Now, <code>cd</code> to <code>insulter</code> and you can start using it, thou wayward tickle-brained flap-dragon!</p>
 
-<pre><code>cd ~/git
-git clone --depth 5 the_url_you_just_copied
-
-</code></pre>
-<p>You now have a local copy of your own fork of the bootcamp repository. You can add files and edit it. When you commit and push, it will all be on your account, and the master repository will not see the changes.</p>
+<pre><code>python insulter.py</code></pre>
 
 </div>
 </div>
@@ -13308,19 +13200,44 @@ git clone --depth 5 the_url_you_just_copied
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Syncing-your-forked-repository-to-the-upstream-repository">Syncing your forked repository to the upstream repository<a class="anchor-link" href="#Syncing-your-forked-repository-to-the-upstream-repository">&#182;</a></h4><p>As I mentioned before, you want to be able to sync your repository with the original <code>bootcamp</code> repository so you can retrieve any updates in it. The original repository is typically called the <strong>upstream repository</strong>, since presumably you are changing it, so you are downstream. You want the upstream repository to be a <strong>remote</strong> repository, which is just what we call a repository we track and fetch and merge from. To see which repositories are remote, do the following on the command line.</p>
+<h2 id="Pulling-in-changes">Pulling in changes<a class="anchor-link" href="#Pulling-in-changes">&#182;</a></h2><p>Actively developed repositories are constantly being updated. After you clone the repository, its authors may add or edit things in the repository. For you to get those changes, you need to <strong>fetch</strong> them and then <strong>merge</strong> them into what you have locally.</p>
+<p>To fetch the updated repository, you guessed it, you do:</p>
 
-<pre><code>cd bootcamp
-git remote -v
-
-</code></pre>
-<p>The <code>-v</code> just means "verbose," so it will also tell you the URLs. Entering that now will show a single repository, <code>origin</code>, which you can fetch from and push to. In your case, <code>origin</code> your fork of the bootcamp repository.</p>
-<p>We now want to add the upstream repository. To do this, add the <strong>original</strong> bootcamp repository as the upstream repository.</p>
-
-<pre><code>git remote add upstream https://github.com/justinbois/bootcamp.git
+<pre><code>git fetch
 
 </code></pre>
-<p>Now try doing <code>git remote -v</code>, and you will see that you are now also tracking the upstream repository.</p>
+<p>The result is stored in a hidden directory, <code>.git/FETCH_HEAD</code>. (Directories that begin with a <code>.</code> are hidden; you don't see them when you type <code>ls</code>.)</p>
+<p>Now that there are changes, you would like to update your local repository. Provided you do not have any local edits, this is seamless. You just do</p>
+
+<pre><code>git merge FETCH_HEAD
+
+</code></pre>
+<p>Now your repository will be up to date.</p>
+<p>A shortcut for the commands</p>
+
+<pre><code>git fetch
+git merge FETCH_HEAD
+
+</code></pre>
+<p>run in succession is</p>
+
+<pre><code>git pull
+
+</code></pre>
+<p>In practice, you will use this a lot, but, as you will see, we will use fetching and merging on a forked repository in the next lesson, so it can be useful.</p>
+<p>Let's try doing this with the <code>bootcamp</code> repository. <code>cd</code> into <code>~/git/bootcamp/</code>. Now, type</p>
+
+<pre><code>git pull
+
+</code></pre>
+<p>This will "pull" in any changes make to the repository. Throughout the bootcamp, we may need to update files in the repository, so you may need to <code>git pull</code> throughout the bootcamp.</p>
+<p>Note that <code>git pull</code> is actually shorthand for</p>
+
+<pre><code>git pull origin master
+
+</code></pre>
+<p>which is the more verbose way of saying that you want to pull the master <strong>branch</strong> from the remote repository named <code>origin</code>. We will not discuss branching in this bootcamp, but it is an important concept to learn about.</p>
+<p>Generally it is good practice to pull before you start working each day to make sure you pull in any updates your collaborators may have made.</p>
 
 </div>
 </div>
@@ -13328,475 +13245,178 @@ git remote -v
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Checking-your-distribution">Checking your distribution<a class="anchor-link" href="#Checking-your-distribution">&#182;</a></h2><p>We'll now run a quick test to make sure things are working properly.  We will make a quick plot that requires some of the scientific libraries we will use in the bootcamp.</p>
-<p>Use the JupyterLab launcher (you can get a new launcher by clicking on the <code>+</code> icon on the left pane of your JupyterLab window) to launch a notebook. In the first cell (the box next to the <code>In [ ]:</code> prompt), paste the code below. To run the code, press <code>Shift+Enter</code> while the cursor is active inside the cell. You should see a plot that looks like the one below. If you do, you have a functioning Python environment for scientific computing!</p>
+<h3 id="Pulling-in-changes-from-an-upstream-repository">Pulling in changes from an upstream repository<a class="anchor-link" href="#Pulling-in-changes-from-an-upstream-repository">&#182;</a></h3><p>As you saw in <a href="l00_configuring_your_computer.html">lesson 0</a>, it is sometimes useful to pull from an upstream repository. In <a href="l00_configuring_your_computer.html">lesson 0</a>, you added an upstream remote repository to the bootcamp repository. To pull from the upstream repository, you need to use the more verbose version of <code>git pull</code>.</p>
+
+<pre><code>git pull upstream master</code></pre>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
-<span class="kn">import</span> <span class="nn">bokeh.io</span>
-
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_notebook</span><span class="p">()</span>
-
-<span class="c1"># Generate plotting values</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span>
-<span class="n">y</span> <span class="o">=</span> <span class="mi">13</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
-
-<span class="n">p</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">275</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">text</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;bootcamp&#39;</span><span class="p">,</span> <span class="n">text_align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">add_layout</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-
-    <div class="bk-root">
-        <a href="https://bokeh.pydata.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
-        <span id="1001">Loading BokehJS ...</span>
-    </div>
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-
-
-<div id="c5d19eeb-9590-493d-b816-370db3a09786"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#c5d19eeb-9590-493d-b816-370db3a09786');
-
-(function(root) {
-  function now() {
-    return new Date();
-  }
-
-  var force = true;
-
-  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
-    root._bokeh_onload_callbacks = [];
-    root._bokeh_is_loading = undefined;
-  }
-
-  var JS_MIME_TYPE = 'application/javascript';
-  var HTML_MIME_TYPE = 'text/html';
-  var EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
-  var CLASS_NAME = 'output_bokeh rendered_html';
-
-  /**
-   * Render data to the DOM node
-   */
-  function render(props, node) {
-    var script = document.createElement("script");
-    node.appendChild(script);
-  }
-
-  /**
-   * Handle when an output is cleared or removed
-   */
-  function handleClearOutput(event, handle) {
-    var cell = handle.cell;
-
-    var id = cell.output_area._bokeh_element_id;
-    var server_id = cell.output_area._bokeh_server_id;
-    // Clean up Bokeh references
-    if (id != null && id in Bokeh.index) {
-      Bokeh.index[id].model.document.clear();
-      delete Bokeh.index[id];
-    }
-
-    if (server_id !== undefined) {
-      // Clean up Bokeh references
-      var cmd = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
-      cell.notebook.kernel.execute(cmd, {
-        iopub: {
-          output: function(msg) {
-            var id = msg.content.text.trim();
-            if (id in Bokeh.index) {
-              Bokeh.index[id].model.document.clear();
-              delete Bokeh.index[id];
-            }
-          }
-        }
-      });
-      // Destroy server and session
-      var cmd = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
-      cell.notebook.kernel.execute(cmd);
-    }
-  }
-
-  /**
-   * Handle when a new output is added
-   */
-  function handleAddOutput(event, handle) {
-    var output_area = handle.output_area;
-    var output = handle.output;
-
-    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
-    if ((output.output_type != "display_data") || (!output.data.hasOwnProperty(EXEC_MIME_TYPE))) {
-      return
-    }
-
-    var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
-
-    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
-      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
-      // store reference to embed id on output_area
-      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
-    }
-    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
-      var bk_div = document.createElement("div");
-      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
-      var script_attrs = bk_div.children[0].attributes;
-      for (var i = 0; i < script_attrs.length; i++) {
-        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
-      }
-      // store reference to server id on output_area
-      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
-    }
-  }
-
-  function register_renderer(events, OutputArea) {
-
-    function append_mime(data, metadata, element) {
-      // create a DOM node to render to
-      var toinsert = this.create_output_subarea(
-        metadata,
-        CLASS_NAME,
-        EXEC_MIME_TYPE
-      );
-      this.keyboard_manager.register_events(toinsert);
-      // Render to node
-      var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
-      render(props, toinsert[toinsert.length - 1]);
-      element.append(toinsert);
-      return toinsert
-    }
-
-    /* Handle when an output is cleared or removed */
-    events.on('clear_output.CodeCell', handleClearOutput);
-    events.on('delete.Cell', handleClearOutput);
-
-    /* Handle when a new output is added */
-    events.on('output_added.OutputArea', handleAddOutput);
-
-    /**
-     * Register the mime type and append_mime function with output_area
-     */
-    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
-      /* Is output safe? */
-      safe: true,
-      /* Index of renderer in `output_area.display_order` */
-      index: 0
-    });
-  }
-
-  // register the mime type if in Jupyter Notebook environment and previously unregistered
-  if (root.Jupyter !== undefined) {
-    var events = require('base/js/events');
-    var OutputArea = require('notebook/js/outputarea').OutputArea;
-
-    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
-      register_renderer(events, OutputArea);
-    }
-  }
-
-  
-  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
-    root._bokeh_timeout = Date.now() + 5000;
-    root._bokeh_failed_load = false;
-  }
-
-  var NB_LOAD_WARNING = {'data': {'text/html':
-     "<div style='background-color: #fdd'>\n"+
-     "<p>\n"+
-     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
-     "may be due to a slow or bad network connection. Possible fixes:\n"+
-     "</p>\n"+
-     "<ul>\n"+
-     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
-     "<li>use INLINE resources instead, as so:</li>\n"+
-     "</ul>\n"+
-     "<code>\n"+
-     "from bokeh.resources import INLINE\n"+
-     "output_notebook(resources=INLINE)\n"+
-     "</code>\n"+
-     "</div>"}};
-
-  function display_loaded() {
-    var el = document.getElementById("1001");
-    if (el != null) {
-      el.textContent = "BokehJS is loading...";
-    }
-    if (root.Bokeh !== undefined) {
-      if (el != null) {
-        el.textContent = "BokehJS " + root.Bokeh.version + " successfully loaded.";
-      }
-    } else if (Date.now() < root._bokeh_timeout) {
-      setTimeout(display_loaded, 100)
-    }
-  }
-
-
-  function run_callbacks() {
-    try {
-      root._bokeh_onload_callbacks.forEach(function(callback) {
-        if (callback != null)
-          callback();
-      });
-    } finally {
-      delete root._bokeh_onload_callbacks
-    }
-    console.debug("Bokeh: all callbacks have finished");
-  }
-
-  function load_libs(css_urls, js_urls, callback) {
-    if (css_urls == null) css_urls = [];
-    if (js_urls == null) js_urls = [];
-
-    root._bokeh_onload_callbacks.push(callback);
-    if (root._bokeh_is_loading > 0) {
-      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
-      return null;
-    }
-    if (js_urls == null || js_urls.length === 0) {
-      run_callbacks();
-      return null;
-    }
-    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
-    root._bokeh_is_loading = css_urls.length + js_urls.length;
-
-    function on_load() {
-      root._bokeh_is_loading--;
-      if (root._bokeh_is_loading === 0) {
-        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
-        run_callbacks()
-      }
-    }
-
-    function on_error() {
-      console.error("failed to load " + url);
-    }
-
-    for (var i = 0; i < css_urls.length; i++) {
-      var url = css_urls[i];
-      const element = document.createElement("link");
-      element.onload = on_load;
-      element.onerror = on_error;
-      element.rel = "stylesheet";
-      element.type = "text/css";
-      element.href = url;
-      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
-      document.body.appendChild(element);
-    }
-
-    for (var i = 0; i < js_urls.length; i++) {
-      var url = js_urls[i];
-      var element = document.createElement('script');
-      element.onload = on_load;
-      element.onerror = on_error;
-      element.async = false;
-      element.src = url;
-      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
-      document.head.appendChild(element);
-    }
-  };var element = document.getElementById("1001");
-  if (element == null) {
-    console.error("Bokeh: ERROR: autoload.js configured with elementid '1001' but no matching script tag was found. ")
-    return false;
-  }
-
-  function inject_raw_css(css) {
-    const element = document.createElement("style");
-    element.appendChild(document.createTextNode(css));
-    document.body.appendChild(element);
-  }
-
-  var js_urls = ["https://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-tables-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-gl-1.2.0.min.js"];
-  var css_urls = ["https://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.css", "https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.css", "https://cdn.pydata.org/bokeh/release/bokeh-tables-1.2.0.min.css"];
-
-  var inline_js = [
-    function(Bokeh) {
-      Bokeh.set_log_level("info");
-    },
-    
-    function(Bokeh) {
-      
-    },
-    function(Bokeh) {} // ensure no trailing comma for IE
-  ];
-
-  function run_inline_js() {
-    
-    if ((root.Bokeh !== undefined) || (force === true)) {
-      for (var i = 0; i < inline_js.length; i++) {
-        inline_js[i].call(root, root.Bokeh);
-      }if (force === true) {
-        display_loaded();
-      }} else if (Date.now() < root._bokeh_timeout) {
-      setTimeout(run_inline_js, 100);
-    } else if (!root._bokeh_failed_load) {
-      console.log("Bokeh: BokehJS failed to load within specified timeout.");
-      root._bokeh_failed_load = true;
-    } else if (force !== true) {
-      var cell = $(document.getElementById("1001")).parents('.cell').data().cell;
-      cell.output_area.append_execute_result(NB_LOAD_WARNING)
-    }
-
-  }
-
-  if (root._bokeh_is_loading === 0) {
-    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
-    run_inline_js();
-  } else {
-    load_libs(css_urls, js_urls, function() {
-      console.debug("Bokeh: BokehJS plotting callback run at", now());
-      run_inline_js();
-    });
-  }
-}(window));
-</script>
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-
-
-
-
-
-
-  <div class="bk-root" id="a6f70896-e87a-4347-a32b-f055d0c676aa" data-root-id="1002"></div>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-
-
-<div id="df34d751-4d16-4376-aa20-5dfef7f384b3"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#df34d751-4d16-4376-aa20-5dfef7f384b3');
-(function(root) {
-  function embed_document(root) {
-    
-  var docs_json = {"f62fb0b3-7499-40e3-9648-7d48f8a475c1":{"roots":{"references":[{"attributes":{"below":[{"id":"1011","type":"LinearAxis"}],"center":[{"id":"1015","type":"Grid"},{"id":"1020","type":"Grid"},{"id":"1039","type":"Label"}],"left":[{"id":"1016","type":"LinearAxis"}],"plot_height":250,"plot_width":275,"renderers":[{"id":"1037","type":"GlyphRenderer"}],"title":{"id":"1041","type":"Title"},"toolbar":{"id":"1027","type":"Toolbar"},"x_range":{"id":"1003","type":"DataRange1d"},"x_scale":{"id":"1007","type":"LinearScale"},"y_range":{"id":"1005","type":"DataRange1d"},"y_scale":{"id":"1009","type":"LinearScale"}},"id":"1002","subtype":"Figure","type":"Plot"},{"attributes":{"data_source":{"id":"1034","type":"ColumnDataSource"},"glyph":{"id":"1035","type":"Line"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1036","type":"Line"},"selection_glyph":null,"view":{"id":"1038","type":"CDSView"}},"id":"1037","type":"GlyphRenderer"},{"attributes":{},"id":"1048","type":"UnionRenderers"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","line_width":3,"x":{"field":"x"},"y":{"field":"y"}},"id":"1036","type":"Line"},{"attributes":{"line_color":"red","line_width":3,"x":{"field":"x"},"y":{"field":"y"}},"id":"1035","type":"Line"},{"attributes":{},"id":"1021","type":"PanTool"},{"attributes":{},"id":"1022","type":"WheelZoomTool"},{"attributes":{"overlay":{"id":"1046","type":"BoxAnnotation"}},"id":"1023","type":"BoxZoomTool"},{"attributes":{"callback":null,"data":{"x":{"__ndarray__":"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","dtype":"float64","shape":[200]},"y":{"__ndarray__":"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","dtype":"float64","shape":[200]}},"selected":{"id":"1047","type":"Selection"},"selection_policy":{"id":"1048","type":"UnionRenderers"}},"id":"1034","type":"ColumnDataSource"},{"attributes":{},"id":"1024","type":"SaveTool"},{"attributes":{"text":"bootcamp","text_align":"center","x":0,"y":0},"id":"1039","type":"Label"},{"attributes":{},"id":"1025","type":"ResetTool"},{"attributes":{},"id":"1026","type":"HelpTool"},{"attributes":{"callback":null},"id":"1005","type":"DataRange1d"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1021","type":"PanTool"},{"id":"1022","type":"WheelZoomTool"},{"id":"1023","type":"BoxZoomTool"},{"id":"1024","type":"SaveTool"},{"id":"1025","type":"ResetTool"},{"id":"1026","type":"HelpTool"}]},"id":"1027","type":"Toolbar"},{"attributes":{"callback":null},"id":"1003","type":"DataRange1d"},{"attributes":{"source":{"id":"1034","type":"ColumnDataSource"}},"id":"1038","type":"CDSView"},{"attributes":{},"id":"1007","type":"LinearScale"},{"attributes":{},"id":"1009","type":"LinearScale"},{"attributes":{"formatter":{"id":"1045","type":"BasicTickFormatter"},"ticker":{"id":"1012","type":"BasicTicker"}},"id":"1011","type":"LinearAxis"},{"attributes":{"text":""},"id":"1041","type":"Title"},{"attributes":{},"id":"1012","type":"BasicTicker"},{"attributes":{},"id":"1043","type":"BasicTickFormatter"},{"attributes":{"ticker":{"id":"1012","type":"BasicTicker"}},"id":"1015","type":"Grid"},{"attributes":{},"id":"1045","type":"BasicTickFormatter"},{"attributes":{"formatter":{"id":"1043","type":"BasicTickFormatter"},"ticker":{"id":"1017","type":"BasicTicker"}},"id":"1016","type":"LinearAxis"},{"attributes":{},"id":"1047","type":"Selection"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1046","type":"BoxAnnotation"},{"attributes":{},"id":"1017","type":"BasicTicker"},{"attributes":{"dimension":1,"ticker":{"id":"1017","type":"BasicTicker"}},"id":"1020","type":"Grid"}],"root_ids":["1002"]},"title":"Bokeh Application","version":"1.2.0"}};
-  var render_items = [{"docid":"f62fb0b3-7499-40e3-9648-7d48f8a475c1","roots":{"1002":"a6f70896-e87a-4347-a32b-f055d0c676aa"}}];
-  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
-
-  }
-  if (root.Bokeh !== undefined) {
-    embed_document(root);
-  } else {
-    var attempts = 0;
-    var timer = setInterval(function(root) {
-      if (root.Bokeh !== undefined) {
-        embed_document(root);
-        clearInterval(timer);
-      }
-      attempts++;
-      if (attempts > 100) {
-        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-        clearInterval(timer);
-      }
-    }, 10, root)
-  }
-})(window);
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Computing-environment">Computing environment<a class="anchor-link" href="#Computing-environment">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
-<span class="o">%</span><span class="k">watermark</span> -v -p numpy,bokeh,jupyterlab
-</pre></div>
+<h2 id="Creating-your-own-repository">Creating your own repository<a class="anchor-link" href="#Creating-your-own-repository">&#182;</a></h2><p>Now, you will create your own repository for practice. For this bootcamp, let's name the repository with your initials followed by <code>_bootcamp</code>. In my case, my repository is <code>jb_bootcamp</code>.</p>
+<p>Only in rare circumstances would you not want to host your repository remotely, so we will take an easy path toward creating a repository using GitHub. Prior to the bootcamp, you all should have set up a GitHub account. Log in to GitHub. In the upper right corner of the page, click on the "<strong><code>+</code></strong>" icon and select "New repository." You will then get a page that looks like this:</p>
+<p><img src="github2.png" alt="github2.png"></p>
+<p>I called the new repository <code>jb_bootcamp</code> (yours will obviously have your own initials, and you can substitute them for <code>jb</code> wherever you see that in this lesson), and gave a little description. You can choose the repository to be either private of public; if you are not an academic, you have to pay for private repositories. Public repositories can be viewed by anyone. I will choose public for this one.</p>
+<p>I have checked the box to initialized the repository with a README. This is convenient because GitHub will set up the repository and populate it with a README file that you can generate right in your browser. I also selected to add a Python <code>.gitignore</code>, which is convenient for keeping your version control clean (more on that <a href="#.gitignore">later</a>). Finally, I chose an MIT license, which is a liberal license that will let others use your code if they would like to.</p>
+<p>After clicking "Create repository," you will get a page that looks like this:</p>
+<p><img src="github3.png" alt="github3.png"></p>
+<p>This is the main page for your repository. It is created! Right now, the repository only exists on GitHub. You need to clone it to get it on your own machine. To do that, click the "Clone or download" button and copy the web URL.</p>
+<p>Now, it is time to clone your repository on your own machine. I think you know the drill. First, <code>cd</code> to your <code>~/git</code> directory (if that is where you choose to keep your repositories). Then do this:</p>
 
-    </div>
-</div>
-</div>
+<pre><code>git clone the_url_you_just_copied
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>CPython 3.7.3
-IPython 7.1.1
-
-numpy 1.16.4
-bokeh 1.2.0
-jupyterlab 0.35.5
-</pre>
-</div>
-</div>
+</code></pre>
+<p>If you now <code>cd</code> into the <code>jb_bootcamp</code> directory, you can see the <code>README.md</code> and <code>LICENSE</code> files there.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Adding-files-to-your-repository">Adding files to your repository<a class="anchor-link" href="#Adding-files-to-your-repository">&#182;</a></h2><p>Now, let's update the repository. We will add the package we built in the last lesson. Conveniently, I already included its contents in the directory <code>~/git/bootcamp/modules/jb_bootcamp/</code>. Copy the contents of the <code>~/git/bootcamp/modules/jb_bootcamp/</code> directory and into the <code>~/git/jb_bootcamp/</code> directory. On my machine, this is accomplished by:</p>
 
+<pre><code>cd ~/git/bootcamp/modules/jb_bootcamp/
+cp -r * ~/git/jb_bootcamp/
+
+</code></pre>
+<p>This instructs the operating system to copy all of the contents of <code>~/git/bootcamp/modules/jb_bootcamp/</code> to your new repository. (The <code>*</code> is a <strong>wildcard character</strong>, which means every file in this case.) We verify that it is there by <code>cd</code>-ing into the new repository and typing <code>ls</code>.</p>
+
+<pre><code>cd ~/git/jb_bootcamp/
+ls
+
+</code></pre>
+<p>So, it is in the repository, right? Let's ask Git. <code>git status</code> is a useful command that checks what is in the repository and in your working directory on your machine, and let's you know the status of all files and directories.</p>
+
+<pre><code>git status
+
+</code></pre>
+<p>The output looks like this:</p>
+
+<pre><code>On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   README.md
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    jb_bootcamp/
+    setup.py
+
+no changes added to commit (use "git add" and/or "git commit -a")</code></pre>
+<p>It tells us that because we copied over the <code>README.md</code>, the <code>README.md</code> file that was in the repository when you created it on GitHub has been modified. It further says that the contents of the directory <code>jb_bootcamp/</code> and the file <code>setup.py</code> are not under version control, even though they exist in the directory that is under version control.</p>
+<p>Before proceeding, you should change the files <code>setup.py</code> and <code>jb_bootcamp/__init__.py</code> to have your name, package name, contact information, etc., instead of mine.</p>
+<p>Now, we need to explicitly tell Git which files need to be tracked. We also need to tell it that we want to add the modified <code>README.md</code> file to the repository. We do this using the <code>git add</code> command.</p>
+
+<pre><code>git add jb_bootcamp
+git add setup.py
+git add README.md
+
+</code></pre>
+<p>We have now added what we needed, so we have changed the repository.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Committing-and-pushing-changes">Committing and pushing changes<a class="anchor-link" href="#Committing-and-pushing-changes">&#182;</a></h2><p>Now, if we type <code>git status</code>, we get updated information.</p>
+
+<pre><code>On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   README.md
+    new file:   jb_bootcamp/__init__.py
+    new file:   jb_bootcamp/bioinfo_dicts.py
+    new file:   jb_bootcamp/na_utils.py
+    new file:   setup.py</code></pre>
+<p>It tells use we have new files and a modified file. It says these are part of "Changes to be committed." A <strong>commit</strong> is essentially a revision of a repository. It marks a point in the development of the repository that you want to mark. So, let's commit the present state of the repository.</p>
+
+<pre><code>git commit -m "Initial commit of bootcamp utilities."
+
+</code></pre>
+<p>The <code>-m</code> after <code>git commit</code> specifies the <strong>commit message</strong>. This is a brief bit of text that describes what has changed in the repository. Upon committing, the something like the following is printed to the screen:</p>
+
+<pre><code>[master 27aba6d] Initial commit of bootcamp utilities.
+ 5 files changed, 120 insertions(+), 1 deletion(-)
+ create mode 100644 jb_bootcamp/__init__.py
+ create mode 100644 jb_bootcamp/bioinfo_dicts.py
+ create mode 100644 jb_bootcamp/na_utils.py
+ create mode 100644 setup.py</code></pre>
+<p>The number <code>27aba6d</code> (yours will be different) is the short version of the commit identifier. If you ever want to go back to a previous version of the repository, this identifier will be a great help.</p>
+<p>Now, the commit is still only on your local machine. In order for your collaborators (or the whole world, if it is a public repo) to have access to it (and in order for it to appear on GitHub), you need to <strong><code>push</code></strong> it. To do that, we do this:</p>
+
+<pre><code>git push origin master
+
+</code></pre>
+<p>Here, <code>origin</code> is a nickname for your remote repository. <code>master</code> is the name of the branch we are pushing to in the GitHub repository. I.e., it is the master copy. (We will not talk about branches or branching in this lesson.)</p>
+<p>Now, let's look at our repository on GitHub. You can just refresh the main page of the repository in your browser. It now looks like this:</p>
+<p><img src="github4.png" alt="github4.png"></p>
+<p>We now have our updates in the master branch, out there in the cloud for sharing.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id=".gitignore">.gitignore<a class="anchor-link" href="#.gitignore">&#182;</a></h2><p>Notice that before you added the files to your repository, Git let you know that there was an untracked file in your directory. Sometimes you do want to have files in the directories of your repository, but not keep those files under version control. Examples of these might be binary files, large data sets, images, etc.</p>
+<p>Fortunately, you can tell Git to ignore certain files. This is done using a <a href="https://git-scm.com/docs/gitignore"><code>.gitignore</code> file</a>. Each line of of the <code>.gitignore</code> file says which files to ignore. For example, to ignore all files that end with <code>.tif</code>, you would include the line</p>
+
+<pre><code>*.tif
+
+</code></pre>
+<p>in your <code>.gitignore</code> file. The <code>*</code> is a <strong>wildcard character</strong> which says to ignore all files that have a file name ending with <code>.tif</code>, regardless of what the prefix is. Now, whenever you you use <code>git status</code>, any file ending with <code>*.tif</code> that happens to be on your machine within the directories containing your repository will be ignored by Git.</p>
+<p>Just because <code>*.tif</code> appears in a <code>.gitignore</code> file does not mean that <em>all</em> <code>.tif</code> files will be ignored. If you explicitly add a file to the repository, Git will keep track of it. E.g., if you did</p>
+
+<pre><code>git add myfile.tif
+
+</code></pre>
+<p>then <code>myfile.tif</code> will be under version control, even if other <code>.tif</code> files laying around are not. (<em>Note, though, that you typically do not want to have binary files under version control. You typically only keep code under control. Typically only data sets used to test code are included in the repository. Version control is not really for data, but for code.</em>)</p>
+<p>Finally, since it begins with a <code>.</code>. When you put a <code>.gitignore</code> file in a directory,  the <code>.gitignore</code> file will not show up when you run <code>ls</code> at the command line without the <code>-a</code> flag.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Installing-your-package">Installing your package<a class="anchor-link" href="#Installing-your-package">&#182;</a></h2><p>To install your package, you use <code>pip</code>, which is a self-referential acronym <strong><code>P</code></strong><code>ip</code> <strong><code>I</code></strong><code>nstalls</code> <strong><code>P</code></strong><code>ackages</code>. To install a your package, make sure you are in the directory immediately above your package, in this case <code>~/git</code>. Then, do the following on the command line.</p>
+
+<pre><code>pip install -e jb_bootcamp
+
+</code></pre>
+<p>The <code>-e</code> flag is important, which tells <code>pip</code> that this is a local, editable package.</p>
+<p>Your package is now accessible on your machine whenever you run the Python interpreter!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Intalling-bootcamp_utils">Intalling bootcamp_utils<a class="anchor-link" href="#Intalling-bootcamp_utils">&#182;</a></h2><p>What you have just done is a common workflow with packages. You write your own packages (that are under version control, of course), and you make them available using <code>pip install -e</code>. In addition to your own packages, you used <code>conda</code> to install third party packages, such as Altair, on your machine in <a href="l00_configuring_your_machine.html">lesson 0</a>. When you can install packages with <code>conda</code>, you should. But sometimes packages are not yet available via <code>conda</code>, but are nonetheless available in the <a href="https://pypi.org">Python Package Index (PyPI)</a>. There are nearly 150,000 packages in the PyPI. To install one of them, you simple use</p>
+
+<pre><code>pip install name_of_package
+
+</code></pre>
+<p>Note that the <code>-e</code> flag is missing. (More importantly, note that the <code>-e</code> flag is present when installing your own local package that is not (yet) on the PyPI.) I wrote a package that has some useful utilities we will use in the bootcamp called <code>bootcamp_utils</code>. You can install it be entering the following on the command line.</p>
+
+<pre><code>pip install bootcamp_utils</code></pre>
+
+</div>
+</div>
 </div>
     </div>
   </div>

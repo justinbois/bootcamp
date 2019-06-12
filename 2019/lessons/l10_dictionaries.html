@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>l00_configuring_your_computer</title>
+<title>l10_dictionaries</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13128,12 +13128,11 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-0:-Configuring-your-computer">Lesson 0: Configuring your computer<a class="anchor-link" href="#Lesson-0:-Configuring-your-computer">&#182;</a></h1><p>(c) 2019 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-10:-Dictionaries-(hash-tables)">Lesson 10: Dictionaries (hash tables)<a class="anchor-link" href="#Lesson-10:-Dictionaries-(hash-tables)">&#182;</a></h1><p>(c) 2019 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l00_configuring_your_computer.ipynb">here</a>.</em></p>
-<p><hr/>
-<br /></p>
+<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l10_dictionaries.ipynb">here</a>.</em></p>
+<p><hr /> <br /></p>
 
 </div>
 </div>
@@ -13141,13 +13140,30 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this lesson, you will set up a Python computing environment for scientific computing. There are two main ways people set up Python for scientific computing.</p>
-<ol>
-<li>By downloading and installing package by package with tools like <a href="https://help.ubuntu.com/community/AptGet/Howto">apt-get</a>, <a href="https://docs.python.org/3/installing/">pip</a>, etc.</li>
-<li>By downloading and installing a Python distribution that contains binaries of many of the scientific packages needed. The major distributions of these are <a href="https://www.anaconda.com">Anaconda</a> and <a href="https://www.enthought.com/product/canopy/">Enthought Canopy</a>. Both contain IDEs.</li>
-</ol>
-<p>In this class, we will use Anaconda, with its associated package manager, <code>conda</code>. It has become the de facto package manager/distribution for scientific use.</p>
-<p>Before we get rolling with the Anaconda distribution, we have some considerations and installations to get out of the way first.</p>
+<h2 id="Mapping-objects-and-dictionaries">Mapping objects and dictionaries<a class="anchor-link" href="#Mapping-objects-and-dictionaries">&#182;</a></h2><p>A <strong>mapping object</strong> allows an arbitrary collection of objects to be indexed by an arbitrary collection of values.  That's a mouthful.  It is easier to understand instead by comparing to a sequence.</p>
+<p>Let's take a sequence of two strings, say a tuple containing a first and last name.</p>
+
+<pre><code>name = ('jeffrey', 'lebowski')
+
+</code></pre>
+<p>We are restricted on how we reference the sequence.  I.e., the first name is <code>name[0]</code>, and the last name is <code>name[1]</code>.  A mapping object could instead be indexed like <code>name['first name']</code> and <code>name['last name']</code>. You can imagine this would be very useful! A classic example in biology might be looking up amino acids that are coded for by given codons. E.g., you might want</p>
+
+<pre><code>aa['CTT']
+
+</code></pre>
+<p>to give you <code>'Leucine'</code>.</p>
+<p>Python's only build-in mapping type is a <strong>dictionary</strong>. You might imagine that the Oxford English Dictionary might conveniently be stored as a dictionary (obviously). I.e., you would not want to store definitions that have to be referenced like</p>
+
+<pre><code>oed[103829]
+
+</code></pre>
+<p>Rather, you would like to get definitions like this:</p>
+
+<pre><code>oed['computer']
+
+</code></pre>
+<p>Importantly, note that Python <strong>dictionaries have no sense of order</strong>. Unlike lists and tuples, which are ordered collections, dictionaries have no order. The key is used to fetch the values from memory.</p>
+<p>I pause to note that you will notice that the dictionaries seem to preserve the order in which they are created. This is due to a tweak to the implementation of dictionaries in Python 3.6, but as the <a href="https://docs.python.org/3.6/whatsnew/3.6.html#new-dict-implementation">documentation state</a>, you should not count on this feature. If you really need ordered dictionaries, there are ordered dictionaries in the <a href="https://docs.python.org/3/library/collections.html"><code>collections</code> module of the standard library</a>.</p>
 
 </div>
 </div>
@@ -13155,181 +13171,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="macOS-users:-Install-XCode">macOS users: Install XCode<a class="anchor-link" href="#macOS-users:-Install-XCode">&#182;</a></h2><p>If you are using macOS, you should install <a href="https://developer.apple.com/xcode/">XCode</a>, if you haven't already. It's a large piece of software, taking up about 5GB on your hard drive, so make sure you have enough space. Please install this ahead of the bootcamp, since if students install this during the bootcamp, it will overwhelm the wireless. You can install it through the App Store.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Windows-users:-Install-Git-and-Chrome-or-Firefox">Windows users: Install Git and Chrome or Firefox<a class="anchor-link" href="#Windows-users:-Install-Git-and-Chrome-or-Firefox">&#182;</a></h2><p>We will be using <a href="https://jupyterlab.readthedocs.io/en/stable/">JupyterLab</a> in the bootcamp. It is browser-based, and Chrome, Firefox, and Safari are supported. Internet Explorer is <strong>not</strong>. Therefore, if you are a Windows user, you need to be sure you have either Chrome of Firefox installed.</p>
-<p>Git is installed on Macs with XCode. For Windows users, you need to install Git. You can do this by following the instructions <a href="https://gitforwindows.org">here</a>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Downloading-and-installing-Anaconda">Downloading and installing Anaconda<a class="anchor-link" href="#Downloading-and-installing-Anaconda">&#182;</a></h2><p>Downloading and installing Anaconda is simple.</p>
-<ol>
-<li>Go to the <a href="https://www.anaconda.com/distribution/">Anaconda distribution homepage</a> and download the graphical installer.  </li>
-<li>Be sure to download Anaconda for Python 3.7 for the appropriate operating system.</li>
-<li>Follow the on-screen instructions for installation. When prompted, be sure to "Install for me only."</li>
-<li>You may be prompted for optional installations, like <a href="https://www.jetbrains.com/pycharm/">PyCharm</a>. You will not need these for the bootcamp.</li>
-</ol>
-<p>That's it!  After you do that, you will have a functioning Python distribution.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Launching-JupyterLab-and-a-terminal">Launching JupyterLab and a terminal<a class="anchor-link" href="#Launching-JupyterLab-and-a-terminal">&#182;</a></h2><p>After installing the Anaconda distribution, you should be able to launch the <strong>Anaconda Navigator</strong>. If you're using macOS, this is available in your <code>Applications</code> menu. If you are using Windows, you can do this from the Start menu. Launch Anaconda Navigator.</p>
-<p>We will be using JupyterLab throughout the bootcamp (more on that in <a href="l01_welcome.html">Lesson 1</a>). You should see an option to launch JupyterLab. When you do that, a new browser window or tab will open with JupyterLab running. Within the JupyterLab window, you will have the option to launch a notebook, a console, a terminal, or a text editor. We will use all of these during the bootcamp. For the updating and installation of necessary packages, click on <code>Terminal</code> to launch a terminal. You will get a terminal window (probably black) with a bash prompt. We refer to this text interface in the terminal as the <strong>command line</strong>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-conda-package-manager">The conda package manager<a class="anchor-link" href="#The-conda-package-manager">&#182;</a></h2><p>conda is a package manager for keeping all of your packages up-to-date.  It has plenty of functionality beyond our basic usage in class, which you can learn more about by reading the <a href="http://conda.pydata.org/docs/get-started.html">docs</a>.  We will primarily be using conda to install and update packages.</p>
-<p>conda works from the command line.  Now that you know how to get a command line prompt, you can start using conda.  The first thing we'll do is update conda itself.  To do this, enter the following on the command line:</p>
-
-<pre><code>conda update conda
-
-</code></pre>
-<p>You may get a deprecation warning, which you can ignore. If conda is out of date and needs to be updated, you will be prompted to perform the update.  Just type <code>y</code>, and the update will proceed.</p>
-<p>Now that conda is updated, we'll use it to see what packages are installed.  Type the following on the command line:</p>
-
-<pre><code>conda list
-
-</code></pre>
-<p>This gives a list of all packages and their versions that are installed.  Now, we'll update all packages, so type the following on the command line:</p>
-
-<pre><code>conda update --all
-
-</code></pre>
-<p>If anything is out of date, you will be prompted to perform the updates. (If everything is up to date, you will just see a list of all the installed packages.)  They may even be some downgrades.  This happens when there are package conflicts where one package requires an earlier version of another.  conda is very smart and figures all of this out for you, so you can almost always say "yes" (or "<code>y</code>") to conda when it prompts you.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Installations">Installations<a class="anchor-link" href="#Installations">&#182;</a></h2><p>There are several additional installations you need to do for the bootcamp. We will first install some plotting packages we need, which are available as <a href="http://pyviz.org">PyViz</a>.</p>
-
-<pre><code>conda install -c pyviz pyviz
-
-</code></pre>
-<p>Some packages may again be downgraded with the installation of PyViz, and that is ok. Next, to configure JupyterLab, we need to install <a href="https://nodejs.org/">node.js</a>.</p>
-
-<pre><code>conda install nodejs 
-
-</code></pre>
-<p>We will also install <a href="https://github.com/rasbt/watermark">watermark</a>, which enables us to conveniently display version numbers of the software we are using. For this installation, we will use <code>pip</code>.</p>
-
-<pre><code>pip install watermark
-
-</code></pre>
-<p>Finally, we need to configure JupyterLab to work with the plotting packages we will use.</p>
-
-<pre><code>jupyter labextension install --no-build @pyviz/jupyterlab_pyviz
-
-</code></pre>
-<p>You may also wish to install a spell-checker (this one isn't necessary).</p>
-
-<pre><code>jupyter labextension install --no-build @ijmbarr/jupyterlab_spellchecker
-
-</code></pre>
-<p>After installing all of these extensions, you can rebuild JupyterLab.</p>
-
-<pre><code>jupyter lab build
-
-</code></pre>
-<p>You should close your JupyterLab session and terminate Anaconda Navigator after you have completed the build. Relaunch Anaconda Navigator and launch a fresh JupyterLab instance. As before, after JupyterLab launches, launch a new terminal window so that you can proceed with setting up Git.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Setting-up-Git">Setting up Git<a class="anchor-link" href="#Setting-up-Git">&#182;</a></h2><p>Git features heavily in the bootcamp. We use it for <strong>version control</strong> and also for sharing files, data, and code we will use in the bootcamp.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Set-up-a-GitHub-account">Set up a GitHub account<a class="anchor-link" href="#Set-up-a-GitHub-account">&#182;</a></h4><p>Go to <a href="http://github.com/">http://github.com/</a> to get an account. You should register with your Caltech address so you get free private repositories as academics. You should also think carefully about picking your user name. There is a good chance other people in your professional life will see this.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Forking-the-bootcamp-repository">Forking the bootcamp repository<a class="anchor-link" href="#Forking-the-bootcamp-repository">&#182;</a></h4><p>Let's say you want to do some work on a project with code stored in a <strong>repository</strong>, but you are not an active collaborator. For example, there could be a useful package a lab at another university put on GitHub for a certain kind of image segmentation that is useful for your research. You want to do something <em>almost</em> exactly like the package does, but need to make some small modifications yourself. You want to clone the repository and add a couple functions and maybe modify one or two they already have, leaving much of the rest of the repository untouched. Of course, you also want to update your local copy of all that untouched (but still used) code when the maintainers update it.</p>
-<p>This is kind of exactly what you want to do here in the bootcamp. We have a repository that has data sets and a couple tutorials, but you want to write your Python code right in that repository. If I update the data sets, you want to be able to pull in my changes, but still have your code in place.</p>
-<p>There is a nice way to do this called <strong>forking</strong>. To fork a repository on GitHub, simply navigate got the website of the repository and click the Fork button. Be sure you are logged in as yourself when you do this. Click <a href="https://github.com/justinbois/bootcamp/">this link</a> to go to the GitHub page for the bootcamp.</p>
-<center>
-<img src="bootcamp_github_page.png" width="500px">
-</center><p>The fork button is in the upper right. Just click the button, and you now have a <strong>fork</strong> of the bootcamp repository on your GitHub account.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Cloning-your-fork-to-your-local-machine">Cloning your fork to your local machine<a class="anchor-link" href="#Cloning-your-fork-to-your-local-machine">&#182;</a></h4><p>Now you can clone your fork of the repository to your local machine. We will keep all of your material under version control in a directory called <code>git</code> in your home directory. Do the following on the command line.</p>
-
-<pre><code>mkdir -p ~/git
-
-</code></pre>
-<p>Now, being sure you are in the <code>~/git</code> directory, you can clone <em>your forked copy of the repository</em> (not the original <code>bootcamp</code> repository). To do this, navigate your browser to the forked copy of the <code>bootcamp</code> repository on your account (this is where clicking the "Fork" button took you in your browser).</p>
-<p>Click the green <code>Clone or download</code> button and copy the URL of the forked repository. Now, you can clone it by doing the following on the command line, making the obvious substitution for <code>the_url_you_just_copied</code>.</p>
-
-<pre><code>cd ~/git
-git clone --depth 5 the_url_you_just_copied
-
-</code></pre>
-<p>You now have a local copy of your own fork of the bootcamp repository. You can add files and edit it. When you commit and push, it will all be on your account, and the master repository will not see the changes.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Syncing-your-forked-repository-to-the-upstream-repository">Syncing your forked repository to the upstream repository<a class="anchor-link" href="#Syncing-your-forked-repository-to-the-upstream-repository">&#182;</a></h4><p>As I mentioned before, you want to be able to sync your repository with the original <code>bootcamp</code> repository so you can retrieve any updates in it. The original repository is typically called the <strong>upstream repository</strong>, since presumably you are changing it, so you are downstream. You want the upstream repository to be a <strong>remote</strong> repository, which is just what we call a repository we track and fetch and merge from. To see which repositories are remote, do the following on the command line.</p>
-
-<pre><code>cd bootcamp
-git remote -v
-
-</code></pre>
-<p>The <code>-v</code> just means "verbose," so it will also tell you the URLs. Entering that now will show a single repository, <code>origin</code>, which you can fetch from and push to. In your case, <code>origin</code> your fork of the bootcamp repository.</p>
-<p>We now want to add the upstream repository. To do this, add the <strong>original</strong> bootcamp repository as the upstream repository.</p>
-
-<pre><code>git remote add upstream https://github.com/justinbois/bootcamp.git
-
-</code></pre>
-<p>Now try doing <code>git remote -v</code>, and you will see that you are now also tracking the upstream repository.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Checking-your-distribution">Checking your distribution<a class="anchor-link" href="#Checking-your-distribution">&#182;</a></h2><p>We'll now run a quick test to make sure things are working properly.  We will make a quick plot that requires some of the scientific libraries we will use in the bootcamp.</p>
-<p>Use the JupyterLab launcher (you can get a new launcher by clicking on the <code>+</code> icon on the left pane of your JupyterLab window) to launch a notebook. In the first cell (the box next to the <code>In [ ]:</code> prompt), paste the code below. To run the code, press <code>Shift+Enter</code> while the cursor is active inside the cell. You should see a plot that looks like the one below. If you do, you have a functioning Python environment for scientific computing!</p>
+<h2 id="Dictionary-syntax">Dictionary syntax<a class="anchor-link" href="#Dictionary-syntax">&#182;</a></h2><p>The syntax for creating a dictionary, as usual, is best seen through example.</p>
 
 </div>
 </div>
@@ -13339,23 +13181,181 @@ git remote -v
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
-<span class="kn">import</span> <span class="nn">bokeh.io</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mf">27.6</span><span class="p">}</span>
+<span class="n">my_dict</span>
+</pre></div>
 
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_notebook</span><span class="p">()</span>
+    </div>
+</div>
+</div>
 
-<span class="c1"># Generate plotting values</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span>
-<span class="n">y</span> <span class="o">=</span> <span class="mi">13</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+<div class="output_wrapper">
+<div class="output">
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">275</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">text</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;bootcamp&#39;</span><span class="p">,</span> <span class="n">text_align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">add_layout</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[1]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;a&#39;: 6, &#39;b&#39;: 7, &#39;c&#39;: 27.6}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A dictionary is created using curly braces (<code>{}</code>). Each entry has a <strong>key</strong>, followed by a colon, and then the value associated with the key. In the example above, the keys are all strings, which is the most common use case. Note that the items can be of any type; in the above example, they are <code>int</code>s and a <code>float</code>.</p>
+<p>We could also create the dictionary using the built-in <code>dict()</code> function, which expects a tuple of 2-tuples, each one containing a key-value pair.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">dict</span><span class="p">(((</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mf">27.6</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[2]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;a&#39;: 6, &#39;b&#39;: 7, &#39;c&#39;: 27.6}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, we can make a dictionary with keyword arguments to the <code>dict()</code> function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;maybe&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;a&#39;: &#39;yes&#39;, &#39;b&#39;: &#39;no&#39;, &#39;c&#39;: &#39;maybe&#39;}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We do not need to have strings as the keys.  In fact, any <em>immutable</em> object can be a key.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;zero&#39;</span><span class="p">,</span>
+           <span class="mf">1.7</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+           <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;dummy string&#39;</span><span class="p">):</span> <span class="mf">3.14</span><span class="p">,</span>
+           <span class="s1">&#39;strings are immutable&#39;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
+<span class="n">my_dict</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{0: &#39;zero&#39;,
+ 1.7: [1, 2, 3],
+ (5, 6, &#39;dummy string&#39;): 3.14,
+ &#39;strings are immutable&#39;: 42}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, mutable objects cannot be used as keys.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;immutable is ok&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+           <span class="p">[</span><span class="s1">&#39;mutable&#39;</span><span class="p">,</span> <span class="s1">&#39;not&#39;</span><span class="p">,</span> <span class="s1">&#39;ok&#39;</span><span class="p">]:</span> <span class="mi">5</span><span class="p">}</span>
 </pre></div>
 
     </div>
@@ -13371,381 +13371,209 @@ git remote -v
     <div class="prompt"></div>
 
 
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-5-ff51262de4d9&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> my_dict = {&#39;immutable is ok&#39;: 1,
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg">            [&#39;mutable&#39;, &#39;not&#39;, &#39;ok&#39;]: 5}
+</span>
+<span class="ansi-red-fg">TypeError</span>: unhashable type: &#39;list&#39;</pre>
+</div>
+</div>
 
-<div class="output_html rendered_html output_subarea ">
+</div>
+</div>
 
-    <div class="bk-root">
-        <a href="https://bokeh.pydata.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
-        <span id="1001">Loading BokehJS ...</span>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Useful-dictionaries-in-bioinformatics">Useful dictionaries in bioinformatics<a class="anchor-link" href="#Useful-dictionaries-in-bioinformatics">&#182;</a></h2><p>It might be useful to quickly look up 3-letter amino acid codes. Dictionaries are particularly useful for this.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="s1">&#39;Ala&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;R&#39;</span><span class="p">:</span> <span class="s1">&#39;Arg&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="s1">&#39;Asn&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="s1">&#39;Asp&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="s1">&#39;Cys&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="s1">&#39;Gln&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;E&#39;</span><span class="p">:</span> <span class="s1">&#39;Glu&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="s1">&#39;Gly&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="s1">&#39;His&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="s1">&#39;Ile&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="s1">&#39;Leu&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="s1">&#39;Lys&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="s1">&#39;Met&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="s1">&#39;Phe&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="s1">&#39;Pro&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="s1">&#39;Ser&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;T&#39;</span><span class="p">:</span> <span class="s1">&#39;Thr&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;W&#39;</span><span class="p">:</span> <span class="s1">&#39;Trp&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="s1">&#39;Tyr&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="s1">&#39;Val&#39;</span><span class="p">}</span>
+</pre></div>
+
     </div>
 </div>
+</div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Another useful dictionary would contain the set of codons and the amino acids they code for. This is built in the code below using the <code>zip()</code> function we learned before. To see the logic on how this is constructed, see the codon table <a href="https://en.wikipedia.org/wiki/DNA_codon_table">here</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The set of DNA bases</span>
+<span class="n">bases</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;G&#39;</span><span class="p">]</span>
+
+<span class="c1"># Build list of codons</span>
+<span class="n">codon_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">first_base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">second_base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">third_base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+            <span class="n">codon_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">first_base</span> <span class="o">+</span> <span class="n">second_base</span> <span class="o">+</span> <span class="n">third_base</span><span class="p">]</span>
+
+<span class="c1"># The amino acids that are coded for (* = STOP codon)</span>
+<span class="n">amino_acids</span> <span class="o">=</span> <span class="s1">&#39;FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG&#39;</span>
+
+<span class="c1"># Build dictionary from tuple of 2-tuples (technically an iterator, but it works)</span>
+<span class="n">codons</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">codon_list</span><span class="p">,</span> <span class="n">amino_acids</span><span class="p">))</span>
+
+<span class="c1"># Show that we did it</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">codons</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
 
 <div class="output_area">
 
     <div class="prompt"></div>
 
 
-
-
-
-<div id="c5d19eeb-9590-493d-b816-370db3a09786"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#c5d19eeb-9590-493d-b816-370db3a09786');
-
-(function(root) {
-  function now() {
-    return new Date();
-  }
-
-  var force = true;
-
-  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
-    root._bokeh_onload_callbacks = [];
-    root._bokeh_is_loading = undefined;
-  }
-
-  var JS_MIME_TYPE = 'application/javascript';
-  var HTML_MIME_TYPE = 'text/html';
-  var EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
-  var CLASS_NAME = 'output_bokeh rendered_html';
-
-  /**
-   * Render data to the DOM node
-   */
-  function render(props, node) {
-    var script = document.createElement("script");
-    node.appendChild(script);
-  }
-
-  /**
-   * Handle when an output is cleared or removed
-   */
-  function handleClearOutput(event, handle) {
-    var cell = handle.cell;
-
-    var id = cell.output_area._bokeh_element_id;
-    var server_id = cell.output_area._bokeh_server_id;
-    // Clean up Bokeh references
-    if (id != null && id in Bokeh.index) {
-      Bokeh.index[id].model.document.clear();
-      delete Bokeh.index[id];
-    }
-
-    if (server_id !== undefined) {
-      // Clean up Bokeh references
-      var cmd = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
-      cell.notebook.kernel.execute(cmd, {
-        iopub: {
-          output: function(msg) {
-            var id = msg.content.text.trim();
-            if (id in Bokeh.index) {
-              Bokeh.index[id].model.document.clear();
-              delete Bokeh.index[id];
-            }
-          }
-        }
-      });
-      // Destroy server and session
-      var cmd = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
-      cell.notebook.kernel.execute(cmd);
-    }
-  }
-
-  /**
-   * Handle when a new output is added
-   */
-  function handleAddOutput(event, handle) {
-    var output_area = handle.output_area;
-    var output = handle.output;
-
-    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
-    if ((output.output_type != "display_data") || (!output.data.hasOwnProperty(EXEC_MIME_TYPE))) {
-      return
-    }
-
-    var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
-
-    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
-      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
-      // store reference to embed id on output_area
-      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
-    }
-    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
-      var bk_div = document.createElement("div");
-      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
-      var script_attrs = bk_div.children[0].attributes;
-      for (var i = 0; i < script_attrs.length; i++) {
-        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
-      }
-      // store reference to server id on output_area
-      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
-    }
-  }
-
-  function register_renderer(events, OutputArea) {
-
-    function append_mime(data, metadata, element) {
-      // create a DOM node to render to
-      var toinsert = this.create_output_subarea(
-        metadata,
-        CLASS_NAME,
-        EXEC_MIME_TYPE
-      );
-      this.keyboard_manager.register_events(toinsert);
-      // Render to node
-      var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
-      render(props, toinsert[toinsert.length - 1]);
-      element.append(toinsert);
-      return toinsert
-    }
-
-    /* Handle when an output is cleared or removed */
-    events.on('clear_output.CodeCell', handleClearOutput);
-    events.on('delete.Cell', handleClearOutput);
-
-    /* Handle when a new output is added */
-    events.on('output_added.OutputArea', handleAddOutput);
-
-    /**
-     * Register the mime type and append_mime function with output_area
-     */
-    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
-      /* Is output safe? */
-      safe: true,
-      /* Index of renderer in `output_area.display_order` */
-      index: 0
-    });
-  }
-
-  // register the mime type if in Jupyter Notebook environment and previously unregistered
-  if (root.Jupyter !== undefined) {
-    var events = require('base/js/events');
-    var OutputArea = require('notebook/js/outputarea').OutputArea;
-
-    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
-      register_renderer(events, OutputArea);
-    }
-  }
-
-  
-  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
-    root._bokeh_timeout = Date.now() + 5000;
-    root._bokeh_failed_load = false;
-  }
-
-  var NB_LOAD_WARNING = {'data': {'text/html':
-     "<div style='background-color: #fdd'>\n"+
-     "<p>\n"+
-     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
-     "may be due to a slow or bad network connection. Possible fixes:\n"+
-     "</p>\n"+
-     "<ul>\n"+
-     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
-     "<li>use INLINE resources instead, as so:</li>\n"+
-     "</ul>\n"+
-     "<code>\n"+
-     "from bokeh.resources import INLINE\n"+
-     "output_notebook(resources=INLINE)\n"+
-     "</code>\n"+
-     "</div>"}};
-
-  function display_loaded() {
-    var el = document.getElementById("1001");
-    if (el != null) {
-      el.textContent = "BokehJS is loading...";
-    }
-    if (root.Bokeh !== undefined) {
-      if (el != null) {
-        el.textContent = "BokehJS " + root.Bokeh.version + " successfully loaded.";
-      }
-    } else if (Date.now() < root._bokeh_timeout) {
-      setTimeout(display_loaded, 100)
-    }
-  }
-
-
-  function run_callbacks() {
-    try {
-      root._bokeh_onload_callbacks.forEach(function(callback) {
-        if (callback != null)
-          callback();
-      });
-    } finally {
-      delete root._bokeh_onload_callbacks
-    }
-    console.debug("Bokeh: all callbacks have finished");
-  }
-
-  function load_libs(css_urls, js_urls, callback) {
-    if (css_urls == null) css_urls = [];
-    if (js_urls == null) js_urls = [];
-
-    root._bokeh_onload_callbacks.push(callback);
-    if (root._bokeh_is_loading > 0) {
-      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
-      return null;
-    }
-    if (js_urls == null || js_urls.length === 0) {
-      run_callbacks();
-      return null;
-    }
-    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
-    root._bokeh_is_loading = css_urls.length + js_urls.length;
-
-    function on_load() {
-      root._bokeh_is_loading--;
-      if (root._bokeh_is_loading === 0) {
-        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
-        run_callbacks()
-      }
-    }
-
-    function on_error() {
-      console.error("failed to load " + url);
-    }
-
-    for (var i = 0; i < css_urls.length; i++) {
-      var url = css_urls[i];
-      const element = document.createElement("link");
-      element.onload = on_load;
-      element.onerror = on_error;
-      element.rel = "stylesheet";
-      element.type = "text/css";
-      element.href = url;
-      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
-      document.body.appendChild(element);
-    }
-
-    for (var i = 0; i < js_urls.length; i++) {
-      var url = js_urls[i];
-      var element = document.createElement('script');
-      element.onload = on_load;
-      element.onerror = on_error;
-      element.async = false;
-      element.src = url;
-      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
-      document.head.appendChild(element);
-    }
-  };var element = document.getElementById("1001");
-  if (element == null) {
-    console.error("Bokeh: ERROR: autoload.js configured with elementid '1001' but no matching script tag was found. ")
-    return false;
-  }
-
-  function inject_raw_css(css) {
-    const element = document.createElement("style");
-    element.appendChild(document.createTextNode(css));
-    document.body.appendChild(element);
-  }
-
-  var js_urls = ["https://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-tables-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-gl-1.2.0.min.js"];
-  var css_urls = ["https://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.css", "https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.css", "https://cdn.pydata.org/bokeh/release/bokeh-tables-1.2.0.min.css"];
-
-  var inline_js = [
-    function(Bokeh) {
-      Bokeh.set_log_level("info");
-    },
-    
-    function(Bokeh) {
-      
-    },
-    function(Bokeh) {} // ensure no trailing comma for IE
-  ];
-
-  function run_inline_js() {
-    
-    if ((root.Bokeh !== undefined) || (force === true)) {
-      for (var i = 0; i < inline_js.length; i++) {
-        inline_js[i].call(root, root.Bokeh);
-      }if (force === true) {
-        display_loaded();
-      }} else if (Date.now() < root._bokeh_timeout) {
-      setTimeout(run_inline_js, 100);
-    } else if (!root._bokeh_failed_load) {
-      console.log("Bokeh: BokehJS failed to load within specified timeout.");
-      root._bokeh_failed_load = true;
-    } else if (force !== true) {
-      var cell = $(document.getElementById("1001")).parents('.cell').data().cell;
-      cell.output_area.append_execute_result(NB_LOAD_WARNING)
-    }
-
-  }
-
-  if (root._bokeh_is_loading === 0) {
-    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
-    run_inline_js();
-  } else {
-    load_libs(css_urls, js_urls, function() {
-      console.debug("Bokeh: BokehJS plotting callback run at", now());
-      run_inline_js();
-    });
-  }
-}(window));
-</script>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{&#39;TTT&#39;: &#39;F&#39;, &#39;TTC&#39;: &#39;F&#39;, &#39;TTA&#39;: &#39;L&#39;, &#39;TTG&#39;: &#39;L&#39;, &#39;TCT&#39;: &#39;S&#39;, &#39;TCC&#39;: &#39;S&#39;, &#39;TCA&#39;: &#39;S&#39;, &#39;TCG&#39;: &#39;S&#39;, &#39;TAT&#39;: &#39;Y&#39;, &#39;TAC&#39;: &#39;Y&#39;, &#39;TAA&#39;: &#39;*&#39;, &#39;TAG&#39;: &#39;*&#39;, &#39;TGT&#39;: &#39;C&#39;, &#39;TGC&#39;: &#39;C&#39;, &#39;TGA&#39;: &#39;*&#39;, &#39;TGG&#39;: &#39;W&#39;, &#39;CTT&#39;: &#39;L&#39;, &#39;CTC&#39;: &#39;L&#39;, &#39;CTA&#39;: &#39;L&#39;, &#39;CTG&#39;: &#39;L&#39;, &#39;CCT&#39;: &#39;P&#39;, &#39;CCC&#39;: &#39;P&#39;, &#39;CCA&#39;: &#39;P&#39;, &#39;CCG&#39;: &#39;P&#39;, &#39;CAT&#39;: &#39;H&#39;, &#39;CAC&#39;: &#39;H&#39;, &#39;CAA&#39;: &#39;Q&#39;, &#39;CAG&#39;: &#39;Q&#39;, &#39;CGT&#39;: &#39;R&#39;, &#39;CGC&#39;: &#39;R&#39;, &#39;CGA&#39;: &#39;R&#39;, &#39;CGG&#39;: &#39;R&#39;, &#39;ATT&#39;: &#39;I&#39;, &#39;ATC&#39;: &#39;I&#39;, &#39;ATA&#39;: &#39;I&#39;, &#39;ATG&#39;: &#39;M&#39;, &#39;ACT&#39;: &#39;T&#39;, &#39;ACC&#39;: &#39;T&#39;, &#39;ACA&#39;: &#39;T&#39;, &#39;ACG&#39;: &#39;T&#39;, &#39;AAT&#39;: &#39;N&#39;, &#39;AAC&#39;: &#39;N&#39;, &#39;AAA&#39;: &#39;K&#39;, &#39;AAG&#39;: &#39;K&#39;, &#39;AGT&#39;: &#39;S&#39;, &#39;AGC&#39;: &#39;S&#39;, &#39;AGA&#39;: &#39;R&#39;, &#39;AGG&#39;: &#39;R&#39;, &#39;GTT&#39;: &#39;V&#39;, &#39;GTC&#39;: &#39;V&#39;, &#39;GTA&#39;: &#39;V&#39;, &#39;GTG&#39;: &#39;V&#39;, &#39;GCT&#39;: &#39;A&#39;, &#39;GCC&#39;: &#39;A&#39;, &#39;GCA&#39;: &#39;A&#39;, &#39;GCG&#39;: &#39;A&#39;, &#39;GAT&#39;: &#39;D&#39;, &#39;GAC&#39;: &#39;D&#39;, &#39;GAA&#39;: &#39;E&#39;, &#39;GAG&#39;: &#39;E&#39;, &#39;GGT&#39;: &#39;G&#39;, &#39;GGC&#39;: &#39;G&#39;, &#39;GGA&#39;: &#39;G&#39;, &#39;GGG&#39;: &#39;G&#39;}
+</pre>
+</div>
 </div>
 
 </div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>These two dictionaries are particularly useful, so I put them in a little module which we will discuss in the <a href="l11_packages_and_modules.html">next lesson on packages and modules</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="A-dictionary-is-an-implementation-of-a-hash-table">A dictionary is an implementation of a hash table<a class="anchor-link" href="#A-dictionary-is-an-implementation-of-a-hash-table">&#182;</a></h2><p>It is useful to stop and think about how a dictionary works.  Let's create a dictionary and look at where the values are stored in memory.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create dictionary</span>
+<span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mf">12.6</span><span class="p">}</span>
+
+<span class="c1"># Find where they are stored</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">my_dict</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
 
 <div class="output_area">
 
     <div class="prompt"></div>
 
 
-
-<div class="output_html rendered_html output_subarea ">
-
-
-
-
-
-
-  <div class="bk-root" id="a6f70896-e87a-4347-a32b-f055d0c676aa" data-root-id="1002"></div>
-
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4470822592
+4432193088
+4432193120
+4470310088
+</pre>
+</div>
 </div>
 
 </div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, each entry in the dictionary is stored at a different location in memory. The dictionary itself also has its own address. So, when I index a dictionary with a key, how does the dictionary know which address in memory to use to fetch the value I am interested in?</p>
+<p>Dictionaries use a <strong>hash function</strong> to do this. A hash function converts its input to an integer. For example, we can use Python's built-in hash function to convert the keys to integers.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">hash</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="nb">hash</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">),</span> <span class="nb">hash</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+    <div class="prompt output_prompt">Out[9]:</div>
 
 
 
 
-
-<div id="df34d751-4d16-4376-aa20-5dfef7f384b3"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#df34d751-4d16-4376-aa20-5dfef7f384b3');
-(function(root) {
-  function embed_document(root) {
-    
-  var docs_json = {"f62fb0b3-7499-40e3-9648-7d48f8a475c1":{"roots":{"references":[{"attributes":{"below":[{"id":"1011","type":"LinearAxis"}],"center":[{"id":"1015","type":"Grid"},{"id":"1020","type":"Grid"},{"id":"1039","type":"Label"}],"left":[{"id":"1016","type":"LinearAxis"}],"plot_height":250,"plot_width":275,"renderers":[{"id":"1037","type":"GlyphRenderer"}],"title":{"id":"1041","type":"Title"},"toolbar":{"id":"1027","type":"Toolbar"},"x_range":{"id":"1003","type":"DataRange1d"},"x_scale":{"id":"1007","type":"LinearScale"},"y_range":{"id":"1005","type":"DataRange1d"},"y_scale":{"id":"1009","type":"LinearScale"}},"id":"1002","subtype":"Figure","type":"Plot"},{"attributes":{"data_source":{"id":"1034","type":"ColumnDataSource"},"glyph":{"id":"1035","type":"Line"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1036","type":"Line"},"selection_glyph":null,"view":{"id":"1038","type":"CDSView"}},"id":"1037","type":"GlyphRenderer"},{"attributes":{},"id":"1048","type":"UnionRenderers"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","line_width":3,"x":{"field":"x"},"y":{"field":"y"}},"id":"1036","type":"Line"},{"attributes":{"line_color":"red","line_width":3,"x":{"field":"x"},"y":{"field":"y"}},"id":"1035","type":"Line"},{"attributes":{},"id":"1021","type":"PanTool"},{"attributes":{},"id":"1022","type":"WheelZoomTool"},{"attributes":{"overlay":{"id":"1046","type":"BoxAnnotation"}},"id":"1023","type":"BoxZoomTool"},{"attributes":{"callback":null,"data":{"x":{"__ndarray__":"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","dtype":"float64","shape":[200]},"y":{"__ndarray__":"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","dtype":"float64","shape":[200]}},"selected":{"id":"1047","type":"Selection"},"selection_policy":{"id":"1048","type":"UnionRenderers"}},"id":"1034","type":"ColumnDataSource"},{"attributes":{},"id":"1024","type":"SaveTool"},{"attributes":{"text":"bootcamp","text_align":"center","x":0,"y":0},"id":"1039","type":"Label"},{"attributes":{},"id":"1025","type":"ResetTool"},{"attributes":{},"id":"1026","type":"HelpTool"},{"attributes":{"callback":null},"id":"1005","type":"DataRange1d"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1021","type":"PanTool"},{"id":"1022","type":"WheelZoomTool"},{"id":"1023","type":"BoxZoomTool"},{"id":"1024","type":"SaveTool"},{"id":"1025","type":"ResetTool"},{"id":"1026","type":"HelpTool"}]},"id":"1027","type":"Toolbar"},{"attributes":{"callback":null},"id":"1003","type":"DataRange1d"},{"attributes":{"source":{"id":"1034","type":"ColumnDataSource"}},"id":"1038","type":"CDSView"},{"attributes":{},"id":"1007","type":"LinearScale"},{"attributes":{},"id":"1009","type":"LinearScale"},{"attributes":{"formatter":{"id":"1045","type":"BasicTickFormatter"},"ticker":{"id":"1012","type":"BasicTicker"}},"id":"1011","type":"LinearAxis"},{"attributes":{"text":""},"id":"1041","type":"Title"},{"attributes":{},"id":"1012","type":"BasicTicker"},{"attributes":{},"id":"1043","type":"BasicTickFormatter"},{"attributes":{"ticker":{"id":"1012","type":"BasicTicker"}},"id":"1015","type":"Grid"},{"attributes":{},"id":"1045","type":"BasicTickFormatter"},{"attributes":{"formatter":{"id":"1043","type":"BasicTickFormatter"},"ticker":{"id":"1017","type":"BasicTicker"}},"id":"1016","type":"LinearAxis"},{"attributes":{},"id":"1047","type":"Selection"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1046","type":"BoxAnnotation"},{"attributes":{},"id":"1017","type":"BasicTicker"},{"attributes":{"dimension":1,"ticker":{"id":"1017","type":"BasicTicker"}},"id":"1020","type":"Grid"}],"root_ids":["1002"]},"title":"Bokeh Application","version":"1.2.0"}};
-  var render_items = [{"docid":"f62fb0b3-7499-40e3-9648-7d48f8a475c1","roots":{"1002":"a6f70896-e87a-4347-a32b-f055d0c676aa"}}];
-  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
-
-  }
-  if (root.Bokeh !== undefined) {
-    embed_document(root);
-  } else {
-    var attempts = 0;
-    var timer = setInterval(function(root) {
-      if (root.Bokeh !== undefined) {
-        embed_document(root);
-        clearInterval(timer);
-      }
-      attempts++;
-      if (attempts > 100) {
-        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-        clearInterval(timer);
-      }
-    }, 10, root)
-  }
-})(window);
-</script>
+<div class="output_text output_subarea output_execute_result">
+<pre>(6509145566863185902, -7202402579643612040, 4912706868645622253)</pre>
 </div>
 
 </div>
@@ -13757,17 +13585,857 @@ var element = $('#df34d751-4d16-4376-aa20-5dfef7f384b3');
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Under the hood, Python then converts these integers to integers that could correspond to locations in memory. A collection of elements that can be indexed this way is called a <strong>hash table</strong>. This is a very common data structure in computing.  Wikipedia has a <a href="https://en.wikipedia.org/wiki/Hash_table">pretty good discussion on them</a>.</p>
+<p>Given what you know about how dictionaries work, why do you think mutable objects are not acceptable as keys?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Dictionaries-are-mutable">Dictionaries are mutable<a class="anchor-link" href="#Dictionaries-are-mutable">&#182;</a></h2><p>The title says it all! Dictionaries are mutable. This means that they can be changed in place. For example, if we want to add an element to a dictionary, we use simple syntax.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Remind ourselves what the dictionary is</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_dict</span><span class="p">)</span>
+
+<span class="c1"># Add an entry</span>
+<span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Bootcamp is so much fun!&#39;</span>
+
+<span class="c1"># Look at dictionary again</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_dict</span><span class="p">)</span>
+
+<span class="c1"># Change an entry</span>
+<span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;I was not satisfied with entry a.&#39;</span>
+
+<span class="c1"># Look at it again</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_dict</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{&#39;a&#39;: 6, &#39;b&#39;: 7, &#39;c&#39;: 12.6}
+{&#39;a&#39;: 6, &#39;b&#39;: 7, &#39;c&#39;: 12.6, &#39;d&#39;: &#39;Bootcamp is so much fun!&#39;}
+{&#39;a&#39;: &#39;I was not satisfied with entry a.&#39;, &#39;b&#39;: 7, &#39;c&#39;: 12.6, &#39;d&#39;: &#39;Bootcamp is so much fun!&#39;}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Membership-operators-with-dictionaries">Membership operators with dictionaries<a class="anchor-link" href="#Membership-operators-with-dictionaries">&#182;</a></h2><p>The <strong><code>in</code></strong> and <strong><code>not in</code></strong> operators work with dictionaries, but both only query keys and <em>not</em> values. We see this again by example.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make a fresh my_dict</span>
+<span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+
+<span class="c1"># in works with keys</span>
+<span class="s1">&#39;b&#39;</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">my_dict</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[11]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(True, False, True)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Try it with values</span>
+<span class="mi">2</span> <span class="ow">in</span> <span class="n">my_dict</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[12]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Yup!  We get <code>False</code>.  Why?  Because <code>2</code> is not a <em>key</em> in <code>my_dict</code>. We can also iterate over the keys in a dictionary.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">my_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>a : 1
+b : 2
+c : 3
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The best, and preferred, method, is to iterate over <code>key</code>,<code>item</code> pairs in a dictionary using the <code>items()</code> method of a dictionary.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>a 1
+b 2
+c 3
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note, however, that like lists, the <code>item</code>s that come out of the <code>my_dict.items()</code> iterator are <em>not</em> items in the dictionary, but copies of them. If you make changes within the <code>for</code> loop, you will not change entries in the dictionary.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="s1">&#39;this string will not be in dictionary.&#39;</span>
+    
+<span class="n">my_dict</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[15]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You will, though, if you use the keys.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">my_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;this will be in the dictionary.&#39;</span>
+    
+<span class="n">my_dict</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[16]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;a&#39;: &#39;this will be in the dictionary.&#39;,
+ &#39;b&#39;: &#39;this will be in the dictionary.&#39;,
+ &#39;c&#39;: &#39;this will be in the dictionary.&#39;}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Built-in-functions-for-dictionaries">Built-in functions for dictionaries<a class="anchor-link" href="#Built-in-functions-for-dictionaries">&#182;</a></h2><p>The built-in <code>len()</code> function and <code>del</code> operation work on dictionaries.</p>
+<ul>
+<li><code>len(d)</code> gives the number of entries in dictionary <code>d</code></li>
+<li><code>del d[k]</code> deletes entry with key <code>k</code> from dictionary <code>d</code></li>
+</ul>
+<p>This is the first time we've encountered the <strong><code>del</code></strong> keyword. This keyword is used to delete variables and their values from memory. The <code>del</code> keyword can also be to delete items from lists.  Let's see things in practice.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create my_list and my_dict for reference</span>
+<span class="n">my_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="c1"># Print them</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;my_dict:&#39;</span><span class="p">,</span> <span class="n">my_dict</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;my_list:&#39;</span><span class="p">,</span> <span class="n">my_list</span><span class="p">)</span>
+
+<span class="c1"># Get lengths</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;length of my_dict:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_dict</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;length of my_list:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_list</span><span class="p">))</span>
+
+<span class="c1"># Delete a key from my_dict</span>
+<span class="k">del</span> <span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+
+<span class="c1"># Delete entry from my_list</span>
+<span class="k">del</span> <span class="n">my_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Show post-deleted objects</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;post-deleted my_dict:&#39;</span><span class="p">,</span> <span class="n">my_dict</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;post-deleted my_list:&#39;</span><span class="p">,</span> <span class="n">my_list</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>my_dict: {&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3, &#39;d&#39;: 4}
+my_list: [1, 2, 3, 4]
+length of my_dict: 4
+length of my_list: 4
+post-deleted my_dict: {&#39;a&#39;: 1, &#39;c&#39;: 3, &#39;d&#39;: 4}
+post-deleted my_list: [1, 3, 4]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note, though, that you cannot delete an item from a tuple, since it's immutable.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-18-db6fdb3f0eac&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> my_tuple <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">4</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">del</span> my_tuple<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span>
+
+<span class="ansi-red-fg">TypeError</span>: &#39;tuple&#39; object doesn&#39;t support item deletion</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Dictionary-methods">Dictionary methods<a class="anchor-link" href="#Dictionary-methods">&#182;</a></h2><p>Dictionaries have several built-in methods in addition to the <code>items()</code> you have already seen.  Following are a few of them, assuming the dictionary is <code>d</code>.</p>
+<table>
+<thead><tr>
+<th style="text-align:left">method</th>
+<th style="text-align:left">effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>d.keys()</code></td>
+<td style="text-align:left">return keys</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>d.pop(key)</code></td>
+<td style="text-align:left">return value associated with <code>key</code> and delete <code>key</code> from <code>d</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>d.values()</code></td>
+<td style="text-align:left">return the values in <code>d</code></td>
+</tr>
+</tbody>
+</table>
+<p>Let's try these out.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">my_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[19]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>dict_keys([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that this is a <code>dict_keys</code> object.  We cannot index it.  If, say, we wanted to sort the keys and have them index-able, we would have to convert them to a list.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">my_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[20]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is not a usual use case, though, and be warned that doing then when this is not explicitly what you want can lead to bugs. Now let's try popping an entry out of the dictionary.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[21]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>3</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[22]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;d&#39;: 4}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>...and, as we expect, key <code>'c'</code> is now deleted, and its value was returned in the call to <code>my_dict.pop('c')</code>. Finally, we can look at the values.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[23]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>dict_values([1, 2, 4])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We get a <code>dict_values</code> object, similar to the <code>dict_keys</code> object we got with the <code>my_dict.keys()</code> method.</p>
+<p>You can get more information about build-in methods from the <a href="https://docs.python.org/3/library/stdtypes.html#mapping-types-dict">Python documentation</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="List-methods">List methods<a class="anchor-link" href="#List-methods">&#182;</a></h2><p>As you may guess, the dictionary method <code>pop()</code> has an analog that works for lists. (Why don't the dictionary <code>key()</code> and <code>values()</code> methods work for lists?) We take this opportunity to introduce a few more useful list methods.  Imagine the list is called <code>s</code>.</p>
+<table>
+<thead><tr>
+<th style="text-align:left">method</th>
+<th style="text-align:left">effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>s.pop(i)</code></td>
+<td style="text-align:left">return value at index <code>i</code> and delete it from the list</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>s.append(x)</code></td>
+<td style="text-align:left">Put <code>x</code> at the end of the list</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>s.insert(i, x)</code></td>
+<td style="text-align:left">Insert <code>x</code> at index <code>i</code> in the list</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>s.remove(x)</code></td>
+<td style="text-align:left">Remove the first occurrence of <code>x</code> from the list</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>s.reverse()</code></td>
+<td style="text-align:left">Reverse the order of items in the list</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Using-dictionaries-as-kwargs">Using dictionaries as kwargs<a class="anchor-link" href="#Using-dictionaries-as-kwargs">&#182;</a></h2><p>A nifty feature of dictionaries is that they can be passed into functions as keyword arguments. We covered named keyword arguments in the <a href="l07_intro_to_functions.html">Intro to functions lesson</a>. In addition to the named keyword arguments, a function can take in arbitrary keyword arguments (<strong>not</strong> arbitrary non-keyword arguments). This is specified in the function definition by including a last argument with a double-asterisk, <code>**</code>. The kwargs with the double-asterisk get passed in as a dictionary.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">my_fun</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Concatenate sequences.&quot;&quot;&quot;</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">seq</span> <span class="o">+=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        
+    <span class="k">return</span> <span class="n">seq</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's try it!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_fun</span><span class="p">(</span><span class="s1">&#39;TGACAC&#39;</span><span class="p">,</span> <span class="s1">&#39;CAGGGA&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;GGGGGGGGG&#39;</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="s1">&#39;AAAATTTTT&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[25]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;TGACACCAGGGAGGGGGGGGGAAAATTTTT&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, imagine we have a dictionary that contains our values.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;TGACAC&#39;</span><span class="p">,</span> 
+           <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="s1">&#39;CAGGGA&#39;</span><span class="p">,</span> 
+           <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;GGGGGGGGG&#39;</span><span class="p">,</span> 
+           <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="s1">&#39;AAAATTTTT&#39;</span><span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can now pass this directly into the function by preceding it with a double asterisk.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_fun</span><span class="p">(</span><span class="o">**</span><span class="n">my_dict</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[27]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;TGACACCAGGGAGGGGGGGGGAAAATTTTT&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Beautiful!  This example is kind of trivial, but you can imagine that it can come in handy, e.g. with large sets of sequence fragments that you read in from a file. We will use <code>**kwargs</code> later in the bootcamp.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Computing-environment">Computing environment<a class="anchor-link" href="#Computing-environment">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
-<span class="o">%</span><span class="k">watermark</span> -v -p numpy,bokeh,jupyterlab
+<span class="o">%</span><span class="k">watermark</span> -v -p jupyterlab
 </pre></div>
 
     </div>
@@ -13787,8 +14455,6 @@ var element = $('#df34d751-4d16-4376-aa20-5dfef7f384b3');
 <pre>CPython 3.7.3
 IPython 7.1.1
 
-numpy 1.16.4
-bokeh 1.2.0
 jupyterlab 0.35.5
 </pre>
 </div>
