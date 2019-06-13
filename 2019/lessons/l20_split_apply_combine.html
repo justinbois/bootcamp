@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>l00_configuring_your_computer</title>
+<title>l20_split_apply_combine</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13128,214 +13128,11 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-0:-Configuring-your-computer">Lesson 0: Configuring your computer<a class="anchor-link" href="#Lesson-0:-Configuring-your-computer">&#182;</a></h1><p>(c) 2019 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-20:-Tidy-data-and-split-apply-combine">Lesson 20: Tidy data and split-apply-combine<a class="anchor-link" href="#Lesson-20:-Tidy-data-and-split-apply-combine">&#182;</a></h1><p>(c) 2019 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l00_configuring_your_computer.ipynb">here</a>.</em></p>
-<p><hr/>
-<br /></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this lesson, you will set up a Python computing environment for scientific computing. There are two main ways people set up Python for scientific computing.</p>
-<ol>
-<li>By downloading and installing package by package with tools like <a href="https://help.ubuntu.com/community/AptGet/Howto">apt-get</a>, <a href="https://docs.python.org/3/installing/">pip</a>, etc.</li>
-<li>By downloading and installing a Python distribution that contains binaries of many of the scientific packages needed. The major distributions of these are <a href="https://www.anaconda.com">Anaconda</a> and <a href="https://www.enthought.com/product/canopy/">Enthought Canopy</a>. Both contain IDEs.</li>
-</ol>
-<p>In this class, we will use Anaconda, with its associated package manager, <code>conda</code>. It has become the de facto package manager/distribution for scientific use.</p>
-<p>Before we get rolling with the Anaconda distribution, we have some considerations and installations to get out of the way first.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="macOS-users:-Install-XCode">macOS users: Install XCode<a class="anchor-link" href="#macOS-users:-Install-XCode">&#182;</a></h2><p>If you are using macOS, you should install <a href="https://developer.apple.com/xcode/">XCode</a>, if you haven't already. It's a large piece of software, taking up about 5GB on your hard drive, so make sure you have enough space. Please install this ahead of the bootcamp, since if students install this during the bootcamp, it will overwhelm the wireless. You can install it through the App Store.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Windows-users:-Install-Git-and-Chrome-or-Firefox">Windows users: Install Git and Chrome or Firefox<a class="anchor-link" href="#Windows-users:-Install-Git-and-Chrome-or-Firefox">&#182;</a></h2><p>We will be using <a href="https://jupyterlab.readthedocs.io/en/stable/">JupyterLab</a> in the bootcamp. It is browser-based, and Chrome, Firefox, and Safari are supported. Internet Explorer is <strong>not</strong>. Therefore, if you are a Windows user, you need to be sure you have either Chrome of Firefox installed.</p>
-<p>Git is installed on Macs with XCode. For Windows users, you need to install Git. You can do this by following the instructions <a href="https://gitforwindows.org">here</a>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Downloading-and-installing-Anaconda">Downloading and installing Anaconda<a class="anchor-link" href="#Downloading-and-installing-Anaconda">&#182;</a></h2><p>Downloading and installing Anaconda is simple.</p>
-<ol>
-<li>Go to the <a href="https://www.anaconda.com/distribution/">Anaconda distribution homepage</a> and download the graphical installer.  </li>
-<li>Be sure to download Anaconda for Python 3.7 for the appropriate operating system.</li>
-<li>Follow the on-screen instructions for installation. When prompted, be sure to "Install for me only."</li>
-<li>You may be prompted for optional installations, like <a href="https://www.jetbrains.com/pycharm/">PyCharm</a>. You will not need these for the bootcamp.</li>
-</ol>
-<p>That's it!  After you do that, you will have a functioning Python distribution.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Launching-JupyterLab-and-a-terminal">Launching JupyterLab and a terminal<a class="anchor-link" href="#Launching-JupyterLab-and-a-terminal">&#182;</a></h2><p>After installing the Anaconda distribution, you should be able to launch the <strong>Anaconda Navigator</strong>. If you're using macOS, this is available in your <code>Applications</code> menu. If you are using Windows, you can do this from the Start menu. Launch Anaconda Navigator.</p>
-<p>We will be using JupyterLab throughout the bootcamp (more on that in <a href="l01_welcome.html">Lesson 1</a>). You should see an option to launch JupyterLab. When you do that, a new browser window or tab will open with JupyterLab running. Within the JupyterLab window, you will have the option to launch a notebook, a console, a terminal, or a text editor. We will use all of these during the bootcamp. For the updating and installation of necessary packages, click on <code>Terminal</code> to launch a terminal. You will get a terminal window (probably black) with a bash prompt. We refer to this text interface in the terminal as the <strong>command line</strong>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-conda-package-manager">The conda package manager<a class="anchor-link" href="#The-conda-package-manager">&#182;</a></h2><p>conda is a package manager for keeping all of your packages up-to-date.  It has plenty of functionality beyond our basic usage in class, which you can learn more about by reading the <a href="http://conda.pydata.org/docs/get-started.html">docs</a>.  We will primarily be using conda to install and update packages.</p>
-<p>conda works from the command line.  Now that you know how to get a command line prompt, you can start using conda.  The first thing we'll do is update conda itself.  To do this, enter the following on the command line:</p>
-
-<pre><code>conda update conda
-
-</code></pre>
-<p>You may get a deprecation warning, which you can ignore. If conda is out of date and needs to be updated, you will be prompted to perform the update.  Just type <code>y</code>, and the update will proceed.</p>
-<p>Now that conda is updated, we'll use it to see what packages are installed.  Type the following on the command line:</p>
-
-<pre><code>conda list
-
-</code></pre>
-<p>This gives a list of all packages and their versions that are installed.  Now, we'll update all packages, so type the following on the command line:</p>
-
-<pre><code>conda update --all
-
-</code></pre>
-<p>If anything is out of date, you will be prompted to perform the updates. (If everything is up to date, you will just see a list of all the installed packages.)  They may even be some downgrades.  This happens when there are package conflicts where one package requires an earlier version of another.  conda is very smart and figures all of this out for you, so you can almost always say "yes" (or "<code>y</code>") to conda when it prompts you.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Installations">Installations<a class="anchor-link" href="#Installations">&#182;</a></h2><p>There are several additional installations you need to do for the bootcamp. We will first install some plotting packages we need, which are available as <a href="http://pyviz.org">PyViz</a>.</p>
-
-<pre><code>conda install -c pyviz pyviz
-
-</code></pre>
-<p>Some packages may again be downgraded with the installation of PyViz, and that is ok. Next, to configure JupyterLab, we need to install <a href="https://nodejs.org/">node.js</a>.</p>
-
-<pre><code>conda install nodejs 
-
-</code></pre>
-<p>We will also install <a href="https://github.com/rasbt/watermark">watermark</a>, which enables us to conveniently display version numbers of the software we are using. For this installation, we will use <code>pip</code>.</p>
-
-<pre><code>pip install watermark
-
-</code></pre>
-<p>There are a few other packages from pip we will need for the bootcamp, so we can go ahead and install those now.</p>
-
-<pre><code>pip install black blackcellmagic bootcamp_utils
-
-</code></pre>
-<p>Finally, we need to configure JupyterLab to work with the plotting packages we will use.</p>
-
-<pre><code>jupyter labextension install --no-build @pyviz/jupyterlab_pyviz
-
-</code></pre>
-<p>You may also wish to install a spell-checker (this one isn't necessary).</p>
-
-<pre><code>jupyter labextension install --no-build @ijmbarr/jupyterlab_spellchecker
-
-</code></pre>
-<p>After installing all of these extensions, you can rebuild JupyterLab.</p>
-
-<pre><code>jupyter lab build
-
-</code></pre>
-<p>You should close your JupyterLab session and terminate Anaconda Navigator after you have completed the build. Relaunch Anaconda Navigator and launch a fresh JupyterLab instance. As before, after JupyterLab launches, launch a new terminal window so that you can proceed with setting up Git.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Setting-up-Git">Setting up Git<a class="anchor-link" href="#Setting-up-Git">&#182;</a></h2><p>Git features heavily in the bootcamp. We use it for <strong>version control</strong> and also for sharing files, data, and code we will use in the bootcamp.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Set-up-a-GitHub-account">Set up a GitHub account<a class="anchor-link" href="#Set-up-a-GitHub-account">&#182;</a></h4><p>Go to <a href="http://github.com/">http://github.com/</a> to get an account. You should register with your Caltech address so you get free private repositories as academics. You should also think carefully about picking your user name. There is a good chance other people in your professional life will see this.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Forking-the-bootcamp-repository">Forking the bootcamp repository<a class="anchor-link" href="#Forking-the-bootcamp-repository">&#182;</a></h4><p>Let's say you want to do some work on a project with code stored in a <strong>repository</strong>, but you are not an active collaborator. For example, there could be a useful package a lab at another university put on GitHub for a certain kind of image segmentation that is useful for your research. You want to do something <em>almost</em> exactly like the package does, but need to make some small modifications yourself. You want to clone the repository and add a couple functions and maybe modify one or two they already have, leaving much of the rest of the repository untouched. Of course, you also want to update your local copy of all that untouched (but still used) code when the maintainers update it.</p>
-<p>This is kind of exactly what you want to do here in the bootcamp. We have a repository that has data sets and a couple tutorials, but you want to write your Python code right in that repository. If I update the data sets, you want to be able to pull in my changes, but still have your code in place.</p>
-<p>There is a nice way to do this called <strong>forking</strong>. To fork a repository on GitHub, simply navigate got the website of the repository and click the Fork button. Be sure you are logged in as yourself when you do this. Click <a href="https://github.com/justinbois/bootcamp/">this link</a> to go to the GitHub page for the bootcamp.</p>
-<center>
-<img src="bootcamp_github_page.png" width="500px">
-</center><p>The fork button is in the upper right. Just click the button, and you now have a <strong>fork</strong> of the bootcamp repository on your GitHub account.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Cloning-your-fork-to-your-local-machine">Cloning your fork to your local machine<a class="anchor-link" href="#Cloning-your-fork-to-your-local-machine">&#182;</a></h4><p>Now you can clone your fork of the repository to your local machine. We will keep all of your material under version control in a directory called <code>git</code> in your home directory. Do the following on the command line.</p>
-
-<pre><code>mkdir -p ~/git
-
-</code></pre>
-<p>Now, being sure you are in the <code>~/git</code> directory, you can clone <em>your forked copy of the repository</em> (not the original <code>bootcamp</code> repository). To do this, navigate your browser to the forked copy of the <code>bootcamp</code> repository on your account (this is where clicking the "Fork" button took you in your browser).</p>
-<p>Click the green <code>Clone or download</code> button and copy the URL of the forked repository. Now, you can clone it by doing the following on the command line, making the obvious substitution for <code>the_url_you_just_copied</code>.</p>
-
-<pre><code>cd ~/git
-git clone --depth 5 the_url_you_just_copied
-
-</code></pre>
-<p>You now have a local copy of your own fork of the bootcamp repository. You can add files and edit it. When you commit and push, it will all be on your account, and the master repository will not see the changes.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Syncing-your-forked-repository-to-the-upstream-repository">Syncing your forked repository to the upstream repository<a class="anchor-link" href="#Syncing-your-forked-repository-to-the-upstream-repository">&#182;</a></h4><p>As I mentioned before, you want to be able to sync your repository with the original <code>bootcamp</code> repository so you can retrieve any updates in it. The original repository is typically called the <strong>upstream repository</strong>, since presumably you are changing it, so you are downstream. You want the upstream repository to be a <strong>remote</strong> repository, which is just what we call a repository we track and fetch and merge from. To see which repositories are remote, do the following on the command line.</p>
-
-<pre><code>cd bootcamp
-git remote -v
-
-</code></pre>
-<p>The <code>-v</code> just means "verbose," so it will also tell you the URLs. Entering that now will show a single repository, <code>origin</code>, which you can fetch from and push to. In your case, <code>origin</code> your fork of the bootcamp repository.</p>
-<p>We now want to add the upstream repository. To do this, add the <strong>original</strong> bootcamp repository as the upstream repository.</p>
-
-<pre><code>git remote add upstream https://github.com/justinbois/bootcamp.git
-
-</code></pre>
-<p>Now try doing <code>git remote -v</code>, and you will see that you are now also tracking the upstream repository.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Checking-your-distribution">Checking your distribution<a class="anchor-link" href="#Checking-your-distribution">&#182;</a></h2><p>We'll now run a quick test to make sure things are working properly.  We will make a quick plot that requires some of the scientific libraries we will use in the bootcamp.</p>
-<p>Use the JupyterLab launcher (you can get a new launcher by clicking on the <code>+</code> icon on the left pane of your JupyterLab window) to launch a notebook. In the first cell (the box next to the <code>In [ ]:</code> prompt), paste the code below. To run the code, press <code>Shift+Enter</code> while the cursor is active inside the cell. You should see a plot that looks like the one below. If you do, you have a functioning Python environment for scientific computing!</p>
-
+<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l20_split_apply_combine.ipynb">here</a>.</em></p>
+<hr />
 </div>
 </div>
 </div>
@@ -13345,22 +13142,74 @@ git remote -v
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
-<span class="kn">import</span> <span class="nn">bokeh.io</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
 
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_notebook</span><span class="p">()</span>
+    </div>
+</div>
+</div>
 
-<span class="c1"># Generate plotting values</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span>
-<span class="n">y</span> <span class="o">=</span> <span class="mi">13</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">275</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">text</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;bootcamp&#39;</span><span class="p">,</span> <span class="n">text_align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">add_layout</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<p>In the last lesson, we learned about Pandas and dipped our toe in to see its power. In this lesson, we will continue to harness the power of Pandas to pull out subsets of data we are interested in.</p>
 
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Tidy-data">Tidy data<a class="anchor-link" href="#Tidy-data">&#182;</a></h2><p><a href="https://en.wikipedia.org/wiki/Hadley_Wickham">Hadley Wickham</a> wrote a <a href="http://dx.doi.org/10.18637/jss.v059.i10">great article</a> in favor of "tidy data." Tidy data frames follow the rules:</p>
+<ol>
+<li>Each variable is a column.</li>
+<li>Each observation is a row.</li>
+<li>Each type of observation has its own separate data frame.</li>
+</ol>
+<p>This is less pretty to visualize as a table, but we rarely look at data in tables. Indeed, the representation of data which is convenient for visualization is different from that which is convenient for analysis. A tidy <code>DataFrame</code> is almost always <strong>much</strong> easier to work with than non-tidy formats.</p>
+<p>You may raise some objections about tidy data. Here are a few, and my responses.</p>
+<p><strong>Objection:</strong> Looking at a table of tidy data is ugly. It is not intuitively organized. I would almost never display a tidy data table in a publication.</p>
+<p><strong>Response:</strong> Correct! Having tabular data in a format that is easy to read as a human studying a table is a very different thing than having it in a format that is easy to explore and work with using a computer. As <a href="https://chendaniely.github.io">Daniel Chen</a> put it, "There are data formats that are better for reporting and data formats that are better for analysis." We are using the tidy data frames for analysis, not reporting (though we will see in the coming lessons that having the data in a tidy format makes making plots much easier, and plots are a key medium for reporting.)</p>
+<p><br /></p>
+<p><strong>Objection:</strong> Isn't it better to sometimes have data arranged in other ways? Say in a matrix?</p>
+<p><strong>Response:</strong> This is certainly true for things like images, or raster-style data in general. It makes more sense to organize an image in a 2D matrix than to have it organized as a data frame with three columns (row in image, column in image, intensity of pixel), where each row corresponds to a single pixel. For an image, indexing it by row and column is always unambiguous, <code>my_image[i, j]</code> means the pixel at row <code>i</code> and column <code>j</code>.</p>
+<p>For other data, though, the matrix layout suffers from the fact that there may be more than one way to construct a matrix. If you know a data frame is tidy, you already know its structure. You need only to ask what the columns are, and then you immediately know how to access data using Boolean indexing. In other formats, you might have to read and write extensive comments to understand the structure of the data. Of course, you <em>can</em> read and write comments, but it opens the door for the possibility of misinterpretation or mistakes.</p>
+<p><br /></p>
+<p><strong>Objection:</strong> But what about time series? Clearly, that can be in matrix format. One column is time, and then subsequent columns are observations made at that time.</p>
+<p><strong>Response:</strong> Yes, that is true. But then the matrix-style described could be considered tidy, since each row is a single observation (time point) that has many facets.</p>
+<p><br /></p>
+<p><strong>Objection:</strong> Isn't this an inefficient use of memory? There tend to be lots of repeated entries in tidy data frames.</p>
+<p><strong>Response:</strong> Yes, there are more efficient ways of storing and accessing data. But for data sets that are not "big data," this is seldom a real issue. The extra expense in memory, as well as the extra expense in access, are small prices to pay for the simplicity and speed of the human user in accessing the data.</p>
+<p><br /></p>
+<p><strong>Objection:</strong> Once it's tidy, we pretty much have to use Boolean indexing to get what we want, and that can be slower than other methods of accessing data. What about performance?</p>
+<p><strong>Response:</strong> See the previous response. Speed of access really only becomes a problem with big, high-throughput data sets. In those cases, there are often many things you need to be clever about beyond organization of your data.</p>
+<p><br /></p>
+<p><strong>Conclusion:</strong> I really think that tidying a data set allows for fluid exploration. We will focus on tidy data sets going forward. The techniques for bringing untidy data into tidy format use many of Pandas's functions, but are largely beyond the scope of this bootcamp. You will explore that a little bit in the exercises, but for most of the bootcamp, our data sets are already tidy.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-data-set">The data set<a class="anchor-link" href="#The-data-set">&#182;</a></h2><p>We will again use the data set from the <a href="https://doi.org/10.1098/rsos.160321">Beattie, et al. paper</a> on facial matching under sleep deprivation. Let's load in the original data set and add the column on insomnia as we did in the <a href="l19_intro_to_pandas.html">last lesson</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/gfmt_sleep.csv&#39;</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sci&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">16</span>
+
+<span class="c1"># Take a look</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13373,384 +13222,146 @@ git remote -v
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+    <div class="prompt output_prompt">Out[2]:</div>
 
 
 
-<div class="output_html rendered_html output_subarea ">
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-    <div class="bk-root">
-        <a href="https://bokeh.pydata.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
-        <span id="1001">Loading BokehJS ...</span>
-    </div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+      <th>insomnia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8</td>
+      <td>f</td>
+      <td>39</td>
+      <td>65</td>
+      <td>80</td>
+      <td>72.5</td>
+      <td>91.0</td>
+      <td>90.0</td>
+      <td>93.0</td>
+      <td>83.5</td>
+      <td>93.0</td>
+      <td>90.0</td>
+      <td>9</td>
+      <td>13</td>
+      <td>2</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>16</td>
+      <td>m</td>
+      <td>42</td>
+      <td>90</td>
+      <td>90</td>
+      <td>90.0</td>
+      <td>75.5</td>
+      <td>55.5</td>
+      <td>70.5</td>
+      <td>50.0</td>
+      <td>75.0</td>
+      <td>50.0</td>
+      <td>4</td>
+      <td>11</td>
+      <td>7</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>18</td>
+      <td>f</td>
+      <td>31</td>
+      <td>90</td>
+      <td>95</td>
+      <td>92.5</td>
+      <td>89.5</td>
+      <td>90.0</td>
+      <td>86.0</td>
+      <td>81.0</td>
+      <td>89.0</td>
+      <td>88.0</td>
+      <td>10</td>
+      <td>9</td>
+      <td>3</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>22</td>
+      <td>f</td>
+      <td>35</td>
+      <td>100</td>
+      <td>75</td>
+      <td>87.5</td>
+      <td>89.5</td>
+      <td>NaN</td>
+      <td>71.0</td>
+      <td>80.0</td>
+      <td>88.0</td>
+      <td>80.0</td>
+      <td>13</td>
+      <td>8</td>
+      <td>20</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>27</td>
+      <td>f</td>
+      <td>74</td>
+      <td>60</td>
+      <td>65</td>
+      <td>62.5</td>
+      <td>68.5</td>
+      <td>49.0</td>
+      <td>61.0</td>
+      <td>49.0</td>
+      <td>65.0</td>
+      <td>49.0</td>
+      <td>13</td>
+      <td>9</td>
+      <td>12</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
 </div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-
-
-<div id="a5b30dac-37b6-413b-8904-55586cdc09c8"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#a5b30dac-37b6-413b-8904-55586cdc09c8');
-
-(function(root) {
-  function now() {
-    return new Date();
-  }
-
-  var force = true;
-
-  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
-    root._bokeh_onload_callbacks = [];
-    root._bokeh_is_loading = undefined;
-  }
-
-  var JS_MIME_TYPE = 'application/javascript';
-  var HTML_MIME_TYPE = 'text/html';
-  var EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
-  var CLASS_NAME = 'output_bokeh rendered_html';
-
-  /**
-   * Render data to the DOM node
-   */
-  function render(props, node) {
-    var script = document.createElement("script");
-    node.appendChild(script);
-  }
-
-  /**
-   * Handle when an output is cleared or removed
-   */
-  function handleClearOutput(event, handle) {
-    var cell = handle.cell;
-
-    var id = cell.output_area._bokeh_element_id;
-    var server_id = cell.output_area._bokeh_server_id;
-    // Clean up Bokeh references
-    if (id != null && id in Bokeh.index) {
-      Bokeh.index[id].model.document.clear();
-      delete Bokeh.index[id];
-    }
-
-    if (server_id !== undefined) {
-      // Clean up Bokeh references
-      var cmd = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
-      cell.notebook.kernel.execute(cmd, {
-        iopub: {
-          output: function(msg) {
-            var id = msg.content.text.trim();
-            if (id in Bokeh.index) {
-              Bokeh.index[id].model.document.clear();
-              delete Bokeh.index[id];
-            }
-          }
-        }
-      });
-      // Destroy server and session
-      var cmd = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
-      cell.notebook.kernel.execute(cmd);
-    }
-  }
-
-  /**
-   * Handle when a new output is added
-   */
-  function handleAddOutput(event, handle) {
-    var output_area = handle.output_area;
-    var output = handle.output;
-
-    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
-    if ((output.output_type != "display_data") || (!output.data.hasOwnProperty(EXEC_MIME_TYPE))) {
-      return
-    }
-
-    var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
-
-    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
-      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
-      // store reference to embed id on output_area
-      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
-    }
-    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
-      var bk_div = document.createElement("div");
-      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
-      var script_attrs = bk_div.children[0].attributes;
-      for (var i = 0; i < script_attrs.length; i++) {
-        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
-      }
-      // store reference to server id on output_area
-      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
-    }
-  }
-
-  function register_renderer(events, OutputArea) {
-
-    function append_mime(data, metadata, element) {
-      // create a DOM node to render to
-      var toinsert = this.create_output_subarea(
-        metadata,
-        CLASS_NAME,
-        EXEC_MIME_TYPE
-      );
-      this.keyboard_manager.register_events(toinsert);
-      // Render to node
-      var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
-      render(props, toinsert[toinsert.length - 1]);
-      element.append(toinsert);
-      return toinsert
-    }
-
-    /* Handle when an output is cleared or removed */
-    events.on('clear_output.CodeCell', handleClearOutput);
-    events.on('delete.Cell', handleClearOutput);
-
-    /* Handle when a new output is added */
-    events.on('output_added.OutputArea', handleAddOutput);
-
-    /**
-     * Register the mime type and append_mime function with output_area
-     */
-    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
-      /* Is output safe? */
-      safe: true,
-      /* Index of renderer in `output_area.display_order` */
-      index: 0
-    });
-  }
-
-  // register the mime type if in Jupyter Notebook environment and previously unregistered
-  if (root.Jupyter !== undefined) {
-    var events = require('base/js/events');
-    var OutputArea = require('notebook/js/outputarea').OutputArea;
-
-    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
-      register_renderer(events, OutputArea);
-    }
-  }
-
-  
-  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
-    root._bokeh_timeout = Date.now() + 5000;
-    root._bokeh_failed_load = false;
-  }
-
-  var NB_LOAD_WARNING = {'data': {'text/html':
-     "<div style='background-color: #fdd'>\n"+
-     "<p>\n"+
-     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
-     "may be due to a slow or bad network connection. Possible fixes:\n"+
-     "</p>\n"+
-     "<ul>\n"+
-     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
-     "<li>use INLINE resources instead, as so:</li>\n"+
-     "</ul>\n"+
-     "<code>\n"+
-     "from bokeh.resources import INLINE\n"+
-     "output_notebook(resources=INLINE)\n"+
-     "</code>\n"+
-     "</div>"}};
-
-  function display_loaded() {
-    var el = document.getElementById("1001");
-    if (el != null) {
-      el.textContent = "BokehJS is loading...";
-    }
-    if (root.Bokeh !== undefined) {
-      if (el != null) {
-        el.textContent = "BokehJS " + root.Bokeh.version + " successfully loaded.";
-      }
-    } else if (Date.now() < root._bokeh_timeout) {
-      setTimeout(display_loaded, 100)
-    }
-  }
-
-
-  function run_callbacks() {
-    try {
-      root._bokeh_onload_callbacks.forEach(function(callback) {
-        if (callback != null)
-          callback();
-      });
-    } finally {
-      delete root._bokeh_onload_callbacks
-    }
-    console.debug("Bokeh: all callbacks have finished");
-  }
-
-  function load_libs(css_urls, js_urls, callback) {
-    if (css_urls == null) css_urls = [];
-    if (js_urls == null) js_urls = [];
-
-    root._bokeh_onload_callbacks.push(callback);
-    if (root._bokeh_is_loading > 0) {
-      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
-      return null;
-    }
-    if (js_urls == null || js_urls.length === 0) {
-      run_callbacks();
-      return null;
-    }
-    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
-    root._bokeh_is_loading = css_urls.length + js_urls.length;
-
-    function on_load() {
-      root._bokeh_is_loading--;
-      if (root._bokeh_is_loading === 0) {
-        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
-        run_callbacks()
-      }
-    }
-
-    function on_error() {
-      console.error("failed to load " + url);
-    }
-
-    for (var i = 0; i < css_urls.length; i++) {
-      var url = css_urls[i];
-      const element = document.createElement("link");
-      element.onload = on_load;
-      element.onerror = on_error;
-      element.rel = "stylesheet";
-      element.type = "text/css";
-      element.href = url;
-      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
-      document.body.appendChild(element);
-    }
-
-    for (var i = 0; i < js_urls.length; i++) {
-      var url = js_urls[i];
-      var element = document.createElement('script');
-      element.onload = on_load;
-      element.onerror = on_error;
-      element.async = false;
-      element.src = url;
-      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
-      document.head.appendChild(element);
-    }
-  };var element = document.getElementById("1001");
-  if (element == null) {
-    console.error("Bokeh: ERROR: autoload.js configured with elementid '1001' but no matching script tag was found. ")
-    return false;
-  }
-
-  function inject_raw_css(css) {
-    const element = document.createElement("style");
-    element.appendChild(document.createTextNode(css));
-    document.body.appendChild(element);
-  }
-
-  var js_urls = ["https://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-tables-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-gl-1.2.0.min.js"];
-  var css_urls = ["https://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.css", "https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.css", "https://cdn.pydata.org/bokeh/release/bokeh-tables-1.2.0.min.css"];
-
-  var inline_js = [
-    function(Bokeh) {
-      Bokeh.set_log_level("info");
-    },
-    
-    function(Bokeh) {
-      
-    },
-    function(Bokeh) {} // ensure no trailing comma for IE
-  ];
-
-  function run_inline_js() {
-    
-    if ((root.Bokeh !== undefined) || (force === true)) {
-      for (var i = 0; i < inline_js.length; i++) {
-        inline_js[i].call(root, root.Bokeh);
-      }if (force === true) {
-        display_loaded();
-      }} else if (Date.now() < root._bokeh_timeout) {
-      setTimeout(run_inline_js, 100);
-    } else if (!root._bokeh_failed_load) {
-      console.log("Bokeh: BokehJS failed to load within specified timeout.");
-      root._bokeh_failed_load = true;
-    } else if (force !== true) {
-      var cell = $(document.getElementById("1001")).parents('.cell').data().cell;
-      cell.output_area.append_execute_result(NB_LOAD_WARNING)
-    }
-
-  }
-
-  if (root._bokeh_is_loading === 0) {
-    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
-    run_inline_js();
-  } else {
-    load_libs(css_urls, js_urls, function() {
-      console.debug("Bokeh: BokehJS plotting callback run at", now());
-      run_inline_js();
-    });
-  }
-}(window));
-</script>
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-
-
-
-
-
-
-  <div class="bk-root" id="a6f70896-e87a-4347-a32b-f055d0c676aa" data-root-id="1002"></div>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-
-
-<div id="5865a42a-b8a1-49c6-a9da-698de07fcae9"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#5865a42a-b8a1-49c6-a9da-698de07fcae9');
-(function(root) {
-  function embed_document(root) {
-    
-  var docs_json = {"f62fb0b3-7499-40e3-9648-7d48f8a475c1":{"roots":{"references":[{"attributes":{"below":[{"id":"1011","type":"LinearAxis"}],"center":[{"id":"1015","type":"Grid"},{"id":"1020","type":"Grid"},{"id":"1039","type":"Label"}],"left":[{"id":"1016","type":"LinearAxis"}],"plot_height":250,"plot_width":275,"renderers":[{"id":"1037","type":"GlyphRenderer"}],"title":{"id":"1041","type":"Title"},"toolbar":{"id":"1027","type":"Toolbar"},"x_range":{"id":"1003","type":"DataRange1d"},"x_scale":{"id":"1007","type":"LinearScale"},"y_range":{"id":"1005","type":"DataRange1d"},"y_scale":{"id":"1009","type":"LinearScale"}},"id":"1002","subtype":"Figure","type":"Plot"},{"attributes":{"data_source":{"id":"1034","type":"ColumnDataSource"},"glyph":{"id":"1035","type":"Line"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1036","type":"Line"},"selection_glyph":null,"view":{"id":"1038","type":"CDSView"}},"id":"1037","type":"GlyphRenderer"},{"attributes":{},"id":"1048","type":"UnionRenderers"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","line_width":3,"x":{"field":"x"},"y":{"field":"y"}},"id":"1036","type":"Line"},{"attributes":{"line_color":"red","line_width":3,"x":{"field":"x"},"y":{"field":"y"}},"id":"1035","type":"Line"},{"attributes":{},"id":"1021","type":"PanTool"},{"attributes":{},"id":"1022","type":"WheelZoomTool"},{"attributes":{"overlay":{"id":"1046","type":"BoxAnnotation"}},"id":"1023","type":"BoxZoomTool"},{"attributes":{"callback":null,"data":{"x":{"__ndarray__":"AAAAAAAAAADRwxpAin5AP+wA/sA6eHA/2uS6aCu5iz+argasEV+gP9JCLBT+1K8/JWBMKCdauz+9vJK/kZPFP33GiWNy988/tTWu1oOQ1j+fUBeKv6jePwr6dtqMMOQ/miFcRgTp6T8RVdu/4UPwP/hpzcI2CvQ/CthawhlK+D+Ao8GW4QT9PwkZT7lOHQFAoRGC+wj1A0ArzlGlXAgHQNpaPBpjVQpA4UvKGZXZDUBtE6yh58gQQIsM3gMsvRJApuW6fXPHFED1gHW8VuUWQPcslz8wFBlAzmN62yFRG0BXh1zCGpkdQHwmUAbe6B9AblyhwoQeIUBtB6qXDkkiQNOSdktBciNA58CsXEqYJED0lhH3U7klQF2Vi/WI0yZATqpT5RjlJ0C/9SsBPOwoQAUOhRs35ylAUOagbl/UKkDobf1JHrIrQNjun5T0fixAvmk8HH45LUDsx6ipdOAtQLqykdOyci5AWfr8iDbvLkDOYMpNI1UvQEfbFSTEoy9AVFQcHo3aL0DU+QuVHPkvQL9c+QE8/y9A60MJd+DsL0CFH7q3KsIvQD2TFfBmfy9ABZVwCwwlL0AxKD2surMuQJDOScc7LC5AF3Ge5X6PLUAX2vIQmN4sQIgPfm+9GixANiuWlERFK0CyFESMn18qQBowjKhZaylA00a7FxRqKEC/W4RLgl0nQBSkJzlmRyZAv4sze4wpJUDEsbVdyAUkQISL4t3v3SJAk2pWptezIUApuhkRT4kgQCe5CHE4wB5A+4HyP/BzHED4yHf6FTEaQCLuq1XR+hdAD/dIlxrUFUBQkWROtL8TQJ+yBYwlwBFATgt0UWmvD0DUJAtGxRAMQDBKTkLOpwhAJRJoPlp3BUB8NQKioIECQJsvxvZskP8/LLxiZBiY+j8TLJ512Rr2P/IUk5f8F/I/iZCMTRIb7T82dCafkfDmP139kKSjp+E/NLidSlBq2j/PPTZQoxfTP8G9Resncco/GPUu0m1VwT8hVb+N9CC1P/YSfv63Qqc/O19QwuT5lT9lGj9+yxCAP6Ns3fgY0Vs/0/ypcx6AED+E/alzHoAQvyps3fgY0Vu/Oho/fssQgL8RX1DC5PmVvxETfv63Qqe/OFW/jfQgtb8I9S7SbVXBv669Resnccq/wj02UKMX078juJ1KUGrav2f9kKSjp+G/KnQmn5Hw5r9+kIxNEhvtv+oUk5f8F/K/Ciyeddka9r80vGJkGJj6v6QvxvZskP+/eDUCoqCBAsAeEmg+WncFwCxKTkLOpwjAyyQLRsUQDMBTC3RRaa8PwJ2yBYwlwBHATpFkTrS/E8AJ90iXGtQVwBzuq1XR+hfA+Mh3+hUxGsD0gfI/8HMcwCC5CHE4wB7AKboZEU+JIMCPalam17MhwIeL4t3v3SLAwrG1XcgFJMC9izN7jCklwBekJzlmRybAvFuES4JdJ8DWRrsXFGoowBUwjKhZaynAshREjJ9fKsA5K5aUREUrwIUPfm+9GizAGtryEJjeLMAUcZ7lfo8twJDOScc7LC7AMSg9rLqzLsAFlXALDCUvwECTFfBmfy/AhR+6tyrCL8DrQwl34OwvwL9c+QE8/y/A1PkLlRz5L8BUVBwejdovwEfbFSTEoy/AzmDKTSNVL8BZ+vyINu8uwL2ykdOyci7A7MeoqXTgLcC+aTwcfjktwNjun5T0fizA7W39SR6yK8BQ5qBuX9QqwAIOhRs35ynAv/UrATzsKMBLqlPlGOUnwGKVi/WI0ybA9JYR91O5JcDnwKxcSpgkwNWSdktBciPAbQeqlw5JIsB0XKHChB4hwHwmUAbe6B/AVIdcwhqZHcDVY3rbIVEbwPcslz8wFBnAAYF1vFblFsCm5bp9c8cUwJYM3gMsvRLAchOsoefIEMDYS8oZldkNwOZaPBpjVQrAK85RpVwIB8CvEYL7CPUDwAkZT7lOHQHAdaPBluEE/b8X2FrCGUr4v/ZpzcI2CvS/IVXbv+FD8L+gIVxGBOnpv//5dtqMMOS/tlAXir+o3r+uNa7Wg5DWv6rGiWNy98+/xrySv5GTxb8GYEwoJ1q7vwJDLBT+1K+/ka4GrBFfoL9I5bpoK7mLv/4A/sA6eHC/VMMaQIp+QL/Soz3ndHl1tg==","dtype":"float64","shape":[200]},"y":{"__ndarray__":"AAAAAAAAFEBRqPwN6BQUQG0hFSthUxRA9Dbf8q66FECWFkztmUkVQHapa0xz/hVALlAOFxrXFkDAR1quAdEXQFMBv5c56RhAW/BZcHYcGkAA1u3qG2cbQIHsDbZHxRxAZVkeJd0yHkAM31V0kasfQDhXBT98lSBAXQYm20hWIUAzPpCg6hUiQDgQ23sg0iJA00u0mLKII0Am11iTeDckQEXc8WJf3CRA7djy6W51JUBkWwQbzwAmQH89tKLMfCZAucoHCN3nJkD57x44okAnQBIxUXPthSdARvCElMG2J0BKeO6tVNInQOfJ3PgQ2CdA2ee0GJXHJ0DxvK+zs6AnQKptUWZyYydAUurZGAgQJ0CmVxXA2qYmQHhi75R8KCZAeoX3z6iVJUDvMZf3P+8kQLAXENFDNiRAWd9rBdNrI0DX/lOMJJEiQD10Te+CpyFAhdYPeEewIECPSkK5qlkfQC0ZEvcpPR1APhWic94NG0B1ckwnks4YQJBJo97+gRZALnrEgcYqFEDZKasWbMsRQCp2RimbzA5ATiGDNj37CUC+1402yCYFQIzwVvfhUgBAUsI/A48F9z+fekK8KeXqP2gXly4Ejc8/QhFwQGLl1b8YP6xGYJbtv0JExUaFAfi/g//an1eNAMAfG/S81goFwI4+nXcKeQnAiJpitf3XDcAGXaJF+BMRwMkUDTKmNBPARSA04UtOFcAwQyPtNGEXwPFJwB+vbRnA3mhkcQR0G8B/tzlLdXQdwEdq9Cczbx/Ai3q21S2yIMDFnZQj+qkhwJFsiT/zniLA1xg+b/6QI8A0th1V8H8kwKNWjCyMayXA4LwRbINTJsBmJWXOdTcnwOOOa8HxFijAaUBmOHXxKMAD8cvcbsYpwFh6m5c/lSrAZIZqazxdK8A9wguWsB0swFi0bO/f1SzAt4xAegmFLcDxbTcaaiouwFQv5GI/xS7A9eEPcspUL8BH5BPIUtgvwI65dIiUJzDAauh36FRcMMCUVHv0H4owwK1X73KzsDDAoIONiNbPMMAlNUOcWucwwJP2qBIc9zDAbm+l3QL/MMBub6XdAv8wwJP2qBIc9zDAJTVDnFrnMMCgg42I1s8wwKxX73KzsDDAlFR79B+KMMBr6HfoVFwwwI65dIiUJzDASOQTyFLYL8D34Q9yylQvwFIv5GI/xS7A8203GmoqLsC5jEB6CYUtwFm0bO/f1SzAPsILlrAdLMBjhmprPF0rwFd6m5c/lSrABfHL3G7GKcBrQGY4dfEowOaOa8HxFijAZyVlznU3J8DfvBFsg1MmwKRWjCyMayXAM7YdVfB/JMDZGD5v/pAjwJRsiT/zniLAxJ2UI/qpIcCOerbVLbIgwE1q9Cczbx/AfLc5S3V0HcDmaGRxBHQbwO1JwB+vbRnAN0Mj7TRhF8BMIDThS04VwMUUDTKmNBPACl2iRfgTEcCDmmK1/dcNwJ8+nXcKeQnAHhv0vNYKBcB5/9qfV40AwFZExUaFAfi/8j6sRmCW7b/yEXBAYuXVvzwXly4Ejc8/4HpCvCnl6j86wj8DjwX3P43wVvfhUgBAudeNNsgmBUBMIYM2PfsJQBV2RimbzA5A1SmrFmzLEUAzesSBxioUQItJo97+gRZAdnJMJ5LOGEAxFaJz3g0bQCgZEvcpPR1AkkpCuapZH0CB1g94R7AgQD10Te+CpyFA1P5TjCSRIkBZ32sF02sjQLEXENFDNiRA7TGX9z/vJEB7hffPqJUlQHdi75R8KCZAplcVwNqmJkBT6tkYCBAnQKhtUWZyYydA8Lyvs7OgJ0DX57QYlccnQOXJ3PgQ2CdAS3jurVTSJ0BI8ISUwbYnQBExUXPthSdA++8eOKJAJ0C3ygcI3ecmQIE9tKLMfCZAZFsEG88AJkDv2PLpbnUlQEbc8WJf3CRAJtdYk3g3JEDWS7SYsogjQDgQ23sg0iJAND6QoOoVIkBeBibbSFYhQDhXBT98lSBADd9VdJGrH0BlWR4l3TIeQIDsDbZHxRxACNbt6htnG0BY8FlwdhwaQFkBv5c56RhAvkdargHRF0AsUA4XGtcWQHepa0xz/hVAlxZM7ZlJFUD0Nt/yrroUQGshFSthUxRAUaj8DegUFEAAAAAAAAAUQA==","dtype":"float64","shape":[200]}},"selected":{"id":"1047","type":"Selection"},"selection_policy":{"id":"1048","type":"UnionRenderers"}},"id":"1034","type":"ColumnDataSource"},{"attributes":{},"id":"1024","type":"SaveTool"},{"attributes":{"text":"bootcamp","text_align":"center","x":0,"y":0},"id":"1039","type":"Label"},{"attributes":{},"id":"1025","type":"ResetTool"},{"attributes":{},"id":"1026","type":"HelpTool"},{"attributes":{"callback":null},"id":"1005","type":"DataRange1d"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1021","type":"PanTool"},{"id":"1022","type":"WheelZoomTool"},{"id":"1023","type":"BoxZoomTool"},{"id":"1024","type":"SaveTool"},{"id":"1025","type":"ResetTool"},{"id":"1026","type":"HelpTool"}]},"id":"1027","type":"Toolbar"},{"attributes":{"callback":null},"id":"1003","type":"DataRange1d"},{"attributes":{"source":{"id":"1034","type":"ColumnDataSource"}},"id":"1038","type":"CDSView"},{"attributes":{},"id":"1007","type":"LinearScale"},{"attributes":{},"id":"1009","type":"LinearScale"},{"attributes":{"formatter":{"id":"1045","type":"BasicTickFormatter"},"ticker":{"id":"1012","type":"BasicTicker"}},"id":"1011","type":"LinearAxis"},{"attributes":{"text":""},"id":"1041","type":"Title"},{"attributes":{},"id":"1012","type":"BasicTicker"},{"attributes":{},"id":"1043","type":"BasicTickFormatter"},{"attributes":{"ticker":{"id":"1012","type":"BasicTicker"}},"id":"1015","type":"Grid"},{"attributes":{},"id":"1045","type":"BasicTickFormatter"},{"attributes":{"formatter":{"id":"1043","type":"BasicTickFormatter"},"ticker":{"id":"1017","type":"BasicTicker"}},"id":"1016","type":"LinearAxis"},{"attributes":{},"id":"1047","type":"Selection"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1046","type":"BoxAnnotation"},{"attributes":{},"id":"1017","type":"BasicTicker"},{"attributes":{"dimension":1,"ticker":{"id":"1017","type":"BasicTicker"}},"id":"1020","type":"Grid"}],"root_ids":["1002"]},"title":"Bokeh Application","version":"1.2.0"}};
-  var render_items = [{"docid":"f62fb0b3-7499-40e3-9648-7d48f8a475c1","roots":{"1002":"a6f70896-e87a-4347-a32b-f055d0c676aa"}}];
-  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
-
-  }
-  if (root.Bokeh !== undefined) {
-    embed_document(root);
-  } else {
-    var attempts = 0;
-    var timer = setInterval(function(root) {
-      if (root.Bokeh !== undefined) {
-        embed_document(root);
-        clearInterval(timer);
-      }
-      attempts++;
-      if (attempts > 100) {
-        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-        clearInterval(timer);
-      }
-    }, 10, root)
-  }
-})(window);
-</script>
 </div>
 
 </div>
@@ -13762,17 +13373,2174 @@ var element = $('#5865a42a-b8a1-49c6-a9da-698de07fcae9');
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>This data set is in tidy format. Each row represents a single test on a single participant. The aspects of that person's test are given in each column. We already saw the power of having the data in this format when we did Boolean indexing in the last lesson. Now, we will see how this format allows use to easily do an operation we do again and again with data sets, <strong>split-apply-combine</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Split-apply-combine">Split-apply-combine<a class="anchor-link" href="#Split-apply-combine">&#182;</a></h2><p>Let's say we want to compute the median percent correct face matchings for subjects with insomnia and the median percent correct face matchings for those without. Ignoring for the second the mechanics of how we would do this with Python, let's think about it in English. What do we need to do?</p>
+<ol>
+<li><strong>Split</strong> the data set up according to the <code>'insomnia'</code> field, i.e., split it up so we have a separate data set for the two classes of subjects, those with insomnia and those without.</li>
+<li><strong>Apply</strong> a median function to the activity in these split data sets.</li>
+<li><strong>Combine</strong> the results of these averages on the split data set into a new, summary data set that contains the two classes (insomniac and not) and means for each.</li>
+</ol>
+<p>We see that the strategy we want is a <strong>split-apply-combine</strong> strategy. This idea was put forward by Hadley Wickham in <a href="http://dx.doi.org/10.18637/jss.v040.i01">this paper</a>. It turns out that this is a strategy we want to use <em>very</em> often. Split the data in terms of some criterion. Apply some function to the split-up data. Combine the results into a new data frame.</p>
+<p>Note that if the data are tidy, this procedure makes a lot of sense. Choose the column you want to use to split by. All rows with like entries in the splitting column are then grouped into a new data set. You can then apply any function you want into these new data sets. You can then combine the results into a new data frame.</p>
+<p>Pandas's split-apply-combine operations are achieved using the <code>groupby()</code> method. You can think of <code>groupby()</code> as the splitting part. You can then apply functions to the resulting <code>DataFrameGroupBy</code> object. The <a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html">Pandas documentation on split-apply-combine</a> is excellent and worth reading through. It is extensive though, so don't let yourself get intimidated by it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Aggregation:-Median-percent-correct">Aggregation: Median percent correct<a class="anchor-link" href="#Aggregation:-Median-percent-correct">&#182;</a></h3><p>Let's go ahead and do our first split-apply-combine on this tidy data set. First, we will split the data set up by insomnia condition.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grouped</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;insomnia&#39;</span><span class="p">)</span>
+
+<span class="c1"># Take a look</span>
+<span class="n">grouped</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x116920fd0&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There is not much to see in the <code>DataFrameGroupBy</code> object that resulted. But there is a lot we can do with this object. Typing <code>grouped.</code> and hitting tab will show you the many possibilities. For most of these possibilities, the apply and combine steps happen together and a new <code>DataFrame</code> is returned. The <code>grouped.median()</code> method is exactly what we want.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_median</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+
+<span class="c1"># Take a look</span>
+<span class="n">df_median</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[4]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+    </tr>
+    <tr>
+      <th>insomnia</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>False</th>
+      <td>54</td>
+      <td>36</td>
+      <td>90</td>
+      <td>80</td>
+      <td>85.0</td>
+      <td>74.5</td>
+      <td>55.5</td>
+      <td>71.5</td>
+      <td>59.0</td>
+      <td>75.0</td>
+      <td>59.25</td>
+      <td>26</td>
+      <td>4</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>True</th>
+      <td>46</td>
+      <td>39</td>
+      <td>90</td>
+      <td>75</td>
+      <td>75.0</td>
+      <td>76.5</td>
+      <td>72.0</td>
+      <td>71.0</td>
+      <td>68.5</td>
+      <td>77.0</td>
+      <td>65.00</td>
+      <td>14</td>
+      <td>9</td>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The outputted <code>DataFrame</code> has the medians of all quantities, including the <code>percent correct</code> that we wanted. Note that this <code>DataFrame</code> has <code>insomnia</code> as the name of the row index. If we want to instead keep <code>insomnia</code> (which, remember, is what we used to split up the data set before we computed the summary statistics) as a column, we can use the <code>reset_index()</code> method.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_median</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[5]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>insomnia</th>
+      <th>participant number</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>False</td>
+      <td>54</td>
+      <td>36</td>
+      <td>90</td>
+      <td>80</td>
+      <td>85.0</td>
+      <td>74.5</td>
+      <td>55.5</td>
+      <td>71.5</td>
+      <td>59.0</td>
+      <td>75.0</td>
+      <td>59.25</td>
+      <td>26</td>
+      <td>4</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>True</td>
+      <td>46</td>
+      <td>39</td>
+      <td>90</td>
+      <td>75</td>
+      <td>75.0</td>
+      <td>76.5</td>
+      <td>72.0</td>
+      <td>71.0</td>
+      <td>68.5</td>
+      <td>77.0</td>
+      <td>65.00</td>
+      <td>14</td>
+      <td>9</td>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can also use multiple columns in our <code>groupby()</code> operation. For example, we may wish to look at four groups, male insomniacs, female insomniacs, male non-insomniacs, and female non-insomniacs. To do this, we simply pass in a list of columns into <code>df.groupby()</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;insomnia&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[6]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gender</th>
+      <th>insomnia</th>
+      <th>participant number</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>f</td>
+      <td>False</td>
+      <td>58.0</td>
+      <td>36.0</td>
+      <td>85.0</td>
+      <td>80.0</td>
+      <td>85.00</td>
+      <td>74.00</td>
+      <td>55.00</td>
+      <td>70.50</td>
+      <td>60.00</td>
+      <td>74.00</td>
+      <td>58.75</td>
+      <td>26.0</td>
+      <td>4.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>f</td>
+      <td>True</td>
+      <td>46.0</td>
+      <td>39.0</td>
+      <td>80.0</td>
+      <td>75.0</td>
+      <td>72.50</td>
+      <td>76.50</td>
+      <td>73.75</td>
+      <td>71.00</td>
+      <td>68.50</td>
+      <td>77.00</td>
+      <td>70.50</td>
+      <td>14.0</td>
+      <td>9.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>m</td>
+      <td>False</td>
+      <td>41.0</td>
+      <td>38.5</td>
+      <td>90.0</td>
+      <td>80.0</td>
+      <td>82.50</td>
+      <td>76.00</td>
+      <td>57.75</td>
+      <td>74.25</td>
+      <td>54.75</td>
+      <td>76.25</td>
+      <td>59.25</td>
+      <td>29.0</td>
+      <td>3.0</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>m</td>
+      <td>True</td>
+      <td>55.5</td>
+      <td>37.0</td>
+      <td>95.0</td>
+      <td>82.5</td>
+      <td>83.75</td>
+      <td>83.75</td>
+      <td>55.50</td>
+      <td>75.75</td>
+      <td>73.25</td>
+      <td>81.25</td>
+      <td>62.50</td>
+      <td>14.0</td>
+      <td>9.0</td>
+      <td>8.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This type of operation is called an <strong>aggregation</strong>. That is, we split the data set up into groups, and then computed a summary statistic for each group, in this case the median.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Transformation">Transformation<a class="anchor-link" href="#Transformation">&#182;</a></h2><p>Instead of summarizing data in a group with single summary statistics by aggregation, we can also do a <strong>transformation</strong> in which each row gets a new entry within a given group. As a simple example, we could generate a column that gives the rank of each participate in terms of percent correct for an insomniac group versus non-insomniac groups. That is, we perform a rank ordering with the insomniac group and within the non-insomniac group.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grouped</span><span class="p">[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[7]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0      11.0
+1      21.5
+2      23.0
+3      19.5
+4       3.5
+5       2.0
+6      17.0
+7       6.0
+8      21.5
+9      12.5
+10      3.5
+11     24.0
+12     15.0
+13     15.0
+14      5.0
+15      8.5
+16      8.5
+17     15.0
+18     18.0
+19     12.5
+20      8.5
+21     25.0
+22     19.5
+23      1.0
+24      8.5
+25     15.0
+26     41.0
+27     19.0
+28      9.5
+29     72.0
+       ... 
+72     52.5
+73     74.0
+74     67.5
+75     76.0
+76      4.5
+77     72.0
+78     25.0
+79     25.0
+80     34.0
+81      1.0
+82     52.5
+83     41.0
+84     52.5
+85     25.0
+86      6.5
+87     15.0
+88     41.0
+89     67.5
+90     41.0
+91     15.0
+92     61.0
+93     61.0
+94      2.0
+95     52.5
+96      4.5
+97     25.0
+98     52.5
+99     19.0
+100    11.5
+101     6.5
+Name: percent correct, Length: 102, dtype: float64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This gave us a column of ranks with the indexing of the original <code>DataFrame</code> preserved. We can put this column into the <code>DataFrame</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;rank grouped by insomnia&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)</span>
+
+<span class="c1"># Take a look</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[8]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+      <th>insomnia</th>
+      <th>rank grouped by insomnia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8</td>
+      <td>f</td>
+      <td>39</td>
+      <td>65</td>
+      <td>80</td>
+      <td>72.5</td>
+      <td>91.0</td>
+      <td>90.0</td>
+      <td>93.0</td>
+      <td>83.5</td>
+      <td>93.0</td>
+      <td>90.0</td>
+      <td>9</td>
+      <td>13</td>
+      <td>2</td>
+      <td>True</td>
+      <td>11.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>16</td>
+      <td>m</td>
+      <td>42</td>
+      <td>90</td>
+      <td>90</td>
+      <td>90.0</td>
+      <td>75.5</td>
+      <td>55.5</td>
+      <td>70.5</td>
+      <td>50.0</td>
+      <td>75.0</td>
+      <td>50.0</td>
+      <td>4</td>
+      <td>11</td>
+      <td>7</td>
+      <td>True</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>18</td>
+      <td>f</td>
+      <td>31</td>
+      <td>90</td>
+      <td>95</td>
+      <td>92.5</td>
+      <td>89.5</td>
+      <td>90.0</td>
+      <td>86.0</td>
+      <td>81.0</td>
+      <td>89.0</td>
+      <td>88.0</td>
+      <td>10</td>
+      <td>9</td>
+      <td>3</td>
+      <td>True</td>
+      <td>23.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>22</td>
+      <td>f</td>
+      <td>35</td>
+      <td>100</td>
+      <td>75</td>
+      <td>87.5</td>
+      <td>89.5</td>
+      <td>NaN</td>
+      <td>71.0</td>
+      <td>80.0</td>
+      <td>88.0</td>
+      <td>80.0</td>
+      <td>13</td>
+      <td>8</td>
+      <td>20</td>
+      <td>True</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>27</td>
+      <td>f</td>
+      <td>74</td>
+      <td>60</td>
+      <td>65</td>
+      <td>62.5</td>
+      <td>68.5</td>
+      <td>49.0</td>
+      <td>61.0</td>
+      <td>49.0</td>
+      <td>65.0</td>
+      <td>49.0</td>
+      <td>13</td>
+      <td>9</td>
+      <td>12</td>
+      <td>True</td>
+      <td>3.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To verify that this worked correctly, and also to show some nice sorting properties of <code>DataFrames</code>, we will sort the <code>DataFrame</code> by <code>insomnia</code> and then by <code>percent correct</code> and make sure the ranks worked accordingly.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_sorted</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">,</span> <span class="s1">&#39;percent correct&#39;</span><span class="p">])</span>
+
+<span class="c1"># Look at relevant columns</span>
+<span class="n">df_sorted</span><span class="p">[[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">,</span> <span class="s1">&#39;percent correct&#39;</span><span class="p">,</span> <span class="s1">&#39;rank grouped by insomnia&#39;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[9]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>insomnia</th>
+      <th>percent correct</th>
+      <th>rank grouped by insomnia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>81</th>
+      <td>False</td>
+      <td>40.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>94</th>
+      <td>False</td>
+      <td>55.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>False</td>
+      <td>57.5</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>False</td>
+      <td>60.0</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>False</td>
+      <td>60.0</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>False</td>
+      <td>62.5</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>101</th>
+      <td>False</td>
+      <td>62.5</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>False</td>
+      <td>65.0</td>
+      <td>8.0</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>False</td>
+      <td>67.5</td>
+      <td>9.0</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>False</td>
+      <td>67.5</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>False</td>
+      <td>70.0</td>
+      <td>11.0</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>False</td>
+      <td>70.0</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>False</td>
+      <td>72.5</td>
+      <td>13.0</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>False</td>
+      <td>72.5</td>
+      <td>14.0</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>False</td>
+      <td>72.5</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>87</th>
+      <td>False</td>
+      <td>72.5</td>
+      <td>16.0</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>False</td>
+      <td>72.5</td>
+      <td>17.0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>False</td>
+      <td>75.0</td>
+      <td>18.0</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>False</td>
+      <td>75.0</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>False</td>
+      <td>75.0</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>False</td>
+      <td>77.5</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>False</td>
+      <td>77.5</td>
+      <td>22.0</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>False</td>
+      <td>77.5</td>
+      <td>23.0</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>False</td>
+      <td>77.5</td>
+      <td>24.0</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>False</td>
+      <td>77.5</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>False</td>
+      <td>77.5</td>
+      <td>26.0</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>False</td>
+      <td>77.5</td>
+      <td>27.0</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>False</td>
+      <td>77.5</td>
+      <td>28.0</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>False</td>
+      <td>77.5</td>
+      <td>29.0</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>False</td>
+      <td>80.0</td>
+      <td>30.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>False</td>
+      <td>95.0</td>
+      <td>73.0</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>False</td>
+      <td>97.5</td>
+      <td>74.0</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>False</td>
+      <td>100.0</td>
+      <td>75.0</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>False</td>
+      <td>100.0</td>
+      <td>76.0</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>False</td>
+      <td>100.0</td>
+      <td>77.0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>True</td>
+      <td>45.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>True</td>
+      <td>50.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>True</td>
+      <td>62.5</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>True</td>
+      <td>62.5</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>True</td>
+      <td>65.0</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>True</td>
+      <td>67.5</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>True</td>
+      <td>70.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>True</td>
+      <td>70.0</td>
+      <td>8.0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>True</td>
+      <td>70.0</td>
+      <td>9.0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>True</td>
+      <td>70.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>True</td>
+      <td>72.5</td>
+      <td>11.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>True</td>
+      <td>75.0</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>True</td>
+      <td>75.0</td>
+      <td>13.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>True</td>
+      <td>80.0</td>
+      <td>14.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>True</td>
+      <td>80.0</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>True</td>
+      <td>80.0</td>
+      <td>16.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>True</td>
+      <td>82.5</td>
+      <td>17.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>True</td>
+      <td>85.0</td>
+      <td>18.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>True</td>
+      <td>87.5</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>True</td>
+      <td>87.5</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>True</td>
+      <td>90.0</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>True</td>
+      <td>90.0</td>
+      <td>22.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>True</td>
+      <td>92.5</td>
+      <td>23.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>True</td>
+      <td>95.0</td>
+      <td>24.0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>True</td>
+      <td>97.5</td>
+      <td>25.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>102 rows × 3 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Indeed it worked!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Aggregating-and-transforming-with-custom-functions">Aggregating and transforming with custom functions<a class="anchor-link" href="#Aggregating-and-transforming-with-custom-functions">&#182;</a></h2><p>Let's say we want to compute the coefficient of variation (CoV, the standard deviation divided by the mean) of data in columns of groups in the <code>DataFrame</code>. There is no built-in function to do this. We have to write our own function to compute the CoV and then use it with the <code>agg()</code> method of a <code>DataFrameGroupBy</code> object. In the function below, the values of each column are denoted by <code>data</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">coeff_of_var</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute coefficient of variation from an array of data.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can apply it as an aggregating function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grouped</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">coeff_of_var</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[11]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+    </tr>
+    <tr>
+      <th>insomnia</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>False</th>
+      <td>0.586191</td>
+      <td>0.384262</td>
+      <td>0.166784</td>
+      <td>0.184061</td>
+      <td>0.138785</td>
+      <td>0.195978</td>
+      <td>0.350286</td>
+      <td>0.204312</td>
+      <td>0.298216</td>
+      <td>0.187304</td>
+      <td>0.262509</td>
+      <td>0.175245</td>
+      <td>0.577869</td>
+      <td>0.571566</td>
+    </tr>
+    <tr>
+      <th>True</th>
+      <td>0.536117</td>
+      <td>0.313853</td>
+      <td>0.218834</td>
+      <td>0.325760</td>
+      <td>0.171856</td>
+      <td>0.156219</td>
+      <td>0.225440</td>
+      <td>0.222827</td>
+      <td>0.211512</td>
+      <td>0.160061</td>
+      <td>0.197484</td>
+      <td>0.381907</td>
+      <td>0.299741</td>
+      <td>0.681514</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can take a similar approach with a transformation. In this case, we will actually do something useful. We will compute the <code>y</code>-values we need for plotting an <strong>empirical cumulative distribution function</strong> (ECDF), which we will use in our upcoming lessons with plotting. Briefly, an ECDF for a data set is defined as follows. The ECDF evaluated at <em>x</em>
+for a set of measurements is defined as</p>
+<blockquote><p>ECDF(<em>x</em>) = fraction of measurements ≤ <em>x</em>.</p>
+</blockquote>
+<p>As you can convince yourself if you work it out, the <code>y</code>-values of an ECDF are the rankings of the entries, divided by the total number of entries. We will want to plot ECDFs for each group, so we apply the function for each group. First, we define the function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">ecdf_y</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Give y-values of an ECDF for an unsorted column in a data frame.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, we can compute the ECDF on the data set grouped by insomnia state.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ecdf_y grouped by insomnia&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">ecdf_y</span><span class="p">)</span>
+
+<span class="c1"># Take a look</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[13]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>participant number</th>
+      <th>gender</th>
+      <th>age</th>
+      <th>correct hit percentage</th>
+      <th>correct reject percentage</th>
+      <th>percent correct</th>
+      <th>confidence when correct hit</th>
+      <th>confidence incorrect hit</th>
+      <th>confidence correct reject</th>
+      <th>confidence incorrect reject</th>
+      <th>confidence when correct</th>
+      <th>confidence when incorrect</th>
+      <th>sci</th>
+      <th>psqi</th>
+      <th>ess</th>
+      <th>insomnia</th>
+      <th>rank grouped by insomnia</th>
+      <th>ecdf_y grouped by insomnia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8</td>
+      <td>f</td>
+      <td>39</td>
+      <td>65</td>
+      <td>80</td>
+      <td>72.5</td>
+      <td>91.0</td>
+      <td>90.0</td>
+      <td>93.0</td>
+      <td>83.5</td>
+      <td>93.0</td>
+      <td>90.0</td>
+      <td>9</td>
+      <td>13</td>
+      <td>2</td>
+      <td>True</td>
+      <td>11.0</td>
+      <td>0.44</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>16</td>
+      <td>m</td>
+      <td>42</td>
+      <td>90</td>
+      <td>90</td>
+      <td>90.0</td>
+      <td>75.5</td>
+      <td>55.5</td>
+      <td>70.5</td>
+      <td>50.0</td>
+      <td>75.0</td>
+      <td>50.0</td>
+      <td>4</td>
+      <td>11</td>
+      <td>7</td>
+      <td>True</td>
+      <td>21.0</td>
+      <td>0.84</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>18</td>
+      <td>f</td>
+      <td>31</td>
+      <td>90</td>
+      <td>95</td>
+      <td>92.5</td>
+      <td>89.5</td>
+      <td>90.0</td>
+      <td>86.0</td>
+      <td>81.0</td>
+      <td>89.0</td>
+      <td>88.0</td>
+      <td>10</td>
+      <td>9</td>
+      <td>3</td>
+      <td>True</td>
+      <td>23.0</td>
+      <td>0.92</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>22</td>
+      <td>f</td>
+      <td>35</td>
+      <td>100</td>
+      <td>75</td>
+      <td>87.5</td>
+      <td>89.5</td>
+      <td>NaN</td>
+      <td>71.0</td>
+      <td>80.0</td>
+      <td>88.0</td>
+      <td>80.0</td>
+      <td>13</td>
+      <td>8</td>
+      <td>20</td>
+      <td>True</td>
+      <td>19.0</td>
+      <td>0.76</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>27</td>
+      <td>f</td>
+      <td>74</td>
+      <td>60</td>
+      <td>65</td>
+      <td>62.5</td>
+      <td>68.5</td>
+      <td>49.0</td>
+      <td>61.0</td>
+      <td>49.0</td>
+      <td>65.0</td>
+      <td>49.0</td>
+      <td>13</td>
+      <td>9</td>
+      <td>12</td>
+      <td>True</td>
+      <td>3.0</td>
+      <td>0.12</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You now have tremendous power in your hands. When your data are tidy, you can rapidly accelerate the ubiquitous split-apply-combine methods. Importantly, you now have a logical framework to think about how you slice and dice your data. As a final, simple example, I will show you how to go start to finish after loading the data set into a <code>DataFrame</code>, splitting by insomnia and gender, and then getting the quartiles and extrema, in addition to the mean and standard deviation, in the percent of correct facial matchings.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;insomnia&#39;</span><span class="p">])[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[14]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>gender</th>
+      <th>insomnia</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">f</th>
+      <th>False</th>
+      <td>55.0</td>
+      <td>82.045455</td>
+      <td>10.844982</td>
+      <td>55.0</td>
+      <td>75.000</td>
+      <td>85.00</td>
+      <td>88.750</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>True</th>
+      <td>19.0</td>
+      <td>73.947368</td>
+      <td>13.624829</td>
+      <td>45.0</td>
+      <td>67.500</td>
+      <td>72.50</td>
+      <td>83.750</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">m</th>
+      <th>False</th>
+      <td>22.0</td>
+      <td>80.000000</td>
+      <td>12.770875</td>
+      <td>40.0</td>
+      <td>77.500</td>
+      <td>82.50</td>
+      <td>89.375</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>True</th>
+      <td>6.0</td>
+      <td>82.916667</td>
+      <td>10.655593</td>
+      <td>67.5</td>
+      <td>76.875</td>
+      <td>83.75</td>
+      <td>88.750</td>
+      <td>97.5</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Yes, that's right. One single, clean, easy to read line of code. In coming tutorials, we will see how to use tidy data to quickly generate plots.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Tidying-a-data-set">Tidying a data set<a class="anchor-link" href="#Tidying-a-data-set">&#182;</a></h2><p>You should always organize your data sets in a tidy format. However, this is sometimes just not possible, since you data sets can come from instruments that do not output the data in tidy format (though most do, at least in my experience), and you often have collaborators that send data in untidy formats.</p>
+<p>The most useful function for tidying data is <code>pd.melt()</code>. To demonstrate this, I will load in a data set from <a href="https://doi.org/10.1016/j.devcel.2011.12.007">this paper by Reeves, et al.</a> in which they measured the width of the gradient in the morphogen Dorsal in <em>Drosophila</em> embryos for various genotypes using different method. First, let's load in the data set and take a look.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/reeves_gradient_width_various_methods.csv&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[15]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="2" halign="left">wt</th>
+      <th colspan="3" halign="left">dl1/+; dl-venus/+</th>
+      <th colspan="3" halign="left">dl1/+; dl-gfp/+</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>wholemounts</th>
+      <th>cross-sections</th>
+      <th>anti-Dorsal</th>
+      <th>anti-Venus</th>
+      <th>Venus (live)</th>
+      <th>anti-Dorsal</th>
+      <th>anti-GFP</th>
+      <th>GFP (live)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.1288</td>
+      <td>0.1327</td>
+      <td>0.1482</td>
+      <td>0.1632</td>
+      <td>0.1666</td>
+      <td>0.2248</td>
+      <td>0.2389</td>
+      <td>0.2412</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.1554</td>
+      <td>0.1457</td>
+      <td>0.1503</td>
+      <td>0.1671</td>
+      <td>0.1753</td>
+      <td>0.1891</td>
+      <td>0.2035</td>
+      <td>0.1942</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.1306</td>
+      <td>0.1447</td>
+      <td>0.1577</td>
+      <td>0.1704</td>
+      <td>0.1705</td>
+      <td>0.1705</td>
+      <td>0.1943</td>
+      <td>0.2186</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.1413</td>
+      <td>0.1282</td>
+      <td>0.1711</td>
+      <td>0.1779</td>
+      <td>NaN</td>
+      <td>0.1735</td>
+      <td>0.2000</td>
+      <td>0.2104</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.1557</td>
+      <td>0.1487</td>
+      <td>0.1342</td>
+      <td>0.1483</td>
+      <td>NaN</td>
+      <td>0.2135</td>
+      <td>0.2560</td>
+      <td>0.2463</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As is often the case with spreadsheets, we have a <strong>multiindex</strong>, where we have two methods for wild type, three for Venus, and three for GFP. The rows here have no meaning. Clearly these data are not tidy.</p>
+<p>When we melt the data frame, the data within it, called <strong>values</strong> become a single column. The headers, called <strong>variables</strong> also become new columns. So, to melt it, we need to specify what we want to call the values and what we want to call the variable. <code>pd.melt()</code> does the rest!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;gradient width&#39;</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;genotype&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">])</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[16]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>genotype</th>
+      <th>method</th>
+      <th>gradient width</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>wt</td>
+      <td>wholemounts</td>
+      <td>0.1288</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>wt</td>
+      <td>wholemounts</td>
+      <td>0.1554</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>wt</td>
+      <td>wholemounts</td>
+      <td>0.1306</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>wt</td>
+      <td>wholemounts</td>
+      <td>0.1413</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>wt</td>
+      <td>wholemounts</td>
+      <td>0.1557</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Nice! We now have a tidy data frame. The only problem is that it has many NaNs because there were many of them in the data set. We can now safely delete any row that has a NaN.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>...and we are good to do with a tidy DataFrame! Let's take a look at the summary.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;genotype&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[18]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="8" halign="left">gradient width</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>genotype</th>
+      <th>method</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">dl1/+; dl-gfp/+</th>
+      <th>GFP (live)</th>
+      <td>6.0</td>
+      <td>0.218783</td>
+      <td>0.021052</td>
+      <td>0.1942</td>
+      <td>0.204100</td>
+      <td>0.21450</td>
+      <td>0.235550</td>
+      <td>0.2463</td>
+    </tr>
+    <tr>
+      <th>anti-Dorsal</th>
+      <td>20.0</td>
+      <td>0.198300</td>
+      <td>0.024468</td>
+      <td>0.1640</td>
+      <td>0.177625</td>
+      <td>0.19540</td>
+      <td>0.213775</td>
+      <td>0.2516</td>
+    </tr>
+    <tr>
+      <th>anti-GFP</th>
+      <td>20.0</td>
+      <td>0.226120</td>
+      <td>0.024664</td>
+      <td>0.1934</td>
+      <td>0.203950</td>
+      <td>0.22620</td>
+      <td>0.241550</td>
+      <td>0.2682</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">dl1/+; dl-venus/+</th>
+      <th>Venus (live)</th>
+      <td>3.0</td>
+      <td>0.170800</td>
+      <td>0.004358</td>
+      <td>0.1666</td>
+      <td>0.168550</td>
+      <td>0.17050</td>
+      <td>0.172900</td>
+      <td>0.1753</td>
+    </tr>
+    <tr>
+      <th>anti-Dorsal</th>
+      <td>29.0</td>
+      <td>0.160490</td>
+      <td>0.010805</td>
+      <td>0.1342</td>
+      <td>0.154600</td>
+      <td>0.16010</td>
+      <td>0.170100</td>
+      <td>0.1773</td>
+    </tr>
+    <tr>
+      <th>anti-Venus</th>
+      <td>29.0</td>
+      <td>0.173031</td>
+      <td>0.008742</td>
+      <td>0.1483</td>
+      <td>0.170100</td>
+      <td>0.17390</td>
+      <td>0.178000</td>
+      <td>0.1902</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">wt</th>
+      <th>cross-sections</th>
+      <td>152.0</td>
+      <td>0.148458</td>
+      <td>0.016141</td>
+      <td>0.1014</td>
+      <td>0.136725</td>
+      <td>0.14695</td>
+      <td>0.159925</td>
+      <td>0.1805</td>
+    </tr>
+    <tr>
+      <th>wholemounts</th>
+      <td>24.0</td>
+      <td>0.145279</td>
+      <td>0.019059</td>
+      <td>0.1096</td>
+      <td>0.130450</td>
+      <td>0.14460</td>
+      <td>0.158200</td>
+      <td>0.1779</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can immediately see that the wild type has a narrowe gradient than Venus, which is narrower still than GFP.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Computing-environment">Computing environment<a class="anchor-link" href="#Computing-environment">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
-<span class="o">%</span><span class="k">watermark</span> -v -p numpy,bokeh,jupyterlab
+<span class="o">%</span><span class="k">watermark</span> -v -p numpy,pandas,jupyterlab
 </pre></div>
 
     </div>
@@ -13793,7 +15561,7 @@ var element = $('#5865a42a-b8a1-49c6-a9da-698de07fcae9');
 IPython 7.1.1
 
 numpy 1.16.4
-bokeh 1.2.0
+pandas 0.24.2
 jupyterlab 0.35.5
 </pre>
 </div>
