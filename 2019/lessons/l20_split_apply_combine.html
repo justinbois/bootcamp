@@ -13429,7 +13429,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x116920fd0&gt;</pre>
+<pre>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x11efe9da0&gt;</pre>
 </div>
 
 </div>
@@ -15083,6 +15083,57 @@ for a set of measurements is defined as</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Looping-over-a-GroupBy-object">Looping over a GroupBy object<a class="anchor-link" href="#Looping-over-a-GroupBy-object">&#182;</a></h2><p>While the <code>GroupBy</code> methods we have learned so far (like <code>transform()</code> and <code>agg()</code>) are useful and lead to concise code, we sometimes want to loop over the groups of a <code>GroupBy</code> object. This often comes up in plotting applications, as we will see in future lessons. As an example, I will compute the median percent correct for female and males, insomniacs and not (which we already computed using <code>describe()</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;insomnia&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;: &#39;</span><span class="p">,</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(&#39;f&#39;, False) :  85.0
+(&#39;f&#39;, True) :  72.5
+(&#39;m&#39;, False) :  82.5
+(&#39;m&#39;, True) :  83.75
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>By using the <code>GroupBy</code> object as an iterator, it yields the name of the group (which I assigned as <code>name</code>) and the corresponding sub-<code>DataFrame</code> (which I assigned <code>group</code>).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Tidying-a-data-set">Tidying a data set<a class="anchor-link" href="#Tidying-a-data-set">&#182;</a></h2><p>You should always organize your data sets in a tidy format. However, this is sometimes just not possible, since you data sets can come from instruments that do not output the data in tidy format (though most do, at least in my experience), and you often have collaborators that send data in untidy formats.</p>
 <p>The most useful function for tidying data is <code>pd.melt()</code>. To demonstrate this, I will load in a data set from <a href="https://doi.org/10.1016/j.devcel.2011.12.007">this paper by Reeves, et al.</a> in which they measured the width of the gradient in the morphogen Dorsal in <em>Drosophila</em> embryos for various genotypes using different method. First, let's load in the data set and take a look.</p>
 
@@ -15091,7 +15142,7 @@ for a set of measurements is defined as</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/reeves_gradient_width_various_methods.csv&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
@@ -15109,7 +15160,7 @@ for a set of measurements is defined as</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[15]:</div>
+    <div class="prompt output_prompt">Out[16]:</div>
 
 
 
@@ -15226,7 +15277,7 @@ for a set of measurements is defined as</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;gradient width&#39;</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;genotype&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">])</span>
@@ -15244,7 +15295,7 @@ for a set of measurements is defined as</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[16]:</div>
+    <div class="prompt output_prompt">Out[17]:</div>
 
 
 
@@ -15324,7 +15375,7 @@ for a set of measurements is defined as</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
@@ -15345,7 +15396,7 @@ for a set of measurements is defined as</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;genotype&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
@@ -15361,7 +15412,7 @@ for a set of measurements is defined as</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[18]:</div>
+    <div class="prompt output_prompt">Out[19]:</div>
 
 
 
@@ -15536,7 +15587,7 @@ for a set of measurements is defined as</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
