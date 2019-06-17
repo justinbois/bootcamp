@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>l10_dictionaries</title>
+<title>e04</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13128,51 +13128,11 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-10:-Dictionaries-(hash-tables)">Lesson 10: Dictionaries (hash tables)<a class="anchor-link" href="#Lesson-10:-Dictionaries-(hash-tables)">&#182;</a></h1><p>(c) 2019 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Exercise-4">Exercise 4<a class="anchor-link" href="#Exercise-4">&#182;</a></h1><p>(c) 2019 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l10_dictionaries.ipynb">here</a>.</em></p>
-<p><hr /> <br /></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Mapping-objects-and-dictionaries">Mapping objects and dictionaries<a class="anchor-link" href="#Mapping-objects-and-dictionaries">&#182;</a></h2><p>A <strong>mapping object</strong> allows an arbitrary collection of objects to be indexed by an arbitrary collection of values.  That's a mouthful.  It is easier to understand instead by comparing to a sequence.</p>
-<p>Let's take a sequence of two strings, say a tuple containing a first and last name.</p>
-
-<pre><code>name = ('jeffrey', 'lebowski')
-
-</code></pre>
-<p>We are restricted on how we reference the sequence.  I.e., the first name is <code>name[0]</code>, and the last name is <code>name[1]</code>.  A mapping object could instead be indexed like <code>name['first name']</code> and <code>name['last name']</code>. You can imagine this would be very useful! A classic example in biology might be looking up amino acids that are coded for by given codons. E.g., you might want</p>
-
-<pre><code>aa['CTT']
-
-</code></pre>
-<p>to give you <code>'Leucine'</code>.</p>
-<p>Python's only build-in mapping type is a <strong>dictionary</strong>. You might imagine that the Oxford English Dictionary might conveniently be stored as a dictionary (obviously). I.e., you would not want to store definitions that have to be referenced like</p>
-
-<pre><code>oed[103829]
-
-</code></pre>
-<p>Rather, you would like to get definitions like this:</p>
-
-<pre><code>oed['computer']
-
-</code></pre>
-<p>Importantly, note that Python <strong>dictionaries have no sense of order</strong>. Unlike lists and tuples, which are ordered collections, dictionaries have no order. The key is used to fetch the values from memory.</p>
-<p>I pause to note that you will notice that the dictionaries seem to preserve the order in which they are created. This is due to a tweak to the implementation of dictionaries in Python 3.6, but as the <a href="https://docs.python.org/3.6/whatsnew/3.6.html#new-dict-implementation">documentation state</a>, you should not count on this feature. If you really need ordered dictionaries, there are ordered dictionaries in the <a href="https://docs.python.org/3/library/collections.html"><code>collections</code> module of the standard library</a>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Dictionary-syntax">Dictionary syntax<a class="anchor-link" href="#Dictionary-syntax">&#182;</a></h2><p>The syntax for creating a dictionary, as usual, is best seen through example.</p>
-
+<p><em>This exercise was generated from a Jupyter notebook.  You can download the notebook <a href="e04.ipynb">here</a>.</em></p>
+<hr />
 </div>
 </div>
 </div>
@@ -13181,8 +13141,12 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mf">27.6</span><span class="p">}</span>
-<span class="n">my_dict</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">bokeh.io</span>
+<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
+
+<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_notebook</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13195,13 +13159,323 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[1]:</div>
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+
+    <div class="bk-root">
+        <a href="https://bokeh.pydata.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
+        <span id="1001">Loading BokehJS ...</span>
+    </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
 
 
 
 
-<div class="output_text output_subarea output_execute_result">
-<pre>{&#39;a&#39;: 6, &#39;b&#39;: 7, &#39;c&#39;: 27.6}</pre>
+
+<div id="d621c8fa-166d-467d-892c-015a9b0a80e4"></div>
+<div class="output_subarea output_javascript ">
+<script type="text/javascript">
+var element = $('#d621c8fa-166d-467d-892c-015a9b0a80e4');
+
+(function(root) {
+  function now() {
+    return new Date();
+  }
+
+  var force = true;
+
+  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
+    root._bokeh_onload_callbacks = [];
+    root._bokeh_is_loading = undefined;
+  }
+
+  var JS_MIME_TYPE = 'application/javascript';
+  var HTML_MIME_TYPE = 'text/html';
+  var EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
+  var CLASS_NAME = 'output_bokeh rendered_html';
+
+  /**
+   * Render data to the DOM node
+   */
+  function render(props, node) {
+    var script = document.createElement("script");
+    node.appendChild(script);
+  }
+
+  /**
+   * Handle when an output is cleared or removed
+   */
+  function handleClearOutput(event, handle) {
+    var cell = handle.cell;
+
+    var id = cell.output_area._bokeh_element_id;
+    var server_id = cell.output_area._bokeh_server_id;
+    // Clean up Bokeh references
+    if (id != null && id in Bokeh.index) {
+      Bokeh.index[id].model.document.clear();
+      delete Bokeh.index[id];
+    }
+
+    if (server_id !== undefined) {
+      // Clean up Bokeh references
+      var cmd = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
+      cell.notebook.kernel.execute(cmd, {
+        iopub: {
+          output: function(msg) {
+            var id = msg.content.text.trim();
+            if (id in Bokeh.index) {
+              Bokeh.index[id].model.document.clear();
+              delete Bokeh.index[id];
+            }
+          }
+        }
+      });
+      // Destroy server and session
+      var cmd = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
+      cell.notebook.kernel.execute(cmd);
+    }
+  }
+
+  /**
+   * Handle when a new output is added
+   */
+  function handleAddOutput(event, handle) {
+    var output_area = handle.output_area;
+    var output = handle.output;
+
+    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
+    if ((output.output_type != "display_data") || (!output.data.hasOwnProperty(EXEC_MIME_TYPE))) {
+      return
+    }
+
+    var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
+
+    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
+      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
+      // store reference to embed id on output_area
+      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
+    }
+    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
+      var bk_div = document.createElement("div");
+      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
+      var script_attrs = bk_div.children[0].attributes;
+      for (var i = 0; i < script_attrs.length; i++) {
+        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
+      }
+      // store reference to server id on output_area
+      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
+    }
+  }
+
+  function register_renderer(events, OutputArea) {
+
+    function append_mime(data, metadata, element) {
+      // create a DOM node to render to
+      var toinsert = this.create_output_subarea(
+        metadata,
+        CLASS_NAME,
+        EXEC_MIME_TYPE
+      );
+      this.keyboard_manager.register_events(toinsert);
+      // Render to node
+      var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
+      render(props, toinsert[toinsert.length - 1]);
+      element.append(toinsert);
+      return toinsert
+    }
+
+    /* Handle when an output is cleared or removed */
+    events.on('clear_output.CodeCell', handleClearOutput);
+    events.on('delete.Cell', handleClearOutput);
+
+    /* Handle when a new output is added */
+    events.on('output_added.OutputArea', handleAddOutput);
+
+    /**
+     * Register the mime type and append_mime function with output_area
+     */
+    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
+      /* Is output safe? */
+      safe: true,
+      /* Index of renderer in `output_area.display_order` */
+      index: 0
+    });
+  }
+
+  // register the mime type if in Jupyter Notebook environment and previously unregistered
+  if (root.Jupyter !== undefined) {
+    var events = require('base/js/events');
+    var OutputArea = require('notebook/js/outputarea').OutputArea;
+
+    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
+      register_renderer(events, OutputArea);
+    }
+  }
+
+  
+  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
+    root._bokeh_timeout = Date.now() + 5000;
+    root._bokeh_failed_load = false;
+  }
+
+  var NB_LOAD_WARNING = {'data': {'text/html':
+     "<div style='background-color: #fdd'>\n"+
+     "<p>\n"+
+     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
+     "may be due to a slow or bad network connection. Possible fixes:\n"+
+     "</p>\n"+
+     "<ul>\n"+
+     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
+     "<li>use INLINE resources instead, as so:</li>\n"+
+     "</ul>\n"+
+     "<code>\n"+
+     "from bokeh.resources import INLINE\n"+
+     "output_notebook(resources=INLINE)\n"+
+     "</code>\n"+
+     "</div>"}};
+
+  function display_loaded() {
+    var el = document.getElementById("1001");
+    if (el != null) {
+      el.textContent = "BokehJS is loading...";
+    }
+    if (root.Bokeh !== undefined) {
+      if (el != null) {
+        el.textContent = "BokehJS " + root.Bokeh.version + " successfully loaded.";
+      }
+    } else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(display_loaded, 100)
+    }
+  }
+
+
+  function run_callbacks() {
+    try {
+      root._bokeh_onload_callbacks.forEach(function(callback) {
+        if (callback != null)
+          callback();
+      });
+    } finally {
+      delete root._bokeh_onload_callbacks
+    }
+    console.debug("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(css_urls, js_urls, callback) {
+    if (css_urls == null) css_urls = [];
+    if (js_urls == null) js_urls = [];
+
+    root._bokeh_onload_callbacks.push(callback);
+    if (root._bokeh_is_loading > 0) {
+      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    }
+    if (js_urls == null || js_urls.length === 0) {
+      run_callbacks();
+      return null;
+    }
+    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+    root._bokeh_is_loading = css_urls.length + js_urls.length;
+
+    function on_load() {
+      root._bokeh_is_loading--;
+      if (root._bokeh_is_loading === 0) {
+        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
+        run_callbacks()
+      }
+    }
+
+    function on_error() {
+      console.error("failed to load " + url);
+    }
+
+    for (var i = 0; i < css_urls.length; i++) {
+      var url = css_urls[i];
+      const element = document.createElement("link");
+      element.onload = on_load;
+      element.onerror = on_error;
+      element.rel = "stylesheet";
+      element.type = "text/css";
+      element.href = url;
+      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
+      document.body.appendChild(element);
+    }
+
+    for (var i = 0; i < js_urls.length; i++) {
+      var url = js_urls[i];
+      var element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error;
+      element.async = false;
+      element.src = url;
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+  };var element = document.getElementById("1001");
+  if (element == null) {
+    console.error("Bokeh: ERROR: autoload.js configured with elementid '1001' but no matching script tag was found. ")
+    return false;
+  }
+
+  function inject_raw_css(css) {
+    const element = document.createElement("style");
+    element.appendChild(document.createTextNode(css));
+    document.body.appendChild(element);
+  }
+
+  var js_urls = ["https://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-tables-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-gl-1.2.0.min.js"];
+  var css_urls = ["https://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.css", "https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.css", "https://cdn.pydata.org/bokeh/release/bokeh-tables-1.2.0.min.css"];
+
+  var inline_js = [
+    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+    
+    function(Bokeh) {
+      
+    },
+    function(Bokeh) {} // ensure no trailing comma for IE
+  ];
+
+  function run_inline_js() {
+    
+    if ((root.Bokeh !== undefined) || (force === true)) {
+      for (var i = 0; i < inline_js.length; i++) {
+        inline_js[i].call(root, root.Bokeh);
+      }if (force === true) {
+        display_loaded();
+      }} else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!root._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      root._bokeh_failed_load = true;
+    } else if (force !== true) {
+      var cell = $(document.getElementById("1001")).parents('.cell').data().cell;
+      cell.output_area.append_execute_result(NB_LOAD_WARNING)
+    }
+
+  }
+
+  if (root._bokeh_is_loading === 0) {
+    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
+    run_inline_js();
+  } else {
+    load_libs(css_urls, js_urls, function() {
+      console.debug("Bokeh: BokehJS plotting callback run at", now());
+      run_inline_js();
+    });
+  }
+}(window));
+</script>
 </div>
 
 </div>
@@ -13213,8 +13487,154 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A dictionary is created using curly braces (<code>{}</code>). Each entry has a <strong>key</strong>, followed by a colon, and then the value associated with the key. In the example above, the keys are all strings, which is the most common use case. Note that the items can be of any type; in the above example, they are <code>int</code>s and a <code>float</code>.</p>
-<p>We could also create the dictionary using the built-in <code>dict()</code> function, which can take a tuple of 2-tuples, each one containing a key-value pair.</p>
+<hr />
+
+<h2 id="Exercise-4.0:-Complete-practice">Exercise 4.0: Complete practice<a class="anchor-link" href="#Exercise-4.0:-Complete-practice">&#182;</a></h2><p>If you have not already, complete the exercises from <a href="l29_practice_with_numpy.html">lesson 29</a> and <a href="l31_32_practice_with_hackerstats.html">lessons 31 and 32</a>.</p>
+<p><br /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise-4.1:-Data-collapse">Exercise 4.1: Data collapse<a class="anchor-link" href="#Exercise-4.1:-Data-collapse">&#182;</a></h2><p>Rob Phillips wrote a review paper a couple of years ago that I enjoyed entitled <a href="https://dx.doi.org/10.1146%2Fannurev-conmatphys-031214-014558">"Napoleon is in Equilibrium."</a>. In the paper, he demonstrated that when you plot data in a certain way, they demonstrate <strong>data collapse</strong>. The idea here is that if you choose the right thing to plot on the $x$ and $y$ axes, data from a variety of sources collapse onto a single universal curve. In this exercise, you will hone your NumPy and Bokeh skills in making plots exhibiting data collapse.</p>
+<p>This analysis comes from Rob's paper, and the data come from <a href="https://doi.org/10.1016/j.jmb.2011.03.057">Daber, Sochor, and Lewis, <em>J. Mol. Biol.</em>, <strong>409</strong>, 76–87, 2011</a>. The authors were studying how different mutants of the lac repressor affect gene expression. They hooked the lac promoter up to a fluorescent protein reporter. They made a mutant with no lac repressor to get a measurement of the gene expression level (quantified by the fluorescent signal) in the absence of repressor. Then then looked at how the presence of a repressor served to decrease the expression level of the lac gene. The ratio of the repressed fluorescence to the totally unrepressed fluorescence is the <strong>fold change</strong> in repression. They can block repression by adding IPTG, which binds the lac repressor, rendering it ineffective at repressing gene expression (so IPTG is called an "inducer," since it turns on gene expression). So, for a given experiment, the authors measured fold change as a function of IPTG concentration. They measured the fold change for wild type, plus two mutants, Q18M and Q18A.</p>
+<p>We will not derive it here (it comes from a generalization of the <a href="https://en.wikipedia.org/wiki/Monod-Wyman-Changeux_model">Monod-Wyman-Changeux model</a>), but the theoretical expression for the fold change as a function of IPTG concentration, $c$, is</p>
+\begin{align}
+\text{fold change} = \left[1 + \frac{\frac{R}{K}\left(1 + c/K_\mathrm{d}^\mathrm{A}\right)^2}{\left(1 + c/K_\mathrm{d}^\mathrm{A}\right)^2 + K_\mathrm{switch}\left(1 + c/K_\mathrm{d}^\mathrm{I}\right)^2}\right]^{-1}.
+\end{align}<p>The parameters are:</p>
+<table>
+<thead><tr>
+<th style="text-align:center">Parameter</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:center">Value</th>
+<th style="text-align:center">Units</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$K_\mathrm{d}^\mathrm{A}$</td>
+<td style="text-align:center">dissoc. const. for active repressor binding IPTG</td>
+<td style="text-align:center">0.017</td>
+<td style="text-align:center">mM$^{-1}$</td>
+</tr>
+<tr>
+<td style="text-align:center">$K_\mathrm{d}^\mathrm{I}$</td>
+<td style="text-align:center">dissoc. const. for inactive repressor binding IPTG</td>
+<td style="text-align:center">0.002</td>
+<td style="text-align:center">mM$^{-1}$</td>
+</tr>
+<tr>
+<td style="text-align:center">$K_\mathrm{switch}$</td>
+<td style="text-align:center">equil. const. for switching active/inactive</td>
+<td style="text-align:center">5.8</td>
+<td style="text-align:center">---</td>
+</tr>
+<tr>
+<td style="text-align:center">$K$</td>
+<td style="text-align:center">dissoc. const. for active repressor binding operator</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">mM$^{-1}$</td>
+</tr>
+<tr>
+<td style="text-align:center">$R$</td>
+<td style="text-align:center">number of repressors in cell</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">---</td>
+</tr>
+</tbody>
+</table>
+<p>The values of $K_\mathrm{d}^\mathrm{A}$, $K_\mathrm{d}^\mathrm{I}$, and $K_\mathrm{switch}$ were measured in the Daber, Sochor, and Lewis paper, and, as I mentioned before, are the same for all mutants. You can see in the expression for the fold change that $R$ and $K$ always appear as a ratio, $R/K$, so we can only determine this <em>ratio</em>, $R/K$, for each mutant. They are, for the respective mutants:</p>
+<table>
+<thead><tr>
+<th style="text-align:center">Mutant</th>
+<th style="text-align:center">$R/K$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">WT</td>
+<td style="text-align:center">141.5 mM$^{-1}$</td>
+</tr>
+<tr>
+<td style="text-align:center">Q18A</td>
+<td style="text-align:center">16.56 mM$^{-1}$</td>
+</tr>
+<tr>
+<td style="text-align:center">Q18M</td>
+<td style="text-align:center">1332 mM$^{-1}$</td>
+</tr>
+</tbody>
+</table>
+<p>Now let's get started with the analysis.</p>
+<p><strong>a)</strong> Load in the three data sets. They are in the files <code>~/git/data/wt_lac.csv</code>, <code>~/git/data/q18m_lac.csv</code>, and <code>~/git/data/q18a_lac.csv</code>. You should put them in a single <code>DataFrame</code> with an added column for genotype. This can be accomplished, for example, with <code>pd.concat()</code>.</p>
+<p><strong>b)</strong> Make a plot of fold change vs. IPTG concentration for each of the three mutants. Think: should any of the axes have a logarithmic scale?</p>
+<p><strong>c)</strong> Write a function with the signature <code>fold_change(c, RK, KdA=0.017, KdI=0.002, Kswitch=5.8)</code> to compute the theoretical fold change. It should allow <code>c</code>, the concentration of IPTG, to be passed in as a NumPy array or scalar, and <code>RK</code>, the $R/K$ ratio, must be a scalar. Remember, with NumPy arrays, you don't have to write <strong><code>for</code></strong> loops to do operations to each element of the array.</p>
+<p><strong>d)</strong> You will now plot a smooth curve showing the theoretical fold change for each mutant.</p>
+<blockquote><ol>
+<li>Make an array of closely spaced points for the IPTG concentration. <em>Hint</em>: The function <code>np.logspace()</code> will be useful.</li>
+<li>Compute the theoretical fold change based on the given parameters using the function you wrote in part (c).</li>
+<li>Plot the smooth curves on the same plot with the data.</li>
+</ol>
+</blockquote>
+<p><strong>e)</strong> If we look at the functional form of the fold change and at the parameters we are given, we see that only $R/K$ varies from mutant to mutant. I told you this <em>a priori</em>, but we didn't really know it. Daber, Sochol, and Lewis assumed that the binding to IPTG would be unaltered and the binding to DNA would be altered based on the position of the mutation in the lac repressor protein. Now, <em>if</em> this is true, then $R/K$ should be the only thing that varies. We can check this by seeing if the data collapse onto a single curve. To see how this works, we define the <strong>Bohr parameter</strong>, $F(c)$, as</p>
+\begin{align}
+F(c) = -\ln\left(R/K\right) - \ln\left(\frac{\left(1 + c/K_\mathrm{d}^\mathrm{A}\right)^2}{\left(1 + c/K_\mathrm{d}^\mathrm{A}\right)^2 + K_\mathrm{switch}\left(1 + c/K_\mathrm{d}^\mathrm{I}\right)^2}\right).
+\end{align}<p>The second term in the Bohr parameter is independent of the identity of the mutant, and the first term depends entirely upon it. Then, the fold change can be written as</p>
+\begin{align}
+\text{fold change} = \frac{1}{1 + \mathrm{e}^{-F(c)}}.
+\end{align}<p>So, if we make our $x$-axis be the Bohr parameter, all data should fall on the <em>same</em> curve. Hence the term, data collapse. (The Bohr parameter gets its name (as given by Rob Phillips) because it is inspired by the work of Christian Bohr (Niels's father), who discovered similar families of curves describing binding of oxygen to hemoglobin.)</p>
+<p>Now, we will plot the theoretical curve of fold change versus Bohr parameter.</p>
+<blockquote><ol>
+<li>Write a function with call signature <code>bohr_parameter(c, RK, KdA=0.017, KdI=0.002, Kswitch=5.8)</code> that computes the Bohr parameter.</li>
+<li>Write a function with call signature <code>fold_change_bohr(bohr_parameter)</code> that gives the fold change as a function of the Bohr parameter. </li>
+<li>Generate values of the Bohr parameter ranging from $-6$ to $6$ in order to make a smooth plot.</li>
+<li>Compute the theoretical fold change as a function of the Bohr parameter and plot it as a gray line.</li>
+</ol>
+</blockquote>
+<p><strong>f)</strong> Now, for each experimental curve:</p>
+<blockquote><ol>
+<li>Convert the IPTG concentration to a Bohr parameter using the given parameters.</li>
+<li>Plot the experimental fold change versus the Bohr parameter you just calculated. Plot the data as dots on the same plot that you made the universal gray curve, making sure to appropriately annotate your plot.</li>
+</ol>
+</blockquote>
+<p>Do you see data collapse? Does it make sense that only operator binding is changing from mutant to mutant? And importantly, the collapse demonstrates that all of the mutants are behaving according to the Monod-Wyman-Changeux model, and the mutations affect quantitative, not qualitative, changes in the behavior of the repressor.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><br /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise-4.2:-Solving-differential-equations-with-NumPy">Exercise 4.2: Solving differential equations with NumPy<a class="anchor-link" href="#Exercise-4.2:-Solving-differential-equations-with-NumPy">&#182;</a></h2><p>In addition to handling data, NumPy allows you do to <em>simulations</em>. For this exercise, we will use Euler's method to simulate a classic model for predator-prey population dynamics, the <a href="https://en.wikipedia.org/wiki/Lotka–Volterra_equations">Lotka-Volterra model</a>. As a warm-up example, we will simulate bacterial growth.</p>
+<p>Bacterial growth can be modeled by the differential equation</p>
+\begin{align}
+\frac{\mathrm{d}n}{\mathrm{d}t} = k n,
+\end{align}<p>where $n$ is the number of bacteria and $k$ is the growth rate. The idea here is that the number of bacteria will grow faster the more bacteria we have, because there are more to divide. Analytically, we know the solution to this differential equation is</p>
+\begin{align}
+n(t) = n_0 \mathrm{e}^{kt},
+\end{align}<p>i.e., exponential growth. But suppose we did not know how to derive that. We could <em>simulate</em> the differential equation. We do this by discretizing time. Instead of a derivative, we have a change in $n$ over a change in time $t$.</p>
+\begin{align}
+\frac{\mathrm{d}n}{\mathrm{d}t} \approx \frac{\Delta n}{\delta t} = k n.
+\end{align}<p>Let's say we know $n$ and time zero, $n(0)$. Then $n$ at time $t = \Delta t$ is</p>
+\begin{align}
+n(\Delta t) \approx n(0) + \Delta n = n(0) + k n(0).
+\end{align}<p>More generally, we can write</p>
+\begin{align}
+\frac{\mathrm{d}n}{\mathrm{d}t} = f(n),
+\end{align}<p>and</p>
+\begin{align}
+n(t+\Delta t) \approx n(t) + \Delta t\,f(n).
+\end{align}<p>So, we can instruct Python to take our current value of $n$, and then add $\Delta t$ times $f(n)$ to get our new $n$ at a time just a bit later on, at $t + \Delta t$. We repeat this over and over again to move forward in time. Let's code that up!</p>
 
 </div>
 </div>
@@ -13224,30 +13644,27 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">dict</span><span class="p">(((</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mf">27.6</span><span class="p">)))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Specify parameter</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Specify my little time step</span>
+<span class="n">delta_t</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+<span class="c1"># Make an array of time points, evenly spaced up to 10</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">delta_t</span><span class="p">)</span>
+
+<span class="c1"># Make an array to store the number of bacteria</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+<span class="c1"># Set the initial number of bacteria</span>
+<span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c1"># Write a for loop to keep updating n as time goes on</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)):</span>
+    <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">delta_t</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[2]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{&#39;a&#39;: 6, &#39;b&#39;: 7, &#39;c&#39;: 27.6}</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -13255,7 +13672,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Finally, we can make a dictionary with keyword arguments to the <code>dict()</code> function.</p>
+<p>Ok! We just computed the time points and the number of bacteria, so we can just plot the result!</p>
 
 </div>
 </div>
@@ -13265,97 +13682,20 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;maybe&#39;</span><span class="p">)</span>
-</pre></div>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span>
+    <span class="n">x_axis_label</span><span class="o">=</span><span class="s1">&#39;time (units of 1/k)&#39;</span><span class="p">,</span>
+    <span class="n">y_axis_label</span><span class="o">=</span><span class="s1">&#39;number of bacteria&#39;</span><span class="p">,</span>
+<span class="p">)</span>
 
-    </div>
-</div>
-</div>
+<span class="n">p</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+    <span class="n">line_width</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[3]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{&#39;a&#39;: &#39;yes&#39;, &#39;b&#39;: &#39;no&#39;, &#39;c&#39;: &#39;maybe&#39;}</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We do not need to have strings as the keys.  In fact, any <em>immutable</em> object can be a key.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;zero&#39;</span><span class="p">,</span>
-           <span class="mf">1.7</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-           <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;dummy string&#39;</span><span class="p">):</span> <span class="mf">3.14</span><span class="p">,</span>
-           <span class="s1">&#39;strings are immutable&#39;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
-<span class="n">my_dict</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[4]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{0: &#39;zero&#39;,
- 1.7: [1, 2, 3],
- (5, 6, &#39;dummy string&#39;): 3.14,
- &#39;strings are immutable&#39;: 42}</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>However, mutable objects cannot be used as keys.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;immutable is ok&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-           <span class="p">[</span><span class="s1">&#39;mutable&#39;</span><span class="p">,</span> <span class="s1">&#39;not&#39;</span><span class="p">,</span> <span class="s1">&#39;ok&#39;</span><span class="p">]:</span> <span class="mi">5</span><span class="p">}</span>
+<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13371,874 +13711,93 @@ div#notebook {
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-5-ff51262de4d9&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> my_dict = {&#39;immutable is ok&#39;: 1,
-<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg">            [&#39;mutable&#39;, &#39;not&#39;, &#39;ok&#39;]: 5}
-</span>
-<span class="ansi-red-fg">TypeError</span>: unhashable type: &#39;list&#39;</pre>
-</div>
+
+<div class="output_html rendered_html output_subarea ">
+
+
+
+
+
+
+  <div class="bk-root" id="75f06a9d-1126-4470-9f74-81eae4a0d906" data-root-id="1002"></div>
+
 </div>
 
 </div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Useful-dictionaries-in-bioinformatics">Useful dictionaries in bioinformatics<a class="anchor-link" href="#Useful-dictionaries-in-bioinformatics">&#182;</a></h2><p>It might be useful to quickly look up 3-letter amino acid codes. Dictionaries are particularly useful for this.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="s1">&#39;Ala&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;R&#39;</span><span class="p">:</span> <span class="s1">&#39;Arg&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="s1">&#39;Asn&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="s1">&#39;Asp&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="s1">&#39;Cys&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="s1">&#39;Gln&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;E&#39;</span><span class="p">:</span> <span class="s1">&#39;Glu&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="s1">&#39;Gly&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="s1">&#39;His&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="s1">&#39;Ile&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="s1">&#39;Leu&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="s1">&#39;Lys&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="s1">&#39;Met&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="s1">&#39;Phe&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="s1">&#39;Pro&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="s1">&#39;Ser&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;T&#39;</span><span class="p">:</span> <span class="s1">&#39;Thr&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;W&#39;</span><span class="p">:</span> <span class="s1">&#39;Trp&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="s1">&#39;Tyr&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="s1">&#39;Val&#39;</span><span class="p">}</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Another useful dictionary would contain the set of codons and the amino acids they code for. This is built in the code below using the <code>zip()</code> function we learned before. To see the logic on how this is constructed, see the codon table <a href="https://en.wikipedia.org/wiki/DNA_codon_table">here</a>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The set of DNA bases</span>
-<span class="n">bases</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;G&#39;</span><span class="p">]</span>
-
-<span class="c1"># Build list of codons</span>
-<span class="n">codon_list</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">first_base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">second_base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">third_base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
-            <span class="n">codon_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">first_base</span> <span class="o">+</span> <span class="n">second_base</span> <span class="o">+</span> <span class="n">third_base</span><span class="p">]</span>
-
-<span class="c1"># The amino acids that are coded for (* = STOP codon)</span>
-<span class="n">amino_acids</span> <span class="o">=</span> <span class="s1">&#39;FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG&#39;</span>
-
-<span class="c1"># Build dictionary from tuple of 2-tuples (technically an iterator, but it works)</span>
-<span class="n">codons</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">codon_list</span><span class="p">,</span> <span class="n">amino_acids</span><span class="p">))</span>
-
-<span class="c1"># Show that we did it</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">codons</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
 
 <div class="output_area">
 
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;TTT&#39;: &#39;F&#39;, &#39;TTC&#39;: &#39;F&#39;, &#39;TTA&#39;: &#39;L&#39;, &#39;TTG&#39;: &#39;L&#39;, &#39;TCT&#39;: &#39;S&#39;, &#39;TCC&#39;: &#39;S&#39;, &#39;TCA&#39;: &#39;S&#39;, &#39;TCG&#39;: &#39;S&#39;, &#39;TAT&#39;: &#39;Y&#39;, &#39;TAC&#39;: &#39;Y&#39;, &#39;TAA&#39;: &#39;*&#39;, &#39;TAG&#39;: &#39;*&#39;, &#39;TGT&#39;: &#39;C&#39;, &#39;TGC&#39;: &#39;C&#39;, &#39;TGA&#39;: &#39;*&#39;, &#39;TGG&#39;: &#39;W&#39;, &#39;CTT&#39;: &#39;L&#39;, &#39;CTC&#39;: &#39;L&#39;, &#39;CTA&#39;: &#39;L&#39;, &#39;CTG&#39;: &#39;L&#39;, &#39;CCT&#39;: &#39;P&#39;, &#39;CCC&#39;: &#39;P&#39;, &#39;CCA&#39;: &#39;P&#39;, &#39;CCG&#39;: &#39;P&#39;, &#39;CAT&#39;: &#39;H&#39;, &#39;CAC&#39;: &#39;H&#39;, &#39;CAA&#39;: &#39;Q&#39;, &#39;CAG&#39;: &#39;Q&#39;, &#39;CGT&#39;: &#39;R&#39;, &#39;CGC&#39;: &#39;R&#39;, &#39;CGA&#39;: &#39;R&#39;, &#39;CGG&#39;: &#39;R&#39;, &#39;ATT&#39;: &#39;I&#39;, &#39;ATC&#39;: &#39;I&#39;, &#39;ATA&#39;: &#39;I&#39;, &#39;ATG&#39;: &#39;M&#39;, &#39;ACT&#39;: &#39;T&#39;, &#39;ACC&#39;: &#39;T&#39;, &#39;ACA&#39;: &#39;T&#39;, &#39;ACG&#39;: &#39;T&#39;, &#39;AAT&#39;: &#39;N&#39;, &#39;AAC&#39;: &#39;N&#39;, &#39;AAA&#39;: &#39;K&#39;, &#39;AAG&#39;: &#39;K&#39;, &#39;AGT&#39;: &#39;S&#39;, &#39;AGC&#39;: &#39;S&#39;, &#39;AGA&#39;: &#39;R&#39;, &#39;AGG&#39;: &#39;R&#39;, &#39;GTT&#39;: &#39;V&#39;, &#39;GTC&#39;: &#39;V&#39;, &#39;GTA&#39;: &#39;V&#39;, &#39;GTG&#39;: &#39;V&#39;, &#39;GCT&#39;: &#39;A&#39;, &#39;GCC&#39;: &#39;A&#39;, &#39;GCA&#39;: &#39;A&#39;, &#39;GCG&#39;: &#39;A&#39;, &#39;GAT&#39;: &#39;D&#39;, &#39;GAC&#39;: &#39;D&#39;, &#39;GAA&#39;: &#39;E&#39;, &#39;GAG&#39;: &#39;E&#39;, &#39;GGT&#39;: &#39;G&#39;, &#39;GGC&#39;: &#39;G&#39;, &#39;GGA&#39;: &#39;G&#39;, &#39;GGG&#39;: &#39;G&#39;}
-</pre>
-</div>
-</div>
 
-</div>
-</div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>These two dictionaries are particularly useful, so I put them in a little module which we will discuss in the <a href="l11_packages_and_modules.html">next lesson on packages and modules</a>.</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="A-dictionary-is-an-implementation-of-a-hash-table">A dictionary is an implementation of a hash table<a class="anchor-link" href="#A-dictionary-is-an-implementation-of-a-hash-table">&#182;</a></h2><p>It is useful to stop and think about how a dictionary works.  Let's create a dictionary and look at where the values are stored in memory.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create dictionary</span>
-<span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mf">12.6</span><span class="p">}</span>
-
-<span class="c1"># Find where they are stored</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">my_dict</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>4570788632
-4531062336
-4531062368
-4569216320
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>So, each entry in the dictionary is stored at a different location in memory. The dictionary itself also has its own address. So, when I index a dictionary with a key, how does the dictionary know which address in memory to use to fetch the value I am interested in?</p>
-<p>Dictionaries use a <strong>hash function</strong> to do this. A hash function converts its input to an integer. For example, we can use Python's built-in hash function to convert the keys to integers.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">hash</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="nb">hash</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">),</span> <span class="nb">hash</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[9]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(-186984469143035440, -8562394179998713687, 1061546416081595608)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Under the hood, Python then converts these integers to integers that could correspond to locations in memory. A collection of elements that can be indexed this way is called a <strong>hash table</strong>. This is a very common data structure in computing.  Wikipedia has a <a href="https://en.wikipedia.org/wiki/Hash_table">pretty good discussion on them</a>.</p>
-<p>Given what you know about how dictionaries work, why do you think mutable objects are not acceptable as keys?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Dictionaries-are-mutable">Dictionaries are mutable<a class="anchor-link" href="#Dictionaries-are-mutable">&#182;</a></h2><p>The title says it all! Dictionaries are mutable. This means that they can be changed in place. For example, if we want to add an element to a dictionary, we use simple syntax.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Remind ourselves what the dictionary is</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">my_dict</span><span class="p">)</span>
-
-<span class="c1"># Add an entry</span>
-<span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Bootcamp is so much fun!&#39;</span>
-
-<span class="c1"># Look at dictionary again</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">my_dict</span><span class="p">)</span>
-
-<span class="c1"># Change an entry</span>
-<span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;I was not satisfied with entry a.&#39;</span>
-
-<span class="c1"># Look at it again</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">my_dict</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;a&#39;: 6, &#39;b&#39;: 7, &#39;c&#39;: 12.6}
-{&#39;a&#39;: 6, &#39;b&#39;: 7, &#39;c&#39;: 12.6, &#39;d&#39;: &#39;Bootcamp is so much fun!&#39;}
-{&#39;a&#39;: &#39;I was not satisfied with entry a.&#39;, &#39;b&#39;: 7, &#39;c&#39;: 12.6, &#39;d&#39;: &#39;Bootcamp is so much fun!&#39;}
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Membership-operators-with-dictionaries">Membership operators with dictionaries<a class="anchor-link" href="#Membership-operators-with-dictionaries">&#182;</a></h2><p>The <strong><code>in</code></strong> and <strong><code>not in</code></strong> operators work with dictionaries, but both only query keys and <em>not</em> values. We see this again by example.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Make a fresh my_dict</span>
-<span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
-
-<span class="c1"># in works with keys</span>
-<span class="s1">&#39;b&#39;</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">my_dict</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[11]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(True, False, True)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Try it with values</span>
-<span class="mi">2</span> <span class="ow">in</span> <span class="n">my_dict</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[12]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>False</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Yup!  We get <code>False</code>.  Why?  Because <code>2</code> is not a <em>key</em> in <code>my_dict</code>. We can also iterate over the keys in a dictionary.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">my_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>a : 1
-b : 2
-c : 3
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The best, and preferred, method, is to iterate over <code>key</code>,<code>item</code> pairs in a dictionary using the <code>items()</code> method of a dictionary.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>a 1
-b 2
-c 3
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Note, however, that like lists, the <code>item</code>s that come out of the <code>my_dict.items()</code> iterator are <em>not</em> items in the dictionary, but copies of them. If you make changes within the <code>for</code> loop, you will not change entries in the dictionary.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">item</span> <span class="o">=</span> <span class="s1">&#39;this string will not be in dictionary.&#39;</span>
+<div id="7945034d-466e-4e48-9d3b-c8743050f712"></div>
+<div class="output_subarea output_javascript ">
+<script type="text/javascript">
+var element = $('#7945034d-466e-4e48-9d3b-c8743050f712');
+(function(root) {
+  function embed_document(root) {
     
-<span class="n">my_dict</span>
+  var docs_json = {"9f53369f-ccbe-4542-b62e-7349e0f5474a":{"roots":{"references":[{"attributes":{"below":[{"id":"1011","type":"LinearAxis"}],"center":[{"id":"1015","type":"Grid"},{"id":"1020","type":"Grid"}],"left":[{"id":"1016","type":"LinearAxis"}],"plot_height":300,"plot_width":450,"renderers":[{"id":"1037","type":"GlyphRenderer"}],"title":{"id":"1039","type":"Title"},"toolbar":{"id":"1027","type":"Toolbar"},"x_range":{"id":"1003","type":"DataRange1d"},"x_scale":{"id":"1007","type":"LinearScale"},"y_range":{"id":"1005","type":"DataRange1d"},"y_scale":{"id":"1009","type":"LinearScale"}},"id":"1002","subtype":"Figure","type":"Plot"},{"attributes":{},"id":"1021","type":"PanTool"},{"attributes":{"axis_label":"time (units of 1/k)","formatter":{"id":"1043","type":"BasicTickFormatter"},"ticker":{"id":"1012","type":"BasicTicker"}},"id":"1011","type":"LinearAxis"},{"attributes":{"callback":null,"data":{"x":{"__ndarray__":"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","dtype":"float64","shape":[1000]},"y":{"__ndarray__":"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","dtype":"float64","shape":[1000]}},"selected":{"id":"1045","type":"Selection"},"selection_policy":{"id":"1046","type":"UnionRenderers"}},"id":"1034","type":"ColumnDataSource"},{"attributes":{},"id":"1012","type":"BasicTicker"},{"attributes":{"ticker":{"id":"1012","type":"BasicTicker"}},"id":"1015","type":"Grid"},{"attributes":{"axis_label":"number of bacteria","formatter":{"id":"1041","type":"BasicTickFormatter"},"ticker":{"id":"1017","type":"BasicTicker"}},"id":"1016","type":"LinearAxis"},{"attributes":{},"id":"1017","type":"BasicTicker"},{"attributes":{},"id":"1009","type":"LinearScale"},{"attributes":{"callback":null},"id":"1005","type":"DataRange1d"},{"attributes":{},"id":"1045","type":"Selection"},{"attributes":{"dimension":1,"ticker":{"id":"1017","type":"BasicTicker"}},"id":"1020","type":"Grid"},{"attributes":{},"id":"1007","type":"LinearScale"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1021","type":"PanTool"},{"id":"1022","type":"WheelZoomTool"},{"id":"1023","type":"BoxZoomTool"},{"id":"1024","type":"SaveTool"},{"id":"1025","type":"ResetTool"},{"id":"1026","type":"HelpTool"}]},"id":"1027","type":"Toolbar"},{"attributes":{"overlay":{"id":"1047","type":"BoxAnnotation"}},"id":"1023","type":"BoxZoomTool"},{"attributes":{"callback":null},"id":"1003","type":"DataRange1d"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1036","type":"Line"},{"attributes":{"data_source":{"id":"1034","type":"ColumnDataSource"},"glyph":{"id":"1035","type":"Line"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1036","type":"Line"},"selection_glyph":null,"view":{"id":"1038","type":"CDSView"}},"id":"1037","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1034","type":"ColumnDataSource"}},"id":"1038","type":"CDSView"},{"attributes":{},"id":"1026","type":"HelpTool"},{"attributes":{},"id":"1024","type":"SaveTool"},{"attributes":{},"id":"1041","type":"BasicTickFormatter"},{"attributes":{},"id":"1025","type":"ResetTool"},{"attributes":{"line_color":"#1f77b4","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1035","type":"Line"},{"attributes":{},"id":"1043","type":"BasicTickFormatter"},{"attributes":{},"id":"1046","type":"UnionRenderers"},{"attributes":{},"id":"1022","type":"WheelZoomTool"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1047","type":"BoxAnnotation"},{"attributes":{"text":""},"id":"1039","type":"Title"}],"root_ids":["1002"]},"title":"Bokeh Application","version":"1.2.0"}};
+  var render_items = [{"docid":"9f53369f-ccbe-4542-b62e-7349e0f5474a","roots":{"1002":"75f06a9d-1126-4470-9f74-81eae4a0d906"}}];
+  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
+
+  }
+  if (root.Bokeh !== undefined) {
+    embed_document(root);
+  } else {
+    var attempts = 0;
+    var timer = setInterval(function(root) {
+      if (root.Bokeh !== undefined) {
+        embed_document(root);
+        clearInterval(timer);
+      }
+      attempts++;
+      if (attempts > 100) {
+        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+        clearInterval(timer);
+      }
+    }, 10, root)
+  }
+})(window);
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And there is the famous exponential growth!</p>
+<p>This time stepping method is called <a href="https://en.wikipedia.org/wiki/Euler_method">Euler's method</a>, and what we're doing is called <em>numerical solution of a differential equation</em>.</p>
+<p><strong>a)</strong> Now it's time to simulate the Lotka-Volterra model. Since predator and prey both begin with "p," we'll call the predators foxes ($f$) and the prey rabbits ($r$). The differential equation describing the dynamics of the rabbit population is</p>
+\begin{align}
+\frac{\mathrm{d}r}{\mathrm{d}t} = \alpha r - \beta f r.
+\end{align}<p>The first term at the right hand side is exponential growth, the same you would expect for a growing bacterial colony. The second term is killing off due to predation. If $f$ is large, more rabbits get hunted down.</p>
+<p>The differential equation describing the dynamics of the fox population is</p>
+\begin{align}
+\frac{\mathrm{d}f}{\mathrm{d}t} = \delta f r - \gamma f.
+\end{align}<p>The first term represents growth in the fox population by consumption of rabbits. The second term is the natural die-off of foxes.</p>
+<p>Your task in this exercise is to numerically solve these two differential equations together and then plot the result. Use the following parameter values</p>
+<div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">delta</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">delta_t</span> <span class="o">=</span> <span class="mf">0.001</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="n">delta_t</span><span class="p">)</span>
+<span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 </pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[15]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3}</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You will, though, if you use the keys.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">my_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;this will be in the dictionary.&#39;</span>
-    
-<span class="n">my_dict</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[16]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{&#39;a&#39;: &#39;this will be in the dictionary.&#39;,
- &#39;b&#39;: &#39;this will be in the dictionary.&#39;,
- &#39;c&#39;: &#39;this will be in the dictionary.&#39;}</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Built-in-functions-for-dictionaries">Built-in functions for dictionaries<a class="anchor-link" href="#Built-in-functions-for-dictionaries">&#182;</a></h2><p>The built-in <code>len()</code> function and <code>del</code> operation work on dictionaries.</p>
-<ul>
-<li><code>len(d)</code> gives the number of entries in dictionary <code>d</code></li>
-<li><code>del d[k]</code> deletes entry with key <code>k</code> from dictionary <code>d</code></li>
-</ul>
-<p>This is the first time we've encountered the <strong><code>del</code></strong> keyword. This keyword is used to delete variables and their values from memory. The <code>del</code> keyword can also be to delete items from lists.  Let's see things in practice.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create my_list and my_dict for reference</span>
-<span class="n">my_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
-
-<span class="c1"># Print them</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;my_dict:&#39;</span><span class="p">,</span> <span class="n">my_dict</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;my_list:&#39;</span><span class="p">,</span> <span class="n">my_list</span><span class="p">)</span>
-
-<span class="c1"># Get lengths</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;length of my_dict:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_dict</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;length of my_list:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_list</span><span class="p">))</span>
-
-<span class="c1"># Delete a key from my_dict</span>
-<span class="k">del</span> <span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
-
-<span class="c1"># Delete entry from my_list</span>
-<span class="k">del</span> <span class="n">my_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="c1"># Show post-deleted objects</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;post-deleted my_dict:&#39;</span><span class="p">,</span> <span class="n">my_dict</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;post-deleted my_list:&#39;</span><span class="p">,</span> <span class="n">my_list</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>my_dict: {&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3, &#39;d&#39;: 4}
-my_list: [1, 2, 3, 4]
-length of my_dict: 4
-length of my_list: 4
-post-deleted my_dict: {&#39;a&#39;: 1, &#39;c&#39;: 3, &#39;d&#39;: 4}
-post-deleted my_list: [1, 3, 4]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Note, though, that you cannot delete an item from a tuple, since it's immutable.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="k">del</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-18-db6fdb3f0eac&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> my_tuple <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">4</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">del</span> my_tuple<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span>
-
-<span class="ansi-red-fg">TypeError</span>: &#39;tuple&#39; object doesn&#39;t support item deletion</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Dictionary-methods">Dictionary methods<a class="anchor-link" href="#Dictionary-methods">&#182;</a></h2><p>Dictionaries have several built-in methods in addition to the <code>items()</code> you have already seen.  Following are a few of them, assuming the dictionary is <code>d</code>.</p>
-<table>
-<thead><tr>
-<th style="text-align:left">method</th>
-<th style="text-align:left">effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>d.keys()</code></td>
-<td style="text-align:left">return keys</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>d.pop(key)</code></td>
-<td style="text-align:left">return value associated with <code>key</code> and delete <code>key</code> from <code>d</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>d.values()</code></td>
-<td style="text-align:left">return the values in <code>d</code></td>
-</tr>
-</tbody>
-</table>
-<p>Let's try these out.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-
-<span class="n">my_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[19]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>dict_keys([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that this is a <code>dict_keys</code> object.  We cannot index it.  If, say, we wanted to sort the keys and have them index-able, we would have to convert them to a list.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">my_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[20]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This is not a usual use case, though, and be warned that doing then when this is not explicitly what you want can lead to bugs. Now let's try popping an entry out of the dictionary.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[21]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>3</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[22]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;d&#39;: 4}</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>...and, as we expect, key <code>'c'</code> is now deleted, and its value was returned in the call to <code>my_dict.pop('c')</code>. Finally, we can look at the values.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[23]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>dict_values([1, 2, 4])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We get a <code>dict_values</code> object, similar to the <code>dict_keys</code> object we got with the <code>my_dict.keys()</code> method.</p>
-<p>You can get more information about build-in methods from the <a href="https://docs.python.org/3/library/stdtypes.html#mapping-types-dict">Python documentation</a>.</p>
+<p>Even though there are now two differential equations, the procedure is the same, you update each by adding $\Delta t$ times the respective derivative.</p>
+<p>When you plot the result, does it make sense?</p>
+<p><strong>b)</strong> [Bonus]  Euler's method is probably the simplest way to solve differential equations, and is by no means the best. SciPy has an ODE solver, <code>scipy.integrate.odeint()</code> that uses the more sophisticated and robust methods for solving systems of ODEs. Read the documentation about how <code>scipy.integrate.odeint()</code> works and use it to solve the Lotka-Volterra system of ODEs.</p>
+<p>This problem is tough; I'm not giving you directions, and you are kind of on your own to read the documentation and figure it out. It may be useful to read <a href="http://be150.caltech.edu/2019/handouts/02_intro_to_python_for_biological_circuits.html">this tutorial</a> I wrote to help students solve ODEs that come up in systems biology.</p>
 
 </div>
 </div>
@@ -14246,36 +13805,7 @@ post-deleted my_list: [1, 3, 4]
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="List-methods">List methods<a class="anchor-link" href="#List-methods">&#182;</a></h2><p>As you may guess, the dictionary method <code>pop()</code> has an analog that works for lists. (Why don't the dictionary <code>key()</code> and <code>values()</code> methods work for lists?) We take this opportunity to introduce a few more useful list methods.  Imagine the list is called <code>s</code>.</p>
-<table>
-<thead><tr>
-<th style="text-align:left">method</th>
-<th style="text-align:left">effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>s.pop(i)</code></td>
-<td style="text-align:left">return value at index <code>i</code> and delete it from the list</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>s.append(x)</code></td>
-<td style="text-align:left">Put <code>x</code> at the end of the list</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>s.insert(i, x)</code></td>
-<td style="text-align:left">Insert <code>x</code> at index <code>i</code> in the list</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>s.remove(x)</code></td>
-<td style="text-align:left">Remove the first occurrence of <code>x</code> from the list</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>s.reverse()</code></td>
-<td style="text-align:left">Reverse the order of items in the list</td>
-</tr>
-</tbody>
-</table>
+<p><br /></p>
 
 </div>
 </div>
@@ -14283,141 +13813,55 @@ post-deleted my_list: [1, 3, 4]
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Using-dictionaries-as-kwargs">Using dictionaries as kwargs<a class="anchor-link" href="#Using-dictionaries-as-kwargs">&#182;</a></h2><p>A nifty feature of dictionaries is that they can be passed into functions as keyword arguments. We covered named keyword arguments in the <a href="l07_intro_to_functions.html">Intro to functions lesson</a>. In addition to the named keyword arguments, a function can take in arbitrary keyword arguments (<strong>not</strong> arbitrary non-keyword arguments). This is specified in the function definition by including a last argument with a double-asterisk, <code>**</code>. The kwargs with the double-asterisk get passed in as a dictionary.</p>
+<h2 id="Exercise-4.3:-Hacker-stats-on-bee-sperm-data">Exercise 4.3: Hacker stats on bee sperm data<a class="anchor-link" href="#Exercise-4.3:-Hacker-stats-on-bee-sperm-data">&#182;</a></h2><p>Neonicotinoid pesticides are thought to have inadvertent effects on service-providing insects such as bees. A study of this was <a href="http://www.nytimes.com/2016/07/29/science/neonicotinoid-insecticide-bee-sperm.html">featured in the New York Times</a> in 2016. The original paper is <a href="http://dx.doi.org/10.1098/rspb.2016.0506">Straub, et al.,  Proc. Royal Soc. B 283(1835): 20160506</a>. Straub and coworkers put their <a href="http://dx.doi.org/10.5061/dryad.bs515">data in the Dryad repository</a>, which means we can work with it!</p>
+<p>(Do you see a trend here? If you want people to think deeply about your results, explore them, learn from them, further science with them, <em>make your data publicly available.</em> Strongly encourage the members of your lab to do the same.)</p>
+<p>We will look at the weight of drones (male bees) using the data set stored in <code>~/git/bootcamp/data/bee_weight.csv</code> and the sperm quality of drone bees using the data set stored in <code>~/git/bootcamp/data/bee_sperm.csv</code>.</p>
+<p><strong>a)</strong> Load the drone weight data in as a Pandas <code>DataFrame</code>.  Note that the unit of the weight is milligrams (mg).</p>
+<p><strong>b)</strong> Plot ECDFs of the drone weight for control and also for those exposed to pesticide. Do you think there is a clear difference?</p>
+<p><strong>c)</strong> Compute the mean drone weight for control and those exposed to pesticide. Compute 95% bootstrap confidence intervals on the mean.</p>
+<p><strong>d)</strong> Repeat parts (a)-(c) for drone sperm. Use the <code>'Quality'</code> column as your measure. This is defined as the percent of sperm that are alive in a 500 µL sample.</p>
+<p><strong>e)</strong> As you have seen in your analysis in part (d), both the control and pesticide treatments have some outliers with very low sperm quality. This can tug heavily on the mean. So, get 95% bootstrap confidence intervals for the <em>median</em> sperm quality of the two treatments.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">my_fun</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Concatenate sequences.&quot;&quot;&quot;</span>
-    <span class="n">seq</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-
-    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-        <span class="n">seq</span> <span class="o">+=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-        
-    <span class="k">return</span> <span class="n">seq</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's try it!</p>
+<p><br /></p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_fun</span><span class="p">(</span><span class="s1">&#39;TGACAC&#39;</span><span class="p">,</span> <span class="s1">&#39;CAGGGA&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;GGGGGGGGG&#39;</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="s1">&#39;AAAATTTTT&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[25]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;TGACACCAGGGAGGGGGGGGGAAAATTTTT&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, imagine we have a dictionary that contains our values.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;TGACAC&#39;</span><span class="p">,</span> 
-           <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="s1">&#39;CAGGGA&#39;</span><span class="p">,</span> 
-           <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;GGGGGGGGG&#39;</span><span class="p">,</span> 
-           <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="s1">&#39;AAAATTTTT&#39;</span><span class="p">}</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can now pass this directly into the function by preceding it with a double asterisk.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_fun</span><span class="p">(</span><span class="o">**</span><span class="n">my_dict</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[27]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;TGACACCAGGGAGGGGGGGGGAAAATTTTT&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Beautiful!  This example is kind of trivial, but you can imagine that it can come in handy, e.g. with large sets of sequence fragments that you read in from a file. We will use <code>**kwargs</code> later in the bootcamp.</p>
+<h2 id="Exercise-4.4:-Monte-Carlo-simulation-of-transcriptional-pausing">Exercise 4.4: Monte Carlo simulation of transcriptional pausing<a class="anchor-link" href="#Exercise-4.4:-Monte-Carlo-simulation-of-transcriptional-pausing">&#182;</a></h2><p>In this exercise, we will put random number generation to use and do a <strong>Monte Carlo simulation</strong>. The term Monte Carlo simulation is a broad term describing techniques in which a large number of random numbers are generated to (approximately) calculate properties of probability distributions. In many cases the analytical form of these distributions is not known, so Monte Carlo methods are a great way to learn about them.</p>
+<p>Transcription, the process by which DNA is transcribed into RNA, is key process in the central dogma of molecular biology. RNA polymerase (RNAP) is at the heart of this process.  This amazing machine glides along the DNA template, unzipping it internally, incorporating ribonucleotides at the front, and spitting RNA out the back. Sometimes, though, the polymerase pauses and then backtracks, pushing the RNA transcript back out the front, as shown in the figure below, taken from <a href="https://dx.doi.org/10.1016%2Fj.bpj.2008.12.3918">Depken, et al., <em>Biophys. J.</em>, <strong>96</strong>, 2189-2193, 2009</a>.</p>
+<p><center><img src="rnap_pause.png" width="400px"></center><br/></p>
+<p>To escape these backtracks, a cleavage enzyme called TFIIS cleaves the bit on RNA hanging out of the front, and the RNAP can then go about its merry way.</p>
+<p>Researchers have long debated how these backtracks are governed. Single molecule experiments can provide some much needed insight. The groups of <a href="http://bustamante.berkeley.edu">Carlos Bustamante</a>, <a href="https://blocklab.stanford.edu">Steve Block</a>, and <a href="https://www.mpi-cbg.de/research-groups/current-groups/stephan-grill/group-leader/">Stephan Grill</a>, among others, have investigated the dynamics of RNAP in the absence of TFIIS.  They can measure many individual backtracks and get statistics about how long the backtracks last.</p>
+<p>One hypothesis is that the backtracks simply consist of diffusive-like motion along the DNA stand. That is to say, the polymerase can move forward or backward along the strand with equal probability once it is paused. This is a one-dimensional <strong>random walk</strong>. So, if we want to test this hypothesis, we would want to know how much time we should expect the RNAP to be in a backtrack so that we could compare to experiment.</p>
+<p>So, we seek the probability distribution of backtrack times, $P(t_{bt})$, where $t_{bt}$ is the time spent in the backtrack. We could solve this analytically, which requires some sophisticated mathematics. But, because we know how to draw random numbers, we can just compute this distribution directly using Monte Carlo simulation!</p>
+<p>We start at $x = 0$ at time $t = 0$. We "flip a coin," or choose a random number to decide whether we step left or right. We do this again and again, keeping track of how many steps we take and what the $x$ position is. As soon as $x$ becomes positive, we have existed the backtrack. The total time for a backtrack is then $\tau n_\mathrm{steps}$, where $\tau$ is the time it takes to make a step. Depken, et al., report that $\tau \approx 0.5$ seconds.</p>
+<p><strong>a)</strong> Write a function, <code>backtrack_steps()</code>, that computes the number of steps it takes for a random walker (i.e., polymerase) starting at position $x = 0$ to get to position $x = +1$. It should return the number of steps to take the walk.</p>
+<p><strong>b)</strong> Generate 10,000 of these backtracks in order to get enough samples out of $P(t_\mathrm{bt})$. (If you are interested in a way to really speed up this calculation, ask me about <a href="http://numba.pydata.org">Numba</a>.)</p>
+<p><strong>c)</strong> Generate an ECDF of your samples and plot the ECDF with the $x$ axis on a logarithmic scale.</p>
+<p><strong>d)</strong> A probability distribution function that obeys a power law has the property</p>
+\begin{align}
+P(t_\mathrm{bt}) \propto t_\mathrm{bt}^{-a}
+\end{align}<p>in some part of the distribution, usually for large $t_\mathrm{bt}$. If this is the case, the cumulative distribution function is then</p>
+\begin{align}
+\mathrm{CDF}(t_\mathrm{bt}) \equiv F(t_\mathrm{bt})= \int_{-\infty}^{t_\mathrm{bt}} \mathrm{d}t_\mathrm{bt}'\,P(t_\mathrm{bt}') = 1 - \frac{c}{t_\mathrm{bt}^{a+1}}, 
+\end{align}<p>where $c$ is some constant defined by the functional form of $P(t_\mathrm{bt})$ for small $t_\mathrm{bt}$ and the normalization condition.  If $F$ is our cumulative histogram, we can check for power law behavior by plotting the complementary cumulative distribution (CCDF), $1 - F$, versus $t_\mathrm{bt}$.  If a power law is in play, the plot will be linear on a log-log scale with a slope of $-a+1$.</p>
+<p>Plot the complementary cumulative distribution function from your samples on a log-log plot. If it is linear, then the time to exit a backtrack is a power law.</p>
+<p><strong>e)</strong>
+By doing some mathematical heavy lifting, we know that, in the limit of large $t_{bt}$,</p>
+\begin{align}
+P(t_{bt}) \propto t_{bt}^{-3/2},
+\end{align}<p>so the plot you did in part (e) should have a slope of $-1/2$ on a log-log plot. Is this what you see?</p>
+<p><strong>Notes:</strong> The theory to derive the probability distribution is involved. See, e.g., <a href="https://en.wikipedia.org/wiki/First-hitting-time_model">this</a>. However, we were able to predict that we would see a great many short backtracks, and then see some very very long backtracks because of the power law distribution of backtrack times. We were able to do that just by doing a simple Monte Carlo simulation with "coin flips". There are many problems where the theory is <em>really</em> hard, and deriving the distribution is currently impossible, or the probability distribution has such an ugly expression that we can't really work with it. So, Monte Carlo methods are a powerful tool for generating predictions from simply-stated, but mathematically challenging, hypotheses.</p>
+<p>Interestingly, many researchers thought (and maybe still do) there were two classes of backtracks: long and short. There may be, but the hypothesis that the backtrack is a random walk process is commensurate with seeing both very long and very short backtracks.</p>
 
 </div>
 </div>
@@ -14431,11 +13875,11 @@ post-deleted my_list: [1, 3, 4]
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
-<span class="o">%</span><span class="k">watermark</span> -v -p jupyterlab
+<span class="o">%</span><span class="k">watermark</span> -v -p numpy,bokeh,jupyterlab
 </pre></div>
 
     </div>
@@ -14455,6 +13899,8 @@ post-deleted my_list: [1, 3, 4]
 <pre>CPython 3.7.3
 IPython 7.1.1
 
+numpy 1.16.4
+bokeh 1.2.0
 jupyterlab 0.35.5
 </pre>
 </div>
