@@ -13128,13 +13128,12 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-12:-Version-control-with-Git">Lesson 12: Version control with Git<a class="anchor-link" href="#Lesson-12:-Version-control-with-Git">&#182;</a></h1><p>(c) 2018 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-12:-Version-control-with-Git">Lesson 12: Version control with Git<a class="anchor-link" href="#Lesson-12:-Version-control-with-Git">&#182;</a></h1><p>(c) 2019 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>Parts of this lesson are based on a <a href="http://swcarpentry.github.io/git-novice/">similar lesson from Software Carpentry</a>, itself also licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
 <p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l12_version_control_with_git.ipynb">here</a>.</em></p>
-<p><br /> <br /></p>
-
+<hr />
 </div>
 </div>
 </div>
@@ -13150,8 +13149,8 @@ div#notebook {
 
 </code></pre>
 <p>on the command line and read what the <code>NAME</code> of the software is.</p>
-<p>Using Git as a version control system allows communication with remote repositories such as <a href="http://github.com/">GitHub</a> or <a href="http://bitbucket.org">Bitbucket</a>. Both services provide university-affiliated people with a <code>.edu</code> email address with perks that include free private repositories. We will use GitHub for our bootcamp, and you should already have set up an account.</p>
-<p>Remote repositories are not only a great way for keeping your data safe. They are also an excellent tool for collaboration since Git allows multiple users to edit the shared files simultaneously and has a method to merge changes afterwards.  Public repositories can also serve as a vehicle to distribute code (or other files).</p>
+<p>Using Git as a version control system allows communication with remote repositories ("repos" for short) such as <a href="http://github.com/">GitHub</a>, <a href="http://gitlab.com/">GitLab</a> or <a href="http://bitbucket.org">Bitbucket</a>. These services provide university-affiliated people with a <code>.edu</code> email address with perks that include free private repositories. We will use GitHub for our bootcamp, and you should already have set up an account.</p>
+<p>Remote repositories are not only a great way for keeping your data safe. They are also an excellent tool for collaboration since Git allows multiple users to edit the shared files simultaneously and has a method to merge changes afterwards. Public repositories can also serve as a vehicle to distribute code (or other files).</p>
 <p>You can find more information about Git <a href="https://git-scm.com/documentation">here</a>. It is well documented. Here is an <a href="https://education.github.com/git-cheat-sheet-education.pdf">excellent one-page (front-and-back) cheatsheet</a>.</p>
 <p>Let's get started. You all should have a version of Git installed on your computers. Open the terminal and navigate into your <code>~/git</code> directory.</p>
 
@@ -13255,13 +13254,27 @@ git merge FETCH_HEAD
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Relationships-among-your-local-machine,-your-fork,-and-upstream">Relationships among your local machine, your fork, and upstream<a class="anchor-link" href="#Relationships-among-your-local-machine,-your-fork,-and-upstream">&#182;</a></h3><p>Let us think about how we have things set up, referring to the excellent image below from <a href="http://jlord.us/">Jessica Lord</a>. <strong>Remotely</strong>, in our case on GitHub, lives the bootcamp repository that I created. You <strong>forked</strong> that repository. That copied the contents of my repository over to a new repository in <em>your</em> GitHub account. Your forked repository still existed remotely on your own machine. Your copy of the remote repository is called a <strong>fork</strong> and the original repository you forked from is called <strong>upstream</strong>.</p>
+<p><center><img src="jessica_lord_git_diagram.png" width="600px"></center><br /></p>
+<p>When you <strong>cloned</strong> your forked repository, you pulled it down from GitHub and put it on your <strong>local</strong> machine (your laptop). Whenever you make changes the repository, you do so on your local machine. You can then <strong>commit</strong> your changes, which tell Git to create a snapshot of exactly what the repository looked like when you did the commit. When you <strong>push</strong> your commits, they go to your forked repository.</p>
+<p>If you use a second machine, or if someone else contributes to your repository, you can <strong>pull</strong> the repository (since you already cloned it), and the changes will be added to your local machine (provided there are no conflicts).</p>
+<p>If someone (like me) makes changes to the upstream repository, you can also pull those changes to incorporate them into your own repository but <strong>pulling from the upstream</strong> repository. If the upstream developer gives you permission (they almost never do), you can also push to the upstream repository.</p>
+<p>Since they almost never give you permission, if you want put your changes into the upstream repository, you submit a <strong>pull request</strong> via the GitHub website.</p>
+<p>Now that we have covered how to work off of others' repositories, let's see how to make your own repo.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Creating-your-own-repository">Creating your own repository<a class="anchor-link" href="#Creating-your-own-repository">&#182;</a></h2><p>Now, you will create your own repository for practice. For this bootcamp, let's name the repository with your initials followed by <code>_bootcamp</code>. In my case, my repository is <code>jb_bootcamp</code>.</p>
 <p>Only in rare circumstances would you not want to host your repository remotely, so we will take an easy path toward creating a repository using GitHub. Prior to the bootcamp, you all should have set up a GitHub account. Log in to GitHub. In the upper right corner of the page, click on the "<strong><code>+</code></strong>" icon and select "New repository." You will then get a page that looks like this:</p>
-<p><img src="github2.png" alt="github2.png"></p>
+<p><center><img src="github2.png" width="600px"></center><br /></p>
 <p>I called the new repository <code>jb_bootcamp</code> (yours will obviously have your own initials, and you can substitute them for <code>jb</code> wherever you see that in this lesson), and gave a little description. You can choose the repository to be either private of public; if you are not an academic, you have to pay for private repositories. Public repositories can be viewed by anyone. I will choose public for this one.</p>
 <p>I have checked the box to initialized the repository with a README. This is convenient because GitHub will set up the repository and populate it with a README file that you can generate right in your browser. I also selected to add a Python <code>.gitignore</code>, which is convenient for keeping your version control clean (more on that <a href="#.gitignore">later</a>). Finally, I chose an MIT license, which is a liberal license that will let others use your code if they would like to.</p>
 <p>After clicking "Create repository," you will get a page that looks like this:</p>
-<p><img src="github3.png" alt="github3.png"></p>
+<p><center><img src="github3.png" width="600px"></center><br /></p>
 <p>This is the main page for your repository. It is created! Right now, the repository only exists on GitHub. You need to clone it to get it on your own machine. To do that, click the "Clone or download" button and copy the web URL.</p>
 <p>Now, it is time to clone your repository on your own machine. I think you know the drill. First, <code>cd</code> to your <code>~/git</code> directory (if that is where you choose to keep your repositories). Then do this:</p>
 
@@ -13346,7 +13359,7 @@ Changes to be committed:
 <pre><code>git commit -m "Initial commit of bootcamp utilities."
 
 </code></pre>
-<p>The <code>-m</code> after <code>git commit</code> specifies the <strong>commit message</strong>. This is a brief bit of text that describes what has changed in the repository. Upon committing, the something like the following is printed to the screen:</p>
+<p>The <code>-m</code> after <code>git commit</code> specifies the <strong>commit message</strong>. This is a brief bit of text that describes what has changed in the repository. It is really important to write informative commit messages (and <a href="https://chris.beams.io/posts/git-commit/">here are some beautifully described rules for good commit messages</a>). By contrast, most <a href="http://ramiro.org/blog/most-frequent-github-commit-messages/">commit messages that people write are useless</a>. Upon committing, the something like the following is printed to the screen:</p>
 
 <pre><code>[master 27aba6d] Initial commit of bootcamp utilities.
  5 files changed, 120 insertions(+), 1 deletion(-)
@@ -13362,7 +13375,7 @@ Changes to be committed:
 </code></pre>
 <p>Here, <code>origin</code> is a nickname for your remote repository. <code>master</code> is the name of the branch we are pushing to in the GitHub repository. I.e., it is the master copy. (We will not talk about branches or branching in this lesson.)</p>
 <p>Now, let's look at our repository on GitHub. You can just refresh the main page of the repository in your browser. It now looks like this:</p>
-<p><img src="github4.png" alt="github4.png"></p>
+<p><center><img src="github3.png" width="600px"></center><br /></p>
 <p>We now have our updates in the master branch, out there in the cloud for sharing.</p>
 
 </div>
@@ -13406,7 +13419,7 @@ Changes to be committed:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Intalling-bootcamp_utils">Intalling bootcamp_utils<a class="anchor-link" href="#Intalling-bootcamp_utils">&#182;</a></h2><p>What you have just done is a common workflow with packages. You write your own packages (that are under version control, of course), and you make them available using <code>pip install -e</code>. In addition to your own packages, you used <code>conda</code> to install third party packages, such as Altair, on your machine in <a href="l00_configuring_your_machine.html">lesson 0</a>. When you can install packages with <code>conda</code>, you should. But sometimes packages are not yet available via <code>conda</code>, but are nonetheless available in the <a href="https://pypi.org">Python Package Index (PyPI)</a>. There are nearly 150,000 packages in the PyPI. To install one of them, you simple use</p>
+<h2 id="Intalling-bootcamp_utils">Intalling bootcamp_utils<a class="anchor-link" href="#Intalling-bootcamp_utils">&#182;</a></h2><p>What you have just done is a common workflow with packages. You write your own packages (that are under version control, of course), and you make them available using <code>pip install -e</code>. In addition to your own packages, you used <code>conda</code> to install third party packages on your machine in <a href="l00_configuring_your_machine.html">lesson 0</a>. Sometimes packages are not yet available via <code>conda</code>, but are nonetheless available in the <a href="https://pypi.org">Python Package Index (PyPI)</a>. There are nearly 150,000 packages in the PyPI. To install one of them, you simple use</p>
 
 <pre><code>pip install name_of_package
 
@@ -13417,6 +13430,48 @@ Changes to be committed:
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Computing-environment">Computing environment<a class="anchor-link" href="#Computing-environment">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -v -p jupyterlab
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CPython 3.7.3
+IPython 7.1.1
+
+jupyterlab 0.35.5
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
     </div>
   </div>
