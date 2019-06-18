@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>l22_plotting</title>
+<title>l09_exercise_1</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13128,11 +13128,30 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-22:-Making-plots">Lesson 22: Making plots<a class="anchor-link" href="#Lesson-22:-Making-plots">&#182;</a></h1><p>(c) 2019 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+<h1 id="Lesson-9:-Review-of-exercise-1">Lesson 9: Review of exercise 1<a class="anchor-link" href="#Lesson-9:-Review-of-exercise-1">&#182;</a></h1><p>(c) 2019 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>This document was prepared at <a href="http://www.caltech.edu">Caltech</a> with financial support from the <a href="http://rosen.caltech.edu">Donna and Benjamin M. Rosen Bioengineering Center</a>.</p>
 <p><img src="caltech_rosen.png"></p>
-<p><em>This lesson was generated from a Jupyter notebook.  You can download the notebook <a href="l22_plotting.ipynb">here</a>.</em></p>
-<hr />
+<p><em>This lesson was generated from an Jupyter notebook.  You can download the notebook <a href="l09_exercise_1.ipynb">here</a>.</em></p>
+<p><hr /> <br /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise-1.1:-Using-string-methods">Exercise 1.1: Using string methods<a class="anchor-link" href="#Exercise-1.1:-Using-string-methods">&#182;</a></h2><p>In <a href="../lessons/l07_intro_to_functions.html">Lesson 7</a>, we wrote a function to compute the reverse complement of a sequence.</p>
+<p><strong>a)</strong> Write that function again, still using a <strong><code>for</code></strong> loop, but do not use the built-in <code>reversed()</code> function.</p>
+<p><strong>b)</strong> Write the function one more time, but without any loops.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Exercise-1.1:-solution">Exercise 1.1: solution<a class="anchor-link" href="#Exercise-1.1:-solution">&#182;</a></h3><p><strong>a)</strong> The trick here is to do what we did in Lesson 7, except use <code>[::-1]</code> indexing instead of the <code>reversed()</code> function.</p>
+
 </div>
 </div>
 </div>
@@ -13141,375 +13160,39 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">complement_base</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns the Watson-Crick complement of a base.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span> <span class="ow">or</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;T&#39;</span>
+    <span class="k">elif</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;T&#39;</span> <span class="ow">or</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;A&#39;</span>
+    <span class="k">elif</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;G&#39;</span> <span class="ow">or</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;C&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;G&#39;</span>
 
-<span class="c1"># Our main plotting package (must have explicit import of submodules)</span>
-<span class="kn">import</span> <span class="nn">bokeh.io</span>
-<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
 
-<span class="c1"># Enable viewing Bokeh plots in the notebook</span>
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_notebook</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">reverse_complement</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute reverse complement of a sequence.&quot;&quot;&quot;</span>
+    <span class="c1"># Initialize reverse complement</span>
+    <span class="n">rev_seq</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    
+    <span class="c1"># Loop through and populate list with reverse complement</span>
+    <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+        <span class="n">rev_seq</span> <span class="o">+=</span> <span class="n">complement_base</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">rev_seq</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-
-    <div class="bk-root">
-        <a href="https://bokeh.pydata.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
-        <span id="1001">Loading BokehJS ...</span>
-    </div>
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-
-
-<div id="2c750e5a-9d5b-4548-96f0-a1fe7503e392"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#2c750e5a-9d5b-4548-96f0-a1fe7503e392');
-
-(function(root) {
-  function now() {
-    return new Date();
-  }
-
-  var force = true;
-
-  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
-    root._bokeh_onload_callbacks = [];
-    root._bokeh_is_loading = undefined;
-  }
-
-  var JS_MIME_TYPE = 'application/javascript';
-  var HTML_MIME_TYPE = 'text/html';
-  var EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
-  var CLASS_NAME = 'output_bokeh rendered_html';
-
-  /**
-   * Render data to the DOM node
-   */
-  function render(props, node) {
-    var script = document.createElement("script");
-    node.appendChild(script);
-  }
-
-  /**
-   * Handle when an output is cleared or removed
-   */
-  function handleClearOutput(event, handle) {
-    var cell = handle.cell;
-
-    var id = cell.output_area._bokeh_element_id;
-    var server_id = cell.output_area._bokeh_server_id;
-    // Clean up Bokeh references
-    if (id != null && id in Bokeh.index) {
-      Bokeh.index[id].model.document.clear();
-      delete Bokeh.index[id];
-    }
-
-    if (server_id !== undefined) {
-      // Clean up Bokeh references
-      var cmd = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
-      cell.notebook.kernel.execute(cmd, {
-        iopub: {
-          output: function(msg) {
-            var id = msg.content.text.trim();
-            if (id in Bokeh.index) {
-              Bokeh.index[id].model.document.clear();
-              delete Bokeh.index[id];
-            }
-          }
-        }
-      });
-      // Destroy server and session
-      var cmd = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
-      cell.notebook.kernel.execute(cmd);
-    }
-  }
-
-  /**
-   * Handle when a new output is added
-   */
-  function handleAddOutput(event, handle) {
-    var output_area = handle.output_area;
-    var output = handle.output;
-
-    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
-    if ((output.output_type != "display_data") || (!output.data.hasOwnProperty(EXEC_MIME_TYPE))) {
-      return
-    }
-
-    var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
-
-    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
-      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
-      // store reference to embed id on output_area
-      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
-    }
-    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
-      var bk_div = document.createElement("div");
-      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
-      var script_attrs = bk_div.children[0].attributes;
-      for (var i = 0; i < script_attrs.length; i++) {
-        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
-      }
-      // store reference to server id on output_area
-      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
-    }
-  }
-
-  function register_renderer(events, OutputArea) {
-
-    function append_mime(data, metadata, element) {
-      // create a DOM node to render to
-      var toinsert = this.create_output_subarea(
-        metadata,
-        CLASS_NAME,
-        EXEC_MIME_TYPE
-      );
-      this.keyboard_manager.register_events(toinsert);
-      // Render to node
-      var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
-      render(props, toinsert[toinsert.length - 1]);
-      element.append(toinsert);
-      return toinsert
-    }
-
-    /* Handle when an output is cleared or removed */
-    events.on('clear_output.CodeCell', handleClearOutput);
-    events.on('delete.Cell', handleClearOutput);
-
-    /* Handle when a new output is added */
-    events.on('output_added.OutputArea', handleAddOutput);
-
-    /**
-     * Register the mime type and append_mime function with output_area
-     */
-    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
-      /* Is output safe? */
-      safe: true,
-      /* Index of renderer in `output_area.display_order` */
-      index: 0
-    });
-  }
-
-  // register the mime type if in Jupyter Notebook environment and previously unregistered
-  if (root.Jupyter !== undefined) {
-    var events = require('base/js/events');
-    var OutputArea = require('notebook/js/outputarea').OutputArea;
-
-    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
-      register_renderer(events, OutputArea);
-    }
-  }
-
-  
-  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
-    root._bokeh_timeout = Date.now() + 5000;
-    root._bokeh_failed_load = false;
-  }
-
-  var NB_LOAD_WARNING = {'data': {'text/html':
-     "<div style='background-color: #fdd'>\n"+
-     "<p>\n"+
-     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
-     "may be due to a slow or bad network connection. Possible fixes:\n"+
-     "</p>\n"+
-     "<ul>\n"+
-     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
-     "<li>use INLINE resources instead, as so:</li>\n"+
-     "</ul>\n"+
-     "<code>\n"+
-     "from bokeh.resources import INLINE\n"+
-     "output_notebook(resources=INLINE)\n"+
-     "</code>\n"+
-     "</div>"}};
-
-  function display_loaded() {
-    var el = document.getElementById("1001");
-    if (el != null) {
-      el.textContent = "BokehJS is loading...";
-    }
-    if (root.Bokeh !== undefined) {
-      if (el != null) {
-        el.textContent = "BokehJS " + root.Bokeh.version + " successfully loaded.";
-      }
-    } else if (Date.now() < root._bokeh_timeout) {
-      setTimeout(display_loaded, 100)
-    }
-  }
-
-
-  function run_callbacks() {
-    try {
-      root._bokeh_onload_callbacks.forEach(function(callback) {
-        if (callback != null)
-          callback();
-      });
-    } finally {
-      delete root._bokeh_onload_callbacks
-    }
-    console.debug("Bokeh: all callbacks have finished");
-  }
-
-  function load_libs(css_urls, js_urls, callback) {
-    if (css_urls == null) css_urls = [];
-    if (js_urls == null) js_urls = [];
-
-    root._bokeh_onload_callbacks.push(callback);
-    if (root._bokeh_is_loading > 0) {
-      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
-      return null;
-    }
-    if (js_urls == null || js_urls.length === 0) {
-      run_callbacks();
-      return null;
-    }
-    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
-    root._bokeh_is_loading = css_urls.length + js_urls.length;
-
-    function on_load() {
-      root._bokeh_is_loading--;
-      if (root._bokeh_is_loading === 0) {
-        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
-        run_callbacks()
-      }
-    }
-
-    function on_error() {
-      console.error("failed to load " + url);
-    }
-
-    for (var i = 0; i < css_urls.length; i++) {
-      var url = css_urls[i];
-      const element = document.createElement("link");
-      element.onload = on_load;
-      element.onerror = on_error;
-      element.rel = "stylesheet";
-      element.type = "text/css";
-      element.href = url;
-      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
-      document.body.appendChild(element);
-    }
-
-    for (var i = 0; i < js_urls.length; i++) {
-      var url = js_urls[i];
-      var element = document.createElement('script');
-      element.onload = on_load;
-      element.onerror = on_error;
-      element.async = false;
-      element.src = url;
-      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
-      document.head.appendChild(element);
-    }
-  };var element = document.getElementById("1001");
-  if (element == null) {
-    console.error("Bokeh: ERROR: autoload.js configured with elementid '1001' but no matching script tag was found. ")
-    return false;
-  }
-
-  function inject_raw_css(css) {
-    const element = document.createElement("style");
-    element.appendChild(document.createTextNode(css));
-    document.body.appendChild(element);
-  }
-
-  var js_urls = ["https://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-tables-1.2.0.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-gl-1.2.0.min.js"];
-  var css_urls = ["https://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.css", "https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.2.0.min.css", "https://cdn.pydata.org/bokeh/release/bokeh-tables-1.2.0.min.css"];
-
-  var inline_js = [
-    function(Bokeh) {
-      Bokeh.set_log_level("info");
-    },
-    
-    function(Bokeh) {
-      
-    },
-    function(Bokeh) {} // ensure no trailing comma for IE
-  ];
-
-  function run_inline_js() {
-    
-    if ((root.Bokeh !== undefined) || (force === true)) {
-      for (var i = 0; i < inline_js.length; i++) {
-        inline_js[i].call(root, root.Bokeh);
-      }if (force === true) {
-        display_loaded();
-      }} else if (Date.now() < root._bokeh_timeout) {
-      setTimeout(run_inline_js, 100);
-    } else if (!root._bokeh_failed_load) {
-      console.log("Bokeh: BokehJS failed to load within specified timeout.");
-      root._bokeh_failed_load = true;
-    } else if (force !== true) {
-      var cell = $(document.getElementById("1001")).parents('.cell').data().cell;
-      cell.output_area.append_execute_result(NB_LOAD_WARNING)
-    }
-
-  }
-
-  if (root._bokeh_is_loading === 0) {
-    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
-    run_inline_js();
-  } else {
-    load_libs(css_urls, js_urls, function() {
-      console.debug("Bokeh: BokehJS plotting callback run at", now());
-      run_inline_js();
-    });
-  }
-}(window));
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr />
-
-<p>We have a couple nice data sets from the last few lessons, the data from the tongue strikes of frogs and facial matching data from people with sleep deprivation. We've learned how to use Pandas to handle the data sets and get what we want out of them. But I argue that what we want out of them most of the time is <strong>plots</strong>. Now is the time in the bootcamp where we learn how to take data set and plot them.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-Python-visualization-landscape">The Python visualization landscape<a class="anchor-link" href="#The-Python-visualization-landscape">&#182;</a></h2><p>Let us start by looking at some of the many plotting packages available in Python. In a <a href="https://www.youtube.com/watch?v=FytuB8nFHPQ">talk at PyCon in 2017</a>, <a href="http://vanderplas.com">Jake VanderPlas</a>, who is one of the authors of one of them (<a href="https://altair-viz.github.io">Altair</a>), gave an overview of the Python visualization landscape. That landscape is depicted below, taken from <a href="https://github.com/rougier/python-visualization-landscape">this visualization of it</a> by <a href="http://www.labri.fr/perso/nrougier/">Nicolas Rougier</a>. (It is two years old and definitely not complete, notably missing <a href="https://panel.pyviz.org">Panel</a>, for example.)</p>
-<p><img src="python_viz_landscape.png" alt="python_viz_landscape"></p>
-<p>The landscape is divided into three main pods based on the low-level renderer of the graphics, JavaScript, <a href="https://matplotlib.org">Matplotlib</a>, and <a href="https://www.opengl.org">OpenGL</a> (though Matplotlib is higher-level than JavaScript and OpenGL). We will not discuss packages based on OpenGL. Packages that use JavaScript for rendering are particularly well suited for interactivity in browsers. Interactivity and portability (accomplished by rendering in browsers) are key features of modern plotting libraries, so we will use JavaScript-based plotting in the bootcamp (as I do in my own work).</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="High-level-and-low-level-plotting-packages">High-level and low-level plotting packages<a class="anchor-link" href="#High-level-and-low-level-plotting-packages">&#182;</a></h2><p>As a demonstration of what I mean by high-level and low-level plotting packages, let us first think about one of our tasks we did with Pandas with the facial matching data set. We computed the median percent correct for those with and without insomnia. Here's the code to do it.</p>
+<p>And we'll do a quick test with the same sequence as in lesson 7.</p>
 
 </div>
 </div>
@@ -13519,10 +13202,7 @@ var element = $('#2c750e5a-9d5b-4548-96f0-a1fe7503e392');
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/gfmt_sleep.csv&#39;</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sci&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">16</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;insomnia&#39;</span><span class="p">)[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reverse_complement</span><span class="p">(</span><span class="s1">&#39;GCAGTTGCA&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13541,10 +13221,7 @@ var element = $('#2c750e5a-9d5b-4548-96f0-a1fe7503e392');
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>insomnia
-False    85.0
-True     75.0
-Name: percent correct, dtype: float64</pre>
+<pre>&#39;TGCAACTGC&#39;</pre>
 </div>
 
 </div>
@@ -13556,16 +13233,7 @@ Name: percent correct, dtype: float64</pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Literally three lines of code. Now what if we tried to do it without Pandas? I won't even go through the many lines of code necessary to read in the data. Consider just this one line.</p>
-<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;insomnia&#39;</span><span class="p">)[</span><span class="s1">&#39;percent correct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
-</pre></div>
-<p>There are elementary tasks that go into it if we were to code it up without using Pandas's delicious functionality. We can loop over the rows in the <code>DataFrame</code> with a <strong><code>for</code></strong> loop, check to see what the value of the <code>insomnia</code> column is with an <strong><code>if</code></strong> statement, put the value in the <code>percent correct</code> field into an appropriate array based on whether or not the subject suffers from insomnia, and then, given those arrays, sort them and pull out the middle value. Under the hood, all of those steps take place, but because we use Pandas's <strong>high-level functionality</strong>, those details are invisible to us, and glad we are of that.</p>
-<p>Now, say we want to make a plot of some data. You can imagine that there are many many steps to building that. One way you could build a plot is to hand-generate an <a href="https://en.wikipedia.org/wiki/Scalable_Vector_Graphics">SVG file</a> that is a set of specifications for lines and circles and text and whatnot that comprises a plot. (I have actually done this before, writing a C program that hand-generated SVG, and it was paaaaainful.) That would be a very <strong>low-level</strong> way of generating a plot. Plotting libraries in Python usually take care of the rendering part for you, either rendering the plot as SVG, PDF, PNG, or other formats, including interactive ones that use <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> and <a href="https://en.wikipedia.org/wiki/Canvas_element">HTML Canvas</a> that can be viewed in a browser. The plotting libraries then vary in their level of abstraction from the data set.</p>
-<p>Lower-level plotting libraries typically are more customizable, but require more <a href="https://en.wikipedia.org/wiki/Boilerplate_code"><strong>boilerplate code</strong></a> to get your data plotted and are therefore more cumbersome. Higher-level plotting libraries aim to make it easier to move directly from a <code>DataFrame</code>. Because of this streamlining, though, they are often more difficult to customize.</p>
-<p>The developers of <a href="http://pyviz.org/">PyViz</a> made a nice graphic for this concept.</p>
-<p><center><img src="shortcuts.png" width="500px"></p>
-<p><p><center><i>Copyright PyViz authors, downloaded from <a href="http://pyviz.org/background.html">here</a>.</i></center></p>&lt;/center&gt;<br/></p>
-<p>Using a low-level plotting library, you can get to any graphic you like, but it takes many steps to do so. Using a high level library, you can rapidly get to many, if not most, of the graphics you like in very few steps. However, you cannot get to <em>all</em> graphics. In a layered approach, in which the higher level libraries give you access to the lower level customizations, you can get to any graphic, and can do so quickly. The layered approach requires proficiency in using the low-level and high-level libraries.</p>
+<p>Bingo!</p>
 
 </div>
 </div>
@@ -13573,44 +13241,7 @@ Name: percent correct, dtype: float64</pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Bokeh-and-the-bootcamp">Bokeh and the bootcamp<a class="anchor-link" href="#Bokeh-and-the-bootcamp">&#182;</a></h2><p>Our debate in building this bootcamp was about whether to start with higher-level plotting or lower-level. We decided to do our plotting using <a href="https://bokeh.pydata.org/">Bokeh</a>, a low-level plotting library first for a few reasons.</p>
-<ol>
-<li>Though low-level, generating plot you might like to construct is fairly straightforward. (Read: it's not that bad for quickly making plots.)</li>
-<li>By being familiar with a lower-level plotting package, you can then take a layered approach as you learn a higher-level package.</li>
-<li>We will discuss higher-level packages in short order, discussed in the <a href="l23_high_level_plotting.html">next lesson</a>.</li>
-</ol>
-<p>Importantly, note that Bokeh's submodules often have to be explicitly imported, as we did in the code cell at the top of this notebook. Not also that if you want your plots to be viewable (and interactive) in the notebook, you need to execute</p>
-<div class="highlight"><pre><span></span><span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_notebook</span><span class="p">()</span>
-</pre></div>
-<p>at the top of the notebook (as we have done). (If you are using <a href="https://colab.research.google.com/">Google Colab</a>, this command must be executed in every cell that has a plot.) Finally, note that we also have to have installed the PyViz JupyterLab extension, which you did in <a href="l00_configuring_your_computer.html#Installations">Lesson 0</a>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Bokeh's-grammar-and-our-first-plot-with-Bokeh">Bokeh's grammar and our first plot with Bokeh<a class="anchor-link" href="#Bokeh's-grammar-and-our-first-plot-with-Bokeh">&#182;</a></h2><p>Constructing a plot with Bokeh consists of four main steps.</p>
-<ol>
-<li>Creating a figure on which to populate glyphs (symbols that represent data, e.g., dots for a scatter plot). Think of this figure as a "canvas" which sets the space on which you will "paint" your glyphs.</li>
-<li>Defining a data source (almost always a tidy data frame) that is the reference used to place the glyphs.</li>
-<li>Choose the kind of glyph you would like.</li>
-<li>Annotate the columns of data source to determine how they are used to place (and possibly color, scale, etc.) the glyph.</li>
-</ol>
-<p>After completing these steps, you need to render the graphic.</p>
-<p>Let's go through these steps in generating a scatter plot of confidence when incorrect versus confidence when correct for the face matching under sleep deprivation study. So you have the concrete example in mind, the final graphic will look like this:</p>
-<p><img src="first_bokeh_plot.png" width="400px"><br/></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ol>
-<li>Our first step is creating a figure, our "canvas." In creating the figure, we are implicitly thinking about what kind of representation for our data we want. That is, we have to specify axes and their labels. We might also want to specify the title of the figure, whether or not to have grid lines, and all sorts of other customizations. Naturally, we also want to specify the shape of the figure.</li>
-</ol>
-<p>(Almost) all of this is accomplished in Bokeh by making a call to <code>bokeh.plotting.figure()</code> with the appropriate keyword arguments.</p>
+<p><strong>b)</strong> We can eliminate the <strong><code>for</code></strong> loop by using the <code>replace()</code> method of strings.</p>
 
 </div>
 </div>
@@ -13620,13 +13251,18 @@ Name: percent correct, dtype: float64</pre>
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create the figure, stored in variable `p`</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span>
-    <span class="n">width</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
-    <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
-    <span class="n">x_axis_label</span><span class="o">=</span><span class="s1">&#39;confidence when correct&#39;</span><span class="p">,</span>
-    <span class="n">y_axis_label</span><span class="o">=</span><span class="s1">&#39;condifence when incorrect&#39;</span>
-<span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">reverse_complement</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute reverse complement of a sequence.&quot;&quot;&quot;</span>
+    <span class="c1"># Initialize rev_seq to a lowercase seq</span>
+    <span class="n">rev_seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    
+    <span class="c1"># Substitute bases</span>
+    <span class="n">rev_seq</span> <span class="o">=</span> <span class="n">rev_seq</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span>
+    <span class="n">rev_seq</span> <span class="o">=</span> <span class="n">rev_seq</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">)</span>
+    <span class="n">rev_seq</span> <span class="o">=</span> <span class="n">rev_seq</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">)</span>
+    <span class="n">rev_seq</span> <span class="o">=</span> <span class="n">rev_seq</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;G&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">rev_seq</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13637,16 +13273,7 @@ Name: percent correct, dtype: float64</pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There are many more keyword attributes you can assign, including <a href="https://bokeh.pydata.org/en/latest/docs/reference/models/plots.html#bokeh.models.plots.Plot">all of those listed in the Bokeh Plot class</a> and <a href="https://bokeh.pydata.org/en/latest/docs/reference/plotting.html#bokeh.plotting.figure.Figure">the additional ones listed in the Bokeh Figure class</a>.</p>
-<ol>
-<li><p>Now that we have set up our canvas, we can decide on the data source. We will use the dataframe, <code>df</code> as our data source.</p>
-</li>
-<li><p>We will choose dots (or circles) as our glyph. This kind of glyph requires that we specify  which column of the data source will serve to place the glyphs along the $x$-axis and which will serve to place the glyphs along the $y$-axis.</p>
-</li>
-<li><p>We choose the <code>'confidence when correct'</code> column to specify the $x$-coordinate of the glyph and the <code>'confidence when incorrect'</code> column to specify the $y$-coordinate. We already made this decision when we set up our axis labels, but we did not necessarily have to make that decision at that point.</p>
-</li>
-</ol>
-<p>Steps 2-4 are accomplished by calling one of the <strong>glyph methods</strong> of the Bokeh <code>Figure</code> instance, <code>p</code>. Since we are choosing dots, the appropriate method is <code>p.circle()</code>, and we use the <code>source</code>, <code>x</code>, and <code>y</code> kwargs to specify the positions of the glyphs.</p>
+<p>And let's give it a test!</p>
 
 </div>
 </div>
@@ -13656,14 +13283,30 @@ Name: percent correct, dtype: float64</pre>
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span>
-    <span class="n">source</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
-    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;confidence when correct&#39;</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="s1">&#39;confidence when incorrect&#39;</span>
-<span class="p">);</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reverse_complement</span><span class="p">(</span><span class="s1">&#39;GCAGTTGCA&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;TGCAACTGC&#39;</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -13671,7 +13314,7 @@ Name: percent correct, dtype: float64</pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now that we have built the plot, we can render it in the notebook using <code>bokeh.io.show()</code>.</p>
+<p><strong>Note:</strong> We haven't learned about it yet, but some Googling would allow you to use the <code>translate()</code> and <code>maketrans()</code> string methods. <code>maketrans()</code> makes a <strong>translation table</strong> for characters in a string, and then the <code>translate()</code> functions uses it to mutate the characters in the list.</p>
 
 </div>
 </div>
@@ -13681,7 +13324,11 @@ Name: percent correct, dtype: float64</pre>
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">reverse_complement</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute reverse complement of a sequence.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;ATGCatgc&#39;</span><span class="p">,</span> <span class="s1">&#39;TACGTAGC&#39;</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">reverse_complement</span><span class="p">(</span><span class="s1">&#39;GCAGTTGCA&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13694,61 +13341,13 @@ Name: percent correct, dtype: float64</pre>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
+    <div class="prompt output_prompt">Out[5]:</div>
 
 
 
 
-
-
-  <div class="bk-root" id="dd9870b1-8ee8-4853-aecb-5abbf8572788" data-root-id="1002"></div>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-
-
-<div id="040a5e16-97cf-4550-bc33-fc48a9a9b492"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#040a5e16-97cf-4550-bc33-fc48a9a9b492');
-(function(root) {
-  function embed_document(root) {
-    
-  var docs_json = {"09877a0e-a4eb-4c49-8019-2acb599c3cec":{"roots":{"references":[{"attributes":{"below":[{"id":"1011","type":"LinearAxis"}],"center":[{"id":"1015","type":"Grid"},{"id":"1020","type":"Grid"}],"left":[{"id":"1016","type":"LinearAxis"}],"plot_height":300,"plot_width":400,"renderers":[{"id":"1038","type":"GlyphRenderer"}],"title":{"id":"1040","type":"Title"},"toolbar":{"id":"1027","type":"Toolbar"},"x_range":{"id":"1003","type":"DataRange1d"},"x_scale":{"id":"1007","type":"LinearScale"},"y_range":{"id":"1005","type":"DataRange1d"},"y_scale":{"id":"1009","type":"LinearScale"}},"id":"1002","subtype":"Figure","type":"Plot"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1021","type":"PanTool"},{"id":"1022","type":"WheelZoomTool"},{"id":"1023","type":"BoxZoomTool"},{"id":"1024","type":"SaveTool"},{"id":"1025","type":"ResetTool"},{"id":"1026","type":"HelpTool"}]},"id":"1027","type":"Toolbar"},{"attributes":{},"id":"1007","type":"LinearScale"},{"attributes":{"ticker":{"id":"1012","type":"BasicTicker"}},"id":"1015","type":"Grid"},{"attributes":{"axis_label":"confidence when correct","formatter":{"id":"1043","type":"BasicTickFormatter"},"ticker":{"id":"1012","type":"BasicTicker"}},"id":"1011","type":"LinearAxis"},{"attributes":{},"id":"1009","type":"LinearScale"},{"attributes":{},"id":"1012","type":"BasicTicker"},{"attributes":{"callback":null,"data":{"age":[39,42,31,35,74,61,32,62,33,53,41,36,40,24,32,40,61,42,31,28,26,45,28,44,28,42,45,16,21,18,28,38,17,25,22,41,53,43,23,19,45,43,35,24,64,36,35,43,44,29,22,46,35,53,29,31,21,42,23,54,24,21,21,43,50,53,16,67,36,34,42,46,69,31,44,25,45,47,33,18,74,21,45,37,41,41,34,39,18,31,26,66,62,22,41,46,56,23,70,24,40,33],"confidence correct reject":{"__ndarray__":"AAAAAABAV0AAAAAAAKBRQAAAAAAAgFVAAAAAAADAUUAAAAAAAIBOQAAAAAAAAD9AAAAAAACAUEAAAAAAAEBQQAAAAAAAIFBAAAAAAABATkAAAAAAAEBSQAAAAAAAwFJAAAAAAADAU0AAAAAAAIBIQAAAAAAAQFVAAAAAAACAUUAAAAAAAEBGQAAAAAAAoFZAAAAAAABAVEAAAAAAAABZQAAAAAAAgFRAAAAAAAAAWUAAAAAAAMBQQAAAAAAAwFVAAAAAAAAAUUAAAAAAAIBFQAAAAAAAAFRAAAAAAAAAS0AAAAAAAABJQAAAAAAAAFRAAAAAAACAV0AAAAAAAMBTQAAAAAAAIFNAAAAAAABAVUAAAAAAAIBRQAAAAAAA4FBAAAAAAAAATEAAAAAAAIBIQAAAAAAAoFFAAAAAAACAUEAAAAAAAIBOQAAAAAAAAFBAAAAAAACgUkAAAAAAAABUQAAAAAAAgFBAAAAAAACAUEAAAAAAAAAzQAAAAAAAgERAAAAAAADAU0AAAAAAAEBQQAAAAAAAQFNAAAAAAAAAWUAAAAAAAEBTQAAAAAAAwEdAAAAAAAAgUEAAAAAAAEBUQAAAAAAAgFFAAAAAAAAgVEAAAAAAAEBRQAAAAAAAYFNAAAAAAACAUkAAAAAAAABMQAAAAAAAYFJAAAAAAAAAUUAAAAAAAMBXQAAAAAAAAFFAAAAAAAAASUAAAAAAAEBRQAAAAAAAgEtAAAAAAABgUkAAAAAAAIBSQAAAAAAAAFdAAAAAAACgU0AAAAAAAIBWQAAAAAAAQFFAAAAAAABATUAAAAAAAIBPQAAAAAAA4FFAAAAAAABATUAAAAAAAIBQQAAAAAAAgE9AAAAAAACgUkAAAAAAAABTQAAAAAAA4FRAAAAAAACAUUAAAAAAAIBVQAAAAAAAwFFAAAAAAADATUAAAAAAAMBWQAAAAAAAAFlAAAAAAACAVEAAAAAAAIBSQAAAAAAAoFJAAAAAAAAAUkAAAAAAAABUQAAAAAAAAFRAAAAAAADgUEAAAAAAAEBTQAAAAAAAwFVAAAAAAACAUUAAAAAAAABVQAAAAAAAAD9A","dtype":"float64","shape":[102]},"confidence incorrect hit":{"__ndarray__":"AAAAAACAVkAAAAAAAMBLQAAAAAAAgFZAAAAAAAAA+H8AAAAAAIBIQAAAAAAAgE9AAAAAAABATEAAAAAAAIBCQAAAAAAAIFNAAAAAAAAA+H8AAAAAAMBOQAAAAAAA4FJAAAAAAABAVkAAAAAAAABJQAAAAAAAQFRAAAAAAAAATEAAAAAAAAD4fwAAAAAAAFJAAAAAAAAA+H8AAAAAAAD4fwAAAAAAQFNAAAAAAAAA+H8AAAAAAAD4fwAAAAAAAFJAAAAAAAAA+H8AAAAAAEBGQAAAAAAAwEtAAAAAAACATEAAAAAAAABQQAAAAAAAwFRAAAAAAABAVUAAAAAAAMBFQAAAAAAA4FVAAAAAAAAA+H8AAAAAAIBRQAAAAAAAwEtAAAAAAACAQEAAAAAAAAA9QAAAAAAAAERAAAAAAAAASUAAAAAAAAD4fwAAAAAAgEtAAAAAAADAQUAAAAAAAMBQQAAAAAAAADlAAAAAAAAA+H8AAAAAAIA8QAAAAAAAADtAAAAAAAAATEAAAAAAAIBKQAAAAAAAAFZAAAAAAAAAUkAAAAAAAAA9QAAAAAAAAEBAAAAAAAAA+H8AAAAAAIBIQAAAAAAAAD1AAAAAAADAVEAAAAAAAIBHQAAAAAAA4FRAAAAAAACAREAAAAAAAEBSQAAAAAAAwEtAAAAAAABAVkAAAAAAACBSQAAAAAAAgEtAAAAAAAAAPkAAAAAAAAAcQAAAAAAAgDxAAAAAAACARUAAAAAAAAD4fwAAAAAA4FJAAAAAAABAUEAAAAAAAAD4fwAAAAAAwEdAAAAAAAAA+H8AAAAAAMBJQAAAAAAAAPh/AAAAAAAAQ0AAAAAAAMBJQAAAAAAAgEtAAAAAAAAAVEAAAAAAAMBQQAAAAAAAAFFAAAAAAADATUAAAAAAAMBOQAAAAAAAAEpAAAAAAACATEAAAAAAAABXQAAAAAAAAPh/AAAAAAAAVkAAAAAAAIBQQAAAAAAAAPh/AAAAAAAATEAAAAAAAIBOQAAAAAAAwFJAAAAAAABASkAAAAAAAKBQQAAAAAAAYFVAAAAAAABAVEAAAAAAAIBCQAAAAAAAADtA","dtype":"float64","shape":[102]},"confidence incorrect reject":{"__ndarray__":"AAAAAADgVEAAAAAAAABJQAAAAAAAQFRAAAAAAAAAVEAAAAAAAIBIQAAAAAAAIFJAAAAAAABAUEAAAAAAAGBUQAAAAAAAAPh/AAAAAABAUEAAAAAAAEBRQAAAAAAAAPh/AAAAAABATUAAAAAAAABRQAAAAAAAgFVAAAAAAAAA+H8AAAAAAEBSQAAAAAAAwEVAAAAAAAAATkAAAAAAAABZQAAAAAAA4FBAAAAAAAAAWUAAAAAAAABOQAAAAAAAQFNAAAAAAAAAS0AAAAAAAIBIQAAAAAAAwFJAAAAAAACASkAAAAAAAABJQAAAAAAAAPh/AAAAAACATkAAAAAAAAA1QAAAAAAAADtAAAAAAAAA+H8AAAAAAEBQQAAAAAAAQEpAAAAAAACASEAAAAAAAABCQAAAAAAAoFBAAAAAAABASUAAAAAAAABLQAAAAAAAgE1AAAAAAAAA+H8AAAAAAAD4fwAAAAAAADhAAAAAAADAT0AAAAAAAMBEQAAAAAAAgEZAAAAAAABARUAAAAAAAIBKQAAAAAAAAFRAAAAAAADAVkAAAAAAAABAQAAAAAAAoFNAAAAAAACARUAAAAAAAABCQAAAAAAAAD1AAAAAAAAAQkAAAAAAAABEQAAAAAAAQFFAAAAAAABAUkAAAAAAAABRQAAAAAAAgFFAAAAAAABAUEAAAAAAAEBQQAAAAAAAgE5AAAAAAAAAREAAAAAAAABOQAAAAAAAAEpAAAAAAADASkAAAAAAAAD4fwAAAAAAgE9AAAAAAACgUUAAAAAAAABEQAAAAAAAwFVAAAAAAAAA+H8AAAAAAEBRQAAAAAAAwFRAAAAAAABAUEAAAAAAAIBMQAAAAAAAQElAAAAAAADAVEAAAAAAAAAxQAAAAAAAwFRAAAAAAACAREAAAAAAAIBSQAAAAAAAAE1AAAAAAAAASUAAAAAAAEBWQAAAAAAAAElAAAAAAACAVEAAAAAAAIBMQAAAAAAAgFRAAAAAAACAT0AAAAAAAIBMQAAAAAAAAFRAAAAAAABgUEAAAAAAAGBTQAAAAAAAAFRAAAAAAACATkAAAAAAAABKQAAAAAAAoFRA","dtype":"float64","shape":[102]},"confidence when correct":{"__ndarray__":"AAAAAABAV0AAAAAAAMBSQAAAAAAAQFZAAAAAAAAAVkAAAAAAAEBQQAAAAAAAIFBAAAAAAACAUEAAAAAAAABPQAAAAAAAAFFAAAAAAADAUUAAAAAAAIBUQAAAAAAAAFNAAAAAAADgU0AAAAAAAIBLQAAAAAAAQFVAAAAAAACAUUAAAAAAAEBLQAAAAAAAIFZAAAAAAADgVUAAAAAAAABZQAAAAAAAQFNAAAAAAAAAWUAAAAAAAABUQAAAAAAAYFFAAAAAAABAVEAAAAAAAIBJQAAAAAAAoFNAAAAAAACATEAAAAAAAABOQAAAAAAAAFRAAAAAAADAWEAAAAAAAIBTQAAAAAAAoFNAAAAAAACAVkAAAAAAAIBRQAAAAAAAgFJAAAAAAACAR0AAAAAAAABKQAAAAAAAAFVAAAAAAACAT0AAAAAAAABPQAAAAAAAwE1AAAAAAADgUkAAAAAAAIBTQAAAAAAAgE9AAAAAAABAVEAAAAAAAAA4QAAAAAAAAElAAAAAAABAVEAAAAAAAMBQQAAAAAAAQFNAAAAAAAAAWUAAAAAAAABRQAAAAAAAAEhAAAAAAACAUkAAAAAAAIBUQAAAAAAAwFBAAAAAAACgVEAAAAAAAMBQQAAAAAAAAFZAAAAAAADAVEAAAAAAAMBPQAAAAAAAIFRAAAAAAADAUUAAAAAAAMBXQAAAAAAAoFNAAAAAAABASkAAAAAAAEBRQAAAAAAAgE5AAAAAAACAUEAAAAAAAIBSQAAAAAAAAFdAAAAAAAAAVEAAAAAAAABXQAAAAAAAwFRAAAAAAABATkAAAAAAACBSQAAAAAAAYFhAAAAAAAAAUUAAAAAAAMBQQAAAAAAAQFBAAAAAAACAVEAAAAAAAMBSQAAAAAAAgFdAAAAAAABAU0AAAAAAAABXQAAAAAAAQFRAAAAAAAAATUAAAAAAAOBWQAAAAAAAAFlAAAAAAABAVUAAAAAAAIBSQAAAAAAA4FNAAAAAAACgUUAAAAAAAABSQAAAAAAAQFVAAAAAAAAAUEAAAAAAAEBTQAAAAAAAgFJAAAAAAABAUEAAAAAAAEBUQAAAAAAAQFRA","dtype":"float64","shape":[102]},"confidence when correct hit":{"__ndarray__":"AAAAAADAVkAAAAAAAOBSQAAAAAAAYFZAAAAAAABgVkAAAAAAACBRQAAAAAAAwFFAAAAAAADAUEAAAAAAAABLQAAAAAAAoFFAAAAAAACgUkAAAAAAAIBUQAAAAAAAIFNAAAAAAAAAVEAAAAAAAABNQAAAAAAAQFVAAAAAAABAUUAAAAAAAGBRQAAAAAAAwFVAAAAAAAAAV0AAAAAAAABZQAAAAAAAgFFAAAAAAAAAWUAAAAAAAGBWQAAAAAAAAE9AAAAAAADAVUAAAAAAAMBJQAAAAAAAwFJAAAAAAACAUUAAAAAAAMBPQAAAAAAAIFNAAAAAAAAAWUAAAAAAAEBTQAAAAAAAIFRAAAAAAACAVkAAAAAAAIBRQAAAAAAAIFNAAAAAAAAAREAAAAAAAABKQAAAAAAAAFZAAAAAAAAAT0AAAAAAAABRQAAAAAAAgE1AAAAAAADgUkAAAAAAAABRQAAAAAAAAElAAAAAAAAAVkAAAAAAAIA9QAAAAAAAYFBAAAAAAADAVEAAAAAAAMBQQAAAAAAAgFNAAAAAAAAgUkAAAAAAAEBPQAAAAAAAAEtAAAAAAADAUkAAAAAAAIBUQAAAAAAAgFBAAAAAAADAVEAAAAAAAMBQQAAAAAAAgFZAAAAAAABAWEAAAAAAAEBQQAAAAAAAAFVAAAAAAACAUkAAAAAAACBXQAAAAAAAAFVAAAAAAACAS0AAAAAAAIBRQAAAAAAA4FBAAAAAAABATUAAAAAAAKBSQAAAAAAAAFdAAAAAAAAAVEAAAAAAAIBYQAAAAAAAwFVAAAAAAADATkAAAAAAACBUQAAAAAAAAFlAAAAAAACAUUAAAAAAAOBQQAAAAAAAgFBAAAAAAACgVkAAAAAAAIBSQAAAAAAA4FdAAAAAAAAAVEAAAAAAAKBXQAAAAAAAQFRAAAAAAACATEAAAAAAAEBXQAAAAAAAAFlAAAAAAABAVUAAAAAAAOBQQAAAAAAAQFRAAAAAAACAUEAAAAAAAIBLQAAAAAAAgFZAAAAAAACAT0AAAAAAAEBTQAAAAAAAYFBAAAAAAADATkAAAAAAAIBKQAAAAAAAAFRA","dtype":"float64","shape":[102]},"confidence when incorrect":{"__ndarray__":"AAAAAACAVkAAAAAAAABJQAAAAAAAAFZAAAAAAAAAVEAAAAAAAIBIQAAAAAAAoFFAAAAAAAAAUEAAAAAAAIBOQAAAAAAAIFNAAAAAAABAUEAAAAAAAABQQAAAAAAA4FJAAAAAAACAT0AAAAAAAIBNQAAAAAAA4FRAAAAAAAAATEAAAAAAAEBSQAAAAAAAAFBAAAAAAAAATkAAAAAAAABZQAAAAAAAoFFAAAAAAAAAWUAAAAAAAABOQAAAAAAAYFJAAAAAAAAAS0AAAAAAAIBIQAAAAAAAwFBAAAAAAABAS0AAAAAAAABJQAAAAAAAwFRAAAAAAABAUEAAAAAAAABCQAAAAAAA4FBAAAAAAAAA+H8AAAAAAIBRQAAAAAAAwEtAAAAAAAAARkAAAAAAAAA9QAAAAAAAQEtAAAAAAAAASUAAAAAAAABLQAAAAAAAgExAAAAAAADAQUAAAAAAAMBQQAAAAAAAgDhAAAAAAADAT0AAAAAAAIBBQAAAAAAAgEZAAAAAAAAAS0AAAAAAAIBKQAAAAAAAAFVAAAAAAADAVkAAAAAAAAA/QAAAAAAAgElAAAAAAACARUAAAAAAAIBIQAAAAAAAAD1AAAAAAAAAU0AAAAAAAABEQAAAAAAAwFNAAAAAAADAS0AAAAAAAABRQAAAAAAAQFBAAAAAAAAAUUAAAAAAAEBQQAAAAAAAAE1AAAAAAACAQUAAAAAAAMBNQAAAAAAAAElAAAAAAADAR0AAAAAAAAD4fwAAAAAAYFJAAAAAAACAUUAAAAAAAABEQAAAAAAAwFBAAAAAAAAA+H8AAAAAAMBOQAAAAAAAwFRAAAAAAAAAREAAAAAAAIBKQAAAAAAAgEtAAAAAAABAVEAAAAAAAABQQAAAAAAAwFFAAAAAAACATUAAAAAAAMBQQAAAAAAAAE1AAAAAAAAASUAAAAAAAMBWQAAAAAAAAElAAAAAAABAVUAAAAAAAABQQAAAAAAAgFRAAAAAAADATUAAAAAAAABOQAAAAAAAwFJAAAAAAADATUAAAAAAAIBSQAAAAAAAAFRAAAAAAABAVEAAAAAAAIBJQAAAAAAAQFJA","dtype":"float64","shape":[102]},"correct hit percentage":[65,90,90,100,60,80,90,45,80,100,70,90,95,85,75,40,100,70,100,100,60,100,100,65,100,80,80,70,70,90,95,90,90,100,80,90,95,95,90,55,100,65,90,55,75,100,70,90,95,95,70,80,50,65,100,85,85,90,90,90,85,85,90,95,70,95,85,95,90,90,100,80,95,100,90,100,70,90,85,80,85,40,80,90,90,80,90,75,85,100,95,60,100,85,35,95,70,70,90,70,75,85],"correct reject percentage":[80,90,95,75,65,20,75,90,100,50,55,100,65,75,55,100,40,90,70,50,80,95,75,25,40,65,90,80,65,100,80,95,90,100,60,80,60,90,80,60,85,65,100,100,85,80,90,85,90,55,65,75,95,80,70,90,90,90,85,70,95,75,80,75,85,75,85,75,65,90,100,90,80,95,95,100,50,100,70,75,80,40,95,80,85,75,35,70,85,85,75,85,80,95,75,80,50,85,85,80,65,40],"ess":[2,7,3,20,12,2,3,9,10,7,19,0,8,4,7,14,12,10,11,12,1,6,4,6,2,5,1,3,4,5,12,4,4,11,6,3,11,10,12,6,13,12,5,10,4,4,6,3,0,12,6,5,9,7,6,10,18,11,8,16,7,9,11,4,7,4,11,12,3,3,4,11,1,4,2,9,1,2,12,6,5,5,4,9,3,8,6,10,21,5,5,9,1,8,11,5,7,10,7,15,7,7],"gender":["f","m","f","f","f","f","m","m","f","f","f","f","f","f","f","f","f","f","m","m","f","m","f","f","f","f","f","f","f","f","f","f","m","f","f","m","m","m","f","m","f","f","m","m","f","f","m","f","m","f","m","f","f","m","m","f","f","f","f","m","f","f","f","f","m","f","f","f","m","f","f","f","f","f","f","f","f","f","f","f","f","m","f","f","m","f","f","f","f","f","m","m","m","m","f","m","f","f","f","f","f","f"],"index":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101],"insomnia":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"participant number":[8,16,18,22,27,28,30,33,34,35,38,41,46,49,55,71,76,77,78,80,89,90,93,100,101,1,2,3,4,5,6,7,9,10,11,12,13,14,15,17,19,20,21,23,24,25,26,29,31,32,36,37,39,40,42,43,44,45,48,50,51,52,53,54,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,72,73,74,75,79,81,82,83,84,85,86,87,88,91,92,94,95,96,97,98,99,102,103],"percent correct":{"__ndarray__":"AAAAAAAgUkAAAAAAAIBWQAAAAAAAIFdAAAAAAADgVUAAAAAAAEBPQAAAAAAAAElAAAAAAACgVEAAAAAAAOBQQAAAAAAAgFZAAAAAAADAUkAAAAAAAEBPQAAAAAAAwFdAAAAAAAAAVEAAAAAAAABUQAAAAAAAQFBAAAAAAACAUUAAAAAAAIBRQAAAAAAAAFRAAAAAAABAVUAAAAAAAMBSQAAAAAAAgFFAAAAAAABgWEAAAAAAAOBVQAAAAAAAgEZAAAAAAACAUUAAAAAAACBSQAAAAAAAQFVAAAAAAADAUkAAAAAAAOBQQAAAAAAAwFdAAAAAAADgVUAAAAAAACBXQAAAAAAAgFZAAAAAAAAAWUAAAAAAAIBRQAAAAAAAQFVAAAAAAABgU0AAAAAAACBXQAAAAAAAQFVAAAAAAADATEAAAAAAACBXQAAAAAAAQFBAAAAAAADAV0AAAAAAAGBTQAAAAAAAAFRAAAAAAACAVkAAAAAAAABUQAAAAAAA4FVAAAAAAAAgV0AAAAAAAMBSQAAAAAAA4FBAAAAAAABgU0AAAAAAACBSQAAAAAAAIFJAAAAAAABAVUAAAAAAAOBVQAAAAAAA4FVAAAAAAACAVkAAAAAAAOBVQAAAAAAAAFRAAAAAAACAVkAAAAAAAABUQAAAAAAAQFVAAAAAAABAVUAAAAAAAGBTQAAAAAAAQFVAAAAAAABAVUAAAAAAAEBVQAAAAAAAYFNAAAAAAACAVkAAAAAAAABZQAAAAAAAQFVAAAAAAADgVUAAAAAAAGBYQAAAAAAAIFdAAAAAAAAAWUAAAAAAAABOQAAAAAAAwFdAAAAAAABgU0AAAAAAAGBTQAAAAAAAoFRAAAAAAAAAREAAAAAAAOBVQAAAAAAAQFVAAAAAAADgVUAAAAAAAGBTQAAAAAAAQE9AAAAAAAAgUkAAAAAAAEBVQAAAAAAAIFdAAAAAAABAVUAAAAAAACBSQAAAAAAAgFZAAAAAAACAVkAAAAAAAIBLQAAAAAAA4FVAAAAAAAAATkAAAAAAAGBTQAAAAAAA4FVAAAAAAADAUkAAAAAAAIBRQAAAAAAAQE9A","dtype":"float64","shape":[102]},"psqi":[13,11,9,8,9,14,9,9,12,8,5,7,12,13,13,11,4,10,6,7,8,9,7,15,7,1,5,1,5,7,7,3,3,10,4,5,2,2,2,5,2,3,3,4,9,5,2,1,4,8,2,2,6,3,1,5,7,3,6,6,1,6,4,4,3,5,2,7,4,0,5,1,1,4,1,8,4,2,7,4,1,7,4,5,6,4,2,3,4,3,1,5,2,1,1,3,6,8,8,2,4,5],"sci":[9,4,10,13,13,15,16,14,14,14,14,15,10,14,5,0,16,11,14,12,14,14,16,1,14,29,19,23,26,21,19,28,29,17,22,28,31,31,32,25,30,28,30,22,20,26,32,32,24,26,30,28,21,29,32,26,26,23,18,22,29,20,27,19,29,24,29,17,26,30,17,25,31,27,32,28,25,30,21,29,20,22,23,20,17,27,27,22,25,30,32,30,32,28,31,29,26,20,19,31,22,24]},"selected":{"id":"1047","type":"Selection"},"selection_policy":{"id":"1046","type":"UnionRenderers"}},"id":"1034","type":"ColumnDataSource"},{"attributes":{"axis_label":"condifence when incorrect","formatter":{"id":"1045","type":"BasicTickFormatter"},"ticker":{"id":"1017","type":"BasicTicker"}},"id":"1016","type":"LinearAxis"},{"attributes":{},"id":"1017","type":"BasicTicker"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1037","type":"Circle"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1048","type":"BoxAnnotation"},{"attributes":{"dimension":1,"ticker":{"id":"1017","type":"BasicTicker"}},"id":"1020","type":"Grid"},{"attributes":{"data_source":{"id":"1034","type":"ColumnDataSource"},"glyph":{"id":"1036","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1037","type":"Circle"},"selection_glyph":null,"view":{"id":"1039","type":"CDSView"}},"id":"1038","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1034","type":"ColumnDataSource"}},"id":"1039","type":"CDSView"},{"attributes":{},"id":"1021","type":"PanTool"},{"attributes":{"text":""},"id":"1040","type":"Title"},{"attributes":{},"id":"1022","type":"WheelZoomTool"},{"attributes":{},"id":"1043","type":"BasicTickFormatter"},{"attributes":{"overlay":{"id":"1048","type":"BoxAnnotation"}},"id":"1023","type":"BoxZoomTool"},{"attributes":{},"id":"1045","type":"BasicTickFormatter"},{"attributes":{},"id":"1024","type":"SaveTool"},{"attributes":{},"id":"1046","type":"UnionRenderers"},{"attributes":{"fill_color":{"value":"#1f77b4"},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1036","type":"Circle"},{"attributes":{},"id":"1025","type":"ResetTool"},{"attributes":{},"id":"1047","type":"Selection"},{"attributes":{"callback":null},"id":"1005","type":"DataRange1d"},{"attributes":{},"id":"1026","type":"HelpTool"},{"attributes":{"callback":null},"id":"1003","type":"DataRange1d"}],"root_ids":["1002"]},"title":"Bokeh Application","version":"1.2.0"}};
-  var render_items = [{"docid":"09877a0e-a4eb-4c49-8019-2acb599c3cec","roots":{"1002":"dd9870b1-8ee8-4853-aecb-5abbf8572788"}}];
-  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
-
-  }
-  if (root.Bokeh !== undefined) {
-    embed_document(root);
-  } else {
-    var attempts = 0;
-    var timer = setInterval(function(root) {
-      if (root.Bokeh !== undefined) {
-        embed_document(root);
-        clearInterval(timer);
-      }
-      attempts++;
-      if (attempts > 100) {
-        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-        clearInterval(timer);
-      }
-    }, 10, root)
-  }
-})(window);
-</script>
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;TGCAACTGC&#39;</pre>
 </div>
 
 </div>
@@ -13760,7 +13359,7 @@ var element = $('#040a5e16-97cf-4550-bc33-fc48a9a9b492');
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In looking at the plot, notice a toolbar to right of the plot that enables you to zoom and pan within the plot.</p>
+<p>So, we were able to do it in one line!</p>
 
 </div>
 </div>
@@ -13768,7 +13367,7 @@ var element = $('#040a5e16-97cf-4550-bc33-fc48a9a9b492');
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-importance-of-tidy-data-frames">The importance of tidy data frames<a class="anchor-link" href="#The-importance-of-tidy-data-frames">&#182;</a></h2><p>It might be clear for you now that building a plot in this way requires that the data frame you use be <a href="l20_split_apply_combine.html"><strong>tidy</strong></a>. The organization of tidy data is really what enables this and high level plotting functionality. There is a well-specified organization of the data.</p>
+<p><br /></p>
 
 </div>
 </div>
@@ -13776,14 +13375,22 @@ var element = $('#040a5e16-97cf-4550-bc33-fc48a9a9b492');
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Code-style-in-plot-specifications">Code style in plot specifications<a class="anchor-link" href="#Code-style-in-plot-specifications">&#182;</a></h2><p>Specifications of plots often involves calls to functions with lots of keyword arguments to specify the plot, and this can get unwieldy without a clear style. You can develop your own style, maybe reading <a href="http://treyhunner.com/2017/07/craft-your-python-like-poetry/">Trey Hunner's blog post again</a>. I like to do the following.</p>
-<ol>
-<li>Put the function call, like <strong><code>p.circle(</code></strong> or <strong><code>p = bokeh.plotting.figure(</code></strong> on the first line.</li>
-<li>The closed parenthesis for the function call is on its own line, unindented.</li>
-<li>Any arguments are given as kwargs (even if they can also be specified as positional arguments) at one level of indentation.</li>
-</ol>
-<p>Note that you <em>cannot</em> use method chaining when instantiating figures or populating glyphs.</p>
-<p>If you adhere to a style, it makes your code cleaner and easier to read.</p>
+<h2 id="Exercise-1.2:-Longest-common-substring">Exercise 1.2: Longest common substring<a class="anchor-link" href="#Exercise-1.2:-Longest-common-substring">&#182;</a></h2><p>Write a function that takes two sequences and returns the longest common substring.  A substring is a contiguous portion of a string.  For example:</p>
+<p>Substrings of <code>ATGCATAT</code>:</p>
+
+<pre><code>TGCA
+T
+TAT
+
+</code></pre>
+<p>Not substrings of <code>ATGCATAT</code>:</p>
+
+<pre><code>AGCA              # Skipped T
+CCATA             # Added another C
+Hello, world.     # Has nothing to do with the input sequence
+
+</code></pre>
+<p>There may be more than one longest common substring; you only need to return one of them.</p>
 
 </div>
 </div>
@@ -13791,12 +13398,7 @@ var element = $('#040a5e16-97cf-4550-bc33-fc48a9a9b492');
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Coloring-with-other-dimensions">Coloring with other dimensions<a class="anchor-link" href="#Coloring-with-other-dimensions">&#182;</a></h2><p>Let's say we wanted to make the same plot, but with orange circles for insomniacs and blue circles for normal sleepers. To do this, we take advantage of two features of Bokeh.</p>
-<ol>
-<li>We can make multiple calls to <code>p.circle()</code> to populate more and more glyphs.</li>
-<li><code>p.circle()</code>, like all of the glyph methods, has many keyword arguments, including <code>color</code> and <code>legend</code>, which will enable us to color the glyphs and include a legend.</li>
-</ol>
-<p>We can loop through the data frame grouped by <code>'insomnia'</code> and populate the glyphs as we go along.</p>
+<h3 id="Exercise-1.2:-solution">Exercise 1.2: solution<a class="anchor-link" href="#Exercise-1.2:-solution">&#182;</a></h3><p>This is actually an <a href="https://en.wikipedia.org/wiki/Longest_common_substring_problem">important problem</a>, and there are clever algorithms to solve it.  We will take a more brute force approach.  We will generate all substrings of the shorter of the two strings, and find which ones are in the other.</p>
 
 </div>
 </div>
@@ -13806,107 +13408,27 @@ var element = $('#040a5e16-97cf-4550-bc33-fc48a9a9b492');
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># For convenience</span>
-<span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;confidence when correct&#39;</span>
-<span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;confidence when incorrect&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">longest_common_substring</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return one of the longest common substrings&quot;&quot;&quot;</span>
+    <span class="c1"># Make sure s1 is the shorter</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">):</span>
+        <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">s2</span><span class="p">,</span> <span class="n">s1</span>
+    
+    <span class="c1"># Start with the entire sequence and shorten</span>
+    <span class="n">substr_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">substr_len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>        
+        <span class="c1"># Try all substrings</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">-</span> <span class="n">substr_len</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">substr_len</span><span class="p">]</span> <span class="ow">in</span> <span class="n">s2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">substr_len</span><span class="p">]</span>
 
-<span class="c1"># Make figure</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span>
-    <span class="n">width</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
-    <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
-    <span class="n">x_axis_label</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
-    <span class="n">y_axis_label</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
-    <span class="n">tooltips</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;@gender&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;@age&#39;</span><span class="p">)]</span>
-<span class="p">)</span>
-
-<span class="c1"># Add glyphs</span>
-<span class="n">p</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span>
-    <span class="n">source</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">],</span> <span class="p">:],</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
-    <span class="n">legend</span><span class="o">=</span><span class="s1">&#39;normal sleepers&#39;</span>
-<span class="p">)</span>
-
-<span class="n">p</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span>
-    <span class="n">source</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">],</span> <span class="p">:],</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span>
-    <span class="n">legend</span><span class="o">=</span><span class="s1">&#39;insomniacs&#39;</span>
-<span class="p">)</span>
-
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">substr_len</span> <span class="o">-=</span> <span class="mi">1</span>
+            
+    <span class="c1"># If we haven&#39;t returned, there is no common substring</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-
-
-
-
-
-
-  <div class="bk-root" id="da26c8e4-3726-4507-93f4-7acb9193f067" data-root-id="1103"></div>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-
-
-<div id="27dae45b-d321-4a7e-840f-d8126ec156ec"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#27dae45b-d321-4a7e-840f-d8126ec156ec');
-(function(root) {
-  function embed_document(root) {
-    
-  var docs_json = {"ee39f8d9-c3e1-4e92-bddc-09db56a87528":{"roots":{"references":[{"attributes":{"below":[{"id":"1112","type":"LinearAxis"}],"center":[{"id":"1116","type":"Grid"},{"id":"1121","type":"Grid"},{"id":"1150","type":"Legend"}],"left":[{"id":"1117","type":"LinearAxis"}],"plot_height":300,"plot_width":400,"renderers":[{"id":"1141","type":"GlyphRenderer"},{"id":"1156","type":"GlyphRenderer"}],"title":{"id":"1143","type":"Title"},"toolbar":{"id":"1129","type":"Toolbar"},"x_range":{"id":"1104","type":"DataRange1d"},"x_scale":{"id":"1108","type":"LinearScale"},"y_range":{"id":"1106","type":"DataRange1d"},"y_scale":{"id":"1110","type":"LinearScale"}},"id":"1103","subtype":"Figure","type":"Plot"},{"attributes":{"ticker":{"id":"1113","type":"BasicTicker"}},"id":"1116","type":"Grid"},{"attributes":{"label":{"value":"insomniacs"},"renderers":[{"id":"1156","type":"GlyphRenderer"}]},"id":"1167","type":"LegendItem"},{"attributes":{"axis_label":"confidence when incorrect","formatter":{"id":"1148","type":"BasicTickFormatter"},"ticker":{"id":"1118","type":"BasicTicker"}},"id":"1117","type":"LinearAxis"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1122","type":"PanTool"},{"id":"1123","type":"WheelZoomTool"},{"id":"1124","type":"BoxZoomTool"},{"id":"1125","type":"SaveTool"},{"id":"1126","type":"ResetTool"},{"id":"1127","type":"HelpTool"},{"id":"1128","type":"HoverTool"}]},"id":"1129","type":"Toolbar"},{"attributes":{},"id":"1165","type":"Selection"},{"attributes":{"label":{"value":"normal sleepers"},"renderers":[{"id":"1141","type":"GlyphRenderer"}]},"id":"1151","type":"LegendItem"},{"attributes":{"items":[{"id":"1151","type":"LegendItem"},{"id":"1167","type":"LegendItem"}]},"id":"1150","type":"Legend"},{"attributes":{"source":{"id":"1152","type":"ColumnDataSource"}},"id":"1157","type":"CDSView"},{"attributes":{},"id":"1118","type":"BasicTicker"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1149","type":"BoxAnnotation"},{"attributes":{"dimension":1,"ticker":{"id":"1118","type":"BasicTicker"}},"id":"1121","type":"Grid"},{"attributes":{"data_source":{"id":"1152","type":"ColumnDataSource"},"glyph":{"id":"1154","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1155","type":"Circle"},"selection_glyph":null,"view":{"id":"1157","type":"CDSView"}},"id":"1156","type":"GlyphRenderer"},{"attributes":{},"id":"1148","type":"BasicTickFormatter"},{"attributes":{"text":""},"id":"1143","type":"Title"},{"attributes":{"callback":null,"data":{"age":[39,42,31,35,74,61,32,62,33,53,41,36,40,24,32,40,61,42,31,28,26,45,28,44,28],"confidence correct reject":{"__ndarray__":"AAAAAABAV0AAAAAAAKBRQAAAAAAAgFVAAAAAAADAUUAAAAAAAIBOQAAAAAAAAD9AAAAAAACAUEAAAAAAAEBQQAAAAAAAIFBAAAAAAABATkAAAAAAAEBSQAAAAAAAwFJAAAAAAADAU0AAAAAAAIBIQAAAAAAAQFVAAAAAAACAUUAAAAAAAEBGQAAAAAAAoFZAAAAAAABAVEAAAAAAAABZQAAAAAAAgFRAAAAAAAAAWUAAAAAAAMBQQAAAAAAAwFVAAAAAAAAAUUA=","dtype":"float64","shape":[25]},"confidence incorrect hit":{"__ndarray__":"AAAAAACAVkAAAAAAAMBLQAAAAAAAgFZAAAAAAAAA+H8AAAAAAIBIQAAAAAAAgE9AAAAAAABATEAAAAAAAIBCQAAAAAAAIFNAAAAAAAAA+H8AAAAAAMBOQAAAAAAA4FJAAAAAAABAVkAAAAAAAABJQAAAAAAAQFRAAAAAAAAATEAAAAAAAAD4fwAAAAAAAFJAAAAAAAAA+H8AAAAAAAD4fwAAAAAAQFNAAAAAAAAA+H8AAAAAAAD4fwAAAAAAAFJAAAAAAAAA+H8=","dtype":"float64","shape":[25]},"confidence incorrect reject":{"__ndarray__":"AAAAAADgVEAAAAAAAABJQAAAAAAAQFRAAAAAAAAAVEAAAAAAAIBIQAAAAAAAIFJAAAAAAABAUEAAAAAAAGBUQAAAAAAAAPh/AAAAAABAUEAAAAAAAEBRQAAAAAAAAPh/AAAAAABATUAAAAAAAABRQAAAAAAAgFVAAAAAAAAA+H8AAAAAAEBSQAAAAAAAwEVAAAAAAAAATkAAAAAAAABZQAAAAAAA4FBAAAAAAAAAWUAAAAAAAABOQAAAAAAAQFNAAAAAAAAAS0A=","dtype":"float64","shape":[25]},"confidence when correct":{"__ndarray__":"AAAAAABAV0AAAAAAAMBSQAAAAAAAQFZAAAAAAAAAVkAAAAAAAEBQQAAAAAAAIFBAAAAAAACAUEAAAAAAAABPQAAAAAAAAFFAAAAAAADAUUAAAAAAAIBUQAAAAAAAAFNAAAAAAADgU0AAAAAAAIBLQAAAAAAAQFVAAAAAAACAUUAAAAAAAEBLQAAAAAAAIFZAAAAAAADgVUAAAAAAAABZQAAAAAAAQFNAAAAAAAAAWUAAAAAAAABUQAAAAAAAYFFAAAAAAABAVEA=","dtype":"float64","shape":[25]},"confidence when correct hit":{"__ndarray__":"AAAAAADAVkAAAAAAAOBSQAAAAAAAYFZAAAAAAABgVkAAAAAAACBRQAAAAAAAwFFAAAAAAADAUEAAAAAAAABLQAAAAAAAoFFAAAAAAACgUkAAAAAAAIBUQAAAAAAAIFNAAAAAAAAAVEAAAAAAAABNQAAAAAAAQFVAAAAAAABAUUAAAAAAAGBRQAAAAAAAwFVAAAAAAAAAV0AAAAAAAABZQAAAAAAAgFFAAAAAAAAAWUAAAAAAAGBWQAAAAAAAAE9AAAAAAADAVUA=","dtype":"float64","shape":[25]},"confidence when incorrect":{"__ndarray__":"AAAAAACAVkAAAAAAAABJQAAAAAAAAFZAAAAAAAAAVEAAAAAAAIBIQAAAAAAAoFFAAAAAAAAAUEAAAAAAAIBOQAAAAAAAIFNAAAAAAABAUEAAAAAAAABQQAAAAAAA4FJAAAAAAACAT0AAAAAAAIBNQAAAAAAA4FRAAAAAAAAATEAAAAAAAEBSQAAAAAAAAFBAAAAAAAAATkAAAAAAAABZQAAAAAAAoFFAAAAAAAAAWUAAAAAAAABOQAAAAAAAYFJAAAAAAAAAS0A=","dtype":"float64","shape":[25]},"correct hit percentage":[65,90,90,100,60,80,90,45,80,100,70,90,95,85,75,40,100,70,100,100,60,100,100,65,100],"correct reject percentage":[80,90,95,75,65,20,75,90,100,50,55,100,65,75,55,100,40,90,70,50,80,95,75,25,40],"ess":[2,7,3,20,12,2,3,9,10,7,19,0,8,4,7,14,12,10,11,12,1,6,4,6,2],"gender":["f","m","f","f","f","f","m","m","f","f","f","f","f","f","f","f","f","f","m","m","f","m","f","f","f"],"index":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"insomnia":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"participant number":[8,16,18,22,27,28,30,33,34,35,38,41,46,49,55,71,76,77,78,80,89,90,93,100,101],"percent correct":{"__ndarray__":"AAAAAAAgUkAAAAAAAIBWQAAAAAAAIFdAAAAAAADgVUAAAAAAAEBPQAAAAAAAAElAAAAAAACgVEAAAAAAAOBQQAAAAAAAgFZAAAAAAADAUkAAAAAAAEBPQAAAAAAAwFdAAAAAAAAAVEAAAAAAAABUQAAAAAAAQFBAAAAAAACAUUAAAAAAAIBRQAAAAAAAAFRAAAAAAABAVUAAAAAAAMBSQAAAAAAAgFFAAAAAAABgWEAAAAAAAOBVQAAAAAAAgEZAAAAAAACAUUA=","dtype":"float64","shape":[25]},"psqi":[13,11,9,8,9,14,9,9,12,8,5,7,12,13,13,11,4,10,6,7,8,9,7,15,7],"sci":[9,4,10,13,13,15,16,14,14,14,14,15,10,14,5,0,16,11,14,12,14,14,16,1,14]},"selected":{"id":"1186","type":"Selection"},"selection_policy":{"id":"1185","type":"UnionRenderers"}},"id":"1152","type":"ColumnDataSource"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1155","type":"Circle"},{"attributes":{"fill_color":{"value":"orange"},"line_color":{"value":"orange"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1154","type":"Circle"},{"attributes":{},"id":"1146","type":"BasicTickFormatter"},{"attributes":{},"id":"1122","type":"PanTool"},{"attributes":{"source":{"id":"1137","type":"ColumnDataSource"}},"id":"1142","type":"CDSView"},{"attributes":{"data_source":{"id":"1137","type":"ColumnDataSource"},"glyph":{"id":"1139","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1140","type":"Circle"},"selection_glyph":null,"view":{"id":"1142","type":"CDSView"}},"id":"1141","type":"GlyphRenderer"},{"attributes":{},"id":"1123","type":"WheelZoomTool"},{"attributes":{"callback":null},"id":"1106","type":"DataRange1d"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1140","type":"Circle"},{"attributes":{"overlay":{"id":"1149","type":"BoxAnnotation"}},"id":"1124","type":"BoxZoomTool"},{"attributes":{},"id":"1185","type":"UnionRenderers"},{"attributes":{"callback":null,"data":{"age":[42,45,16,21,18,28,38,17,25,22,41,53,43,23,19,45,43,35,24,64,36,35,43,44,29,22,46,35,53,29,31,21,42,23,54,24,21,21,43,50,53,16,67,36,34,42,46,69,31,44,25,45,47,33,18,74,21,45,37,41,41,34,39,18,31,26,66,62,22,41,46,56,23,70,24,40,33],"confidence correct reject":{"__ndarray__":"AAAAAACARUAAAAAAAABUQAAAAAAAAEtAAAAAAAAASUAAAAAAAABUQAAAAAAAgFdAAAAAAADAU0AAAAAAACBTQAAAAAAAQFVAAAAAAACAUUAAAAAAAOBQQAAAAAAAAExAAAAAAACASEAAAAAAAKBRQAAAAAAAgFBAAAAAAACATkAAAAAAAABQQAAAAAAAoFJAAAAAAAAAVEAAAAAAAIBQQAAAAAAAgFBAAAAAAAAAM0AAAAAAAIBEQAAAAAAAwFNAAAAAAABAUEAAAAAAAEBTQAAAAAAAAFlAAAAAAABAU0AAAAAAAMBHQAAAAAAAIFBAAAAAAABAVEAAAAAAAIBRQAAAAAAAIFRAAAAAAABAUUAAAAAAAGBTQAAAAAAAgFJAAAAAAAAATEAAAAAAAGBSQAAAAAAAAFFAAAAAAADAV0AAAAAAAABRQAAAAAAAAElAAAAAAABAUUAAAAAAAIBLQAAAAAAAYFJAAAAAAACAUkAAAAAAAABXQAAAAAAAoFNAAAAAAACAVkAAAAAAAEBRQAAAAAAAQE1AAAAAAACAT0AAAAAAAOBRQAAAAAAAQE1AAAAAAACAUEAAAAAAAIBPQAAAAAAAoFJAAAAAAAAAU0AAAAAAAOBUQAAAAAAAgFFAAAAAAACAVUAAAAAAAMBRQAAAAAAAwE1AAAAAAADAVkAAAAAAAABZQAAAAAAAgFRAAAAAAACAUkAAAAAAAKBSQAAAAAAAAFJAAAAAAAAAVEAAAAAAAABUQAAAAAAA4FBAAAAAAABAU0AAAAAAAMBVQAAAAAAAgFFAAAAAAAAAVUAAAAAAAAA/QA==","dtype":"float64","shape":[77]},"confidence incorrect hit":{"__ndarray__":"AAAAAABARkAAAAAAAMBLQAAAAAAAgExAAAAAAAAAUEAAAAAAAMBUQAAAAAAAQFVAAAAAAADARUAAAAAAAOBVQAAAAAAAAPh/AAAAAACAUUAAAAAAAMBLQAAAAAAAgEBAAAAAAAAAPUAAAAAAAABEQAAAAAAAAElAAAAAAAAA+H8AAAAAAIBLQAAAAAAAwEFAAAAAAADAUEAAAAAAAAA5QAAAAAAAAPh/AAAAAACAPEAAAAAAAAA7QAAAAAAAAExAAAAAAACASkAAAAAAAABWQAAAAAAAAFJAAAAAAAAAPUAAAAAAAABAQAAAAAAAAPh/AAAAAACASEAAAAAAAAA9QAAAAAAAwFRAAAAAAACAR0AAAAAAAOBUQAAAAAAAgERAAAAAAABAUkAAAAAAAMBLQAAAAAAAQFZAAAAAAAAgUkAAAAAAAIBLQAAAAAAAAD5AAAAAAAAAHEAAAAAAAIA8QAAAAAAAgEVAAAAAAAAA+H8AAAAAAOBSQAAAAAAAQFBAAAAAAAAA+H8AAAAAAMBHQAAAAAAAAPh/AAAAAADASUAAAAAAAAD4fwAAAAAAAENAAAAAAADASUAAAAAAAIBLQAAAAAAAAFRAAAAAAADAUEAAAAAAAABRQAAAAAAAwE1AAAAAAADATkAAAAAAAABKQAAAAAAAgExAAAAAAAAAV0AAAAAAAAD4fwAAAAAAAFZAAAAAAACAUEAAAAAAAAD4fwAAAAAAAExAAAAAAACATkAAAAAAAMBSQAAAAAAAQEpAAAAAAACgUEAAAAAAAGBVQAAAAAAAQFRAAAAAAACAQkAAAAAAAAA7QA==","dtype":"float64","shape":[77]},"confidence incorrect reject":{"__ndarray__":"AAAAAACASEAAAAAAAMBSQAAAAAAAgEpAAAAAAAAASUAAAAAAAAD4fwAAAAAAgE5AAAAAAAAANUAAAAAAAAA7QAAAAAAAAPh/AAAAAABAUEAAAAAAAEBKQAAAAAAAgEhAAAAAAAAAQkAAAAAAAKBQQAAAAAAAQElAAAAAAAAAS0AAAAAAAIBNQAAAAAAAAPh/AAAAAAAA+H8AAAAAAAA4QAAAAAAAwE9AAAAAAADAREAAAAAAAIBGQAAAAAAAQEVAAAAAAACASkAAAAAAAABUQAAAAAAAwFZAAAAAAAAAQEAAAAAAAKBTQAAAAAAAgEVAAAAAAAAAQkAAAAAAAAA9QAAAAAAAAEJAAAAAAAAAREAAAAAAAEBRQAAAAAAAQFJAAAAAAAAAUUAAAAAAAIBRQAAAAAAAQFBAAAAAAABAUEAAAAAAAIBOQAAAAAAAAERAAAAAAAAATkAAAAAAAABKQAAAAAAAwEpAAAAAAAAA+H8AAAAAAIBPQAAAAAAAoFFAAAAAAAAAREAAAAAAAMBVQAAAAAAAAPh/AAAAAABAUUAAAAAAAMBUQAAAAAAAQFBAAAAAAACATEAAAAAAAEBJQAAAAAAAwFRAAAAAAAAAMUAAAAAAAMBUQAAAAAAAgERAAAAAAACAUkAAAAAAAABNQAAAAAAAAElAAAAAAABAVkAAAAAAAABJQAAAAAAAgFRAAAAAAACATEAAAAAAAIBUQAAAAAAAgE9AAAAAAACATEAAAAAAAABUQAAAAAAAYFBAAAAAAABgU0AAAAAAAABUQAAAAAAAgE5AAAAAAAAASkAAAAAAAKBUQA==","dtype":"float64","shape":[77]},"confidence when correct":{"__ndarray__":"AAAAAACASUAAAAAAAKBTQAAAAAAAgExAAAAAAAAATkAAAAAAAABUQAAAAAAAwFhAAAAAAACAU0AAAAAAAKBTQAAAAAAAgFZAAAAAAACAUUAAAAAAAIBSQAAAAAAAgEdAAAAAAAAASkAAAAAAAABVQAAAAAAAgE9AAAAAAAAAT0AAAAAAAMBNQAAAAAAA4FJAAAAAAACAU0AAAAAAAIBPQAAAAAAAQFRAAAAAAAAAOEAAAAAAAABJQAAAAAAAQFRAAAAAAADAUEAAAAAAAEBTQAAAAAAAAFlAAAAAAAAAUUAAAAAAAABIQAAAAAAAgFJAAAAAAACAVEAAAAAAAMBQQAAAAAAAoFRAAAAAAADAUEAAAAAAAABWQAAAAAAAwFRAAAAAAADAT0AAAAAAACBUQAAAAAAAwFFAAAAAAADAV0AAAAAAAKBTQAAAAAAAQEpAAAAAAABAUUAAAAAAAIBOQAAAAAAAgFBAAAAAAACAUkAAAAAAAABXQAAAAAAAAFRAAAAAAAAAV0AAAAAAAMBUQAAAAAAAQE5AAAAAAAAgUkAAAAAAAGBYQAAAAAAAAFFAAAAAAADAUEAAAAAAAEBQQAAAAAAAgFRAAAAAAADAUkAAAAAAAIBXQAAAAAAAQFNAAAAAAAAAV0AAAAAAAEBUQAAAAAAAAE1AAAAAAADgVkAAAAAAAABZQAAAAAAAQFVAAAAAAACAUkAAAAAAAOBTQAAAAAAAoFFAAAAAAAAAUkAAAAAAAEBVQAAAAAAAAFBAAAAAAABAU0AAAAAAAIBSQAAAAAAAQFBAAAAAAABAVEAAAAAAAEBUQA==","dtype":"float64","shape":[77]},"confidence when correct hit":{"__ndarray__":"AAAAAADASUAAAAAAAMBSQAAAAAAAgFFAAAAAAADAT0AAAAAAACBTQAAAAAAAAFlAAAAAAABAU0AAAAAAACBUQAAAAAAAgFZAAAAAAACAUUAAAAAAACBTQAAAAAAAAERAAAAAAAAASkAAAAAAAABWQAAAAAAAAE9AAAAAAAAAUUAAAAAAAIBNQAAAAAAA4FJAAAAAAAAAUUAAAAAAAABJQAAAAAAAAFZAAAAAAACAPUAAAAAAAGBQQAAAAAAAwFRAAAAAAADAUEAAAAAAAIBTQAAAAAAAIFJAAAAAAABAT0AAAAAAAABLQAAAAAAAwFJAAAAAAACAVEAAAAAAAIBQQAAAAAAAwFRAAAAAAADAUEAAAAAAAIBWQAAAAAAAQFhAAAAAAABAUEAAAAAAAABVQAAAAAAAgFJAAAAAAAAgV0AAAAAAAABVQAAAAAAAgEtAAAAAAACAUUAAAAAAAOBQQAAAAAAAQE1AAAAAAACgUkAAAAAAAABXQAAAAAAAAFRAAAAAAACAWEAAAAAAAMBVQAAAAAAAwE5AAAAAAAAgVEAAAAAAAABZQAAAAAAAgFFAAAAAAADgUEAAAAAAAIBQQAAAAAAAoFZAAAAAAACAUkAAAAAAAOBXQAAAAAAAAFRAAAAAAACgV0AAAAAAAEBUQAAAAAAAgExAAAAAAABAV0AAAAAAAABZQAAAAAAAQFVAAAAAAADgUEAAAAAAAEBUQAAAAAAAgFBAAAAAAACAS0AAAAAAAIBWQAAAAAAAgE9AAAAAAABAU0AAAAAAAGBQQAAAAAAAwE5AAAAAAACASkAAAAAAAABUQA==","dtype":"float64","shape":[77]},"confidence when incorrect":{"__ndarray__":"AAAAAACASEAAAAAAAMBQQAAAAAAAQEtAAAAAAAAASUAAAAAAAMBUQAAAAAAAQFBAAAAAAAAAQkAAAAAAAOBQQAAAAAAAAPh/AAAAAACAUUAAAAAAAMBLQAAAAAAAAEZAAAAAAAAAPUAAAAAAAEBLQAAAAAAAAElAAAAAAAAAS0AAAAAAAIBMQAAAAAAAwEFAAAAAAADAUEAAAAAAAIA4QAAAAAAAwE9AAAAAAACAQUAAAAAAAIBGQAAAAAAAAEtAAAAAAACASkAAAAAAAABVQAAAAAAAwFZAAAAAAAAAP0AAAAAAAIBJQAAAAAAAgEVAAAAAAACASEAAAAAAAAA9QAAAAAAAAFNAAAAAAAAAREAAAAAAAMBTQAAAAAAAwEtAAAAAAAAAUUAAAAAAAEBQQAAAAAAAAFFAAAAAAABAUEAAAAAAAABNQAAAAAAAgEFAAAAAAADATUAAAAAAAABJQAAAAAAAwEdAAAAAAAAA+H8AAAAAAGBSQAAAAAAAgFFAAAAAAAAAREAAAAAAAMBQQAAAAAAAAPh/AAAAAADATkAAAAAAAMBUQAAAAAAAAERAAAAAAACASkAAAAAAAIBLQAAAAAAAQFRAAAAAAAAAUEAAAAAAAMBRQAAAAAAAgE1AAAAAAADAUEAAAAAAAABNQAAAAAAAAElAAAAAAADAVkAAAAAAAABJQAAAAAAAQFVAAAAAAAAAUEAAAAAAAIBUQAAAAAAAwE1AAAAAAAAATkAAAAAAAMBSQAAAAAAAwE1AAAAAAACAUkAAAAAAAABUQAAAAAAAQFRAAAAAAACASUAAAAAAAEBSQA==","dtype":"float64","shape":[77]},"correct hit percentage":[80,80,70,70,90,95,90,90,100,80,90,95,95,90,55,100,65,90,55,75,100,70,90,95,95,70,80,50,65,100,85,85,90,90,90,85,85,90,95,70,95,85,95,90,90,100,80,95,100,90,100,70,90,85,80,85,40,80,90,90,80,90,75,85,100,95,60,100,85,35,95,70,70,90,70,75,85],"correct reject percentage":[65,90,80,65,100,80,95,90,100,60,80,60,90,80,60,85,65,100,100,85,80,90,85,90,55,65,75,95,80,70,90,90,90,85,70,95,75,80,75,85,75,85,75,65,90,100,90,80,95,95,100,50,100,70,75,80,40,95,80,85,75,35,70,85,85,75,85,80,95,75,80,50,85,85,80,65,40],"ess":[5,1,3,4,5,12,4,4,11,6,3,11,10,12,6,13,12,5,10,4,4,6,3,0,12,6,5,9,7,6,10,18,11,8,16,7,9,11,4,7,4,11,12,3,3,4,11,1,4,2,9,1,2,12,6,5,5,4,9,3,8,6,10,21,5,5,9,1,8,11,5,7,10,7,15,7,7],"gender":["f","f","f","f","f","f","f","m","f","f","m","m","m","f","m","f","f","m","m","f","f","m","f","m","f","m","f","f","m","m","f","f","f","f","m","f","f","f","f","m","f","f","f","m","f","f","f","f","f","f","f","f","f","f","f","f","m","f","f","m","f","f","f","f","f","m","m","m","m","f","m","f","f","f","f","f","f"],"index":[25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101],"insomnia":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"participant number":[1,2,3,4,5,6,7,9,10,11,12,13,14,15,17,19,20,21,23,24,25,26,29,31,32,36,37,39,40,42,43,44,45,48,50,51,52,53,54,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,72,73,74,75,79,81,82,83,84,85,86,87,88,91,92,94,95,96,97,98,99,102,103],"percent correct":{"__ndarray__":"AAAAAAAgUkAAAAAAAEBVQAAAAAAAwFJAAAAAAADgUEAAAAAAAMBXQAAAAAAA4FVAAAAAAAAgV0AAAAAAAIBWQAAAAAAAAFlAAAAAAACAUUAAAAAAAEBVQAAAAAAAYFNAAAAAAAAgV0AAAAAAAEBVQAAAAAAAwExAAAAAAAAgV0AAAAAAAEBQQAAAAAAAwFdAAAAAAABgU0AAAAAAAABUQAAAAAAAgFZAAAAAAAAAVEAAAAAAAOBVQAAAAAAAIFdAAAAAAADAUkAAAAAAAOBQQAAAAAAAYFNAAAAAAAAgUkAAAAAAACBSQAAAAAAAQFVAAAAAAADgVUAAAAAAAOBVQAAAAAAAgFZAAAAAAADgVUAAAAAAAABUQAAAAAAAgFZAAAAAAAAAVEAAAAAAAEBVQAAAAAAAQFVAAAAAAABgU0AAAAAAAEBVQAAAAAAAQFVAAAAAAABAVUAAAAAAAGBTQAAAAAAAgFZAAAAAAAAAWUAAAAAAAEBVQAAAAAAA4FVAAAAAAABgWEAAAAAAACBXQAAAAAAAAFlAAAAAAAAATkAAAAAAAMBXQAAAAAAAYFNAAAAAAABgU0AAAAAAAKBUQAAAAAAAAERAAAAAAADgVUAAAAAAAEBVQAAAAAAA4FVAAAAAAABgU0AAAAAAAEBPQAAAAAAAIFJAAAAAAABAVUAAAAAAACBXQAAAAAAAQFVAAAAAAAAgUkAAAAAAAIBWQAAAAAAAgFZAAAAAAACAS0AAAAAAAOBVQAAAAAAAAE5AAAAAAABgU0AAAAAAAOBVQAAAAAAAwFJAAAAAAACAUUAAAAAAAEBPQA==","dtype":"float64","shape":[77]},"psqi":[1,5,1,5,7,7,3,3,10,4,5,2,2,2,5,2,3,3,4,9,5,2,1,4,8,2,2,6,3,1,5,7,3,6,6,1,6,4,4,3,5,2,7,4,0,5,1,1,4,1,8,4,2,7,4,1,7,4,5,6,4,2,3,4,3,1,5,2,1,1,3,6,8,8,2,4,5],"sci":[29,19,23,26,21,19,28,29,17,22,28,31,31,32,25,30,28,30,22,20,26,32,32,24,26,30,28,21,29,32,26,26,23,18,22,29,20,27,19,29,24,29,17,26,30,17,25,31,27,32,28,25,30,21,29,20,22,23,20,17,27,27,22,25,30,32,30,32,28,31,29,26,20,19,31,22,24]},"selected":{"id":"1165","type":"Selection"},"selection_policy":{"id":"1164","type":"UnionRenderers"}},"id":"1137","type":"ColumnDataSource"},{"attributes":{},"id":"1125","type":"SaveTool"},{"attributes":{},"id":"1110","type":"LinearScale"},{"attributes":{},"id":"1108","type":"LinearScale"},{"attributes":{"callback":null},"id":"1104","type":"DataRange1d"},{"attributes":{},"id":"1164","type":"UnionRenderers"},{"attributes":{},"id":"1186","type":"Selection"},{"attributes":{},"id":"1127","type":"HelpTool"},{"attributes":{},"id":"1113","type":"BasicTicker"},{"attributes":{"fill_color":{"value":"#1f77b4"},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1139","type":"Circle"},{"attributes":{"callback":null,"tooltips":[["gender","@gender"],["age","@age"]]},"id":"1128","type":"HoverTool"},{"attributes":{"axis_label":"confidence when correct","formatter":{"id":"1146","type":"BasicTickFormatter"},"ticker":{"id":"1113","type":"BasicTicker"}},"id":"1112","type":"LinearAxis"},{"attributes":{},"id":"1126","type":"ResetTool"}],"root_ids":["1103"]},"title":"Bokeh Application","version":"1.2.0"}};
-  var render_items = [{"docid":"ee39f8d9-c3e1-4e92-bddc-09db56a87528","roots":{"1103":"da26c8e4-3726-4507-93f4-7acb9193f067"}}];
-  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
-
-  }
-  if (root.Bokeh !== undefined) {
-    embed_document(root);
-  } else {
-    var attempts = 0;
-    var timer = setInterval(function(root) {
-      if (root.Bokeh !== undefined) {
-        embed_document(root);
-        clearInterval(timer);
-      }
-      attempts++;
-      if (attempts > 100) {
-        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-        clearInterval(timer);
-      }
-    }, 10, root)
-  }
-})(window);
-</script>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -13914,7 +13436,7 @@ var element = $('#27dae45b-d321-4a7e-840f-d8126ec156ec');
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We got the plot we wanted, but the legend is clashing with the data. Fortunately, Bokeh allows us to set attributes of the figure whenever we like. We can therefore set the legend position to be in the upper left corner. We will also set the <code>click_policy</code> for the legend to be <code>'hide'</code>, which will hide glyphs if you click the legend, which can be convenient for viewing cluttered plots (though this one is not cluttered, really).</p>
+<p>Let's try our function out.</p>
 
 </div>
 </div>
@@ -13924,10 +13446,7 @@ var element = $('#27dae45b-d321-4a7e-840f-d8126ec156ec');
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="s1">&#39;top_left&#39;</span>
-<span class="n">p</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">click_policy</span> <span class="o">=</span> <span class="s1">&#39;hide&#39;</span>
-
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">longest_common_substring</span><span class="p">(</span><span class="s1">&#39;ACGTGGAAAGCCA&#39;</span><span class="p">,</span> <span class="s1">&#39;GTACACACGTTTTGAGAGACAC&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13940,61 +13459,13 @@ var element = $('#27dae45b-d321-4a7e-840f-d8126ec156ec');
 
 <div class="output_area">
 
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
+    <div class="prompt output_prompt">Out[7]:</div>
 
 
 
 
-
-
-  <div class="bk-root" id="cff2b9d8-d194-4fdc-be99-f34d87ead3b7" data-root-id="1103"></div>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-
-
-<div id="a73e76a1-d1fb-4247-bcfa-80132fb21306"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#a73e76a1-d1fb-4247-bcfa-80132fb21306');
-(function(root) {
-  function embed_document(root) {
-    
-  var docs_json = {"4f98e986-b0c7-4cd5-8fd6-52f0dc922189":{"roots":{"references":[{"attributes":{"below":[{"id":"1112","type":"LinearAxis"}],"center":[{"id":"1116","type":"Grid"},{"id":"1121","type":"Grid"},{"id":"1150","type":"Legend"}],"left":[{"id":"1117","type":"LinearAxis"}],"plot_height":300,"plot_width":400,"renderers":[{"id":"1141","type":"GlyphRenderer"},{"id":"1156","type":"GlyphRenderer"}],"title":{"id":"1143","type":"Title"},"toolbar":{"id":"1129","type":"Toolbar"},"x_range":{"id":"1104","type":"DataRange1d"},"x_scale":{"id":"1108","type":"LinearScale"},"y_range":{"id":"1106","type":"DataRange1d"},"y_scale":{"id":"1110","type":"LinearScale"}},"id":"1103","subtype":"Figure","type":"Plot"},{"attributes":{"ticker":{"id":"1113","type":"BasicTicker"}},"id":"1116","type":"Grid"},{"attributes":{"label":{"value":"insomniacs"},"renderers":[{"id":"1156","type":"GlyphRenderer"}]},"id":"1167","type":"LegendItem"},{"attributes":{"axis_label":"confidence when incorrect","formatter":{"id":"1148","type":"BasicTickFormatter"},"ticker":{"id":"1118","type":"BasicTicker"}},"id":"1117","type":"LinearAxis"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1122","type":"PanTool"},{"id":"1123","type":"WheelZoomTool"},{"id":"1124","type":"BoxZoomTool"},{"id":"1125","type":"SaveTool"},{"id":"1126","type":"ResetTool"},{"id":"1127","type":"HelpTool"},{"id":"1128","type":"HoverTool"}]},"id":"1129","type":"Toolbar"},{"attributes":{},"id":"1165","type":"Selection"},{"attributes":{"label":{"value":"normal sleepers"},"renderers":[{"id":"1141","type":"GlyphRenderer"}]},"id":"1151","type":"LegendItem"},{"attributes":{"click_policy":"hide","items":[{"id":"1151","type":"LegendItem"},{"id":"1167","type":"LegendItem"}],"location":"top_left"},"id":"1150","type":"Legend"},{"attributes":{"source":{"id":"1152","type":"ColumnDataSource"}},"id":"1157","type":"CDSView"},{"attributes":{},"id":"1118","type":"BasicTicker"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1149","type":"BoxAnnotation"},{"attributes":{"dimension":1,"ticker":{"id":"1118","type":"BasicTicker"}},"id":"1121","type":"Grid"},{"attributes":{"data_source":{"id":"1152","type":"ColumnDataSource"},"glyph":{"id":"1154","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1155","type":"Circle"},"selection_glyph":null,"view":{"id":"1157","type":"CDSView"}},"id":"1156","type":"GlyphRenderer"},{"attributes":{},"id":"1148","type":"BasicTickFormatter"},{"attributes":{"text":""},"id":"1143","type":"Title"},{"attributes":{"callback":null,"data":{"age":[39,42,31,35,74,61,32,62,33,53,41,36,40,24,32,40,61,42,31,28,26,45,28,44,28],"confidence correct reject":{"__ndarray__":"AAAAAABAV0AAAAAAAKBRQAAAAAAAgFVAAAAAAADAUUAAAAAAAIBOQAAAAAAAAD9AAAAAAACAUEAAAAAAAEBQQAAAAAAAIFBAAAAAAABATkAAAAAAAEBSQAAAAAAAwFJAAAAAAADAU0AAAAAAAIBIQAAAAAAAQFVAAAAAAACAUUAAAAAAAEBGQAAAAAAAoFZAAAAAAABAVEAAAAAAAABZQAAAAAAAgFRAAAAAAAAAWUAAAAAAAMBQQAAAAAAAwFVAAAAAAAAAUUA=","dtype":"float64","shape":[25]},"confidence incorrect hit":{"__ndarray__":"AAAAAACAVkAAAAAAAMBLQAAAAAAAgFZAAAAAAAAA+H8AAAAAAIBIQAAAAAAAgE9AAAAAAABATEAAAAAAAIBCQAAAAAAAIFNAAAAAAAAA+H8AAAAAAMBOQAAAAAAA4FJAAAAAAABAVkAAAAAAAABJQAAAAAAAQFRAAAAAAAAATEAAAAAAAAD4fwAAAAAAAFJAAAAAAAAA+H8AAAAAAAD4fwAAAAAAQFNAAAAAAAAA+H8AAAAAAAD4fwAAAAAAAFJAAAAAAAAA+H8=","dtype":"float64","shape":[25]},"confidence incorrect reject":{"__ndarray__":"AAAAAADgVEAAAAAAAABJQAAAAAAAQFRAAAAAAAAAVEAAAAAAAIBIQAAAAAAAIFJAAAAAAABAUEAAAAAAAGBUQAAAAAAAAPh/AAAAAABAUEAAAAAAAEBRQAAAAAAAAPh/AAAAAABATUAAAAAAAABRQAAAAAAAgFVAAAAAAAAA+H8AAAAAAEBSQAAAAAAAwEVAAAAAAAAATkAAAAAAAABZQAAAAAAA4FBAAAAAAAAAWUAAAAAAAABOQAAAAAAAQFNAAAAAAAAAS0A=","dtype":"float64","shape":[25]},"confidence when correct":{"__ndarray__":"AAAAAABAV0AAAAAAAMBSQAAAAAAAQFZAAAAAAAAAVkAAAAAAAEBQQAAAAAAAIFBAAAAAAACAUEAAAAAAAABPQAAAAAAAAFFAAAAAAADAUUAAAAAAAIBUQAAAAAAAAFNAAAAAAADgU0AAAAAAAIBLQAAAAAAAQFVAAAAAAACAUUAAAAAAAEBLQAAAAAAAIFZAAAAAAADgVUAAAAAAAABZQAAAAAAAQFNAAAAAAAAAWUAAAAAAAABUQAAAAAAAYFFAAAAAAABAVEA=","dtype":"float64","shape":[25]},"confidence when correct hit":{"__ndarray__":"AAAAAADAVkAAAAAAAOBSQAAAAAAAYFZAAAAAAABgVkAAAAAAACBRQAAAAAAAwFFAAAAAAADAUEAAAAAAAABLQAAAAAAAoFFAAAAAAACgUkAAAAAAAIBUQAAAAAAAIFNAAAAAAAAAVEAAAAAAAABNQAAAAAAAQFVAAAAAAABAUUAAAAAAAGBRQAAAAAAAwFVAAAAAAAAAV0AAAAAAAABZQAAAAAAAgFFAAAAAAAAAWUAAAAAAAGBWQAAAAAAAAE9AAAAAAADAVUA=","dtype":"float64","shape":[25]},"confidence when incorrect":{"__ndarray__":"AAAAAACAVkAAAAAAAABJQAAAAAAAAFZAAAAAAAAAVEAAAAAAAIBIQAAAAAAAoFFAAAAAAAAAUEAAAAAAAIBOQAAAAAAAIFNAAAAAAABAUEAAAAAAAABQQAAAAAAA4FJAAAAAAACAT0AAAAAAAIBNQAAAAAAA4FRAAAAAAAAATEAAAAAAAEBSQAAAAAAAAFBAAAAAAAAATkAAAAAAAABZQAAAAAAAoFFAAAAAAAAAWUAAAAAAAABOQAAAAAAAYFJAAAAAAAAAS0A=","dtype":"float64","shape":[25]},"correct hit percentage":[65,90,90,100,60,80,90,45,80,100,70,90,95,85,75,40,100,70,100,100,60,100,100,65,100],"correct reject percentage":[80,90,95,75,65,20,75,90,100,50,55,100,65,75,55,100,40,90,70,50,80,95,75,25,40],"ess":[2,7,3,20,12,2,3,9,10,7,19,0,8,4,7,14,12,10,11,12,1,6,4,6,2],"gender":["f","m","f","f","f","f","m","m","f","f","f","f","f","f","f","f","f","f","m","m","f","m","f","f","f"],"index":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"insomnia":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"participant number":[8,16,18,22,27,28,30,33,34,35,38,41,46,49,55,71,76,77,78,80,89,90,93,100,101],"percent correct":{"__ndarray__":"AAAAAAAgUkAAAAAAAIBWQAAAAAAAIFdAAAAAAADgVUAAAAAAAEBPQAAAAAAAAElAAAAAAACgVEAAAAAAAOBQQAAAAAAAgFZAAAAAAADAUkAAAAAAAEBPQAAAAAAAwFdAAAAAAAAAVEAAAAAAAABUQAAAAAAAQFBAAAAAAACAUUAAAAAAAIBRQAAAAAAAAFRAAAAAAABAVUAAAAAAAMBSQAAAAAAAgFFAAAAAAABgWEAAAAAAAOBVQAAAAAAAgEZAAAAAAACAUUA=","dtype":"float64","shape":[25]},"psqi":[13,11,9,8,9,14,9,9,12,8,5,7,12,13,13,11,4,10,6,7,8,9,7,15,7],"sci":[9,4,10,13,13,15,16,14,14,14,14,15,10,14,5,0,16,11,14,12,14,14,16,1,14]},"selected":{"id":"1186","type":"Selection"},"selection_policy":{"id":"1185","type":"UnionRenderers"}},"id":"1152","type":"ColumnDataSource"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1155","type":"Circle"},{"attributes":{"fill_color":{"value":"orange"},"line_color":{"value":"orange"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1154","type":"Circle"},{"attributes":{},"id":"1146","type":"BasicTickFormatter"},{"attributes":{},"id":"1122","type":"PanTool"},{"attributes":{"source":{"id":"1137","type":"ColumnDataSource"}},"id":"1142","type":"CDSView"},{"attributes":{"data_source":{"id":"1137","type":"ColumnDataSource"},"glyph":{"id":"1139","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1140","type":"Circle"},"selection_glyph":null,"view":{"id":"1142","type":"CDSView"}},"id":"1141","type":"GlyphRenderer"},{"attributes":{},"id":"1123","type":"WheelZoomTool"},{"attributes":{"callback":null},"id":"1106","type":"DataRange1d"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1140","type":"Circle"},{"attributes":{"overlay":{"id":"1149","type":"BoxAnnotation"}},"id":"1124","type":"BoxZoomTool"},{"attributes":{},"id":"1185","type":"UnionRenderers"},{"attributes":{"callback":null,"data":{"age":[42,45,16,21,18,28,38,17,25,22,41,53,43,23,19,45,43,35,24,64,36,35,43,44,29,22,46,35,53,29,31,21,42,23,54,24,21,21,43,50,53,16,67,36,34,42,46,69,31,44,25,45,47,33,18,74,21,45,37,41,41,34,39,18,31,26,66,62,22,41,46,56,23,70,24,40,33],"confidence correct reject":{"__ndarray__":"AAAAAACARUAAAAAAAABUQAAAAAAAAEtAAAAAAAAASUAAAAAAAABUQAAAAAAAgFdAAAAAAADAU0AAAAAAACBTQAAAAAAAQFVAAAAAAACAUUAAAAAAAOBQQAAAAAAAAExAAAAAAACASEAAAAAAAKBRQAAAAAAAgFBAAAAAAACATkAAAAAAAABQQAAAAAAAoFJAAAAAAAAAVEAAAAAAAIBQQAAAAAAAgFBAAAAAAAAAM0AAAAAAAIBEQAAAAAAAwFNAAAAAAABAUEAAAAAAAEBTQAAAAAAAAFlAAAAAAABAU0AAAAAAAMBHQAAAAAAAIFBAAAAAAABAVEAAAAAAAIBRQAAAAAAAIFRAAAAAAABAUUAAAAAAAGBTQAAAAAAAgFJAAAAAAAAATEAAAAAAAGBSQAAAAAAAAFFAAAAAAADAV0AAAAAAAABRQAAAAAAAAElAAAAAAABAUUAAAAAAAIBLQAAAAAAAYFJAAAAAAACAUkAAAAAAAABXQAAAAAAAoFNAAAAAAACAVkAAAAAAAEBRQAAAAAAAQE1AAAAAAACAT0AAAAAAAOBRQAAAAAAAQE1AAAAAAACAUEAAAAAAAIBPQAAAAAAAoFJAAAAAAAAAU0AAAAAAAOBUQAAAAAAAgFFAAAAAAACAVUAAAAAAAMBRQAAAAAAAwE1AAAAAAADAVkAAAAAAAABZQAAAAAAAgFRAAAAAAACAUkAAAAAAAKBSQAAAAAAAAFJAAAAAAAAAVEAAAAAAAABUQAAAAAAA4FBAAAAAAABAU0AAAAAAAMBVQAAAAAAAgFFAAAAAAAAAVUAAAAAAAAA/QA==","dtype":"float64","shape":[77]},"confidence incorrect hit":{"__ndarray__":"AAAAAABARkAAAAAAAMBLQAAAAAAAgExAAAAAAAAAUEAAAAAAAMBUQAAAAAAAQFVAAAAAAADARUAAAAAAAOBVQAAAAAAAAPh/AAAAAACAUUAAAAAAAMBLQAAAAAAAgEBAAAAAAAAAPUAAAAAAAABEQAAAAAAAAElAAAAAAAAA+H8AAAAAAIBLQAAAAAAAwEFAAAAAAADAUEAAAAAAAAA5QAAAAAAAAPh/AAAAAACAPEAAAAAAAAA7QAAAAAAAAExAAAAAAACASkAAAAAAAABWQAAAAAAAAFJAAAAAAAAAPUAAAAAAAABAQAAAAAAAAPh/AAAAAACASEAAAAAAAAA9QAAAAAAAwFRAAAAAAACAR0AAAAAAAOBUQAAAAAAAgERAAAAAAABAUkAAAAAAAMBLQAAAAAAAQFZAAAAAAAAgUkAAAAAAAIBLQAAAAAAAAD5AAAAAAAAAHEAAAAAAAIA8QAAAAAAAgEVAAAAAAAAA+H8AAAAAAOBSQAAAAAAAQFBAAAAAAAAA+H8AAAAAAMBHQAAAAAAAAPh/AAAAAADASUAAAAAAAAD4fwAAAAAAAENAAAAAAADASUAAAAAAAIBLQAAAAAAAAFRAAAAAAADAUEAAAAAAAABRQAAAAAAAwE1AAAAAAADATkAAAAAAAABKQAAAAAAAgExAAAAAAAAAV0AAAAAAAAD4fwAAAAAAAFZAAAAAAACAUEAAAAAAAAD4fwAAAAAAAExAAAAAAACATkAAAAAAAMBSQAAAAAAAQEpAAAAAAACgUEAAAAAAAGBVQAAAAAAAQFRAAAAAAACAQkAAAAAAAAA7QA==","dtype":"float64","shape":[77]},"confidence incorrect reject":{"__ndarray__":"AAAAAACASEAAAAAAAMBSQAAAAAAAgEpAAAAAAAAASUAAAAAAAAD4fwAAAAAAgE5AAAAAAAAANUAAAAAAAAA7QAAAAAAAAPh/AAAAAABAUEAAAAAAAEBKQAAAAAAAgEhAAAAAAAAAQkAAAAAAAKBQQAAAAAAAQElAAAAAAAAAS0AAAAAAAIBNQAAAAAAAAPh/AAAAAAAA+H8AAAAAAAA4QAAAAAAAwE9AAAAAAADAREAAAAAAAIBGQAAAAAAAQEVAAAAAAACASkAAAAAAAABUQAAAAAAAwFZAAAAAAAAAQEAAAAAAAKBTQAAAAAAAgEVAAAAAAAAAQkAAAAAAAAA9QAAAAAAAAEJAAAAAAAAAREAAAAAAAEBRQAAAAAAAQFJAAAAAAAAAUUAAAAAAAIBRQAAAAAAAQFBAAAAAAABAUEAAAAAAAIBOQAAAAAAAAERAAAAAAAAATkAAAAAAAABKQAAAAAAAwEpAAAAAAAAA+H8AAAAAAIBPQAAAAAAAoFFAAAAAAAAAREAAAAAAAMBVQAAAAAAAAPh/AAAAAABAUUAAAAAAAMBUQAAAAAAAQFBAAAAAAACATEAAAAAAAEBJQAAAAAAAwFRAAAAAAAAAMUAAAAAAAMBUQAAAAAAAgERAAAAAAACAUkAAAAAAAABNQAAAAAAAAElAAAAAAABAVkAAAAAAAABJQAAAAAAAgFRAAAAAAACATEAAAAAAAIBUQAAAAAAAgE9AAAAAAACATEAAAAAAAABUQAAAAAAAYFBAAAAAAABgU0AAAAAAAABUQAAAAAAAgE5AAAAAAAAASkAAAAAAAKBUQA==","dtype":"float64","shape":[77]},"confidence when correct":{"__ndarray__":"AAAAAACASUAAAAAAAKBTQAAAAAAAgExAAAAAAAAATkAAAAAAAABUQAAAAAAAwFhAAAAAAACAU0AAAAAAAKBTQAAAAAAAgFZAAAAAAACAUUAAAAAAAIBSQAAAAAAAgEdAAAAAAAAASkAAAAAAAABVQAAAAAAAgE9AAAAAAAAAT0AAAAAAAMBNQAAAAAAA4FJAAAAAAACAU0AAAAAAAIBPQAAAAAAAQFRAAAAAAAAAOEAAAAAAAABJQAAAAAAAQFRAAAAAAADAUEAAAAAAAEBTQAAAAAAAAFlAAAAAAAAAUUAAAAAAAABIQAAAAAAAgFJAAAAAAACAVEAAAAAAAMBQQAAAAAAAoFRAAAAAAADAUEAAAAAAAABWQAAAAAAAwFRAAAAAAADAT0AAAAAAACBUQAAAAAAAwFFAAAAAAADAV0AAAAAAAKBTQAAAAAAAQEpAAAAAAABAUUAAAAAAAIBOQAAAAAAAgFBAAAAAAACAUkAAAAAAAABXQAAAAAAAAFRAAAAAAAAAV0AAAAAAAMBUQAAAAAAAQE5AAAAAAAAgUkAAAAAAAGBYQAAAAAAAAFFAAAAAAADAUEAAAAAAAEBQQAAAAAAAgFRAAAAAAADAUkAAAAAAAIBXQAAAAAAAQFNAAAAAAAAAV0AAAAAAAEBUQAAAAAAAAE1AAAAAAADgVkAAAAAAAABZQAAAAAAAQFVAAAAAAACAUkAAAAAAAOBTQAAAAAAAoFFAAAAAAAAAUkAAAAAAAEBVQAAAAAAAAFBAAAAAAABAU0AAAAAAAIBSQAAAAAAAQFBAAAAAAABAVEAAAAAAAEBUQA==","dtype":"float64","shape":[77]},"confidence when correct hit":{"__ndarray__":"AAAAAADASUAAAAAAAMBSQAAAAAAAgFFAAAAAAADAT0AAAAAAACBTQAAAAAAAAFlAAAAAAABAU0AAAAAAACBUQAAAAAAAgFZAAAAAAACAUUAAAAAAACBTQAAAAAAAAERAAAAAAAAASkAAAAAAAABWQAAAAAAAAE9AAAAAAAAAUUAAAAAAAIBNQAAAAAAA4FJAAAAAAAAAUUAAAAAAAABJQAAAAAAAAFZAAAAAAACAPUAAAAAAAGBQQAAAAAAAwFRAAAAAAADAUEAAAAAAAIBTQAAAAAAAIFJAAAAAAABAT0AAAAAAAABLQAAAAAAAwFJAAAAAAACAVEAAAAAAAIBQQAAAAAAAwFRAAAAAAADAUEAAAAAAAIBWQAAAAAAAQFhAAAAAAABAUEAAAAAAAABVQAAAAAAAgFJAAAAAAAAgV0AAAAAAAABVQAAAAAAAgEtAAAAAAACAUUAAAAAAAOBQQAAAAAAAQE1AAAAAAACgUkAAAAAAAABXQAAAAAAAAFRAAAAAAACAWEAAAAAAAMBVQAAAAAAAwE5AAAAAAAAgVEAAAAAAAABZQAAAAAAAgFFAAAAAAADgUEAAAAAAAIBQQAAAAAAAoFZAAAAAAACAUkAAAAAAAOBXQAAAAAAAAFRAAAAAAACgV0AAAAAAAEBUQAAAAAAAgExAAAAAAABAV0AAAAAAAABZQAAAAAAAQFVAAAAAAADgUEAAAAAAAEBUQAAAAAAAgFBAAAAAAACAS0AAAAAAAIBWQAAAAAAAgE9AAAAAAABAU0AAAAAAAGBQQAAAAAAAwE5AAAAAAACASkAAAAAAAABUQA==","dtype":"float64","shape":[77]},"confidence when incorrect":{"__ndarray__":"AAAAAACASEAAAAAAAMBQQAAAAAAAQEtAAAAAAAAASUAAAAAAAMBUQAAAAAAAQFBAAAAAAAAAQkAAAAAAAOBQQAAAAAAAAPh/AAAAAACAUUAAAAAAAMBLQAAAAAAAAEZAAAAAAAAAPUAAAAAAAEBLQAAAAAAAAElAAAAAAAAAS0AAAAAAAIBMQAAAAAAAwEFAAAAAAADAUEAAAAAAAIA4QAAAAAAAwE9AAAAAAACAQUAAAAAAAIBGQAAAAAAAAEtAAAAAAACASkAAAAAAAABVQAAAAAAAwFZAAAAAAAAAP0AAAAAAAIBJQAAAAAAAgEVAAAAAAACASEAAAAAAAAA9QAAAAAAAAFNAAAAAAAAAREAAAAAAAMBTQAAAAAAAwEtAAAAAAAAAUUAAAAAAAEBQQAAAAAAAAFFAAAAAAABAUEAAAAAAAABNQAAAAAAAgEFAAAAAAADATUAAAAAAAABJQAAAAAAAwEdAAAAAAAAA+H8AAAAAAGBSQAAAAAAAgFFAAAAAAAAAREAAAAAAAMBQQAAAAAAAAPh/AAAAAADATkAAAAAAAMBUQAAAAAAAAERAAAAAAACASkAAAAAAAIBLQAAAAAAAQFRAAAAAAAAAUEAAAAAAAMBRQAAAAAAAgE1AAAAAAADAUEAAAAAAAABNQAAAAAAAAElAAAAAAADAVkAAAAAAAABJQAAAAAAAQFVAAAAAAAAAUEAAAAAAAIBUQAAAAAAAwE1AAAAAAAAATkAAAAAAAMBSQAAAAAAAwE1AAAAAAACAUkAAAAAAAABUQAAAAAAAQFRAAAAAAACASUAAAAAAAEBSQA==","dtype":"float64","shape":[77]},"correct hit percentage":[80,80,70,70,90,95,90,90,100,80,90,95,95,90,55,100,65,90,55,75,100,70,90,95,95,70,80,50,65,100,85,85,90,90,90,85,85,90,95,70,95,85,95,90,90,100,80,95,100,90,100,70,90,85,80,85,40,80,90,90,80,90,75,85,100,95,60,100,85,35,95,70,70,90,70,75,85],"correct reject percentage":[65,90,80,65,100,80,95,90,100,60,80,60,90,80,60,85,65,100,100,85,80,90,85,90,55,65,75,95,80,70,90,90,90,85,70,95,75,80,75,85,75,85,75,65,90,100,90,80,95,95,100,50,100,70,75,80,40,95,80,85,75,35,70,85,85,75,85,80,95,75,80,50,85,85,80,65,40],"ess":[5,1,3,4,5,12,4,4,11,6,3,11,10,12,6,13,12,5,10,4,4,6,3,0,12,6,5,9,7,6,10,18,11,8,16,7,9,11,4,7,4,11,12,3,3,4,11,1,4,2,9,1,2,12,6,5,5,4,9,3,8,6,10,21,5,5,9,1,8,11,5,7,10,7,15,7,7],"gender":["f","f","f","f","f","f","f","m","f","f","m","m","m","f","m","f","f","m","m","f","f","m","f","m","f","m","f","f","m","m","f","f","f","f","m","f","f","f","f","m","f","f","f","m","f","f","f","f","f","f","f","f","f","f","f","f","m","f","f","m","f","f","f","f","f","m","m","m","m","f","m","f","f","f","f","f","f"],"index":[25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101],"insomnia":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"participant number":[1,2,3,4,5,6,7,9,10,11,12,13,14,15,17,19,20,21,23,24,25,26,29,31,32,36,37,39,40,42,43,44,45,48,50,51,52,53,54,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,72,73,74,75,79,81,82,83,84,85,86,87,88,91,92,94,95,96,97,98,99,102,103],"percent correct":{"__ndarray__":"AAAAAAAgUkAAAAAAAEBVQAAAAAAAwFJAAAAAAADgUEAAAAAAAMBXQAAAAAAA4FVAAAAAAAAgV0AAAAAAAIBWQAAAAAAAAFlAAAAAAACAUUAAAAAAAEBVQAAAAAAAYFNAAAAAAAAgV0AAAAAAAEBVQAAAAAAAwExAAAAAAAAgV0AAAAAAAEBQQAAAAAAAwFdAAAAAAABgU0AAAAAAAABUQAAAAAAAgFZAAAAAAAAAVEAAAAAAAOBVQAAAAAAAIFdAAAAAAADAUkAAAAAAAOBQQAAAAAAAYFNAAAAAAAAgUkAAAAAAACBSQAAAAAAAQFVAAAAAAADgVUAAAAAAAOBVQAAAAAAAgFZAAAAAAADgVUAAAAAAAABUQAAAAAAAgFZAAAAAAAAAVEAAAAAAAEBVQAAAAAAAQFVAAAAAAABgU0AAAAAAAEBVQAAAAAAAQFVAAAAAAABAVUAAAAAAAGBTQAAAAAAAgFZAAAAAAAAAWUAAAAAAAEBVQAAAAAAA4FVAAAAAAABgWEAAAAAAACBXQAAAAAAAAFlAAAAAAAAATkAAAAAAAMBXQAAAAAAAYFNAAAAAAABgU0AAAAAAAKBUQAAAAAAAAERAAAAAAADgVUAAAAAAAEBVQAAAAAAA4FVAAAAAAABgU0AAAAAAAEBPQAAAAAAAIFJAAAAAAABAVUAAAAAAACBXQAAAAAAAQFVAAAAAAAAgUkAAAAAAAIBWQAAAAAAAgFZAAAAAAACAS0AAAAAAAOBVQAAAAAAAAE5AAAAAAABgU0AAAAAAAOBVQAAAAAAAwFJAAAAAAACAUUAAAAAAAEBPQA==","dtype":"float64","shape":[77]},"psqi":[1,5,1,5,7,7,3,3,10,4,5,2,2,2,5,2,3,3,4,9,5,2,1,4,8,2,2,6,3,1,5,7,3,6,6,1,6,4,4,3,5,2,7,4,0,5,1,1,4,1,8,4,2,7,4,1,7,4,5,6,4,2,3,4,3,1,5,2,1,1,3,6,8,8,2,4,5],"sci":[29,19,23,26,21,19,28,29,17,22,28,31,31,32,25,30,28,30,22,20,26,32,32,24,26,30,28,21,29,32,26,26,23,18,22,29,20,27,19,29,24,29,17,26,30,17,25,31,27,32,28,25,30,21,29,20,22,23,20,17,27,27,22,25,30,32,30,32,28,31,29,26,20,19,31,22,24]},"selected":{"id":"1165","type":"Selection"},"selection_policy":{"id":"1164","type":"UnionRenderers"}},"id":"1137","type":"ColumnDataSource"},{"attributes":{},"id":"1125","type":"SaveTool"},{"attributes":{},"id":"1110","type":"LinearScale"},{"attributes":{},"id":"1108","type":"LinearScale"},{"attributes":{"callback":null},"id":"1104","type":"DataRange1d"},{"attributes":{},"id":"1164","type":"UnionRenderers"},{"attributes":{},"id":"1186","type":"Selection"},{"attributes":{},"id":"1127","type":"HelpTool"},{"attributes":{},"id":"1113","type":"BasicTicker"},{"attributes":{"fill_color":{"value":"#1f77b4"},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1139","type":"Circle"},{"attributes":{"callback":null,"tooltips":[["gender","@gender"],["age","@age"]]},"id":"1128","type":"HoverTool"},{"attributes":{"axis_label":"confidence when correct","formatter":{"id":"1146","type":"BasicTickFormatter"},"ticker":{"id":"1113","type":"BasicTicker"}},"id":"1112","type":"LinearAxis"},{"attributes":{},"id":"1126","type":"ResetTool"}],"root_ids":["1103"]},"title":"Bokeh Application","version":"1.2.0"}};
-  var render_items = [{"docid":"4f98e986-b0c7-4cd5-8fd6-52f0dc922189","roots":{"1103":"cff2b9d8-d194-4fdc-be99-f34d87ead3b7"}}];
-  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
-
-  }
-  if (root.Bokeh !== undefined) {
-    embed_document(root);
-  } else {
-    var attempts = 0;
-    var timer = setInterval(function(root) {
-      if (root.Bokeh !== undefined) {
-        embed_document(root);
-        clearInterval(timer);
-      }
-      attempts++;
-      if (attempts > 100) {
-        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-        clearInterval(timer);
-      }
-    }, 10, root)
-  }
-})(window);
-</script>
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;ACGT&#39;</pre>
 </div>
 
 </div>
@@ -14006,8 +13477,90 @@ var element = $('#a73e76a1-d1fb-4247-bcfa-80132fb21306');
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Adding-tooltips">Adding tooltips<a class="anchor-link" href="#Adding-tooltips">&#182;</a></h2><p>Bokeh's interactivity is one of its greatest strengths. While we are plotting confidences when correct and incorrect, we have colored with insomniac status. We might also like to have access to other information in our (tidy) data source if we hover over a glyph. Let's say we want to know the participant number, gender, and age of each participant. We can tell Bokeh to give us this information by adding <strong>tooltips</strong> when we instantiate the figure.</p>
-<p>The syntax for a tooltip is a list of 2-tuples, where each tuple represents the tooltip you want. The first entry in the tuple is the label and the second is the column from the data source that has the values. The second entry must be preceded with an <code>@</code> symbol signifying that it is a field in the data source and not field that is intrinsic to the plot, which is preceded with a <code>$</code> sign. If there are spaces in the column heading, enclose the column name in braces. (See the <a href="https://bokeh.pydata.org/en/latest/docs/user_guide/tools.html#basic-tooltips">documentation for tooltip specification</a> for more information.)</p>
+<p><br /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise-1.3:-RNA-secondary-structure-validator">Exercise 1.3: RNA secondary structure validator<a class="anchor-link" href="#Exercise-1.3:-RNA-secondary-structure-validator">&#182;</a></h2><p>In this problem, we will write a function that takes an RNA sequence and an RNA secondary structure and decides if the secondary structure is possible given the sequence. Remember, single stranded RNA can fold back on itself and form base pairs. An RNA secondary structure is simply the list of base pairs that are present. We will represent the base pairs in dot-parentheses notation. For example, a sequence/secondary structure pair would be</p>
+
+<pre><code>0123456789
+GCAUCUAUGC
+(((....)))
+
+</code></pre>
+<p>For convenience of discussion, I have labeled the indices of the bases on the top row. In this case, base <code>0</code>, a <code>G</code>, pairs with base <code>9</code>, a <code>C</code>. Base <code>1</code> pairs with base <code>8</code>, and base <code>2</code> pairs with base <code>7</code>.  Bases <code>3</code>, <code>4</code>, <code>5</code>, and <code>6</code> are unpaired. (This structure is aptly called a "hairpin.")</p>
+<p>I hope the dot-parentheses notation is clear. An open parenthesis is paired with the parenthesis that closes it. Dots are unpaired.</p>
+<p>So, the goal of our function is to check all base pairs present in a secondary structure and see if they are with <code>G-C</code>, <code>A-U</code>, or (optionally) <code>G-U</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>a)</strong> Write a function to make sure that the number of closed parentheses is equal to the number of open parentheses, a requirement for a valid secondary structure. It should return <code>True</code> if the parentheses are valid and <code>False</code> otherwise.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>b)</strong> Write a function that converts the dot-parens notation to a tuple of 2-tuples representing the base pairs.  We'll call this function <code>dotparen_to_bp()</code>. An example input/output of this function would be:</p>
+
+<pre><code>dotparen_to_bp('(((....)))')
+
+((0, 9), (1, 8), (2, 7))
+
+</code></pre>
+<p><em>Hint</em>: You should look at <a href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">methods that are available for lists</a>. You might find the <code>append()</code> and <code>pop()</code> methods useful.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>c)</strong> Because of sterics, the minimal length of a hairpin loop is three bases. A hairpin loop is a series of unpaired bases that are closed by a base pair. For example, the secondary structure <code>(.(....).)</code> has a single hairpin loop of length 4. So, the structure <code>((((..))))</code> is not valid because it has a hairpin loop of only two bases.</p>
+<p>Write a function that verifies that a list of base pairs (as outputted by <code>dotparen_to_bp()</code>) satisfies the minimal hairpin length requirement.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>d)</strong> Now write your validator function. The function definition should look like this:</p>
+
+<pre><code>def rna_ss_validator(seq, sec_struc, wobble=True):
+
+</code></pre>
+<p>It should return <code>True</code> if the sequence is commensurate with a valid secondary structure and <code>False</code> otherwise. The <code>wobble</code> keyword argument is <code>True</code> if we allow wobble pairs (<code>G</code> paired with <code>U</code>). Here are some expected results:</p>
+<p>Returns <code>True</code>:</p>
+
+<pre><code>rna_ss_validator('GCAUCUAUGC', '(((....)))')
+rna_ss_validator('GCAUCUAUGU', '(((....)))') 
+rna_ss_validator('GCAUCUAUGU', '(.(....).)') 
+
+</code></pre>
+<p>Returns <code>False</code>:</p>
+
+<pre><code>rna_ss_validator('GCAUCUACGC', '(((....)))')
+rna_ss_validator('GCAUCUAUGU', '(((....)))', wobble=False) 
+rna_ss_validator('GCAUCUAUGU', '(.(....)).') 
+rna_ss_validator('GCCCUUGGCA', '(.((..))).')</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Exercise-1.3:-solution">Exercise 1.3: solution<a class="anchor-link" href="#Exercise-1.3:-solution">&#182;</a></h3><p><strong>a)</strong> This part of the validation is simple.  We just need to make sure the number of open and closed parentheses are equal.</p>
 
 </div>
 </div>
@@ -14017,114 +13570,15 @@ var element = $('#a73e76a1-d1fb-4247-bcfa-80132fb21306');
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># For convenience</span>
-<span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;confidence when correct&#39;</span>
-<span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;confidence when incorrect&#39;</span>
-
-<span class="c1"># Make figure</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span>
-    <span class="n">width</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
-    <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
-    <span class="n">x_axis_label</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
-    <span class="n">y_axis_label</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
-    <span class="n">tooltips</span><span class="o">=</span><span class="p">[</span>
-        <span class="p">(</span><span class="s1">&#39;p-number&#39;</span><span class="p">,</span> <span class="s1">&#39;@{participant number}&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;@gender&#39;</span><span class="p">),</span> 
-        <span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;@age&#39;</span><span class="p">),</span> 
-    <span class="p">]</span>
-<span class="p">)</span>
-
-<span class="c1"># Add glyphs</span>
-<span class="n">p</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span>
-    <span class="n">source</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">],</span> <span class="p">:],</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
-    <span class="n">legend</span><span class="o">=</span><span class="s1">&#39;normal sleepers&#39;</span>
-<span class="p">)</span>
-
-<span class="n">p</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span>
-    <span class="n">source</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;insomnia&#39;</span><span class="p">],</span> <span class="p">:],</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span>
-    <span class="n">legend</span><span class="o">=</span><span class="s1">&#39;insomniacs&#39;</span>
-<span class="p">)</span>
-
-<span class="n">p</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="s1">&#39;top_left&#39;</span>
-<span class="n">p</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">click_policy</span> <span class="o">=</span> <span class="s1">&#39;hide&#39;</span>
-
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">parens_count</span><span class="p">(</span><span class="n">struc</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ensures there are equal number of open and closed parentheses</span>
+<span class="sd">    in structure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">struc</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">struc</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-
-
-
-
-
-
-  <div class="bk-root" id="1b552e7e-3d5d-41fe-91ac-41232b9dc898" data-root-id="1320"></div>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-
-
-<div id="07d31fa8-5ac8-4aeb-b1df-701fa510225b"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#07d31fa8-5ac8-4aeb-b1df-701fa510225b');
-(function(root) {
-  function embed_document(root) {
-    
-  var docs_json = {"ae324060-0469-41e3-889f-95396847fedd":{"roots":{"references":[{"attributes":{"below":[{"id":"1329","type":"LinearAxis"}],"center":[{"id":"1333","type":"Grid"},{"id":"1338","type":"Grid"},{"id":"1367","type":"Legend"}],"left":[{"id":"1334","type":"LinearAxis"}],"plot_height":300,"plot_width":400,"renderers":[{"id":"1358","type":"GlyphRenderer"},{"id":"1373","type":"GlyphRenderer"}],"title":{"id":"1360","type":"Title"},"toolbar":{"id":"1346","type":"Toolbar"},"x_range":{"id":"1321","type":"DataRange1d"},"x_scale":{"id":"1325","type":"LinearScale"},"y_range":{"id":"1323","type":"DataRange1d"},"y_scale":{"id":"1327","type":"LinearScale"}},"id":"1320","subtype":"Figure","type":"Plot"},{"attributes":{"ticker":{"id":"1330","type":"BasicTicker"}},"id":"1333","type":"Grid"},{"attributes":{"axis_label":"confidence when incorrect","formatter":{"id":"1365","type":"BasicTickFormatter"},"ticker":{"id":"1335","type":"BasicTicker"}},"id":"1334","type":"LinearAxis"},{"attributes":{},"id":"1414","type":"Selection"},{"attributes":{},"id":"1335","type":"BasicTicker"},{"attributes":{"label":{"value":"normal sleepers"},"renderers":[{"id":"1358","type":"GlyphRenderer"}]},"id":"1368","type":"LegendItem"},{"attributes":{"dimension":1,"ticker":{"id":"1335","type":"BasicTicker"}},"id":"1338","type":"Grid"},{"attributes":{"label":{"value":"insomniacs"},"renderers":[{"id":"1373","type":"GlyphRenderer"}]},"id":"1384","type":"LegendItem"},{"attributes":{},"id":"1382","type":"Selection"},{"attributes":{},"id":"1381","type":"UnionRenderers"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1339","type":"PanTool"},{"id":"1340","type":"WheelZoomTool"},{"id":"1341","type":"BoxZoomTool"},{"id":"1342","type":"SaveTool"},{"id":"1343","type":"ResetTool"},{"id":"1344","type":"HelpTool"},{"id":"1345","type":"HoverTool"}]},"id":"1346","type":"Toolbar"},{"attributes":{"click_policy":"hide","items":[{"id":"1368","type":"LegendItem"},{"id":"1384","type":"LegendItem"}],"location":"top_left"},"id":"1367","type":"Legend"},{"attributes":{},"id":"1339","type":"PanTool"},{"attributes":{"source":{"id":"1369","type":"ColumnDataSource"}},"id":"1374","type":"CDSView"},{"attributes":{},"id":"1340","type":"WheelZoomTool"},{"attributes":{"data_source":{"id":"1369","type":"ColumnDataSource"},"glyph":{"id":"1371","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1372","type":"Circle"},"selection_glyph":null,"view":{"id":"1374","type":"CDSView"}},"id":"1373","type":"GlyphRenderer"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1366","type":"BoxAnnotation"},{"attributes":{},"id":"1365","type":"BasicTickFormatter"},{"attributes":{"overlay":{"id":"1366","type":"BoxAnnotation"}},"id":"1341","type":"BoxZoomTool"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1372","type":"Circle"},{"attributes":{},"id":"1342","type":"SaveTool"},{"attributes":{"fill_color":{"value":"orange"},"line_color":{"value":"orange"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1371","type":"Circle"},{"attributes":{"callback":null,"data":{"age":[39,42,31,35,74,61,32,62,33,53,41,36,40,24,32,40,61,42,31,28,26,45,28,44,28],"confidence correct reject":{"__ndarray__":"AAAAAABAV0AAAAAAAKBRQAAAAAAAgFVAAAAAAADAUUAAAAAAAIBOQAAAAAAAAD9AAAAAAACAUEAAAAAAAEBQQAAAAAAAIFBAAAAAAABATkAAAAAAAEBSQAAAAAAAwFJAAAAAAADAU0AAAAAAAIBIQAAAAAAAQFVAAAAAAACAUUAAAAAAAEBGQAAAAAAAoFZAAAAAAABAVEAAAAAAAABZQAAAAAAAgFRAAAAAAAAAWUAAAAAAAMBQQAAAAAAAwFVAAAAAAAAAUUA=","dtype":"float64","shape":[25]},"confidence incorrect hit":{"__ndarray__":"AAAAAACAVkAAAAAAAMBLQAAAAAAAgFZAAAAAAAAA+H8AAAAAAIBIQAAAAAAAgE9AAAAAAABATEAAAAAAAIBCQAAAAAAAIFNAAAAAAAAA+H8AAAAAAMBOQAAAAAAA4FJAAAAAAABAVkAAAAAAAABJQAAAAAAAQFRAAAAAAAAATEAAAAAAAAD4fwAAAAAAAFJAAAAAAAAA+H8AAAAAAAD4fwAAAAAAQFNAAAAAAAAA+H8AAAAAAAD4fwAAAAAAAFJAAAAAAAAA+H8=","dtype":"float64","shape":[25]},"confidence incorrect reject":{"__ndarray__":"AAAAAADgVEAAAAAAAABJQAAAAAAAQFRAAAAAAAAAVEAAAAAAAIBIQAAAAAAAIFJAAAAAAABAUEAAAAAAAGBUQAAAAAAAAPh/AAAAAABAUEAAAAAAAEBRQAAAAAAAAPh/AAAAAABATUAAAAAAAABRQAAAAAAAgFVAAAAAAAAA+H8AAAAAAEBSQAAAAAAAwEVAAAAAAAAATkAAAAAAAABZQAAAAAAA4FBAAAAAAAAAWUAAAAAAAABOQAAAAAAAQFNAAAAAAAAAS0A=","dtype":"float64","shape":[25]},"confidence when correct":{"__ndarray__":"AAAAAABAV0AAAAAAAMBSQAAAAAAAQFZAAAAAAAAAVkAAAAAAAEBQQAAAAAAAIFBAAAAAAACAUEAAAAAAAABPQAAAAAAAAFFAAAAAAADAUUAAAAAAAIBUQAAAAAAAAFNAAAAAAADgU0AAAAAAAIBLQAAAAAAAQFVAAAAAAACAUUAAAAAAAEBLQAAAAAAAIFZAAAAAAADgVUAAAAAAAABZQAAAAAAAQFNAAAAAAAAAWUAAAAAAAABUQAAAAAAAYFFAAAAAAABAVEA=","dtype":"float64","shape":[25]},"confidence when correct hit":{"__ndarray__":"AAAAAADAVkAAAAAAAOBSQAAAAAAAYFZAAAAAAABgVkAAAAAAACBRQAAAAAAAwFFAAAAAAADAUEAAAAAAAABLQAAAAAAAoFFAAAAAAACgUkAAAAAAAIBUQAAAAAAAIFNAAAAAAAAAVEAAAAAAAABNQAAAAAAAQFVAAAAAAABAUUAAAAAAAGBRQAAAAAAAwFVAAAAAAAAAV0AAAAAAAABZQAAAAAAAgFFAAAAAAAAAWUAAAAAAAGBWQAAAAAAAAE9AAAAAAADAVUA=","dtype":"float64","shape":[25]},"confidence when incorrect":{"__ndarray__":"AAAAAACAVkAAAAAAAABJQAAAAAAAAFZAAAAAAAAAVEAAAAAAAIBIQAAAAAAAoFFAAAAAAAAAUEAAAAAAAIBOQAAAAAAAIFNAAAAAAABAUEAAAAAAAABQQAAAAAAA4FJAAAAAAACAT0AAAAAAAIBNQAAAAAAA4FRAAAAAAAAATEAAAAAAAEBSQAAAAAAAAFBAAAAAAAAATkAAAAAAAABZQAAAAAAAoFFAAAAAAAAAWUAAAAAAAABOQAAAAAAAYFJAAAAAAAAAS0A=","dtype":"float64","shape":[25]},"correct hit percentage":[65,90,90,100,60,80,90,45,80,100,70,90,95,85,75,40,100,70,100,100,60,100,100,65,100],"correct reject percentage":[80,90,95,75,65,20,75,90,100,50,55,100,65,75,55,100,40,90,70,50,80,95,75,25,40],"ess":[2,7,3,20,12,2,3,9,10,7,19,0,8,4,7,14,12,10,11,12,1,6,4,6,2],"gender":["f","m","f","f","f","f","m","m","f","f","f","f","f","f","f","f","f","f","m","m","f","m","f","f","f"],"index":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"insomnia":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"participant number":[8,16,18,22,27,28,30,33,34,35,38,41,46,49,55,71,76,77,78,80,89,90,93,100,101],"percent correct":{"__ndarray__":"AAAAAAAgUkAAAAAAAIBWQAAAAAAAIFdAAAAAAADgVUAAAAAAAEBPQAAAAAAAAElAAAAAAACgVEAAAAAAAOBQQAAAAAAAgFZAAAAAAADAUkAAAAAAAEBPQAAAAAAAwFdAAAAAAAAAVEAAAAAAAABUQAAAAAAAQFBAAAAAAACAUUAAAAAAAIBRQAAAAAAAAFRAAAAAAABAVUAAAAAAAMBSQAAAAAAAgFFAAAAAAABgWEAAAAAAAOBVQAAAAAAAgEZAAAAAAACAUUA=","dtype":"float64","shape":[25]},"psqi":[13,11,9,8,9,14,9,9,12,8,5,7,12,13,13,11,4,10,6,7,8,9,7,15,7],"sci":[9,4,10,13,13,15,16,14,14,14,14,15,10,14,5,0,16,11,14,12,14,14,16,1,14]},"selected":{"id":"1414","type":"Selection"},"selection_policy":{"id":"1413","type":"UnionRenderers"}},"id":"1369","type":"ColumnDataSource"},{"attributes":{"callback":null,"data":{"age":[42,45,16,21,18,28,38,17,25,22,41,53,43,23,19,45,43,35,24,64,36,35,43,44,29,22,46,35,53,29,31,21,42,23,54,24,21,21,43,50,53,16,67,36,34,42,46,69,31,44,25,45,47,33,18,74,21,45,37,41,41,34,39,18,31,26,66,62,22,41,46,56,23,70,24,40,33],"confidence correct reject":{"__ndarray__":"AAAAAACARUAAAAAAAABUQAAAAAAAAEtAAAAAAAAASUAAAAAAAABUQAAAAAAAgFdAAAAAAADAU0AAAAAAACBTQAAAAAAAQFVAAAAAAACAUUAAAAAAAOBQQAAAAAAAAExAAAAAAACASEAAAAAAAKBRQAAAAAAAgFBAAAAAAACATkAAAAAAAABQQAAAAAAAoFJAAAAAAAAAVEAAAAAAAIBQQAAAAAAAgFBAAAAAAAAAM0AAAAAAAIBEQAAAAAAAwFNAAAAAAABAUEAAAAAAAEBTQAAAAAAAAFlAAAAAAABAU0AAAAAAAMBHQAAAAAAAIFBAAAAAAABAVEAAAAAAAIBRQAAAAAAAIFRAAAAAAABAUUAAAAAAAGBTQAAAAAAAgFJAAAAAAAAATEAAAAAAAGBSQAAAAAAAAFFAAAAAAADAV0AAAAAAAABRQAAAAAAAAElAAAAAAABAUUAAAAAAAIBLQAAAAAAAYFJAAAAAAACAUkAAAAAAAABXQAAAAAAAoFNAAAAAAACAVkAAAAAAAEBRQAAAAAAAQE1AAAAAAACAT0AAAAAAAOBRQAAAAAAAQE1AAAAAAACAUEAAAAAAAIBPQAAAAAAAoFJAAAAAAAAAU0AAAAAAAOBUQAAAAAAAgFFAAAAAAACAVUAAAAAAAMBRQAAAAAAAwE1AAAAAAADAVkAAAAAAAABZQAAAAAAAgFRAAAAAAACAUkAAAAAAAKBSQAAAAAAAAFJAAAAAAAAAVEAAAAAAAABUQAAAAAAA4FBAAAAAAABAU0AAAAAAAMBVQAAAAAAAgFFAAAAAAAAAVUAAAAAAAAA/QA==","dtype":"float64","shape":[77]},"confidence incorrect hit":{"__ndarray__":"AAAAAABARkAAAAAAAMBLQAAAAAAAgExAAAAAAAAAUEAAAAAAAMBUQAAAAAAAQFVAAAAAAADARUAAAAAAAOBVQAAAAAAAAPh/AAAAAACAUUAAAAAAAMBLQAAAAAAAgEBAAAAAAAAAPUAAAAAAAABEQAAAAAAAAElAAAAAAAAA+H8AAAAAAIBLQAAAAAAAwEFAAAAAAADAUEAAAAAAAAA5QAAAAAAAAPh/AAAAAACAPEAAAAAAAAA7QAAAAAAAAExAAAAAAACASkAAAAAAAABWQAAAAAAAAFJAAAAAAAAAPUAAAAAAAABAQAAAAAAAAPh/AAAAAACASEAAAAAAAAA9QAAAAAAAwFRAAAAAAACAR0AAAAAAAOBUQAAAAAAAgERAAAAAAABAUkAAAAAAAMBLQAAAAAAAQFZAAAAAAAAgUkAAAAAAAIBLQAAAAAAAAD5AAAAAAAAAHEAAAAAAAIA8QAAAAAAAgEVAAAAAAAAA+H8AAAAAAOBSQAAAAAAAQFBAAAAAAAAA+H8AAAAAAMBHQAAAAAAAAPh/AAAAAADASUAAAAAAAAD4fwAAAAAAAENAAAAAAADASUAAAAAAAIBLQAAAAAAAAFRAAAAAAADAUEAAAAAAAABRQAAAAAAAwE1AAAAAAADATkAAAAAAAABKQAAAAAAAgExAAAAAAAAAV0AAAAAAAAD4fwAAAAAAAFZAAAAAAACAUEAAAAAAAAD4fwAAAAAAAExAAAAAAACATkAAAAAAAMBSQAAAAAAAQEpAAAAAAACgUEAAAAAAAGBVQAAAAAAAQFRAAAAAAACAQkAAAAAAAAA7QA==","dtype":"float64","shape":[77]},"confidence incorrect reject":{"__ndarray__":"AAAAAACASEAAAAAAAMBSQAAAAAAAgEpAAAAAAAAASUAAAAAAAAD4fwAAAAAAgE5AAAAAAAAANUAAAAAAAAA7QAAAAAAAAPh/AAAAAABAUEAAAAAAAEBKQAAAAAAAgEhAAAAAAAAAQkAAAAAAAKBQQAAAAAAAQElAAAAAAAAAS0AAAAAAAIBNQAAAAAAAAPh/AAAAAAAA+H8AAAAAAAA4QAAAAAAAwE9AAAAAAADAREAAAAAAAIBGQAAAAAAAQEVAAAAAAACASkAAAAAAAABUQAAAAAAAwFZAAAAAAAAAQEAAAAAAAKBTQAAAAAAAgEVAAAAAAAAAQkAAAAAAAAA9QAAAAAAAAEJAAAAAAAAAREAAAAAAAEBRQAAAAAAAQFJAAAAAAAAAUUAAAAAAAIBRQAAAAAAAQFBAAAAAAABAUEAAAAAAAIBOQAAAAAAAAERAAAAAAAAATkAAAAAAAABKQAAAAAAAwEpAAAAAAAAA+H8AAAAAAIBPQAAAAAAAoFFAAAAAAAAAREAAAAAAAMBVQAAAAAAAAPh/AAAAAABAUUAAAAAAAMBUQAAAAAAAQFBAAAAAAACATEAAAAAAAEBJQAAAAAAAwFRAAAAAAAAAMUAAAAAAAMBUQAAAAAAAgERAAAAAAACAUkAAAAAAAABNQAAAAAAAAElAAAAAAABAVkAAAAAAAABJQAAAAAAAgFRAAAAAAACATEAAAAAAAIBUQAAAAAAAgE9AAAAAAACATEAAAAAAAABUQAAAAAAAYFBAAAAAAABgU0AAAAAAAABUQAAAAAAAgE5AAAAAAAAASkAAAAAAAKBUQA==","dtype":"float64","shape":[77]},"confidence when correct":{"__ndarray__":"AAAAAACASUAAAAAAAKBTQAAAAAAAgExAAAAAAAAATkAAAAAAAABUQAAAAAAAwFhAAAAAAACAU0AAAAAAAKBTQAAAAAAAgFZAAAAAAACAUUAAAAAAAIBSQAAAAAAAgEdAAAAAAAAASkAAAAAAAABVQAAAAAAAgE9AAAAAAAAAT0AAAAAAAMBNQAAAAAAA4FJAAAAAAACAU0AAAAAAAIBPQAAAAAAAQFRAAAAAAAAAOEAAAAAAAABJQAAAAAAAQFRAAAAAAADAUEAAAAAAAEBTQAAAAAAAAFlAAAAAAAAAUUAAAAAAAABIQAAAAAAAgFJAAAAAAACAVEAAAAAAAMBQQAAAAAAAoFRAAAAAAADAUEAAAAAAAABWQAAAAAAAwFRAAAAAAADAT0AAAAAAACBUQAAAAAAAwFFAAAAAAADAV0AAAAAAAKBTQAAAAAAAQEpAAAAAAABAUUAAAAAAAIBOQAAAAAAAgFBAAAAAAACAUkAAAAAAAABXQAAAAAAAAFRAAAAAAAAAV0AAAAAAAMBUQAAAAAAAQE5AAAAAAAAgUkAAAAAAAGBYQAAAAAAAAFFAAAAAAADAUEAAAAAAAEBQQAAAAAAAgFRAAAAAAADAUkAAAAAAAIBXQAAAAAAAQFNAAAAAAAAAV0AAAAAAAEBUQAAAAAAAAE1AAAAAAADgVkAAAAAAAABZQAAAAAAAQFVAAAAAAACAUkAAAAAAAOBTQAAAAAAAoFFAAAAAAAAAUkAAAAAAAEBVQAAAAAAAAFBAAAAAAABAU0AAAAAAAIBSQAAAAAAAQFBAAAAAAABAVEAAAAAAAEBUQA==","dtype":"float64","shape":[77]},"confidence when correct hit":{"__ndarray__":"AAAAAADASUAAAAAAAMBSQAAAAAAAgFFAAAAAAADAT0AAAAAAACBTQAAAAAAAAFlAAAAAAABAU0AAAAAAACBUQAAAAAAAgFZAAAAAAACAUUAAAAAAACBTQAAAAAAAAERAAAAAAAAASkAAAAAAAABWQAAAAAAAAE9AAAAAAAAAUUAAAAAAAIBNQAAAAAAA4FJAAAAAAAAAUUAAAAAAAABJQAAAAAAAAFZAAAAAAACAPUAAAAAAAGBQQAAAAAAAwFRAAAAAAADAUEAAAAAAAIBTQAAAAAAAIFJAAAAAAABAT0AAAAAAAABLQAAAAAAAwFJAAAAAAACAVEAAAAAAAIBQQAAAAAAAwFRAAAAAAADAUEAAAAAAAIBWQAAAAAAAQFhAAAAAAABAUEAAAAAAAABVQAAAAAAAgFJAAAAAAAAgV0AAAAAAAABVQAAAAAAAgEtAAAAAAACAUUAAAAAAAOBQQAAAAAAAQE1AAAAAAACgUkAAAAAAAABXQAAAAAAAAFRAAAAAAACAWEAAAAAAAMBVQAAAAAAAwE5AAAAAAAAgVEAAAAAAAABZQAAAAAAAgFFAAAAAAADgUEAAAAAAAIBQQAAAAAAAoFZAAAAAAACAUkAAAAAAAOBXQAAAAAAAAFRAAAAAAACgV0AAAAAAAEBUQAAAAAAAgExAAAAAAABAV0AAAAAAAABZQAAAAAAAQFVAAAAAAADgUEAAAAAAAEBUQAAAAAAAgFBAAAAAAACAS0AAAAAAAIBWQAAAAAAAgE9AAAAAAABAU0AAAAAAAGBQQAAAAAAAwE5AAAAAAACASkAAAAAAAABUQA==","dtype":"float64","shape":[77]},"confidence when incorrect":{"__ndarray__":"AAAAAACASEAAAAAAAMBQQAAAAAAAQEtAAAAAAAAASUAAAAAAAMBUQAAAAAAAQFBAAAAAAAAAQkAAAAAAAOBQQAAAAAAAAPh/AAAAAACAUUAAAAAAAMBLQAAAAAAAAEZAAAAAAAAAPUAAAAAAAEBLQAAAAAAAAElAAAAAAAAAS0AAAAAAAIBMQAAAAAAAwEFAAAAAAADAUEAAAAAAAIA4QAAAAAAAwE9AAAAAAACAQUAAAAAAAIBGQAAAAAAAAEtAAAAAAACASkAAAAAAAABVQAAAAAAAwFZAAAAAAAAAP0AAAAAAAIBJQAAAAAAAgEVAAAAAAACASEAAAAAAAAA9QAAAAAAAAFNAAAAAAAAAREAAAAAAAMBTQAAAAAAAwEtAAAAAAAAAUUAAAAAAAEBQQAAAAAAAAFFAAAAAAABAUEAAAAAAAABNQAAAAAAAgEFAAAAAAADATUAAAAAAAABJQAAAAAAAwEdAAAAAAAAA+H8AAAAAAGBSQAAAAAAAgFFAAAAAAAAAREAAAAAAAMBQQAAAAAAAAPh/AAAAAADATkAAAAAAAMBUQAAAAAAAAERAAAAAAACASkAAAAAAAIBLQAAAAAAAQFRAAAAAAAAAUEAAAAAAAMBRQAAAAAAAgE1AAAAAAADAUEAAAAAAAABNQAAAAAAAAElAAAAAAADAVkAAAAAAAABJQAAAAAAAQFVAAAAAAAAAUEAAAAAAAIBUQAAAAAAAwE1AAAAAAAAATkAAAAAAAMBSQAAAAAAAwE1AAAAAAACAUkAAAAAAAABUQAAAAAAAQFRAAAAAAACASUAAAAAAAEBSQA==","dtype":"float64","shape":[77]},"correct hit percentage":[80,80,70,70,90,95,90,90,100,80,90,95,95,90,55,100,65,90,55,75,100,70,90,95,95,70,80,50,65,100,85,85,90,90,90,85,85,90,95,70,95,85,95,90,90,100,80,95,100,90,100,70,90,85,80,85,40,80,90,90,80,90,75,85,100,95,60,100,85,35,95,70,70,90,70,75,85],"correct reject percentage":[65,90,80,65,100,80,95,90,100,60,80,60,90,80,60,85,65,100,100,85,80,90,85,90,55,65,75,95,80,70,90,90,90,85,70,95,75,80,75,85,75,85,75,65,90,100,90,80,95,95,100,50,100,70,75,80,40,95,80,85,75,35,70,85,85,75,85,80,95,75,80,50,85,85,80,65,40],"ess":[5,1,3,4,5,12,4,4,11,6,3,11,10,12,6,13,12,5,10,4,4,6,3,0,12,6,5,9,7,6,10,18,11,8,16,7,9,11,4,7,4,11,12,3,3,4,11,1,4,2,9,1,2,12,6,5,5,4,9,3,8,6,10,21,5,5,9,1,8,11,5,7,10,7,15,7,7],"gender":["f","f","f","f","f","f","f","m","f","f","m","m","m","f","m","f","f","m","m","f","f","m","f","m","f","m","f","f","m","m","f","f","f","f","m","f","f","f","f","m","f","f","f","m","f","f","f","f","f","f","f","f","f","f","f","f","m","f","f","m","f","f","f","f","f","m","m","m","m","f","m","f","f","f","f","f","f"],"index":[25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101],"insomnia":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"participant number":[1,2,3,4,5,6,7,9,10,11,12,13,14,15,17,19,20,21,23,24,25,26,29,31,32,36,37,39,40,42,43,44,45,48,50,51,52,53,54,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,72,73,74,75,79,81,82,83,84,85,86,87,88,91,92,94,95,96,97,98,99,102,103],"percent correct":{"__ndarray__":"AAAAAAAgUkAAAAAAAEBVQAAAAAAAwFJAAAAAAADgUEAAAAAAAMBXQAAAAAAA4FVAAAAAAAAgV0AAAAAAAIBWQAAAAAAAAFlAAAAAAACAUUAAAAAAAEBVQAAAAAAAYFNAAAAAAAAgV0AAAAAAAEBVQAAAAAAAwExAAAAAAAAgV0AAAAAAAEBQQAAAAAAAwFdAAAAAAABgU0AAAAAAAABUQAAAAAAAgFZAAAAAAAAAVEAAAAAAAOBVQAAAAAAAIFdAAAAAAADAUkAAAAAAAOBQQAAAAAAAYFNAAAAAAAAgUkAAAAAAACBSQAAAAAAAQFVAAAAAAADgVUAAAAAAAOBVQAAAAAAAgFZAAAAAAADgVUAAAAAAAABUQAAAAAAAgFZAAAAAAAAAVEAAAAAAAEBVQAAAAAAAQFVAAAAAAABgU0AAAAAAAEBVQAAAAAAAQFVAAAAAAABAVUAAAAAAAGBTQAAAAAAAgFZAAAAAAAAAWUAAAAAAAEBVQAAAAAAA4FVAAAAAAABgWEAAAAAAACBXQAAAAAAAAFlAAAAAAAAATkAAAAAAAMBXQAAAAAAAYFNAAAAAAABgU0AAAAAAAKBUQAAAAAAAAERAAAAAAADgVUAAAAAAAEBVQAAAAAAA4FVAAAAAAABgU0AAAAAAAEBPQAAAAAAAIFJAAAAAAABAVUAAAAAAACBXQAAAAAAAQFVAAAAAAAAgUkAAAAAAAIBWQAAAAAAAgFZAAAAAAACAS0AAAAAAAOBVQAAAAAAAAE5AAAAAAABgU0AAAAAAAOBVQAAAAAAAwFJAAAAAAACAUUAAAAAAAEBPQA==","dtype":"float64","shape":[77]},"psqi":[1,5,1,5,7,7,3,3,10,4,5,2,2,2,5,2,3,3,4,9,5,2,1,4,8,2,2,6,3,1,5,7,3,6,6,1,6,4,4,3,5,2,7,4,0,5,1,1,4,1,8,4,2,7,4,1,7,4,5,6,4,2,3,4,3,1,5,2,1,1,3,6,8,8,2,4,5],"sci":[29,19,23,26,21,19,28,29,17,22,28,31,31,32,25,30,28,30,22,20,26,32,32,24,26,30,28,21,29,32,26,26,23,18,22,29,20,27,19,29,24,29,17,26,30,17,25,31,27,32,28,25,30,21,29,20,22,23,20,17,27,27,22,25,30,32,30,32,28,31,29,26,20,19,31,22,24]},"selected":{"id":"1382","type":"Selection"},"selection_policy":{"id":"1381","type":"UnionRenderers"}},"id":"1354","type":"ColumnDataSource"},{"attributes":{},"id":"1343","type":"ResetTool"},{"attributes":{},"id":"1413","type":"UnionRenderers"},{"attributes":{},"id":"1344","type":"HelpTool"},{"attributes":{"fill_color":{"value":"#1f77b4"},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1356","type":"Circle"},{"attributes":{"callback":null},"id":"1321","type":"DataRange1d"},{"attributes":{"callback":null,"tooltips":[["p-number","@{participant number}"],["gender","@gender"],["age","@age"]]},"id":"1345","type":"HoverTool"},{"attributes":{"callback":null},"id":"1323","type":"DataRange1d"},{"attributes":{"text":""},"id":"1360","type":"Title"},{"attributes":{},"id":"1325","type":"LinearScale"},{"attributes":{"data_source":{"id":"1354","type":"ColumnDataSource"},"glyph":{"id":"1356","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1357","type":"Circle"},"selection_glyph":null,"view":{"id":"1359","type":"CDSView"}},"id":"1358","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1354","type":"ColumnDataSource"}},"id":"1359","type":"CDSView"},{"attributes":{},"id":"1327","type":"LinearScale"},{"attributes":{},"id":"1363","type":"BasicTickFormatter"},{"attributes":{"axis_label":"confidence when correct","formatter":{"id":"1363","type":"BasicTickFormatter"},"ticker":{"id":"1330","type":"BasicTicker"}},"id":"1329","type":"LinearAxis"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1357","type":"Circle"},{"attributes":{},"id":"1330","type":"BasicTicker"}],"root_ids":["1320"]},"title":"Bokeh Application","version":"1.2.0"}};
-  var render_items = [{"docid":"ae324060-0469-41e3-889f-95396847fedd","roots":{"1320":"1b552e7e-3d5d-41fe-91ac-41232b9dc898"}}];
-  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
-
-  }
-  if (root.Bokeh !== undefined) {
-    embed_document(root);
-  } else {
-    var attempts = 0;
-    var timer = setInterval(function(root) {
-      if (root.Bokeh !== undefined) {
-        embed_document(root);
-        clearInterval(timer);
-      }
-      attempts++;
-      if (attempts > 100) {
-        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-        clearInterval(timer);
-      }
-    }, 10, root)
-  }
-})(window);
-</script>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -14132,9 +13586,7 @@ var element = $('#07d31fa8-5ac8-4aeb-b1df-701fa510225b');
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Saving-Bokeh-charts">Saving Bokeh charts<a class="anchor-link" href="#Saving-Bokeh-charts">&#182;</a></h2><p>After you create your chart, you can save it to a variety of formats. Most commonly you would save them as PNG (for presentations), SVG (for publications in the paper of the past), and HTML (for the paper of the future or sharing with colleagues).</p>
-<p>To save as a PNG for quick use, you can click the disk icon in the tool bar.</p>
-<p>To save to SVG, you first change the output backend to <code>'svg'</code> and then you can click the disk icon again, and you will get an SVG rendering of the plot (though you need to have Selenium, PhantomJS, and Pillow installed, which you should if you followed the installation instructions in <a href="l00_configuring_your_computer.html">Lesson 0</a>). After saving the SVG, you should change the output backend back to <code>'canvas'</code> because it has much better in-browser performance.</p>
+<p>Let's give it a try.</p>
 
 </div>
 </div>
@@ -14144,9 +13596,8 @@ var element = $('#07d31fa8-5ac8-4aeb-b1df-701fa510225b');
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">output_backend</span> <span class="o">=</span> <span class="s1">&#39;svg&#39;</span>
-
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">parens_count</span><span class="p">(</span><span class="s1">&#39;(((..(((...)).))))&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">parens_count</span><span class="p">(</span><span class="s1">&#39;(((..(((...)).)))&#39;</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -14162,146 +13613,9 @@ var element = $('#07d31fa8-5ac8-4aeb-b1df-701fa510225b');
     <div class="prompt"></div>
 
 
-
-<div class="output_html rendered_html output_subarea ">
-
-
-
-
-
-
-  <div class="bk-root" id="edfa3a1f-b369-4615-8cd5-16a51e00b044" data-root-id="1320"></div>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-
-
-<div id="8c07fecd-92c7-48c4-a6f0-3396eba4fbd4"></div>
-<div class="output_subarea output_javascript ">
-<script type="text/javascript">
-var element = $('#8c07fecd-92c7-48c4-a6f0-3396eba4fbd4');
-(function(root) {
-  function embed_document(root) {
-    
-  var docs_json = {"b07f3bbd-0fcf-48b6-9453-b1213ed7e8f8":{"roots":{"references":[{"attributes":{"below":[{"id":"1329","type":"LinearAxis"}],"center":[{"id":"1333","type":"Grid"},{"id":"1338","type":"Grid"},{"id":"1367","type":"Legend"}],"left":[{"id":"1334","type":"LinearAxis"}],"output_backend":"svg","plot_height":300,"plot_width":400,"renderers":[{"id":"1358","type":"GlyphRenderer"},{"id":"1373","type":"GlyphRenderer"}],"title":{"id":"1360","type":"Title"},"toolbar":{"id":"1346","type":"Toolbar"},"x_range":{"id":"1321","type":"DataRange1d"},"x_scale":{"id":"1325","type":"LinearScale"},"y_range":{"id":"1323","type":"DataRange1d"},"y_scale":{"id":"1327","type":"LinearScale"}},"id":"1320","subtype":"Figure","type":"Plot"},{"attributes":{"ticker":{"id":"1330","type":"BasicTicker"}},"id":"1333","type":"Grid"},{"attributes":{"axis_label":"confidence when incorrect","formatter":{"id":"1365","type":"BasicTickFormatter"},"ticker":{"id":"1335","type":"BasicTicker"}},"id":"1334","type":"LinearAxis"},{"attributes":{},"id":"1414","type":"Selection"},{"attributes":{},"id":"1335","type":"BasicTicker"},{"attributes":{"label":{"value":"normal sleepers"},"renderers":[{"id":"1358","type":"GlyphRenderer"}]},"id":"1368","type":"LegendItem"},{"attributes":{"dimension":1,"ticker":{"id":"1335","type":"BasicTicker"}},"id":"1338","type":"Grid"},{"attributes":{"label":{"value":"insomniacs"},"renderers":[{"id":"1373","type":"GlyphRenderer"}]},"id":"1384","type":"LegendItem"},{"attributes":{},"id":"1382","type":"Selection"},{"attributes":{},"id":"1381","type":"UnionRenderers"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1339","type":"PanTool"},{"id":"1340","type":"WheelZoomTool"},{"id":"1341","type":"BoxZoomTool"},{"id":"1342","type":"SaveTool"},{"id":"1343","type":"ResetTool"},{"id":"1344","type":"HelpTool"},{"id":"1345","type":"HoverTool"}]},"id":"1346","type":"Toolbar"},{"attributes":{"click_policy":"hide","items":[{"id":"1368","type":"LegendItem"},{"id":"1384","type":"LegendItem"}],"location":"top_left"},"id":"1367","type":"Legend"},{"attributes":{},"id":"1339","type":"PanTool"},{"attributes":{"source":{"id":"1369","type":"ColumnDataSource"}},"id":"1374","type":"CDSView"},{"attributes":{},"id":"1340","type":"WheelZoomTool"},{"attributes":{"data_source":{"id":"1369","type":"ColumnDataSource"},"glyph":{"id":"1371","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1372","type":"Circle"},"selection_glyph":null,"view":{"id":"1374","type":"CDSView"}},"id":"1373","type":"GlyphRenderer"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1366","type":"BoxAnnotation"},{"attributes":{},"id":"1365","type":"BasicTickFormatter"},{"attributes":{"overlay":{"id":"1366","type":"BoxAnnotation"}},"id":"1341","type":"BoxZoomTool"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1372","type":"Circle"},{"attributes":{},"id":"1342","type":"SaveTool"},{"attributes":{"fill_color":{"value":"orange"},"line_color":{"value":"orange"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1371","type":"Circle"},{"attributes":{"callback":null,"data":{"age":[39,42,31,35,74,61,32,62,33,53,41,36,40,24,32,40,61,42,31,28,26,45,28,44,28],"confidence correct reject":{"__ndarray__":"AAAAAABAV0AAAAAAAKBRQAAAAAAAgFVAAAAAAADAUUAAAAAAAIBOQAAAAAAAAD9AAAAAAACAUEAAAAAAAEBQQAAAAAAAIFBAAAAAAABATkAAAAAAAEBSQAAAAAAAwFJAAAAAAADAU0AAAAAAAIBIQAAAAAAAQFVAAAAAAACAUUAAAAAAAEBGQAAAAAAAoFZAAAAAAABAVEAAAAAAAABZQAAAAAAAgFRAAAAAAAAAWUAAAAAAAMBQQAAAAAAAwFVAAAAAAAAAUUA=","dtype":"float64","shape":[25]},"confidence incorrect hit":{"__ndarray__":"AAAAAACAVkAAAAAAAMBLQAAAAAAAgFZAAAAAAAAA+H8AAAAAAIBIQAAAAAAAgE9AAAAAAABATEAAAAAAAIBCQAAAAAAAIFNAAAAAAAAA+H8AAAAAAMBOQAAAAAAA4FJAAAAAAABAVkAAAAAAAABJQAAAAAAAQFRAAAAAAAAATEAAAAAAAAD4fwAAAAAAAFJAAAAAAAAA+H8AAAAAAAD4fwAAAAAAQFNAAAAAAAAA+H8AAAAAAAD4fwAAAAAAAFJAAAAAAAAA+H8=","dtype":"float64","shape":[25]},"confidence incorrect reject":{"__ndarray__":"AAAAAADgVEAAAAAAAABJQAAAAAAAQFRAAAAAAAAAVEAAAAAAAIBIQAAAAAAAIFJAAAAAAABAUEAAAAAAAGBUQAAAAAAAAPh/AAAAAABAUEAAAAAAAEBRQAAAAAAAAPh/AAAAAABATUAAAAAAAABRQAAAAAAAgFVAAAAAAAAA+H8AAAAAAEBSQAAAAAAAwEVAAAAAAAAATkAAAAAAAABZQAAAAAAA4FBAAAAAAAAAWUAAAAAAAABOQAAAAAAAQFNAAAAAAAAAS0A=","dtype":"float64","shape":[25]},"confidence when correct":{"__ndarray__":"AAAAAABAV0AAAAAAAMBSQAAAAAAAQFZAAAAAAAAAVkAAAAAAAEBQQAAAAAAAIFBAAAAAAACAUEAAAAAAAABPQAAAAAAAAFFAAAAAAADAUUAAAAAAAIBUQAAAAAAAAFNAAAAAAADgU0AAAAAAAIBLQAAAAAAAQFVAAAAAAACAUUAAAAAAAEBLQAAAAAAAIFZAAAAAAADgVUAAAAAAAABZQAAAAAAAQFNAAAAAAAAAWUAAAAAAAABUQAAAAAAAYFFAAAAAAABAVEA=","dtype":"float64","shape":[25]},"confidence when correct hit":{"__ndarray__":"AAAAAADAVkAAAAAAAOBSQAAAAAAAYFZAAAAAAABgVkAAAAAAACBRQAAAAAAAwFFAAAAAAADAUEAAAAAAAABLQAAAAAAAoFFAAAAAAACgUkAAAAAAAIBUQAAAAAAAIFNAAAAAAAAAVEAAAAAAAABNQAAAAAAAQFVAAAAAAABAUUAAAAAAAGBRQAAAAAAAwFVAAAAAAAAAV0AAAAAAAABZQAAAAAAAgFFAAAAAAAAAWUAAAAAAAGBWQAAAAAAAAE9AAAAAAADAVUA=","dtype":"float64","shape":[25]},"confidence when incorrect":{"__ndarray__":"AAAAAACAVkAAAAAAAABJQAAAAAAAAFZAAAAAAAAAVEAAAAAAAIBIQAAAAAAAoFFAAAAAAAAAUEAAAAAAAIBOQAAAAAAAIFNAAAAAAABAUEAAAAAAAABQQAAAAAAA4FJAAAAAAACAT0AAAAAAAIBNQAAAAAAA4FRAAAAAAAAATEAAAAAAAEBSQAAAAAAAAFBAAAAAAAAATkAAAAAAAABZQAAAAAAAoFFAAAAAAAAAWUAAAAAAAABOQAAAAAAAYFJAAAAAAAAAS0A=","dtype":"float64","shape":[25]},"correct hit percentage":[65,90,90,100,60,80,90,45,80,100,70,90,95,85,75,40,100,70,100,100,60,100,100,65,100],"correct reject percentage":[80,90,95,75,65,20,75,90,100,50,55,100,65,75,55,100,40,90,70,50,80,95,75,25,40],"ess":[2,7,3,20,12,2,3,9,10,7,19,0,8,4,7,14,12,10,11,12,1,6,4,6,2],"gender":["f","m","f","f","f","f","m","m","f","f","f","f","f","f","f","f","f","f","m","m","f","m","f","f","f"],"index":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"insomnia":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"participant number":[8,16,18,22,27,28,30,33,34,35,38,41,46,49,55,71,76,77,78,80,89,90,93,100,101],"percent correct":{"__ndarray__":"AAAAAAAgUkAAAAAAAIBWQAAAAAAAIFdAAAAAAADgVUAAAAAAAEBPQAAAAAAAAElAAAAAAACgVEAAAAAAAOBQQAAAAAAAgFZAAAAAAADAUkAAAAAAAEBPQAAAAAAAwFdAAAAAAAAAVEAAAAAAAABUQAAAAAAAQFBAAAAAAACAUUAAAAAAAIBRQAAAAAAAAFRAAAAAAABAVUAAAAAAAMBSQAAAAAAAgFFAAAAAAABgWEAAAAAAAOBVQAAAAAAAgEZAAAAAAACAUUA=","dtype":"float64","shape":[25]},"psqi":[13,11,9,8,9,14,9,9,12,8,5,7,12,13,13,11,4,10,6,7,8,9,7,15,7],"sci":[9,4,10,13,13,15,16,14,14,14,14,15,10,14,5,0,16,11,14,12,14,14,16,1,14]},"selected":{"id":"1414","type":"Selection"},"selection_policy":{"id":"1413","type":"UnionRenderers"}},"id":"1369","type":"ColumnDataSource"},{"attributes":{"callback":null,"data":{"age":[42,45,16,21,18,28,38,17,25,22,41,53,43,23,19,45,43,35,24,64,36,35,43,44,29,22,46,35,53,29,31,21,42,23,54,24,21,21,43,50,53,16,67,36,34,42,46,69,31,44,25,45,47,33,18,74,21,45,37,41,41,34,39,18,31,26,66,62,22,41,46,56,23,70,24,40,33],"confidence correct reject":{"__ndarray__":"AAAAAACARUAAAAAAAABUQAAAAAAAAEtAAAAAAAAASUAAAAAAAABUQAAAAAAAgFdAAAAAAADAU0AAAAAAACBTQAAAAAAAQFVAAAAAAACAUUAAAAAAAOBQQAAAAAAAAExAAAAAAACASEAAAAAAAKBRQAAAAAAAgFBAAAAAAACATkAAAAAAAABQQAAAAAAAoFJAAAAAAAAAVEAAAAAAAIBQQAAAAAAAgFBAAAAAAAAAM0AAAAAAAIBEQAAAAAAAwFNAAAAAAABAUEAAAAAAAEBTQAAAAAAAAFlAAAAAAABAU0AAAAAAAMBHQAAAAAAAIFBAAAAAAABAVEAAAAAAAIBRQAAAAAAAIFRAAAAAAABAUUAAAAAAAGBTQAAAAAAAgFJAAAAAAAAATEAAAAAAAGBSQAAAAAAAAFFAAAAAAADAV0AAAAAAAABRQAAAAAAAAElAAAAAAABAUUAAAAAAAIBLQAAAAAAAYFJAAAAAAACAUkAAAAAAAABXQAAAAAAAoFNAAAAAAACAVkAAAAAAAEBRQAAAAAAAQE1AAAAAAACAT0AAAAAAAOBRQAAAAAAAQE1AAAAAAACAUEAAAAAAAIBPQAAAAAAAoFJAAAAAAAAAU0AAAAAAAOBUQAAAAAAAgFFAAAAAAACAVUAAAAAAAMBRQAAAAAAAwE1AAAAAAADAVkAAAAAAAABZQAAAAAAAgFRAAAAAAACAUkAAAAAAAKBSQAAAAAAAAFJAAAAAAAAAVEAAAAAAAABUQAAAAAAA4FBAAAAAAABAU0AAAAAAAMBVQAAAAAAAgFFAAAAAAAAAVUAAAAAAAAA/QA==","dtype":"float64","shape":[77]},"confidence incorrect hit":{"__ndarray__":"AAAAAABARkAAAAAAAMBLQAAAAAAAgExAAAAAAAAAUEAAAAAAAMBUQAAAAAAAQFVAAAAAAADARUAAAAAAAOBVQAAAAAAAAPh/AAAAAACAUUAAAAAAAMBLQAAAAAAAgEBAAAAAAAAAPUAAAAAAAABEQAAAAAAAAElAAAAAAAAA+H8AAAAAAIBLQAAAAAAAwEFAAAAAAADAUEAAAAAAAAA5QAAAAAAAAPh/AAAAAACAPEAAAAAAAAA7QAAAAAAAAExAAAAAAACASkAAAAAAAABWQAAAAAAAAFJAAAAAAAAAPUAAAAAAAABAQAAAAAAAAPh/AAAAAACASEAAAAAAAAA9QAAAAAAAwFRAAAAAAACAR0AAAAAAAOBUQAAAAAAAgERAAAAAAABAUkAAAAAAAMBLQAAAAAAAQFZAAAAAAAAgUkAAAAAAAIBLQAAAAAAAAD5AAAAAAAAAHEAAAAAAAIA8QAAAAAAAgEVAAAAAAAAA+H8AAAAAAOBSQAAAAAAAQFBAAAAAAAAA+H8AAAAAAMBHQAAAAAAAAPh/AAAAAADASUAAAAAAAAD4fwAAAAAAAENAAAAAAADASUAAAAAAAIBLQAAAAAAAAFRAAAAAAADAUEAAAAAAAABRQAAAAAAAwE1AAAAAAADATkAAAAAAAABKQAAAAAAAgExAAAAAAAAAV0AAAAAAAAD4fwAAAAAAAFZAAAAAAACAUEAAAAAAAAD4fwAAAAAAAExAAAAAAACATkAAAAAAAMBSQAAAAAAAQEpAAAAAAACgUEAAAAAAAGBVQAAAAAAAQFRAAAAAAACAQkAAAAAAAAA7QA==","dtype":"float64","shape":[77]},"confidence incorrect reject":{"__ndarray__":"AAAAAACASEAAAAAAAMBSQAAAAAAAgEpAAAAAAAAASUAAAAAAAAD4fwAAAAAAgE5AAAAAAAAANUAAAAAAAAA7QAAAAAAAAPh/AAAAAABAUEAAAAAAAEBKQAAAAAAAgEhAAAAAAAAAQkAAAAAAAKBQQAAAAAAAQElAAAAAAAAAS0AAAAAAAIBNQAAAAAAAAPh/AAAAAAAA+H8AAAAAAAA4QAAAAAAAwE9AAAAAAADAREAAAAAAAIBGQAAAAAAAQEVAAAAAAACASkAAAAAAAABUQAAAAAAAwFZAAAAAAAAAQEAAAAAAAKBTQAAAAAAAgEVAAAAAAAAAQkAAAAAAAAA9QAAAAAAAAEJAAAAAAAAAREAAAAAAAEBRQAAAAAAAQFJAAAAAAAAAUUAAAAAAAIBRQAAAAAAAQFBAAAAAAABAUEAAAAAAAIBOQAAAAAAAAERAAAAAAAAATkAAAAAAAABKQAAAAAAAwEpAAAAAAAAA+H8AAAAAAIBPQAAAAAAAoFFAAAAAAAAAREAAAAAAAMBVQAAAAAAAAPh/AAAAAABAUUAAAAAAAMBUQAAAAAAAQFBAAAAAAACATEAAAAAAAEBJQAAAAAAAwFRAAAAAAAAAMUAAAAAAAMBUQAAAAAAAgERAAAAAAACAUkAAAAAAAABNQAAAAAAAAElAAAAAAABAVkAAAAAAAABJQAAAAAAAgFRAAAAAAACATEAAAAAAAIBUQAAAAAAAgE9AAAAAAACATEAAAAAAAABUQAAAAAAAYFBAAAAAAABgU0AAAAAAAABUQAAAAAAAgE5AAAAAAAAASkAAAAAAAKBUQA==","dtype":"float64","shape":[77]},"confidence when correct":{"__ndarray__":"AAAAAACASUAAAAAAAKBTQAAAAAAAgExAAAAAAAAATkAAAAAAAABUQAAAAAAAwFhAAAAAAACAU0AAAAAAAKBTQAAAAAAAgFZAAAAAAACAUUAAAAAAAIBSQAAAAAAAgEdAAAAAAAAASkAAAAAAAABVQAAAAAAAgE9AAAAAAAAAT0AAAAAAAMBNQAAAAAAA4FJAAAAAAACAU0AAAAAAAIBPQAAAAAAAQFRAAAAAAAAAOEAAAAAAAABJQAAAAAAAQFRAAAAAAADAUEAAAAAAAEBTQAAAAAAAAFlAAAAAAAAAUUAAAAAAAABIQAAAAAAAgFJAAAAAAACAVEAAAAAAAMBQQAAAAAAAoFRAAAAAAADAUEAAAAAAAABWQAAAAAAAwFRAAAAAAADAT0AAAAAAACBUQAAAAAAAwFFAAAAAAADAV0AAAAAAAKBTQAAAAAAAQEpAAAAAAABAUUAAAAAAAIBOQAAAAAAAgFBAAAAAAACAUkAAAAAAAABXQAAAAAAAAFRAAAAAAAAAV0AAAAAAAMBUQAAAAAAAQE5AAAAAAAAgUkAAAAAAAGBYQAAAAAAAAFFAAAAAAADAUEAAAAAAAEBQQAAAAAAAgFRAAAAAAADAUkAAAAAAAIBXQAAAAAAAQFNAAAAAAAAAV0AAAAAAAEBUQAAAAAAAAE1AAAAAAADgVkAAAAAAAABZQAAAAAAAQFVAAAAAAACAUkAAAAAAAOBTQAAAAAAAoFFAAAAAAAAAUkAAAAAAAEBVQAAAAAAAAFBAAAAAAABAU0AAAAAAAIBSQAAAAAAAQFBAAAAAAABAVEAAAAAAAEBUQA==","dtype":"float64","shape":[77]},"confidence when correct hit":{"__ndarray__":"AAAAAADASUAAAAAAAMBSQAAAAAAAgFFAAAAAAADAT0AAAAAAACBTQAAAAAAAAFlAAAAAAABAU0AAAAAAACBUQAAAAAAAgFZAAAAAAACAUUAAAAAAACBTQAAAAAAAAERAAAAAAAAASkAAAAAAAABWQAAAAAAAAE9AAAAAAAAAUUAAAAAAAIBNQAAAAAAA4FJAAAAAAAAAUUAAAAAAAABJQAAAAAAAAFZAAAAAAACAPUAAAAAAAGBQQAAAAAAAwFRAAAAAAADAUEAAAAAAAIBTQAAAAAAAIFJAAAAAAABAT0AAAAAAAABLQAAAAAAAwFJAAAAAAACAVEAAAAAAAIBQQAAAAAAAwFRAAAAAAADAUEAAAAAAAIBWQAAAAAAAQFhAAAAAAABAUEAAAAAAAABVQAAAAAAAgFJAAAAAAAAgV0AAAAAAAABVQAAAAAAAgEtAAAAAAACAUUAAAAAAAOBQQAAAAAAAQE1AAAAAAACgUkAAAAAAAABXQAAAAAAAAFRAAAAAAACAWEAAAAAAAMBVQAAAAAAAwE5AAAAAAAAgVEAAAAAAAABZQAAAAAAAgFFAAAAAAADgUEAAAAAAAIBQQAAAAAAAoFZAAAAAAACAUkAAAAAAAOBXQAAAAAAAAFRAAAAAAACgV0AAAAAAAEBUQAAAAAAAgExAAAAAAABAV0AAAAAAAABZQAAAAAAAQFVAAAAAAADgUEAAAAAAAEBUQAAAAAAAgFBAAAAAAACAS0AAAAAAAIBWQAAAAAAAgE9AAAAAAABAU0AAAAAAAGBQQAAAAAAAwE5AAAAAAACASkAAAAAAAABUQA==","dtype":"float64","shape":[77]},"confidence when incorrect":{"__ndarray__":"AAAAAACASEAAAAAAAMBQQAAAAAAAQEtAAAAAAAAASUAAAAAAAMBUQAAAAAAAQFBAAAAAAAAAQkAAAAAAAOBQQAAAAAAAAPh/AAAAAACAUUAAAAAAAMBLQAAAAAAAAEZAAAAAAAAAPUAAAAAAAEBLQAAAAAAAAElAAAAAAAAAS0AAAAAAAIBMQAAAAAAAwEFAAAAAAADAUEAAAAAAAIA4QAAAAAAAwE9AAAAAAACAQUAAAAAAAIBGQAAAAAAAAEtAAAAAAACASkAAAAAAAABVQAAAAAAAwFZAAAAAAAAAP0AAAAAAAIBJQAAAAAAAgEVAAAAAAACASEAAAAAAAAA9QAAAAAAAAFNAAAAAAAAAREAAAAAAAMBTQAAAAAAAwEtAAAAAAAAAUUAAAAAAAEBQQAAAAAAAAFFAAAAAAABAUEAAAAAAAABNQAAAAAAAgEFAAAAAAADATUAAAAAAAABJQAAAAAAAwEdAAAAAAAAA+H8AAAAAAGBSQAAAAAAAgFFAAAAAAAAAREAAAAAAAMBQQAAAAAAAAPh/AAAAAADATkAAAAAAAMBUQAAAAAAAAERAAAAAAACASkAAAAAAAIBLQAAAAAAAQFRAAAAAAAAAUEAAAAAAAMBRQAAAAAAAgE1AAAAAAADAUEAAAAAAAABNQAAAAAAAAElAAAAAAADAVkAAAAAAAABJQAAAAAAAQFVAAAAAAAAAUEAAAAAAAIBUQAAAAAAAwE1AAAAAAAAATkAAAAAAAMBSQAAAAAAAwE1AAAAAAACAUkAAAAAAAABUQAAAAAAAQFRAAAAAAACASUAAAAAAAEBSQA==","dtype":"float64","shape":[77]},"correct hit percentage":[80,80,70,70,90,95,90,90,100,80,90,95,95,90,55,100,65,90,55,75,100,70,90,95,95,70,80,50,65,100,85,85,90,90,90,85,85,90,95,70,95,85,95,90,90,100,80,95,100,90,100,70,90,85,80,85,40,80,90,90,80,90,75,85,100,95,60,100,85,35,95,70,70,90,70,75,85],"correct reject percentage":[65,90,80,65,100,80,95,90,100,60,80,60,90,80,60,85,65,100,100,85,80,90,85,90,55,65,75,95,80,70,90,90,90,85,70,95,75,80,75,85,75,85,75,65,90,100,90,80,95,95,100,50,100,70,75,80,40,95,80,85,75,35,70,85,85,75,85,80,95,75,80,50,85,85,80,65,40],"ess":[5,1,3,4,5,12,4,4,11,6,3,11,10,12,6,13,12,5,10,4,4,6,3,0,12,6,5,9,7,6,10,18,11,8,16,7,9,11,4,7,4,11,12,3,3,4,11,1,4,2,9,1,2,12,6,5,5,4,9,3,8,6,10,21,5,5,9,1,8,11,5,7,10,7,15,7,7],"gender":["f","f","f","f","f","f","f","m","f","f","m","m","m","f","m","f","f","m","m","f","f","m","f","m","f","m","f","f","m","m","f","f","f","f","m","f","f","f","f","m","f","f","f","m","f","f","f","f","f","f","f","f","f","f","f","f","m","f","f","m","f","f","f","f","f","m","m","m","m","f","m","f","f","f","f","f","f"],"index":[25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101],"insomnia":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"participant number":[1,2,3,4,5,6,7,9,10,11,12,13,14,15,17,19,20,21,23,24,25,26,29,31,32,36,37,39,40,42,43,44,45,48,50,51,52,53,54,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,72,73,74,75,79,81,82,83,84,85,86,87,88,91,92,94,95,96,97,98,99,102,103],"percent correct":{"__ndarray__":"AAAAAAAgUkAAAAAAAEBVQAAAAAAAwFJAAAAAAADgUEAAAAAAAMBXQAAAAAAA4FVAAAAAAAAgV0AAAAAAAIBWQAAAAAAAAFlAAAAAAACAUUAAAAAAAEBVQAAAAAAAYFNAAAAAAAAgV0AAAAAAAEBVQAAAAAAAwExAAAAAAAAgV0AAAAAAAEBQQAAAAAAAwFdAAAAAAABgU0AAAAAAAABUQAAAAAAAgFZAAAAAAAAAVEAAAAAAAOBVQAAAAAAAIFdAAAAAAADAUkAAAAAAAOBQQAAAAAAAYFNAAAAAAAAgUkAAAAAAACBSQAAAAAAAQFVAAAAAAADgVUAAAAAAAOBVQAAAAAAAgFZAAAAAAADgVUAAAAAAAABUQAAAAAAAgFZAAAAAAAAAVEAAAAAAAEBVQAAAAAAAQFVAAAAAAABgU0AAAAAAAEBVQAAAAAAAQFVAAAAAAABAVUAAAAAAAGBTQAAAAAAAgFZAAAAAAAAAWUAAAAAAAEBVQAAAAAAA4FVAAAAAAABgWEAAAAAAACBXQAAAAAAAAFlAAAAAAAAATkAAAAAAAMBXQAAAAAAAYFNAAAAAAABgU0AAAAAAAKBUQAAAAAAAAERAAAAAAADgVUAAAAAAAEBVQAAAAAAA4FVAAAAAAABgU0AAAAAAAEBPQAAAAAAAIFJAAAAAAABAVUAAAAAAACBXQAAAAAAAQFVAAAAAAAAgUkAAAAAAAIBWQAAAAAAAgFZAAAAAAACAS0AAAAAAAOBVQAAAAAAAAE5AAAAAAABgU0AAAAAAAOBVQAAAAAAAwFJAAAAAAACAUUAAAAAAAEBPQA==","dtype":"float64","shape":[77]},"psqi":[1,5,1,5,7,7,3,3,10,4,5,2,2,2,5,2,3,3,4,9,5,2,1,4,8,2,2,6,3,1,5,7,3,6,6,1,6,4,4,3,5,2,7,4,0,5,1,1,4,1,8,4,2,7,4,1,7,4,5,6,4,2,3,4,3,1,5,2,1,1,3,6,8,8,2,4,5],"sci":[29,19,23,26,21,19,28,29,17,22,28,31,31,32,25,30,28,30,22,20,26,32,32,24,26,30,28,21,29,32,26,26,23,18,22,29,20,27,19,29,24,29,17,26,30,17,25,31,27,32,28,25,30,21,29,20,22,23,20,17,27,27,22,25,30,32,30,32,28,31,29,26,20,19,31,22,24]},"selected":{"id":"1382","type":"Selection"},"selection_policy":{"id":"1381","type":"UnionRenderers"}},"id":"1354","type":"ColumnDataSource"},{"attributes":{},"id":"1343","type":"ResetTool"},{"attributes":{},"id":"1413","type":"UnionRenderers"},{"attributes":{},"id":"1344","type":"HelpTool"},{"attributes":{"fill_color":{"value":"#1f77b4"},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1356","type":"Circle"},{"attributes":{"callback":null},"id":"1321","type":"DataRange1d"},{"attributes":{"callback":null,"tooltips":[["p-number","@{participant number}"],["gender","@gender"],["age","@age"]]},"id":"1345","type":"HoverTool"},{"attributes":{"callback":null},"id":"1323","type":"DataRange1d"},{"attributes":{"text":""},"id":"1360","type":"Title"},{"attributes":{},"id":"1325","type":"LinearScale"},{"attributes":{"data_source":{"id":"1354","type":"ColumnDataSource"},"glyph":{"id":"1356","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1357","type":"Circle"},"selection_glyph":null,"view":{"id":"1359","type":"CDSView"}},"id":"1358","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1354","type":"ColumnDataSource"}},"id":"1359","type":"CDSView"},{"attributes":{},"id":"1327","type":"LinearScale"},{"attributes":{},"id":"1363","type":"BasicTickFormatter"},{"attributes":{"axis_label":"confidence when correct","formatter":{"id":"1363","type":"BasicTickFormatter"},"ticker":{"id":"1330","type":"BasicTicker"}},"id":"1329","type":"LinearAxis"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"confidence when correct"},"y":{"field":"confidence when incorrect"}},"id":"1357","type":"Circle"},{"attributes":{},"id":"1330","type":"BasicTicker"}],"root_ids":["1320"]},"title":"Bokeh Application","version":"1.2.0"}};
-  var render_items = [{"docid":"b07f3bbd-0fcf-48b6-9453-b1213ed7e8f8","roots":{"1320":"edfa3a1f-b369-4615-8cd5-16a51e00b044"}}];
-  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
-
-  }
-  if (root.Bokeh !== undefined) {
-    embed_document(root);
-  } else {
-    var attempts = 0;
-    var timer = setInterval(function(root) {
-      if (root.Bokeh !== undefined) {
-        embed_document(root);
-        clearInterval(timer);
-      }
-      attempts++;
-      if (attempts > 100) {
-        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-        clearInterval(timer);
-      }
-    }, 10, root)
-  }
-})(window);
-</script>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, click the disk icon, and then switch back.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">output_backend</span> <span class="o">=</span> <span class="s1">&#39;canvas&#39;</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You can also save the figure programmatically using the <code>bokeh.io.export_svgs()</code> function. Again, this will only work if the output backed is <code>'svg'</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">output_backend</span> <span class="o">=</span> <span class="s1">&#39;svg&#39;</span>
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">export_svgs</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;insomniac_confidence_correct.svg&#39;</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">output_backend</span> <span class="o">=</span> <span class="s1">&#39;canvas&#39;</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Finally, to save as HTML, you can use the <code>bokeh.io.save()</code> function. This saves your plot as a standalone HTML page. Note that the <code>title</code> kwarg is not the title of the plot, but the title of the web page that will appear on your Browser tab.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
-    <span class="n">p</span><span class="p">,</span> 
-    <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;insomniac_confidence_correct.html&#39;</span><span class="p">,</span> 
-    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Bokeh plot&#39;</span>
-<span class="p">);</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/Users/bois/anaconda3/lib/python3.7/site-packages/bokeh/io/saving.py:126: UserWarning: save() called but no resources were supplied and output_file(...) was never called, defaulting to resources.CDN
-  warn(&#34;save() called but no resources were supplied and output_file(...) was never called, defaulting to resources.CDN&#34;)
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>True
+False
 </pre>
 </div>
 </div>
@@ -14313,7 +13627,470 @@ var element = $('#8c07fecd-92c7-48c4-a6f0-3396eba4fbd4');
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>(You can ignore the warning.) The resulting HTML page has all of the interactivity of the plot and you can, for example, email it to your collaborators for them to explore.</p>
+<p><strong>b)</strong> As we scan a dot-parens structure from left to right, we can keep a list of the positions of open parentheses.  Whenever we encounter a closed one, we have closed the last open one we added.  So, we can just scan through the dot-parens string and pop out base pairs.  If this procedure fails, we know that there was an error in the input structure (i.e., a closed parenthesis appeared without a corresponding open one before it).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">dot_parens_to_bp</span><span class="p">(</span><span class="n">struc</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a dot-parens structure to a list of base pairs.</span>
+<span class="sd">    Return False if the structure is invalid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">parens_count</span><span class="p">(</span><span class="n">struc</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error in input structure.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="c1"># Initialize list of open parens and list of base pairs</span>
+    <span class="n">open_parens</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">bps</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># Scan through string</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">struc</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;(&#39;</span><span class="p">:</span>
+            <span class="n">open_parens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;)&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">open_parens</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">bps</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">open_parens</span><span class="o">.</span><span class="n">pop</span><span class="p">(),</span> <span class="n">i</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error in input structure.&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Return the result as a tuple</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">bps</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's try it on some legitimate sequences and on some bad ones.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Good structure</span>
+<span class="n">dot_parens_to_bp</span><span class="p">(</span><span class="s1">&#39;..(((...)))(((((....)))).)..&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[11]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>((2, 10), (3, 9), (4, 8), (11, 25), (12, 23), (13, 22), (14, 21), (15, 20))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Good structure</span>
+<span class="n">dot_parens_to_bp</span><span class="p">(</span><span class="s1">&#39;(((..(((...)).))))&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[12]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>((0, 17), (1, 16), (2, 15), (5, 14), (6, 12), (7, 11))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Bad structure</span>
+<span class="n">dot_parens_to_bp</span><span class="p">(</span><span class="s1">&#39;((....)))(&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Error in input structure.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[13]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dot_parens_to_bp</span><span class="p">(</span><span class="s1">&#39;())....))))&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Error in input structure.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[14]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>c)</strong> It is quite easy to detect short hairpins once we have a list of base pairs.  We just need to make sure the difference in index of any pair of paired bases is not less than three.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">hairpin_check</span><span class="p">(</span><span class="n">bps</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check to make sure no hairpins are too short.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">bp</span> <span class="ow">in</span> <span class="n">bps</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;A hairpin is too short.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="c1"># Everything checks out</span>
+    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>d)</strong> Most everything is in place.  We just need to check the sequence.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">rna_ss_validator</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">sec_struc</span><span class="p">,</span> <span class="n">wobble</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Validate and RNA structure&quot;&quot;&quot;</span>
+    <span class="c1"># Convert structure to base pairs</span>
+    <span class="n">bps</span> <span class="o">=</span> <span class="n">dot_parens_to_bp</span><span class="p">(</span><span class="n">sec_struc</span><span class="p">)</span>
+    
+    <span class="c1"># If this failed, the structure was invalid</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">bps</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="c1"># Do the hairpin check</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">hairpin_check</span><span class="p">(</span><span class="n">bps</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="c1"># Possible base pairs</span>
+    <span class="k">if</span> <span class="n">wobble</span><span class="p">:</span>
+        <span class="n">ok_bps</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;gc&#39;</span><span class="p">,</span> <span class="s1">&#39;cg&#39;</span><span class="p">,</span> <span class="s1">&#39;au&#39;</span><span class="p">,</span> <span class="s1">&#39;ua&#39;</span><span class="p">,</span> <span class="s1">&#39;gu&#39;</span><span class="p">,</span> <span class="s1">&#39;ug&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ok_bps</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;gc&#39;</span><span class="p">,</span> <span class="s1">&#39;cg&#39;</span><span class="p">,</span> <span class="s1">&#39;au&#39;</span><span class="p">,</span> <span class="s1">&#39;ua&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Check complementarity</span>
+    <span class="k">for</span> <span class="n">bp</span> <span class="ow">in</span> <span class="n">bps</span><span class="p">:</span>
+        <span class="n">bp_str</span> <span class="o">=</span> <span class="p">(</span><span class="n">seq</span><span class="p">[</span><span class="n">bp</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">seq</span><span class="p">[</span><span class="n">bp</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">bp_str</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ok_bps</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid base pair.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="c1"># Everything passed</span>
+    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's test it on the test cases from the problem statement.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Should be True:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCAUCUAUGC&#39;</span><span class="p">,</span> <span class="s1">&#39;(((....)))&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCAUCUAUGU&#39;</span><span class="p">,</span> <span class="s1">&#39;(((....)))&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCAUCUAUGU&#39;</span><span class="p">,</span> <span class="s1">&#39;(.(....).)&#39;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Should be False:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCAUCUACGC&#39;</span><span class="p">,</span> <span class="s1">&#39;(((....)))&#39;</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCAUCUAUGU&#39;</span><span class="p">,</span> <span class="s1">&#39;(((....)))&#39;</span><span class="p">,</span> <span class="n">wobble</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCAUCUAUGU&#39;</span><span class="p">,</span> <span class="s1">&#39;(.(....)).&#39;</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCCCUUGGCA&#39;</span><span class="p">,</span> <span class="s1">&#39;(.((..))).&#39;</span><span class="p">),</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Should be True:
+True
+True
+True
+
+Should be False:
+Invalid base pair.
+False 
+
+Invalid base pair.
+False 
+
+Invalid base pair.
+False 
+
+A hairpin is too short.
+False 
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Looks good!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><br /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise-1.4:-Command-line-exercises">Exercise 1.4: Command line exercises<a class="anchor-link" href="#Exercise-1.4:-Command-line-exercises">&#182;</a></h2><p>In this problem, you will play around with the command line on your machine and get more familiar with it.</p>
+<p><strong>a)</strong> Let's play around with some options for the <code>ls</code> command. First <code>cd</code> into a directory that has some interesting files in it (like <code>~git/bootcamp/command_line_tutorial</code>). Try the following if you are using <code>bash</code>.</p>
+
+<pre><code>ls -F
+ls -G    # Might not be as cool with Git Bash on Windows
+ls -l
+ls -lh
+ls -lS
+ls -FGLh
+
+</code></pre>
+<p>You should be able to infer what these different options do, but you should talk with the TAs as well.</p>
+<p>Normally, files that begin with a dot (<code>.</code>) are omitted when listing things.  They are also generally omitted when you use your OS's GUI-based file handling system (like Finder on Macs).  To see them, use <code>ls -a</code>.  So, <code>cd</code> into your home directory (you remember how to do that, right?), and then do</p>
+
+<pre><code>ls -a</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>b)</strong> The nuclear option to delete <em>everything</em> in a directory is <code>rm -rf</code>.  The <code>r</code> means to delete recursively, and the <code>f</code> means to "force" deletion. I was going to give you an exercise that uses the nuclear option, but I'm not going to do that. So, just forget I said anything. For this part of the problem, I want you to discuss with your neighbor <em>when</em> the nuclear option might be used, and what needs to be in place before exercising it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>c)</strong> Try doing this if you are using macOS or Linux:</p>
+
+<pre><code>ls /
+
+</code></pre>
+<p>What is <code>/</code>?  Try <code>cd</code>-ing there and seeing what's in there.  <strong>Do not delete anything!</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Exercise-1.4-solution">Exercise 1.4 solution<a class="anchor-link" href="#Exercise-1.4-solution">&#182;</a></h3><p>This problem more or less consisted of messing around with the command line.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><br /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise-1.5:-Making-your-.bashrc-file">Exercise 1.5: Making your .bashrc file<a class="anchor-link" href="#Exercise-1.5:-Making-your-.bashrc-file">&#182;</a></h2><p>Having a <code>.bashrc</code> file allows you to configure your <code>bash</code> shell how you like.</p>
+<p><strong>a)</strong> Create a <code>.bashrc</code> file in your home directory. If you already have a <code>.bashrc</code> file, open it up for editing using Jupyter's text editor.</p>
+<p><strong>b)</strong> It is often useful to <code>alias</code> functions to other functions. For example, I am always worried I will accidentally delete things by accident. I therefore have the following line in my <code>.bashrc</code> file.</p>
+
+<pre><code>alias rm="rm -i"
+
+</code></pre>
+<p>You should create aliases for commands like <code>ls</code> based on the flags you like to <em>always</em> use. Do the same for <code>rm</code> and <code>mv</code> (I use the <code>-i</code> flag with these). To figure out what flags are available, you can look at the <code>man</code> pages. Asking Google will usually give you the information you need on flags.</p>
+<p>If you like, you can use my <code>.bashrc</code> file, available in <code>~/git/bootcamp/misc/jb_bashrc</code>.</p>
+<p><strong>c)</strong> Depending on your operating system, your <code>~/.bashrc</code> file may or may not be properly loaded upon opening a new bash shell. You may, e.g. for new macOS versions, need to explicitly source your <code>.bashrc</code> file in your <code>~/.bash_profile</code> file. Therefore, you should add the following to the bottom of your <code>~/.bash_profile</code> file.</p>
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="o">[</span> -f <span class="nv">$HOME</span>/.bashrc <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    . <span class="nv">$HOME</span>/.bashrc
+<span class="k">fi</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Exercise-1.5-solution">Exercise 1.5 solution<a class="anchor-link" href="#Exercise-1.5-solution">&#182;</a></h3><p>Again, this was mostly you messing around with the command line. The contents of my <code>.bashrc</code> files are shown below.</p>
+<div class="highlight"><pre><span></span><span class="c1"># Give me a nice prompt that tells me my pwd</span>
+<span class="nb">export</span> <span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;\[\e[1;32m\]\u\[\e[0m\]@\e[1;36m\]\h\[\e[0m\] [\w]\n% &quot;</span>
+
+
+<span class="c1"># Keep me out of trouble!</span>
+<span class="nb">alias</span> <span class="nv">rm</span><span class="o">=</span><span class="s2">&quot;rm -i&quot;</span>
+<span class="nb">alias</span> <span class="nv">mv</span><span class="o">=</span><span class="s2">&quot;mv -i&quot;</span>
+<span class="nb">alias</span> <span class="nv">cp</span><span class="o">=</span><span class="s2">&quot;cp -i&quot;</span>
+
+
+<span class="c1"># customize list output</span>
+<span class="nb">alias</span> <span class="nv">ls</span><span class="o">=</span><span class="s2">&quot;ls -FGh&quot;</span>
+<span class="nb">export</span> <span class="nv">LSCOLORS</span><span class="o">=</span><span class="s2">&quot;gxfxcxdxCxegedabagacad&quot;</span>
+</pre></div>
 
 </div>
 </div>
@@ -14327,11 +14104,11 @@ var element = $('#8c07fecd-92c7-48c4-a6f0-3396eba4fbd4');
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
-<span class="o">%</span><span class="k">watermark</span> -v -p pandas,bokeh,jupyterlab
+<span class="o">%</span><span class="k">watermark</span> -v -p jupyterlab
 </pre></div>
 
     </div>
@@ -14351,8 +14128,6 @@ var element = $('#8c07fecd-92c7-48c4-a6f0-3396eba4fbd4');
 <pre>CPython 3.7.3
 IPython 7.1.1
 
-pandas 0.24.2
-bokeh 1.2.0
 jupyterlab 0.35.5
 </pre>
 </div>
