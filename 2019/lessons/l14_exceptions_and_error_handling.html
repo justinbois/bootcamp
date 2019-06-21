@@ -13665,7 +13665,7 @@ We get    [1, 1, 2, 2, 3, 3]
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>/Users/bois/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:8: UserWarning: Failed to load gc_content. Using custom function.
+<pre>/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:8: UserWarning: Failed to load gc_content. Using custom function.
   
 </pre>
 </div>
@@ -13705,15 +13705,16 @@ We get    [1, 1, 2, 2, 3, 3]
     <span class="c1"># Convert seq to upper case</span>
     <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
     
-    <span class="c1"># Do conversion, checking that each input AA is valid</span>
     <span class="n">aa_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">amino_acid</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+        <span class="c1"># Check if the `amino_acid` is in our dictionary `bootcamp_utils.aa`</span>
         <span class="k">if</span> <span class="n">amino_acid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bootcamp_utils</span><span class="o">.</span><span class="n">aa</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">amino_acid</span> <span class="o">+</span> <span class="s1">&#39; is not a valid amino acid.&#39;</span><span class="p">)</span>
-        <span class="n">aa_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">bootcamp_utils</span><span class="o">.</span><span class="n">aa</span><span class="p">[</span><span class="n">amino_acid</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">]</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{amino_acid}</span><span class="s1"> is not a valid amino acid&#39;</span><span class="p">)</span>
+        <span class="c1"># Add the `amino_acid` to our aa_list</span>
+        <span class="n">aa_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bootcamp_utils</span><span class="o">.</span><span class="n">aa</span><span class="p">[</span><span class="n">amino_acid</span><span class="p">])</span>
 
-    <span class="c1"># Return the result</span>
-    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">aa_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># Return the amino acids, joined together, with a dash as a separator.</span>
+    <span class="k">return</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">aa_list</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13798,14 +13799,14 @@ We get    [1, 1, 2, 2, 3, 3]
 <span class="ansi-green-fg">&lt;ipython-input-14-96dc1e0f73c2&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>one_to_three<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;waeifnsdfzklnsae&#39;</span><span class="ansi-blue-fg">)</span>
 
-<span class="ansi-green-fg">&lt;ipython-input-12-d99309f530f7&gt;</span> in <span class="ansi-cyan-fg">one_to_three</span><span class="ansi-blue-fg">(seq)</span>
-<span class="ansi-green-intense-fg ansi-bold">     11</span>     <span class="ansi-green-fg">for</span> amino_acid <span class="ansi-green-fg">in</span> seq<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">&lt;ipython-input-12-be140f926fa7&gt;</span> in <span class="ansi-cyan-fg">one_to_three</span><span class="ansi-blue-fg">(seq)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>         <span class="ansi-red-fg"># Check if the `amino_acid` is in our dictionary `bootcamp_utils.aa`</span>
 <span class="ansi-green-intense-fg ansi-bold">     12</span>         <span class="ansi-green-fg">if</span> amino_acid <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">in</span> bootcamp_utils<span class="ansi-blue-fg">.</span>aa<span class="ansi-blue-fg">.</span>keys<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span>amino_acid <span class="ansi-blue-fg">+</span> <span class="ansi-blue-fg">&#39; is not a valid amino acid.&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     14</span>         aa_list <span class="ansi-blue-fg">+=</span> <span class="ansi-blue-fg">[</span>bootcamp_utils<span class="ansi-blue-fg">.</span>aa<span class="ansi-blue-fg">[</span>amino_acid<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;-&#39;</span><span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     15</span> 
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">raise</span> RuntimeError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;{amino_acid} is not a valid amino acid&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>         <span class="ansi-red-fg"># Add the `amino_acid` to our aa_list</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>         aa_list<span class="ansi-blue-fg">.</span>append<span class="ansi-blue-fg">(</span>bootcamp_utils<span class="ansi-blue-fg">.</span>aa<span class="ansi-blue-fg">[</span>amino_acid<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
 
-<span class="ansi-red-fg">RuntimeError</span>: Z is not a valid amino acid.</pre>
+<span class="ansi-red-fg">RuntimeError</span>: Z is not a valid amino acid</pre>
 </div>
 </div>
 
