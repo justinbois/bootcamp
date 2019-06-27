@@ -13159,7 +13159,64 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="A-very-brief-historical-overview">A very brief historical overview<a class="anchor-link" href="#A-very-brief-historical-overview">&#182;</a></h2><p>Ken Thompson of Bell Labs developed the predecessor to the modern shell for the first release of UNIX in 1971. In 1977, Stephen Bourne introduced the Bourne shell (<code>sh</code>) which added the ability to invoke scripts (small reusable programs) from within the shell. The Bourne shell remains relevant. In some cases it is still the default root shell. Shortly afterwards, the C shell (<code>csh</code>) was developed which made use of a C-like scripting language. <code>tcsh</code> is built on <code>csh</code> and is still very common. <code>bash</code>, the Bourne again shell was developed by Brian Fox to replace the Bourne shell. It adds many useful features to sh and is the default shell for macOS and several Linux distributions.</p>
-<p>Windows 10 enables you to also use <code>bash</code>, but you need to activate the <a href="https://docs.microsoft.com/en-us/windows/wsl/about">Windows Subsystem for Linux</a>. We will not use <code>bash</code> for Windows users in the bootcamp (unless you want to), but will instead use PowerShell, which is also the default shell in JupyterLab's terminal for Windows users. For the simple command line operations we will do in the bootcamp, PowerShell is almost always sufficient and the syntax is the same. <a href="http://cecs.wright.edu/~pmateti/Courses/233/Top/233-CheatSheet.html#Bash_and_PowerShell_Quick_Reference">This cheatsheet</a> is a useful reference for comparing <code>bash</code> and PowerShell commands.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Windows-vs.-macOS/Linux">Windows vs. macOS/Linux<a class="anchor-link" href="#Windows-vs.-macOS/Linux">&#182;</a></h2><p>Windows 10 enables you to also use <code>bash</code>, but you need to activate the <a href="https://docs.microsoft.com/en-us/windows/wsl/about">Windows Subsystem for Linux</a>. We will not use <code>bash</code> for Windows users in the bootcamp (unless you want to), but will instead use <a href="https://en.wikipedia.org/wiki/PowerShell">PowerShell</a>, which is also the default shell in JupyterLab's terminal for Windows users. For the simple command line operations we will do in the bootcamp, PowerShell is almost always sufficient and the syntax is the same. <a href="http://cecs.wright.edu/~pmateti/Courses/233/Top/233-CheatSheet.html#Bash_and_PowerShell_Quick_Reference">This cheatsheet</a> is a useful reference for comparing <code>bash</code> and PowerShell commands.</p>
+<p>In what follows below, we will show the <code>bash</code> commands and sometimes provide commentary for Windows users. Here is a brief table comparing <code>bash</code> to PowerShell commands.</p>
+<table>
+<thead><tr>
+<th style="text-align:center">Bash</th>
+<th style="text-align:center">PowerShell</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>cd</code></td>
+<td style="text-align:center"><code>cd</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>mv</code></td>
+<td style="text-align:center"><code>mv</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>pwd</code></td>
+<td style="text-align:center"><code>pwd</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ls -al</code></td>
+<td style="text-align:center"><code>ls -Hidden</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>rm -rf</code></td>
+<td style="text-align:center"><code>del -Force -Recurse .\mydirectory</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>more</code></td>
+<td style="text-align:center"><code>more</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>less</code></td>
+<td style="text-align:center">Does not exist</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>head -5 myfile.txt</code></td>
+<td style="text-align:center"><code>gc myfile.txt -head 5</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>tail -5 myfile.txt</code></td>
+<td style="text-align:center"><code>gc myfile.txt -tail 5</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>cat ./dir/myfile.txt</code></td>
+<td style="text-align:center"><code>!type "dir\myfile.txt"</code></td>
+</tr>
+</tbody>
+</table>
 
 </div>
 </div>
@@ -13269,16 +13326,24 @@ ls
 <pre><code>mv some sequence.fasta some_sequence.fasta
 
 </code></pre>
-<p>Uh-oh! That gave us some strange output, talking about the usage of <code>mv</code>. This is because the space in the file <code>some sequence.fasta</code> was interpreted as a gap between arguments of the <code>mv</code> command. To specify that the space is part of the file name, we need to use an <strong>escape character</strong>, <code>\</code>. The space following the escape character is not considered as an argument separator. This works (but don't do it just yet):</p>
-
-<pre><code>mv some\ sequence.fasta some_sequence.fasta   # Don't do this
-
-</code></pre>
+<p>Uh-oh! That gave us some strange output, talking about the usage of <code>mv</code>. This is because the space in the file <code>some sequence.fasta</code> was interpreted as a gap between arguments of the <code>mv</code> command. To specify that the space is part of the file name, we need to use an <strong>escape character</strong>. The escape character for macOS or Linux is <code>\</code>. With Windows, you can use a caret <code>^</code> as an escape character or you can enclose the file name with a space in single quotes. The space following the escape character is not considered as an argument separator. This works (but don't do it just yet):</p>
+<ul>
+<li><p>macOS or Linux: 
+  <code>mv some\ sequence.fasta some_sequence.fasta   # Don't do this</code></p>
+</li>
+<li><p>Windows: 
+  <code>mv 'some sequence.fasta' some_sequence.fasta   # Don't do this</code></p>
+</li>
+</ul>
 <p>Because these files are under version control, you should precede the <code>mv</code> command with <code>git</code>. That way, Git will keep track of the naming changes you made. So, do this:</p>
-
-<pre><code>git mv some\ sequence.fasta some_sequence.fasta
-
-</code></pre>
+<ul>
+<li><p>macOS or Linux: 
+  <code>git mv some\ sequence.fasta some_sequence.fasta</code></p>
+</li>
+<li><p>Windows: 
+  <code>git mv 'some sequence.fasta' some_sequence.fasta</code></p>
+</li>
+</ul>
 <p>Now, we probably want this file in the <code>sequences</code> directory. We can also move files into directories (without changing their file names) using the <code>mv</code> command.</p>
 
 <pre><code>git mv some_sequence.fasta sequences/
@@ -13300,19 +13365,24 @@ ls
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Exploring-file-content">Exploring file content<a class="anchor-link" href="#Exploring-file-content">&#182;</a></h3><p>We would like to see what is in the sequence files. Bash offers various ways to display the content of files. We'll look at the genome of the dengue virus in the file <code>dengue.fasta</code>. There are lots of ways to do it. We'll start with <code>less</code>. It got its name because it is more feature-rich than <code>more</code>, which was used to look at files before <code>less</code> came to be. ("<code>less</code> is <code>more</code>," get it?) It allows using the arrow up and arrow down keys traverse up or down by line. It also allows scrolling by touchpad or mouse. Since it doesn't require the whole file to be read before displaying the top content, it's ideal for larger files. It also supports searching initiated by "/" followed by the query; <code>shift+g</code> will go to the end of the file; <code>gg</code> to the beginning; and you can specify a line number by "<code>:</code>" followed by the line number.</p>
-
-<pre><code>less dengue.fasta
-
-</code></pre>
+<ul>
+<li><p>macOS or Linux:
+  <code>less dengue.fasta</code></p>
+</li>
+<li><p>Windows:
+  <code>more dengue.fasta</code></p>
+</li>
+</ul>
+<p>To exit <code>less</code> or <code>more</code>, hit <code>Q</code>.</p>
 <p>We'll now look at several other ways to look at files.  Just substitute them for <code>less</code> in the above command.</p>
-<h4 id="cat">cat<a class="anchor-link" href="#cat">&#182;</a></h4><p><code>cat</code> prints the entire file to the standard output (terminal). This is especially useful if the files are very small.</p>
+<h4 id="cat">cat<a class="anchor-link" href="#cat">&#182;</a></h4><p><code>cat</code> prints the entire file to the standard output (terminal). This is especially useful if the files are very small. Windows users, use <code>!type</code> instead of <code>cat</code>.</p>
 <h4 id="head">head<a class="anchor-link" href="#head">&#182;</a></h4><p><code>head</code> just prints the top lines of the file to the standard output. The default can be changed:</p>
 
 <pre><code>head -5 
 
 </code></pre>
-<p>This will print the first 5 lines to the standard output</p>
-<h4 id="tail">tail<a class="anchor-link" href="#tail">&#182;</a></h4><p>Like <code>head</code>, but for the last lines of the file.</p>
+<p>This will print the first 5 lines to the standard output. Windows users, <a href="#Windows-vs.-macOS%2FLinux">note alternative command</a>.</p>
+<h4 id="tail">tail<a class="anchor-link" href="#tail">&#182;</a></h4><p>Like <code>head</code>, but for the last lines of the file. Windows users, <a href="#Windows-vs.-macOS%2FLinux">note alternative command</a>.</p>
 
 </div>
 </div>
