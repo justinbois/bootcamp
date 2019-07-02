@@ -13391,6 +13391,31 @@ Hello, world.     # Has nothing to do with the input sequence
 
 </code></pre>
 <p>There may be more than one longest common substring; you only need to return one of them.</p>
+<p>The call signature of the function should be</p>
+<div class="highlight"><pre><span></span><span class="n">longest_common_substring</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
+</pre></div>
+<p>Here are some return values you should get.</p>
+<table>
+<thead><tr>
+<th style="text-align:left">Function call</th>
+<th style="text-align:right">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>longest_common_substring('ATGC', 'ATGCA')</code></td>
+<td style="text-align:right"><code>'ATGC'</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>longest_common_substring('GATGCCATGCA', 'ATGCC')</code></td>
+<td style="text-align:right"><code>'ATGCC'</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>longest_common_substring('ACGTGGAAAGCCA', 'GTACACACGTTTTGAGAGACAC')</code></td>
+<td style="text-align:right"><code>'ACGT'</code></td>
+</tr>
+</tbody>
+</table>
 
 </div>
 </div>
@@ -13922,19 +13947,23 @@ False
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Should be True:&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCAUCUAUGC&#39;</span><span class="p">,</span> <span class="s1">&#39;(((....)))&#39;</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCAUCUAUGU&#39;</span><span class="p">,</span> <span class="s1">&#39;(((....)))&#39;</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCAUCUAUGU&#39;</span><span class="p">,</span> <span class="s1">&#39;(.(....).)&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;AUUGAUGCACGUGCAUCCCCAGCGGGUCCCGCGAGCUCACCCCCUUCCAAAAGCACCACGUGCCAGGCCUCGCCCCCGGAAGUAUACCUGUGAGCCAGA&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;...(((((....)))))....((((...))))..((((((...(((((....((((...))))..(((...)))...))))).......))))))....&#39;</span><span class="p">))</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Should be False:&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCAUCUACGC&#39;</span><span class="p">,</span> <span class="s1">&#39;(((....)))&#39;</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCAUCUAUGU&#39;</span><span class="p">,</span> <span class="s1">&#39;(((....)))&#39;</span><span class="p">,</span> <span class="n">wobble</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCAUCUAUGU&#39;</span><span class="p">,</span> <span class="s1">&#39;(.(....)).&#39;</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;GCCCUUGGCA&#39;</span><span class="p">,</span> <span class="s1">&#39;(.((..))).&#39;</span><span class="p">),</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rna_ss_validator</span><span class="p">(</span><span class="s1">&#39;AUUGAUGCACGUGCAUCCCCAGCGGGUCCCGCGAGCCCACCCCCUUCCAAAAGCACCACGUGCCAGGCCUCGCCCCCGGAAGUAUACCUGUGAGCCAGA&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;...(((((....)))))....((((...))))..((((((...(((((....((((...))))..(((...)))...))))).......))))))....&#39;</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -13955,6 +13984,7 @@ False
 True
 True
 True
+True
 
 Should be False:
 Invalid base pair.
@@ -13969,6 +13999,8 @@ False
 A hairpin is too short.
 False 
 
+Invalid base pair.
+False
 </pre>
 </div>
 </div>
