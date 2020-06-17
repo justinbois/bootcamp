@@ -104,6 +104,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 9: Dictionaries</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#Mapping-objects-and-dictionaries">Mapping objects and dictionaries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Dictionary-syntax">Dictionary syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Indexing-dictionaries">Indexing dictionaries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Useful-dictionaries-in-bioinformatics">Useful dictionaries in bioinformatics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#A-dictionary-is-an-implementation-of-a-hash-table">A dictionary is an implementation of a hash table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Dictionaries-are-mutable">Dictionaries are mutable</a></li>
@@ -149,6 +150,7 @@
 <p class="caption"><span class="caption-text">Exercise solutions</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_1/index.html">Exercise 1 solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_2/index.html">Exercise 2 solutions</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Schedule</span></p>
 <ul>
@@ -610,11 +612,38 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 </div>
+<div class="section" id="Indexing-dictionaries">
+<h2>Indexing dictionaries<a class="headerlink" href="#Indexing-dictionaries" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned at the beginning of the lesson, we index dictionaries by key.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Make a dictionary</span>
+<span class="n">my_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;maybe&#39;</span><span class="p">)</span>
+
+<span class="c1"># Pull out an entry</span>
+<span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;no&#39;
+</pre></div></div>
+</div>
+<p>Because the indexing of dictionaries is by key and not by sequential integers, they cannot be sliced; they must be accessed element-by-element.</p>
+</div>
 <div class="section" id="Useful-dictionaries-in-bioinformatics">
 <h2>Useful dictionaries in bioinformatics<a class="headerlink" href="#Useful-dictionaries-in-bioinformatics" title="Permalink to this headline">¶</a></h2>
 <p>It might be useful to quickly look up 3-letter amino acid codes. Dictionaries are particularly useful for this.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -645,7 +674,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>Another useful dictionary would contain the set of codons and the amino acids they code for. This is built in the code below using the <code class="docutils literal notranslate"><span class="pre">zip()</span></code> function we learned before. To see the logic on how this is constructed, see the codon table <a class="reference external" href="https://en.wikipedia.org/wiki/DNA_codon_table">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -684,7 +713,7 @@ div.rendered_html tbody tr:hover {
 <h2>A dictionary is an implementation of a hash table<a class="headerlink" href="#A-dictionary-is-an-implementation-of-a-hash-table" title="Permalink to this headline">¶</a></h2>
 <p>It is useful to stop and think about how a dictionary works. Let’s create a dictionary and look at where the values are stored in memory.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -704,16 +733,16 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-140243622210528
-4337833248
-4337833280
-140243622224272
+140200820028192
+4491306272
+4491306304
+140200819475024
 </pre></div></div>
 </div>
 <p>So, each entry in the dictionary is stored at a different location in memory. The dictionary itself also has its own address. So, when I index a dictionary with a key, how does the dictionary know which address in memory to use to fetch the value I am interested in?</p>
 <p>Dictionaries use a <strong>hash function</strong> to do this. A hash function converts its input to an integer. For example, we can use Python’s built-in hash function to convert the keys to integers.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -722,12 +751,12 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(-3112764292514894642, -8648589395117802503, -3856140223494494431)
+(940438397784053736, -8004693289631231327, -5405999133769989395)
 </pre></div></div>
 </div>
 <p>Under the hood, Python then converts these integers to integers that could correspond to locations in memory. A collection of elements that can be indexed this way is called a <strong>hash table</strong>. This is a very common data structure in computing. Wikipedia has a <a class="reference external" href="https://en.wikipedia.org/wiki/Hash_table">pretty good discussion on them</a>.</p>
@@ -737,7 +766,7 @@ div.rendered_html tbody tr:hover {
 <h2>Dictionaries are mutable<a class="headerlink" href="#Dictionaries-are-mutable" title="Permalink to this headline">¶</a></h2>
 <p>Dictionaries are mutable. This means that they can be changed in place. For example, if we want to add an element to a dictionary, we use simple syntax.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -773,7 +802,7 @@ div.rendered_html tbody tr:hover {
 <h2>Membership operators with dictionaries<a class="headerlink" href="#Membership-operators-with-dictionaries" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">in</span></code> and <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">in</span></code> operators work with dictionaries, but both only query keys and <em>not</em> values. We see this again by example.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -786,7 +815,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -795,7 +824,7 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -805,7 +834,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -815,7 +844,7 @@ False
 </div>
 <p>Yup! We get <code class="docutils literal notranslate"><span class="pre">False</span></code>. Why? Because <code class="docutils literal notranslate"><span class="pre">2</span></code> is not a <em>key</em> in <code class="docutils literal notranslate"><span class="pre">my_dict</span></code>. We can also iterate over the keys in a dictionary.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -836,7 +865,7 @@ c : 3
 </div>
 <p>The best, and preferred, method, is to iterate over <code class="docutils literal notranslate"><span class="pre">key</span></code>,<code class="docutils literal notranslate"><span class="pre">value</span></code> pairs in a dictionary using the <code class="docutils literal notranslate"><span class="pre">items()</span></code> method of a dictionary.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -857,7 +886,7 @@ c : 3
 </div>
 <p>Note, however, that like lists, the <code class="docutils literal notranslate"><span class="pre">item</span></code>s that come out of the <code class="docutils literal notranslate"><span class="pre">my_dict.items()</span></code> iterator are <em>not</em> items in the dictionary, but copies of them. If you make changes within the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop, you will not change entries in the dictionary.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -869,7 +898,7 @@ c : 3
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -879,7 +908,7 @@ c : 3
 </div>
 <p>You will, though, if you use the keys.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -891,7 +920,7 @@ c : 3
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -911,7 +940,7 @@ c : 3
 </ul>
 <p>This is the first time we’ve encountered the <code class="docutils literal notranslate"><span class="pre">del</span></code> keyword. This keyword is used to delete variables and their values from memory. The <code class="docutils literal notranslate"><span class="pre">del</span></code> keyword can also be to delete items from lists. Let’s see things in practice.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -954,7 +983,7 @@ post-deleted my_list: [1, 3, 4]
 </div>
 <p>Note, though, that you cannot delete an item from a tuple, since it’s immutable.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -970,7 +999,7 @@ post-deleted my_list: [1, 3, 4]
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-18-db6fdb3f0eac&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">&lt;ipython-input-19-db6fdb3f0eac&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-intense-fg ansi-bold">      1</span> my_tuple <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">4</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">del</span> my_tuple<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span>
 
@@ -983,8 +1012,8 @@ post-deleted my_list: [1, 3, 4]
 <p>Dictionaries have several built-in methods in addition to the <code class="docutils literal notranslate"><span class="pre">items()</span></code> you have already seen. Following are a few of them, assuming the dictionary is <code class="docutils literal notranslate"><span class="pre">d</span></code>.</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 19%" />
-<col style="width: 81%" />
+<col style="width: 50%" />
+<col style="width: 50%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>method</p></th>
@@ -1001,11 +1030,14 @@ post-deleted my_list: [1, 3, 4]
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">d.values()</span></code></p></td>
 <td><p>return the values in <code class="docutils literal notranslate"><span class="pre">d</span></code></p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">d.get(key,</span> <span class="pre">default=None)</span></code></p></td>
+<td><p>Fetch a value in <code class="docutils literal notranslate"><span class="pre">d</span></code> by key giving a default value if <code class="docutils literal notranslate"><span class="pre">key</span></code> is missing</p></td>
+</tr>
 </tbody>
 </table>
 <p>Let’s try these out.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1016,7 +1048,7 @@ post-deleted my_list: [1, 3, 4]
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1026,7 +1058,7 @@ dict_keys([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])
 </div>
 <p>Note that this is a <code class="docutils literal notranslate"><span class="pre">dict_keys</span></code> object. We cannot index it. If, say, we wanted to sort the keys and have them index-able, we would have to convert them to a list.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1035,7 +1067,7 @@ dict_keys([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1045,7 +1077,7 @@ dict_keys([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])
 </div>
 <p>This is not a usual use case, though, and be warned that doing then when this is not explicitly what you want can lead to bugs. Now let’s try popping an entry out of the dictionary.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1054,7 +1086,7 @@ dict_keys([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1063,7 +1095,7 @@ dict_keys([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1072,7 +1104,7 @@ dict_keys([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1080,9 +1112,9 @@ dict_keys([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])
 {&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;d&#39;: 4}
 </pre></div></div>
 </div>
-<p>…and, as we expect, key <code class="docutils literal notranslate"><span class="pre">'c'</span></code> is now deleted, and its value was returned in the call to <code class="docutils literal notranslate"><span class="pre">my_dict.pop('c')</span></code>. Finally, we can look at the values.</p>
+<p>…and, as we expect, key <code class="docutils literal notranslate"><span class="pre">'c'</span></code> is now deleted, and its value was returned in the call to <code class="docutils literal notranslate"><span class="pre">my_dict.pop('c')</span></code>. Now, let’s look at the values.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1091,7 +1123,7 @@ dict_keys([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1099,7 +1131,55 @@ dict_keys([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])
 dict_values([1, 2, 4])
 </pre></div></div>
 </div>
-<p>We get a <code class="docutils literal notranslate"><span class="pre">dict_values</span></code> object, similar to the <code class="docutils literal notranslate"><span class="pre">dict_keys</span></code> object we got with the <code class="docutils literal notranslate"><span class="pre">my_dict.keys()</span></code> method.</p>
+<p>We get a <code class="docutils literal notranslate"><span class="pre">dict_values</span></code> object, similar to the <code class="docutils literal notranslate"><span class="pre">dict_keys</span></code> object we got with the <code class="docutils literal notranslate"><span class="pre">my_dict.keys()</span></code> method. Finally, let’s consider <code class="docutils literal notranslate"><span class="pre">get()</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">my_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+4
+</pre></div></div>
+</div>
+<p>This is the same as <code class="docutils literal notranslate"><span class="pre">my_dict['d']</span></code>, except that if the key <code class="docutils literal notranslate"><span class="pre">'d'</span></code> is not there, it will return a default value. Let’s try using <code class="docutils literal notranslate"><span class="pre">my_dict.get()</span></code> with the deleted entry <code class="docutils literal notranslate"><span class="pre">'c'</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">my_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Note that there was no error (there would be if we did <code class="docutils literal notranslate"><span class="pre">my_dict['c']</span></code>), and we got <code class="docutils literal notranslate"><span class="pre">None</span></code>. We could specify a default value.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">my_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+3
+</pre></div></div>
+</div>
+<p>You should think about what behavior you want when you attempt to get a value out of a dictionary by key. Do you want an error when the key is missing? Then use indexing. Do you want to have a (possibly <code class="docutils literal notranslate"><span class="pre">None</span></code>) default if the key is missing and no error? Then use <code class="docutils literal notranslate"><span class="pre">my_dict.get()</span></code>.</p>
 <p>You can get more information about build-in methods from the <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#mapping-types-dict">Python documentation</a>.</p>
 </div>
 <div class="section" id="List-methods">
@@ -1139,7 +1219,7 @@ dict_values([1, 2, 4])
 <p>A nifty feature of dictionaries is that they can be passed into functions as keyword arguments. We covered named keyword arguments in the <a class="reference internal" href="l07_intro_to_functions.html"><span class="doc">Intro to functions lesson</span></a>. In addition to the named keyword arguments, a function can take in arbitrary keyword arguments (<strong>not</strong> arbitrary non-keyword arguments). This is specified in the function definition by including a last argument with a double-asterisk, <code class="docutils literal notranslate"><span class="pre">**</span></code>. The kwargs with the double-asterisk get passed in as a
 dictionary.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1156,7 +1236,7 @@ dictionary.</p>
 </div>
 <p>Let’s try it!</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1165,7 +1245,7 @@ dictionary.</p>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1175,7 +1255,7 @@ dictionary.</p>
 </div>
 <p>Now, imagine we have a dictionary that contains our values.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1185,7 +1265,7 @@ dictionary.</p>
 </div>
 <p>We can now pass this directly into the function by preceding it with a double asterisk.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1194,7 +1274,7 @@ dictionary.</p>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1208,7 +1288,7 @@ dictionary.</p>
 <div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1252,11 +1332,11 @@ jupyterlab 1.2.6
   <div role="contentinfo">
     <p>
       <span class="lastupdated">
-        Last updated on Jun 16, 2020.
+        Last updated on Jun 17, 2020.
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7fdb6fc183d0> 
+  </div> <jinja2.runtime.BlockReference object at 0x7fbb1234f450> 
 
 <p>© 2020 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
