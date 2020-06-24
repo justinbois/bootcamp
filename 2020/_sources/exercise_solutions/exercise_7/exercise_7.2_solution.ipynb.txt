@@ -1,0 +1,268 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Exercise 7.2: Working with two-dimensional arrays\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<hr>\n",
+    "\n",
+    "Numpy enables you do to matrix calculations on two-dimensional arrays. In exercise, you will practice doing matrix calculations on arrays. We'll start by making a matrix and a vector to practice with. You can copy and paste the code below."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "A = np.array(\n",
+    "    [\n",
+    "        [6.7, 1.3, 0.6, 0.7],\n",
+    "        [0.1, 5.5, 0.4, 2.4],\n",
+    "        [1.1, 0.8, 4.5, 1.7],\n",
+    "        [0.0, 1.5, 3.4, 7.5],\n",
+    "    ]\n",
+    ")\n",
+    "\n",
+    "b = np.array([1.1, 2.3, 3.3, 3.9])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**a)** First, let's practice slicing.\n",
+    "\n",
+    "1. Print row 1 (remember, indexing starts at zero) of `A`.\n",
+    "2. Print columns 1 and 3 of `A`.\n",
+    "3. Print the values of every entry in `A` that is greater than 2.\n",
+    "4. Print the diagonal of `A`. using the `np.diag()` function.\n",
+    "\n",
+    "**b)** The `np.linalg` module has some powerful linear algebra tools. \n",
+    "\n",
+    "1. First, we'll solve the linear system $\\mathsf{A}\\cdot \\mathbf{x} = \\mathbf{b}$. Try it out: use `np.linalg.solve()`. Store your answer in the Numpy array `x`.\n",
+    "2. Now do `np.dot(A, x)` to verify that $\\mathsf{A}\\cdot \\mathbf{x} = \\mathbf{b}$.\n",
+    "3. Use `np.transpose()` to compute the transpose of `A`.\n",
+    "4. Use `np.linalg.inv()` to compute the inverse of `A`.\n",
+    "\n",
+    "**c)** Sometimes you want to convert a two-dimensional array to a one-dimensional array. This can be done with `np.ravel()`. \n",
+    "\n",
+    "1. See what happens when you do `B = np.ravel(A)`.\n",
+    "2. Look of the documentation for `np.reshape()`. Then, reshape `B` to make it look like `A` again."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<br />"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Solution\n",
+    "\n",
+    "**a)**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "first row of A:\n",
+      " [0.1 5.5 0.4 2.4]\n",
+      "\n",
+      "columns 1 and 3 of A:\n",
+      " [[1.3 0.7]\n",
+      " [5.5 2.4]\n",
+      " [0.8 1.7]\n",
+      " [1.5 7.5]]\n",
+      "\n",
+      "values of every entry in A that is greater than 2:\n",
+      " [6.7 5.5 2.4 4.5 3.4 7.5]\n",
+      "\n",
+      "diagonal of A:\n",
+      " [6.7 5.5 4.5 7.5]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 1.\n",
+    "print('first row of A:\\n', A[1,:])\n",
+    "\n",
+    "# 2.\n",
+    "print('\\ncolumns 1 and 3 of A:\\n', A[:,[1,3]])\n",
+    "\n",
+    "# 3. \n",
+    "print('\\nvalues of every entry in A that is greater than 2:\\n', A[A>2])\n",
+    "\n",
+    "# 4.\n",
+    "print('\\ndiagonal of A:\\n', np.diag(A))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**b)**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "A . x:\n",
+      " [1.1 2.3 3.3 3.9]\n",
+      "\n",
+      "b:\n",
+      " [1.1 2.3 3.3 3.9]\n",
+      "\n",
+      "transpose of A:\n",
+      " [[6.7 0.1 1.1 0. ]\n",
+      " [1.3 5.5 0.8 1.5]\n",
+      " [0.6 0.4 4.5 3.4]\n",
+      " [0.7 2.4 1.7 7.5]]\n",
+      "\n",
+      "inverse of A:\n",
+      " [[ 0.15267508 -0.03365026 -0.01778     0.00054854]\n",
+      " [-0.00906001  0.19788853  0.03719385 -0.07090934]\n",
+      " [-0.04391535 -0.0144834   0.26880108 -0.05219479]\n",
+      " [ 0.02172029 -0.0330119  -0.12929526  0.17117684]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 1.\n",
+    "x = np.linalg.solve(A, b)\n",
+    "\n",
+    "# 2.\n",
+    "print('A . x:\\n', np.dot(A, x))\n",
+    "print('\\nb:\\n', b)\n",
+    "\n",
+    "# 3.\n",
+    "print('\\ntranspose of A:\\n', np.transpose(A))\n",
+    "\n",
+    "# 4.\n",
+    "print('\\ninverse of A:\\n', np.linalg.inv(A))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**c)**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "result of np.ravel(A):\n",
+      " [6.7 1.3 0.6 0.7 0.1 5.5 0.4 2.4 1.1 0.8 4.5 1.7 0.  1.5 3.4 7.5]\n",
+      "\n",
+      "A from reshaped B:\n",
+      " [[6.7 1.3 0.6 0.7]\n",
+      " [0.1 5.5 0.4 2.4]\n",
+      " [1.1 0.8 4.5 1.7]\n",
+      " [0.  1.5 3.4 7.5]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 1.\n",
+    "B = np.ravel(A)\n",
+    "print('result of np.ravel(A):\\n', B)\n",
+    "\n",
+    "# 2.\n",
+    "A_from_reshape = np.reshape(B, A.shape)\n",
+    "print('\\nA from reshaped B:\\n', A_from_reshape)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "CPython 3.7.7\n",
+      "IPython 7.13.0\n",
+      "\n",
+      "numpy 1.18.1\n",
+      "jupyterlab 1.2.6\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p numpy,jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
