@@ -138,6 +138,16 @@
 <li class="toctree-l1"><a class="reference internal" href="l30_other_packages_and_languages.html">Lesson 30: Survey of other packages and languages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l31_bootcamp_recap.html">Lesson 31: Bootcamp recap</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Auxiliary lessons</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="l32_intro_to_oop.html">Lesson 32: Introduction to object-oriented programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l33_algorithmic_complexity.html">Lesson 33: Algorithmic complexity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l34_more_command_line.html">Lesson 34: More about the command line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l35_regular_expressions.html">Lesson 35: Regular expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l36_intro_to_scripting.html">Lesson 36: Introduction to scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l37_intro_to_image_processing.html">Lesson 37: Introduction to image processing with scikit-image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l38_segmentation.html">Lesson 38: Basic image quantification</a></li>
+</ul>
 <p class="caption"><span class="caption-text">Exercises</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_1/index.html">Exercise 1</a></li>
@@ -162,14 +172,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_7/index.html">Exercise 7 solutions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_8/index.html">Exercise 8 solutions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_9/index.html">Exercise 9 solutions</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Auxiliary lessons</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="l32_intro_to_oop.html">Lesson 32: Introduction to object-oriented programming</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l33_algorithmic_complexity.html">Lesson 33: Algorithmic complexity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l34_more_command_line.html">Lesson 34: More about the command line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l35_regular_expressions.html">Lesson 35: Regular expressions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l36_intro_to_scripting.html">Lesson 36: Introduction to scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_10/index.html">Exercise 10 solutions</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Schedule</span></p>
 <ul>
@@ -179,6 +182,7 @@
 <p class="caption"><span class="caption-text">Resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../resources.html">Scientific Python distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html#griffin-chure-s-templates">Griffin Chure’s templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../resources.html#online-instruction">Online instruction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../resources.html#books">Books</a></li>
 </ul>
@@ -527,7 +531,7 @@ matches. Briefly, the test works by having subjects look at a pair of faces. Two
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-﻿participant number,gender,age,correct hit percentage,correct reject percentage,percent correct,confidence when correct hit,confidence incorrect hit,confidence correct reject,confidence incorrect reject,confidence when correct,confidence when incorrect,sci,psqi,ess
+﻿participant number,gender,age,correct hit percentage,correct reject percentage,percent correct,confidence when correct hit,confidence when incorrect hit,confidence when correct reject,confidence when incorrect reject,confidence when correct,confidence when incorrect,sci,psqi,ess
 8,f,39,65,80,72.5,91,90,93,83.5,93,90,9,13,2
 16,m,42,90,90,90,75.5,55.5,70.5,50,75,50,4,11,7
 18,f,31,90,95,92.5,89.5,90,86,81,89,88,10,9,3
@@ -967,9 +971,9 @@ pandas.core.frame.DataFrame
       <th>correct reject percentage</th>
       <th>percent correct</th>
       <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
+      <th>confidence when incorrect hit</th>
+      <th>confidence when correct reject</th>
+      <th>confidence when incorrect reject</th>
       <th>confidence when correct</th>
       <th>confidence when incorrect</th>
       <th>sci</th>
@@ -2121,9 +2125,9 @@ pandas.core.frame.DataFrame
       <th>correct reject percentage</th>
       <th>percent correct</th>
       <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
+      <th>confidence when incorrect hit</th>
+      <th>confidence when correct reject</th>
+      <th>confidence when incorrect reject</th>
       <th>confidence when correct</th>
       <th>confidence when incorrect</th>
       <th>sci</th>
@@ -2475,9 +2479,9 @@ Name: percent correct, dtype: float64
       <th>correct reject percentage</th>
       <th>percent correct</th>
       <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
+      <th>confidence when incorrect hit</th>
+      <th>confidence when correct reject</th>
+      <th>confidence when incorrect reject</th>
       <th>confidence when correct</th>
       <th>confidence when incorrect</th>
       <th>sci</th>
@@ -2549,9 +2553,9 @@ Name: percent correct, dtype: float64
       <th>correct reject percentage</th>
       <th>percent correct</th>
       <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
+      <th>confidence when incorrect hit</th>
+      <th>confidence when correct reject</th>
+      <th>confidence when incorrect reject</th>
       <th>confidence when correct</th>
       <th>confidence when incorrect</th>
       <th>sci</th>
@@ -2777,9 +2781,9 @@ Length: 102, dtype: bool
       <th>correct reject percentage</th>
       <th>percent correct</th>
       <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
+      <th>confidence when incorrect hit</th>
+      <th>confidence when correct reject</th>
+      <th>confidence when incorrect reject</th>
       <th>confidence when correct</th>
       <th>confidence when incorrect</th>
       <th>sci</th>
@@ -2985,9 +2989,9 @@ Length: 102, dtype: bool
       <th>correct reject percentage</th>
       <th>percent correct</th>
       <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
+      <th>confidence when incorrect hit</th>
+      <th>confidence when correct reject</th>
+      <th>confidence when incorrect reject</th>
       <th>confidence when correct</th>
       <th>confidence when incorrect</th>
       <th>sci</th>
@@ -3272,9 +3276,9 @@ Name: sci, Length: 102, dtype: bool
       <th>correct reject percentage</th>
       <th>percent correct</th>
       <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
+      <th>confidence when incorrect hit</th>
+      <th>confidence when correct reject</th>
+      <th>confidence when incorrect reject</th>
       <th>confidence when correct</th>
       <th>confidence when incorrect</th>
       <th>sci</th>
@@ -3462,9 +3466,9 @@ Control:    81.46103896103897
       <th>correct reject percentage</th>
       <th>percent correct</th>
       <th>confidence when correct hit</th>
-      <th>confidence incorrect hit</th>
-      <th>confidence correct reject</th>
-      <th>confidence incorrect reject</th>
+      <th>confidence when incorrect hit</th>
+      <th>confidence when correct reject</th>
+      <th>confidence when incorrect reject</th>
       <th>confidence when correct</th>
       <th>confidence when incorrect</th>
       <th>sci</th>
@@ -3629,20 +3633,20 @@ Control:    81.46103896103897
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-participant number             52.50
-age                            36.50
-correct hit percentage         90.00
-correct reject percentage      80.00
-percent correct                83.75
-confidence when correct hit    75.00
-confidence incorrect hit       56.25
-confidence correct reject      71.25
-confidence incorrect reject    61.00
-confidence when correct        75.75
-confidence when incorrect      61.50
-sci                            23.50
-psqi                            5.00
-ess                             7.00
+participant number                  52.50
+age                                 36.50
+correct hit percentage              90.00
+correct reject percentage           80.00
+percent correct                     83.75
+confidence when correct hit         75.00
+confidence when incorrect hit       56.25
+confidence when correct reject      71.25
+confidence when incorrect reject    61.00
+confidence when correct             75.75
+confidence when incorrect           61.50
+sci                                 23.50
+psqi                                 5.00
+ess                                  7.00
 Name: 50%, dtype: float64
 </pre></div></div>
 </div>
@@ -3673,7 +3677,7 @@ Name: 50%, dtype: float64
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-participant number,gender,age,correct hit percentage,correct reject percentage,percent correct,confidence when correct hit,confidence incorrect hit,confidence correct reject,confidence incorrect reject,confidence when correct,confidence when incorrect,sci,psqi,ess,insomnia
+participant number,gender,age,correct hit percentage,correct reject percentage,percent correct,confidence when correct hit,confidence when incorrect hit,confidence when correct reject,confidence when incorrect reject,confidence when correct,confidence when incorrect,sci,psqi,ess,insomnia
 8,f,39,65,80,72.5,91.0,90.0,93.0,83.5,93.0,90.0,9,13,2,True
 16,m,42,90,90,90.0,75.5,55.5,70.5,50.0,75.0,50.0,4,11,7,True
 18,f,31,90,95,92.5,89.5,90.0,86.0,81.0,89.0,88.0,10,9,3,True
@@ -3706,11 +3710,11 @@ participant number,gender,age,correct hit percentage,correct reject percentage,p
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 CPython 3.7.7
-IPython 7.13.0
+IPython 7.15.0
 
 numpy 1.18.1
 pandas 0.24.2
-jupyterlab 1.2.6
+jupyterlab 2.1.4
 </pre></div></div>
 </div>
 </div>
@@ -3737,11 +3741,11 @@ jupyterlab 1.2.6
   <div role="contentinfo">
     <p>
       <span class="lastupdated">
-        Last updated on Jun 26, 2020.
+        Last updated on Jun 27, 2020.
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7fab7bf4ba10> 
+  </div> <jinja2.runtime.BlockReference object at 0x7fbe8b511a90> 
 
 <p>© 2020 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
