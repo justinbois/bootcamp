@@ -1947,10 +1947,10 @@ if (window.Jupyter !== undefined) {
 <h2>Arduino<a class="headerlink" href="#Arduino" title="Permalink to this headline">¶</a></h2>
 <p>Of course to do this tutorial, we should have an actual device with which to communicate. Therefore, I encourage you to actually build the device below and connect it to your computer and work through this lesson running a live Jupyter notebook.</p>
 <p>For our device in this example, we will use an <a class="reference external" href="https://store.arduino.cc/usa/arduino-uno-rev3">Arduino Uno board</a>. These ≈$20 boards offer great functionality and are fun to just play with. Beyond, that, they are actually quite useful in research applications and have widespread use in research labs across disciplines, including in the biological sciences.</p>
-<p>We will use our board with a simple circuit, shown below (the resistors are 220 Ω).</p>
+<p>We will use our board with a simple circuit, shown below.</p>
 <div style="margin: auto; width: 300px;"><p><img alt="Arduino" src="../_images/arduino.jpg" /></p>
-</div><p>At the top of the image is the USB port, which is connect to my computer. The long red and black jump wires connect the power source (powered through the USB port) to the breadboard. At the top of the board is a potentiometer (the blue square with the white knob), which is a knob that when turned will alter the resistance. The potentiometer is connected to analog port A0. We want to read the voltages out of this port.</p>
-<p>At the bottom of the image are two LEDs, one red and one green. There are connected with the appropriate resisters to digital ports. We will turn the LEDs on and off by sending signals to Arduino to do so.</p>
+</div><p>At the top of the image is the USB port, which is connected to my computer. The long red jump wire is connected to the 5V power and the long black jump wire is connected to ground. At the top of the board is a potentiometer (the blue square with the white knob), which is a knob that when turned will alter the resistance. The potentiometer is connected via the orange jump wire to analog port A0. We want to read the voltages out of this port.</p>
+<p>At the bottom of the image are two LEDs, one green and one red. There are connected with the 220 Ω resistors to digital ports 2 and 6, respectively. We will turn the LEDs on and off by sending signals to Arduino to do so.</p>
 <p>The Arduino board is loaded with compiled code written in Arduino’s own language, a flavor of C. The code for this circuit is shown below. The code basically tells Arduino which pins do what, and then listens for signals coming from its serial connection. Based on what signal it gets, it will either send the measurement of voltage out the serial connection or turn the LEDs on or off.</p>
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span> <span class="kt">int</span> <span class="n">voltagePin</span> <span class="o">=</span> <span class="n">A0</span><span class="p">;</span>
 
@@ -2695,7 +2695,7 @@ jupyterlab 2.1.5
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7fb3c6c74050> 
+  </div> <jinja2.runtime.BlockReference object at 0x7f8dfee7a690> 
 
 <p>© 2020 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
