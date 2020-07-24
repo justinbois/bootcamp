@@ -1,0 +1,246 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Exercise 3.1: Using string methods\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In [Lesson 7](l07_intro_to_functions.ipynb), we wrote a function to compute the reverse complement of a sequence.  \n",
+    "\n",
+    "**a)** Write that function again, still using a `for` loop, but do not use the built-in `reversed()` function.\n",
+    "\n",
+    "**b)** Write the function one more time, but without any loops."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<br />"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Solution\n",
+    "\n",
+    "**a)** The trick here is to do what we did in Lesson 7, except use `[::-1]` indexing instead of the `reversed()` function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def complement_base(base):\n",
+    "    \"\"\"Returns the Watson-Crick complement of a base.\"\"\"\n",
+    "    if base == 'A' or base == 'a':\n",
+    "        return 'T'\n",
+    "    elif base == 'T' or base == 't':\n",
+    "        return 'A'\n",
+    "    elif base == 'G' or base == 'g':\n",
+    "        return 'C'\n",
+    "    else:\n",
+    "        return 'G'\n",
+    "\n",
+    "\n",
+    "def reverse_complement(seq):\n",
+    "    \"\"\"Compute reverse complement of a sequence.\"\"\"\n",
+    "    # Initialize reverse complement\n",
+    "    rev_seq = ''\n",
+    "    \n",
+    "    # Loop through and populate list with reverse complement\n",
+    "    for base in seq:\n",
+    "        rev_seq += complement_base(base)\n",
+    "        \n",
+    "    return rev_seq[::-1]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "And we'll do a quick test with the same sequence as in lesson 7."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'TGCAACTGC'"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "reverse_complement('GCAGTTGCA')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Bingo!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**b)** We can eliminate the **`for`** loop by using the `replace()` method of strings."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def reverse_complement(seq):\n",
+    "    \"\"\"Compute reverse complement of a sequence.\"\"\"\n",
+    "    # Initialize rev_seq to a lowercase seq\n",
+    "    rev_seq = seq.lower()\n",
+    "    \n",
+    "    # Substitute bases\n",
+    "    rev_seq = rev_seq.replace('t', 'A')\n",
+    "    rev_seq = rev_seq.replace('a', 'T')\n",
+    "    rev_seq = rev_seq.replace('g', 'C')\n",
+    "    rev_seq = rev_seq.replace('c', 'G')\n",
+    "    \n",
+    "    return rev_seq[::-1]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "And let's give it a test!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'TGCAACTGC'"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "reverse_complement('GCAGTTGCA')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Note:** We haven't learned about it yet, but some Googling would allow you to use the `translate()` and `maketrans()` string methods. `maketrans()` makes a **translation table** for characters in a string, and then the `translate()` functions uses it to mutate the characters in the list."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'TGCAACTGC'"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def reverse_complement(seq):\n",
+    "    \"\"\"Compute reverse complement of a sequence.\"\"\"\n",
+    "    return seq.translate(str.maketrans('ATGCatgc', 'TACGTACG'))[::-1]\n",
+    "\n",
+    "reverse_complement('GCAGTTGCA')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "So, we were able to do it in one line!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "CPython 3.7.7\n",
+      "IPython 7.13.0\n",
+      "\n",
+      "jupyterlab 1.2.6\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
