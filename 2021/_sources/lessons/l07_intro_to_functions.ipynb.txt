@@ -1,0 +1,755 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 7: Introduction to functions\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A **function** is a key element in writing programs. You can think of a function in a computing language in much the same way you think of a mathematical function. The function takes in **arguments**, performs some operation based on the identities of the arguments, and then **returns** a result. For example, the mathematical function\n",
+    "\n",
+    "\\begin{align}\n",
+    "f(x, y) = \\frac{x}{y}\n",
+    "\\end{align}\n",
+    "\n",
+    "takes arguments $x$ and $y$ and then returns the ratio between the two, $x/y$. In this lesson, we will learn how to construct functions in Python."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Basic function syntax\n",
+    "\n",
+    "For our first example, we will translate the above function into Python. A function is **defined** using the `def` keyword. This is best seen by example."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def ratio(x, y):\n",
+    "    \"\"\"The ratio of `x` to `y`.\"\"\"\n",
+    "    return x / y"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Following the `def` keyword is a **function signature** which indicates the function's name and its arguments. Just like in mathematics, the arguments are separated by commas and enclosed in parentheses. The indentation following the `def` line specifies what is part of the function. As soon as the indentation goes to the left again, aligned with `def`, the contents of the functions are complete.\n",
+    "\n",
+    "Immediately following the function definition is the **doc string** (short for documentation string), a brief description of the function. The first string after the function definition is always defined as the doc string. Usually, it is in triple quotes, as doc strings often span multiple lines.\n",
+    "\n",
+    "Doc strings are more than just comments for your code, the doc string is what is returned by the native python function `help()` when someone is looking to learn more about your function. For example:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Help on function ratio in module __main__:\n",
+      "\n",
+      "ratio(x, y)\n",
+      "    The ratio of `x` to `y`.\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "help(ratio)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "They are also printed out when you use the `?` in a Jupyter notebook or JupyterLab console."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "\u001b[0;31mSignature:\u001b[0m \u001b[0mratio\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mx\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0my\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+       "\u001b[0;31mDocstring:\u001b[0m The ratio of `x` to `y`.\n",
+       "\u001b[0;31mFile:\u001b[0m      ~/Dropbox/git/programming_bootcamp/2021/content/lessons/<ipython-input-1-ad32d3e3b4db>\n",
+       "\u001b[0;31mType:\u001b[0m      function\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "ratio?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You are free to type whatever you like in doc strings, or even omit them, but you should always have a doc string with some information about what your function is doing. True, this example of a function is kind of silly, since it is easier to type `x / y` than `ratio(x, y)`, but it is still good form to have a doc string. This is worth saying explicitly.\n",
+    "\n",
+    "<div style=\"color: dodgerblue; text-align: center; font-weight: bold;\">\n",
+    "\n",
+    "All functions should have doc strings.\n",
+    "    \n",
+    "</div>\n",
+    "\n",
+    "In the next line of the function, we see a **return** keyword. Whatever is after the **return** statement is, you guessed it, returned by the function. Any code after the **return** is *not* executed because the function has already returned!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Calling a function\n",
+    "\n",
+    "Now that we have defined our function, we can **call** it."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "1.25"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ratio(5, 4)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2.0"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ratio(4, 2)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "10.714285714285714"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ratio(90.0, 8.4)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In each case, the function returns a `float` with the ratio of its arguments."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Functions need not have arguments\n",
+    "\n",
+    "A function does not need arguments. As a silly example, let's consider a function that just returns 42 every time. Of course, it does not matter what its arguments are, so we can define a function without arguments."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def answer_to_the_ultimate_question_of_life_the_universe_and_everything():\n",
+    "    \"\"\"Simpler program than Deep Thought's, I bet.\"\"\"\n",
+    "    return 42"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We still needed the open and closed parentheses at the end of the function name. Similarly, even though it has no arguments, we still have to call it with parentheses."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "42"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "answer_to_the_ultimate_question_of_life_the_universe_and_everything()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Functions need not return anything\n",
+    "\n",
+    "Just like they do not necessarily need arguments, functions also do not need to return anything. If a function does not have a `return` statement (or it is never encountered in the execution of the function), the function runs to completion and returns `None` by default. `None` is a special Python keyword which basically means \"nothing.\" For example, a function could simply print something to the screen."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def think_too_much():\n",
+    "    \"\"\"Express Caesar's skepticism about Cassius\"\"\"\n",
+    "    print(\"\"\"Yond Cassius has a lean and hungry look,\n",
+    "He thinks too much; such men are dangerous.\"\"\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We call this function as all others, but we can show that the result it returns is `None`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Yond Cassius has a lean and hungry look,\n",
+      "He thinks too much; such men are dangerous.\n",
+      "\n",
+      "None\n"
+     ]
+    }
+   ],
+   "source": [
+    "return_val = think_too_much()\n",
+    "\n",
+    "# Print a blank line\n",
+    "print()\n",
+    "\n",
+    "# Print the return value\n",
+    "print(return_val)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Built-in functions in Python\n",
+    "\n",
+    "The Python programming language has several built-in functions. We have already encountered `print()`, `id()`, `ord()`, `len()`, `range()`, `enumerate()`, `zip()`, and `reversed()`, in addition to type conversions such as `list()`.  The complete set of **built-in functions** can be found [here](https://docs.python.org/3/library/functions.html). A word of warning about these functions and naming your own.\n",
+    "\n",
+    "<div style=\"color: dodgerblue; text-align: center; font-weight: bold;\">\n",
+    "\n",
+    "Never define a function or variable with the same name as a built-in function.\n",
+    "    \n",
+    "</div>\n",
+    "\n",
+    "Additionally, Python has **keywords** (such as `def`, `for`, `in`, `if`, `True`, `None`, etc.), many of which we have already encountered. A complete list of them is [here](https://docs.python.org/3/reference/lexical_analysis.html#keywords). The interpreter will throw an error if you try to define a function or variable with the same name as a keyword."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## An example function: reverse complement\n",
+    "\n",
+    "Let's write a function that does not do something so trivial as computing ratios or giving us the Answer to the Ultimate Question of Life, the Universe, and Everything. We'll write a function to compute the reverse complement of a sequence of DNA. Within the function, we'll use some of our newly acquired iteration skills."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def complement_base(base):\n",
+    "    \"\"\"Returns the Watson-Crick complement of a base.\"\"\"\n",
+    "    if base in 'Aa':\n",
+    "        return 'T'\n",
+    "    elif base in 'Tt':\n",
+    "        return 'A'\n",
+    "    elif base in 'Gg':\n",
+    "        return 'C'\n",
+    "    else:\n",
+    "        return 'G'\n",
+    "\n",
+    "\n",
+    "def reverse_complement(seq):\n",
+    "    \"\"\"Compute reverse complement of a sequence.\"\"\"\n",
+    "    # Initialize reverse complement\n",
+    "    rev_seq = ''\n",
+    "    \n",
+    "    # Loop through and populate list with reverse complement\n",
+    "    for base in reversed(seq):\n",
+    "        rev_seq += complement_base(base)\n",
+    "        \n",
+    "    return rev_seq"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note that we do not have error checking here, which we should definitely do, but we'll cover that in a future lesson. For now, let's test it to see if it works."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'TGCAACTGC'"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "reverse_complement('GCAGTTGCA')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "It looks good, but we might want to write yet another function to display the template strand (from 5$'$ to 3$'$) above its reverse complement (from 3$'$ to 5$'$). This makes it easier to verify."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def display_complements(seq):\n",
+    "    \"\"\"Print sequence above its reverse complement.\"\"\"\n",
+    "    # Compute the reverse complement\n",
+    "    rev_comp = reverse_complement(seq)\n",
+    "    \n",
+    "    # Print template\n",
+    "    print(seq)\n",
+    "    \n",
+    "    # Print \"base pairs\"\n",
+    "    for base in seq:\n",
+    "        print('|', end='')\n",
+    "    \n",
+    "    # Print final newline character after base pairs\n",
+    "    print()\n",
+    "            \n",
+    "    # Print reverse complement\n",
+    "    for base in reversed(rev_comp):\n",
+    "        print(base, end='')\n",
+    "        \n",
+    "    # Print final newline character\n",
+    "    print()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's call this function and display the input sequence and the reverse complement returned by the function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "GCAGTTGCA\n",
+      "|||||||||\n",
+      "CGTCAACGT\n"
+     ]
+    }
+   ],
+   "source": [
+    "seq = 'GCAGTTGCA'\n",
+    "display_complements(seq)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Ok, now it's clear that the result looks good! This example demonstrates an important programming principle regarding functions. We used three functions to compute and display the reverse complement.\n",
+    "\n",
+    "1. `complement_base()` gives the Watson-Crick complement of a given base.\n",
+    "2. `reverse_complement()` computes the reverse complement.\n",
+    "3. `display_complements()` displays the sequence and the reverse complement.\n",
+    "\n",
+    "We could very well have written a single function to compute the reverse complement with the `if` statements included within the `for` loop.  Instead, we split this larger operation up into smaller functions. This is an example of **modular** programming, in which the desired functionality is split up into small, independent, interchangeable modules. This is a very, very important concept.\n",
+    "\n",
+    "<div style=\"color: dodgerblue; text-align: center; font-weight: bold;\">\n",
+    "\n",
+    "Write small functions that do single, simple tasks.\n",
+    "    \n",
+    "</div>\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Pause and think about testing\n",
+    "\n",
+    "Let's pause for a moment and think about what the `complement_base()` and `reverse_complement()` functions do. They do a well-defined operation on string inputs. If we're doing some bioinformatics, we might use these functions over and over again. We should therefore thoroughly **test** the functions. For example, we should test that `reverse_complement('GCAGTTGCA')` returns `'TGCAACTGC'`. For now, we will proceed without writing tests, but we will soon cover **test-driven development**, in which your functions are built around tests. For now, I will tell you this: **If your functions are not thoroughly tested, you are entering a world of pain. A world of pain.** Test your functions."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Keyword arguments\n",
+    "\n",
+    "Now let's say that instead of the reverse DNA complement, we want the reverse RNA complement. We could re-write the `complement_base()` function to do this. Better yet, let's modify it."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def complement_base(base, material='DNA'):\n",
+    "    \"\"\"Returns the Watson-Crick complement of a base.\"\"\"\n",
+    "    if base in 'Aa':\n",
+    "        if material == 'DNA':\n",
+    "            return 'T'\n",
+    "        elif material == 'RNA':\n",
+    "            return 'U'\n",
+    "    elif base in 'TtUu':\n",
+    "        return 'A'\n",
+    "    elif base in 'Gg':\n",
+    "        return 'C'\n",
+    "    else:\n",
+    "        return 'G'\n",
+    "    \n",
+    "def reverse_complement(seq, material='DNA'):\n",
+    "    \"\"\"Compute reverse complement of a sequence.\"\"\"\n",
+    "    # Initialize reverse complement\n",
+    "    rev_seq = ''\n",
+    "    \n",
+    "    # Loop through and populate list with reverse complement\n",
+    "    for base in reversed(seq):\n",
+    "        rev_seq += complement_base(base, material=material)\n",
+    "        \n",
+    "    return rev_seq"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We have added a **named keyword argument**, also known as a **named kwarg**. The syntax for a named kwarg is\n",
+    "\n",
+    "    kwarg_name=default_value\n",
+    "    \n",
+    "in the `def` clause of the function definition. In this case, we say that the default material is DNA, but we could call the function with another material (RNA). Conveniently, when you call the function and omit the kwargs, they take on the default value within the function. So, if we wanted to use the default material of DNA, we don't have to do anything different in the function call."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'TGCAACTGC'"
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "reverse_complement('GCAGTTGCA')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "But, if we want RNA, we can use the kwarg. We use the same syntax to call it that we did when defining it."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'UGCAACUGC'"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "reverse_complement('GCAGTTGCA', material='RNA')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Calling a function with a splat\n",
+    "\n",
+    "Python offers another convenient way to call functions. Say a function takes three arguments, `a`, `b`, and `c`, taken to be the sides of a triangle, and determines whether or not the triangle is a right triangle. I.e., it checks to see if $a^2 + b^2 = c^2$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def is_almost_right(a, b, c):\n",
+    "    \"\"\"\n",
+    "    Checks to see if a triangle with side lengths\n",
+    "    `a`, `b`, and `c` is right.\n",
+    "    \"\"\"\n",
+    "    \n",
+    "    # Use sorted(), which gives a sorted list\n",
+    "    a, b, c = sorted([a, b, c])\n",
+    "    \n",
+    "    # Check to see if it is almost a right triangle\n",
+    "    if abs(a**2 + b**2 - c**2) < 1e-12:\n",
+    "        return True\n",
+    "    else:\n",
+    "        return False"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Remember our warning from before: never use equality checks with `float`s. We therefore just check to see if the Pythagorean theorem *almost* holds. The function works as expected."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "is_almost_right(13, 5, 12)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "False"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "is_almost_right(1, 1, 1.4)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, let's say we had a tuple with the triangle side lengths in it."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "side_lengths = (13, 5, 12)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can pass these all in separately by splitting the tuple but putting a `*` in front of it. A `*` before a tuple used in this way is referred an **unpacking operator**, and is referred to by some programmers as a \"splat.\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "is_almost_right(*side_lengths)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This can be very convenient, and we will definitely use this feature later in the bootcamp when we do some string formatting."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.8.10\n",
+      "IPython version      : 7.22.0\n",
+      "\n",
+      "jupyterlab: 3.0.14\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
