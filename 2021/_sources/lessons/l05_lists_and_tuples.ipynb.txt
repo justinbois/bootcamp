@@ -1,0 +1,1568 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 5: Lists and tuples\n",
+    "\n",
+    "<hr />"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In this tutorial, we will explore two important data types in Python, **lists** and **tuples**. They are both **sequences** of objects. Just like a string is a sequence (that is, an ordered collection) of characters, lists and tuples are sequences of arbitrary objects, called **items** or **elements**. They are a way to make a single object that contains many other objects. We will start our discussion with lists."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Lists\n",
+    "\n",
+    "As usual, it is easiest to explore new topics by example. We'll start by creating a list."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### List creation\n",
+    "\n",
+    "We create lists by putting Python values or expressions inside square brackets, separated by commas. For example:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "list"
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list_1 = [1, 2, 3, 4]\n",
+    "type(my_list_1)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We observe here that although the elements of the list are `int`s, the type of the list is `list`. Actually, any Python expression can be inside a list (including another list!):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[1, 2.4, 'a string', ['a string in another list', 5]]"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list_2 = [1, 2.4, 'a string', ['a string in another list', 5]]\n",
+    "my_list_2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[5, 15, 16]"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list_3 = [2+3, 5*3, 4**2]\n",
+    "my_list_3"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "`my_list_2` contains `int`s, a `float`, a `string` and another `list`. And our third list contains expressions that get evaluated when the list as a whole gets created.\n",
+    "\n",
+    "We can also create a list by type conversion. For example, we can convert a string into a list of characters."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['A', ' ', 's', 't', 'r', 'i', 'n', 'g', '.']"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_str = 'A string.'\n",
+    "list(my_str)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### List operators\n",
+    "\n",
+    "Operators on lists behave much like operators on strings. The `+` operator on lists means list concatenation."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[1, 2, 3, 4, 5, 6]"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "[1, 2, 3] + [4, 5, 6]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The `*` operator on lists means list replication and concatenation."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[1, 2, 3, 1, 2, 3, 1, 2, 3]"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "[1, 2, 3] * 3"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Membership operators\n",
+    "\n",
+    "Membership operators are used to determine if an item is in a list. The two membership operators are:\n",
+    "\n",
+    "|English|operator|\n",
+    "|:-------|:----------:|\n",
+    "|is a member of | `in`|\n",
+    "|is not a member of | `not in`|\n",
+    "\n",
+    "<br />\n",
+    "\n",
+    "The result of the operator is `True` or `False`. Let's look at `my_list_2` again: "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list_2 = [1, 2.4, 'a string', ['a string in another list', 5]]\n",
+    "1 in my_list_2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "['a string in another list', 5] in my_list_2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "False"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'a string in another list' in my_list_2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "7 not in my_list_2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Importantly, we see that the string `'a string in another list'` is not in `my_list_2`. This is because that string itself is not one of the four items of `my_list_2`. The string `'a string in another list'` is in a *list* that is an item in `my_list_2`.\n",
+    "\n",
+    "Now, these membership operators offer a great convenience for conditionals. Remember our example about stop codons?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "This codon is neither a start nor stop codon.\n"
+     ]
+    }
+   ],
+   "source": [
+    "codon = 'UGG'\n",
+    "\n",
+    "if codon == 'AUG':\n",
+    "    print('This codon is the start codon.')\n",
+    "elif codon == 'UAA' or codon == 'UAG' or codon == 'UGA':\n",
+    "    print('This codon is a stop codon.')\n",
+    "else:\n",
+    "    print('This codon is neither a start nor stop codon.')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can rewrite this much more cleanly, and with a lower chance of bugs, using a list and the `in` operator."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "This codon is neither a start nor stop codon.\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Make a list of stop codons\n",
+    "stop_codons = ['UAA', 'UAG', 'UGA']\n",
+    "\n",
+    "# Specify codon\n",
+    "codon = 'UGG'\n",
+    "\n",
+    "# Check to see if it is a start or stop codon\n",
+    "if codon == 'AUG':\n",
+    "    print('This codon is the start codon.')\n",
+    "elif codon in stop_codons:\n",
+    "    print('This codon is a stop codon.')\n",
+    "else:\n",
+    "    print('This codon is neither a start nor stop codon.')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The simple expression\n",
+    "\n",
+    "```python\n",
+    "codon in stop_codons\n",
+    "```\n",
+    "    \n",
+    "replaced the more verbose\n",
+    "\n",
+    "```python\n",
+    "codon == 'UAA' or codon == 'UAG' or codon == 'UGA'\n",
+    "```\n",
+    "\n",
+    "Much nicer!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### List indexing\n",
+    "\n",
+    "Imagine that we would like to access an item in a list. Because a list is ordered, we can ask for the first item, the second item, the *n*th item, the last item, etc. This is done using a bracket notation. We first write the name of our list and then enclosed in square brackets we write the location (index) of the desired element:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2.4"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list = [1, 2.4, 'a string', ['a string in another list', 5]]\n",
+    "\n",
+    "my_list[1]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Wait a minute! Shouldn't `my_list[1]` give the first item in the list? It seems to give the second. This is because **indexing in Python starts at zero**. This is very important. (Historical note: [Why Python uses 0-based indexing](http://python-history.blogspot.com/2013/10/why-python-uses-0-based-indexing.html).)\n",
+    "\n",
+    "<div style=\"color: dodgerblue; text-align: center; font-weight: bold;\">\n",
+    "\n",
+    "Indexing in Python starts at zero.\n",
+    "    \n",
+    "</div>\n",
+    "\n",
+    "Now that we know that, let's look at the items in the list."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1\n",
+      "2.4\n",
+      "a string\n",
+      "['a string in another list', 5]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(my_list[0])\n",
+    "print(my_list[1])\n",
+    "print(my_list[2])\n",
+    "print(my_list[3])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can also index the list that is within `my_list` by adding another set of brackets."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'a string in another list'"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list[3][0]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "So, now we have the basics of list indexing. There are more ways to specify items in a list. We'll look at some of these now, but in order to do it, it helps to have a simpler list. We'll therefore create a list that goes from zero to ten."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "4"
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n",
+    "\n",
+    "my_list[4]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We already knew that would be the result. We can use negative indexing as well! This just means we start indexing from the last entry, starting at `-1`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "10"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list[-1]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "8"
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list[-3]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This is very convenient for indexing in reverse. Now make it more clear, here are the forward and backward indices for the list:\n",
+    "\n",
+    "|Values|0|1|2|3|4|5|6|7|8|9|10|\n",
+    "|------|-:|-:|-:|-:|-:|-:|-:|-:|-:|-:|-:|\n",
+    "|Forward indices|0|1|2|3|4|5|6|7|8|9|10|\n",
+    "|Reverse indices|-11|-10|-9|-8|-7|-6|-5|-4|-3|-2|-1|\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### List slicing\n",
+    "\n",
+    "Now, what if we want to pull out multiple items in a list, called **slicing**?  We can use colons (`:`) for that."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[0, 1, 2, 3, 4]"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list[0:5]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We got elements `0` through `4`. When using the colon indexing, `my_list[i:j]`, we get items `i` through `j-1`.  I.e., the range is **inclusive of the first index and exclusive of the last**. If the slice's final index is larger than the length of the sequence, the slice ends at the last element."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[3, 4, 5, 6, 7, 8, 9, 10]"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list[3:1000]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, we can also use negative indices with colons."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[0, 1, 2, 3, 4, 5, 6, 7]"
+      ]
+     },
+     "execution_count": 21,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list[0:-3]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Again, note that we only went to index `-4`. \n",
+    "\n",
+    "We can also specify a **stride**. The stride comes after a second colon. For example, if we only wanted the even numbers, we could do the following."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[0, 2, 4, 6, 8, 10]"
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list[0::2]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Notice that we did not enter anything for the `end` value of the slice. If the end is left blank, the default is to include the entire string. Similarly, we can leave out the start index, as its default is zero."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[0, 2, 4, 6, 8, 10]"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list[::2]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "So, in general, the indexing scheme is:\n",
+    "\n",
+    "        my_list[start:end:stride]\n",
+    "\n",
+    "* If there are no colons, a single element is returned.\n",
+    "* If there are any colons, we are slicing the list, and a list is returned.\n",
+    "* If there is one colon, `stride` is assumed to be 1.\n",
+    "* If `start` is not specified, it is assumed to be zero.\n",
+    "* If `end` is not specified, the interpreted assumed you want the entire list.\n",
+    "* If `stride` is not specified, it is assumed to be 1.\n",
+    "\n",
+    "With this in hand, we do lots of crazy slicing. We can even use a negative stride, which results in reversing the list."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]"
+      ]
+     },
+     "execution_count": 24,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list[::-1]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note that the meaning of the \"start\" and \"end\" index is a bit ambiguous when you have a negative stride. When the stride is negative, we still slice from start to end, but then reverse the order. \n",
+    "\n",
+    "Now, let's look at a few examples (inspired by [Brett Slatkin](http://www.onebigfluke.com))."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2, 4, 6, 8, 10]\n",
+      "[2, 4, 6, 8]\n",
+      "[9, 7, 5, 3, 1]\n",
+      "[9, 7, 5, 3]\n",
+      "[]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(my_list[2::2])\n",
+    "print(my_list[2:-1:2])\n",
+    "print(my_list[-2::-2])\n",
+    "print(my_list[-2:2:-2])\n",
+    "print(my_list[2:2:-2])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You can see that it takes a lot of thought to understand what the slices actually are. So, here is some good advice: Do not use `start`, `end`, and `slice` all at the same time (even though you can). Do the stride first and then the slice, on separate lines. For example, if we wanted just the even numbers, but not the first and last (this was the `my_list[2:-1:2]` example we just did), we would do"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[2, 4, 6, 8]"
+      ]
+     },
+     "execution_count": 26,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Extract evens\n",
+    "evens = my_list[::2]\n",
+    "\n",
+    "# Cut off end values\n",
+    "evens_without_end_values = evens[1:-1]\n",
+    "\n",
+    "evens_without_end_values"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This is more verbose, but much easier to read and understand."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Mutability\n",
+    "\n",
+    "Lists are **mutable**. That means that you can change their values without creating a new list. (You cannot change the data type or identity.) Let's see this by example."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[1, 2, 3, 'four', 5, 6, 7, 8, 9, 10]"
+      ]
+     },
+     "execution_count": 27,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n",
+    "my_list[3] = 'four'\n",
+    "\n",
+    "my_list"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The other data types we have encountered so far, `int`s, `float`s, and `str`s, are **immutable**. You cannot change their values without reassigning them. To see this, we'll use the `id()` function, which tells us where in memory that the variable is stored. (Note: this identity is unique to the Python interpreter, and should not be considered an actual physical address in memory.)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "140621872248176\n",
+      "140621872247856\n"
+     ]
+    }
+   ],
+   "source": [
+    "a = 689\n",
+    "print(id(a))\n",
+    "\n",
+    "a = 690\n",
+    "print(id(a))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "So, we see that the identity of `a`, an integer, changed when we tried to change its value.  So, we didn't actually change its value; we made a new variable.  With lists, though, this is not the case."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "140621871892416\n",
+      "140621871892416\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(id(my_list))\n",
+    "\n",
+    "my_list[0] = 'zero'\n",
+    "print(id(my_list))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "It is still the same list! This is _very_ important to consider when we do assignments.  "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Pitfall: Aliasing\n",
+    "\n",
+    "**Aliasing** is a subtle issue which can come up when assigning lists to variables. Let's look at an example. We will make a list, then assign a new variable to the list (which we will momentarily erroneously think of as making a copy of the list) and then change a value of an entry in the \"copied\" list."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['a', 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+      ]
+     },
+     "execution_count": 30,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n",
+    "my_list_2 = my_list     # copy of my_list?\n",
+    "my_list_2[0] = 'a'\n",
+    "\n",
+    "my_list_2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, let's look at our original list to see what it looks like."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['a', 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+      ]
+     },
+     "execution_count": 31,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "So we see that assigning a list to a variable does not copy the list! Instead, you just get a new reference to the same value. This has the real potential to introduce a nasty bug that will bite you!  \n",
+    "\n",
+    "There is a way we can avoid this problem by using list slices. If both the slice's starting index and the slice's ending index of a list are left out, the slice is a copy of the entire list in a new hunk of memory."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['a', 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+      ]
+     },
+     "execution_count": 32,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n",
+    "my_list_2 = my_list[:]\n",
+    "my_list_2[0] = 'a'\n",
+    "\n",
+    "my_list_2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+      ]
+     },
+     "execution_count": 33,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Another option is to use a data type that is very much like a list, except it is immutable."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Tuples\n",
+    "\n",
+    "A **tuple** is just like a list, except it is immutable (basically a read-only list). (*What I just said there is explosive, as described in [this blog post](http://www.asmeurer.com/blog/posts/tuples/). Tuples do have many other capabilities beyond what you would expect from just bring \"a read-only list,\" but for us just beginning now, we can think of it that way.*) A tuple is created just like a list, except we use parentheses instead of brackets. The only watch-out is that a tuple with a single item needs to include a comma after the item."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(tuple, int)"
+      ]
+     },
+     "execution_count": 34,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_tuple = (0,)\n",
+    "\n",
+    "not_a_tuple = (0) # this is just the number 0 (normal use of parantheses)\n",
+    "\n",
+    "type(my_tuple), type(not_a_tuple)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can also create a tuple by doing a type conversion. We can convert our list to a tuple."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(1, 2.4, 'a string', ['a sting in another list', 5])"
+      ]
+     },
+     "execution_count": 35,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_list = [1, 2.4, 'a string', ['a sting in another list', 5]]\n",
+    "\n",
+    "my_tuple = tuple(my_list)\n",
+    "\n",
+    "my_tuple"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note that the list within `my_list` did not get converted to a tuple. It is still a list, and it is mutable."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(1, 2.4, 'a string', ['a string in a list in a tuple', 5])"
+      ]
+     },
+     "execution_count": 36,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_tuple[3][0] = 'a string in a list in a tuple'\n",
+    "\n",
+    "my_tuple"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "However, if we try to change an item in a tuple, we get an error."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "ename": "TypeError",
+     "evalue": "'tuple' object does not support item assignment",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mTypeError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-37-9a5ea503b98a>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mmy_tuple\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;36m7\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mTypeError\u001b[0m: 'tuple' object does not support item assignment"
+     ]
+    }
+   ],
+   "source": [
+    "my_tuple[1] = 7"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Even though the list within the tuple is mutable, we still cannot change the identity of that list."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "ename": "TypeError",
+     "evalue": "'tuple' object does not support item assignment",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mTypeError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-38-dba4a536c50b>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mmy_tuple\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m3\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m[\u001b[0m\u001b[0;34m'a'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'new'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'list'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mTypeError\u001b[0m: 'tuple' object does not support item assignment"
+     ]
+    }
+   ],
+   "source": [
+    "my_tuple[3] = ['a', 'new', 'list']"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Slicing of tuples\n",
+    "\n",
+    "Slicing of tuples is the same as lists, except a tuple is returned from the slicing operation, not a list."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)"
+      ]
+     },
+     "execution_count": 39,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_tuple = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\n",
+    "\n",
+    "# Reverse\n",
+    "my_tuple[::-1]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(1, 3, 5, 7, 9)"
+      ]
+     },
+     "execution_count": 40,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Odd numbers\n",
+    "my_tuple[1::2]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### The **+** operator with tuples\n",
+    "\n",
+    "As with lists we can concatenate tuples with the `+` operator."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)"
+      ]
+     },
+     "execution_count": 41,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_tuple + (11, 12, 13, 14, 15)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Membership operators with tuples\n",
+    "\n",
+    "Membership operators work the same as with lists."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 42,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "5 in my_tuple"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 43,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'LeBron James' not in my_tuple"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Tuple unpacking\n",
+    "\n",
+    "It is like a multiple assignment statement that is best seen through example."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "1"
+      ]
+     },
+     "execution_count": 44,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "my_tuple = (1, 2, 3)\n",
+    "(a, b, c) = my_tuple\n",
+    "\n",
+    "a"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2"
+      ]
+     },
+     "execution_count": 45,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "b"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "3"
+      ]
+     },
+     "execution_count": 46,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "c"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This is useful when we want to return more than one value from a function and further using the values as stored in different variables. We will make use of this as the bootcamp goes on; we'll be writing functions in just a couple lessons!\n",
+    "\n",
+    "Note that the parentheses are dispensable."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1 2 3\n"
+     ]
+    }
+   ],
+   "source": [
+    "a, b, c = my_tuple\n",
+    "\n",
+    "print(a, b, c)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Wisdom on tuples and lists\n",
+    "\n",
+    "At face, tuples and lists are very similar, differing essentially only in mutability. The differences are actually more profound, as described in the [aforementioned blog post](http://www.asmeurer.com/blog/posts/tuples/). We will make extensive use of them in our programs.  \n",
+    "\n",
+    "\"When should I use a tuple and when should I use a list?\" you ask.  Here is my advice.\n",
+    "\n",
+    "<div style=\"color: dodgerblue; text-align: center; font-weight: bold;\">\n",
+    "\n",
+    "Always use tuples instead of lists unless you need mutability.\n",
+    "    \n",
+    "</div>\n",
+    "\n",
+    "This keeps you out of trouble. It is very easy to inadvertently change one list, and then another list (that is actually the same, but with a different variable name) gets mangled. That said, mutability is often very useful, so you can use it to make your list and adjust it as you need. However, after you have finalized your list, you should convert it to a tuple so it cannot get mangled. We'll come back to this later in the bootcamp.\n",
+    "\n",
+    "So, I ask you, which is better?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "# Should it be a list?\n",
+    "stop_codons = ['UAA', 'UAG', 'UGA']\n",
+    "\n",
+    "# or a tuple?\n",
+    "stop_codons = ('UAA', 'UAG', 'UGA')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.8.10\n",
+      "IPython version      : 7.22.0\n",
+      "\n",
+      "jupyterlab: 3.0.14\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
