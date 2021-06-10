@@ -1,0 +1,578 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 10: Packages and modules\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The Python Standard Library has lots of built-in **modules** that contain useful functions and data types for doing specific tasks. You can also use modules from outside the standard library. And you will undoubtedly write your own modules!\n",
+    "\n",
+    "A module is contained in a file that ends with `.py`. This file can have **classes**, functions, and other objects. We will not discuss defining your own classes until much later in the bootcamp, so your modules will essentially just contain functions for now.\n",
+    "\n",
+    "A **package** contains several related modules that are all grouped together under one name. We will extensively use the [NumPy](http://www.numpy.org), [SciPy](http://www.scipy.org/), [Pandas](http://pandas.pydata.org), and [Bokeh](http://bokeh.pydata.org) packages, among others, in the bootcamp, and I'm sure you will also use them beyond. As such, the first module we will consider is NumPy. We will talk a **lot** more about NumPy later in the bootcamp."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Example: I want to compute the mean and median of a list of numbers\n",
+    "\n",
+    "Say I have a list of numbers and I want to compute the mean. This happens all the time; you repeat a measurement multiple times and you want to compute the mean. We could write a function to do this."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def mean(values):\n",
+    "    \"\"\"Compute the mean of a sequence of numbers.\"\"\"\n",
+    "    return sum(values) / len(values)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "And it works as expected."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "3.0\n",
+      "3.275\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(mean([1, 2, 3, 4, 5]))\n",
+    "print(mean((4.5, 1.2, -1.6, 9.0)))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In addition to the mean, we might also want to compute the median, the standard deviation, etc. These seem like really common tasks. Remember my advice: if you want to do something that seems really common, a good programmer (or a team of them) probably already wrote something to do that. Means, medians, standard deviations, and lots and lots and lots of other numerical things are included in the **Numpy module**. To get access to it, we have to **import** it."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "That's it!  We now have the `numpy` module available for use.  Remember, in Python everything is an object, so if we want to access the methods and attributes available in the `numpy` module, we use dot syntax. In a Jupyter notebook or in the JupyterLab console, you can type\n",
+    "\n",
+    "    numpy.\n",
+    "\n",
+    "(note the dot) and hit tab, and we will see what is available. For Numpy, there is a huge number of options!\n",
+    "\n",
+    "So, let's try to use Numpy's `numpy.mean()` function to compute a mean."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "3.0\n",
+      "3.275\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(numpy.mean([1, 2, 3, 4, 5]))\n",
+    "print(numpy.mean((4.5, 1.2, -1.6, 9.0)))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Great! We get the same values! Now, we can use the `numpy.median()` function to compute the median."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "3.0\n",
+      "2.85\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(numpy.median([1, 2, 3, 4, 5]))\n",
+    "print(numpy.median((4.5, 1.2, -1.6, 9.0)))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This is nice. It gives the median, including when we have an even number of elements in the sequence of numbers, in which case it automatically interpolates. It is really important to know that it does this interpolation, since if you are not expecting it, it can give unexpected results. So, here is an important piece of advice:\n",
+    "\n",
+    "<div style=\"color: dodgerblue; text-align: center; font-weight: bold;\">\n",
+    "\n",
+    "Always check the doc strings of functions.\n",
+    "    \n",
+    "</div>\n",
+    "\n",
+    "We can access the doc string of the `numpy.median()` function in JupyterLab by typing\n",
+    "\n",
+    "    numpy.median?\n",
+    "    \n",
+    "and looking at the output. An important part of that output:\n",
+    "\n",
+    "    Notes\n",
+    "    -----\n",
+    "    Given a vector ``V`` of length ``N``, the median of ``V`` is the\n",
+    "    middle value of a sorted copy of ``V``, ``V_sorted`` - i\n",
+    "    e., ``V_sorted[(N-1)/2]``, when ``N`` is odd, and the average of the\n",
+    "    two middle values of ``V_sorted`` when ``N`` is even.\n",
+    "\n",
+    "This is where the documentation tells you that the median will be reported as the average of two middle values when the number of elements is even. Note that you could also read the documentation [here](https://docs.scipy.org/doc/numpy/reference/generated/numpy.median.html), which is a bit easier to read."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## The as keyword\n",
+    "\n",
+    "We use Numpy all the time. Typing `numpy` over and over again can get annoying. So, it is common practice to use the `as` keyword to import a module with an **alias**. Numpy's alias is traditionally `np`, _and this is the only alias you should ever use for Numpy_."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2.85"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "\n",
+    "np.median((4.5, 1.2, -1.6, 9.0))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "I prefer to do things this way, though [some purists differ](http://nbviewer.jupyter.org/github/barbagroup/jupyter-tutorial/blob/master/3--Jupyter%20like%20a%20pro.ipynb). We will use traditional aliases for major packages like Numpy and Pandas throughout the bootcamp."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Third party packages\n",
+    "\n",
+    "Standard Python installations come with the standard library. Numpy and other useful packages are not in the standard library. Outside of the standard library, there are several packages available. Several. Ha! There are currently (June 9, 2021) about 310,000 packages available through the [Python Package Index](https://pypi.python.org/pypi), PyPI. Usually, you can ask Google about what you are trying to do, and there is often a third party module to help you do it. The most useful (for scientific computing) and thoroughly tested packages and modules are available using `conda`. Others can be installed using `pip`, which we will do later in the bootcamp."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Writing your own module\n",
+    "\n",
+    "To write your own module, you need to create a `.py` file and save it. You can do this using the text editor in JupyterLab. Let's call our module `na_utils`, for \"nucleic acid utilities.\" So, we create a file called `na_utils.py`. We'll build this module to have two functions, based on things we've already written. We'll have a function `dna_to_rna()`, which converts a DNA sequence to an RNA sequence (just changes `T` to `U`), and another function `reverse_rna_complement()`, which returns the reverse RNA complement of a DNA template. The contents of `na_utils.py` should look as follows.\n",
+    "\n",
+    "```python\n",
+    "\"\"\"\n",
+    "Utilities for parsing nucleic acid sequences.\n",
+    "\"\"\"\n",
+    "\n",
+    "def dna_to_rna(seq):\n",
+    "    \"\"\"\n",
+    "    Convert a DNA sequence to RNA.\n",
+    "    \"\"\"\n",
+    "    # Determine if original sequence was uppercase\n",
+    "    seq_upper = seq.isupper()\n",
+    "\n",
+    "    # Convert to lowercase\n",
+    "    seq = seq.lower()\n",
+    "\n",
+    "    # Swap out 't' for 'u'\n",
+    "    seq = seq.replace('t', 'u')\n",
+    "\n",
+    "    # Return upper or lower case RNA sequence\n",
+    "    if seq_upper:\n",
+    "        return seq.upper()\n",
+    "    else:\n",
+    "        return seq\n",
+    "\n",
+    "\n",
+    "def reverse_rna_complement(seq):\n",
+    "    \"\"\"\n",
+    "    Convert a DNA sequence into its reverse complement as RNA.\n",
+    "    \"\"\"\n",
+    "    # Determine if original was uppercase\n",
+    "    seq_upper = seq.isupper()\n",
+    "\n",
+    "    # Reverse sequence\n",
+    "    seq = seq[::-1]\n",
+    "\n",
+    "    # Convert to upper\n",
+    "    seq = seq.upper()\n",
+    "\n",
+    "    # Compute complement\n",
+    "    seq = seq.replace('A', 'u')\n",
+    "    seq = seq.replace('T', 'a')\n",
+    "    seq = seq.replace('G', 'c')\n",
+    "    seq = seq.replace('C', 'g')\n",
+    "\n",
+    "    # Return result\n",
+    "    if seq_upper:\n",
+    "        return seq.upper()\n",
+    "    else:\n",
+    "        return seq\n",
+    "\n",
+    " ```"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note that the file starts with a doc string saying what the module contains.\n",
+    "\n",
+    "I then have my two functions, each with doc strings. We will now import the module and then use these functions. In order for the import to work, the file `na_utils.py` must be in your present working directory, since this is where the Python interpreter will look for your module. In general, if you execute the code\n",
+    "\n",
+    "```python\n",
+    "import my_module\n",
+    "```\n",
+    "    \n",
+    "the Python interpreter will look first in the `pwd` to find `my_module.py`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'GACGAUCUAGGCGACCGACUGGCAUCG'"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import na_utils\n",
+    "\n",
+    "# Sequence\n",
+    "seq = 'GACGATCTAGGCGACCGACTGGCATCG'\n",
+    "\n",
+    "# Convert to RNA\n",
+    "na_utils.dna_to_rna(seq)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can also compute the reverse RNA complement."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'CGAUGCCAGUCGGUCGCCUAGAUCGUC'"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "na_utils.reverse_rna_complement(seq)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Wonderful! You now have your own functioning module!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### A quick note on error checking\n",
+    "\n",
+    "These functions have minimal error checking of the input. For example, the `dna_to_rna()` function will take gibberish in and give jibberish out."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'you can observe a lou by jusu wauching.'"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "na_utils.dna_to_rna('You can observe a lot by just watching.')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In general, checking input and handling errors is an essential part of writing functions, and we will cover that in [a later lesson](l14_exceptions_and_error_handling.html)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Importing modules in your .py files and notebooks\n",
+    "\n",
+    "As our first foray into the glory of [PEP 8](https://www.python.org/dev/peps/pep-0008/), the Python style guide, we quote:\n",
+    "\n",
+    ">Imports are always put at the top of the file, just after any module comments and docstrings, and before module globals and constants.\n",
+    ">\n",
+    ">Imports should be grouped in the following order:\n",
+    ">\n",
+    ">1. standard library imports\n",
+    ">2. related third party imports\n",
+    ">3. local application/library specific imports\n",
+    ">\n",
+    ">You should put a blank line between each group of imports.\n",
+    "\n",
+    "You should follow this guide. I generally do it for Jupyter notebooks as well, with my first code cell having all of the imports I need. Therefore, going forward all of our lessons will have all necessary imports at the top of the document. The only exception is when we are explicitly demonstrating a concept that requires an import."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Imports and updates\n",
+    "\n",
+    "Once you have imported a module or package, the interpreter stores its contents in memory. You cannot update the contents of the package and expect the interpreter to know about the changes. You will need to restart the kernel and then import the package again in a fresh instance.\n",
+    "\n",
+    "This can seem annoying, but it is good design. It ensures that code you are running does not change as you go through executing a notebook. However, when developing modules, it is sometimes convenient to have an imported module be updated as you run through the notebook as you are editing. To enable this, you can use the [autoreload extension](https://ipython.org/ipython-doc/3/config/extensions/autoreload.html). To activate it, run the following in a code cell.\n",
+    "\n",
+    "```python\n",
+    "%load_ext autoreload\n",
+    "%autoreload 2\n",
+    "```\n",
+    "\n",
+    "Whenever you run a cell, imported packages and modules will be automatically reloaded."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Package management\n",
+    "\n",
+    "When we wrote the `na_utils` module, we stored it in the directory that we were working in, or the `pwd`. But what if you write a module that you want to use regardless of what directory your are in? To allow this kind of usage, you can use the `setuptools` module of the standard library to manage your packages. You should read [the documentation on Python packages and modules](https://docs.python.org/3/tutorial/modules.html#packages) to understand the details of how this is done, but what we present here is sufficient to get simple packages running and installed."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Package architecture\n",
+    "\n",
+    "In order for the tools in `setuptools` to effectively install your modules for widespread use, you need to follow a specific architecture for your package. I made an example `jb_bootcamp` package that is present in the `~/git/bootcamp/modules` folder.\n",
+    "\n",
+    "The file structure is of the package is\n",
+    "\n",
+    "    /jb_bootcamp\n",
+    "      /jb_bootcamp\n",
+    "        __init__.py\n",
+    "        na_utils.py\n",
+    "        bioinfo_dicts.py\n",
+    "        ...\n",
+    "    setup.py\n",
+    "    README.md\n",
+    "\n",
+    "The ellipsis above signifies that there are other files in there that we are not going to use yet. I am trying to keep it simple for now to show how package management works.\n",
+    "\n",
+    "To set up the package, you can use your command line skills to make the directories and use the JupyterLab text editor to make the files, in this case, four of them, `__init__.py`, `na_utils.py`, `bioinfo_dicts.py` (the little module we mentioned in the [lesson on dictionaries](l09_dictionaries.ipynb)), `setup.py`, and `README.md`.\n",
+    "\n",
+    "It is essential that the name of the root directory be the name of the package, and that there be a subdirectory with the same name. That subdirectory must contain a file `__init__.py`. This file contains information about the package and how the modules of the package are imported, but it may be empty for simple modules. In this case, I included a string with the name and version of the package, as well as instructions to import appropriate modules. Here are the contents of `__init__.py`. The first two lines of code tell the interpreter what to import when running `import jb_bootcamp`.\n",
+    "\n",
+    "```python\n",
+    "\"\"\"Top-level package for utilities for bootcamp.\"\"\"\n",
+    "\n",
+    "from .na_utils import *\n",
+    "from .bioinfo_dicts import *\n",
+    "\n",
+    "__author__ = 'Justin Bois'\n",
+    "__email__ = 'bois@caltech.edu'\n",
+    "__version__ = '0.0.1'\n",
+    "```\n",
+    "\n",
+    "Also within the subdirectory are the `.py` files containing the code of the package. In our case, we have, `na_utils.py` and `bioinfo_dicts.py`.\n",
+    "\n",
+    "It is also good practice to have a README file (which I suggest you write in [Markdown](https://en.wikipedia.org/wiki/Markdown)) that has information about the package and what it does. Since this little demo package is kind of trivial, the README is quite short. Here are the contents I made for `README.md` (shown in unrendered raw Markdown).\n",
+    "\n",
+    "```markdown\n",
+    "# jb_bootcamp\n",
+    "\n",
+    "Utilities for use in the Introduction to Programming in the Biological Sciences Bootcamp.\n",
+    "```\n",
+    "\n",
+    "Finally, in the main directory, we need to have a file called `setup.py`, which contains the instructions for `setuptools` to install the package. We use the `setuptools.setup()` function to do the installation. \n",
+    "\n",
+    "```python\n",
+    "import setuptools\n",
+    "\n",
+    "with open(\"README.md\", \"r\") as f:\n",
+    "    long_description = f.read()\n",
+    "\n",
+    "setuptools.setup(\n",
+    "    name='jb_bootcamp',\n",
+    "    version='0.0.1',\n",
+    "    author='Justin Bois',\n",
+    "    author_email='bois@caltech.edu',\n",
+    "    description='Utilities for use in bootcamp.',\n",
+    "    long_description=long_description,\n",
+    "    long_description_content_type='ext/markdown',\n",
+    "    packages=setuptools.find_packages(),\n",
+    "    classifiers=(\n",
+    "        \"Programming Language :: Python :: 3\",\n",
+    "        \"Operating System :: OS Independent\",\n",
+    "    ),\n",
+    ")\n",
+    "\n",
+    "```\n",
+    "\n",
+    "This is a minimal `setup.py` function, but will be sufficient for most packages you write for your own use. For your use, you make obvious changes to the `name`, `author`, etc., fields."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Installing your package\n",
+    "\n",
+    "You will install your package after a future lesson, when we put it under version control."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.8.10\n",
+      "IPython version      : 7.22.0\n",
+      "\n",
+      "numpy     : 1.20.2\n",
+      "jupyterlab: 3.0.14\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p numpy,jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
