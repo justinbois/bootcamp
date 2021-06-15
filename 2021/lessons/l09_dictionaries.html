@@ -120,6 +120,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#Dictionary-methods">Dictionary methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#List-methods">List methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Using-dictionaries-as-kwargs">Using dictionaries as kwargs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Merging-dictionaries">Merging dictionaries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Computing-environment">Computing environment</a></li>
 </ul>
 </li>
@@ -152,6 +153,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_4/index.html">Exercise 4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_5/index.html">Exercise 5</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_6/index.html">Exercise 6</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Exercise solutions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_1/index.html">Exercise 1 solutions</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Schedule</span></p>
 <ul>
@@ -766,10 +771,10 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-140311736813248
-4359932416
-4359932448
-140311736404528
+140572261584256
+4518648320
+4518648352
+140572261411888
 </pre></div></div>
 </div>
 <p>So, each entry in the dictionary is stored at a different location in memory. The dictionary itself also has its own address. So, when I index a dictionary with a key, how does the dictionary know which address in memory to use to fetch the value I am interested in?</p>
@@ -789,7 +794,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(6718210612286865077, -8071661399973200159, 9128343439456809861)
+(2624496504201943107, -1968300692959807232, -7086391998955330268)
 </pre></div></div>
 </div>
 <p>Under the hood, Python then converts these integers to integers that could correspond to locations in memory. A collection of elements that can be indexed this way is called a <strong>hash table</strong>. This is a very common data structure in computing. Wikipedia has a <a class="reference external" href="https://en.wikipedia.org/wiki/Hash_table">pretty good discussion on them</a>.</p>
@@ -1318,10 +1323,42 @@ dictionary.</p>
 <p>Beautiful! This example is kind of trivial, but you can imagine that it can come in handy, e.g. with large sets of sequence fragments that you read in from a file. We will use <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> later in the bootcamp.</p>
 <p><em>Question</em>: What is the risk in using a dictionary in this way to concatenate sequences?</p>
 </div>
+<div class="section" id="Merging-dictionaries">
+<h2>Merging dictionaries<a class="headerlink" href="#Merging-dictionaries" title="Permalink to this headline">¶</a></h2>
+<p>Saw I have two dictionaries that have no like keys and I want to merge them together. This might be like considering two volumes of an encyclopedia; they do not have and like keys, and we might like to consider them as a single volume. How can we accomplish this?</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">dict()</span></code> function, combined with the <code class="docutils literal notranslate"><span class="pre">**</span></code> operator in function calls allows for this. We simple call <code class="docutils literal notranslate"><span class="pre">dict()</span></code> with <code class="docutils literal notranslate"><span class="pre">**</span></code> before each dictionary argument.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">restriction_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;KpnI&quot;</span><span class="p">:</span> <span class="s2">&quot;GGTACC&quot;</span><span class="p">,</span> <span class="s2">&quot;HindII&quot;</span><span class="p">:</span> <span class="s2">&quot;AAGCTT&quot;</span><span class="p">,</span> <span class="s2">&quot;ecoRI&quot;</span><span class="p">:</span> <span class="s2">&quot;GAATTC&quot;</span><span class="p">}</span>
+
+<span class="nb">dict</span><span class="p">(</span><span class="o">**</span><span class="n">my_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">restriction_dict</span><span class="p">,</span> <span class="n">another_seq</span><span class="o">=</span><span class="s2">&quot;AGTGTAGTG&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;a&#39;: &#39;TGACAC&#39;,
+ &#39;b&#39;: &#39;CAGGGA&#39;,
+ &#39;c&#39;: &#39;GGGGGGGGG&#39;,
+ &#39;d&#39;: &#39;AAAATTTTT&#39;,
+ &#39;KpnI&#39;: &#39;GGTACC&#39;,
+ &#39;HindII&#39;: &#39;AAGCTT&#39;,
+ &#39;ecoRI&#39;: &#39;GAATTC&#39;,
+ &#39;another_seq&#39;: &#39;AGTGTAGTG&#39;}
+</pre></div></div>
+</div>
+</div>
 <div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput toggle docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1361,11 +1398,11 @@ jupyterlab: 3.0.14
   <div role="contentinfo">
     <p>
       <span class="lastupdated">
-        Last updated on Jun 10, 2021.
+        Last updated on Jun 15, 2021.
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7fe56f3cd940> 
+  </div> <jinja2.runtime.BlockReference object at 0x7fb0cb415070> 
 
 <p>© 2021 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

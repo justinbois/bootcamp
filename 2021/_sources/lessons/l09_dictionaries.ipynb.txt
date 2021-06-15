@@ -337,10 +337,10 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "140311736813248\n",
-      "4359932416\n",
-      "4359932448\n",
-      "140311736404528\n"
+      "140572261584256\n",
+      "4518648320\n",
+      "4518648352\n",
+      "140572261411888\n"
      ]
     }
    ],
@@ -372,7 +372,7 @@
     {
      "data": {
       "text/plain": [
-       "(6718210612286865077, -8071661399973200159, 9128343439456809861)"
+       "(2624496504201943107, -1968300692959807232, -7086391998955330268)"
       ]
      },
      "execution_count": 10,
@@ -1032,12 +1032,52 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Computing environment"
+    "## Merging dictionaries\n",
+    "\n",
+    "Saw I have two dictionaries that have no like keys and I want to merge them together. This might be like considering two volumes of an encyclopedia; they do not have and like keys, and we might like to consider them as a single volume. How can we accomplish this?\n",
+    "\n",
+    "The `dict()` function, combined with the `**` operator in function calls allows for this. We simple call `dict()` with `**` before each dictionary argument."
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 32,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'a': 'TGACAC',\n",
+       " 'b': 'CAGGGA',\n",
+       " 'c': 'GGGGGGGGG',\n",
+       " 'd': 'AAAATTTTT',\n",
+       " 'KpnI': 'GGTACC',\n",
+       " 'HindII': 'AAGCTT',\n",
+       " 'ecoRI': 'GAATTC',\n",
+       " 'another_seq': 'AGTGTAGTG'}"
+      ]
+     },
+     "execution_count": 32,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "restriction_dict = {\"KpnI\": \"GGTACC\", \"HindII\": \"AAGCTT\", \"ecoRI\": \"GAATTC\"}\n",
+    "\n",
+    "dict(**my_dict, **restriction_dict, another_seq=\"AGTGTAGTG\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
    "metadata": {
     "tags": [
      "hide-input"
