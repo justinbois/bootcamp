@@ -1,0 +1,1265 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 35: Regular expressions\n",
+    "\n",
+    "This lesson was developed in collaboration with Axel Müller.\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [],
+   "source": [
+    "import re"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<hr>\n",
+    "\n",
+    "In this tutorial, we will learn about very useful and pervasive text processing tools called **regular expressions**, a.k.a. RE, re, regex, regexp, regex patterns. They are tools for specifying text matching patterns. The desired patterns can then be quickly and automatically extracted from possible large amounts of text. This is particularly useful in parsing files in bioinformatics."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Background\n",
+    "\n",
+    "The underlying theory of regexes dates back to 1956. It was developed by Stephen Cole Kleene as part of theoretical computer science's attempt to describe a regular language. In the late 60's and early 70's regexes got broader attention as they could be used in lexical analysis of compilers and in pattern matching of text editors such as `ed`. Executing the latter function is synonymous to employing `Ctrl+F` or `Command+F` today to search a document for text.\n",
+    "\n",
+    "Regular expressions are in itself a very specialized and compact programing language that can be employed straight away in a number of command line tools such as `awk`, `sed`, and `grep`. Higher level programming languages such as Perl and Python employ a slightly modified version. To use them in Python we need to import the `re` module.\n",
+    "\n",
+    "Before we move on to see how regexes are used in Python let's first have a look at a simple example of regexes at work:\n",
+    "\n",
+    "The file `data/towels.txt` contains some relevant information regarding towels. We will use the `grep` on the command line to print lines that match a regular expression. The syntax for grep is:\n",
+    "\n",
+    "    grep \"some search string\" some_file.txt\n",
+    "\n",
+    "(The name grep is inspired by the command `g/re/p`, globular search/regular expression/print)\n",
+    "\n",
+    "First of all a quick look at the text file. For this we use `cat`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    },
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The Hitch Hiker's Guide to the Galaxy has a few things to\n",
+      "say on the subject of towels.\n",
+      "A towel, it says, is about the most massively useful thing\n",
+      "an interstellar hitchhiker can have.  Partly it has great\n",
+      "practical value - you can wrap it around you for warmth as\n",
+      "you bound across the cold moons of Jaglan Beta; you can lie\n",
+      "on it on the brilliant marble-sanded beaches of Santraginus\n",
+      "V, inhaling the heady sea vapours; you can sleep under it\n",
+      "beneath the stars which shine so redly on the desert world\n",
+      "of Kakrafoon; use it to sail a mini raft down the slow heavy\n",
+      "river Moth; wet it for use in hand-to- hand-combat; wrap it\n",
+      "round your head to ward off noxious fumes or to avoid the\n",
+      "gaze of the Ravenous Bugblatter Beast of Traal (a\n",
+      "mindboggingly stupid animal, it assumes that if you can't\n",
+      "see it, it can't see you - daft as a bush, but very\n",
+      "ravenous); you can wave your towel in emergencies as a\n",
+      "distress signal, and of course dry yourself off with it if\n",
+      "it still seems to be clean enough.  More importantly, a\n",
+      "towel has immense psychological value.  For some reason, if\n",
+      "a strag (strag: non-hitch hiker) discovers that a hitch\n",
+      "hiker has his towel with him, he will automatically assume\n",
+      "that he is also in possession of a toothbrush, face flannel,\n",
+      "soap, tin of biscuits, flask, compass, map, ball of string,\n",
+      "gnat spray, wet weather gear, space suit etc., etc.\n",
+      "Furthermore, the strag will then happily lend the hitch\n",
+      "hiker any of these or a dozen other items that the hitch\n",
+      "hiker might accidentally have \"lost\".  What the strag will\n",
+      "think is that any man who can hitch the length and breadth\n",
+      "of the galaxy, rough it, slum it, struggle against terrible\n",
+      "odds, win through, and still knows where his towel is is\n",
+      "clearly a man to be reckoned with.  \n",
+      "\n",
+      "Douglas Adams:  \"The Hitchhiker's Guide to the Galaxy\" \n"
+     ]
+    }
+   ],
+   "source": [
+    "!cat 'data/towels.txt'"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Since the text concerns towels we might be interested in getting every line that contains the term \"towel\"."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    },
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "say on the subject of towels.\n",
+      "A towel, it says, is about the most massively useful thing\n",
+      "ravenous); you can wave your towel in emergencies as a\n",
+      "towel has immense psychological value.  For some reason, if\n",
+      "hiker has his towel with him, he will automatically assume\n",
+      "odds, win through, and still knows where his towel is is\n"
+     ]
+    }
+   ],
+   "source": [
+    "!grep \"towel\" data/towels.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Please note that this finds lines that contain the string \"`towel`\" as well as as the string \"`towels`\".\n",
+    "\n",
+    "A more interesting problem arises when we want to look up lines that say something about hitchhikers. A quick look at the text above shows us that Douglas Adams enjoyed his poetic liberty as far as the spelling of the word \"hitchhiker\" was concerned. We find the following versions:\n",
+    "Hitch Hiker\n",
+    "hitchhiker\n",
+    "hitch hiker\n",
+    "Hitchhiker\n",
+    "\n",
+    "Can regexes help us to find all the different spellings? "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The Hitch Hiker's Guide to the Galaxy has a few things to\n",
+      "an interstellar hitchhiker can have.  Partly it has great\n",
+      "a strag (strag: non-hitch hiker) discovers that a hitch\n",
+      "Douglas Adams:  \"The Hitchhiker's Guide to the Galaxy\" \n"
+     ]
+    }
+   ],
+   "source": [
+    "!grep \"\\(H\\|h\\)itch *\\(H\\|h\\)iker\" data/towels.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The escape character `\\` tells grep to treat the following character differently. The pipe character `|` is a logical OR. Thus, the expression `\\(H\\|h\\)` is interpreted as \"`H` or `h`\". The Kleene star, `*`, means that the preceding character occurs zero, one, or more times. In our example this means that the strings hitch and hiker are either separated by one or more spaces, or not separated at all. \n",
+    "\n",
+    "Often it is possible to employ a number of different REs to the same end. In more advanced cases choosing the appropriate RE can have a significant impact on performance. In many other cases however the time gained by executing the perfect RE won't make up for the time invested in crafting it."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## REs in Python\n",
+    "\n",
+    "Python's `re` module enables use of REs within Python programs.  This is useful for parsing strings.  The [standard library documentation](https://docs.python.org/3/library/re.html) is quite good and is a useful resource.\n",
+    "\n",
+    "Unlike most other code we write in Python, REs are compiled into series of bytecode and executed in C, which makes them extremely fast. After we have compiled a regular expression, it has methods, such as `match`, that allow us to process strings with our compiled regular expression."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Compiling REs\n",
+    "\n",
+    "We will investigate the syntax of the `re` module, as usual, through example. In this case, we will use an RE to find instances of hitchhiker-like words in the text from Douglas Adams."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[\"The Hitch Hiker's Guide to the Galaxy has a few things to\",\n",
+       " 'an interstellar hitchhiker can have.  Partly it has great',\n",
+       " 'a strag (strag: non-hitch hiker) discovers that a hitch',\n",
+       " 'Douglas Adams:  \"The Hitchhiker\\'s Guide to the Galaxy\" ']"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Read file contents as a single string\n",
+    "with open('data/towels.txt') as f:\n",
+    "    hh_string = f.read()\n",
+    "    \n",
+    "# Define the regex pattern\n",
+    "pattern = '.*[H|h]itch *[H|h]iker.*'\n",
+    "regex = re.compile(pattern)\n",
+    "\n",
+    "# Get list: each item is string with line that has variant of hitchhiker in it\n",
+    "regex.findall(hh_string)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We get a list of lines in the `towels.txt` file that have a hitchhiker-like word in them.\n",
+    "\n",
+    "Notice that the syntax is a bit different than the regex we used with `grep` on the command line.  First, let's discuss the pattern.\n",
+    "\n",
+    "    .*[H|h]itch *[H|h]iker.*\n",
+    "\n",
+    "Importantly, we do not use the escape character, `\\`.  We use it instead if we want to match explicitly the following character.  I.e., if we are actually looking for a bracket in the string."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['[']"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Define the regex pattern\n",
+    "pattern = '\\['\n",
+    "regex = re.compile(pattern)\n",
+    "\n",
+    "# Get list: each item is string with line that has variant of hitchhiker in it\n",
+    "regex.findall('Find the[ bracket.')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Looking again at our `.*[H|h]itch *[H|h]iker.*` pattern, the opening and closing `.*` mean that we do not care what comes before or after the hitchhiker-like expression in the line. The \"` *`\" in the middle of the expression means the same as in the command line case: arbitrarily many spaces (including zero) may be between `hitch` and `hiker`.  \n",
+    "\n",
+    "We use `[H/h]` to mean either upper or lowercase `H`. This is in contrast to the regex we used with `grep`, which used parentheses. In Python's `re` module, parentheses serve to form **groups**. Let's see what happens if we use some parentheses."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[(\"The Hitch Hiker's Guide to the Galaxy has a few things to\",\n",
+       "  'Hitch Hiker',\n",
+       "  'H',\n",
+       "  'H'),\n",
+       " ('an interstellar hitchhiker can have.  Partly it has great',\n",
+       "  'hitchhiker',\n",
+       "  'h',\n",
+       "  'h'),\n",
+       " ('a strag (strag: non-hitch hiker) discovers that a hitch',\n",
+       "  'hitch hiker',\n",
+       "  'h',\n",
+       "  'h'),\n",
+       " ('Douglas Adams:  \"The Hitchhiker\\'s Guide to the Galaxy\" ',\n",
+       "  'Hitchhiker',\n",
+       "  'H',\n",
+       "  'h')]"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Define the regex pattern\n",
+    "pattern = '(.*((H|h)itch *(H|h)iker).*)'\n",
+    "regex = re.compile(pattern)\n",
+    "\n",
+    "# Get list: each item is string with line that has variant of hitchhiker in it\n",
+    "regex.findall(hh_string)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The parentheses form a hierarchy of groups. At the outermost level, we get the entire line that has a hitchhiker-like word. At the next level, we get the actual hitchhiker-like word. And at the innermost level, we get the individual `H` characters."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Flags in REs\n",
+    "\n",
+    "We can also compile REs with **flags**. These are given as a second argument for the `re.compile` function and specify variants on how the RE compilation is to be done. For example, we could have used a flag to make our RE even simpler."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[\"The Hitch Hiker's Guide to the Galaxy has a few things to\",\n",
+       " 'an interstellar hitchhiker can have.  Partly it has great',\n",
+       " 'a strag (strag: non-hitch hiker) discovers that a hitch',\n",
+       " 'Douglas Adams:  \"The Hitchhiker\\'s Guide to the Galaxy\" ']"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Define the regex pattern\n",
+    "pattern = '.*hitch *hiker.*'\n",
+    "regex = re.compile(pattern, re.IGNORECASE)\n",
+    "\n",
+    "# Get list: each item is string with line that has variant of hitchhiker in it\n",
+    "regex.findall(hh_string)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The `re.IGNORECASE` flag allowed us to avoid having to have `[H|h]` in the RE. This just tells `re.compile` to treat lowercase and uppercase characters the same. Let's have a look at the available flags:\n",
+    "\n",
+    "|   flag   | Description   |\n",
+    "|----------|---------------|\n",
+    "| `re.DEBUG` | Displays debugging information about compiled expression |\n",
+    "| `re.IGNORECASE` | Case insensitive matching |\n",
+    "| `re.MULTILINE` | `^` and `$` also match the beginning and end of a line respectively.|\n",
+    "| `re.DOTALL` | As mentioned above that allows `.` to match any character.|\n",
+    "| `re.VERBOSE` | Allows the usage of comments; everything left of the `#` will be ignored. This flag also ignores non-escaped whitespace (i.e., whitespace without the preceding `\\`). This improves the readability of REs.|\n",
+    "\n",
+    "To combine flags, separate them with a vertical bar (the bitwise OR operator). E.g.,\n",
+    "\n",
+    "    my_regex_query = re.compile(\"hitch *hiker\", re.IGNORECASE | re.VERBOSE)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Metacharacters in Python REs\n",
+    "\n",
+    "In the command line example using `grep`, we got acquainted with a few metacharacters that help us improve our pattern matching. Let's have a look at all RE metacharacters that can be used in Python:\n",
+    "\n",
+    "|     Metacharacter   |   Description   |\n",
+    "|:------------------:|-----------------|\n",
+    "| `.`                   | (dot) The ultimate wildcard. It matches any character other than the newline character (`\\n`). If it is desireable to also match `\\n` the alternative mode (`re.DOTALL`) can be invoked.\n",
+    "| `^`                   | (caret) Matches the start of a new string and the position immediately after a newline character.\n",
+    "| `$`                   | Similar to caret but goes for the end of the string and the character preceeding the newline character.\n",
+    "| `*`                   | The Kleene star  `*` following a RE allows 0 or multiple repitition of the this expression.  `ab*c` will match `ac`, `abc`, `abbc`, `abbbc`, ...\n",
+    "| `+`                   | Similar to the Kleene star, but it matches 1 or more occurences of the preceding RE, thus `ab+c` matches `abc`, `abbc`, `abbbc`, but not `ac`.\n",
+    "| `?`                   | Matches 0 or 1 repetition of the RE. `ab?` matches `a`, and `ab`.\n",
+    "| `{m}`                   | Matches exactly `m` repeats. `a{3}` equals `aaa`\n",
+    "| `{m,n}`                  | Matches m to n repeats, `a{2,4}` yields `aa`, `aaa`, and `aaaa`. The lower and upper bounds are optional `a{,4}` is the same as `a{0,4}`. Omiting the upper bound `a{4,}` yields anything with four or more repetitions of `a`.\n",
+    "| `[]`                   | Square brackets are used to describe a set of characters eg: `\\[atcg\\]` matches, `a`, `t`, `c`, or `g`, `\\[a-z\\]` matches any lowercase ASCII letter. `\\[0-2\\]\\[0,9\\]` matches all numbers from 00 to 29. It is important to note that metacharacters lose their special function within sets. Thus, `[(a\\*b+)]` matches `(`, `a`, `\\\\`, `\\*`, `b`, `+`, and `)`. \n",
+    "| `\\\\`                   | The escape character `\\\\` makes sure that the following character is interpreted literally. The Kleene star (`*`) for example will be interpreted as a simple asterisk if prefaced by the escape character (`\\\\\\*`)\n",
+    "| &#124;                  | Logical or\n",
+    "| `(...)`                   | matches whatever regular expression is inside the parentheses.  As we discussed, these serve to describe groupings."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Searching, Matching, Splitting, and more\n",
+    "\n",
+    "Once we are happy with our compiled RE we can deploy it in a number of ways. Upon compilation, we have created a compiled `SRE_Pattern` object that has methods for searching strings. In the table below, we will assume the compiled object is called `regex`.\n",
+    "\n",
+    "|   action   | Description   |\n",
+    "|---------------------|---------------|\n",
+    "| `regex.search(string, flags=0)` | Scans through string and returns first matching object |\n",
+    "| `regex.match(string, flags=0)` | Returns object if zero or more characters at the beginning of the string match. |\n",
+    "| `regex.fullmatch(string, flags=0)` | returns matching object if the whole string matches the RE otherwise RE is returned. |\n",
+    "| `regex.findall(string, flags=0)` | Returns a list of all matches in the string. If there was grouping, each entry in the list is tuple, where each entry has the a match for different levels of grouping.|\n",
+    "| `regex.finditer(string, flags=0)` | Same as `regex.findall()`, except returns an iterator that yields a match object instead of a list.|\n",
+    "| `regex.split(string, maxsplit=0, flags=0)` | A new feature from Python 3.4, splits the string into a list by occurrences of patterns, see example below|"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Combinations of metacharacters in RE\n",
+    "\n",
+    "#### greedy vs non-greedy\n",
+    "\n",
+    "`+`, `\\*`, and `?` match as much text as possible. This behavior is referred to as greedy. Adding a `?` after these qualifiers renders them non greedy, yielding the shortest possible answer. For example applying the RE `(K.\\*F)` to this amino acid sequence:\n",
+    "`MKKSLVFAFFAFFLSL`\n",
+    "yields:\n",
+    "`KKSLVFAFFAFF`\n",
+    "whereas `(K.\\*?F)` would yield:\n",
+    "`KSLVF`\n",
+    "\n",
+    "\n",
+    "#### More escaping\n",
+    "\n",
+    "Let's have a look at how a **word** is defined before having a look at more escape options. A word is a sequence of Unicode alphanumeric or underscore characters.  Examples are: \n",
+    "\n",
+    "    Hello_world\n",
+    "    P4ssw0rd\n",
+    "\n",
+    "Unless we specify wild card characters or ask for whole lines, a regex search will return words. We can further specify which words will be returned with the escape characters below.\n",
+    "\n",
+    "|   \\\\.   | Description   |\n",
+    "|--------------|---------------|\n",
+    "| `\\number` | Matches the number-times repeat of a group. For example applying `(.+) \\1` to the string `Homo sapiens sapiens` returns `sapiens sapiens`|\n",
+    "|`\\A` | Matches the start of a string|\n",
+    "|`\\b` | Matches the empty string at the beginning or ending of a word. Thus using `towel\\b` in the example above would only yield lines with the word towel and not towels. |\n",
+    "|`\\B` | Opposite of `\\b`. Thus `towel\\B` would yield towels.|\n",
+    "|`\\d` | Matches any unicode decimal digit.|\n",
+    "|`\\D` | Opposite of `\\d`|\n",
+    "|`\\s` | Matches whitespace characters |\n",
+    "|`\\S` | Opposite of `\\s` |\n",
+    "|`\\w` | Matches Unicode word characters|\n",
+    "|`\\W` | Opposite of `\\W` |\n",
+    "|`\\Z` | Matches only the end of the string|\n",
+    "\n",
+    "#### The very powerful question mark\n",
+    "\n",
+    "With the help of `?` we can expand the functionality of parentheses. The general syntax is `(?...)`. We will not get into these here, but the table below gives a summary, and more detail can be found in the [`re` package documentation](https://docs.python.org/3/library/re.html).\n",
+    "\n",
+    "|   `(?...)`   |   Description   |\n",
+    "|------------|-----------------|\n",
+    "| `(?HKRED)` | Matches one or more characters |\n",
+    "| `(?:...)` | Non-capturing version of the regular parentheses|\n",
+    "|`(?<name>...)`| The matched string is accessible by the symbolic group name *name*.|\n",
+    "| `(?P=name)`| Matches the string defined in `(?<name>...)`|\n",
+    "| `(?#...)` | A comment, contents are ignored|\n",
+    "| `(?!...)` | Opposite of `(...)`|\n",
+    "| `(?<=...)`| A positive look behind assertion, for example applying the following RE to an amino acid sequence `(?<=(?HKRED)\\[A-Z\\])` yields residues with a preceding charged residue|\n",
+    "| `(?<!...)`| Opposite of `(?<=...)` (anoter pattern?)|\n",
+    "|`(?(id/name)yes-pattern`&#124;`no-pattern)`| Matching with yes-pattern if group given with id or name exists, with no-pattern if it doesn't. The latter is optional. |"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## A shortcut to avoid compiling\n",
+    "\n",
+    "If you are not going to use your compiled regex over and over again (you often will), you may want to use some of the functions in the `re` module. For example, if we wanted to find all occurances of a pattern in a string, we have learned to do this:\n",
+    "\n",
+    "    regex = re.compile(pattern, flags=0)\n",
+    "    regex.findall(string)\n",
+    "\n",
+    "We could equivalently do this:\n",
+    "\n",
+    "    re.findall(pattern, string, flags=0)\n",
+    "    \n",
+    "They give exactly the same results."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "regex.findall(hh_string):\n",
+      "[\"The Hitch Hiker's Guide to the Galaxy has a few things to\", 'an interstellar hitchhiker can have.  Partly it has great', 'a strag (strag: non-hitch hiker) discovers that a hitch', 'Douglas Adams:  \"The Hitchhiker\\'s Guide to the Galaxy\" ']\n",
+      "\n",
+      "re.findall(pattern, hh_string, flags=re.IGNORECASE):\n",
+      "[\"The Hitch Hiker's Guide to the Galaxy has a few things to\", 'an interstellar hitchhiker can have.  Partly it has great', 'a strag (strag: non-hitch hiker) discovers that a hitch', 'Douglas Adams:  \"The Hitchhiker\\'s Guide to the Galaxy\" ']\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Set up pattern and compile it\n",
+    "pattern = '.*hitch *hiker.*'\n",
+    "regex = re.compile(pattern, flags=re.IGNORECASE)\n",
+    "\n",
+    "# Precompiled one\n",
+    "print('regex.findall(hh_string):')\n",
+    "print(regex.findall(hh_string))\n",
+    "\n",
+    "# Non-precompiled performance\n",
+    "print('\\nre.findall(pattern, hh_string, flags=re.IGNORECASE):')\n",
+    "print(re.findall(pattern, hh_string, flags=re.IGNORECASE))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Example: using REs with sequence data\n",
+    "\n",
+    "As an example use of regular expressions, we will parse a [GenBank](http://www.ncbi.nlm.nih.gov/genbank/) entry. The file [`genbank_seq.txt`](../data/regex/genbank_seq.txt) contains the sequence portion of a GenBank entry."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "        1 mkkillsvlt afvavvlaac ggnsdsktln sldkikqngv vrigvfgdkp pfgyvdekgn\n",
+      "       61 nqgydialak riakelfgde nkvqfvlvea anrveflksn kvdiilanft qtpqraeqvd\n",
+      "      121 fcspymkval gvavpkdsni tsvedlkdkt lllnkgttad ayftqnypni ktlkydqnte\n",
+      "      181 tfaalmdkrg dalshdntll fawvkdhpdf kmgikelgnk dviapavkkg dkelkefidn\n",
+      "      241 liiklgqeqf fhkaydetlk ahfgddvkad dvvieggki\n"
+     ]
+    }
+   ],
+   "source": [
+    "!cat data/genbank_seq.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We have a sequence of amino acids, but it is broken down into groups of 10 residues and the beginning of each line is annotated. Note that the last group only has nine residues. We would like to get a string that contains only the sequence information.  In this case, we just want the strings that match letters."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['mkkillsvlt', 'afvavvlaac', 'ggnsdsktln', 'sldkikqngv', 'vrigvfgdkp', 'pfgyvdekgn', 'nqgydialak', 'riakelfgde', 'nkvqfvlvea', 'anrveflksn', 'kvdiilanft', 'qtpqraeqvd', 'fcspymkval', 'gvavpkdsni', 'tsvedlkdkt', 'lllnkgttad', 'ayftqnypni', 'ktlkydqnte', 'tfaalmdkrg', 'dalshdntll', 'fawvkdhpdf', 'kmgikelgnk', 'dviapavkkg', 'dkelkefidn', 'liiklgqeqf', 'fhkaydetlk', 'ahfgddvkad', 'dvvieggki']\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Read in the string from the file\n",
+    "with open(\"data/genbank_seq.txt\", \"r\") as myfile:\n",
+    "    gb_input = myfile.read()\n",
+    "\n",
+    "# Compile our regex search\n",
+    "aa = re.compile('([a-z]+)')\n",
+    "\n",
+    "# Get a list of all the segments\n",
+    "list_of_seq_segments = aa.findall(gb_input)\n",
+    "\n",
+    "print(list_of_seq_segments)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can now join all of the items in this list into a single string to get the full amino acid sequence."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'mkkillsvltafvavvlaacggnsdsktlnsldkikqngvvrigvfgdkppfgyvdekgnnqgydialakriakelfgdenkvqfvlveaanrveflksnkvdiilanftqtpqraeqvdfcspymkvalgvavpkdsnitsvedlkdktlllnkgttadayftqnypniktlkydqntetfaalmdkrgdalshdntllfawvkdhpdfkmgikelgnkdviapavkkgdkelkefidnliiklgqeqffhkaydetlkahfgddvkaddvvieggki'"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# combine the strings in the list to a single string\n",
+    "seq = ''.join(list_of_seq_segments)\n",
+    "seq"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Another strategy would be to split string at the whitespaces."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['', '1', 'mkkillsvlt', 'afvavvlaac', 'ggnsdsktln', 'sldkikqngv', 'vrigvfgdkp', 'pfgyvdekgn', '61', 'nqgydialak', 'riakelfgde', 'nkvqfvlvea', 'anrveflksn', 'kvdiilanft', 'qtpqraeqvd', '121', 'fcspymkval', 'gvavpkdsni', 'tsvedlkdkt', 'lllnkgttad', 'ayftqnypni', 'ktlkydqnte', '181', 'tfaalmdkrg', 'dalshdntll', 'fawvkdhpdf', 'kmgikelgnk', 'dviapavkkg', 'dkelkefidn', '241', 'liiklgqeqf', 'fhkaydetlk', 'ahfgddvkad', 'dvvieggki', '']\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Split string at whitespaces \n",
+    "temp = re.split('\\s+', gb_input)\n",
+    "print(temp)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Admittedly, this is not the most efficient way but it illustrates the power of the `re.split()`. Splitting at whitespaces is commonly done when parsing other types of text files. By combining the relevant list elements we get to the sequence. We can detect segments of the string that are sequence element if they are strings with only letters. We use the `isalpha` method of strings to do this."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'mkkillsvltafvavvlaacggnsdsktlnsldkikqngvvrigvfgdkppfgyvdekgnnqgydialakriakelfgdenkvqfvlveaanrveflksnkvdiilanftqtpqraeqvdfcspymkvalgvavpkdsnitsvedlkdktlllnkgttadayftqnypniktlkydqntetfaalmdkrgdalshdntllfawvkdhpdfkmgikelgnkdviapavkkgdkelkefidnliiklgqeqffhkaydetlkahfgddvkaddvvieggki'"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "''.join([s for s in temp if s.isalpha()])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Using match() and search()\n",
+    "\n",
+    "Let's have a look at the outputs of `aa.match()` and `aa.search()`. We'll start with `aa.match()`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "None\n"
+     ]
+    }
+   ],
+   "source": [
+    "match_out = aa.match(gb_input)\n",
+    "print(match_out)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Since the RE doesn't match the beginning of the string the result is None. Let's instead just try to match anything using the `.+` pattern."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<re.Match object; span=(0, 75), match='        1 mkkillsvlt afvavvlaac ggnsdsktln sldkik>\n"
+     ]
+    }
+   ],
+   "source": [
+    "# The following RE will yield the first line. \n",
+    "# Adding the flag re.DOTALL would return the entire string\n",
+    "aa_gaps= re.compile('.+')\n",
+    "match_out = aa_gaps.match(gb_input)\n",
+    "\n",
+    "print(match_out)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This is a `SRE_Match` object. How do we use it? This object has several methods, and we can see what they do by example."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'        1 mkkillsvlt afvavvlaac ggnsdsktln sldkikqngv vrigvfgdkp pfgyvdekgn'"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# access the match\n",
+    "match_out.group()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(0, 75)"
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Access the location of the substring\n",
+    "match_out.span()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Use of `aa.search()` is similar. Remember, `aa.search()` does not just look at the beginning of the string, but scans the entire string for a match."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "mkkillsvlt\n",
+      "(10, 20)\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Search for the first block of characters\n",
+    "search_out = aa.search(gb_input)\n",
+    "\n",
+    "# Show result\n",
+    "print(search_out.group())\n",
+    "print(search_out.span())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Find and replace with regexes\n",
+    "\n",
+    "Now, we'll use a powerful tool. We'll find and replace using a regex. For this example, we will replace all positively charged residues (arginine (`a`), lysine (`l`), and histodine (`h`)), and replace them with a `+` sign. To do this, we use the `sub()` method of a compiled regex."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'m++illsvltafvavvlaacggnsds+tlnsld+i+qngvv+igvfgd+ppfgyvde+gnnqgydiala++ia+elfgden+vqfvlveaan+vefl+sn+vdiilanftqtpq+aeqvdfcspym+valgvavp+dsnitsvedl+d+tllln+gttadayftqnypni+tl+ydqntetfaalmd++gdals+dntllfawv+d+pdf+mgi+elgn+dviapav++gd+el+efidnlii+lgqeqff++aydetl+a+fgddv+addvviegg+i'"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Compile our search string\n",
+    "positive_residues = re.compile('[rkh]')\n",
+    "\n",
+    "# Find and replace\n",
+    "positive_residues.sub('+', seq)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The following sequence contains 42 positively charged residues:\n",
+      "\n",
+      "m++illsvltafvavvlaacggnsds+tlnsld+i+qngvv+igvfgd+ppfgyvde+gnnqgydiala++ia+elfgden+vqfvlveaan+vefl+sn+vdiilanftqtpq+aeqvdfcspym+valgvavp+dsnitsvedl+d+tllln+gttadayftqnypni+tl+ydqntetfaalmd++gdals+dntllfawv+d+pdf+mgi+elgn+dviapav++gd+el+efidnlii+lgqeqff++aydetl+a+fgddv+addvviegg+i\n"
+     ]
+    }
+   ],
+   "source": [
+    "# In addition to substituting subn also counts the number of substitution. \n",
+    "# It returns a tuple consisting of the modified string and the number of \n",
+    "# substitutions\n",
+    "pos_seq, n_pos = positive_residues.subn('+', seq)\n",
+    "\n",
+    "# Print the result\n",
+    "print(\n",
+    "    \"The following sequence contains\", \n",
+    "    n_pos, \n",
+    "    \"positively charged residues:\\n\"\n",
+    ")\n",
+    "print(pos_seq)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The previous examples illustrate that RE are a powerful tool to parse data. Moreover they can be of great use in analyzing sequences. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Example 2: Using REs to parse sequence FASTA files\n",
+    "\n",
+    "The file [`aligned.fasta`](data/aligned_fasta) contains seven aligned sequences in FASTA format. \n",
+    "\n",
+    "Let's have a look:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      ">gi|488942278|ref|WP_002853353.1|:1-279 glutamine ABC transporter substrate-binding protein [Campylobacter jejuni]\n",
+      "MKKILLSVLTAFVAVVLAACGG-------NSDSKTLNSLDKIKQNGVVRIGVFGDKPPFG\n",
+      "YVDEKGNNQGYDIALAKRIAKELFGDENKVQFVLVEAANRVEFLKSNKVDIILANFTQTP\n",
+      "QRAEQVDFCSPYMKVALGVAVPKDSNITSVEDLKDKTLLLNKGTTADAYFTQNYPNIKTL\n",
+      "KYDQNTETFAALMDKRGDALSHDNTLLFAWVKDHPDFKMGIKELGNKDVIAPAVKKGDKE\n",
+      "LKEFIDNLIIKLGQEQFFHKAYDETLKAHFGDDVKADDVVIEGGKI\n",
+      ">gi|533111561|ref|WP_020974739.1|:1-279 amino-acid transporter periplasmic solute-binding protein [Campylobacter coli]\n",
+      "MKKMLLSIFTTFVAVFLAACGG-------NSDSNALNSLEKIKQEGVVRIGVFGDKPPFG\n",
+      "YVDEKGANQGYDIVLAKRIAKELLGDENKVQFVLVEAANRVEFLKSNKVDIILANFTQTP\n",
+      "ERAEQVDFCLPYMKVALGVAVPQDSNISSVEDLKDKTLLLNKGTTADAYFTKEYPDIKTL\n",
+      "KYDQNTETFAALMDQRGDALSHDNTLLFAWVKDHPEFKMAIKELGNKDVIAPAVKKGNKE\n",
+      "LKEFIDNLIVKLGEEQFFHKAYEETLKTHFGDDVKADDVVIEGGKI\n",
+      ">gi|736962278|ref|WP_034958763.1|:1-277 ABC transporter substrate-binding protein [Campylobacter upsaliensis]\n",
+      "MKKILLSIFTAFVAVFLAAC---------DSSESGVNSIERIKNAGVVKIGVFGDKPPFG\n",
+      "YVDEKGANQGYDIIFAKRIAKELLGDENKVEFVLVEAANRVEFLKSNKVDIILANFTQTP\n",
+      "ERAEQVDFALPYMKVALGVVVPEDSEIKSVEDLKDKTLILNKGTTADAYFTKNYADIKTL\n",
+      "KFDQNTETFAALMDKRGDALAHDNTLLFAWVKERPDYKVVIKELGNQDVIAPAVKKGDKE\n",
+      "LKEFIDNLIISLAAEQFFHKAYDESLKAHFGADIKADDVVIEGGKL\n",
+      ">gi|746591941|ref|WP_039618158.1|:1-275 ABC transporter substrate-binding protein [Campylobacter lari]\n",
+      "MKKIFL--LSFLMALFFSAC---------SNSSSNENSIEKIKQQGVIRIGVFGDKPPFG\n",
+      "YLDAQGKNQGYDVYFAKRIAKELLGDESKVQFVLVEAANRVEFLESNKVDLILANFTKTP\n",
+      "EREAVVDFAFPYMKVALGVVAPKGSDIKTIDDLKSKTLILNKGTTADAYFTKNMPEIKTI\n",
+      "KFDQNTETFAALIGKRGDALSHDNALLFAWAKENPNFEVVIKELGNHDVIAPAVKKGDEA\n",
+      "MLKFINDLIVKLQNEQFFHKAYDETLKPFFSDDIKADDVVIEGGKI\n",
+      ">gi|757802533|ref|WP_043019716.1|:1-275 ABC transporter substrate-binding protein [Campylobacter subantarcticus]\n",
+      "MKKIFL--LSFLMTLFFSAC---------SNSSSNENSIEKIKQQGVIRIGVFGDKPPFG\n",
+      "YLDAQGKNQGYDVYFAKRITKELLGDESKVQFVLVEAANRVEFLESNKVDLILANFTKTP\n",
+      "EREAVVDFALPYMKVALGVVAPKNSDIKTVDDLKNKTLIINKGTTADAYFTKNMPEIKTI\n",
+      "KFDQNTETFAALIGKRGDALSHDNALLFAWAKENPNFEVVIKELGNHDVIAPAVKKGDEA\n",
+      "MLKFINDLILKLQNEQFFHKAYDETLKPFFSDDIKADDVVIEGGKI\n",
+      ">gi|763018407|ref|WP_043902698.1|:13-275 glutamine ABC transporter substrate-binding protein [Helicobacter cetorum]\n",
+      "--------LLVLVTLIFNAC----------SDKPKLDALDSIKQKGVVRIGVFSDKPPFG\n",
+      "FVDSKGAYQGFDVYIAKRMAKDLLGDENKIEFVPVEASARVEFLKANKVDIIMANFTQTN\n",
+      "ERKEVVDFAKPYMKVALGVVS-KNGMIKDIEELKDKTLIVNKGTTADFYFTKNYPNIKLL\n",
+      "KFEQNTETFLALLNNRGEALAHDNTLLFAWAKQHPEFKVAITSLGDKDVIAPAIKKGNPK\n",
+      "LLEWLNNEVQQLINEGFLKEAYKETLEPVYGSDIKSEEIVFE----\n",
+      ">gi|654467138|ref|WP_027937534.1|:5-289 hypothetical protein [Anaeroarcus burkinensis]\n",
+      "-KGIVLIFSVLFIVGMLAGCGSSAKQGDQKDAAAAKSSIEEIKQRGVLRVGVFSDKPPFG\n",
+      "FVDKSGKNQGFDVVIAKRFAKDLLGDETKIEFVLVEAANRVEVLQSNKVDITMANFTVTD\n",
+      "ERKQKVDFANPYMKVYLGVVSPSGTPITSVEQLKGKKLIVNKGTTAETYFTKNHPDIELL\n",
+      "KYDQNTEAFEALKDNRGAALAHDNTLLFAWAKENTGYQVGIPTLGGQDTIAPAVKKGNKE\n",
+      "LLDWVNTELETLGKEKFIHKAYDETLKPAYGDSINPEDIVVEGGKL\n"
+     ]
+    }
+   ],
+   "source": [
+    "!cat data/aligned.fasta"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Each entry starts with a `>` sign that describes the source of the sequence, and then the aligned sequence of amino acids follow. As we see, the first sequence is described by\n",
+    "\n",
+    "    >gi|488942278|ref|WP_002853353.1|:1-279 glutamine ABC transporter substrate-binding protein [Campylobacter jejuni]\n",
+    "\n",
+    "It is often convenient to just have a short species identifier instead of the full description. So, we would replace the above description with\n",
+    "\n",
+    "    >C.jejuni\n",
+    "\n",
+    "To do this, we need to do the following steps.\n",
+    "1. Read the FASTA file into a string\n",
+    "2. Split the string into entries\n",
+    "3. For each entry, find the organism name.\n",
+    "4. Construct an abbreviation for the organism name.\n",
+    "5. Replace the organism name with the abbreviation."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [],
+   "source": [
+    "# read the aligned fasta file\n",
+    "with open(\"data/aligned.fasta\", \"r\") as myfile:\n",
+    "    aln = myfile.read()\n",
+    "\n",
+    "# add an extra delimiter to enable splitting\n",
+    "aln = re.sub('>', 'delimiter>', aln)\n",
+    "\n",
+    "# Use re.split to create a list of fasta enries.\n",
+    "aln = re.split('delimiter', aln)\n",
+    "\n",
+    "# remove the first empty string from the list, since it got split\n",
+    "aln = aln[1:]\n",
+    "    \n",
+    "# RE to find the organism name: look for text in brackets and make\n",
+    "# convenient groups for parsing genus and species\n",
+    "get_organism = re.compile('\\[(\\w+) (\\w+)\\]')\n",
+    "\n",
+    "# RE that defines the line to be edited\n",
+    "def_line = re.compile('(>.*)')\n",
+    "\n",
+    "# A list that we'll concatenate into the file\n",
+    "edited_list = []\n",
+    "for fasta in aln:\n",
+    "    # Get the organism name\n",
+    "    org = get_organism.search(fasta)\n",
+    "\n",
+    "    # Abbreviate the organism's name in the desired form\n",
+    "    abbr = '>' + org.group(1)[0] + '. ' + org.group(2)\n",
+    "    \n",
+    "    # Replace the original sequence description with abbreviated organism name.\n",
+    "    out = def_line.sub(abbr, fasta)\n",
+    "\n",
+    "    # Add out new string to the list\n",
+    "    edited_list.append(out)\n",
+    "\n",
+    "# Write out the result\n",
+    "with open('edited_fasta.fasta', 'w') as outfile:\n",
+    "    outfile.write(''.join(edited_list))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's see how we did!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      ">C. jejuni\n",
+      "MKKILLSVLTAFVAVVLAACGG-------NSDSKTLNSLDKIKQNGVVRIGVFGDKPPFG\n",
+      "YVDEKGNNQGYDIALAKRIAKELFGDENKVQFVLVEAANRVEFLKSNKVDIILANFTQTP\n",
+      "QRAEQVDFCSPYMKVALGVAVPKDSNITSVEDLKDKTLLLNKGTTADAYFTQNYPNIKTL\n",
+      "KYDQNTETFAALMDKRGDALSHDNTLLFAWVKDHPDFKMGIKELGNKDVIAPAVKKGDKE\n",
+      "LKEFIDNLIIKLGQEQFFHKAYDETLKAHFGDDVKADDVVIEGGKI\n",
+      ">C. coli\n",
+      "MKKMLLSIFTTFVAVFLAACGG-------NSDSNALNSLEKIKQEGVVRIGVFGDKPPFG\n",
+      "YVDEKGANQGYDIVLAKRIAKELLGDENKVQFVLVEAANRVEFLKSNKVDIILANFTQTP\n",
+      "ERAEQVDFCLPYMKVALGVAVPQDSNISSVEDLKDKTLLLNKGTTADAYFTKEYPDIKTL\n",
+      "KYDQNTETFAALMDQRGDALSHDNTLLFAWVKDHPEFKMAIKELGNKDVIAPAVKKGNKE\n",
+      "LKEFIDNLIVKLGEEQFFHKAYEETLKTHFGDDVKADDVVIEGGKI\n",
+      ">C. upsaliensis\n",
+      "MKKILLSIFTAFVAVFLAAC---------DSSESGVNSIERIKNAGVVKIGVFGDKPPFG\n",
+      "YVDEKGANQGYDIIFAKRIAKELLGDENKVEFVLVEAANRVEFLKSNKVDIILANFTQTP\n",
+      "ERAEQVDFALPYMKVALGVVVPEDSEIKSVEDLKDKTLILNKGTTADAYFTKNYADIKTL\n",
+      "KFDQNTETFAALMDKRGDALAHDNTLLFAWVKERPDYKVVIKELGNQDVIAPAVKKGDKE\n",
+      "LKEFIDNLIISLAAEQFFHKAYDESLKAHFGADIKADDVVIEGGKL\n",
+      ">C. lari\n",
+      "MKKIFL--LSFLMALFFSAC---------SNSSSNENSIEKIKQQGVIRIGVFGDKPPFG\n",
+      "YLDAQGKNQGYDVYFAKRIAKELLGDESKVQFVLVEAANRVEFLESNKVDLILANFTKTP\n",
+      "EREAVVDFAFPYMKVALGVVAPKGSDIKTIDDLKSKTLILNKGTTADAYFTKNMPEIKTI\n",
+      "KFDQNTETFAALIGKRGDALSHDNALLFAWAKENPNFEVVIKELGNHDVIAPAVKKGDEA\n",
+      "MLKFINDLIVKLQNEQFFHKAYDETLKPFFSDDIKADDVVIEGGKI\n",
+      ">C. subantarcticus\n",
+      "MKKIFL--LSFLMTLFFSAC---------SNSSSNENSIEKIKQQGVIRIGVFGDKPPFG\n",
+      "YLDAQGKNQGYDVYFAKRITKELLGDESKVQFVLVEAANRVEFLESNKVDLILANFTKTP\n",
+      "EREAVVDFALPYMKVALGVVAPKNSDIKTVDDLKNKTLIINKGTTADAYFTKNMPEIKTI\n",
+      "KFDQNTETFAALIGKRGDALSHDNALLFAWAKENPNFEVVIKELGNHDVIAPAVKKGDEA\n",
+      "MLKFINDLILKLQNEQFFHKAYDETLKPFFSDDIKADDVVIEGGKI\n",
+      ">H. cetorum\n",
+      "--------LLVLVTLIFNAC----------SDKPKLDALDSIKQKGVVRIGVFSDKPPFG\n",
+      "FVDSKGAYQGFDVYIAKRMAKDLLGDENKIEFVPVEASARVEFLKANKVDIIMANFTQTN\n",
+      "ERKEVVDFAKPYMKVALGVVS-KNGMIKDIEELKDKTLIVNKGTTADFYFTKNYPNIKLL\n",
+      "KFEQNTETFLALLNNRGEALAHDNTLLFAWAKQHPEFKVAITSLGDKDVIAPAIKKGNPK\n",
+      "LLEWLNNEVQQLINEGFLKEAYKETLEPVYGSDIKSEEIVFE----\n",
+      ">A. burkinensis\n",
+      "-KGIVLIFSVLFIVGMLAGCGSSAKQGDQKDAAAAKSSIEEIKQRGVLRVGVFSDKPPFG\n",
+      "FVDKSGKNQGFDVVIAKRFAKDLLGDETKIEFVLVEAANRVEVLQSNKVDITMANFTVTD\n",
+      "ERKQKVDFANPYMKVYLGVVSPSGTPITSVEQLKGKKLIVNKGTTAETYFTKNHPDIELL\n",
+      "KYDQNTEAFEALKDNRGAALAHDNTLLFAWAKENTGYQVGIPTLGGQDTIAPAVKKGNKE\n",
+      "LLDWVNTELETLGKEKFIHKAYDETLKPAYGDSINPEDIVVEGGKL\n"
+     ]
+    }
+   ],
+   "source": [
+    "!cat edited_fasta.fasta"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Success!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Just scratching the surface\n",
+    "\n",
+    "Even though we've just scratched the surface, I hope this tutorial has shown how powerful you can be if you have a command of regular expressions. The learning curve for these things is steep, but once you've used them for a while, they become second nature and parsing text is not a daunting task!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.8.10\n",
+      "IPython version      : 7.22.0\n",
+      "\n",
+      "jupyterlab: 3.0.14\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

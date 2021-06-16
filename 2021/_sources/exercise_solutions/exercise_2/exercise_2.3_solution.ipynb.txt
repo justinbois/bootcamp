@@ -1,0 +1,484 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Exercise 2.3: RNA secondary structure validator\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## RNA secondary structure validator\n",
+    "\n",
+    "In this problem, we will write a function that takes an RNA sequence and an RNA secondary structure and decides if the secondary structure is possible given the sequence. Remember, single stranded RNA can fold back on itself and form base pairs. An RNA secondary structure is simply the list of base pairs that are present. We will represent the base pairs in dot-parentheses notation. For example, a sequence/secondary structure pair would be\n",
+    "\n",
+    "    0123456789\n",
+    "    GCAUCUAUGC\n",
+    "    (((....)))\n",
+    "\n",
+    "For convenience of discussion, I have labeled the indices of the bases on the top row. In this case, base `0`, a `G`, pairs with base `9`, a `C`. Base `1` pairs with base `8`, and base `2` pairs with base `7`.  Bases `3`, `4`, `5`, and `6` are unpaired. (This structure is aptly called a \"hairpin.\")\n",
+    "\n",
+    "I hope the dot-parentheses notation is clear. An open parenthesis is paired with the parenthesis that closes it. Dots are unpaired.\n",
+    "\n",
+    "So, the goal of our function is to check all base pairs present in a secondary structure and see if they are with `G-C`, `A-U`, or (optionally) `G-U`."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**a)** Write a function to make sure that the number of closed parentheses is equal to the number of open parentheses, a requirement for a valid secondary structure. It should return `True` if the parentheses are valid and `False` otherwise."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**b)** Write a function that converts the dot-parens notation to a tuple of 2-tuples representing the base pairs.  We'll call this function `dotparen_to_bp()`. An example input/output of this function would be:\n",
+    "\n",
+    "    dotparen_to_bp('(((....)))')\n",
+    "    \n",
+    "    ((0, 9), (1, 8), (2, 7))\n",
+    "    \n",
+    "*Hint*: You should look at [methods that are available for lists](https://docs.python.org/3/tutorial/datastructures.html#more-on-lists). You might find the `append()` and `pop()` methods useful."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**c)** Because of sterics, the minimal length of a hairpin loop is three bases. A hairpin loop is a series of unpaired bases that are closed by a base pair. For example, the secondary structure `(.(....).)` has a single hairpin loop of length 4. So, the structure `((((..))))` is not valid because it has a hairpin loop of only two bases.\n",
+    "\n",
+    "Write a function that verifies that a list of base pairs (as outputted by `dotparen_to_bp()`) satisfies the minimal hairpin length requirement."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**d)** Now write your validator function. The function definition should look like this:\n",
+    "\n",
+    "    def rna_ss_validator(seq, sec_struc, wobble=True):\n",
+    "    \n",
+    "It should return `True` if the sequence is commensurate with a valid secondary structure and `False` otherwise. The `wobble` keyword argument is `True` if we allow wobble pairs (`G` paired with `U`). Here are some expected results:\n",
+    "\n",
+    "Returns `True`:\n",
+    "\n",
+    "    rna_ss_validator('GCAUCUAUGC', '(((....)))')\n",
+    "    rna_ss_validator('GCAUCUAUGU', '(((....)))') \n",
+    "    rna_ss_validator('GCAUCUAUGU', '(.(....).)') \n",
+    "\n",
+    "Returns `False`:\n",
+    "\n",
+    "    rna_ss_validator('GCAUCUACGC', '(((....)))')\n",
+    "    rna_ss_validator('GCAUCUAUGU', '(((....)))', wobble=False) \n",
+    "    rna_ss_validator('GCAUCUAUGU', '(.(....)).') \n",
+    "    rna_ss_validator('GCCCUUGGCA', '(.((..))).')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<br />"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Solution\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "tags": []
+   },
+   "source": [
+    "**a)** This part of the validation is simple. We just need to make sure the number of open and closed parentheses are equal."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def parens_count(struc):\n",
+    "    \"\"\"\n",
+    "    Ensures there are equal number of open and closed parentheses\n",
+    "    in structure.\n",
+    "    \"\"\"\n",
+    "    return struc.count('(') == struc.count(')')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's give it a try."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "True\n",
+      "False\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(parens_count('(((..(((...)).))))'))\n",
+    "print(parens_count('(((..(((...)).)))'))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**b)** As we scan a dot-parens structure from left to right, we can keep a list of the positions of open parentheses. Whenever we encounter a closed one, we have closed the last open one we added. So, we can just scan through the dot-parens string and pop out base pairs. If this procedure fails, we know that there was an error in the input structure (i.e., a closed parenthesis appeared without a corresponding open one before it)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def dot_parens_to_bp(struc):\n",
+    "    \"\"\"\n",
+    "    Convert a dot-parens structure to a list of base pairs.\n",
+    "    Return False if the structure is invalid.\n",
+    "    \"\"\"\n",
+    "    if not parens_count(struc):\n",
+    "        print('Error in input structure.')\n",
+    "        return False\n",
+    "    \n",
+    "    # Initialize list of open parens and list of base pairs\n",
+    "    open_parens = []\n",
+    "    bps = []\n",
+    "    \n",
+    "    # Scan through string\n",
+    "    for i, x in enumerate(struc):\n",
+    "        if x == '(':\n",
+    "            open_parens.append(i)\n",
+    "        elif x == ')':\n",
+    "            if len(open_parens) > 0:\n",
+    "                bps.append((open_parens.pop(), i))\n",
+    "            else:\n",
+    "                print('Error in input structure.')\n",
+    "                return False\n",
+    "\n",
+    "    # Return the result as a tuple\n",
+    "    return tuple(sorted(bps))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's try it on some legitimate sequences and on some bad ones."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "((2, 10), (3, 9), (4, 8), (11, 25), (12, 23), (13, 22), (14, 21), (15, 20))"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Good structure\n",
+    "dot_parens_to_bp('..(((...)))(((((....)))).)..')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "((0, 17), (1, 16), (2, 15), (5, 14), (6, 12), (7, 11))"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Good structure\n",
+    "dot_parens_to_bp('(((..(((...)).))))')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Error in input structure.\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "False"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Bad structure\n",
+    "dot_parens_to_bp('((....)))(')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Error in input structure.\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "False"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "dot_parens_to_bp('())....))))')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**c)** It is quite easy to detect short hairpins once we have a list of base pairs. We just need to make sure the difference in index of any pair of paired bases is not less than three."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def hairpin_check(bps):\n",
+    "    \"\"\"Check to make sure no hairpins are too short.\"\"\"\n",
+    "    for bp in bps:\n",
+    "        if bp[1] - bp[0] < 4:\n",
+    "            print('A hairpin is too short.')\n",
+    "            return False\n",
+    "        \n",
+    "    # Everything checks out\n",
+    "    return True"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**d)** Most everything is in place.  We just need to check the sequence."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def rna_ss_validator(seq, sec_struc, wobble=True):\n",
+    "    \"\"\"Validate and RNA structure\"\"\"\n",
+    "    # Convert structure to base pairs\n",
+    "    bps = dot_parens_to_bp(sec_struc)\n",
+    "    \n",
+    "    # If this failed, the structure was invalid\n",
+    "    if not bps:\n",
+    "        return False\n",
+    "    \n",
+    "    # Do the hairpin check\n",
+    "    if not hairpin_check(bps):\n",
+    "        return False\n",
+    "    \n",
+    "    # Possible base pairs\n",
+    "    if wobble:\n",
+    "        ok_bps = ('gc', 'cg', 'au', 'ua', 'gu', 'ug')\n",
+    "    else:\n",
+    "        ok_bps = ('gc', 'cg', 'au', 'ua')\n",
+    "\n",
+    "    # Check complementarity\n",
+    "    for bp in bps:\n",
+    "        bp_str = (seq[bp[0]] + seq[bp[1]]).lower()\n",
+    "        if bp_str not in ok_bps:\n",
+    "            print('Invalid base pair.')\n",
+    "            return False\n",
+    "        \n",
+    "    # Everything passed\n",
+    "    return True"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's test it on the test cases from the problem statement."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Should be True:\n",
+      "True\n",
+      "True\n",
+      "True\n",
+      "True\n",
+      "\n",
+      "Should be False:\n",
+      "Invalid base pair.\n",
+      "False \n",
+      "\n",
+      "Invalid base pair.\n",
+      "False \n",
+      "\n",
+      "Invalid base pair.\n",
+      "False \n",
+      "\n",
+      "A hairpin is too short.\n",
+      "False \n",
+      "\n",
+      "Invalid base pair.\n",
+      "False\n"
+     ]
+    }
+   ],
+   "source": [
+    "print('Should be True:')\n",
+    "print(rna_ss_validator('GCAUCUAUGC', '(((....)))'))\n",
+    "print(rna_ss_validator('GCAUCUAUGU', '(((....)))'))\n",
+    "print(rna_ss_validator('GCAUCUAUGU', '(.(....).)'))\n",
+    "print(rna_ss_validator('AUUGAUGCACGUGCAUCCCCAGCGGGUCCCGCGAGCUCACCCCCUUCCAAAAGCACCACGUGCCAGGCCUCGCCCCCGGAAGUAUACCUGUGAGCCAGA',\n",
+    "                       '...(((((....)))))....((((...))))..((((((...(((((....((((...))))..(((...)))...))))).......))))))....'))\n",
+    "\n",
+    "print('\\nShould be False:')\n",
+    "print(rna_ss_validator('GCAUCUACGC', '(((....)))'), '\\n')\n",
+    "print(rna_ss_validator('GCAUCUAUGU', '(((....)))', wobble=False), '\\n')\n",
+    "print(rna_ss_validator('GCAUCUAUGU', '(.(....)).'), '\\n')\n",
+    "print(rna_ss_validator('GCCCUUGGCA', '(.((..))).'),'\\n')\n",
+    "print(rna_ss_validator('AUUGAUGCACGUGCAUCCCCAGCGGGUCCCGCGAGCCCACCCCCUUCCAAAAGCACCACGUGCCAGGCCUCGCCCCCGGAAGUAUACCUGUGAGCCAGA',\n",
+    "                       '...(((((....)))))....((((...))))..((((((...(((((....((((...))))..(((...)))...))))).......))))))....'))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "tags": []
+   },
+   "source": [
+    "Looks good!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.8.10\n",
+      "IPython version      : 7.22.0\n",
+      "\n",
+      "jupyterlab: 3.0.14\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

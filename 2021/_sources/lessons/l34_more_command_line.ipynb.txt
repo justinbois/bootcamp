@@ -1,0 +1,313 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 34: More about the command line\n",
+    "\n",
+    "This lesson was prepared in collaboration with Axel Müller and Shyam Saladi.\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In this lesson, we will continue introducing techniques to navigate the command line. Like we have said before, you will feel empowered controlling your computer as you master command line skills. We will go through a set of commands and skills.\n",
+    "\n",
+    "To start, let's navigate into the folder we created in our [first command line lesson](l02_basic_command_line_skills.ipynb). Fire up a terminal and cd into the directory `~/bootcamp/command_line_tutorial` and let's get going!\n",
+    "\n",
+    "(Reminder: There may be differences between Windows Powershell and what we present here, which is for Linux and macOS. We will try to make note of and differences.)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## man\n",
+    "\n",
+    "**Windows users**: Powershell does not have `man`. You can instead use [Get-help](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/get-help).\n",
+    "\n",
+    "Most commands have a manual that can be accessed right from the terminal itself. Last time we explored the command `more`. Note, try this:\n",
+    "\n",
+    "    man more\n",
+    "\n",
+    "The manual usually has a description of the command, a synopsis which informs you about the syntax, and a list of options."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## tee\n",
+    "\n",
+    "**Windows users**: In Powershell you can use [Tee-object](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/tee-object).\n",
+    "\n",
+    "`man tee` will tell you:\n",
+    "\n",
+    "    tee - read from standard input and write to standard output and files.\n",
+    "\n",
+    "Try this:\n",
+    "\n",
+    "    tee testing_tee.txt\n",
+    "\n",
+    "start typing some text and press return. Repeat the process if you like. When you are done press `ctrl-c`. Have a look at what you just created (use, `cat` or `less` or `more`).\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Pipes (|) and redirects (>)\n",
+    "\n",
+    "Shells are very good at stringing commands together. Let's look at an example:\n",
+    "\n",
+    "    ls | tee contents.txt\n",
+    "\n",
+    "`ls` lists all the files and folders of the current directory and prints the information to the standard output. By adding the **pipe** character (`|`) we tell the shell to feed this information into the next command instead.\n",
+    "\n",
+    "Compare this to \n",
+    "\n",
+    "    ls > contents_again.txt\n",
+    "\n",
+    "The `>` character redirects from the standard output to a file. When using the tee command the same happens but the information is still passed to the standard output (meaning that it is displayed on your screen). When redirecting the information is just passed on to the file.\n",
+    "\n",
+    "Note that redirecting with `>` to a file will overwrite the file's original content. Using `>>` instead will append the output to the file.\n",
+    "\n",
+    "    ls >> contents_again.txt "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## echo\n",
+    "\n",
+    "`echo` simply prints a line of text to the standard output:\n",
+    "\n",
+    "    echo \"Thanks for all the fish!\"\n",
+    "\n",
+    "It can be quite useful in combination with redirects\n",
+    "\n",
+    "    echo \"Thanks for all the fish\" > hitchhiker_quotes.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## grep\n",
+    "\n",
+    "**Windows users**: The Powershell version of `grep` is [Select-String](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/select-string).\n",
+    "\n",
+    "`grep` searches the input for lines containing a match of a given expression. For example, to find the descriptor line in a FASTA file, you can do this.\n",
+    "\n",
+    "    grep \">\" sequences/1z98.fasta\n",
+    "\n",
+    "The `>` symbol is in quotes because we are telling the shell to interpret it literally, as opposed to a redirect.\n",
+    "\n",
+    "If you want to find lines that do *not* have a `>`, use the `-v` flag with `grep`.\n",
+    "\n",
+    "    grep -v \">\" sequences/1z98.fasta\n",
+    "\n",
+    "If you want to ignore case, use the `-i` flag. For example,\n",
+    "\n",
+    "    grep \"sequence\" sequences/1z98.fasta\n",
+    "\n",
+    "will not have any hits, but\n",
+    "\n",
+    "    grep -i \"sequence\" sequences/1z98.fasta\n",
+    "    \n",
+    "will. \n",
+    "\n",
+    "If you provide a wildcard character `*` for the file name, `grep` will search all files in a directory. Remember that we had some PDB files in the `~git/bootcamp/data/` directory. We could find them (assuming we are in the `~/git/bootcamp/command_line_tutorial/` directory) by using \n",
+    "\n",
+    "    ls ../data/*.pdb\n",
+    "    \n",
+    "But if we are concerned that we might not have the right suffixes on all of our file names, we could use `grep` to get the name of all *files* that contain a string common to PDB files, like `ATOM`. To do this, we use the `-l` flag. We can combine that with the case-insensitivity (`-i`) flag.\n",
+    "\n",
+    "    grep -li \"ATOM\" ../data/*\n",
+    "\n",
+    "`grep` is also very useful when combined with other commands. Try this one:\n",
+    "\n",
+    "    cat sequences/*.fasta | grep \">\"\n",
+    "    \n",
+    "The word count command (`wc`) works particularly well with `grep`. Try:\n",
+    "\n",
+    "    cat sequences/*.fasta | grep \">\" | wc -l\n",
+    "    \n",
+    "(`man wc` will tell you more about this useful little command.) Let's looks at that command we just did in more detail. First, `cat sequences/*.fasta` outputs the entire text of all files in the directory `sequences` that have the `.fasta` suffix. That is piped to `grep`, meaning that the output of the `cat` command does not go to the screen, but to `grep`. So, we now take all that text from those files and use `grep` to give all lines that start with `>`. Those lines are then piped into `wc`, which, with the `-l` flag, gives the number of lines. Thus, we get a count of the total number of sequences in our FASTA files. Pretty slick!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## ^C, ^Z, bg, fg, ps, top, kill\n",
+    "\n",
+    "There is a tiny python script called `fibonacci.py` in the `command_line_tutorial` directory. Have a look at it. It features an endless loop which is perfect for illustrating a number of commands. Start the program by typing:\n",
+    "\n",
+    "    python fibonacci.py\n",
+    "    \n",
+    "This will print Fibonacci numbers to the screen forever. Once you have enough you can terminate the script with:\n",
+    "\n",
+    "    ^C\n",
+    "    \n",
+    "Let's rerun the script and pipe the output to a file:\n",
+    "\n",
+    "    python fibonacci.py > fibs\n",
+    "\n",
+    "This too runs forever. Instead of terminating the script, we can suspend it. To do this, type:\n",
+    "\n",
+    "    ^Z\n",
+    "    \n",
+    "Next typing\n",
+    "\n",
+    "    bg\n",
+    "    \n",
+    "(for \"background\") allows the process to be resumed in the background. To bring it back to the foreground, type\n",
+    "\n",
+    "    fg\n",
+    "    \n",
+    "and now we can terminate it again with \n",
+    "\n",
+    "    ^C\n",
+    "\n",
+    "Another way to kill a program is the kill command. For this we need to find out the process id. First, let's start it up and put it in the background.\n",
+    "\n",
+    "    python fibonacci.py > fibs\n",
+    "    ^Z\n",
+    "    bg\n",
+    "    \n",
+    "Now that it's running in the background, we would like to know what process it is. Actually, we can find out all processes that are running. One way to do this is using the `ps` command.\n",
+    "\n",
+    "    ps \n",
+    "    \n",
+    "or:\n",
+    "    \n",
+    "    ps -ax\n",
+    "    \n",
+    "Another useful command that shows you what is going on is:\n",
+    "\n",
+    "    top\n",
+    "    \n",
+    "Either command will reveal the process ID. Once you know the process ID,\n",
+    "\n",
+    "    kill <process ID>\n",
+    "    \n",
+    "(where you substitute `<process ID>` with the number you got from `ps` or `top`) will stop the process. Now, it might be a good idea to delete the `fibs` file."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Environment variables\n",
+    "\n",
+    "An environment variable is a dynamic value that can affect the way running processes behave.\"\n",
+    "\n",
+    "The command:\n",
+    "\n",
+    "    env\n",
+    "    \n",
+    "(or `ls env:` for Powershell useres) will show you which environment variables have been set. One particularly important environment variable is `PATH`."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### PATH\n",
+    "\n",
+    "The `PATH` environment variable tells the system which directories the shell has to search for executable files. This is called the **search path**. It's a list of absolute paths separated by colons.\n",
+    "\n",
+    "To check what has been already added to PATH we can issue the following command:\n",
+    "\n",
+    "    echo \"$PATH\"\n",
+    "\n",
+    "(Windows users use `$env:path`.) To see how this works, make sure you are in the `~/bootcamp/command_line_tutorial/` directory. There is a little shell script there called `remind_me.sh`.  To run it, do the following.\n",
+    "\n",
+    "    ./remind_me.sh\n",
+    "\n",
+    "Now, try running it without the `./` at the beginning.\n",
+    "\n",
+    "    remind_me.sh\n",
+    "    \n",
+    "The second one does not work. This is because whenever you ask the shell to execute something, it searches the directories in `PATH` to find something with that name, unless you give the full path when invoking the executable. Note that `./remind_me.sh` is the full path because `./` aliases to the working directory.\n",
+    "\n",
+    "Now, we sometimes want the shell to find items in specific directories, so we can change the `PATH` environment variable.\n",
+    "\n",
+    "One way to do this is to execute\n",
+    "\n",
+    "    export PATH=$PATH:/complete/path/to/be/included\n",
+    "    \n",
+    "Where `/complete/path/to/be/included` is the name of the directory you want to be added to the search path. This will be used for the remainder of the session. Once you close your terminal it's gone. To make changes permanently we need to add this to the end of the relevent rc file (`.bashrc` for Bash and `.zsh` for Zsh). "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## conda\n",
+    "\n",
+    "Conda is the package and environment manager that comes with your Anaconda installation. It allows you to install packages and makes sure that all dependencies are installed as well and it helps you keeping your installed packages up to date.\n",
+    "\n",
+    "Have a look at this [cheat sheet](http://conda.pydata.org/docs/_downloads/conda-cheatsheet.pdf).\n",
+    "\n",
+    "`conda` can also create environments in which specified packages are active. This is important because the requirements of one package may conflict with those of another. For example, say we want to create an environment that we will do other installations in, say related to [Stan](https://mc-stan.org), a sophisticated package used in statistical applications.\n",
+    "\n",
+    "    conda create --name stan anaconda\n",
+    "\n",
+    "Now, we want to switch to this package and install PyStan, for example. To activate the environment `stan` execute the following.\n",
+    "    \n",
+    "On Linux and Mac:\n",
+    "\n",
+    "    source activate stan\n",
+    "    \n",
+    "On Windows:\n",
+    "\n",
+    "    activate stan\n",
+    "    \n",
+    "Then, we can make our installations that are specific to this environment.\n",
+    "\n",
+    "    conda install pystan\n",
+    "    \n",
+    "If we want to switch back to our default environment, we do\n",
+    "\n",
+    "    conda deactivate"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Conclusions\n",
+    "\n",
+    "There is still much more to learn about using the command line effectively. However, given your basic command line knowledge and Python programming skills, you are already well on your way to being empowered for effectively use your computer as a research tool."
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
