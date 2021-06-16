@@ -1,0 +1,493 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 32: Survey of other packages and languages\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "import numba"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<hr>\n",
+    "\n",
+    "In this bootcamp, we have used Python as the language of instruction. Because Python is an extendable language, it affords us to use domain specific packages. We have use Numpy for numerical computations, SciPy for special functions, statistics, and other scientific applications, Pandas for handling data sets, Bokeh for low-level plotting, HoloViews for high-level plotting, and Panel for dashboards.\n",
+    "\n",
+    "There are **plenty** of other Python-based packages that can be useful in computing in the biological sciences, and hopefully you will write (and share) some of your own for your applications. In this lesson, we will review some other Python packages you may find useful in your work. We will also discuss other languages that you might employ for scientific computing."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Other useful Python packages\n",
+    "\n",
+    "There are countless useful Python packages for scientific computing. Here, I am highlighting just a few. Actually, I am highlighting only ones I have come across and used in my own work. There are many, many more very high quality packages out there fore various domain specific applications that I am not covering here."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Data science\n",
+    "\n",
+    "#### Dask\n",
+    "\n",
+    "[Dask](https://dask.org) allows for out-of-core computation with large data structures. For example, if your data set is too large to fit in RAM, thereby precluding you from using a Pandas data frame, you can use a Dask data frame, which will handle the out-of-core computing for you, and your data type will look an awful lot like a Pandas data frame. It also handles parallelization of calculations on large data sets.\n",
+    "\n",
+    "\n",
+    "#### xarray\n",
+    "\n",
+    "[xarray](https://xarray.pydata.org/) extends the concepts of Pandas data frames to more dimensions. It is convenient for organizing, accessing, and computing with more complex data structures."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Plotting\n",
+    "\n",
+    "We have used Bokeh and HoloViews for plotting. As we say in our [lesson on plotting](l19_plotting.ipynb), the landscape for Python plotting libraries is large. Here, I discuss a few other packages I have used.\n",
+    "\n",
+    "#### Altair\n",
+    "\n",
+    "[Altair](https://altair-viz.github.io) is a very nice plotting package that generates plots using [Vega-Lite](https://vega.github.io/vega-lite/). It is high level and declarative. The plots are rendered using JavaScript and have some interactivity.\n",
+    "\n",
+    "#### Matplotlib\n",
+    "\n",
+    "[Matplotlib](https://matplotlib.org) is really *the* main plotting library for Python. It is the most fully featured and most widely used. It has some high-level functionality, but is primarily a lower level library for building highly customizable graphics.\n",
+    "\n",
+    "#### Seaborn\n",
+    "\n",
+    "[Seaborn](https://seaborn.pydata.org) is a high-level statistical plotting package build on top of Matplotlib. I find its grammar clean and accessible; you can quickly make beautiful, informative graphics with it."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Bioinformatics\n",
+    "\n",
+    "#### Bioconda\n",
+    "\n",
+    "[Bioconda](https://bioconda.github.io) is not a Python package, but is a channel for the conda package manager that has many (7000+) bioinformatics packages. Most of these packages are not available through the default conda channel. This allows use of conda to keep all of your bioinformatics packages installed and organized.\n",
+    "\n",
+    "#### Biopython\n",
+    "\n",
+    "[Biopython](https://biopython.org) is a widely used package for parsing bioinformatics files of various flavors, managing sequence alignments, etc.\n",
+    "\n",
+    "#### scikit-bio\n",
+    "\n",
+    "[scikit-bio](http://scikit-bio.org) has similar functionality as Biopython, but also includes some algorithms as well, for example for alignment and making phylogenetic trees."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Image processing\n",
+    "\n",
+    "#### scikit-image\n",
+    "\n",
+    "We haven't covered image processing in the main portion of the bootcamp, but it is discussed in the auxiliary lessons. The main package we use in the bootcamp lessons is [scikit-image](https://scikit-image.org), which has many classic image processing operations included.\n",
+    "\n",
+    "\n",
+    "#### DeepCell\n",
+    "\n",
+    "These days, the state-of-the-art image segmentation tools use deep learning methods. [DeepCell](https://www.deepcell.org) is developed at Caltech in the [Van Valen lab](http://www.vanvalen.caltech.edu), and is an excellent cell segmentation tool."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Machine learning\n",
+    "\n",
+    "Python is widely used in machine learning applications, largely because it so easily wraps compiled code written in C or C++.\n",
+    "\n",
+    "#### scikit-learn\n",
+    "\n",
+    "[scikit-learn](https://scikit-learn.org/) is a widely used machine learning package for Python that does many standard machine learning tasks such as classification, clustering, dimensionality reduction, etc.\n",
+    "\n",
+    "#### TensorFlow\n",
+    "\n",
+    "[TensorFlow](https://www.tensorflow.org) is an extensive library for computation in machine learning developed by Google. It is especially effective for deep learning. It has a Python API.\n",
+    "\n",
+    "#### Keras\n",
+    "\n",
+    "In practice, you might rarely use TensorFlow's core functionality, but rather use [Keras](https://keras.io) to build deep learning models. Keras has an intuitive API and allows you to rapidly get up and running with deep learning.\n",
+    "\n",
+    "\n",
+    "#### PyTorch\n",
+    "\n",
+    "[PyTorch](https://pytorch.org) is a library similar to TensorFlow."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Statistics\n",
+    "\n",
+    "In addition to the scipy.stats package, there are many packages for statistical analysis in the Python ecosystem.\n",
+    "\n",
+    "#### statsmodels\n",
+    "\n",
+    "[statsmodels](https://www.statsmodels.org/) has extensive functionality for computing hypothesis tests, kernel density estimation, regression, time series analysis, and much more.\n",
+    "\n",
+    "#### PyMC3\n",
+    "\n",
+    "[PyMC3](https://docs.pymc.io) is a probabilistic programming package primarily used for performing Markov chain Monte Carlo. It relies on [Theano](http://deeplearning.net/software/theano/), which is no longer actively developed. [PyMC4](https://github.com/pymc-devs/pymc4) will use TensorFlow, but this will result in a new API.\n",
+    "\n",
+    "#### Stan/PyStan/CmdStanPy\n",
+    "\n",
+    "[Stan](https://mc-stan.org) is a probabilistic programming language that uses state-of-the-art algorithms for Markov chain Monte Carlo and Bayesian inference. It is its own language, and you can access Stan models through two Python interfaces, [PyStan](https://pystan.readthedocs.io) and [CmdStanPy](https://cmdstanpy.readthedocs.io). I prefer to use the latter, which is a much more lightweight interface.\n",
+    "\n",
+    "#### ArviZ\n",
+    "\n",
+    "[ArviZ](https://arviz-devs.github.io/arviz/) is a wonderful packages that generates output of various Bayesian inference packages in a unified format using [xarray](https://xarray.pydata.org/). Using ArviZ, you can use whatever MCMC package you like, and your downstream analysis will always use the same syntax."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Pyserial\n",
+    "\n",
+    "[pySerial](https://pythonhosted.org/pyserial/) is a useful package for communication with external devices using a serial port. If you are designing your own instruments for research and wish to control them with your computer via Python, you will almost certainly use this package.\n",
+    "\n",
+    "We demonstrate its use in an auxiliary lesson."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Numba\n",
+    "\n",
+    "[Numba](https://numba.pydata.org) is a Python package for [just-in-time compilation](https://en.wikipedia.org/wiki/Just-in-time_compilation). The result is often greatly accelerated Python code, even beyond what Numpy can provide. It particularly excels when you have loops in your Python code. As an example, let's consider taking a one-dimensional random walk. Here is a Python function to do that."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def randwalk(n_steps):\n",
+    "    steps = np.array([1, -1])\n",
+    "\n",
+    "    position = np.empty(n_steps+1, dtype=np.int64)\n",
+    "    \n",
+    "    position[0] = 0\n",
+    "    for i in range(n_steps):\n",
+    "        position[i+1] = position[i] + np.random.choice(steps)\n",
+    "        \n",
+    "    return position"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can use the `%timeit` magic function to see how long it takes to compute a random walk of 100,000 steps."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1.1 s ± 40.8 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)\n"
+     ]
+    }
+   ],
+   "source": [
+    "%timeit randwalk(100000)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "It took close to one second on my machine to take the walk. We will now decorate the function with a `@numba.njit` decorator, which tells Numba to compile the function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@numba.njit\n",
+    "def randwalk(n_steps):\n",
+    "    steps = np.array([1, -1])\n",
+    "\n",
+    "    position = np.empty(n_steps+1, dtype=np.int64)\n",
+    "    \n",
+    "    position[0] = 0\n",
+    "    for i in range(n_steps):\n",
+    "        position[i+1] = position[i] + np.random.choice(steps)\n",
+    "        \n",
+    "    return position"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, let's time this one. Before we time it, though, we should run it once to do the compilation, so the compilation time is not included in the timing."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "309 µs ± 8.17 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)\n"
+     ]
+    }
+   ],
+   "source": [
+    "randwalk(100000)\n",
+    "\n",
+    "%timeit randwalk(100000)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This is a speedup of about a factor of 500, simply by adding the decorator!\n",
+    "\n",
+    "Of course, there is a more clever way to do the random walk that will be even faster. (Inspect this function below to see how it is doing the same thing as the random walk in the above function. You might want to look up the documentation for the `np.cumsum()` function.)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "812 µs ± 22.2 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)\n"
+     ]
+    }
+   ],
+   "source": [
+    "def randwalk(n_steps):\n",
+    "    return np.concatenate(\n",
+    "        ((0,), np.cumsum(np.random.choice([1, -1], size=100000)))\n",
+    "    )\n",
+    "\n",
+    "%timeit randwalk(100000)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In this case, we found a clever way around looping and could greatly speed up the calculation. But in the event that you do not have such an option, Numba can really add speed!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Other languages\n",
+    "\n",
+    "We now turn to a survey other other computing languages."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Compiled languages\n",
+    "\n",
+    "When you write code in a compiled language, the code you write is first translated, or **compiled** into a set of machine instructions that can be directly run by your machine's CPU. Compile languages tend to be more verbose including requiring more direct instructions about how to allocate and free memory. They tend to be more low-level; you need more lines of code to do the same task compared to **dynamic languages** like Python, in which the code is interpreted (translated) into machine code as you run, and the interpreter handles a lot of the memory allocation and deallocation automatically behind the scenes.\n",
+    "\n",
+    "While it often takes longer to develop code in compiled languages, they typically have much better speed because they require less overhead, and you are in a sense closer to the CPU. Pretty much any major numerical calculation is done with compiled code. Numpy is in many ways a Python wrapper around highly optimized compiled C libraries.\n",
+    "\n",
+    "#### Fortran\n",
+    "\n",
+    "[Fortran](https://en.wikipedia.org/wiki/Fortran) was one of the first compiled language, first developed in 1956. As a result, it was actively developed for decades and has very good performance. Furthermore, huge Fortran code bases exist that have been reliably used and tested for decades. For this reason, Fortran is still widely used, particularly in physics, astronomy, and atmospheric science.\n",
+    "\n",
+    "#### C\n",
+    "\n",
+    "[C](https://en.wikipedia.org/wiki/C_(programming_language)) (along with C++) is probably the most widely used compiled language across the sciences and elsewhere. In fact, the Python interpreter that we have been using this whole bootcamp is written in C. \n",
+    "\n",
+    "#### C++\n",
+    "\n",
+    "[C++](https://en.wikipedia.org/wiki/C%2B%2B) is very much like C, except it is more feature rich, enabling object-oriented programming. Many bioinformatics algorithms are written in C++, though many also provide high-level interfaces in interpreted languages like R or Python.\n",
+    "\n",
+    "#### Java\n",
+    "\n",
+    "Nearly as widely used as C and C++, [Java](https://en.wikipedia.org/wiki/Java_(programming_language)) is a more modern compiled language. Unlike Fortran and C/C++, Java is compiled into bytecode, which is like machine code, but more portable. The bytecode is just-in-time compiled into machine code at runtime. Java is used in many bioinformatics applications. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Dynamic languages\n",
+    "\n",
+    "#### Python\n",
+    "\n",
+    "I think we've covered this one.\n",
+    "\n",
+    "\n",
+    "#### Ruby\n",
+    "\n",
+    "Ruby is a high-level interpreted language that has fairly widespread use, particularly in web applications. In particular, [Jekyll](https://jekyllrb.com) allows for rapid design of beautiful websites."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### JavaScript\n",
+    "\n",
+    "JavaScript is a core language for the web. Importantly, it allows for dynamic features in browser-based applications. Because of its central importance in this regard, major companies have spent substantial resources in developing very effective just-in-time compilers for it. Browsers have become highly optimized for running JavaScript code, resulting in excellent performance. In recent times, JavaScript has been adopted as a programming language for more substantial computation, including in the sciences. Due to the ability to create rich interactive graphics, it has also been adapted for use in data science.\n",
+    "\n",
+    "As we saw in the lesson on making stand-along Bokeh apps with JavaScript, knowing a little JavaScript can greatly enhance the ways in which you can explore and share your research."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Domain-specific languages\n",
+    "\n",
+    "Python is a general purpose language. It is used for all sorts of applications, in and outside of science, math, and engineering. There are several languages that are specifically designed for applications in science.\n",
+    "\n",
+    "#### Matlab\n",
+    "\n",
+    "[Matlab](https://www.mathworks.com/products/matlab.html) was originally developed in the late 70's by Caltech alumnus [Cleve Moler](https://en.wikipedia.org/wiki/Cleve_Moler) as a way for his students to explore numerical linear algebra. It began as a convenient wrapper around Fortran routines in [LINPACK](https://en.wikipedia.org/wiki/LINPACK).\n",
+    "\n",
+    "As it did at its inception, Matlab excels in linear algebra applications. It has since expanded to include many other applications. It has widespread use in the biological sciences in image processing, and is also used to control instrumentation.\n",
+    "\n",
+    "Matlab is proprietary and expensive (well, everything is expensive compared to the free software we've been using). This is a problem for research applications, because it sacrifices both access to the underlying algorithms and prices other researchers out of using it.\n",
+    "\n",
+    "#### Mathematica\n",
+    "\n",
+    "[Mathematica](https://www.wolfram.com/mathematica/) is another proprietary scientific and numerical software originally written by a Caltech alumnus, this time [Steven Wolfram](https://www.stephenwolfram.com). Technically, Mathematica is not a language; the language is called Wolfram. Its use is less widespread in biology, but it is widely used across the sciences. It is also not open source and is expensive.\n",
+    "\n",
+    "#### R\n",
+    "\n",
+    "[R](https://www.r-project.org/about.html) is a language designed for statistics, data science, and statistical graphics. It is highly extensible, and thousands of packages are available. Prominent among these are the packages in the [tidyverse](https://www.tidyverse.org) which allow for efficient and elegant manipulation of data frames and high level plotting via the excellent [ggplot2 package](https://ggplot2.tidyverse.org). R has widespread use in bioinformatics and is a very effective language in these contexts.\n",
+    "\n",
+    "#### Julia\n",
+    "\n",
+    "[Julia](https://julialang.org) is a newer language specifically built for scientific computing. The developers of Julia put together a wish list for what they would want in a scientific programming language, and then build their language accordingly. Some of its features that I think are very valuable are:\n",
+    "\n",
+    "- It is free and open source\n",
+    "- It has a built-in package manager\n",
+    "- It has a large and rapidly growing set of well-developed packages; it is easily extendable.\n",
+    "- You can call Python functions from Julia and vice-versa\n",
+    "- Its language is intuitive, quite similar to Python.\n",
+    "- *Everything* is just-in-time compiled. It is therefore blazingly fast.\n",
+    "\n",
+    "In terms of performance, Julia is *really* fast, which is a big bonus. In contrast to R, which is really focused on statistics, Julia is a more general language for scientific computing (though it is not designed for applications outside of science and numerics, like Python is). It is strong in statistics and visualization (it has data frames, random number generation, and all those goodies available in packages) If there is another language besides Python that I could see offering the bootcamp in, it would be Julia."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Language wars are counterproductive\n",
+    "\n",
+    "I have chosen to offer this bootcamp in Python for several reasons.\n",
+    "\n",
+    "1. Python has a shallow learning curve; good for beginners.\n",
+    "2. Despite the shallow learning curve, Python and the available packages are extremely powerful and widely used.\n",
+    "3. Python-based tools are often very good.\n",
+    "\n",
+    "In considering point 3, it is important to note that the Python-based tools are seldom *the* best for a particular task. If you are solving differential equations, Julia probably has a better tool. For many statistical analyses, R probably offers a better tool. But the Python-based tool for any of these applications both exists and is quite good. So, my hope is that the bootcamp has given you a Swiss Army knife in Python and its ecosystem. You have tools available to tackle most computational scientific problems you will encounter effectively.\n",
+    "\n",
+    "If you choose to explore other languages or packages, it is important to choose the package the is right for you and your application. As you bounce around the internet, especially on social media, you will hear a lot of noise about people saying their language is the best for and some other language \"sucks.\" I find these arguments counterproductive not even worth reading. Rather, search for principled discussion on various tools. Inform yourself with the most informative voices, not the loudest ones."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.8.10\n",
+      "IPython version      : 7.22.0\n",
+      "\n",
+      "numpy     : 1.20.2\n",
+      "numba     : 0.53.1\n",
+      "jupyterlab: 3.0.14\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p numpy,numba,jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
