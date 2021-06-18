@@ -1,0 +1,864 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Exercise 4.2: ORF detection\n",
+    "\n",
+    "This exercise was inspired by [Libeskind-Hadas and Bush, *Computing for Biologists*, Cambridge University Press, 2014](https://www.cs.hmc.edu/CFB).\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For this exercise, again use principles of TDD to help you write your functions.\n",
+    "\n",
+    "**a)** Write a function, `longest_orf()`, that takes a DNA sequence as input and finds the longest open reading frame (ORF) in the sequence (we will not consider reverse complements). A sequence fragment constitutes an ORF if the following are all true.\n",
+    "\n",
+    "1. It begins with `ATG`.\n",
+    "2. It ends with any of `TGA`, `TAG`, or `TAA`.\n",
+    "3. The total number of bases is a multiple of 3.\n",
+    "\n",
+    "Note that the sequence `ATG` may appear in the middle of an ORF. So, for example,\n",
+    "\n",
+    "    GGATGATGATGTAAAAC\n",
+    "\n",
+    "has two ORFs, `ATGATGATGTAA` and `ATGATGTAA`. You would return the first one, since it is longer of these two.\n",
+    "\n",
+    "*Hint: The statement for this problem is a bit ambiguous as it is written. What other specification might you need for this function?*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**b)** Use your function to find the longest ORF from the section of the *Salmonella* genome we are investigating."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**c)** Write a function that converts a DNA sequence into a protein sequence. You can of course use the `bootcamp_utils` module."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**d)** Translate the longest ORF you generated in part (b) into a protein sequence and perform a [BLAST search](http://blast.ncbi.nlm.nih.gov/). Search for the protein sequence (a blastp query). What gene is it?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**e)** [*Bonus challenge*] Modify your function to return the `n` longest ORFs. Compute the five longest ORFs for the *Salmonella* genome section we are working with. Perform BLAST searches on them. What are they?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<br />"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Solution\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import re\n",
+    "\n",
+    "import bootcamp_utils"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**a)** Something was missing in the specification.  Namely, what do we do if there are two ORFs of the same longest length? Do we return the first one, second one, or both? I am arbitrarily choosing to return the one with the 3$'$-most starting index.  \n",
+    "\n",
+    "Looking ahead to part (e), I will first write a function to return all ORFs that are not entirely included in a longer ORF. For ease of storage and comparison, I will simply store the ORFS as the index of the start of the ORF and the noninclusive index of the last.\n",
+    "\n",
+    "Let's now discuss the algorithm we'll use. There are more efficient ways of finding ORFs, but I will choose a very clear way. We'll first find all start codons. For each start codon, we will find the first in-register stop codon. If there is an in-register stop codon, we store this start-stop pair. At the end, we sort them, longest to shortest.\n",
+    "\n",
+    "So, we really have three functions we'll use. `find_all_starts(seq)` will return the indices of all start codons in a sequence. `find_next_in_register_stop(seq)` will scan a sequence that starts with `ATG` and return the exclusive final index of the next in register stop codon. In other words, and ORF starting at index `start` is given by\n",
+    "\n",
+    "    seq[start : start + find_next_in_register_stop(seq[start :])]\n",
+    "\n",
+    "If there is no such codon, `find_next_in_register_stop()` returns `-1`. Finally, `all_orfs(seq)` returns the sorted tuple of 2-tuples containing the start/stop pairs of the ORFs.\n",
+    "\n",
+    "I will use TDD principles for designing these functions, writing the test cases first."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def test_find_all_starts():\n",
+    "    assert find_all_starts(\"\") == tuple()\n",
+    "    assert find_all_starts(\"GGAGACGACGCAAAAC\".lower()) == tuple()\n",
+    "    assert find_all_starts(\"AAAAAAATGAAATGAGGGGGGTATG\".lower()) == (6, 11, 22)\n",
+    "    assert find_all_starts(\"GGATGATGATGTAAAAC\".lower()) == (2, 5, 8)\n",
+    "    assert find_all_starts(\"GGATGCATGATGTAGAAC\".lower()) == (2, 6, 9)\n",
+    "    assert find_all_starts(\"GGGATGATGATGGGATGGTGAGTAGGGTAAG\".lower()) == (\n",
+    "        3,\n",
+    "        6,\n",
+    "        9,\n",
+    "        14,\n",
+    "    )\n",
+    "    assert find_all_starts(\"GGGatgatgatgGGatgGtgaGtagGGACtaaG\".lower()) == (\n",
+    "        3,\n",
+    "        6,\n",
+    "        9,\n",
+    "        14,\n",
+    "    )\n",
+    "\n",
+    "\n",
+    "def test_find_first_in_register_stop():\n",
+    "    assert find_first_in_register_stop(\"\") == -1\n",
+    "    assert find_first_in_register_stop(\"GTAATAGTGA\".lower()) == -1\n",
+    "    assert (\n",
+    "        find_first_in_register_stop(\"AAAAAAAAAAAAAAATAAGGGTAA\".lower()) == 18\n",
+    "    )\n",
+    "    assert find_first_in_register_stop(\"AAAAAACACCGCGTGTACTGA\".lower()) == 21\n",
+    "\n",
+    "\n",
+    "def test_all_orfs():\n",
+    "    assert all_orfs(\"\") == tuple()\n",
+    "    assert all_orfs(\"GGAGACGACGCAAAAC\") == tuple()\n",
+    "    assert all_orfs(\"AAAAAAATGAAATGAGGGGGGTATG\") == ((6, 15),)\n",
+    "    assert all_orfs(\"GGATGATGATGTAAAAC\") == ((2, 14),)\n",
+    "    assert all_orfs(\"GGATGCATGATGTAGAAC\") == ((6, 15),)\n",
+    "    assert all_orfs(\"GGGATGATGATGGGATGGTGAGTAGGGTAAG\") == ((3, 21),)\n",
+    "    assert all_orfs(\"GGGatgatgatgGGatgGtgaGtagGGACtaaG\") == ((14, 32), (3, 21))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We'll start with the `find_all_starts()` function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def find_all_starts(seq):\n",
+    "    \"\"\"Find all start codons in sequence\"\"\"\n",
+    "    return None"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "And now we'll fail the test."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "AssertionError",
+     "evalue": "",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mAssertionError\u001b[0m                            Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-4-97d4ba12adeb>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mtest_find_all_starts\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;32m<ipython-input-2-27e5f666f067>\u001b[0m in \u001b[0;36mtest_find_all_starts\u001b[0;34m()\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;32mdef\u001b[0m \u001b[0mtest_find_all_starts\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 2\u001b[0;31m     \u001b[0;32massert\u001b[0m \u001b[0mfind_all_starts\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"\"\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0mtuple\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      3\u001b[0m     \u001b[0;32massert\u001b[0m \u001b[0mfind_all_starts\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"GGAGACGACGCAAAAC\"\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mlower\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0mtuple\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      4\u001b[0m     \u001b[0;32massert\u001b[0m \u001b[0mfind_all_starts\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"AAAAAAATGAAATGAGGGGGGTATG\"\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mlower\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m(\u001b[0m\u001b[0;36m6\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;36m11\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;36m22\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m     \u001b[0;32massert\u001b[0m \u001b[0mfind_all_starts\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"GGATGATGATGTAAAAC\"\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mlower\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m(\u001b[0m\u001b[0;36m2\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;36m5\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;36m8\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mAssertionError\u001b[0m: "
+     ]
+    }
+   ],
+   "source": [
+    "test_find_all_starts()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now we'll write the function. I'll use regular expressions first, but will also code up the function without them."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def find_all_starts(seq):\n",
+    "    \"\"\"Find the starting index of all start codons in a lowercase seq\"\"\"\n",
+    "    # Compile regex for start codons\n",
+    "    regex_start = re.compile('atg')\n",
+    "        \n",
+    "    # Find the indices of all start codons\n",
+    "    starts = []\n",
+    "    for match in regex_start.finditer(seq):\n",
+    "        starts.append(match.start())\n",
+    "        \n",
+    "    return tuple(starts)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "And let's see if it passes the tests."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "test_find_all_starts()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Yay!  We passed!  However, since we did not learn regular expressions this year, I will write a function that finds all start codons that does not use them."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def find_all_starts(seq):\n",
+    "    \"\"\"Find the starting index of all start codons in a lowercase seq\"\"\"\n",
+    "    # Initialize array of indices of start codons\n",
+    "    starts = []\n",
+    "    \n",
+    "    # Find index of first start codon (remember, find() returns -1 if not found)\n",
+    "    i = seq.find('atg')\n",
+    "    \n",
+    "    # Keep looking for subsequence incrementing starting point of search\n",
+    "    while i >= 0:\n",
+    "        starts.append(i)\n",
+    "        i = seq.find('atg', i + 1)\n",
+    "        \n",
+    "    return tuple(starts)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now let's test this new `find_all_starts()` function"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "test_find_all_starts()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "It passed! Yay! Note how useful TDD is here. Whenever we try new ways of doing things, we can use the tests to make sure we didn't break anything.\n",
+    "\n",
+    "Now, let's move on to the next function, which finds the first in-register stop codon. Again, we fail, and then write the function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "AssertionError",
+     "evalue": "",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mAssertionError\u001b[0m                            Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-9-99ed189bf75f>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      2\u001b[0m     \u001b[0;32mreturn\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 4\u001b[0;31m \u001b[0mtest_find_first_in_register_stop\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;32m<ipython-input-2-27e5f666f067>\u001b[0m in \u001b[0;36mtest_find_first_in_register_stop\u001b[0;34m()\u001b[0m\n\u001b[1;32m     20\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     21\u001b[0m \u001b[0;32mdef\u001b[0m \u001b[0mtest_find_first_in_register_stop\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 22\u001b[0;31m     \u001b[0;32massert\u001b[0m \u001b[0mfind_first_in_register_stop\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"\"\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m-\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     23\u001b[0m     \u001b[0;32massert\u001b[0m \u001b[0mfind_first_in_register_stop\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"GTAATAGTGA\"\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mlower\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m-\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     24\u001b[0m     assert (\n",
+      "\u001b[0;31mAssertionError\u001b[0m: "
+     ]
+    }
+   ],
+   "source": [
+    "def find_first_in_register_stop(seq):\n",
+    "    return None\n",
+    "\n",
+    "test_find_first_in_register_stop()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Nice, beautiful failure. Now, we'll write the function and test it. Again, I'll demonstrate the power of the `re` module."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def find_first_in_register_stop(seq):\n",
+    "    \"\"\"\n",
+    "    Find first stop codon on lowercase seq that starts at an index\n",
+    "    that is divisible by three\n",
+    "    \"\"\"\n",
+    "    # Compile regexes for stop codons\n",
+    "    regex_stop = re.compile('(taa|tag|tga)')\n",
+    "    \n",
+    "    # Stop codon iterator\n",
+    "    stop_iterator = regex_stop.finditer(seq)\n",
+    "\n",
+    "    # Find next stop codon that is in register\n",
+    "    for stop in stop_iterator:\n",
+    "        if stop.end() % 3 == 0:\n",
+    "            return stop.end()\n",
+    "        \n",
+    "    # Return -1 if we failed to find a stop codon\n",
+    "    return -1"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "And the test..."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "test_find_first_in_register_stop()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Great! It passes. Now, I'll write it without regular expressions."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def find_first_in_register_stop(seq):\n",
+    "    \"\"\"\n",
+    "    Find first stop codon on seq that starts at an index\n",
+    "    that is divisible by three\n",
+    "    \"\"\"\n",
+    "\n",
+    "    seq = seq.lower()\n",
+    "\n",
+    "    # Scan sequence for stop codon\n",
+    "    i = 0\n",
+    "    while i < len(seq) - 2 and seq[i:i+3] not in ('taa', 'tag', 'tga'):\n",
+    "        i += 3\n",
+    "\n",
+    "    # If before end, found codon, return end of codon\n",
+    "    if i < len(seq) - 2:\n",
+    "        return i + 3\n",
+    "    else: # Failed to find stop codon\n",
+    "        return -1"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's test this function to make sure it works."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "test_find_first_in_register_stop()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Passage! Finally, we apply TDD to write `all_orfs()`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def all_orfs(seq):\n",
+    "    \"\"\"Return all ORFs of a sequence.\"\"\"\n",
+    "    # Make sure sequence is all lower case\n",
+    "    seq = seq.lower()\n",
+    "        \n",
+    "    # Find the indices of all start codons\n",
+    "    start_inds = find_all_starts(seq)\n",
+    "        \n",
+    "    # Keep track of stops\n",
+    "    stop_inds = []\n",
+    "        \n",
+    "    # Initialze ORFs.  Each entry in list is [ORF length, ORF start, ORF stop]\n",
+    "    orfs = []\n",
+    "        \n",
+    "    # For each start codon, find the next stop codon in register\n",
+    "    for start in start_inds:\n",
+    "        relative_stop = find_first_in_register_stop(seq[start:])\n",
+    "        \n",
+    "        if relative_stop != -1:\n",
+    "            # Index of stop codon\n",
+    "            stop = start + relative_stop\n",
+    "            \n",
+    "            # If already had stop, a longer ORF contains this one\n",
+    "            if stop not in stop_inds:\n",
+    "                orfs.append((relative_stop, start, stop))\n",
+    "                stop_inds.append(stop)\n",
+    "                        \n",
+    "    # Get sorted list of ORF length\n",
+    "    orfs = sorted(orfs, reverse=True)\n",
+    "    \n",
+    "    # Remove lengths\n",
+    "    for i, orf in enumerate(orfs):\n",
+    "        orfs[i] = (orf[1], orf[2])\n",
+    "    \n",
+    "    return tuple(orfs)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now for the tests...."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "test_all_orfs()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Passage!  We have succeed in generating an ordered list of the ORFs.  Now, let's get what the problem specified, the longest ORF.  Of course, we start with writing tests."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def test_longest_orf():\n",
+    "    assert longest_orf(\"\") == \"\"\n",
+    "    assert longest_orf(\"GGAGACGACGCAAAAC\") == \"\"\n",
+    "    assert longest_orf(\"AAAAAAATGAAATGAGGGGGGTATG\") == \"ATGAAATGA\"\n",
+    "    assert longest_orf(\"GGATGATGATGTAAAAC\") == \"ATGATGATGTAA\"\n",
+    "    assert longest_orf(\"GGATGCATGATGTAGAAC\") == \"ATGATGTAG\"\n",
+    "    assert longest_orf(\"GGGATGATGATGGGATGGTGAGTAGGGTAAG\") == \"ATGATGATGGGATGGTGA\"\n",
+    "    assert longest_orf(\"GGGatgatgatgGGatgGtgaGtagGGACtaaG\") == \"atgGtgaGtagGGACtaa\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We'll fail them...."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "AssertionError",
+     "evalue": "",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mAssertionError\u001b[0m                            Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-17-5408c7075a5c>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      2\u001b[0m     \u001b[0;32mreturn\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 4\u001b[0;31m \u001b[0mtest_longest_orf\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;32m<ipython-input-16-094f88cc4652>\u001b[0m in \u001b[0;36mtest_longest_orf\u001b[0;34m()\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;32mdef\u001b[0m \u001b[0mtest_longest_orf\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 2\u001b[0;31m     \u001b[0;32massert\u001b[0m \u001b[0mlongest_orf\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"\"\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m\"\"\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      3\u001b[0m     \u001b[0;32massert\u001b[0m \u001b[0mlongest_orf\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"GGAGACGACGCAAAAC\"\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m\"\"\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      4\u001b[0m     \u001b[0;32massert\u001b[0m \u001b[0mlongest_orf\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"AAAAAAATGAAATGAGGGGGGTATG\"\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m\"ATGAAATGA\"\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m     \u001b[0;32massert\u001b[0m \u001b[0mlongest_orf\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"GGATGATGATGTAAAAC\"\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m\"ATGATGATGTAA\"\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mAssertionError\u001b[0m: "
+     ]
+    }
+   ],
+   "source": [
+    "def longest_orf(seq):\n",
+    "    return None\n",
+    "\n",
+    "test_longest_orf()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We'll write our function, and then test it."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def longest_orf(seq):\n",
+    "    \"\"\"Longest ORF of a sequence.\"\"\"\n",
+    "    orfs = all_orfs(seq)\n",
+    "    \n",
+    "    if len(orfs) == 0:\n",
+    "        return ''\n",
+    "    else:\n",
+    "        return seq[orfs[0][0]:orfs[0][1]]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "test_longest_orf()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Passage! Success! We now have a reliable function for computing the longest ORF."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**b)** We simply use our new function to find the longest ORF of the *Salmonella* sequence."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'ATGACCAACTACAGCCTGCGCGCACGCATGATGATTCTGATCCTGGCCCCGACCGTCCTGATAGGTTTGCTGCTCAGTATCTTTTTTGTAGTGCACCGCTATAACGACCTGCAGCGTCAACTGGAAGATGCCGGCGCCAGTATTATTGAACCGCTCGCCGTCTCCAGCGAATATGGTATGAACTTACAAAACCGGGAGTCTATCGGCCAACTTATCAGCGTCCTGCACCGCAGACACTCTGATATTGTGCGGGCGATTTCCGTTTATGACGATCATAACCGTCTGTTTGTAACGTCTAATTTCCATCTGGACCCCTCACAGATGCAGCTTCCCGCCGGAGCGCCGTTTCCACGTCGTCTGAGCGTTGATCGCCACGGCGATATTATGATTCTGCGCACCCCAATTATCTCGGAGAGCTATTCGCCGGACGAGTCAGCGATTGCTGACGCGAAAAATACCAAAAATATGCTGGGGTATGTGGCGCTTGAACTGGATCTCAAGTCGGTCAGGCTACAGCAATACAAAGAGATTTTTATCTCCAGCGTGATGATGCTTTTTTGTATTGGCATTGCGCTGATCTTTGGCTGGCGGCTTATGCGCGATGTCACCGGGCCTATCCGTAATATGGTGAATACCGTTGACCGCATTCGCCGCGGACAACTGGATAGCCGGGTGGAAGGATTTATGCTGGGCGAACTGGATATGCTGAAAAACGGCATTAATTCCATGGCGATGTCGCTTGCCGCCTATCACGAAGAGATGCAGCATAATATCGATCAGGCCACTTCGGACCTGCGTGAAACCCTTGAGCAGATGGAAATCCAAAACGTTGAGCTGGATCTGGCGAAAAAGCGTGCCCAGGAAGCGGCGCGTATTAAGTCGGAGTTCCTGGCGAACATGTCGCACGAACTGCGAACGCCGCTGAACGGCGTCATTGGCTTTACCCGCCTGACATTAAAAACGGAGCTGAATCCCACCCAGCGCGACCATCTGAACACCATTGAGCGTTCCGCGAATAATCTGCTGGCGATCATTAATGACGTGCTTGATTTCTCCAAGCTGGAAGCCGGTAAGCTCATTCTGGAAAGTATCCCTTTTCCACTGCGTAATACGCTGGATGAAGTGGTTACGCTGCTGGCTCACTCGTCGCATGATAAAGGGCTGGAGTTGACGTTAAATATTAAAAACGACGTCCCGGATAATGTGATTGGCGACCCGCTGCGCCTGCAACAGGTCATTACTAATCTGGTGGGTAATGCCATTAAGTTCACCGAGAGTGGCAATATCGACATTCTGGTAGAAAAGCGGGCGCTCAGTAACACCAAAGTACAGATTGAAGTGCAGATCCGCGATACGGGGATCGGCATTCCGGAACGCGACCAGTCGCGACTGTTTCAGGCGTTTCGCCAGGCCGATGCCAGTATTTCTCGCCGTCACGGCGGCACCGGGCTTGGGCTGGTGATTACGCAAAAGCTGGTCAACGAAATGGGCGGGGATATCTCTTTCCACAGCCAGCCTAATCGCGGCTCGACCTTCTGGTTTCATATTAATCTTGATCTTAACCCAAATGTCATTATTGACGGGCCGTCGACCGCGTGTCTGGCCGGGAAACGGCTGGCTTATGTCGAACCGAATGCTACCGCCGCGCAATGTACCCTGGATCTACTGAGCGACACGCCGGTGGAGGTGGTTTACAGCCCGACCTTCTCCGCGCTGCCGTTAGCGCACTACGATATTATGATTTTGAGCGTTCCGGTGACCTTCCGCGAGCCGCTCACCATGCAGCATGAACGTCTGGCGAAAGCAGCGTCAATGACGGACTTTCTACTGCTGGCGCTACCTTGCCATGCGCAAATTAACGCCGAAAAGCTGAAACAAGGAGGCGCGGCGGCCTGTCTGTTAAAACCATTGACGTCAACGCGCCTGTTGCCAGCGCTGACGGAATATTGCCAGTTGAATCACCATCCTGAACCGCTGCTAATGGATACCAGTAAAATCACCATGACGGTTATGGCGGTTGATGATAATCCCGCTAATCTGAAGCTTATCGGCGCGTTACTGGAAGATAAAGTCCAGCACGTAGAGCTTTGTGATAGCGGACATCAGGCGGTGGATCGGGCGAAACAAATGCAGTTTGATCTGATTTTGATGGATATTCAGATGCCGGATATGGACGGCATACGCGCCTGCGAATTGATTCACCAGCTTCCTCATCAGCAGCAAACACCGGTTATTGCCGTTACGGCACATGCGATGGCCGGGCAAAAAGAGAAGTTGCTCAGCGCGGGCATGAACGACTATCTGGCTAAACCGATAGAAGAAGAGAAGTTGCATAATCTGTTGCTGCGCTATAAACCTGGCGCCAACGTAGCAGCGCGCCTGATGGCGCCGGAACCAGCTGAATTTATCTTCAATCCGAATGCAACGCTCGACTGGCAGCTTGCGCTCCGCCAGGCTGCCGGTAAGCCCGATCTGGCGCGGGATATGCTGCAAATGCTGATTGATTTTCTGCCGGAAGTGCGCAACAAAATTGAAGAACAACTGGTGGGAGAAAATCCCAACGGCCTGGTCGATCTGGTCCATAAGCTACACGGGAGCTGCGGCTATAGCGGCGTACCGCGGATGAAGAACCTTTGCCAGCTTATTGAGCAACAGCTTCGCAGCGGCGTCCACGAAGAGGAGCTGGAGCCTGAGTTTCTGGAGCTGCTGGATGAGATGGATAATGTCGCGCGTGAAGCGAAGAAGATATTAGGCTGA'"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def read_fasta(filename):\n",
+    "    \"\"\"Read a sequence in from a FASTA file containing a single sequence.\n",
+    "    \n",
+    "    We assume that the first line of the file is the descriptor and all\n",
+    "    subsequent lines are sequence.    \n",
+    "    \"\"\"\n",
+    "    with open(filename, 'r') as f:\n",
+    "        # Read in descriptor\n",
+    "        descriptor = f.readline().rstrip()\n",
+    "\n",
+    "        # Read in sequence, stripping the whitespace from each line\n",
+    "        seq = ''\n",
+    "        line = f.readline().rstrip()\n",
+    "        while line != '':\n",
+    "            seq += line\n",
+    "            line = f.readline().rstrip()\n",
+    "            \n",
+    "    return descriptor, seq\n",
+    "\n",
+    "\n",
+    "# Load in Salmonella sequence\n",
+    "descriptor, seq = read_fasta('data/salmonella_spi1_region.fna')\n",
+    "\n",
+    "# Compute it\n",
+    "salmonella_orf = longest_orf(seq)\n",
+    "\n",
+    "# Look at it\n",
+    "salmonella_orf"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**c)** We can use the `codons` dictionary in the `bootcamp_utils` package to do the translation.  With this in hand, we can write our `translate()` function.  We will scan the DNA sequence, generate a list of amino acids, and then join them into a protein sequence."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def translate(seq):\n",
+    "    \"\"\"Translate a DNA sequence into protein\"\"\"\n",
+    "    # Make sure sequence is upper case\n",
+    "    seq = seq.upper()\n",
+    "    \n",
+    "    # Find start codon\n",
+    "    i = 0\n",
+    "    while i < len(seq) + 2 and seq[i:i+3] != 'ATG':\n",
+    "        i += 1\n",
+    "\n",
+    "    # Translate until the stop codon or end of string\n",
+    "    prot = []\n",
+    "    while i < len(seq) - 2 and seq[i:i+3] not in ('TAA', 'TGA', 'TAG'):\n",
+    "        prot.append(bootcamp_utils.codons[seq[i:i+3]])\n",
+    "        i += 3\n",
+    "\n",
+    "    return ''.join(prot)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**d)** We can now translate the protein"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'MTNYSLRARMMILILAPTVLIGLLLSIFFVVHRYNDLQRQLEDAGASIIEPLAVSSEYGMNLQNRESIGQLISVLHRRHSDIVRAISVYDDHNRLFVTSNFHLDPSQMQLPAGAPFPRRLSVDRHGDIMILRTPIISESYSPDESAIADAKNTKNMLGYVALELDLKSVRLQQYKEIFISSVMMLFCIGIALIFGWRLMRDVTGPIRNMVNTVDRIRRGQLDSRVEGFMLGELDMLKNGINSMAMSLAAYHEEMQHNIDQATSDLRETLEQMEIQNVELDLAKKRAQEAARIKSEFLANMSHELRTPLNGVIGFTRLTLKTELNPTQRDHLNTIERSANNLLAIINDVLDFSKLEAGKLILESIPFPLRNTLDEVVTLLAHSSHDKGLELTLNIKNDVPDNVIGDPLRLQQVITNLVGNAIKFTESGNIDILVEKRALSNTKVQIEVQIRDTGIGIPERDQSRLFQAFRQADASISRRHGGTGLGLVITQKLVNEMGGDISFHSQPNRGSTFWFHINLDLNPNVIIDGPSTACLAGKRLAYVEPNATAAQCTLDLLSDTPVEVVYSPTFSALPLAHYDIMILSVPVTFREPLTMQHERLAKAASMTDFLLLALPCHAQINAEKLKQGGAAACLLKPLTSTRLLPALTEYCQLNHHPEPLLMDTSKITMTVMAVDDNPANLKLIGALLEDKVQHVELCDSGHQAVDRAKQMQFDLILMDIQMPDMDGIRACELIHQLPHQQQTPVIAVTAHAMAGQKEKLLSAGMNDYLAKPIEEEKLHNLLLRYKPGANVAARLMAPEPAEFIFNPNATLDWQLALRQAAGKPDLARDMLQMLIDFLPEVRNKIEEQLVGENPNGLVDLVHKLHGSCGYSGVPRMKNLCQLIEQQLRSGVHEEELEPEFLELLDEMDNVAREAKKILG'"
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "translate(salmonella_orf)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Doing a BLAST search on this protein indicates that it is a histidine kinase involved in signaling."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**e)** We already are computing all of the ORFs. We an therefore just add a kwarg to our `longest_orf()` function to get the `n` longest ones."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def longest_orf(seq, n=1):\n",
+    "    \"\"\"Longest ORF of a sequence.\"\"\"\n",
+    "    orfs = all_orfs(seq)\n",
+    "    \n",
+    "    if len(orfs) == 0:\n",
+    "        return ''\n",
+    "    elif n == 1 or len(orfs) == 1:\n",
+    "        return seq[orfs[0][0]:orfs[0][1]]\n",
+    "    else:\n",
+    "        return_list = []\n",
+    "        for i in range(min(n, len(orfs))):\n",
+    "            return_list.append(seq[orfs[i][0]:orfs[i][1]])\n",
+    "            \n",
+    "        return tuple(return_list)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, we'll compute the ORFs, translate them, and make a FASTA file to submit for a BLAST search."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Compute ORFs\n",
+    "orfs = longest_orf(seq, n=5)\n",
+    "\n",
+    "# Translate them\n",
+    "prots = []\n",
+    "for orf in orfs:\n",
+    "    prots.append(translate(orf))\n",
+    "    \n",
+    "# Make a FASTA file\n",
+    "with open('sal_seqs.faa', 'w') as f:\n",
+    "    for i, prot in enumerate(prots):\n",
+    "        f.write('> {0:d}\\n'.format(i))\n",
+    "        f.write(prot + '\\n')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can take a look at it to see what I did with the above code."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "> 0\n",
+      "MTNYSLRARMMILILAPTVLIGLLLSIFFVVHRYNDLQRQLEDAGASIIEPLAVSSEYGMNLQNRESIGQLISVLHRRHSDIVRAISVYDDHNRLFVTSNFHLDPSQMQLPAGAPFPRRLSVDRHGDIMILRTPIISESYSPDESAIADAKNTKNMLGYVALELDLKSVRLQQYKEIFISSVMMLFCIGIALIFGWRLMRDVTGPIRNMVNTVDRIRRGQLDSRVEGFMLGELDMLKNGINSMAMSLAAYHEEMQHNIDQATSDLRETLEQMEIQNVELDLAKKRAQEAARIKSEFLANMSHELRTPLNGVIGFTRLTLKTELNPTQRDHLNTIERSANNLLAIINDVLDFSKLEAGKLILESIPFPLRNTLDEVVTLLAHSSHDKGLELTLNIKNDVPDNVIGDPLRLQQVITNLVGNAIKFTESGNIDILVEKRALSNTKVQIEVQIRDTGIGIPERDQSRLFQAFRQADASISRRHGGTGLGLVITQKLVNEMGGDISFHSQPNRGSTFWFHINLDLNPNVIIDGPSTACLAGKRLAYVEPNATAAQCTLDLLSDTPVEVVYSPTFSALPLAHYDIMILSVPVTFREPLTMQHERLAKAASMTDFLLLALPCHAQINAEKLKQGGAAACLLKPLTSTRLLPALTEYCQLNHHPEPLLMDTSKITMTVMAVDDNPANLKLIGALLEDKVQHVELCDSGHQAVDRAKQMQFDLILMDIQMPDMDGIRACELIHQLPHQQQTPVIAVTAHAMAGQKEKLLSAGMNDYLAKPIEEEKLHNLLLRYKPGANVAARLMAPEPAEFIFNPNATLDWQLALRQAAGKPDLARDMLQMLIDFLPEVRNKIEEQLVGENPNGLVDLVHKLHGSCGYSGVPRMKNLCQLIEQQLRSGVHEEELEPEFLELLDEMDNVAREAKKILG\n",
+      "> 1\n",
+      "MNESFDKDFSNHTPMMQQYLKLKAQHPEILLFYRMGDFYELFYDDAKRASQLLDISLTKRGASAGEPIPMAGIPHHAVENYLAKLVNQGESVAICEQIGDPATSKGPVERKVVRIVTPGTISDEALLQERQDNLLAAIWQDGKGYGYATLDISSGRFRLSEPADRETMAAELQRTNPAELLYAEDFAEMALIEGRRGLRRRPLWEFEIDTARQQLNLQFGTRDLVGFGVENASRGLCAAGCLLQYVKDTQRTSLPHIRSITMERQQDSIIMDAATRRNLEITQNLAGGVENTLAAVLDCTVTPMGSRMLKRWLHMPVRNTDILRERQQTIGALQDTVSELQPVLRQVGDLERILARLALRTARPRDLARMRHAFQQLPELHAQLETVDSAPVQALRKKMGDFAELRDLLERAIIDAPPVLVRDGGVIAPGYHEELDEWRALADGATDYLDRLEIRERERTGLDTLKVGYNAVHGYYIQISRGQSHLAPINYVRRQTLKNAERYIIPELKEYEDKVLTSKGKALALEKQLYDELFDLLLPHLADLQQSANALAELDVLVNLAERAWTLNYTCPTFTDKPGIRITEGRHPVVEQVLNEPFIANPLNLSPQRRMLIITGPNMGGKSTYMRQTALIALLAYIGSYVPAQNVEIGPIDRIFTRVGAADDLASGRSTFMVEMTETANILHNATENSLVLMDEIGRGTSTYDGLSLAWACAENLANKIKALTLFATHYFELTQLPEKMEGVANVHLDALEHGDTIAFMHSVQDGAASKSYGLAVAALAGVPKEVIKRARQKLRELESISPNAAATQVDGTQMSLLAAPEETSPAVEALENLDPDSLTPRQALEWIYRLKSLV\n",
+      "> 2\n",
+      "MSYTPMSDLGQQGLFDITRTLLQQPDLASLSEALSQLVKRSALADSAGIVLWQAQSQRAQYYATRENGRPVEYEDETVLAHGPVRRILSRPDALHCNFHEFTETWPQLAASGLYPEFGHYCLLPLAAEGRIFGGCEFIRQEDRPWSEKEYDRLHTFTQIVGVVAEQIQNRVNNNVDYDLLCRERDNFRILVAITNAVLSRLDIDELVSEVAKEIHHYFNIDAISIVLRSHRKNKLNIYSTHYLDEHHPAHEQSEVDEAGTLTERVFKSKEMLLINLNERDPLAPYERMLFDTWGNQIQTLCLLPLMSGKTMLGVLKLAQCEEKVFTTANLKLLRQIAERVAIAVDNALAYQEIHRLKERLVDENLALTEQLNNVDSEFGEIIGRSEAMYNVLKQVEMVAQSDSTVLILGETGTGKELIARAIHNLSGRSGRRMVKMNCAAMPAGLLESDLFGHERGAFTGASAQRIGRFELADKSSLFLDEVGDMPLELQPKLLRVLQEQEFERLGSNKLIQTDVRLIAATNRDLKKMVADREFRNDLYYRLNVFPIQLPPLRERPEDIPLLVKAFTFKIARRMGRNIDSIPAETLRTLSSMEWPGNVRELENVVERAVLLTRGNVLQLSLPDITAVTPDTSPVATESAKEGEDEYQLIIRVLKETNGVVAGPKGAAQRLGLKRTTLLSRMKRLGIDKDALA\n",
+      "> 3\n",
+      "MKKISLPKIGIRPVIDGRRMGVRESLEEQTMNMAKATAALITEKIRHACGAQVECVIADTCIAGMAESAACEEKFSSQNVGVTITVTPCWCYGSETIDMDPMRPKAIWGFNGTERPGAVYLAAALAAHSQKGIPAFSIYGHDVQDADDTSIPADVEEKLLRFARAGLAVASMKGKSYLSVGGVSMGIAGSIVDHNFFESWLGMKVQAVDMTELRRRIDQKIYDEAELEMALAWADKNFRYGEDQNASQYKRNEAQNRAVLKESLLMAMCIRDMMQGNKTLADKGLVEESLGYNAIAAGFQGQRHWTDQYPNGDTAEALLNSSFDWNGVREPFVVATENDSLNGVAMLFGHQLTGTAQIFADVRTYWSPEAVERVTGQALSGLAEHGIIHLINSGSAALDGACKQRDSEGKPTMKPHWEISQQEADACLAATEWCPAIHEYFRGGGYSSRFLTEGGVPFTMTRVNIIKGLGPVLQIAEGWSVELPKAMHDQLDARTNSTWPTTWFAPRLTGKGPFTDVYSVMANWGANHGVLTIGHVGADFITLAAMLRIPVCMHNVEEAKIYRPSAWAAHGMDIEGQDYRACQNYGPLYKR\n",
+      "> 4\n",
+      "MPHFNPVPVSNKKFVFDDFILNMDGSLLRSEKKVNIPPKEYAVLVILLEAAGEIVSKNTLLDQVWGDAEVNEESLTRCIYALRRILSEDKEHRYIETLYGQGYRFNRPVVVVSPPAPQPTTHTLAILPFQMQDQVQSESLHYSIVKGLSQYAPFGLSVLPVTITKNCRSVKDILELMDQLRPDYYISGQMIPDGNDNIVQIEIVRVKGYHLLHQESIKLIEHQPASLLQNKIANLLLRCIPGLRWDTKQISELNSIDSTMVYLRGKHELNQYTPYSLQQALKLLTQCVNMSPNSIAPYCALAECYLSMAQMGIFDKQNAMIKAKEHAIKATELDHNNPQALGLLGLINTIHSEYIVGSLLFKQANLLSPISADIKYYYGWNLFMAGQLEEALQTINECLKLDPTRAAAGITKLWITYYHTGIDDAIRLGDELRSQHLQDNPILLSMQVMFLSLKGKHELARKLTKEISTQEITGLIAVNLLYAEYCQNSERALPTIREFLESEQRIDNNPGLLPLVLVAHGEAIAEKMWNKFKNEDNIWFKRWKQDPRLIKLR\n"
+     ]
+    }
+   ],
+   "source": [
+    "!cat sal_seqs.faa"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Upon doing the BLAST search, I found that the genes are:\n",
+    "\n",
+    "|Length rank| Description|\n",
+    "|:---:|:---:|\n",
+    "|1 | histine kinase |\n",
+    "|2 | DNA repair protein MutS|\n",
+    "|3 | formate hydrogenlyase transcriptional activator|\n",
+    "|4 | L-fucose isomerase |\n",
+    "|5 | transcriptional regulator HilA (invasion regulator)|"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.8.10\n",
+      "IPython version      : 7.22.0\n",
+      "\n",
+      "re            : 2.2.1\n",
+      "bootcamp_utils: 0.0.6\n",
+      "jupyterlab    : 3.0.14\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p re,bootcamp_utils,jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
