@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Lesson 15: Tidy data and split-apply-combine &mdash; Programming Bootcamp  documentation</title>
@@ -151,10 +150,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_9/index.html">Exercise 9</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_10/index.html">Exercise 10</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_11/index.html">Exercise 11</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Exercise solutions</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_1/index.html">Exercise 1 solutions</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Schedule</span></p>
 <ul>
@@ -503,7 +498,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-15:-Tidy-data-and-split-apply-combine">
+<div class="section" id="Lesson-15:-Tidy-data-and-split-apply-combine">
 <h1>Lesson 15: Tidy data and split-apply-combine<a class="headerlink" href="#Lesson-15:-Tidy-data-and-split-apply-combine" title="Permalink to this headline">¶</a></h1>
 <hr><div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -516,7 +511,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <hr><p>In the <a class="reference internal" href="l14_intro_to_pandas.html"><span class="doc">last lesson</span></a>, we learned about Pandas and dipped our toe in to see its power. In this lesson, we will continue to harness the power of Pandas to pull out subsets of data we are interested in.</p>
-<section id="Tidy-data">
+<div class="section" id="Tidy-data">
 <h2>Tidy data<a class="headerlink" href="#Tidy-data" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Hadley_Wickham">Hadley Wickham</a> wrote a <a class="reference external" href="http://dx.doi.org/10.18637/jss.v059.i10">great article</a> in favor of “tidy data.” Tidy data frames follow the rules:</p>
 <ol class="arabic simple">
@@ -540,8 +535,8 @@ possibility of misinterpretation or mistakes.</p>
 <p><strong>Objection:</strong> Once it’s tidy, we pretty much have to use Boolean indexing to get what we want, and that can be slower than other methods of accessing data. What about performance?</p>
 <p><strong>Response:</strong> See the previous response. Speed of access really only becomes a problem with big, high-throughput data sets. In those cases, there are often many things you need to be clever about beyond organization of your data.</p>
 <p><strong>Conclusion:</strong> I really think that tidying a data set allows for fluid exploration. We will focus on tidy data sets going forward. The techniques for bringing untidy data into tidy format use many of Pandas’s functions, but are largely beyond the scope of this bootcamp. You will explore that a little bit in the exercises, but for most of the bootcamp, our data sets are already tidy.</p>
-</section>
-<section id="The-data-set">
+</div>
+<div class="section" id="The-data-set">
 <h2>The data set<a class="headerlink" href="#The-data-set" title="Permalink to this headline">¶</a></h2>
 <p>We will again use the data set from the <a class="reference external" href="https://doi.org/10.1098/rsos.160321">Beattie, et al. paper</a> on facial matching under sleep deprivation. Let’s load in the original data set and add the column on insomnia as we did in the <a class="reference internal" href="l14_intro_to_pandas.html"><span class="doc">last lesson</span></a>.</p>
 <div class="nbinput docutils container">
@@ -699,8 +694,8 @@ possibility of misinterpretation or mistakes.</p>
 </div></div>
 </div>
 <p>This data set is in tidy format. Each row represents a single test on a single participant. The aspects of that person’s test are given in each column. We already saw the power of having the data in this format when we did Boolean indexing in the last lesson. Now, we will see how this format allows use to easily do an operation we do again and again with data sets, <strong>split-apply-combine</strong>.</p>
-</section>
-<section id="Split-apply-combine">
+</div>
+<div class="section" id="Split-apply-combine">
 <h2>Split-apply-combine<a class="headerlink" href="#Split-apply-combine" title="Permalink to this headline">¶</a></h2>
 <p>Let’s say we want to compute the median percent correct face matchings for subjects with insomnia and the median percent correct face matchings for normal sleepers. Ignoring for the second the mechanics of how we would do this with Python, let’s think about it in English. What do we need to do?</p>
 <ol class="arabic simple">
@@ -711,7 +706,7 @@ possibility of misinterpretation or mistakes.</p>
 <p>We see that the strategy we want is a <strong>split-apply-combine</strong> strategy. This idea was put forward by Hadley Wickham in <a class="reference external" href="http://dx.doi.org/10.18637/jss.v040.i01">this paper</a>. It turns out that this is a strategy we want to use <em>very</em> often. Split the data in terms of some criterion. Apply some function to the split-up data. Combine the results into a new data frame.</p>
 <p>Note that if the data are tidy, this procedure makes a lot of sense. Choose the column you want to use to split by. All rows with like entries in the splitting column are then grouped into a new data set. You can then apply any function you want into these new data sets. You can then combine the results into a new data frame.</p>
 <p>Pandas’s split-apply-combine operations are achieved using the <code class="docutils literal notranslate"><span class="pre">groupby()</span></code> method. You can think of <code class="docutils literal notranslate"><span class="pre">groupby()</span></code> as the splitting part. You can then apply functions to the resulting <code class="docutils literal notranslate"><span class="pre">DataFrameGroupBy</span></code> object. The <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/groupby.html">Pandas documentation on split-apply-combine</a> is excellent and worth reading through. It is extensive though, so don’t let yourself get intimidated by it.</p>
-<section id="Aggregation:-Median-percent-correct">
+<div class="section" id="Aggregation:-Median-percent-correct">
 <h3>Aggregation: Median percent correct<a class="headerlink" href="#Aggregation:-Median-percent-correct" title="Permalink to this headline">¶</a></h3>
 <p>Let’s go ahead and do our first split-apply-combine on this tidy data set. First, we will split the data set up by insomnia condition.</p>
 <div class="nbinput docutils container">
@@ -1077,9 +1072,9 @@ possibility of misinterpretation or mistakes.</p>
 </div></div>
 </div>
 <p>This type of operation is called an <strong>aggregation</strong>. That is, we split the data set up into groups, and then computed a summary statistic for each group, in this case the median.</p>
-</section>
-</section>
-<section id="Transformation">
+</div>
+</div>
+<div class="section" id="Transformation">
 <h2>Transformation<a class="headerlink" href="#Transformation" title="Permalink to this headline">¶</a></h2>
 <p>Instead of summarizing data in a group with single summary statistics by aggregation, we can also do a <strong>transformation</strong> in which each row gets a new entry within a given group. As a simple example, we could generate a column that gives the rank of each participate in terms of percent correct for an insomniac group versus non-insomniac groups. That is, we perform a rank ordering with the insomniac group and within the non-insomniac group.</p>
 <div class="nbinput docutils container">
@@ -1735,8 +1730,8 @@ Name: percent correct, Length: 102, dtype: float64
 </div></div>
 </div>
 <p>Indeed it worked!</p>
-</section>
-<section id="Aggregating-and-transforming-with-custom-functions">
+</div>
+<div class="section" id="Aggregating-and-transforming-with-custom-functions">
 <h2>Aggregating and transforming with custom functions<a class="headerlink" href="#Aggregating-and-transforming-with-custom-functions" title="Permalink to this headline">¶</a></h2>
 <p>Let’s say we want to compute the coefficient of variation (CoV, the standard deviation divided by the mean) of data in columns of groups in the data frame. There is no built-in function to do this. We have to write our own function to compute the CoV and then use it with the <code class="docutils literal notranslate"><span class="pre">agg()</span></code> method of a <code class="docutils literal notranslate"><span class="pre">DataFrameGroupBy</span></code> object. In the function below, the values of each column are denoted by <code class="docutils literal notranslate"><span class="pre">data</span></code>.</p>
 <p>To compute the coefficient of variation, we will use one more Numpy function beyond <code class="docutils literal notranslate"><span class="pre">np.mean()</span></code> that you have already seen, <code class="docutils literal notranslate"><span class="pre">np.std()</span></code>.</p>
@@ -2147,8 +2142,8 @@ correct facial matchings.</p>
 </div></div>
 </div>
 <p>Yes, that’s right. One single, clean, easy to read line of code. In coming tutorials, we will see how to use tidy data to quickly generate plots.</p>
-</section>
-<section id="Looping-over-a-GroupBy-object">
+</div>
+<div class="section" id="Looping-over-a-GroupBy-object">
 <h2>Looping over a GroupBy object<a class="headerlink" href="#Looping-over-a-GroupBy-object" title="Permalink to this headline">¶</a></h2>
 <p>While the <code class="docutils literal notranslate"><span class="pre">GroupBy</span></code> methods we have learned so far (like <code class="docutils literal notranslate"><span class="pre">transform()</span></code> and <code class="docutils literal notranslate"><span class="pre">agg()</span></code>) are useful and lead to concise code, we sometimes want to loop over the groups of a <code class="docutils literal notranslate"><span class="pre">GroupBy</span></code> object. This often comes up in plotting applications, as we will see in future lessons. As an example, I will compute the median percent correct for female and males, insomniacs and not (which we already computed using <code class="docutils literal notranslate"><span class="pre">describe()</span></code>).</p>
 <div class="nbinput docutils container">
@@ -2173,8 +2168,8 @@ correct facial matchings.</p>
 </pre></div></div>
 </div>
 <p>By using the <code class="docutils literal notranslate"><span class="pre">GroupBy</span></code> object as an iterator, it yields the name of the group (which I assigned as <code class="docutils literal notranslate"><span class="pre">name</span></code>) and the corresponding sub-data frame (which I assigned <code class="docutils literal notranslate"><span class="pre">group</span></code>).</p>
-</section>
-<section id="Tidying-a-data-set">
+</div>
+<div class="section" id="Tidying-a-data-set">
 <h2>Tidying a data set<a class="headerlink" href="#Tidying-a-data-set" title="Permalink to this headline">¶</a></h2>
 <p>You should always organize your data sets in a tidy format. However, this is sometimes just not possible, since you data sets can come from instruments that do not output the data in tidy format (though most do, at least in my experience), and you often have collaborators that send data in untidy formats.</p>
 <p>The most useful function for tidying data is <code class="docutils literal notranslate"><span class="pre">pd.melt()</span></code>. To demonstrate this, I will load in a data set from <a class="reference external" href="https://doi.org/10.1016/j.devcel.2011.12.007">this paper by Reeves, et al.</a> in which they measured the width of the gradient in the morphogen Dorsal in <em>Drosophila</em> embryos for various genotypes using different method. First, let’s load in the data set and take a look.</p>
@@ -2536,8 +2531,8 @@ correct facial matchings.</p>
 </div></div>
 </div>
 <p>We can immediately see that the wild type has a narrower gradient than Venus, which is narrower still than GFP.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
@@ -2562,8 +2557,8 @@ pandas 0.24.2
 jupyterlab 2.1.4
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -2584,7 +2579,7 @@ jupyterlab 2.1.4
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7f7f3b730820> 
+  </div> <jinja2.runtime.BlockReference object at 0x7fb03f92d790> 
 
 <p>© 2020 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

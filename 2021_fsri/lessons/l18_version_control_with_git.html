@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Lesson 18: Version control with Git &mdash; Programming Bootcamp  documentation</title>
@@ -154,10 +153,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_9/index.html">Exercise 9</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_10/index.html">Exercise 10</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_11/index.html">Exercise 11</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Exercise solutions</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_1/index.html">Exercise 1 solutions</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Schedule</span></p>
 <ul>
@@ -506,7 +501,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-18:-Version-control-with-Git">
+<div class="section" id="Lesson-18:-Version-control-with-Git">
 <h1>Lesson 18: Version control with Git<a class="headerlink" href="#Lesson-18:-Version-control-with-Git" title="Permalink to this headline">¶</a></h1>
 <hr><p>Keeping track of all of the changes in your project over time is good practice. How many times have you edited something in something you were writing and then wanted to go back and see what you had in the first place?Wouldn’t it be great to know what changes you made and when you made them?</p>
 <p>A <strong>version control system</strong> facilitates this process of keeping track of changes over time. Beyond that, it allows multiple people to collaborate and work on parts of the same project simultaneously.</p>
@@ -515,7 +510,7 @@ div.rendered_html tbody tr:hover {
 <p>Remote repositories are not only a great way for keeping your code safe. They are also an excellent tool for collaboration since Git allows multiple users to edit the shared files simultaneously and has a method to merge changes afterwards. Public repositories can also serve as a vehicle to distribute code (or other files).</p>
 <p>You can find more information about Git <a class="reference external" href="https://git-scm.com/documentation">here</a>. It is well documented. Here is an <a class="reference external" href="https://education.github.com/git-cheat-sheet-education.pdf">excellent one-page (front-and-back) cheatsheet</a>.</p>
 <p>Let’s get started. You all should have a version of Git installed on your computers. Open the terminal and navigate into your <code class="docutils literal notranslate"><span class="pre">~/git</span></code> directory.</p>
-<section id="Configuring-Git">
+<div class="section" id="Configuring-Git">
 <h2>Configuring Git<a class="headerlink" href="#Configuring-Git" title="Permalink to this headline">¶</a></h2>
 <p>While you already used Git in <a class="reference internal" href="l00_configuring_your_computer.html"><span class="doc">Lesson 0</span></a>, you still have some configuring to do. For this, and everything else in the lesson, we’ll use the command line. We will do the configuration with <code class="docutils literal notranslate"><span class="pre">--global</span></code> flags, which means these specifications work for all of your repositories. First, we’ll specify the name and email address of the person working with Git on your machine (that’s you!).</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git config --global user.name &quot;YOUR NAME&quot;
@@ -526,8 +521,8 @@ git config --global user.email &quot;YOUR EMAIL ADDRESS&quot;
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git help config
 </pre></div>
 </div>
-</section>
-<section id="Cloning-Repositories">
+</div>
+<div class="section" id="Cloning-Repositories">
 <h2>Cloning Repositories<a class="headerlink" href="#Cloning-Repositories" title="Permalink to this headline">¶</a></h2>
 <p>You have already cloned the <code class="docutils literal notranslate"><span class="pre">bootcamp</span></code> repository in <a class="reference internal" href="l00_configuring_your_computer.html"><span class="doc">Lesson 0</span></a>. We’ll practice that again here, and clone one of the zillions of public repositories that are hosted on GitHub. We will clone a simple package, called <code class="docutils literal notranslate"><span class="pre">insulter</span></code> that will hurl Shakespearean insults at you.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git clone https://gist.github.com/3165396.git insulter
@@ -538,8 +533,8 @@ git config --global user.email &quot;YOUR EMAIL ADDRESS&quot;
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python insulter.py
 </pre></div>
 </div>
-</section>
-<section id="Pulling-in-changes">
+</div>
+<div class="section" id="Pulling-in-changes">
 <h2>Pulling in changes<a class="headerlink" href="#Pulling-in-changes" title="Permalink to this headline">¶</a></h2>
 <p>Actively developed repositories are constantly being updated. After you clone the repository, its authors may add or edit things in the repository. For you to get those changes, you need to <strong>fetch</strong> them and then <strong>merge</strong> them into what you have locally.</p>
 <p>To fetch the updated repository, you guessed it, you do:</p>
@@ -573,14 +568,14 @@ git merge FETCH_HEAD
 </div>
 <p>which is the more verbose way of saying that you want to pull the master <strong>branch</strong> from the remote repository named <code class="docutils literal notranslate"><span class="pre">origin</span></code>. We will not discuss branching in this bootcamp, but it is an important concept to learn about.</p>
 <p>Generally it is good practice to pull before you start working each day to make sure you pull in any updates your collaborators may have made.</p>
-<section id="Pulling-in-changes-from-an-upstream-repository">
+<div class="section" id="Pulling-in-changes-from-an-upstream-repository">
 <h3>Pulling in changes from an upstream repository<a class="headerlink" href="#Pulling-in-changes-from-an-upstream-repository" title="Permalink to this headline">¶</a></h3>
 <p>As you saw in <a class="reference internal" href="l00_configuring_your_computer.html"><span class="doc">Lesson 0</span></a>, it is sometimes useful to pull from an upstream repository. In <a class="reference internal" href="l00_configuring_your_computer.html"><span class="doc">Lesson 0</span></a>, you added an upstream remote repository to the bootcamp repository. To pull from the upstream repository, you need to use the more verbose version of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code>.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git pull upstream master
 </pre></div>
 </div>
-</section>
-<section id="Relationships-among-your-local-machine,-your-fork,-and-upstream">
+</div>
+<div class="section" id="Relationships-among-your-local-machine,-your-fork,-and-upstream">
 <h3>Relationships among your local machine, your fork, and upstream<a class="headerlink" href="#Relationships-among-your-local-machine,-your-fork,-and-upstream" title="Permalink to this headline">¶</a></h3>
 <p>Let us think about how we have things set up, referring to the excellent image below from <a class="reference external" href="http://jlord.us/">Jessica Lord</a>. <strong>Remotely</strong>, in our case on GitHub, lives the bootcamp repository that I created. You <strong>forked</strong> that repository. That copied the contents of my repository over to a new repository in <em>your</em> GitHub account. Your forked repository still existed remotely on your own machine. Your copy of the remote repository is called a <strong>fork</strong> and the original repository you forked
 from is called <strong>upstream</strong>.</p>
@@ -590,13 +585,13 @@ from is called <strong>upstream</strong>.</p>
 <p>If someone (like me) makes changes to the upstream repository, you can also pull those changes to incorporate them into your own repository but <strong>pulling from the upstream</strong> repository. If the upstream developer gives you permission (they almost never do), you can also push to the upstream repository.</p>
 <p>Since they almost never give you permission, if you want put your changes into the upstream repository, you submit a <strong>pull request</strong> via the GitHub website.</p>
 <p>Now that we have covered how to work off of others’ repositories, let’s see how to make your own repo.</p>
-</section>
-</section>
-<section id="Creating-your-own-repository">
+</div>
+</div>
+<div class="section" id="Creating-your-own-repository">
 <h2>Creating your own repository<a class="headerlink" href="#Creating-your-own-repository" title="Permalink to this headline">¶</a></h2>
 <p>Now, you will create your own repository for practice. For this bootcamp, let’s name the repository with your initials followed by <code class="docutils literal notranslate"><span class="pre">_bootcamp</span></code>. In my case, my repository is <code class="docutils literal notranslate"><span class="pre">jb_bootcamp</span></code>.</p>
 <p>Only in rare circumstances would you not want to host your repository remotely, so we will take an easy path toward creating a repository using GitHub. Prior to the bootcamp, you all should have set up a GitHub account. Log in to GitHub. In the upper right corner of the page, click on the “<strong>``+``</strong>” icon and select “New repository.” You will then get a page that looks like this:</p>
-<center><p><img alt="cdef83d7f1534a979917239558327d2d" class="no-scaled-link" src="../_images/github2.png" style="width: 600px;" /></p>
+<center><p><img alt="9f46a02303fd4566aecd731f55a8c276" class="no-scaled-link" src="../_images/github2.png" style="width: 600px;" /></p>
 </center><p>I called the new repository <code class="docutils literal notranslate"><span class="pre">jb_bootcamp</span></code> (yours will obviously have your own initials, and you can substitute them for <code class="docutils literal notranslate"><span class="pre">jb</span></code> wherever you see that in this lesson), and gave a little description. You can choose the repository to be either private of public; if you are not an academic, you have to pay for private repositories. Public repositories can be viewed by anyone. I will choose public for this one.</p>
 <p>I have checked the box to initialized the repository with a README. This is convenient because GitHub will set up the repository and populate it with a README file that you can generate right in your browser. I also selected to add a Python <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>, which is convenient for keeping your version control clean (more on that <a class="reference external" href="#.gitignore">later</a>). Finally, I chose an MIT license, which is a liberal license that will let others use your code if they would like to.</p>
 <p>After clicking “Create repository,” you will get a page that looks like this:</p>
@@ -607,8 +602,8 @@ from is called <strong>upstream</strong>.</p>
 </pre></div>
 </div>
 <p>If you now <code class="docutils literal notranslate"><span class="pre">cd</span></code> into the <code class="docutils literal notranslate"><span class="pre">jb_bootcamp</span></code> directory, you can see the <code class="docutils literal notranslate"><span class="pre">README.md</span></code> and <code class="docutils literal notranslate"><span class="pre">LICENSE</span></code> files there.</p>
-</section>
-<section id="Adding-files-to-your-repository">
+</div>
+<div class="section" id="Adding-files-to-your-repository">
 <h2>Adding files to your repository<a class="headerlink" href="#Adding-files-to-your-repository" title="Permalink to this headline">¶</a></h2>
 <p>Now, let’s update the repository. We will add the package we built in the <a class="reference internal" href="l10_packages_and_modules.html"><span class="doc">earlier lesson</span></a> on packages and modules. Conveniently, I already included its contents in the directory <code class="docutils literal notranslate"><span class="pre">~/git/bootcamp/modules/jb_bootcamp/</span></code>. Copy the contents of the <code class="docutils literal notranslate"><span class="pre">~/git/bootcamp/modules/jb_bootcamp/</span></code> directory and into the <code class="docutils literal notranslate"><span class="pre">~/git/jb_bootcamp/</span></code> directory. On my machine, this is accomplished by:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd ~/git/bootcamp/modules/jb_bootcamp/
@@ -652,8 +647,8 @@ git add README.md
 </pre></div>
 </div>
 <p>We have now added what we needed, so we have changed the repository.</p>
-</section>
-<section id="Committing-and-pushing-changes">
+</div>
+<div class="section" id="Committing-and-pushing-changes">
 <h2>Committing and pushing changes<a class="headerlink" href="#Committing-and-pushing-changes" title="Permalink to this headline">¶</a></h2>
 <p>Now, if we type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code>, we get updated information.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>On branch master
@@ -692,8 +687,8 @@ following is printed to the screen:</p>
 <p>Now, let’s look at our repository on GitHub. You can just refresh the main page of the repository in your browser. It now looks like this:</p>
 <div style="margin: auto; width: 600px;"><img alt="github4" src="../_images/github4.png" />
 </div><p>We now have our updates in the master branch, out there in the cloud for sharing.</p>
-</section>
-<section id=".gitignore">
+</div>
+<div class="section" id=".gitignore">
 <h2>.gitignore<a class="headerlink" href="#.gitignore" title="Permalink to this headline">¶</a></h2>
 <p>Notice that before you added the files to your repository, Git let you know that there was an untracked file in your directory. Sometimes you do want to have files in the directories of your repository, but not keep those files under version control. Examples of these might be binary files, large data sets, images, etc.</p>
 <p>Fortunately, you can tell Git to ignore certain files. This is done using a <code class="docutils literal notranslate"><span class="pre">`.gitignore</span></code> file &lt;<a class="reference external" href="https://git-scm.com/docs/gitignore">https://git-scm.com/docs/gitignore</a>&gt;`__. Each line of of the <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file says which files to ignore. For example, to ignore all files that end with <code class="docutils literal notranslate"><span class="pre">.tif</span></code>, you would include the line</p>
@@ -707,8 +702,8 @@ following is printed to the screen:</p>
 </div>
 <p>then <code class="docutils literal notranslate"><span class="pre">myfile.tif</span></code> will be under version control, even if other <code class="docutils literal notranslate"><span class="pre">.tif</span></code> files laying around are not. (<em>Note, though, that you usually do not want to have binary files under version control. You typically only keep code under control. Only data sets used to test code are included in the repository. Version control is not really for data, but for code.</em>)</p>
 <p>Finally, since it begins with a <code class="docutils literal notranslate"><span class="pre">.</span></code>. When you put a <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file in a directory, the <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file will not show up when you run <code class="docutils literal notranslate"><span class="pre">ls</span></code> at the command line without the <code class="docutils literal notranslate"><span class="pre">-a</span></code> flag.</p>
-</section>
-<section id="Installing-your-package">
+</div>
+<div class="section" id="Installing-your-package">
 <h2>Installing your package<a class="headerlink" href="#Installing-your-package" title="Permalink to this headline">¶</a></h2>
 <p>To install your package, you use <code class="docutils literal notranslate"><span class="pre">pip</span></code>, which is a self-referential acronym <strong>``P``</strong><code class="docutils literal notranslate"><span class="pre">ip</span></code> <strong>``I``</strong><code class="docutils literal notranslate"><span class="pre">nstalls</span></code> <strong>``P``</strong><code class="docutils literal notranslate"><span class="pre">ackages</span></code>. To install a your package, make sure you are in the directory immediately above your package, in this case <code class="docutils literal notranslate"><span class="pre">~/git</span></code>. Then, do the following on the command line.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install -e jb_bootcamp
@@ -716,8 +711,8 @@ following is printed to the screen:</p>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">-e</span></code> flag is important, which tells <code class="docutils literal notranslate"><span class="pre">pip</span></code> that this is a local, editable package.</p>
 <p>Your package is now accessible on your machine whenever you run the Python interpreter!</p>
-</section>
-<section id="Intalling-bootcamp_utils">
+</div>
+<div class="section" id="Intalling-bootcamp_utils">
 <h2>Intalling bootcamp_utils<a class="headerlink" href="#Intalling-bootcamp_utils" title="Permalink to this headline">¶</a></h2>
 <p>What you have just done is a common workflow with packages. You write your own packages (that are under version control, of course), and you make them available using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span></code>. In addition to your own packages, you used <code class="docutils literal notranslate"><span class="pre">conda</span></code> to install third party packages on your machine in <a class="reference external" href="l00_configuring_your_machine.ipynb">Lesson 0</a>. Sometimes packages are not yet available via <code class="docutils literal notranslate"><span class="pre">conda</span></code>, but are nonetheless available in the <a class="reference external" href="https://pypi.org">Python Package Index (PyPI)</a>. There are
 over 230,000 packages in the PyPI. To install one of them, you simple use</p>
@@ -728,8 +723,8 @@ over 230,000 packages in the PyPI. To install one of them, you simple use</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install bootcamp_utils
 </pre></div>
 </div>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -752,8 +747,8 @@ IPython 7.13.0
 jupyterlab 1.2.6
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -774,7 +769,7 @@ jupyterlab 1.2.6
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7f7f3b981460> 
+  </div> <jinja2.runtime.BlockReference object at 0x7fb03efa3520> 
 
 <p>© 2020 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

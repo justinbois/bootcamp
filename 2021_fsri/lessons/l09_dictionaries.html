@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Lesson 9: Dictionaries &mdash; Programming Bootcamp  documentation</title>
@@ -152,10 +151,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_9/index.html">Exercise 9</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_10/index.html">Exercise 10</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_11/index.html">Exercise 11</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Exercise solutions</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_1/index.html">Exercise 1 solutions</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Schedule</span></p>
 <ul>
@@ -504,9 +499,9 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-9:-Dictionaries">
+<div class="section" id="Lesson-9:-Dictionaries">
 <h1>Lesson 9: Dictionaries<a class="headerlink" href="#Lesson-9:-Dictionaries" title="Permalink to this headline">¶</a></h1>
-<hr><section id="Mapping-objects-and-dictionaries">
+<hr><div class="section" id="Mapping-objects-and-dictionaries">
 <h2>Mapping objects and dictionaries<a class="headerlink" href="#Mapping-objects-and-dictionaries" title="Permalink to this headline">¶</a></h2>
 <p>A <strong>mapping object</strong> allows an arbitrary collection of objects to be indexed by an arbitrary collection of values. That’s a mouthful. It is easier to understand instead by comparing to a sequence.</p>
 <p>Let’s take a sequence of two strings, say a tuple containing a first and last name.</p>
@@ -527,8 +522,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <p>Importantly, note that in Python 3.5 and older <strong>dictionaries have no sense of order</strong>. In Python 3.6, dictionaries were stored in insertion order as an implementation improvement. In Python 3.7, dictionaries are guaranteed to be ordered in the order in which their entries were created. I therefore advise strong caution in relying on ordering in dictionaries. For safety’s sake, you may be better off assuming there is no sense of order.</p>
-</section>
-<section id="Dictionary-syntax">
+</div>
+<div class="section" id="Dictionary-syntax">
 <h2>Dictionary syntax<a class="headerlink" href="#Dictionary-syntax" title="Permalink to this headline">¶</a></h2>
 <p>The syntax for creating a dictionary, as usual, is best seen through example.</p>
 <div class="nbinput docutils container">
@@ -647,8 +642,8 @@ div.rendered_html tbody tr:hover {
 <span class="ansi-red-fg">TypeError</span>: unhashable type: &#39;list&#39;
 </pre></div></div>
 </div>
-</section>
-<section id="Indexing-dictionaries">
+</div>
+<div class="section" id="Indexing-dictionaries">
 <h2>Indexing dictionaries<a class="headerlink" href="#Indexing-dictionaries" title="Permalink to this headline">¶</a></h2>
 <p>As mentioned at the beginning of the lesson, we index dictionaries by key.</p>
 <div class="nbinput docutils container">
@@ -674,8 +669,8 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <p>Because the indexing of dictionaries is by key and not by sequential integers, they cannot be sliced; they must be accessed element-by-element.</p>
-</section>
-<section id="Useful-dictionaries-in-bioinformatics">
+</div>
+<div class="section" id="Useful-dictionaries-in-bioinformatics">
 <h2>Useful dictionaries in bioinformatics<a class="headerlink" href="#Useful-dictionaries-in-bioinformatics" title="Permalink to this headline">¶</a></h2>
 <p>It might be useful to quickly look up 3-letter amino acid codes. Dictionaries are particularly useful for this.</p>
 <div class="nbinput nblast docutils container">
@@ -744,8 +739,8 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <p>These two dictionaries are particularly useful, so I put them in a little module which we will discuss in the <a class="reference internal" href="l10_packages_and_modules.html"><span class="doc">next lesson on packages and modules</span></a>.</p>
-</section>
-<section id="A-dictionary-is-an-implementation-of-a-hash-table">
+</div>
+<div class="section" id="A-dictionary-is-an-implementation-of-a-hash-table">
 <h2>A dictionary is an implementation of a hash table<a class="headerlink" href="#A-dictionary-is-an-implementation-of-a-hash-table" title="Permalink to this headline">¶</a></h2>
 <p>It is useful to stop and think about how a dictionary works. Let’s create a dictionary and look at where the values are stored in memory.</p>
 <div class="nbinput docutils container">
@@ -797,8 +792,8 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>Under the hood, Python then converts these integers to integers that could correspond to locations in memory. A collection of elements that can be indexed this way is called a <strong>hash table</strong>. This is a very common data structure in computing. Wikipedia has a <a class="reference external" href="https://en.wikipedia.org/wiki/Hash_table">pretty good discussion on them</a>.</p>
 <p>Given what you know about how dictionaries work, why do you think mutable objects are not acceptable as keys?</p>
-</section>
-<section id="Dictionaries-are-mutable">
+</div>
+<div class="section" id="Dictionaries-are-mutable">
 <h2>Dictionaries are mutable<a class="headerlink" href="#Dictionaries-are-mutable" title="Permalink to this headline">¶</a></h2>
 <p>Dictionaries are mutable. This means that they can be changed in place. For example, if we want to add an element to a dictionary, we use simple syntax.</p>
 <div class="nbinput docutils container">
@@ -833,8 +828,8 @@ div.rendered_html tbody tr:hover {
 {&#39;a&#39;: &#39;I was not satisfied with entry a.&#39;, &#39;b&#39;: 7, &#39;c&#39;: 12.6, &#39;d&#39;: &#39;Bootcamp is so much fun!&#39;}
 </pre></div></div>
 </div>
-</section>
-<section id="Membership-operators-with-dictionaries">
+</div>
+<div class="section" id="Membership-operators-with-dictionaries">
 <h2>Membership operators with dictionaries<a class="headerlink" href="#Membership-operators-with-dictionaries" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">in</span></code> and <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">in</span></code> operators work with dictionaries, but both only query keys and <em>not</em> values. We see this again by example.</p>
 <div class="nbinput docutils container">
@@ -966,8 +961,8 @@ c : 3
  &#39;c&#39;: &#39;this will be in the dictionary.&#39;}
 </pre></div></div>
 </div>
-</section>
-<section id="Built-in-functions-for-dictionaries">
+</div>
+<div class="section" id="Built-in-functions-for-dictionaries">
 <h2>Built-in functions for dictionaries<a class="headerlink" href="#Built-in-functions-for-dictionaries" title="Permalink to this headline">¶</a></h2>
 <p>The built-in <code class="docutils literal notranslate"><span class="pre">len()</span></code> function and <code class="docutils literal notranslate"><span class="pre">del</span></code> operation work on dictionaries.</p>
 <ul class="simple">
@@ -1042,8 +1037,8 @@ post-deleted my_list: [1, 3, 4]
 <span class="ansi-red-fg">TypeError</span>: &#39;tuple&#39; object doesn&#39;t support item deletion
 </pre></div></div>
 </div>
-</section>
-<section id="Dictionary-methods">
+</div>
+<div class="section" id="Dictionary-methods">
 <h2>Dictionary methods<a class="headerlink" href="#Dictionary-methods" title="Permalink to this headline">¶</a></h2>
 <p>Dictionaries have several built-in methods in addition to the <code class="docutils literal notranslate"><span class="pre">items()</span></code> you have already seen. Following are a few of them, assuming the dictionary is <code class="docutils literal notranslate"><span class="pre">d</span></code>.</p>
 <table class="docutils align-default">
@@ -1217,8 +1212,8 @@ dict_values([1, 2, 4])
 </div>
 <p>You should think about what behavior you want when you attempt to get a value out of a dictionary by key. Do you want an error when the key is missing? Then use indexing. Do you want to have a (possibly <code class="docutils literal notranslate"><span class="pre">None</span></code>) default if the key is missing and no error? Then use <code class="docutils literal notranslate"><span class="pre">my_dict.get()</span></code>.</p>
 <p>You can get more information about build-in methods from the <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#mapping-types-dict">Python documentation</a>.</p>
-</section>
-<section id="List-methods">
+</div>
+<div class="section" id="List-methods">
 <h2>List methods<a class="headerlink" href="#List-methods" title="Permalink to this headline">¶</a></h2>
 <p>As you may guess, the dictionary method <code class="docutils literal notranslate"><span class="pre">pop()</span></code> has an analog that works for lists. (Why don’t the dictionary <code class="docutils literal notranslate"><span class="pre">key()</span></code> and <code class="docutils literal notranslate"><span class="pre">values()</span></code> methods work for lists?) We take this opportunity to introduce a few more useful list methods. Imagine the list is called <code class="docutils literal notranslate"><span class="pre">s</span></code>.</p>
 <table class="docutils align-default">
@@ -1249,8 +1244,8 @@ dict_values([1, 2, 4])
 </tr>
 </tbody>
 </table>
-</section>
-<section id="Using-dictionaries-as-kwargs">
+</div>
+<div class="section" id="Using-dictionaries-as-kwargs">
 <h2>Using dictionaries as kwargs<a class="headerlink" href="#Using-dictionaries-as-kwargs" title="Permalink to this headline">¶</a></h2>
 <p>A nifty feature of dictionaries is that they can be passed into functions as keyword arguments. We covered named keyword arguments in the <a class="reference internal" href="l07_intro_to_functions.html"><span class="doc">Intro to functions lesson</span></a>. In addition to the named keyword arguments, a function can take in arbitrary keyword arguments (<strong>not</strong> arbitrary non-keyword arguments). This is specified in the function definition by including a last argument with a double-asterisk, <code class="docutils literal notranslate"><span class="pre">**</span></code>. The kwargs with the double-asterisk get passed in as a
 dictionary.</p>
@@ -1320,8 +1315,8 @@ dictionary.</p>
 </div>
 <p>Beautiful! This example is kind of trivial, but you can imagine that it can come in handy, e.g. with large sets of sequence fragments that you read in from a file. We will use <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> later in the bootcamp.</p>
 <p><em>Question</em>: What is the risk in using a dictionary in this way to concatenate sequences?</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
@@ -1344,8 +1339,8 @@ IPython 7.13.0
 jupyterlab 1.2.6
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -1366,7 +1361,7 @@ jupyterlab 1.2.6
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7f7f20624970> 
+  </div> <jinja2.runtime.BlockReference object at 0x7fb03e3cce20> 
 
 <p>© 2020 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
