@@ -1,0 +1,1213 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Exercise 6.1: Mastering .loc for Pandas data frames &mdash; Programming Bootcamp  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #F1F2D8" >
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Lessons</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l00_configuring_your_computer.html">Lesson 0: Configuring your computer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l01_welcome.html">Lesson 1: Welcome and Introduction to JupyterLab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l02_basic_command_line_skills.html">Lesson 2: Basic command line skills</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l03_variables_operators_types.html">Lesson 3: Variables, operators, and types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l04_more_operators_and_conditionals.html">Lesson 4: More operators and conditionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l05_lists_and_tuples.html">Lesson 5: Lists and tuples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l06_iteration.html">Lesson 6: Iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l07_intro_to_functions.html">Lesson 7: Introduction to functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l08_string_methods.html">Lesson 8: String methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l09_dictionaries.html">Lesson 9: Dictionaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l10_packages_and_modules.html">Lesson 10: Packages and modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l11_style.html">Lesson 11: Style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l12_file_io.html">Lesson 12: File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l13_intro_to_oop.html">Lesson 13: Introduction to object-oriented programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l14_intro_to_pandas.html">Lesson 14: Introduction to Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l15_split_apply_combine.html">Lesson 15: Tidy data and split-apply-combine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l16_plotting.html">Lesson 16: Making plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l17_intro_to_numpy_and_scipy.html">Lesson 17: Introduction to Numpy and Scipy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l18_version_control_with_git.html">Lesson 18: Version control with Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l19_exceptions_and_error_handling.html">Lesson 19: Errors and Exception handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l20_testing_and_tdd.html">Lesson 20: Testing and test-driven development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l21_examples_of_tdd.html">Lesson 21: Examples of TDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l22_high_level_plotting.html">Lesson 22: High level plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l23_plotting_time_series_generated_data.html">Lesson 23: Plotting time series and generated data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l24_intro_to_scripting.html">Lesson 24: Introduction to scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l25_other_packages_and_languages.html">Lesson 25: Survey of other packages and languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l26_bootcamp_recap.html">Lesson 26: Bootcamp recap</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Schedule</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../schedule.html">Schedule overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../schedule.html#daily-schedule-all-times-pdt">Daily schedule (all times PDT)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Scientific Python distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html#online-instruction">Online instruction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html#books">Books</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Programming Bootcamp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Exercise 6.1: Mastering .loc for Pandas data frames</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/exercise_solutions/exercise_6/exercise_6.1_solution.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Exercise-6.1:-Mastering-.loc-for-Pandas-data-frames">
+<h1>Exercise 6.1: Mastering .loc for Pandas data frames<a class="headerlink" href="#Exercise-6.1:-Mastering-.loc-for-Pandas-data-frames" title="Permalink to this headline">¶</a></h1>
+<hr><p>Pandas can be a bit frustrating during your first experiences with it. In this and the next few exercises, we will do our first practice with it. Stick with it! The more and more you use it, the more distant the memory of life without it will become.</p>
+<p>We will work with a data set from <a class="reference external" href="https://doi.org/10.1038/srep05225">Kleinteich and Gorb, Sci. Rep., 4, 5355, 2014</a>, and was <a class="reference external" href="http://www.nytimes.com/2014/08/25/science/a-frog-thats-a-living-breathing-pac-man.html">featured in the New York Times</a>. They measured several properties about the tongue strikes of horned frogs. Let’s take a look at the data set, which is in the file <code class="docutils literal notranslate"><span class="pre">~/git/data/frog_tongue_adhesion.csv</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span>head -20 ~/git/data/frog_tongue_adhesion.csv
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+# These data are from the paper,
+#   Kleinteich and Gorb, Sci. Rep., 4, 5225, 2014.
+# It was featured in the New York Times.
+#    http://www.nytimes.com/2014/08/25/science/a-frog-thats-a-living-breathing-pac-man.html
+#
+# The authors included the data in their supplemental information.
+#
+# Importantly, the ID refers to the identifites of the frogs they tested.
+#   I:   adult, 63 mm snout-vent-length (SVL) and 63.1 g body weight,
+#        Ceratophrys cranwelli crossed with Ceratophrys cornuta
+#   II:  adult, 70 mm SVL and 72.7 g body weight,
+#        Ceratophrys cranwelli crossed with Ceratophrys cornuta
+#   III: juvenile, 28 mm SVL and 12.7 g body weight, Ceratophrys cranwelli
+#   IV:  juvenile, 31 mm SVL and 12.7 g body weight, Ceratophrys cranwelli
+date,ID,trial number,impact force (mN),impact time (ms),impact force / body weight,adhesive force (mN),time frog pulls on target (ms),adhesive force / body weight,adhesive impulse (N-s),total contact area (mm2),contact area without mucus (mm2),contact area with mucus / contact area without mucus,contact pressure (Pa),adhesive strength (Pa)
+2013_02_26,I,3,1205,46,1.95,-785,884,1.27,-0.290,387,70,0.82,3117,-2030
+2013_02_26,I,4,2527,44,4.08,-983,248,1.59,-0.181,101,94,0.07,24923,-9695
+2013_03_01,I,1,1745,34,2.82,-850,211,1.37,-0.157,83,79,0.05,21020,-10239
+2013_03_01,I,2,1556,41,2.51,-455,1025,0.74,-0.170,330,158,0.52,4718,-1381
+2013_03_01,I,3,493,36,0.80,-974,499,1.57,-0.423,245,216,0.12,2012,-3975
+</pre></div></div>
+</div>
+<p>The first lines all begin with <code class="docutils literal notranslate"><span class="pre">#</span></code> signs, signifying that they are comments and not data. They do give important information, though, such as the meaning of the ID data. The ID refers to which specific frog was tested.</p>
+<p>Immediately after the comments, we have a row of comma-separated headers. This row sets the number of columns in this data set and labels the meaning of the columns. So, we see that the first column is the date of the experiment, the second column is the ID of the frog, the third is the trial number, and so on.</p>
+<p>After this row, each row represents a single experiment where the frog struck the target. So, these data are already in tidy format.</p>
+<p><strong>a)</strong> Load in the data set into a data frame. Be sure to use the appropriate value for the <code class="docutils literal notranslate"><span class="pre">comment</span></code> keyword argument of <code class="docutils literal notranslate"><span class="pre">pd.read_csv()</span></code>.</p>
+<p><strong>b)</strong> Extract the impact time of all impacts that had an adhesive strength of magnitude greater than 2000 Pa. <em>Note</em>: The data in the <code class="docutils literal notranslate"><span class="pre">'adhesive</span> <span class="pre">strength</span> <span class="pre">(Pa)'</span></code> column is all negative. This is because the adhesive force is defined to be negative in the measurement. Without changing the data in the data frame, how can you check that the magnitude (the absolute value) is greater than 2000?</p>
+<p><strong>c)</strong> Extract the impact force and adhesive force for all of Frog II’s strikes.</p>
+<p><strong>d)</strong> Extract the adhesive force and the time the frog pulls on the target for juvenile frogs (Frogs III and IV). <em>Hint</em>: We saw the <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> operator for Boolean indexing across more than one column. The <code class="docutils literal notranslate"><span class="pre">|</span></code> operator signifies OR, and works analogously. For technical reasons that we can discuss if you like, the Python operators <code class="docutils literal notranslate"><span class="pre">and</span></code> and <code class="docutils literal notranslate"><span class="pre">or</span></code> will <strong>not</strong> work for Boolean indexing of data frames. You could also approach this using the <code class="docutils literal notranslate"><span class="pre">isin()</span></code> method of a Pandas <code class="docutils literal notranslate"><span class="pre">Series</span></code>.</p>
+<div class="section" id="Solution">
+<h2>Solution<a class="headerlink" href="#Solution" title="Permalink to this headline">¶</a></h2>
+<hr><div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<p>To read in the data frame, we use the <code class="docutils literal notranslate"><span class="pre">comment='#'</span></code> kwarg.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;~/git/data/frog_tongue_adhesion.csv&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+
+<span class="c1"># Take a look</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>ID</th>
+      <th>trial number</th>
+      <th>impact force (mN)</th>
+      <th>impact time (ms)</th>
+      <th>impact force / body weight</th>
+      <th>adhesive force (mN)</th>
+      <th>time frog pulls on target (ms)</th>
+      <th>adhesive force / body weight</th>
+      <th>adhesive impulse (N-s)</th>
+      <th>total contact area (mm2)</th>
+      <th>contact area without mucus (mm2)</th>
+      <th>contact area with mucus / contact area without mucus</th>
+      <th>contact pressure (Pa)</th>
+      <th>adhesive strength (Pa)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013_02_26</td>
+      <td>I</td>
+      <td>3</td>
+      <td>1205</td>
+      <td>46</td>
+      <td>1.95</td>
+      <td>-785</td>
+      <td>884</td>
+      <td>1.27</td>
+      <td>-0.290</td>
+      <td>387</td>
+      <td>70</td>
+      <td>0.82</td>
+      <td>3117</td>
+      <td>-2030</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013_02_26</td>
+      <td>I</td>
+      <td>4</td>
+      <td>2527</td>
+      <td>44</td>
+      <td>4.08</td>
+      <td>-983</td>
+      <td>248</td>
+      <td>1.59</td>
+      <td>-0.181</td>
+      <td>101</td>
+      <td>94</td>
+      <td>0.07</td>
+      <td>24923</td>
+      <td>-9695</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013_03_01</td>
+      <td>I</td>
+      <td>1</td>
+      <td>1745</td>
+      <td>34</td>
+      <td>2.82</td>
+      <td>-850</td>
+      <td>211</td>
+      <td>1.37</td>
+      <td>-0.157</td>
+      <td>83</td>
+      <td>79</td>
+      <td>0.05</td>
+      <td>21020</td>
+      <td>-10239</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013_03_01</td>
+      <td>I</td>
+      <td>2</td>
+      <td>1556</td>
+      <td>41</td>
+      <td>2.51</td>
+      <td>-455</td>
+      <td>1025</td>
+      <td>0.74</td>
+      <td>-0.170</td>
+      <td>330</td>
+      <td>158</td>
+      <td>0.52</td>
+      <td>4718</td>
+      <td>-1381</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013_03_01</td>
+      <td>I</td>
+      <td>3</td>
+      <td>493</td>
+      <td>36</td>
+      <td>0.80</td>
+      <td>-974</td>
+      <td>499</td>
+      <td>1.57</td>
+      <td>-0.423</td>
+      <td>245</td>
+      <td>216</td>
+      <td>0.12</td>
+      <td>2012</td>
+      <td>-3975</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p><strong>b)</strong> To extract the entries with strong adhesive strength, we need to use the <code class="docutils literal notranslate"><span class="pre">np.abs()</span></code> function to esure that the absolute value of the adhesive strength is above 2000.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;adhesive strength (Pa)&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">,</span> <span class="s1">&#39;impact time (ms)&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0      46
+1      44
+2      34
+4      36
+7      46
+8      50
+11     48
+13     31
+14     38
+17     60
+19     40
+23     59
+24     33
+25     43
+27     31
+29     42
+31     57
+33     21
+35     29
+37     31
+38     15
+39     42
+42    105
+44     29
+45     16
+47     31
+49     32
+50     30
+51     16
+52     27
+53     30
+54     35
+55     39
+57     34
+59     34
+60     26
+61     20
+62     55
+65     33
+66     74
+67     26
+68     27
+69     33
+71      6
+73     31
+74     34
+75     38
+78     33
+Name: impact time (ms), dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># c) Impact force and adhesive force for Frog II</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;II&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;impact force (mN)&#39;</span><span class="p">,</span> <span class="s1">&#39;adhesive force (mN)&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>impact force (mN)</th>
+      <th>adhesive force (mN)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>20</th>
+      <td>1612</td>
+      <td>-655</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>605</td>
+      <td>-292</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>327</td>
+      <td>-246</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>946</td>
+      <td>-245</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>541</td>
+      <td>-553</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>1539</td>
+      <td>-664</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>529</td>
+      <td>-261</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>628</td>
+      <td>-691</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>1453</td>
+      <td>-92</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>297</td>
+      <td>-566</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>703</td>
+      <td>-223</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>269</td>
+      <td>-512</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>751</td>
+      <td>-227</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>245</td>
+      <td>-573</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>1182</td>
+      <td>-522</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>515</td>
+      <td>-599</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>435</td>
+      <td>-364</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>383</td>
+      <td>-469</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>457</td>
+      <td>-844</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>730</td>
+      <td>-648</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># d) Adhesive force and time frog pulls for frogs III and IV</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;III&quot;</span><span class="p">,</span> <span class="s2">&quot;IV&quot;</span><span class="p">]),</span>
+    <span class="p">[</span><span class="s2">&quot;adhesive force (mN)&quot;</span><span class="p">,</span> <span class="s2">&quot;time frog pulls on target (ms)&quot;</span><span class="p">],</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>adhesive force (mN)</th>
+      <th>time frog pulls on target (ms)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>40</th>
+      <td>-94</td>
+      <td>683</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>-163</td>
+      <td>245</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>-172</td>
+      <td>619</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>-225</td>
+      <td>1823</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>-301</td>
+      <td>918</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>-93</td>
+      <td>1351</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>-131</td>
+      <td>1790</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>-289</td>
+      <td>1006</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>-104</td>
+      <td>883</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>-229</td>
+      <td>1218</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>-259</td>
+      <td>910</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>-231</td>
+      <td>550</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>-267</td>
+      <td>2081</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>-178</td>
+      <td>376</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>-123</td>
+      <td>289</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>-151</td>
+      <td>607</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>-127</td>
+      <td>2932</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>-372</td>
+      <td>680</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>-236</td>
+      <td>685</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>-390</td>
+      <td>1308</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>-456</td>
+      <td>462</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>-193</td>
+      <td>250</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>-236</td>
+      <td>743</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>-225</td>
+      <td>844</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>-217</td>
+      <td>728</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>-161</td>
+      <td>472</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>-139</td>
+      <td>959</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>-264</td>
+      <td>844</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>-342</td>
+      <td>1515</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>-231</td>
+      <td>279</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>-209</td>
+      <td>1427</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>-292</td>
+      <td>2874</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>-339</td>
+      <td>4251</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>-371</td>
+      <td>626</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>-331</td>
+      <td>1254</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>-302</td>
+      <td>986</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>-216</td>
+      <td>1627</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>-163</td>
+      <td>2021</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>-367</td>
+      <td>1366</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>-218</td>
+      <td>1269</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="Computing-environment">
+<h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -v -p numpy,pandas,jupyterlab
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPython 3.8.2
+IPython 7.19.0
+
+numpy 1.18.1
+pandas 1.1.4
+jupyterlab 2.2.8
+</pre></div></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      <span class="lastupdated">
+        Last updated on Aug 19, 2021.
+      </span>
+
+    </p>
+  </div> 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-65442910-1', 'auto');
+    
+    ga('send', 'pageview');
+    </script>
+
+    
+   
+
+</body>
+</html>
