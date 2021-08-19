@@ -16,7 +16,7 @@
     "In this lesson, you will set up a Python computing environment for scientific computing. There are two main ways people set up Python for scientific computing on their own machine.\n",
     "\n",
     "1. By downloading and installing package by package with tools like [apt-get](https://help.ubuntu.com/community/AptGet/Howto), [pip](https://docs.python.org/3/installing/), etc.\n",
-    "2. By downloading and installing a Python distribution that contains binaries of many of the scientific packages needed. The major distributions of these are [Anaconda](https://www.anaconda.com) and [Enthought Canopy](https://www.enthought.com/product/canopy/). Both contain IDEs.\n",
+    "2. By downloading and installing a Python distribution that contains binaries of many of the scientific packages needed. One widely used distribution is from [Anaconda](https://www.anaconda.com).\n",
     "\n",
     "In this class, we will use Anaconda, with its associated package manager, `conda`. It has become the de facto package manager/distribution for scientific use."
    ]
@@ -27,7 +27,7 @@
    "source": [
     "## Why install on my own machine?\n",
     "\n",
-    "We toyed with using [Google Colab](http://colab.research.google.com/) for the bootcamp, and we may in fact encourage you to use it when you want to work on exercises together remotely. This offers many advantages.\n",
+    "We toyed with using [Google Colab](http://colab.research.google.com/) for the bootcamp, and we may in fact encourage you to use it when you are working on exercises. This offers many advantages.\n",
     "\n",
     "1. You get a dedicated powerful machine that is part of Google's cloud resources for your computing.\n",
     "2. Most of what you need is pre-installed.\n",
@@ -53,9 +53,9 @@
    "source": [
     "## macOS users: Install XCode\n",
     "\n",
-    "If you are using macOS, you should install [XCode](https://developer.apple.com/xcode/), if you haven't already. It's a large piece of software, taking up about 5GB on your hard drive, so make sure you have enough space. Please install this ahead of the bootcamp, since if students install this during the bootcamp, it will overwhelm the wireless. You can install it through the App Store.\n",
+    "If you are using macOS, you should install [XCode](https://developer.apple.com/xcode/), if you haven't already. It's a large piece of software, taking up about 5GB on your hard drive, so make sure you have enough space. Please install this ahead of the bootcamp, as it takes a long time to install. You can install it through the App Store.\n",
     "\n",
-    "After installing it, you need to open the program. Be sure to do that, for example by clicking on the XCode icon in your Applications folder. Upon opening XCode, it may perform more installations."
+    "After installing it, you need to open the program. Be sure to do that, for example by clicking on the XCode icon in your Applications folder. Upon opening XCode, it may perform more installations. You can let it go ahead and do this, and then close XCode."
    ]
   },
   {
@@ -64,7 +64,7 @@
    "source": [
     "## Windows users: Install Git and Chrome or Firefox\n",
     "\n",
-    "We will be using [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/) in the bootcamp. It is browser-based, and Chrome, Firefox, and Safari are supported. Internet Explorer is **not**. Therefore, if you are a Windows user, you need to be sure you have either Chrome of Firefox installed.\n",
+    "We will be using [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/) in the bootcamp. It is browser-based, and Chrome, Firefox, and Safari are supported. Microsoft Edge is **not**. Therefore, if you are a Windows user, you need to be sure you have either Chrome of Firefox installed.\n",
     "\n",
     "Git is installed on Macs with XCode. For Windows users, you need to install Git. You can do this by following the instructions [here](https://gitforwindows.org)."
    ]
@@ -75,7 +75,7 @@
    "source": [
     "## Uninstalling Anaconda\n",
     "\n",
-    "If you have previously installed Anaconda with a version of Python other than 3.7, you need to uninstall it, removing it completely from your computer. You can find instructions on how to do that from the [official uninstallation documentation](https://docs.anaconda.com/anaconda/install/uninstall/)."
+    "If you have previously installed Anaconda with a version of Python other than 3.8, you need to uninstall it, removing it completely from your computer. You can find instructions on how to do that from the [official uninstallation documentation](https://docs.anaconda.com/anaconda/install/uninstall/)."
    ]
   },
   {
@@ -86,9 +86,10 @@
     "\n",
     "Downloading and installing Anaconda is simple. \n",
     "\n",
-    "1. Go to the [Anaconda distribution homepage](https://www.anaconda.com/products/individual), click \"Download\" and download the graphical installer. Be sure to download Anaconda for Python 3.7 for the appropriate operating system.\n",
-    "2. Follow the on-screen instructions for installation. When prompted, be sure to \"Install for me only.\"\n",
-    "3. You may be prompted for optional installations, like [PyCharm](https://www.jetbrains.com/pycharm/). You will not need these for the bootcamp.\n",
+    "1. Go to the [Anaconda homepage](https://www.anaconda.com/distribution/) and download the graphical installer.\n",
+    "2. Install Anaconda with Python 3.8.\n",
+    "3. You may be prompted for your email address, which you should provide. If you are at a university, you may want to use your university email address because educational users can get some of the non-free goodies in Anaconda.\n",
+    "4. Follow the on-screen instructions for installation. While doing so, be sure that Anaconda is installed in your home directory, not in root.\n",
     "\n",
     "That's it!  After you do that, you will have a functioning Python distribution."
    ]
@@ -97,11 +98,43 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
+    "## Installing node.js\n",
+    "\n",
+    "node.js is a platform that enables you to run JavaScript outside of the browser. We will not use it directly, but it needs to be installed for some of the more sophisticated JupyterLab functionality. Install node.js by following the instructions [here](https://nodejs.dev)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "## Launching JupyterLab and a terminal\n",
     "\n",
-    "After installing the Anaconda distribution, you should be able to launch the **Anaconda Navigator**. If you're using macOS, this is available in your `Applications` menu. If you are using Windows, you can do this from the Start menu. Launch Anaconda Navigator.\n",
+    "You can alternatively launch JupyterLab via the **Anaconda Navigator** or vial your operating system's terminal program (Terminal on macOS and PowerShell on Windows). If you wish to launch using the latter, skip to the next section.\n",
     "\n",
-    "We will be using JupyterLab throughout the bootcamp (more on that in [Lesson 1](l01_welcome.ipynb)). You should see an option to launch JupyterLab. When you do that, a new browser window or tab will open with JupyterLab running. Within the JupyterLab window, you will have the option to launch a notebook, a console, a terminal, or a text editor. We will use all of these during the bootcamp. For the updating and installation of necessary packages, click on `Terminal` to launch a terminal. You will get a terminal window (probably black) with a bash prompt. We refer to this text interface in the terminal as the **command line**."
+    "If you're using macOS, Anaconda Navigator will be available in your `Applications` menu. If you are using Windows, you can launch Anaconda Navigator from the Start menu.\n",
+    "\n",
+    "We will be using JupyterLab throughout the bootcamp (more on that in [Lesson 1](l01_welcome.ipynb)). You should see an option to launch JupyterLab from within Anaconda Navigator. When you do that, a new browser window or tab will open with JupyterLab running. Within the JupyterLab window, you will have the option to launch a notebook, a console, a terminal, or a text editor. We will use all of these during the bootcamp. For the updating and installation of necessary packages, click on `Terminal` to launch a terminal. You will get a terminal window (probably black) with a bash prompt. We refer to this text interface in the terminal as the **command line**."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Launching JupyterLab from the command line\n",
+    "\n",
+    "While launching JupyterLab from the Anaconda Navigator is fine, I generally prefer to launch it from the command line on my own machine. If you are on a Mac, open the `Terminal` program. You can do this hitting `Command + space bar` and searching for \"terminal.\" Using Windows, you should launch PowerShell. You can do this by hitting `Windows + R` and typing `powershell` in the text box.\n",
+    "\n",
+    "Once you have a terminal or PowerShell window open, you will have a prompt. At the prompt, type\n",
+    "\n",
+    "    jupyter lab\n",
+    "    \n",
+    "and you will have an instance of JupyterLab running in your browser. If you want to specify the browser, you can, for example, type\n",
+    "\n",
+    "    jupyter lab --browser=firefox\n",
+    "    \n",
+    "on the command line.\n",
+    "\n",
+    "It is up to you if you want to launch JupyterLab from the Anaconda Navigator or command line."
    ]
   },
   {
@@ -112,7 +145,17 @@
     "\n",
     "conda is a package manager for keeping all of your packages up-to-date. It has plenty of functionality beyond our basic usage in class, which you can learn more about by reading the [docs](https://docs.conda.io/en/latest/).  We will primarily be using conda to install and update packages.\n",
     "\n",
-    "conda works from the command line.  Now that you know how to get a command line prompt, you can start using conda.  The first thing we'll do is update the packages that came with the Anaconda distribution.  To do this, enter the following on the command line:\n",
+    "conda works from the command line.  Now that you know how to get a command line prompt, you can start using conda. The first thing we'll do is update conda itself. Enter the following on the command line.\n",
+    "\n",
+    "    conda update conda\n",
+    "\n",
+    "You can press `y` to continue. You should do this once more, again entering\n",
+    "\n",
+    "    conda update conda\n",
+    "    \n",
+    "on the commmand line.\n",
+    "\n",
+    "Next, we will update the packages that came with the Anaconda distribution. To do this, enter the following on the command line:\n",
     "\n",
     "    conda update --all\n",
     "\n",
@@ -125,30 +168,18 @@
    "source": [
     "## Installations\n",
     "\n",
-    "There are several additional installations you need to do for the bootcamp. We will first install some plotting packages we need, which are available as [HoloViz](http://holoviz.org/).\n",
+    "There are several additional installations of Python pacakges you need to do for the bootcamp. Many of these packages are available through conda. First, we need to install `jupyter_bokeh`, which allows Bokeh plots to be displayed withing Jupyter notebooks. Do the following on the command line.\n",
     "\n",
-    "    conda install -c pyviz holoviz\n",
+    "    conda install -c bokeh jupyter_bokeh\n",
     "    \n",
-    "Some packages may again be downgraded with the installation of HoloViz, and that is ok. Next, to configure JupyterLab, we need to install [node.js](https://nodejs.org/). We'll also install Black, which will make formatting our code easier, and pySerial, which allows for communication with external devices.\n",
+    "Now, we can proceed with the rest of our installations.\n",
     "\n",
-    "    conda install nodejs black pyserial\n",
-    "    \n",
+    "    conda install colorcet holoviews hvplot param panel datashader pyserial hypothesis netcdf4\n",
+    "        \n",
     "There are a few other packages from pip we will need for the bootcamp, so we can go ahead and install those now.\n",
     "\n",
-    "    pip install watermark blackcellmagic bokeh-catplot bootcamp_utils\n",
+    "    pip install iqplot watermark blackcellmagic jupyterlab-spellchecker\n",
     "\n",
-    "Finally, we need to configure JupyterLab to work with the plotting packages we will use.\n",
-    "\n",
-    "    jupyter labextension install --no-build @pyviz/jupyterlab_pyviz\n",
-    "    \n",
-    "You may also wish to install a spell-checker (this one isn't necessary).\n",
-    "\n",
-    "    jupyter labextension install --no-build @ijmbarr/jupyterlab_spellchecker\n",
-    "\n",
-    "After installing all of these extensions, you can rebuild JupyterLab.\n",
-    "\n",
-    "    jupyter lab build\n",
-    "    \n",
     "You should close your JupyterLab session and terminate Anaconda Navigator after you have completed the build. Relaunch Anaconda Navigator and launch a fresh JupyterLab instance. As before, after JupyterLab launches, launch a new terminal window so that you can proceed with setting up Git."
    ]
   },
@@ -174,6 +205,15 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
+    "### Set up your token\n",
+    "\n",
+    "You will need to set up a token to be used to access GitHub via the command line. To do so, complete [these instructions](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "### Forking the bootcamp repository\n",
     "\n",
     "Let's say you want to do some work on a project with code stored in a **repository**, but you are not an active collaborator. For example, there could be a useful package a lab at another university put on GitHub for a certain kind of image segmentation that is useful for your research. You want to do something *almost* exactly like the package does, but need to make some small modifications yourself. You want to clone the repository and add a couple functions and maybe modify one or two they already have, leaving much of the rest of the repository untouched. Of course, you also want to update your local copy of all that untouched (but still used) code when the maintainers update it.\n",
@@ -193,7 +233,11 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
    "source": [
     "### Cloning your fork to your local machine\n",
     "\n",
@@ -201,7 +245,7 @@
     "\n",
     "    mkdir -p ~/git\n",
     "    \n",
-    "(Windows users, you may get an error when you do this. If so, just enter the above command without the \"`-p`.\") Now you can clone *your forked copy of the repository* (not the original `bootcamp` repository). To do this, navigate your browser to the forked copy of the `bootcamp` repository on your account (this is where clicking the \"Fork\" button took you in your browser). The browser URL will be: `https://github.com/yourusername/bootcamp`, and the top left of the website will say \"`yourusername/bootcamp` forked from `justinbois/bootcamp`, like below for user `cgoecknerwald`.\n",
+    "Now you can clone *your forked copy of the repository* (not the original `bootcamp` repository). To do this, navigate your browser to the forked copy of the `bootcamp` repository on your account (this is where clicking the \"Fork\" button took you in your browser). The browser URL will be: `https://github.com/yourusername/bootcamp`, and the top left of the website will say \"`yourusername/bootcamp` forked from `justinbois/bootcamp`, like below for user `cgoecknerwald`.\n",
     "\n",
     "<div style=\"margin: auto; width: 200px;\">\n",
     "\n",
@@ -209,7 +253,7 @@
     "    \n",
     "</div>\n",
     "\n",
-    "Click the green `Clone or download` button (shown below) and copy the URL of the forked repository. \n",
+    "Click the green `Code` button (shown below) and copy the URL of the forked repository. \n",
     "\n",
     "<div style=\"margin: auto; width: 200px;\">\n",
     "\n",
@@ -223,7 +267,7 @@
     "    cd ~/git\n",
     "    git clone --depth 5 the_url_you_just_copied\n",
     "    \n",
-    "You now have a local copy of your own fork of the bootcamp repository. You can add files and edit it. When you commit and push, it will all be on your account, and the master repository will not see the changes. (Don't worry if you do not understand all of this now; we will cover it all in subsequent lessons.)"
+    "You now have a local copy of your own fork of the bootcamp repository. You can add files and edit it. When you commit and push, it will all be on your account, and the original repository will not see the changes. (Don't worry if you do not understand all of this now; we will cover it all in subsequent lessons.)"
    ]
   },
   {
@@ -251,7 +295,8 @@
    "metadata": {},
    "source": [
     "## Checking your distribution\n",
-    "We'll now run a quick test to make sure things are working properly.  We will make a quick plot that requires some of the scientific libraries we will use in the bootcamp.\n",
+    "\n",
+    "We'll now run a quick test to make sure things are working properly. = We will make a quick plot that requires some of the scientific libraries we will use in the bootcamp.\n",
     "\n",
     "Use the JupyterLab launcher (you can get a new launcher by clicking on the `+` icon on the left pane of your JupyterLab window) to launch a notebook. In the first cell (the box next to the `[ ]:` prompt), paste the code below. To run the code, press `Shift+Enter` while the cursor is active inside the cell. You should see a plot that looks like the one below. If you do, you have a functioning Python environment for scientific computing!"
    ]
@@ -267,7 +312,7 @@
        "\n",
        "    <div class=\"bk-root\">\n",
        "        <a href=\"https://bokeh.org\" target=\"_blank\" class=\"bk-logo bk-logo-small bk-logo-notebook\"></a>\n",
-       "        <span id=\"1001\">Loading BokehJS ...</span>\n",
+       "        <span id=\"1002\">Loading BokehJS ...</span>\n",
        "    </div>"
       ]
      },
@@ -345,7 +390,7 @@
        "    var output = handle.output;\n",
        "\n",
        "    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only\n",
-       "    if ((output.output_type != \"display_data\") || (!output.data.hasOwnProperty(EXEC_MIME_TYPE))) {\n",
+       "    if ((output.output_type != \"display_data\") || (!Object.prototype.hasOwnProperty.call(output.data, EXEC_MIME_TYPE))) {\n",
        "      return\n",
        "    }\n",
        "\n",
@@ -437,7 +482,7 @@
        "     \"</div>\"}};\n",
        "\n",
        "  function display_loaded() {\n",
-       "    var el = document.getElementById(\"1001\");\n",
+       "    var el = document.getElementById(\"1002\");\n",
        "    if (el != null) {\n",
        "      el.textContent = \"BokehJS is loading...\";\n",
        "    }\n",
@@ -487,15 +532,15 @@
        "      }\n",
        "    }\n",
        "\n",
-       "    function on_error() {\n",
+       "    function on_error(url) {\n",
        "      console.error(\"failed to load \" + url);\n",
        "    }\n",
        "\n",
-       "    for (var i = 0; i < css_urls.length; i++) {\n",
-       "      var url = css_urls[i];\n",
+       "    for (let i = 0; i < css_urls.length; i++) {\n",
+       "      const url = css_urls[i];\n",
        "      const element = document.createElement(\"link\");\n",
        "      element.onload = on_load;\n",
-       "      element.onerror = on_error;\n",
+       "      element.onerror = on_error.bind(null, url);\n",
        "      element.rel = \"stylesheet\";\n",
        "      element.type = \"text/css\";\n",
        "      element.href = url;\n",
@@ -503,13 +548,13 @@
        "      document.body.appendChild(element);\n",
        "    }\n",
        "\n",
-       "    const hashes = {\"https://cdn.bokeh.org/bokeh/release/bokeh-2.0.2.min.js\": \"ufR9RFnRs6lniiaFvtJziE0YeidtAgBRH6ux2oUItHw5WTvE1zuk9uzhUU/FJXDp\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.2.min.js\": \"8QM/PGWBT+IssZuRcDcjzwIh1mkOmJSoNMmyYDZbCfXJg3Ap1lEvdVgFuSAwhb/J\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.0.2.min.js\": \"Jm8cH3Rg0P6UeZhVY5cLy1WzKajUT9KImCY+76hEqrcJt59/d8GPvFHjCkYgnSIn\", \"https://cdn.bokeh.org/bokeh/release/bokeh-gl-2.0.2.min.js\": \"Ozhzj+SI7ywm74aOI/UajcWz+C0NjsPunEVyVIrxzYkB+jA+2tUw8x5xJCbVtK5I\"};\n",
+       "    const hashes = {\"https://cdn.bokeh.org/bokeh/release/bokeh-2.3.2.min.js\": \"XypntL49z55iwGVUW4qsEu83zKL3XEcz0MjuGOQ9SlaaQ68X/g+k1FcioZi7oQAc\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.2.min.js\": \"bEsM86IHGDTLCS0Zod8a8WM6Y4+lafAL/eSiyQcuPzinmWNgNO2/olUF0Z2Dkn5i\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.2.min.js\": \"TX0gSQTdXTTeScqxj6PVQxTiRW8DOoGVwinyi1D3kxv7wuxQ02XkOxv0xwiypcAH\"};\n",
        "\n",
-       "    for (var i = 0; i < js_urls.length; i++) {\n",
-       "      var url = js_urls[i];\n",
-       "      var element = document.createElement('script');\n",
+       "    for (let i = 0; i < js_urls.length; i++) {\n",
+       "      const url = js_urls[i];\n",
+       "      const element = document.createElement('script');\n",
        "      element.onload = on_load;\n",
-       "      element.onerror = on_error;\n",
+       "      element.onerror = on_error.bind(null, url);\n",
        "      element.async = false;\n",
        "      element.src = url;\n",
        "      if (url in hashes) {\n",
@@ -528,7 +573,7 @@
        "  }\n",
        "\n",
        "  \n",
-       "  var js_urls = [\"https://cdn.bokeh.org/bokeh/release/bokeh-2.0.2.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.2.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.0.2.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-gl-2.0.2.min.js\"];\n",
+       "  var js_urls = [\"https://cdn.bokeh.org/bokeh/release/bokeh-2.3.2.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.2.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.2.min.js\"];\n",
        "  var css_urls = [];\n",
        "  \n",
        "\n",
@@ -557,7 +602,7 @@
        "      console.log(\"Bokeh: BokehJS failed to load within specified timeout.\");\n",
        "      root._bokeh_failed_load = true;\n",
        "    } else if (force !== true) {\n",
-       "      var cell = $(document.getElementById(\"1001\")).parents('.cell').data().cell;\n",
+       "      var cell = $(document.getElementById(\"1002\")).parents('.cell').data().cell;\n",
        "      cell.output_area.append_execute_result(NB_LOAD_WARNING)\n",
        "    }\n",
        "\n",
@@ -574,7 +619,7 @@
        "  }\n",
        "}(window));"
       ],
-      "application/vnd.bokehjs_load.v0+json": "\n(function(root) {\n  function now() {\n    return new Date();\n  }\n\n  var force = true;\n\n  if (typeof root._bokeh_onload_callbacks === \"undefined\" || force === true) {\n    root._bokeh_onload_callbacks = [];\n    root._bokeh_is_loading = undefined;\n  }\n\n  \n\n  \n  if (typeof (root._bokeh_timeout) === \"undefined\" || force === true) {\n    root._bokeh_timeout = Date.now() + 5000;\n    root._bokeh_failed_load = false;\n  }\n\n  var NB_LOAD_WARNING = {'data': {'text/html':\n     \"<div style='background-color: #fdd'>\\n\"+\n     \"<p>\\n\"+\n     \"BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \\n\"+\n     \"may be due to a slow or bad network connection. Possible fixes:\\n\"+\n     \"</p>\\n\"+\n     \"<ul>\\n\"+\n     \"<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\\n\"+\n     \"<li>use INLINE resources instead, as so:</li>\\n\"+\n     \"</ul>\\n\"+\n     \"<code>\\n\"+\n     \"from bokeh.resources import INLINE\\n\"+\n     \"output_notebook(resources=INLINE)\\n\"+\n     \"</code>\\n\"+\n     \"</div>\"}};\n\n  function display_loaded() {\n    var el = document.getElementById(\"1001\");\n    if (el != null) {\n      el.textContent = \"BokehJS is loading...\";\n    }\n    if (root.Bokeh !== undefined) {\n      if (el != null) {\n        el.textContent = \"BokehJS \" + root.Bokeh.version + \" successfully loaded.\";\n      }\n    } else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(display_loaded, 100)\n    }\n  }\n\n\n  function run_callbacks() {\n    try {\n      root._bokeh_onload_callbacks.forEach(function(callback) {\n        if (callback != null)\n          callback();\n      });\n    } finally {\n      delete root._bokeh_onload_callbacks\n    }\n    console.debug(\"Bokeh: all callbacks have finished\");\n  }\n\n  function load_libs(css_urls, js_urls, callback) {\n    if (css_urls == null) css_urls = [];\n    if (js_urls == null) js_urls = [];\n\n    root._bokeh_onload_callbacks.push(callback);\n    if (root._bokeh_is_loading > 0) {\n      console.debug(\"Bokeh: BokehJS is being loaded, scheduling callback at\", now());\n      return null;\n    }\n    if (js_urls == null || js_urls.length === 0) {\n      run_callbacks();\n      return null;\n    }\n    console.debug(\"Bokeh: BokehJS not loaded, scheduling load and callback at\", now());\n    root._bokeh_is_loading = css_urls.length + js_urls.length;\n\n    function on_load() {\n      root._bokeh_is_loading--;\n      if (root._bokeh_is_loading === 0) {\n        console.debug(\"Bokeh: all BokehJS libraries/stylesheets loaded\");\n        run_callbacks()\n      }\n    }\n\n    function on_error() {\n      console.error(\"failed to load \" + url);\n    }\n\n    for (var i = 0; i < css_urls.length; i++) {\n      var url = css_urls[i];\n      const element = document.createElement(\"link\");\n      element.onload = on_load;\n      element.onerror = on_error;\n      element.rel = \"stylesheet\";\n      element.type = \"text/css\";\n      element.href = url;\n      console.debug(\"Bokeh: injecting link tag for BokehJS stylesheet: \", url);\n      document.body.appendChild(element);\n    }\n\n    const hashes = {\"https://cdn.bokeh.org/bokeh/release/bokeh-2.0.2.min.js\": \"ufR9RFnRs6lniiaFvtJziE0YeidtAgBRH6ux2oUItHw5WTvE1zuk9uzhUU/FJXDp\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.2.min.js\": \"8QM/PGWBT+IssZuRcDcjzwIh1mkOmJSoNMmyYDZbCfXJg3Ap1lEvdVgFuSAwhb/J\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.0.2.min.js\": \"Jm8cH3Rg0P6UeZhVY5cLy1WzKajUT9KImCY+76hEqrcJt59/d8GPvFHjCkYgnSIn\", \"https://cdn.bokeh.org/bokeh/release/bokeh-gl-2.0.2.min.js\": \"Ozhzj+SI7ywm74aOI/UajcWz+C0NjsPunEVyVIrxzYkB+jA+2tUw8x5xJCbVtK5I\"};\n\n    for (var i = 0; i < js_urls.length; i++) {\n      var url = js_urls[i];\n      var element = document.createElement('script');\n      element.onload = on_load;\n      element.onerror = on_error;\n      element.async = false;\n      element.src = url;\n      if (url in hashes) {\n        element.crossOrigin = \"anonymous\";\n        element.integrity = \"sha384-\" + hashes[url];\n      }\n      console.debug(\"Bokeh: injecting script tag for BokehJS library: \", url);\n      document.head.appendChild(element);\n    }\n  };\n\n  function inject_raw_css(css) {\n    const element = document.createElement(\"style\");\n    element.appendChild(document.createTextNode(css));\n    document.body.appendChild(element);\n  }\n\n  \n  var js_urls = [\"https://cdn.bokeh.org/bokeh/release/bokeh-2.0.2.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.2.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.0.2.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-gl-2.0.2.min.js\"];\n  var css_urls = [];\n  \n\n  var inline_js = [\n    function(Bokeh) {\n      Bokeh.set_log_level(\"info\");\n    },\n    function(Bokeh) {\n    \n    \n    }\n  ];\n\n  function run_inline_js() {\n    \n    if (root.Bokeh !== undefined || force === true) {\n      \n    for (var i = 0; i < inline_js.length; i++) {\n      inline_js[i].call(root, root.Bokeh);\n    }\n    if (force === true) {\n        display_loaded();\n      }} else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(run_inline_js, 100);\n    } else if (!root._bokeh_failed_load) {\n      console.log(\"Bokeh: BokehJS failed to load within specified timeout.\");\n      root._bokeh_failed_load = true;\n    } else if (force !== true) {\n      var cell = $(document.getElementById(\"1001\")).parents('.cell').data().cell;\n      cell.output_area.append_execute_result(NB_LOAD_WARNING)\n    }\n\n  }\n\n  if (root._bokeh_is_loading === 0) {\n    console.debug(\"Bokeh: BokehJS loaded, going straight to plotting\");\n    run_inline_js();\n  } else {\n    load_libs(css_urls, js_urls, function() {\n      console.debug(\"Bokeh: BokehJS plotting callback run at\", now());\n      run_inline_js();\n    });\n  }\n}(window));"
+      "application/vnd.bokehjs_load.v0+json": "\n(function(root) {\n  function now() {\n    return new Date();\n  }\n\n  var force = true;\n\n  if (typeof root._bokeh_onload_callbacks === \"undefined\" || force === true) {\n    root._bokeh_onload_callbacks = [];\n    root._bokeh_is_loading = undefined;\n  }\n\n  \n\n  \n  if (typeof (root._bokeh_timeout) === \"undefined\" || force === true) {\n    root._bokeh_timeout = Date.now() + 5000;\n    root._bokeh_failed_load = false;\n  }\n\n  var NB_LOAD_WARNING = {'data': {'text/html':\n     \"<div style='background-color: #fdd'>\\n\"+\n     \"<p>\\n\"+\n     \"BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \\n\"+\n     \"may be due to a slow or bad network connection. Possible fixes:\\n\"+\n     \"</p>\\n\"+\n     \"<ul>\\n\"+\n     \"<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\\n\"+\n     \"<li>use INLINE resources instead, as so:</li>\\n\"+\n     \"</ul>\\n\"+\n     \"<code>\\n\"+\n     \"from bokeh.resources import INLINE\\n\"+\n     \"output_notebook(resources=INLINE)\\n\"+\n     \"</code>\\n\"+\n     \"</div>\"}};\n\n  function display_loaded() {\n    var el = document.getElementById(\"1002\");\n    if (el != null) {\n      el.textContent = \"BokehJS is loading...\";\n    }\n    if (root.Bokeh !== undefined) {\n      if (el != null) {\n        el.textContent = \"BokehJS \" + root.Bokeh.version + \" successfully loaded.\";\n      }\n    } else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(display_loaded, 100)\n    }\n  }\n\n\n  function run_callbacks() {\n    try {\n      root._bokeh_onload_callbacks.forEach(function(callback) {\n        if (callback != null)\n          callback();\n      });\n    } finally {\n      delete root._bokeh_onload_callbacks\n    }\n    console.debug(\"Bokeh: all callbacks have finished\");\n  }\n\n  function load_libs(css_urls, js_urls, callback) {\n    if (css_urls == null) css_urls = [];\n    if (js_urls == null) js_urls = [];\n\n    root._bokeh_onload_callbacks.push(callback);\n    if (root._bokeh_is_loading > 0) {\n      console.debug(\"Bokeh: BokehJS is being loaded, scheduling callback at\", now());\n      return null;\n    }\n    if (js_urls == null || js_urls.length === 0) {\n      run_callbacks();\n      return null;\n    }\n    console.debug(\"Bokeh: BokehJS not loaded, scheduling load and callback at\", now());\n    root._bokeh_is_loading = css_urls.length + js_urls.length;\n\n    function on_load() {\n      root._bokeh_is_loading--;\n      if (root._bokeh_is_loading === 0) {\n        console.debug(\"Bokeh: all BokehJS libraries/stylesheets loaded\");\n        run_callbacks()\n      }\n    }\n\n    function on_error(url) {\n      console.error(\"failed to load \" + url);\n    }\n\n    for (let i = 0; i < css_urls.length; i++) {\n      const url = css_urls[i];\n      const element = document.createElement(\"link\");\n      element.onload = on_load;\n      element.onerror = on_error.bind(null, url);\n      element.rel = \"stylesheet\";\n      element.type = \"text/css\";\n      element.href = url;\n      console.debug(\"Bokeh: injecting link tag for BokehJS stylesheet: \", url);\n      document.body.appendChild(element);\n    }\n\n    const hashes = {\"https://cdn.bokeh.org/bokeh/release/bokeh-2.3.2.min.js\": \"XypntL49z55iwGVUW4qsEu83zKL3XEcz0MjuGOQ9SlaaQ68X/g+k1FcioZi7oQAc\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.2.min.js\": \"bEsM86IHGDTLCS0Zod8a8WM6Y4+lafAL/eSiyQcuPzinmWNgNO2/olUF0Z2Dkn5i\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.2.min.js\": \"TX0gSQTdXTTeScqxj6PVQxTiRW8DOoGVwinyi1D3kxv7wuxQ02XkOxv0xwiypcAH\"};\n\n    for (let i = 0; i < js_urls.length; i++) {\n      const url = js_urls[i];\n      const element = document.createElement('script');\n      element.onload = on_load;\n      element.onerror = on_error.bind(null, url);\n      element.async = false;\n      element.src = url;\n      if (url in hashes) {\n        element.crossOrigin = \"anonymous\";\n        element.integrity = \"sha384-\" + hashes[url];\n      }\n      console.debug(\"Bokeh: injecting script tag for BokehJS library: \", url);\n      document.head.appendChild(element);\n    }\n  };\n\n  function inject_raw_css(css) {\n    const element = document.createElement(\"style\");\n    element.appendChild(document.createTextNode(css));\n    document.body.appendChild(element);\n  }\n\n  \n  var js_urls = [\"https://cdn.bokeh.org/bokeh/release/bokeh-2.3.2.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.2.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.2.min.js\"];\n  var css_urls = [];\n  \n\n  var inline_js = [\n    function(Bokeh) {\n      Bokeh.set_log_level(\"info\");\n    },\n    function(Bokeh) {\n    \n    \n    }\n  ];\n\n  function run_inline_js() {\n    \n    if (root.Bokeh !== undefined || force === true) {\n      \n    for (var i = 0; i < inline_js.length; i++) {\n      inline_js[i].call(root, root.Bokeh);\n    }\n    if (force === true) {\n        display_loaded();\n      }} else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(run_inline_js, 100);\n    } else if (!root._bokeh_failed_load) {\n      console.log(\"Bokeh: BokehJS failed to load within specified timeout.\");\n      root._bokeh_failed_load = true;\n    } else if (force !== true) {\n      var cell = $(document.getElementById(\"1002\")).parents('.cell').data().cell;\n      cell.output_area.append_execute_result(NB_LOAD_WARNING)\n    }\n\n  }\n\n  if (root._bokeh_is_loading === 0) {\n    console.debug(\"Bokeh: BokehJS loaded, going straight to plotting\");\n    run_inline_js();\n  } else {\n    load_libs(css_urls, js_urls, function() {\n      console.debug(\"Bokeh: BokehJS plotting callback run at\", now());\n      run_inline_js();\n    });\n  }\n}(window));"
      },
      "metadata": {},
      "output_type": "display_data"
@@ -588,7 +633,7 @@
        "\n",
        "\n",
        "\n",
-       "  <div class=\"bk-root\" id=\"02fac98e-61d9-4ca5-8e44-763f8cb6436b\" data-root-id=\"1002\"></div>\n"
+       "  <div class=\"bk-root\" id=\"47ac1d6b-2860-4060-829d-6e3eea300d1f\" data-root-id=\"1003\"></div>\n"
       ]
      },
      "metadata": {},
@@ -600,8 +645,8 @@
        "(function(root) {\n",
        "  function embed_document(root) {\n",
        "    \n",
-       "  var docs_json = {\"88822705-f560-46b7-a5ac-494f98b08591\":{\"roots\":{\"references\":[{\"attributes\":{\"below\":[{\"id\":\"1011\"}],\"center\":[{\"id\":\"1014\"},{\"id\":\"1018\"},{\"id\":\"1038\"}],\"left\":[{\"id\":\"1015\"}],\"plot_height\":250,\"plot_width\":275,\"renderers\":[{\"id\":\"1036\"}],\"title\":{\"id\":\"1040\"},\"toolbar\":{\"id\":\"1026\"},\"x_range\":{\"id\":\"1003\"},\"x_scale\":{\"id\":\"1007\"},\"y_range\":{\"id\":\"1005\"},\"y_scale\":{\"id\":\"1009\"}},\"id\":\"1002\",\"subtype\":\"Figure\",\"type\":\"Plot\"},{\"attributes\":{},\"id\":\"1005\",\"type\":\"DataRange1d\"},{\"attributes\":{},\"id\":\"1020\",\"type\":\"WheelZoomTool\"},{\"attributes\":{\"formatter\":{\"id\":\"1042\"},\"ticker\":{\"id\":\"1012\"}},\"id\":\"1011\",\"type\":\"LinearAxis\"},{\"attributes\":{\"overlay\":{\"id\":\"1025\"}},\"id\":\"1021\",\"type\":\"BoxZoomTool\"},{\"attributes\":{\"source\":{\"id\":\"1033\"}},\"id\":\"1037\",\"type\":\"CDSView\"},{\"attributes\":{\"axis\":{\"id\":\"1011\"},\"ticker\":null},\"id\":\"1014\",\"type\":\"Grid\"},{\"attributes\":{},\"id\":\"1022\",\"type\":\"SaveTool\"},{\"attributes\":{},\"id\":\"1023\",\"type\":\"ResetTool\"},{\"attributes\":{},\"id\":\"1003\",\"type\":\"DataRange1d\"},{\"attributes\":{},\"id\":\"1042\",\"type\":\"BasicTickFormatter\"},{\"attributes\":{},\"id\":\"1009\",\"type\":\"LinearScale\"},{\"attributes\":{\"bottom_units\":\"screen\",\"fill_alpha\":0.5,\"fill_color\":\"lightgrey\",\"left_units\":\"screen\",\"level\":\"overlay\",\"line_alpha\":1.0,\"line_color\":\"black\",\"line_dash\":[4,4],\"line_width\":2,\"render_mode\":\"css\",\"right_units\":\"screen\",\"top_units\":\"screen\"},\"id\":\"1025\",\"type\":\"BoxAnnotation\"},{\"attributes\":{},\"id\":\"1046\",\"type\":\"Selection\"},{\"attributes\":{},\"id\":\"1024\",\"type\":\"HelpTool\"},{\"attributes\":{\"data\":{\"x\":{\"__ndarray__\":\"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\",\"dtype\":\"float64\",\"shape\":[200]},\"y\":{\"__ndarray__\":\"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\",\"dtype\":\"float64\",\"shape\":[200]}},\"selected\":{\"id\":\"1046\"},\"selection_policy\":{\"id\":\"1047\"}},\"id\":\"1033\",\"type\":\"ColumnDataSource\"},{\"attributes\":{\"text\":\"bootcamp\",\"text_align\":\"center\",\"x\":0,\"y\":0},\"id\":\"1038\",\"type\":\"Label\"},{\"attributes\":{},\"id\":\"1007\",\"type\":\"LinearScale\"},{\"attributes\":{\"line_color\":\"red\",\"line_width\":3,\"x\":{\"field\":\"x\"},\"y\":{\"field\":\"y\"}},\"id\":\"1034\",\"type\":\"Line\"},{\"attributes\":{},\"id\":\"1044\",\"type\":\"BasicTickFormatter\"},{\"attributes\":{},\"id\":\"1012\",\"type\":\"BasicTicker\"},{\"attributes\":{},\"id\":\"1016\",\"type\":\"BasicTicker\"},{\"attributes\":{\"axis\":{\"id\":\"1015\"},\"dimension\":1,\"ticker\":null},\"id\":\"1018\",\"type\":\"Grid\"},{\"attributes\":{\"formatter\":{\"id\":\"1044\"},\"ticker\":{\"id\":\"1016\"}},\"id\":\"1015\",\"type\":\"LinearAxis\"},{\"attributes\":{\"data_source\":{\"id\":\"1033\"},\"glyph\":{\"id\":\"1034\"},\"hover_glyph\":null,\"muted_glyph\":null,\"nonselection_glyph\":{\"id\":\"1035\"},\"selection_glyph\":null,\"view\":{\"id\":\"1037\"}},\"id\":\"1036\",\"type\":\"GlyphRenderer\"},{\"attributes\":{\"text\":\"\"},\"id\":\"1040\",\"type\":\"Title\"},{\"attributes\":{},\"id\":\"1047\",\"type\":\"UnionRenderers\"},{\"attributes\":{\"active_drag\":\"auto\",\"active_inspect\":\"auto\",\"active_multi\":null,\"active_scroll\":\"auto\",\"active_tap\":\"auto\",\"tools\":[{\"id\":\"1019\"},{\"id\":\"1020\"},{\"id\":\"1021\"},{\"id\":\"1022\"},{\"id\":\"1023\"},{\"id\":\"1024\"}]},\"id\":\"1026\",\"type\":\"Toolbar\"},{\"attributes\":{\"line_alpha\":0.1,\"line_color\":\"red\",\"line_width\":3,\"x\":{\"field\":\"x\"},\"y\":{\"field\":\"y\"}},\"id\":\"1035\",\"type\":\"Line\"},{\"attributes\":{},\"id\":\"1019\",\"type\":\"PanTool\"}],\"root_ids\":[\"1002\"]},\"title\":\"Bokeh Application\",\"version\":\"2.0.2\"}};\n",
-       "  var render_items = [{\"docid\":\"88822705-f560-46b7-a5ac-494f98b08591\",\"root_ids\":[\"1002\"],\"roots\":{\"1002\":\"02fac98e-61d9-4ca5-8e44-763f8cb6436b\"}}];\n",
+       "  var docs_json = {\"98faaa56-674e-4f59-b840-4f9eb4ed09b2\":{\"defs\":[],\"roots\":{\"references\":[{\"attributes\":{\"below\":[{\"id\":\"1012\"}],\"center\":[{\"id\":\"1015\"},{\"id\":\"1019\"},{\"id\":\"1039\"}],\"height\":250,\"left\":[{\"id\":\"1016\"}],\"renderers\":[{\"id\":\"1037\"}],\"title\":{\"id\":\"1041\"},\"toolbar\":{\"id\":\"1027\"},\"width\":275,\"x_range\":{\"id\":\"1004\"},\"x_scale\":{\"id\":\"1008\"},\"y_range\":{\"id\":\"1006\"},\"y_scale\":{\"id\":\"1010\"}},\"id\":\"1003\",\"subtype\":\"Figure\",\"type\":\"Plot\"},{\"attributes\":{},\"id\":\"1010\",\"type\":\"LinearScale\"},{\"attributes\":{},\"id\":\"1046\",\"type\":\"BasicTickFormatter\"},{\"attributes\":{},\"id\":\"1008\",\"type\":\"LinearScale\"},{\"attributes\":{\"formatter\":{\"id\":\"1043\"},\"major_label_policy\":{\"id\":\"1044\"},\"ticker\":{\"id\":\"1013\"}},\"id\":\"1012\",\"type\":\"LinearAxis\"},{\"attributes\":{},\"id\":\"1047\",\"type\":\"AllLabels\"},{\"attributes\":{},\"id\":\"1013\",\"type\":\"BasicTicker\"},{\"attributes\":{},\"id\":\"1049\",\"type\":\"UnionRenderers\"},{\"attributes\":{\"data\":{\"x\":{\"__ndarray__\":\"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\",\"dtype\":\"float64\",\"order\":\"little\",\"shape\":[200]},\"y\":{\"__ndarray__\":\"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\",\"dtype\":\"float64\",\"order\":\"little\",\"shape\":[200]}},\"selected\":{\"id\":\"1050\"},\"selection_policy\":{\"id\":\"1049\"}},\"id\":\"1034\",\"type\":\"ColumnDataSource\"},{\"attributes\":{},\"id\":\"1050\",\"type\":\"Selection\"},{\"attributes\":{\"data_source\":{\"id\":\"1034\"},\"glyph\":{\"id\":\"1035\"},\"hover_glyph\":null,\"muted_glyph\":null,\"nonselection_glyph\":{\"id\":\"1036\"},\"view\":{\"id\":\"1038\"}},\"id\":\"1037\",\"type\":\"GlyphRenderer\"},{\"attributes\":{},\"id\":\"1025\",\"type\":\"HelpTool\"},{\"attributes\":{},\"id\":\"1017\",\"type\":\"BasicTicker\"},{\"attributes\":{\"active_multi\":null,\"tools\":[{\"id\":\"1020\"},{\"id\":\"1021\"},{\"id\":\"1022\"},{\"id\":\"1023\"},{\"id\":\"1024\"},{\"id\":\"1025\"}]},\"id\":\"1027\",\"type\":\"Toolbar\"},{\"attributes\":{},\"id\":\"1021\",\"type\":\"WheelZoomTool\"},{\"attributes\":{},\"id\":\"1020\",\"type\":\"PanTool\"},{\"attributes\":{\"overlay\":{\"id\":\"1026\"}},\"id\":\"1022\",\"type\":\"BoxZoomTool\"},{\"attributes\":{\"source\":{\"id\":\"1034\"}},\"id\":\"1038\",\"type\":\"CDSView\"},{\"attributes\":{},\"id\":\"1023\",\"type\":\"SaveTool\"},{\"attributes\":{},\"id\":\"1024\",\"type\":\"ResetTool\"},{\"attributes\":{\"line_color\":\"red\",\"line_width\":3,\"x\":{\"field\":\"x\"},\"y\":{\"field\":\"y\"}},\"id\":\"1035\",\"type\":\"Line\"},{\"attributes\":{\"line_alpha\":0.1,\"line_color\":\"red\",\"line_width\":3,\"x\":{\"field\":\"x\"},\"y\":{\"field\":\"y\"}},\"id\":\"1036\",\"type\":\"Line\"},{\"attributes\":{},\"id\":\"1041\",\"type\":\"Title\"},{\"attributes\":{\"bottom_units\":\"screen\",\"fill_alpha\":0.5,\"fill_color\":\"lightgrey\",\"left_units\":\"screen\",\"level\":\"overlay\",\"line_alpha\":1.0,\"line_color\":\"black\",\"line_dash\":[4,4],\"line_width\":2,\"right_units\":\"screen\",\"syncable\":false,\"top_units\":\"screen\"},\"id\":\"1026\",\"type\":\"BoxAnnotation\"},{\"attributes\":{},\"id\":\"1043\",\"type\":\"BasicTickFormatter\"},{\"attributes\":{},\"id\":\"1006\",\"type\":\"DataRange1d\"},{\"attributes\":{},\"id\":\"1044\",\"type\":\"AllLabels\"},{\"attributes\":{\"axis\":{\"id\":\"1016\"},\"dimension\":1,\"ticker\":null},\"id\":\"1019\",\"type\":\"Grid\"},{\"attributes\":{},\"id\":\"1004\",\"type\":\"DataRange1d\"},{\"attributes\":{\"axis\":{\"id\":\"1012\"},\"ticker\":null},\"id\":\"1015\",\"type\":\"Grid\"},{\"attributes\":{\"text\":\"bootcamp\",\"text_align\":\"center\",\"x\":0,\"y\":0},\"id\":\"1039\",\"type\":\"Label\"},{\"attributes\":{\"formatter\":{\"id\":\"1046\"},\"major_label_policy\":{\"id\":\"1047\"},\"ticker\":{\"id\":\"1017\"}},\"id\":\"1016\",\"type\":\"LinearAxis\"}],\"root_ids\":[\"1003\"]},\"title\":\"Bokeh Application\",\"version\":\"2.3.2\"}};\n",
+       "  var render_items = [{\"docid\":\"98faaa56-674e-4f59-b840-4f9eb4ed09b2\",\"root_ids\":[\"1003\"],\"roots\":{\"1003\":\"47ac1d6b-2860-4060-829d-6e3eea300d1f\"}}];\n",
        "  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);\n",
        "\n",
        "  }\n",
@@ -628,7 +673,7 @@
      },
      "metadata": {
       "application/vnd.bokehjs_exec.v0+json": {
-       "id": "1002"
+       "id": "1003"
       }
      },
      "output_type": "display_data"
@@ -670,12 +715,14 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "CPython 3.7.7\n",
-      "IPython 7.13.0\n",
+      "Python implementation: CPython\n",
+      "Python version       : 3.8.10\n",
+      "IPython version      : 7.22.0\n",
       "\n",
-      "numpy 1.18.1\n",
-      "bokeh 2.0.2\n",
-      "jupyterlab 1.2.6\n"
+      "numpy     : 1.20.2\n",
+      "bokeh     : 2.3.2\n",
+      "jupyterlab: 3.0.14\n",
+      "\n"
      ]
     }
    ],
@@ -702,7 +749,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.7.7"
+   "version": "3.8.10"
   }
  },
  "nbformat": 4,
