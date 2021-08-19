@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Lesson 21: Examples of TDD &mdash; Programming Bootcamp  documentation</title>
@@ -149,10 +148,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_9/index.html">Exercise 9</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_10/index.html">Exercise 10</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_11/index.html">Exercise 11</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Exercise solutions</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_1/index.html">Exercise 1 solutions</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Schedule</span></p>
 <ul>
@@ -501,15 +496,15 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-21:-Examples-of-TDD">
+<div class="section" id="Lesson-21:-Examples-of-TDD">
 <h1>Lesson 21: Examples of TDD<a class="headerlink" href="#Lesson-21:-Examples-of-TDD" title="Permalink to this headline">¶</a></h1>
 <p>This lesson was prepared in collaboration with <a class="reference external" href="https://daviortega.com">Davi Ortega</a> and was initially heavily based on <a class="reference external" href="http://katyhuff.github.io">Katy Huff</a>’s <a class="reference external" href="http://katyhuff.github.io/python-testing/">Software Carpentry Tutorial</a>.</p>
-<hr><section id="Handling-odd-behaviors">
+<hr><div class="section" id="Handling-odd-behaviors">
 <h2>Handling odd behaviors<a class="headerlink" href="#Handling-odd-behaviors" title="Permalink to this headline">¶</a></h2>
 <p>To explore another feature of <code class="docutils literal notranslate"><span class="pre">pytest</span></code>, we’ll consider another aspect of our <code class="docutils literal notranslate"><span class="pre">number_negatives()</span></code> function. Specifically, what should we do if an invalid sequence is entered? A sensible thing to do in this case is to make our software throw a <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code>.</p>
 <p>Again, in designing our test, we need to think about what constitutes an invalid sequence. We’ll only allow the 20 standard symbols for the residues that are present in the <code class="docutils literal notranslate"><span class="pre">bootcamp_utils.aa</span></code> dictionary. So, we adjust our test function accordingly. We cannot use the <code class="docutils literal notranslate"><span class="pre">assert</span></code> statement to check for proper error handling, so we use the <code class="docutils literal notranslate"><span class="pre">pytest.raises()</span></code> function. This function takes as its first argument the type of exception expected, and a string containing the code to be run to give the
 exception.</p>
-<section id="A-note-on-assertions-vs-raising-exceptions">
+<div class="section" id="A-note-on-assertions-vs-raising-exceptions">
 <h3>A note on assertions vs raising exceptions<a class="headerlink" href="#A-note-on-assertions-vs-raising-exceptions" title="Permalink to this headline">¶</a></h3>
 <p>It is important to draw the distinction between assertions and raising exceptions in our code.</p>
 <ul class="simple">
@@ -661,9 +656,9 @@ test_seq_features.py::test_number_negatives_for_invalid_amino_acid <span class="
 </pre></div></div>
 </div>
 <p>All of our tests passed!</p>
-</section>
-</section>
-<section id="Summary-of-TDD">
+</div>
+</div>
+<div class="section" id="Summary-of-TDD">
 <h2>Summary of TDD<a class="headerlink" href="#Summary-of-TDD" title="Permalink to this headline">¶</a></h2>
 <p>Now that you have some experience with TDD and have an idea about what it is and how it works, let’s formalize things by writing out the basic principles of test-driven development.</p>
 <ol class="arabic simple">
@@ -672,8 +667,8 @@ test_seq_features.py::test_number_negatives_for_invalid_amino_acid <span class="
 <li><p>Whenever you want to make any enhancements of adjustments to your code, write tests for it <strong>first</strong>.</p></li>
 <li><p>Whenever you encounter a bug, write tests for it that reproduce the behavior and then fix the code to make the entire test suite to pass.</p></li>
 </ol>
-</section>
-<section id="Improving-the-seq_features-module-using-TDD:-Practice">
+</div>
+<div class="section" id="Improving-the-seq_features-module-using-TDD:-Practice">
 <h2>Improving the seq_features module using TDD: Practice<a class="headerlink" href="#Improving-the-seq_features-module-using-TDD:-Practice" title="Permalink to this headline">¶</a></h2>
 <p>Let’s write now a function that will calculate the total number of positively charged residues in a protein. In other words, let’s count the number of Lysine (K), Arginine (R) and Histidine (H) residues in the sequence.</p>
 <p>To do that, let’s make the prototype function and add to <code class="docutils literal notranslate"><span class="pre">seq_features.py</span></code>:</p>
@@ -911,8 +906,8 @@ test_seq_features.py::test_number_positives_for_invalid_amino_acid <span class="
 </pre></div></div>
 </div>
 <p>We now have a good set of tests and functions that work as expected as a result.</p>
-</section>
-<section id="Code-refactoring-and-TDD">
+</div>
+<div class="section" id="Code-refactoring-and-TDD">
 <h2>Code refactoring and TDD<a class="headerlink" href="#Code-refactoring-and-TDD" title="Permalink to this headline">¶</a></h2>
 <p>As we are building modules and functions, though we may try, we are not able to anticipate all the functionalities they must have. And by adding new functionalities, we might need to change our code substantially and even dramatically change the initial logic that worked so well up to this point. This is so common in programming that developers have a name for it: <strong>code refactoring</strong>.</p>
 <p>For example, we did not anticipate when we start writing <code class="docutils literal notranslate"><span class="pre">seq_features</span></code> that we also wanted to calculate the positive charges as well. Beyond that, we broke one of the most important rules in programming: <strong>functions must do one thing and only one thing very well</strong>. It is clear that <code class="docutils literal notranslate"><span class="pre">number_negatives()</span></code> was doing three things:</p>
@@ -1132,14 +1127,14 @@ test_seq_features.py::test_is_valid_sequence_for_other_invalid_amino_acid_anywhe
 <span class="ansi-green-fg">============================== </span><span class="ansi-green-intense-fg ansi-bold">15 passed</span><span class="ansi-green-fg"> in 0.19s</span><span class="ansi-green-fg"> ==============================</span>
 </pre></div></div>
 </div>
-</section>
-<section id="Where-do-we-go-from-here?">
+</div>
+<div class="section" id="Where-do-we-go-from-here?">
 <h2>Where do we go from here?<a class="headerlink" href="#Where-do-we-go-from-here?" title="Permalink to this headline">¶</a></h2>
 <p>There are tons of details about <code class="docutils literal notranslate"><span class="pre">pytest</span></code> that will address most issues you will encounter while working on your programs. It is <a class="reference external" href="https://docs.pytest.org">very well documented</a>, so you can use that to develop tests for your code.</p>
 <p>The next real step is for you to learn <a class="reference external" href="https://en.wikipedia.org/wiki/Continuous_integration">continuous integration</a> (CI), which we covered in a <a class="reference external" href="http://justinbois.github.io/bootcamp/2017/lessons/l35_pytest_and_CI.html">previous edition of the bootcamp</a> and how to package your program and publish it (possibly on <a class="reference external" href="pypi.python.org">the Python Package Index</a>, or just hosted on GitHub). An interesting shortcut for that is to use the <a class="reference external" href="https://github.com/audreyr/cookiecutter-pypackage">Cookiecutter
 package</a>.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
@@ -1164,8 +1159,8 @@ pytest 5.4.2
 jupyterlab 1.2.6
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -1186,7 +1181,7 @@ jupyterlab 1.2.6
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7f7f3b7bd700> 
+  </div> <jinja2.runtime.BlockReference object at 0x7fb03e2c4bb0> 
 
 <p>© 2020 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

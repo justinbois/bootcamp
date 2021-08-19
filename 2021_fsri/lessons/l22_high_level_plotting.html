@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Lesson 22: High level plotting &mdash; Programming Bootcamp  documentation</title>
@@ -131,7 +130,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#ECDFs">ECDFs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Customization-with-Bokeh-catplot">Customization with Bokeh-catplot</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Customizing-box-plots">Customizing box plots</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Custominzing-strip-plots">Custominzing strip plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Customizing-strip-plots">Customizing strip plots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Strip-box-plots">Strip-box plots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Customizing-histograms">Customizing histograms</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Customizing-ECDFs">Customizing ECDFs</a></li>
@@ -159,10 +158,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_9/index.html">Exercise 9</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_10/index.html">Exercise 10</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_11/index.html">Exercise 11</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Exercise solutions</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_1/index.html">Exercise 1 solutions</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Schedule</span></p>
 <ul>
@@ -511,7 +506,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-22:-High-level-plotting">
+<div class="section" id="Lesson-22:-High-level-plotting">
 <h1>Lesson 22: High level plotting<a class="headerlink" href="#Lesson-22:-High-level-plotting" title="Permalink to this headline">¶</a></h1>
 <hr><div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -993,7 +988,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </table>
 </div></div>
 </div>
-<section id="High-level-plotting-and-rendering-with-Bokeh">
+<div class="section" id="High-level-plotting-and-rendering-with-Bokeh">
 <h2>High level plotting and rendering with Bokeh<a class="headerlink" href="#High-level-plotting-and-rendering-with-Bokeh" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://holoviews.org/">HoloViews</a> is an excellent high-level plotting package that can use Bokeh to render plots. In my view, it is one of the best high-level plotting packages in the Python plotting landscape. You can read more about HoloViews in a (lesson)[<a class="reference external" href="http://justinbois.github.io/bootcamp/2020_fsri/lessons/l23_holoviews.html">http://justinbois.github.io/bootcamp/2020_fsri/lessons/l23_holoviews.html</a>] from last year’s bootcamp, but in this lesson, we will do our high-level plotting using a package I wrote called
 <a class="reference external" href="https://github.com/justinbois/bokeh-catplot">Bokeh-catplot</a>.</p>
@@ -1004,8 +999,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 </ul>
 <p>There are all relatively minor fixes for HoloViews, which will likely have this functionality in the near future.</p>
 <p>Nonetheless, ECDFs and horizontal strip plots are important visualizations and I advocate using them often, and Bokeh-catplot provides a high-level way to render them using Bokeh.</p>
-</section>
-<section id="Plots-with-categorical-variables">
+</div>
+<div class="section" id="Plots-with-categorical-variables">
 <h2>Plots with categorical variables<a class="headerlink" href="#Plots-with-categorical-variables" title="Permalink to this headline">¶</a></h2>
 <p>Let us first consider the different kinds of data we may encounter as we think about constructing a plot.</p>
 <ul class="simple">
@@ -1017,8 +1012,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 <p>In practice, ordinal data can be cast as quantitative or treated as categorical with an ordering enforced on the categories (e.g., categorical data <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code> becomes <code class="docutils literal notranslate"><span class="pre">['1',</span> <span class="pre">'2',</span> <span class="pre">'3']</span></code>.). Temporal data can also be cast as quantitative, (e.g., second from the start time). We will therefore focus out attention on quantitative and categorical data.</p>
 <p>When we made scatter plots in the previous <a class="reference internal" href="l16_plotting.html"><span class="doc">plotting lesson</span></a>, both types of data were quantitative. We did actually incorporate categorical information in the form of colors of the glyph (insomniacs and normal sleepers being colored differently) and in tooltips.</p>
 <p>But what if we wanted a single type of measurement, say impact force, for each frog? Here, we have the quantitative impact force data and the categorical frog ID data. One of our axes is now categorical.</p>
-</section>
-<section id="Bar-graph">
+</div>
+<div class="section" id="Bar-graph">
 <h2>Bar graph<a class="headerlink" href="#Bar-graph" title="Permalink to this headline">¶</a></h2>
 <p>To demonstrate how to set up a categorical axis with Bokeh, I will make a bar graph of the mean impact force for each of the four frogs. But before I even begin this, I will give you the following piece of advice: <em>Don’t make bar graphs.</em> More on that in a moment.</p>
 <p>Before we do that, we need to compute the means from the inputted data frame.</p>
@@ -1235,8 +1230,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-</section>
-<section id="Bokeh-catplot">
+</div>
+<div class="section" id="Bokeh-catplot">
 <h2>Bokeh-catplot<a class="headerlink" href="#Bokeh-catplot" title="Permalink to this headline">¶</a></h2>
 <p>Generating the bar graphs was not too painful, even tough we used Bokeh, a low-level plotting library. We would like to make plots more <strong>declaratively</strong>. We do not want to have to explicitly pre-process the data, set up the categorical axis, etc. We would like to just provide a data set, say which column(s) is/are categorical and which is quantitative, and then just get our plot. As I mentioned before, Holoviews is excellent for this purpose, but we will use Bokeh-catplot as our high-level
 package for making plots for now.</p>
@@ -1263,8 +1258,8 @@ package for making plots for now.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">val</span></code>: The column of the data frame to be treated as the quantitative variable.</p></li>
 </ul>
 <p>With this in mind, we will put Bokeh-catplot to use on the frog data set.</p>
-</section>
-<section id="Box-plots-with-Bokeh-catplot">
+</div>
+<div class="section" id="Box-plots-with-Bokeh-catplot">
 <h2>Box plots with Bokeh-catplot<a class="headerlink" href="#Box-plots-with-Bokeh-catplot" title="Permalink to this headline">¶</a></h2>
 <p>As I <a class="reference external" href="#Don't-make-bar-graphs">discuss below</a>, bar graphs are almost never a good choice for visualization. You distill all of the information in the data set down to one or two summary statistics, and then use giant glyphs to show them. As a start for improvement, you could distill the data set down to five or so summary statistics and show those graphically, as opposed to just one or two.</p>
 <p>Box plots provide such a summary. I will first make one using <code class="docutils literal notranslate"><span class="pre">bokeh_catplot.box()</span></code> and then describe how a box plot is interpreted.</p>
@@ -1326,14 +1321,14 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 <p>The line in the middle of each box is the median and the top and bottom of the box at the 75th and 25th percentiles, respectively. The distance between the 25th and 75th percentiles is called the <strong>interquartile range</strong>, or IQR. The whiskers of the box plot extend to the most extreme data point within 1.5 times the interquartile range. If any data points are more extreme than the end of the whisker, they are shown individually, and are often referred to as <em>outliers</em>.</p>
 <p>A box plot can use a useful visualization if you have many data points and it is difficult to plot them all. I rarely find that there are situations where all data cannot be plotted, either with strip plots of ECDFs, which we will cover in a moment, so I generally do not use box plots. Nonetheless, I do not find them too objectionable, as they effectively display important nonparametric summary statistics of your data set.</p>
-</section>
-<section id="Plot-all-your-data">
+</div>
+<div class="section" id="Plot-all-your-data">
 <h2>Plot all your data<a class="headerlink" href="#Plot-all-your-data" title="Permalink to this headline">¶</a></h2>
 <p>Box plots summarize a data set with summary statistics, but what not plot all your data? You work hard to acquire them. You should show them all. This is a mantra to live by.</p>
 <div style="text-align: center; color: dodgerblue; font-weight: bold;"><p>Plot all of your data.</p>
 </div><p>Let’s do that now.</p>
-</section>
-<section id="Strip-plots">
+</div>
+<div class="section" id="Strip-plots">
 <h2>Strip plots<a class="headerlink" href="#Strip-plots" title="Permalink to this headline">¶</a></h2>
 <p>A <strong>strip plot</strong> is like a scatter plot; it puts a glyph for every measured data point. The only difference is that one of the axes is categorical. In this case, you are plotting all of your data.</p>
 <div class="nbinput docutils container">
@@ -1393,8 +1388,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 </script></div>
 </div>
 <p>This is a good plot to make since you are plotting all of your data, but it does have the problem that you cannot tell if multiple data points overlap.</p>
-</section>
-<section id="Histograms">
+</div>
+<div class="section" id="Histograms">
 <h2>Histograms<a class="headerlink" href="#Histograms" title="Permalink to this headline">¶</a></h2>
 <p>In plotting all of our data in a strip plot, we can roughly see how the data are distributed. There are more measurements where there are more glyphs. We ofter seek to visualize the <em>distribution</em> of the data. <strong>Histograms</strong> are commonly used for this. They are typically interpreted to as an empirical representation of the probability density function.</p>
 <div class="nbinput docutils container">
@@ -1453,8 +1448,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-</section>
-<section id="ECDFs">
+</div>
+<div class="section" id="ECDFs">
 <h2>ECDFs<a class="headerlink" href="#ECDFs" title="Permalink to this headline">¶</a></h2>
 <p>I just mentioned that histograms are typically used to display how data are distributed, but it was hard to make out the distributions in the above plot, partly because we do not have very many measurements. As another example I will generate Normally distributed data and plot the histogram. (We learned how to generate data like this when we studied random number generation with NumPy in a <a class="reference internal" href="l17_intro_to_numpy_and_scipy.html"><span class="doc">previous lesson</span></a>.)</p>
 <div class="nbinput docutils container">
@@ -1760,8 +1755,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-</section>
-<section id="Customization-with-Bokeh-catplot">
+</div>
+<div class="section" id="Customization-with-Bokeh-catplot">
 <h2>Customization with Bokeh-catplot<a class="headerlink" href="#Customization-with-Bokeh-catplot" title="Permalink to this headline">¶</a></h2>
 <p>You may have noticed in the discussion of ECDFs that I introduced some new keyword arguments, <code class="docutils literal notranslate"><span class="pre">style</span></code> and <code class="docutils literal notranslate"><span class="pre">p</span></code>. In fact, each of the four plotting functions also has the following additional optional keyword arguments.</p>
 <ul class="simple">
@@ -1774,7 +1769,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </pre></div>
 </div>
 <p>Any kwargs not in the function call signature are passed to <code class="docutils literal notranslate"><span class="pre">bokeh.plotting.figure()</span></code> when the figure is instantiated.</p>
-<section id="Customizing-box-plots">
+<div class="section" id="Customizing-box-plots">
 <h3>Customizing box plots<a class="headerlink" href="#Customizing-box-plots" title="Permalink to this headline">¶</a></h3>
 <p>We can also have horizontal box plots.</p>
 <div class="nbinput docutils container">
@@ -1895,9 +1890,9 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-</section>
-<section id="Custominzing-strip-plots">
-<h3>Custominzing strip plots<a class="headerlink" href="#Custominzing-strip-plots" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="Customizing-strip-plots">
+<h3>Customizing strip plots<a class="headerlink" href="#Customizing-strip-plots" title="Permalink to this headline">¶</a></h3>
 <p>To help alleviate the overlap problem, we can make a strip plot with dash markers and add some transparency.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
@@ -2078,8 +2073,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-</section>
-<section id="Strip-box-plots">
+</div>
+<div class="section" id="Strip-box-plots">
 <h3>Strip-box plots<a class="headerlink" href="#Strip-box-plots" title="Permalink to this headline">¶</a></h3>
 <p>Even while plotting all of the data, we sometimes want to graphically display summary statistics, in which case overlaying a box plot and a jitter plot is useful. To populate an existing Bokeh figure with new glyphs from another catplot, pass in the <code class="docutils literal notranslate"><span class="pre">p</span></code> kwarg. You should be careful, though, because you need to make sure the <code class="docutils literal notranslate"><span class="pre">cats</span></code>, <code class="docutils literal notranslate"><span class="pre">val</span></code>, and <code class="docutils literal notranslate"><span class="pre">horizontal</span></code> arguments exactly match.</p>
 <div class="nbinput docutils container">
@@ -2154,8 +2149,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-</section>
-<section id="Customizing-histograms">
+</div>
+<div class="section" id="Customizing-histograms">
 <h3>Customizing histograms<a class="headerlink" href="#Customizing-histograms" title="Permalink to this headline">¶</a></h3>
 <p>We could plot normalized histograms using the density kwarg.</p>
 <div class="nbinput docutils container">
@@ -2216,8 +2211,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-</section>
-<section id="Customizing-ECDFs">
+</div>
+<div class="section" id="Customizing-ECDFs">
 <h3>Customizing ECDFs<a class="headerlink" href="#Customizing-ECDFs" title="Permalink to this headline">¶</a></h3>
 <p>Instead of plotting a separate ECDF for each category, we can put all of the categories together on one ECDF and color the points by the categorical variable by using the <code class="docutils literal notranslate"><span class="pre">kind='colored'</span></code> kwarg. Note that if we do this, we can only have the “dot” style ECDF, not the staircase.</p>
 <div class="nbinput docutils container">
@@ -2277,15 +2272,15 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-</section>
-</section>
-<section id="Don’t-make-bar-graphs">
+</div>
+</div>
+<div class="section" id="Don’t-make-bar-graphs">
 <h2>Don’t make bar graphs<a class="headerlink" href="#Don’t-make-bar-graphs" title="Permalink to this headline">¶</a></h2>
 <p>Bar graphs, especially with error bars (in which case they are called dynamite plots), are typically awful. They are pervasive in biology papers. I have yet to find a single example where a bar graph is the best choice. Strip plots (with jitter) or even box plots, are more informative and almost always preferred. In fact, ECDFs are often better even than these. Here is a simple message:</p>
 <div style="text-align: center; font-weight: bold; color: tomato;"><p>Don’t make bar graphs.</p>
 </div><p>What should I do instead you ask? The answer is simple: <strong>plot all of your data</strong> when you can. If you can’t, box plots are always better than bar graphs.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
@@ -2312,8 +2307,8 @@ bokeh_catplot 0.1.8
 jupyterlab 1.2.6
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -2334,7 +2329,7 @@ jupyterlab 1.2.6
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7f7f3bb33310> 
+  </div> <jinja2.runtime.BlockReference object at 0x7fb03e03ae50> 
 
 <p>© 2020 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
