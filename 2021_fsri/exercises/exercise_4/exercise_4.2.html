@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Exercise 4.2: Restriction enzyme cut sites &mdash; Programming Bootcamp  documentation</title>
+  <title>Exercise 4.2: GitHub exercises &mdash; Programming Bootcamp  documentation</title>
   
 
   
@@ -49,7 +49,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Exercise 5" href="../exercise_5/index.html" />
-    <link rel="prev" title="Exercise 4.1: Parsing a FASTA file" href="exercise_4.1.html" /> 
+    <link rel="prev" title="Exercise 4" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -107,14 +107,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l08_string_methods.html">Lesson 8: String methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l09_dictionaries.html">Lesson 9: Dictionaries</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l10_packages_and_modules.html">Lesson 10: Packages and modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l11_style.html">Lesson 11: Style</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l12_file_io.html">Lesson 12: File I/O</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l13_intro_to_oop.html">Lesson 13: Introduction to object-oriented programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l11_version_control_with_git.html">Lesson 11: Version control with Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l12_style.html">Lesson 12: Style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l13_file_io.html">Lesson 13: File I/O</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l14_intro_to_pandas.html">Lesson 14: Introduction to Pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l15_split_apply_combine.html">Lesson 15: Tidy data and split-apply-combine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l16_plotting.html">Lesson 16: Making plots</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l17_intro_to_numpy_and_scipy.html">Lesson 17: Introduction to Numpy and Scipy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l18_version_control_with_git.html">Lesson 18: Version control with Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l18_intro_to_oop.html">Lesson 18: Introduction to object-oriented programming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l19_exceptions_and_error_handling.html">Lesson 19: Errors and Exception handling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l20_testing_and_tdd.html">Lesson 20: Testing and test-driven development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l21_examples_of_tdd.html">Lesson 21: Examples of TDD</a></li>
@@ -130,8 +130,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../exercise_2/index.html">Exercise 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercise_3/index.html">Exercise 3</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Exercise 4</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="exercise_4.1.html">Exercise 4.1: Parsing a FASTA file</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Exercise 4.2: Restriction enzyme cut sites</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Exercise 4.2: GitHub exercises</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../exercise_5/index.html">Exercise 5</a></li>
@@ -243,37 +242,24 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="Exercise-4.2:-Restriction-enzyme-cut-sites">
-<h1>Exercise 4.2: Restriction enzyme cut sites<a class="headerlink" href="#Exercise-4.2:-Restriction-enzyme-cut-sites" title="Permalink to this headline">¶</a></h1>
-<hr><p><a class="reference external" href="https://en.wikipedia.org/wiki/Restriction_enzyme">Restriction enzymes</a> cut DNA at specific locations called <strong>restriction sites</strong>. The sequence at a restriction site is called a <strong>recognition sequence</strong>. Here are the recognition sequences of some commonly used restriction enzymes.</p>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 72%" />
-<col style="width: 28%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Restriction enzyme</p></th>
-<th class="head"><p>Recognition sequence</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><a class="reference external" href="https://en.wikipedia.org/wiki/HindIII">HindIII</a></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">AAGCTT</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://en.wikipedia.org/wiki/EcoRI">EcoRI</a></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">GAATTC</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>KpnI</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">GGTACC</span></code></p></td>
-</tr>
-</tbody>
-</table>
-<p><strong>a)</strong> <a class="reference external" href="https://www.neb.com/products/n3011-lambda-dna#Product%20Information">New England Biosystems</a> sells purified DNA of the genome of λ-phage, a bacteriophage that infect <em>E. coli</em>. You can download the FASTA file containing the sequence <a class="reference external" href="https://www.neb.com/-/media/nebus/page-images/tools-and-resources/interactive-tools/dna-sequences-and-maps/text-documents/lambdafsa.txt">here</a>. Use the function you wrote in <a class="reference internal" href="exercise_4.1.html"><span class="doc">Exercise 3.1</span></a> to extract the sequence.</p>
-<p><strong>b)</strong> Write a function with call signature</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">restriction_sites</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">recoq_seq</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>that takes as arguments a sequence and the recognition sequence of a restriction enzyme sites and returns the indices of the first base or each of the restriction sites in the sequence. Use this function to find the indices of the restriction sites of λ-DNA for HindIII, EcoRI, and KpnI. Compare your results to those reported on the <a class="reference external" href="https://www.neb.com/-/media/nebus/page-images/tools-and-resources/interactive-tools/dna-sequences-and-maps/lambda_sites.pdf">New England Biosystems datasheet</a>.</p>
+<div class="section" id="Exercise-4.2:-GitHub-exercises">
+<h1>Exercise 4.2: GitHub exercises<a class="headerlink" href="#Exercise-4.2:-GitHub-exercises" title="Permalink to this headline">¶</a></h1>
+<hr><p>GitHub repositories are great for organizing and sharing projects. In this exercise, you will play around with GitHub to see how you might do this for your research or classwork.</p>
+<p><strong>a) Using a template for your repository:</strong> One way to create a new repository is using someone else’s as a template. <a class="reference external" href="https://gchure.github.io/">Griffin Chure</a>, a former Caltech graduate student, put together a skeleton repository called <code class="docutils literal notranslate"><span class="pre">reproducible_research</span></code> that can be used to organize scientific research projects.</p>
+<ol class="lowerroman simple">
+<li><p>Navigate to Griffin’s template on your browser with <a class="reference external" href="https://github.com/gchure/reproducible_research">this link</a>. Click <strong>“Use this template”</strong> to create your new repository, give it a useful name (e.g. <code class="docutils literal notranslate"><span class="pre">2021_fsri_project</span></code>), and then clone it to your local machine.</p></li>
+<li><p>Read the documentation or <code class="docutils literal notranslate"><span class="pre">ls</span></code> around to explore the organization of this repository. Consider how you might use it to organize your FSRI project.</p></li>
+<li><p>Practice adding some analysis scripts. Copy <code class="docutils literal notranslate"><span class="pre">experiment_A_processing.py</span></code> (or create your own <code class="docutils literal notranslate"><span class="pre">.py</span></code> or <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> file!) into the <code class="docutils literal notranslate"><span class="pre">~/code</span></code> directory. Add and commit your changes.</p></li>
+<li><p>While you probably want data on your local machine, you do not want to version control these files over git. Create and update a <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file to either ignore everything in <code class="docutils literal notranslate"><span class="pre">~/data</span></code> or file extensions that are specific to your data files (e.g. <code class="docutils literal notranslate"><span class="pre">*.csv</span></code>). Be sure to also commit your changes to the <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file!</p></li>
+</ol>
+<p><strong>b) Creating your own repository:</strong> Many students use GitHub repositories to organize and share their work for a course.</p>
+<ol class="lowerroman simple">
+<li><p>Explore various public repositories made by Caltech students (<a class="reference external" href="https://github.com/zhiyanfoo/caltech-machine-learning">example</a>, <a class="reference external" href="https://github.com/cgoecknerwald/CS156a">example</a>, <a class="reference external" href="https://github.com/santiaago/caltech.ml">example</a>, <a class="reference external" href="https://github.com/roessland/learning-from-data">example</a>). These are not selected for any particular reason, except that they are early hits on Google. Explore what information they include and how it is organized (e.g. file structure, information
+on landing page, what kinds of files). What might you imitate or change?</p></li>
+<li><p>Create a repository to organize your work for the bootcamp, as if it were a course. Clone a version locally. You can edit the landing page, create a file strcture, and add some files. Commit any changes you make.</p></li>
+<li><p>Ask someone else in the bootcamp to clone your repository. (You can make your repo available to them by making it public or adding them as a collaborator.) Have them add and commit some changes. Use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> to then pull those changes.</p></li>
+</ol>
+<p><strong>c) Making git easier to use in command line:</strong> Using your command line skills, set up aliases for any commonly used Git commands. (For example, in my <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> file, I have aliased <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">main</span></code> as <code class="docutils literal notranslate"><span class="pre">gpom</span></code>. I also use <code class="docutils literal notranslate"><span class="pre">gtgit</span></code> to <code class="docutils literal notranslate"><span class="pre">cd</span></code> to the directory with all my GitHub repositories.)</p>
 </div>
 
 
@@ -283,7 +269,7 @@
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="../exercise_5/index.html" class="btn btn-neutral float-right" title="Exercise 5" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="exercise_4.1.html" class="btn btn-neutral float-left" title="Exercise 4.1: Parsing a FASTA file" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Exercise 4" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
@@ -291,11 +277,11 @@
   <div role="contentinfo">
     <p>
       <span class="lastupdated">
-        Last updated on Aug 20, 2021.
+        Last updated on Aug 25, 2021.
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7fe0f026d760> 
+  </div> <jinja2.runtime.BlockReference object at 0x7fba04062d00> 
 
 <p>© 2020 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
