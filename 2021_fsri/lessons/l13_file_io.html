@@ -7,16 +7,16 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Exercise 9.2: Numerically solving differential equations &mdash; Programming Bootcamp  documentation</title>
+  <title>Lesson 13: File I/O &mdash; Programming Bootcamp  documentation</title>
   
 
   
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
 
   
   
@@ -28,28 +28,28 @@
 
   
   <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
+    <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Exercise 9" href="../exercise_9/index.html" />
-    <link rel="prev" title="Exercise 9.1: Exploration of bee sperm data" href="exercise_8.2.html" /> 
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lesson 14: Introduction to Pandas" href="l14_intro_to_pandas.html" />
+    <link rel="prev" title="Lesson 12: Style" href="l12_style.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -63,12 +63,12 @@
           
 
           
-            <a href="../../index.html">
+            <a href="../index.html">
           
 
           
             
-            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -76,7 +76,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -95,64 +95,70 @@
             
             
               <p class="caption"><span class="caption-text">Lessons</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l00_configuring_your_computer.html">Lesson 0: Configuring your computer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l01_welcome.html">Lesson 1: Welcome and Introduction to JupyterLab</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l02_basic_command_line_skills.html">Lesson 2: Basic command line skills</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l03_variables_operators_types.html">Lesson 3: Variables, operators, and types</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l04_more_operators_and_conditionals.html">Lesson 4: More operators and conditionals</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l05_lists_and_tuples.html">Lesson 5: Lists and tuples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l06_iteration.html">Lesson 6: Iteration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l07_intro_to_functions.html">Lesson 7: Introduction to functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l08_string_methods.html">Lesson 8: String methods</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l09_dictionaries.html">Lesson 9: Dictionaries</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l10_packages_and_modules.html">Lesson 10: Packages and modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l11_style.html">Lesson 11: Style</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l12_file_io.html">Lesson 12: File I/O</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l13_intro_to_oop.html">Lesson 13: Introduction to object-oriented programming</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l14_intro_to_pandas.html">Lesson 14: Introduction to Pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l15_split_apply_combine.html">Lesson 15: Tidy data and split-apply-combine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l16_plotting.html">Lesson 16: Making plots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l17_intro_to_numpy_and_scipy.html">Lesson 17: Introduction to Numpy and Scipy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l18_version_control_with_git.html">Lesson 18: Version control with Git</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l19_exceptions_and_error_handling.html">Lesson 19: Errors and Exception handling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l20_testing_and_tdd.html">Lesson 20: Testing and test-driven development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l21_examples_of_tdd.html">Lesson 21: Examples of TDD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l22_high_level_plotting.html">Lesson 22: High level plotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l23_plotting_time_series_generated_data.html">Lesson 23: Plotting time series and generated data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l24_intro_to_scripting.html">Lesson 24: Introduction to scripting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l25_other_packages_and_languages.html">Lesson 25: Survey of other packages and languages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l26_bootcamp_recap.html">Lesson 26: Bootcamp recap</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Exercises</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../exercise_1/index.html">Exercise 1</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_2/index.html">Exercise 2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_3/index.html">Exercise 3</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_4/index.html">Exercise 4</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_5/index.html">Exercise 5</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_6/index.html">Exercise 6</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_7/index.html">Exercise 7</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Exercise 8</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="exercise_8.1.html">Exercise 8.1: GitHub exercises</a></li>
-<li class="toctree-l2"><a class="reference internal" href="exercise_8.2.html">Exercise 9.1: Exploration of bee sperm data</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Exercise 9.2: Numerically solving differential equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l00_configuring_your_computer.html">Lesson 0: Configuring your computer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l01_welcome.html">Lesson 1: Welcome and Introduction to JupyterLab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l02_basic_command_line_skills.html">Lesson 2: Basic command line skills</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l03_variables_operators_types.html">Lesson 3: Variables, operators, and types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l04_more_operators_and_conditionals.html">Lesson 4: More operators and conditionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l05_lists_and_tuples.html">Lesson 5: Lists and tuples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l06_iteration.html">Lesson 6: Iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l07_intro_to_functions.html">Lesson 7: Introduction to functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l08_string_methods.html">Lesson 8: String methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l09_dictionaries.html">Lesson 9: Dictionaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l10_packages_and_modules.html">Lesson 10: Packages and modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l11_version_control_with_git.html">Lesson 11: Version control with Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l12_style.html">Lesson 12: Style</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 13: File I/O</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#File-objects">File objects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Reading-data-out-of-the-file-with-file-object-methods">Reading data out of the file with file object methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Reading-line-by-line">Reading line-by-line</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_9/index.html">Exercise 9</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_10/index.html">Exercise 10</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../exercise_11/index.html">Exercise 11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Writing-to-a-file">Writing to a file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#An-exercise:-extract-atomic-coordinates-for-first-chain-in-tetramer">An exercise: extract atomic coordinates for first chain in tetramer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Finding-files-and-with-glob">Finding files and with glob</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Computing-environment">Computing environment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="l14_intro_to_pandas.html">Lesson 14: Introduction to Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l15_split_apply_combine.html">Lesson 15: Tidy data and split-apply-combine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l16_plotting.html">Lesson 16: Making plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l17_intro_to_numpy_and_scipy.html">Lesson 17: Introduction to Numpy and Scipy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l18_intro_to_oop.html">Lesson 18: Introduction to object-oriented programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l19_exceptions_and_error_handling.html">Lesson 19: Errors and Exception handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l20_testing_and_tdd.html">Lesson 20: Testing and test-driven development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l21_examples_of_tdd.html">Lesson 21: Examples of TDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l22_high_level_plotting.html">Lesson 22: High level plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l23_plotting_time_series_generated_data.html">Lesson 23: Plotting time series and generated data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l24_intro_to_scripting.html">Lesson 24: Introduction to scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l25_other_packages_and_languages.html">Lesson 25: Survey of other packages and languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l26_bootcamp_recap.html">Lesson 26: Bootcamp recap</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Exercises</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_1/index.html">Exercise 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_2/index.html">Exercise 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_3/index.html">Exercise 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_4/index.html">Exercise 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_5/index.html">Exercise 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_6/index.html">Exercise 6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_7/index.html">Exercise 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_8/index.html">Exercise 8</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_9/index.html">Exercise 9</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_10/index.html">Exercise 10</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_11/index.html">Exercise 11</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Schedule</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../schedule.html">Schedule overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../schedule.html#daily-schedule-all-times-pdt">Daily schedule (all times PDT)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../schedule.html">Schedule overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../schedule.html#daily-schedule-all-times-pdt">Daily schedule (all times PDT)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Resources</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Scientific Python distribution</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../resources.html#online-instruction">Online instruction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../resources.html#books">Books</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Scientific Python distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html#online-instruction">Online instruction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html#books">Books</a></li>
 </ul>
 
             
@@ -168,7 +174,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">Programming Bootcamp</a>
+          <a href="../index.html">Programming Bootcamp</a>
         
       </nav>
 
@@ -206,7 +212,7 @@
     
         
         
-            <a href="../../_sources/exercises/exercise_8/exercise_8.3.ipynb.txt" rel="nofollow"> Download notebook</a>
+            <a href="../_sources/lessons/l13_file_io.ipynb.txt" rel="nofollow"> Download notebook</a>
         
       
     
@@ -490,469 +496,548 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Exercise-9.2:-Numerically-solving-differential-equations">
-<h1>Exercise 9.2: Numerically solving differential equations<a class="headerlink" href="#Exercise-9.2:-Numerically-solving-differential-equations" title="Permalink to this headline">¶</a></h1>
-<hr><div class="nbinput docutils container">
+<div class="section" id="Lesson-13:-File-I/O">
+<h1>Lesson 13: File I/O<a class="headerlink" href="#Lesson-13:-File-I/O" title="Permalink to this headline">¶</a></h1>
+<hr><div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="kn">import</span> <span class="nn">bokeh.io</span>
-<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
-
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_notebook</span><span class="p">()</span>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
+<hr/><p>Reading data in from files and then writing your results out again is one of the most common practices in scientific computing. In this tutorial, we will learn about some of Python’s File I/O capabilities. We will use a PDB file as an example. The PDB file contains the crystal structure for the tetramerization domain of <a class="reference external" href="https://en.wikipedia.org/wiki/P53">p53</a>.It is stored in the file <code class="docutils literal notranslate"><span class="pre">~/git/bootcamp/data/1OLG.pdb</span></code>. (Make sure you launch your notebook from the <code class="docutils literal notranslate"><span class="pre">~/git/bootcamp/</span></code>
+directory.) Note that <code class="docutils literal notranslate"><span class="pre">1OLG</span></code> is its unique <a class="reference external" href="http://www.rcsb.org/pdb/explore/explore.do?structureId=1olg">Protein Databank</a> identifier.</p>
+<div class="section" id="File-objects">
+<h2>File objects<a class="headerlink" href="#File-objects" title="Permalink to this headline">¶</a></h2>
+<p>To open a file, we use the built-in <code class="docutils literal notranslate"><span class="pre">open()</span></code> function. When opening files, we should do this using <strong>context management</strong>. I will demonstrate how to open a file and then describe the syntax.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
 </div>
-<div class="output_area rendered_html docutils container">
-<div class="bk-root">
-    <a href="https://bokeh.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
-    <span id="1001">Loading BokehJS ...</span>
-</div></div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+</pre></div>
+</div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="output_javascript"></div>
-<script type="text/javascript">
-var element = document.currentScript.previousSibling.previousSibling;
-
-(function(root) {
-  function now() {
-    return new Date();
-  }
-
-  var force = true;
-
-  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
-    root._bokeh_onload_callbacks = [];
-    root._bokeh_is_loading = undefined;
-  }
-
-  var JS_MIME_TYPE = 'application/javascript';
-  var HTML_MIME_TYPE = 'text/html';
-  var EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
-  var CLASS_NAME = 'output_bokeh rendered_html';
-
-  /**
-   * Render data to the DOM node
-   */
-  function render(props, node) {
-    var script = document.createElement("script");
-    node.appendChild(script);
-  }
-
-  /**
-   * Handle when an output is cleared or removed
-   */
-  function handleClearOutput(event, handle) {
-    var cell = handle.cell;
-
-    var id = cell.output_area._bokeh_element_id;
-    var server_id = cell.output_area._bokeh_server_id;
-    // Clean up Bokeh references
-    if (id != null && id in Bokeh.index) {
-      Bokeh.index[id].model.document.clear();
-      delete Bokeh.index[id];
-    }
-
-    if (server_id !== undefined) {
-      // Clean up Bokeh references
-      var cmd = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
-      cell.notebook.kernel.execute(cmd, {
-        iopub: {
-          output: function(msg) {
-            var id = msg.content.text.trim();
-            if (id in Bokeh.index) {
-              Bokeh.index[id].model.document.clear();
-              delete Bokeh.index[id];
-            }
-          }
-        }
-      });
-      // Destroy server and session
-      var cmd = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
-      cell.notebook.kernel.execute(cmd);
-    }
-  }
-
-  /**
-   * Handle when a new output is added
-   */
-  function handleAddOutput(event, handle) {
-    var output_area = handle.output_area;
-    var output = handle.output;
-
-    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
-    if ((output.output_type != "display_data") || (!output.data.hasOwnProperty(EXEC_MIME_TYPE))) {
-      return
-    }
-
-    var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
-
-    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
-      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
-      // store reference to embed id on output_area
-      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
-    }
-    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
-      var bk_div = document.createElement("div");
-      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
-      var script_attrs = bk_div.children[0].attributes;
-      for (var i = 0; i < script_attrs.length; i++) {
-        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
-        toinsert[toinsert.length - 1].firstChild.textContent = bk_div.children[0].textContent
-      }
-      // store reference to server id on output_area
-      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
-    }
-  }
-
-  function register_renderer(events, OutputArea) {
-
-    function append_mime(data, metadata, element) {
-      // create a DOM node to render to
-      var toinsert = this.create_output_subarea(
-        metadata,
-        CLASS_NAME,
-        EXEC_MIME_TYPE
-      );
-      this.keyboard_manager.register_events(toinsert);
-      // Render to node
-      var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
-      render(props, toinsert[toinsert.length - 1]);
-      element.append(toinsert);
-      return toinsert
-    }
-
-    /* Handle when an output is cleared or removed */
-    events.on('clear_output.CodeCell', handleClearOutput);
-    events.on('delete.Cell', handleClearOutput);
-
-    /* Handle when a new output is added */
-    events.on('output_added.OutputArea', handleAddOutput);
-
-    /**
-     * Register the mime type and append_mime function with output_area
-     */
-    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
-      /* Is output safe? */
-      safe: true,
-      /* Index of renderer in `output_area.display_order` */
-      index: 0
-    });
-  }
-
-  // register the mime type if in Jupyter Notebook environment and previously unregistered
-  if (root.Jupyter !== undefined) {
-    var events = require('base/js/events');
-    var OutputArea = require('notebook/js/outputarea').OutputArea;
-
-    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
-      register_renderer(events, OutputArea);
-    }
-  }
-
-
-  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
-    root._bokeh_timeout = Date.now() + 5000;
-    root._bokeh_failed_load = false;
-  }
-
-  var NB_LOAD_WARNING = {'data': {'text/html':
-     "<div style='background-color: #fdd'>\n"+
-     "<p>\n"+
-     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
-     "may be due to a slow or bad network connection. Possible fixes:\n"+
-     "</p>\n"+
-     "<ul>\n"+
-     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
-     "<li>use INLINE resources instead, as so:</li>\n"+
-     "</ul>\n"+
-     "<code>\n"+
-     "from bokeh.resources import INLINE\n"+
-     "output_notebook(resources=INLINE)\n"+
-     "</code>\n"+
-     "</div>"}};
-
-  function display_loaded() {
-    var el = document.getElementById("1001");
-    if (el != null) {
-      el.textContent = "BokehJS is loading...";
-    }
-    if (root.Bokeh !== undefined) {
-      if (el != null) {
-        el.textContent = "BokehJS " + root.Bokeh.version + " successfully loaded.";
-      }
-    } else if (Date.now() < root._bokeh_timeout) {
-      setTimeout(display_loaded, 100)
-    }
-  }
-
-
-  function run_callbacks() {
-    try {
-      root._bokeh_onload_callbacks.forEach(function(callback) {
-        if (callback != null)
-          callback();
-      });
-    } finally {
-      delete root._bokeh_onload_callbacks
-    }
-    console.debug("Bokeh: all callbacks have finished");
-  }
-
-  function load_libs(css_urls, js_urls, callback) {
-    if (css_urls == null) css_urls = [];
-    if (js_urls == null) js_urls = [];
-
-    root._bokeh_onload_callbacks.push(callback);
-    if (root._bokeh_is_loading > 0) {
-      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
-      return null;
-    }
-    if (js_urls == null || js_urls.length === 0) {
-      run_callbacks();
-      return null;
-    }
-    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
-    root._bokeh_is_loading = css_urls.length + js_urls.length;
-
-    function on_load() {
-      root._bokeh_is_loading--;
-      if (root._bokeh_is_loading === 0) {
-        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
-        run_callbacks()
-      }
-    }
-
-    function on_error() {
-      console.error("failed to load " + url);
-    }
-
-    for (var i = 0; i < css_urls.length; i++) {
-      var url = css_urls[i];
-      const element = document.createElement("link");
-      element.onload = on_load;
-      element.onerror = on_error;
-      element.rel = "stylesheet";
-      element.type = "text/css";
-      element.href = url;
-      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
-      document.body.appendChild(element);
-    }
-
-    const hashes = {"https://cdn.bokeh.org/bokeh/release/bokeh-2.1.1.min.js": "kLr4fYcqcSpbuI95brIH3vnnYCquzzSxHPU6XGQCIkQRGJwhg0StNbj1eegrHs12", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.1.1.min.js": "xIGPmVtaOm+z0BqfSOMn4lOR6ciex448GIKG4eE61LsAvmGj48XcMQZtKcE/UXZe", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.1.1.min.js": "Dc9u1wF/0zApGIWoBbH77iWEHtdmkuYWG839Uzmv8y8yBLXebjO9ZnERsde5Ln/P", "https://cdn.bokeh.org/bokeh/release/bokeh-gl-2.1.1.min.js": "cT9JaBz7GiRXdENrJLZNSC6eMNF3nh3fa5fTF51Svp+ukxPdwcU5kGXGPBgDCa2j"};
-
-    for (var i = 0; i < js_urls.length; i++) {
-      var url = js_urls[i];
-      var element = document.createElement('script');
-      element.onload = on_load;
-      element.onerror = on_error;
-      element.async = false;
-      element.src = url;
-      if (url in hashes) {
-        element.crossOrigin = "anonymous";
-        element.integrity = "sha384-" + hashes[url];
-      }
-      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
-      document.head.appendChild(element);
-    }
-  };
-
-  function inject_raw_css(css) {
-    const element = document.createElement("style");
-    element.appendChild(document.createTextNode(css));
-    document.body.appendChild(element);
-  }
-
-
-  var js_urls = ["https://cdn.bokeh.org/bokeh/release/bokeh-2.1.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.1.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.1.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-gl-2.1.1.min.js"];
-  var css_urls = [];
-
-
-  var inline_js = [
-    function(Bokeh) {
-      Bokeh.set_log_level("info");
-    },
-    function(Bokeh) {
-
-
-    }
-  ];
-
-  function run_inline_js() {
-
-    if (root.Bokeh !== undefined || force === true) {
-
-    for (var i = 0; i < inline_js.length; i++) {
-      inline_js[i].call(root, root.Bokeh);
-    }
-    if (force === true) {
-        display_loaded();
-      }} else if (Date.now() < root._bokeh_timeout) {
-      setTimeout(run_inline_js, 100);
-    } else if (!root._bokeh_failed_load) {
-      console.log("Bokeh: BokehJS failed to load within specified timeout.");
-      root._bokeh_failed_load = true;
-    } else if (force !== true) {
-      var cell = $(document.getElementById("1001")).parents('.cell').data().cell;
-      cell.output_area.append_execute_result(NB_LOAD_WARNING)
-    }
-
-  }
-
-  if (root._bokeh_is_loading === 0) {
-    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
-    run_inline_js();
-  } else {
-    load_libs(css_urls, js_urls, function() {
-      console.debug("Bokeh: BokehJS plotting callback run at", now());
-      run_inline_js();
-    });
-  }
-}(window));
-</script></div>
+<div class="highlight"><pre>
+&lt;class &#39;_io.TextIOWrapper&#39;&gt;
+</pre></div></div>
 </div>
-<p>For this exercise, we will use Euler’s method to simulate a classic set of differential equations that can exhibit chaotic solutions known as the Lorenz attractor. As a warm-up example, we will simulate bacterial growth.</p>
-<p>Bacterial growth can be modeled by the differential equation</p>
-<p><span class="math">\begin{align}
-\frac{\mathrm{d}n}{\mathrm{d}t} = k n,
-\end{align}</span></p>
-<p>where <span class="math notranslate nohighlight">\(n\)</span> is the number of bacteria and <span class="math notranslate nohighlight">\(k\)</span> is the growth rate. The idea here is that the number of bacteria will grow faster the more bacteria we have, because there are more to divide. Analytically, we know the solution to this differential equation is</p>
-<p><span class="math">\begin{align}
-n(t) = n_0 \mathrm{e}^{kt},
-\end{align}</span></p>
-<p>i.e., exponential growth. But suppose we did not know how to derive that. We could <em>simulate</em> the differential equation. We do this by discretizing time. Instead of a derivative, we have a change in <span class="math notranslate nohighlight">\(n\)</span> over a change in time <span class="math notranslate nohighlight">\(t\)</span>.</p>
-<p><span class="math">\begin{align}
-\frac{\mathrm{d}n}{\mathrm{d}t} \approx \frac{\Delta n}{\Delta t} = k n.
-\end{align}</span></p>
-<p>Let’s say we know <span class="math notranslate nohighlight">\(n\)</span> and time zero, <span class="math notranslate nohighlight">\(n(0)\)</span>. Then <span class="math notranslate nohighlight">\(n\)</span> at time <span class="math notranslate nohighlight">\(t = \Delta t\)</span> is</p>
-<p><span class="math">\begin{align}
-n(\Delta t) \approx n(0) + \Delta n = n(0) + \Delta t\, k n(0).
-\end{align}</span></p>
-<p>More generally, we can write</p>
-<p><span class="math">\begin{align}
-\frac{\mathrm{d}n}{\mathrm{d}t} = f(n),
-\end{align}</span></p>
-<p>and</p>
-<p><span class="math">\begin{align}
-n(t+\Delta t) \approx n(t) + \Delta t\,f(n).
-\end{align}</span></p>
-<p>So, we can instruct Python to take our current value of <span class="math notranslate nohighlight">\(n\)</span>, and then add <span class="math notranslate nohighlight">\(\Delta t\)</span> times <span class="math notranslate nohighlight">\(f(n)\)</span> to get our new <span class="math notranslate nohighlight">\(n\)</span> at a time just a bit later on, at <span class="math notranslate nohighlight">\(t + \Delta t\)</span>. We repeat this over and over again to move forward in time. Let’s code that up!</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Specify parameter</span>
-<span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
-
-<span class="c1"># Specify my little time step</span>
-<span class="n">delta_t</span> <span class="o">=</span> <span class="mf">0.01</span>
-
-<span class="c1"># Make an array of time points, evenly spaced up to 10</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">delta_t</span><span class="p">)</span>
-
-<span class="c1"># Make an array to store the number of bacteria</span>
-<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-
-<span class="c1"># Set the initial number of bacteria</span>
-<span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
-
-<span class="c1"># Write a for loop to keep updating n as time goes on</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)):</span>
-    <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">delta_t</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<p>Ok! We just computed the time points and the number of bacteria, so we can just plot the result!</p>
+<p>Python has a wonderful keyword, <code class="docutils literal notranslate"><span class="pre">with</span></code>. This keyword enables <strong>context management</strong>. Upon entry into a <code class="docutils literal notranslate"><span class="pre">with</span></code> block, variables have certain meaning. In this case, the variable <code class="docutils literal notranslate"><span class="pre">f</span></code> has the meaning of an open file, an instance of the <code class="docutils literal notranslate"><span class="pre">_io.TextIOWrapper</span></code> class. Upon exit, certain operations take place. For file objects created by opening them, the file is automatically closed upon exit, <strong>even if there is an error</strong>. This is important. If your program raises an exception before you have a
+chance to close the file, it won’t get closed and you could be in trouble. If you use context management, the file will still get closed. So here is an important tip:</p>
+<div style="color: dodgerblue; text-align: center; font-weight: bold;"><p>Use context management using with when working with files.</p>
+</div><p>Let’s focus for a moment on the variable <code class="docutils literal notranslate"><span class="pre">f</span></code> in the above code cell. It is a Python <code class="docutils literal notranslate"><span class="pre">file</span></code> object, which has methods and attributes, just like any other object. We’ll explore those in a moment, but first, let’s look at how we opened the file. The first argument to <code class="docutils literal notranslate"><span class="pre">open()</span></code> is a string that has the name of the file, with the full path if necessary. The second argument is a string that says what we will be doing with the file. I.e., are we reading or writing to the file? The possible strings
+for this second argument are</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>string</p></th>
+<th class="head"><p>meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'r'</span></code></p></td>
+<td><p>open a text file for reading</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'w'</span></code></p></td>
+<td><p>create and open a text file for writing</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'a'</span></code></p></td>
+<td><p>append an existing text file</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'r+'</span></code></p></td>
+<td><p>open a text file for reading and writing</p></td>
+</tr>
+<tr class="row-even"><td><p>append <code class="docutils literal notranslate"><span class="pre">'b'</span></code> to any of the above</p></td>
+<td><p>same as above, except for binary files</p></td>
+</tr>
+</tbody>
+</table>
+<p>We will mostly be working with text files in the bootcamp, so the first three are the most useful. A big warning, though….</p>
+<div style="color: tomato; text-align: center; font-weight: bold;"><p>Trying to open an existing file with ‘w’ will wipe it out and create a new file.</p>
+</div><div class="section" id="Reading-data-out-of-the-file-with-file-object-methods">
+<h3>Reading data out of the file with file object methods<a class="headerlink" href="#Reading-data-out-of-the-file-with-file-object-methods" title="Permalink to this headline">¶</a></h3>
+<p>We will focus on the methods <code class="docutils literal notranslate"><span class="pre">f.read()</span></code> and <code class="docutils literal notranslate"><span class="pre">f.readlines()</span></code>. What do they do?</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>method</p></th>
+<th class="head"><p>task</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.read()</span></code></p></td>
+<td><p>Read the entire contents of the file into a string</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.readlines()</span></code></p></td>
+<td><p>Read the entire file into a list with each item being a string representing a line</p></td>
+</tr>
+</tbody>
+</table>
+<p>First, we’ll try using the first method to get a single string with the entire contents of the file.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span>
-    <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
-    <span class="n">width</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span>
-    <span class="n">x_axis_label</span><span class="o">=</span><span class="s2">&quot;time (units of 1/k)&quot;</span><span class="p">,</span>
-    <span class="n">y_axis_label</span><span class="o">=</span><span class="s2">&quot;number of bacteria&quot;</span><span class="p">,</span>
-<span class="p">)</span>
+<span></span><span class="c1"># Read file into string</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f_str</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-<span class="n">p</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="c1"># Let&#39;s look at the first 1000 characters</span>
+<span class="n">f_str</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
 </div>
-<div class="output_area rendered_html docutils container">
-<div class="bk-root" id="6b3825a3-fa66-4641-a46a-c07e3a8f1495" data-root-id="1002"></div></div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \nTITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \nTITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \nCOMPND    MOL_ID: 1;                                                            \nCOMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);             \nCOMPND   3 CHAIN: A, B, C, D;                                                   \nCOMPND   4 ENGINEERED: YES                                                      \nSOURCE    MOL_ID: 1;                                                            \nSOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   \nSOURCE   3 ORGANISM_COMMON: HUMAN;                                              \nSOURCE   4 ORGANISM_TAXID: 9606                                                 \nKEYWDS    ANTI-ONCOGENE                                                         \nEXPDTA    SOLUTION NMR      &#39;
+</pre></div></div>
+</div>
+<p>We see lots of <code class="docutils literal notranslate"><span class="pre">\n</span></code>, which signifies a new line. The backslash is known as an <strong>escape character</strong>, meaning that the <code class="docutils literal notranslate"><span class="pre">n</span></code> after it does not signify the letter n, but that <code class="docutils literal notranslate"><span class="pre">\n</span></code> together means a new line.</p>
+<p>Now, let’s try reading it in as a list.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Read contents of the file in as a list</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f_list</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="c1"># Look at the list (first ten entries)</span>
+<span class="n">f_list</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \n&#39;,
+ &#39;TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \n&#39;,
+ &#39;TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \n&#39;,
+ &#39;COMPND    MOL_ID: 1;                                                            \n&#39;,
+ &#39;COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);             \n&#39;,
+ &#39;COMPND   3 CHAIN: A, B, C, D;                                                   \n&#39;,
+ &#39;COMPND   4 ENGINEERED: YES                                                      \n&#39;,
+ &#39;SOURCE    MOL_ID: 1;                                                            \n&#39;,
+ &#39;SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   \n&#39;,
+ &#39;SOURCE   3 ORGANISM_COMMON: HUMAN;                                              \n&#39;]
+</pre></div></div>
+</div>
+<p>We see that each entry is a line, including the newline character. To look at lines in files, the <code class="docutils literal notranslate"><span class="pre">rstrip()</span></code> method for strings can come it handy. It strips all whitespace, including newlines, from the end of a string.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">f_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG&#39;
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Reading-line-by-line">
+<h3>Reading line-by-line<a class="headerlink" href="#Reading-line-by-line" title="Permalink to this headline">¶</a></h3>
+<p>What if we do not want to read the entire file into a list? For example, if a file is several gigabytes, we do not want to spend all of our RAM storing a list. Instead, we can read it line-by-line. Conveniently, the file object can be used as an iterator.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Print the first ten lines of the file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="k">break</span>
+</pre></div>
+</div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="output_javascript"></div>
-<script type="text/javascript">
-var element = document.currentScript.previousSibling.previousSibling;
-(function(root) {
-  function embed_document(root) {
-
-  var docs_json = {"5f308faf-4fcf-4cf7-9a31-e9f949bb1859":{"roots":{"references":[{"attributes":{"below":[{"id":"1011"}],"center":[{"id":"1014"},{"id":"1018"}],"left":[{"id":"1015"}],"plot_height":300,"plot_width":450,"renderers":[{"id":"1036"}],"title":{"id":"1038"},"toolbar":{"id":"1026"},"x_range":{"id":"1003"},"x_scale":{"id":"1007"},"y_range":{"id":"1005"},"y_scale":{"id":"1009"}},"id":"1002","subtype":"Figure","type":"Plot"},{"attributes":{"axis_label":"time (units of 1/k)","formatter":{"id":"1040"},"ticker":{"id":"1012"}},"id":"1011","type":"LinearAxis"},{"attributes":{},"id":"1024","type":"HelpTool"},{"attributes":{"text":""},"id":"1038","type":"Title"},{"attributes":{},"id":"1040","type":"BasicTickFormatter"},{"attributes":{},"id":"1044","type":"Selection"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"right_units":"screen","top_units":"screen"},"id":"1025","type":"BoxAnnotation"},{"attributes":{"axis":{"id":"1015"},"dimension":1,"ticker":null},"id":"1018","type":"Grid"},{"attributes":{"axis":{"id":"1011"},"ticker":null},"id":"1014","type":"Grid"},{"attributes":{},"id":"1003","type":"DataRange1d"},{"attributes":{},"id":"1042","type":"BasicTickFormatter"},{"attributes":{},"id":"1016","type":"BasicTicker"},{"attributes":{"axis_label":"number of bacteria","formatter":{"id":"1042"},"ticker":{"id":"1016"}},"id":"1015","type":"LinearAxis"},{"attributes":{"source":{"id":"1033"}},"id":"1037","type":"CDSView"},{"attributes":{},"id":"1045","type":"UnionRenderers"},{"attributes":{"line_color":"#1f77b4","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1034","type":"Line"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1019"},{"id":"1020"},{"id":"1021"},{"id":"1022"},{"id":"1023"},{"id":"1024"}]},"id":"1026","type":"Toolbar"},{"attributes":{},"id":"1009","type":"LinearScale"},{"attributes":{},"id":"1019","type":"PanTool"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1035","type":"Line"},{"attributes":{},"id":"1020","type":"WheelZoomTool"},{"attributes":{"data":{"x":{"__ndarray__":"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","dtype":"float64","order":"little","shape":[1000]},"y":{"__ndarray__":"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","dtype":"float64","order":"little","shape":[1000]}},"selected":{"id":"1044"},"selection_policy":{"id":"1045"}},"id":"1033","type":"ColumnDataSource"},{"attributes":{"overlay":{"id":"1025"}},"id":"1021","type":"BoxZoomTool"},{"attributes":{},"id":"1007","type":"LinearScale"},{"attributes":{},"id":"1022","type":"SaveTool"},{"attributes":{"data_source":{"id":"1033"},"glyph":{"id":"1034"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1035"},"selection_glyph":null,"view":{"id":"1037"}},"id":"1036","type":"GlyphRenderer"},{"attributes":{},"id":"1023","type":"ResetTool"},{"attributes":{},"id":"1005","type":"DataRange1d"},{"attributes":{},"id":"1012","type":"BasicTicker"}],"root_ids":["1002"]},"title":"Bokeh Application","version":"2.1.1"}};
-  var render_items = [{"docid":"5f308faf-4fcf-4cf7-9a31-e9f949bb1859","root_ids":["1002"],"roots":{"1002":"6b3825a3-fa66-4641-a46a-c07e3a8f1495"}}];
-  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
-
-  }
-  if (root.Bokeh !== undefined) {
-    embed_document(root);
-  } else {
-    var attempts = 0;
-    var timer = setInterval(function(root) {
-      if (root.Bokeh !== undefined) {
-        clearInterval(timer);
-        embed_document(root);
-      } else {
-        attempts++;
-        if (attempts > 100) {
-          clearInterval(timer);
-          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-        }
-      }
-    }, 10, root)
-  }
-})(window);
-</script></div>
+<div class="highlight"><pre>
+HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG
+TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION
+TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR
+COMPND    MOL_ID: 1;
+COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);
+COMPND   3 CHAIN: A, B, C, D;
+COMPND   4 ENGINEERED: YES
+SOURCE    MOL_ID: 1;
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;
+SOURCE   3 ORGANISM_COMMON: HUMAN;
+SOURCE   4 ORGANISM_TAXID: 9606
+</pre></div></div>
 </div>
-<p>And there is the famous exponential growth!</p>
-<p>This time stepping method is called <a class="reference external" href="https://en.wikipedia.org/wiki/Euler_method">Euler’s method</a>, and what we’re doing is called <em>numerical solution of a differential equation</em>.</p>
-<p><strong>a)</strong> Now it’s time to solve the Lorenz attractor. In this case, there are three differential equations.</p>
-<p><span class="math">\begin{align}
-&\frac{\mathrm{d}x}{\mathrm{d}t} = \sigma(y - x),\\[1em]
-&\frac{\mathrm{d}y}{\mathrm{d}t} = x(\rho - z) - y,\\[1em]
-&\frac{\mathrm{d}z}{\mathrm{d}t} = xy - \beta z.
-\end{align}</span></p>
-<p>Your task in this exercise is to numerically solve these two differential equations together and then plot the result. Use the following parameter values, which were the ones originally used by Lorenz.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sigma</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="mi">8</span><span class="o">/</span><span class="mi">3</span>
-<span class="n">rho</span> <span class="o">=</span> <span class="mi">28</span>
+<p>Alternatively, we can use the method <code class="docutils literal notranslate"><span class="pre">f.readline()</span></code> to read a single line in the file and return it as a string.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<p>Start at time <span class="math notranslate nohighlight">\(t = 0\)</span> with <span class="math notranslate nohighlight">\(x = y = z= 1\)</span>.</p>
-<p>Even though there are now three differential equations, the procedure is the same, you update each by adding <span class="math notranslate nohighlight">\(\Delta t\)</span> times the respective derivative. You should integrate these equations until time <span class="math notranslate nohighlight">\(t = 60\)</span>. I would recommend a step size of 0.001.</p>
-<p><strong>b)</strong> Plot your solution showing <span class="math notranslate nohighlight">\(x\)</span> versus time.</p>
-<p><strong>c)</strong> Solve again, this time with <span class="math notranslate nohighlight">\(x(0) = 1.0001\)</span>, just 0.01% different from your previous starting point. Plot this solution on the same plot as your did in part (b) so you can compare the trajectories for just slightly different initial conditions.</p>
-<p><strong>d)</strong> Now make three plots. Plot <span class="math notranslate nohighlight">\(x\)</span> vs <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(x\)</span> vs <span class="math notranslate nohighlight">\(x\)</span>, and <span class="math notranslate nohighlight">\(y\)</span> vs <span class="math notranslate nohighlight">\(z\)</span>. Look at the result. Cool, right?</p>
-<p><strong>e)</strong> [Bonus] Euler’s method is probably the simplest way to solve differential equations, and is by no means the best. SciPy has an ODE solver, <code class="docutils literal notranslate"><span class="pre">scipy.integrate.odeint()</span></code> that uses the more sophisticated and robust methods for solving systems of ODEs. Read the documentation about how <code class="docutils literal notranslate"><span class="pre">scipy.integrate.odeint()</span></code> works and use it to solve the Lorenz attractor system of ODEs.</p>
-<p>This last part is tough; I’m not giving you directions, and you are kind of on your own to read the documentation and figure it out.</p>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Print the first ten lines of the file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG
+TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION
+TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR
+COMPND    MOL_ID: 1;
+COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);
+COMPND   3 CHAIN: A, B, C, D;
+COMPND   4 ENGINEERED: YES
+SOURCE    MOL_ID: 1;
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;
+SOURCE   3 ORGANISM_COMMON: HUMAN;
+</pre></div></div>
+</div>
+<p>Each subsequent call to <code class="docutils literal notranslate"><span class="pre">f.readline()</span></code> reads in the next line of the file. (As we read through a file, we keep moving forward in the bytes of the file and we have to use <code class="docutils literal notranslate"><span class="pre">f.seek()</span></code> to rewind.)</p>
+</div>
+</div>
+<div class="section" id="Writing-to-a-file">
+<h2>Writing to a file<a class="headerlink" href="#Writing-to-a-file" title="Permalink to this headline">¶</a></h2>
+<p>Writing to a file has similar syntax. We already saw how to open a file for writing. Again, context management is useful. However, before trying to open a file, we should check to make sure a file of the same name does not exist before opening it. The <code class="docutils literal notranslate"><span class="pre">os.path</span></code> module is useful. The function <code class="docutils literal notranslate"><span class="pre">os.path.isfile()</span></code> function checks to see if a file exists.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<p>Now that we know how to check existence of a file so we do not overwrite it, we can open and write a file.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;mastery.txt&#39;</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;File mastery.txt already exists.&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;mastery.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;This is my file.&#39;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;There are many like it, but this one is mine.&#39;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;I must master my file like I must master my life.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Note that we can use the <code class="docutils literal notranslate"><span class="pre">f.write()</span></code> method to write strings to a file. Let’s look at the file contents.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span>cat mastery.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+This is my file.There are many like it, but this one is mine.I must master my file like I must master my life.
+</pre></div></div>
+</div>
+<p>Ah! There are no newlines! When writing to a file, unlike when you use the <code class="docutils literal notranslate"><span class="pre">print()</span></code> function, you must include the newline characters. Let’s try again, intentionally obliterating our first attempt.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;mastery.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;This is my file.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;There are many like it, but this one is mine.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;I must master my file like I must master my life.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="o">!</span>cat mastery.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+This is my file.
+There are many like it, but this one is mine.
+I must master my file like I must master my life.
+</pre></div></div>
+</div>
+<p>That’s better. Note also that <code class="docutils literal notranslate"><span class="pre">f.write()</span></code> <strong>only</strong> takes strings as arguments. You cannot pass numbers. They must be converted to strings first.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># This will result in an exception</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;gimme_phi.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;The golden ratio is φ = &#39;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mf">1.61803398875</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-12-9265e8a96772&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">with</span> open<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;gimme_phi.txt&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;w&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> f<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     f<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;The golden ratio is φ = &#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg">     </span>f<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1.61803398875</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">TypeError</span>: write() argument must be str, not float
+</pre></div></div>
+</div>
+<p>Yup. It must be a string. Let’s try again.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;gimme_phi.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;The golden ratio is φ = &#39;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{phi:.8f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phi</span><span class="o">=</span><span class="mf">1.61803398875</span><span class="p">))</span>
+
+<span class="o">!</span>cat gimme_phi.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The golden ratio is φ = 1.61803399
+</pre></div></div>
+</div>
+<p>That works!</p>
+</div>
+<div class="section" id="An-exercise:-extract-atomic-coordinates-for-first-chain-in-tetramer">
+<h2>An exercise: extract atomic coordinates for first chain in tetramer<a class="headerlink" href="#An-exercise:-extract-atomic-coordinates-for-first-chain-in-tetramer" title="Permalink to this headline">¶</a></h2>
+<p>As an example on how to do file I/O, we will take the PDB file and extract only the <code class="docutils literal notranslate"><span class="pre">ATOM</span></code> records for the first chain of the tetramer and write only those entries to a new file.</p>
+<p>It is useful to know that according to the <a class="reference external" href="http://www.wwpdb.org/documentation/file-format-content/format33/sect9.html#ATOM">PDB format specification</a>, column 21 in the <code class="docutils literal notranslate"><span class="pre">ATOM</span></code> entry gives the ID of the chain.</p>
+<p>We also conveniently use the fact that we can have multiple files open in our <code class="docutils literal notranslate"><span class="pre">with</span></code> block, separating them with commas.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/1OLG.pdb&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;atoms_chain_A.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
+    <span class="c1"># Put the ATOM lines from chain A in new file</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">21</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ATOM&#39;</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span>
+            <span class="n">f_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s see how we did!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span>head -10 atoms_chain_A.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ATOM      1  N   LYS A 319      18.634  25.437  10.685  1.00  4.81           N
+ATOM      2  CA  LYS A 319      17.984  25.295   9.354  1.00  4.32           C
+ATOM      3  C   LYS A 319      18.160  23.876   8.818  1.00  3.74           C
+ATOM      4  O   LYS A 319      19.259  23.441   8.537  1.00  3.67           O
+ATOM      5  CB  LYS A 319      18.609  26.282   8.371  1.00  4.67           C
+ATOM      6  CG  LYS A 319      18.003  26.056   6.986  1.00  5.15           C
+ATOM      7  CD  LYS A 319      16.476  26.057   7.091  1.00  5.90           C
+ATOM      8  CE  LYS A 319      16.014  27.341   7.784  1.00  6.51           C
+ATOM      9  NZ  LYS A 319      16.388  28.518   6.952  1.00  7.33           N
+ATOM     10  H1  LYS A 319      18.414  24.606  11.281  1.00  5.09           H
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span>tail -10 atoms_chain_A.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ATOM    689  HD2 PRO A 359       0.183  25.663  13.542  1.00  4.71           H
+ATOM    690  HD3 PRO A 359       0.246  23.956  13.062  1.00  4.53           H
+ATOM    691  N   GLY A 360      -3.984  26.791  10.832  1.00  5.45           N
+ATOM    692  CA  GLY A 360      -4.489  28.138  10.445  1.00  5.95           C
+ATOM    693  C   GLY A 360      -5.981  28.236  10.765  1.00  6.77           C
+ATOM    694  O   GLY A 360      -6.401  27.621  11.732  1.00  7.24           O
+ATOM    695  OXT GLY A 360      -6.679  28.924  10.039  1.00  7.15           O
+ATOM    696  H   GLY A 360      -4.589  26.020  10.828  1.00  5.72           H
+ATOM    697  HA2 GLY A 360      -3.950  28.896  10.995  1.00  5.99           H
+ATOM    698  HA3 GLY A 360      -4.341  28.288   9.386  1.00  6.05           H
+</pre></div></div>
+</div>
+<p>Nice!</p>
+</div>
+<div class="section" id="Finding-files-and-with-glob">
+<h2>Finding files and with glob<a class="headerlink" href="#Finding-files-and-with-glob" title="Permalink to this headline">¶</a></h2>
+<p>In the above snippet of code, we extracted all atom records from a PDB file. We might want to do this (or some other operation) for many files. For example, the directory <code class="docutils literal notranslate"><span class="pre">~/git/data/</span></code> has four PDB files in it. For the present discussion, let’s say we want to pull the sequence of chain A out of each PDB file.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">glob</span></code> module from the standard library enables us to get a list of all files that match a pattern. In our case, we want all files matching <code class="docutils literal notranslate"><span class="pre">data/*.pdb</span></code>, where <code class="docutils literal notranslate"><span class="pre">*</span></code> is a <strong>wild card character</strong>, meaning that any matches of characters where <code class="docutils literal notranslate"><span class="pre">*</span></code> appears are allowed. Let’s see what <code class="docutils literal notranslate"><span class="pre">glob.glob()</span></code> gives us.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">file_list</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;data/*.pdb&#39;</span><span class="p">)</span>
+
+<span class="n">file_list</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;data/1OLG.pdb&#39;, &#39;data/1J6Z.pdb&#39;, &#39;data/1FAG.pdb&#39;, &#39;data/2ERK.pdb&#39;]
+</pre></div></div>
+</div>
+<p>We have the four PDB files. We can now loop over them and pull out the sequences.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Dictionary to hold sequences</span>
+<span class="n">seqs</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># Loop through all matching files</span>
+<span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+    <span class="c1"># Extract PDB ID</span>
+    <span class="n">pdb_id</span> <span class="o">=</span> <span class="n">file_name</span><span class="p">[</span><span class="n">file_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">file_name</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)]</span>
+
+    <span class="c1"># Initialize sequence string, which we build as we go along</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">11</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;SEQRES&#39;</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span>
+                <span class="n">seq</span> <span class="o">+=</span> <span class="n">line</span><span class="p">[</span><span class="mi">19</span><span class="p">:]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+
+    <span class="c1"># Build sequence with dash-joined three letter codes</span>
+    <span class="n">seq</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+
+    <span class="c1"># Store in the dictionary</span>
+    <span class="n">seqs</span><span class="p">[</span><span class="n">pdb_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">seq</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s take a look at what we got. We’ll look at actin.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">seqs</span><span class="p">[</span><span class="s1">&#39;1J6Z&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;ASP-GLU-ASP-GLU-THR-THR-ALA-LEU-VAL-CYS-ASP-ASN-GLY-SER-GLY-LEU-VAL-LYS-ALA-GLY-PHE-ALA-GLY-ASP-ASP-ALA-PRO-ARG-ALA-VAL-PHE-PRO-SER-ILE-VAL-GLY-ARG-PRO-ARG-HIS-GLN-GLY-VAL-MET-VAL-GLY-MET-GLY-GLN-LYS-ASP-SER-TYR-VAL-GLY-ASP-GLU-ALA-GLN-SER-LYS-ARG-GLY-ILE-LEU-THR-LEU-LYS-TYR-PRO-ILE-GLU-HIC-GLY-ILE-ILE-THR-ASN-TRP-ASP-ASP-MET-GLU-LYS-ILE-TRP-HIS-HIS-THR-PHE-TYR-ASN-GLU-LEU-ARG-VAL-ALA-PRO-GLU-GLU-HIS-PRO-THR-LEU-LEU-THR-GLU-ALA-PRO-LEU-ASN-PRO-LYS-ALA-ASN-ARG-GLU-LYS-MET-THR-GLN-ILE-MET-PHE-GLU-THR-PHE-ASN-VAL-PRO-ALA-MET-TYR-VAL-ALA-ILE-GLN-ALA-VAL-LEU-SER-LEU-TYR-ALA-SER-GLY-ARG-THR-THR-GLY-ILE-VAL-LEU-ASP-SER-GLY-ASP-GLY-VAL-THR-HIS-ASN-VAL-PRO-ILE-TYR-GLU-GLY-TYR-ALA-LEU-PRO-HIS-ALA-ILE-MET-ARG-LEU-ASP-LEU-ALA-GLY-ARG-ASP-LEU-THR-ASP-TYR-LEU-MET-LYS-ILE-LEU-THR-GLU-ARG-GLY-TYR-SER-PHE-VAL-THR-THR-ALA-GLU-ARG-GLU-ILE-VAL-ARG-ASP-ILE-LYS-GLU-LYS-LEU-CYS-TYR-VAL-ALA-LEU-ASP-PHE-GLU-ASN-GLU-MET-ALA-THR-ALA-ALA-SER-SER-SER-SER-LEU-GLU-LYS-SER-TYR-GLU-LEU-PRO-ASP-GLY-GLN-VAL-ILE-THR-ILE-GLY-ASN-GLU-ARG-PHE-ARG-CYS-PRO-GLU-THR-LEU-PHE-GLN-PRO-SER-PHE-ILE-GLY-MET-GLU-SER-ALA-GLY-ILE-HIS-GLU-THR-THR-TYR-ASN-SER-ILE-MET-LYS-CYS-ASP-ILE-ASP-ILE-ARG-LYS-ASP-LEU-TYR-ALA-ASN-ASN-VAL-MET-SER-GLY-GLY-THR-THR-MET-TYR-PRO-GLY-ILE-ALA-ASP-ARG-MET-GLN-LYS-GLU-ILE-THR-ALA-LEU-ALA-PRO-SER-THR-MET-LYS-ILE-LYS-ILE-ILE-ALA-PRO-PRO-GLU-ARG-LYS-TYR-SER-VAL-TRP-ILE-GLY-GLY-SER-ILE-LEU-ALA-SER-LEU-SER-THR-PHE-GLN-GLN-MET-TRP-ILE-THR-LYS-GLN-GLU-TYR-ASP-GLU-ALA-GLY-PRO-SER-ILE-VAL-HIS-ARG-LYS-CYS-PHE&#39;
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Computing-environment">
+<h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -v -p jupyterlab
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPython 3.7.7
+IPython 7.13.0
+
+jupyterlab 1.2.6
+</pre></div></div>
+</div>
+</div>
 </div>
 
 
@@ -961,8 +1046,8 @@ var element = document.currentScript.previousSibling.previousSibling;
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../exercise_9/index.html" class="btn btn-neutral float-right" title="Exercise 9" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="exercise_8.2.html" class="btn btn-neutral float-left" title="Exercise 9.1: Exploration of bee sperm data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="l14_intro_to_pandas.html" class="btn btn-neutral float-right" title="Lesson 14: Introduction to Pandas" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="l12_style.html" class="btn btn-neutral float-left" title="Lesson 12: Style" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
@@ -970,11 +1055,11 @@ var element = document.currentScript.previousSibling.previousSibling;
   <div role="contentinfo">
     <p>
       <span class="lastupdated">
-        Last updated on Aug 20, 2021.
+        Last updated on Aug 25, 2021.
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7fe0f0179a30> 
+  </div> <jinja2.runtime.BlockReference object at 0x7fba03fe0af0> 
 
 <p>© 2020 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

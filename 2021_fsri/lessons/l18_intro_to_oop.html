@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Lesson 18: Version control with Git &mdash; Programming Bootcamp  documentation</title>
+  <title>Lesson 18: Introduction to object-oriented programming &mdash; Programming Bootcamp  documentation</title>
   
 
   
@@ -107,27 +107,22 @@
 <li class="toctree-l1"><a class="reference internal" href="l08_string_methods.html">Lesson 8: String methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l09_dictionaries.html">Lesson 9: Dictionaries</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l10_packages_and_modules.html">Lesson 10: Packages and modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l11_style.html">Lesson 11: Style</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l12_file_io.html">Lesson 12: File I/O</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l13_intro_to_oop.html">Lesson 13: Introduction to object-oriented programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l11_version_control_with_git.html">Lesson 11: Version control with Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l12_style.html">Lesson 12: Style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l13_file_io.html">Lesson 13: File I/O</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l14_intro_to_pandas.html">Lesson 14: Introduction to Pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l15_split_apply_combine.html">Lesson 15: Tidy data and split-apply-combine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l16_plotting.html">Lesson 16: Making plots</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l17_intro_to_numpy_and_scipy.html">Lesson 17: Introduction to Numpy and Scipy</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 18: Version control with Git</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#Configuring-Git">Configuring Git</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Cloning-Repositories">Cloning Repositories</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Pulling-in-changes">Pulling in changes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Pulling-in-changes-from-an-upstream-repository">Pulling in changes from an upstream repository</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Relationships-among-your-local-machine,-your-fork,-and-upstream">Relationships among your local machine, your fork, and upstream</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lesson 18: Introduction to object-oriented programming</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Example:-Biological-sequences">Example: Biological sequences</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Subclasses-and-inheritence">Subclasses and inheritence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Another-T_m-calculator">Another <span class="math notranslate nohighlight">\(T_m\)</span> calculator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Primer-design">Primer design</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#Creating-your-own-repository">Creating your own repository</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Adding-files-to-your-repository">Adding files to your repository</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Committing-and-pushing-changes">Committing and pushing changes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#.gitignore">.gitignore</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Installing-your-package">Installing your package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Intalling-bootcamp_utils">Intalling bootcamp_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Protein-sequences">Protein sequences</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Computing-environment">Computing environment</a></li>
 </ul>
 </li>
@@ -217,7 +212,7 @@
     
         
         
-            <a href="../_sources/lessons/l18_version_control_with_git.ipynb.txt" rel="nofollow"> Download notebook</a>
+            <a href="../_sources/lessons/l18_intro_to_oop.ipynb.txt" rel="nofollow"> Download notebook</a>
         
       
     
@@ -501,233 +496,452 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Lesson-18:-Version-control-with-Git">
-<h1>Lesson 18: Version control with Git<a class="headerlink" href="#Lesson-18:-Version-control-with-Git" title="Permalink to this headline">¶</a></h1>
-<hr><p>Keeping track of all of the changes in your project over time is good practice. How many times have you edited something in something you were writing and then wanted to go back and see what you had in the first place?Wouldn’t it be great to know what changes you made and when you made them?</p>
-<p>A <strong>version control system</strong> facilitates this process of keeping track of changes over time. Beyond that, it allows multiple people to collaborate and work on parts of the same project simultaneously.</p>
-<p>There are many version control systems. The four most prominent, in order of age, oldest to youngest, are CVS, Subversion, Git, and Mercurial (the first version of Git was released about two weeks before Mercurial, so they are really the same age). Today, Git dominates.</p>
-<p>Using Git as a version control system allows communication with remote repositories (“repos” for short) such as <a class="reference external" href="http://github.com/">GitHub</a>, <a class="reference external" href="http://gitlab.com/">GitLab</a> or <a class="reference external" href="http://bitbucket.org">Bitbucket</a>. These services provide university-affiliated people with a <code class="docutils literal notranslate"><span class="pre">.edu</span></code> email address with perks that include free private repositories. We will use GitHub for our bootcamp, and you should already have set up an account.</p>
-<p>Remote repositories are not only a great way for keeping your code safe. They are also an excellent tool for collaboration since Git allows multiple users to edit the shared files simultaneously and has a method to merge changes afterwards. Public repositories can also serve as a vehicle to distribute code (or other files).</p>
-<p>You can find more information about Git <a class="reference external" href="https://git-scm.com/documentation">here</a>. It is well documented. Here is an <a class="reference external" href="https://education.github.com/git-cheat-sheet-education.pdf">excellent one-page (front-and-back) cheatsheet</a>.</p>
-<p>Let’s get started. You all should have a version of Git installed on your computers. Open the terminal and navigate into your <code class="docutils literal notranslate"><span class="pre">~/git</span></code> directory.</p>
-<div class="section" id="Configuring-Git">
-<h2>Configuring Git<a class="headerlink" href="#Configuring-Git" title="Permalink to this headline">¶</a></h2>
-<p>While you already used Git in <a class="reference internal" href="l00_configuring_your_computer.html"><span class="doc">Lesson 0</span></a>, you still have some configuring to do. For this, and everything else in the lesson, we’ll use the command line. We will do the configuration with <code class="docutils literal notranslate"><span class="pre">--global</span></code> flags, which means these specifications work for all of your repositories. First, we’ll specify the name and email address of the person working with Git on your machine (that’s you!).</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git config --global user.name &quot;YOUR NAME&quot;
-git config --global user.email &quot;YOUR EMAIL ADDRESS&quot;
+<div class="section" id="Lesson-18:-Introduction-to-object-oriented-programming">
+<h1>Lesson 18: Introduction to object-oriented programming<a class="headerlink" href="#Lesson-18:-Introduction-to-object-oriented-programming" title="Permalink to this headline">¶</a></h1>
+<hr><p>We have spent much of the bootcamp discussing how to make code functional and readable. We have also used functions to help to avoid duplicated code and in <a class="reference internal" href="l20_testing_and_tdd.html"><span class="doc">future lessons</span></a> will talk about making code testable. <strong>Object-oriented programming</strong> (OOP) goes further in that it</p>
+<ul class="simple">
+<li><p>keeps code organized</p></li>
+<li><p>further increases readability</p></li>
+<li><p>makes chunks of code portable</p></li>
+</ul>
+<div class="section" id="Classes">
+<h2>Classes<a class="headerlink" href="#Classes" title="Permalink to this headline">¶</a></h2>
+<p>Classes form the core of Python’s OOP. They are devices that create new objects. This is called <strong>instantiation</strong>. I.e., an object is an <strong>instance</strong> of a class. These objects have three characteristics which makes the use of classes particularly attractive:</p>
+<ul class="simple">
+<li><p><strong>multiple instances</strong>: You can have more then one instance of a given type of class. As an example, you code might have three or four different integers. These are instances of a built-in class.</p></li>
+<li><p><strong>inheritance</strong>: An object can be a class of its own, it inherits all the properties of the parent class.</p></li>
+<li><p><strong>operator overloading</strong>: This allows an operator to have a different meaning according to context. For example, the <code class="docutils literal notranslate"><span class="pre">+</span></code> operator has a different meaning for <code class="docutils literal notranslate"><span class="pre">floats</span></code> vs. strings.</p></li>
+</ul>
+<p>This is all a bit theoretical, so let’s look at an example.</p>
+</div>
+<div class="section" id="Example:-Biological-sequences">
+<h2>Example: Biological sequences<a class="headerlink" href="#Example:-Biological-sequences" title="Permalink to this headline">¶</a></h2>
+<p>In this example, we will make a class for biological sequences. The goal here is just to lift the covers off how classes are built, so you have a basic understanding what you are doing when you use the dot notation on objects.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<p>Git is very well documented and help is easily available. If you need to know more about <code class="docutils literal notranslate"><span class="pre">config</span></code>, for example, just enter:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git help config
-</pre></div>
-</div>
-</div>
-<div class="section" id="Cloning-Repositories">
-<h2>Cloning Repositories<a class="headerlink" href="#Cloning-Repositories" title="Permalink to this headline">¶</a></h2>
-<p>You have already cloned the <code class="docutils literal notranslate"><span class="pre">bootcamp</span></code> repository in <a class="reference internal" href="l00_configuring_your_computer.html"><span class="doc">Lesson 0</span></a>. We’ll practice that again here, and clone one of the zillions of public repositories that are hosted on GitHub. We will clone a simple package, called <code class="docutils literal notranslate"><span class="pre">insulter</span></code> that will hurl Shakespearean insults at you.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git clone https://gist.github.com/3165396.git insulter
-</pre></div>
-</div>
-<p>Note that the insulter package is now on your machine. You have a copy of it on your own hard drive. You do not need to be connected to the internet to use it.</p>
-<p>Now, <code class="docutils literal notranslate"><span class="pre">cd</span></code> to <code class="docutils literal notranslate"><span class="pre">insulter</span></code> and you can start using it, thou wayward tickle-brained flap-dragon!</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python insulter.py
-</pre></div>
-</div>
-</div>
-<div class="section" id="Pulling-in-changes">
-<h2>Pulling in changes<a class="headerlink" href="#Pulling-in-changes" title="Permalink to this headline">¶</a></h2>
-<p>Actively developed repositories are constantly being updated. After you clone the repository, its authors may add or edit things in the repository. For you to get those changes, you need to <strong>fetch</strong> them and then <strong>merge</strong> them into what you have locally.</p>
-<p>To fetch the updated repository, you guessed it, you do:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git fetch
-</pre></div>
-</div>
-<p>The result is stored in a hidden directory, <code class="docutils literal notranslate"><span class="pre">.git/FETCH_HEAD</span></code>. (Directories that begin with a <code class="docutils literal notranslate"><span class="pre">.</span></code> are hidden; you don’t see them when you type <code class="docutils literal notranslate"><span class="pre">ls</span></code>.)</p>
-<p>Now that there are changes, you would like to update your local repository. Provided you do not have any local edits, this is seamless. You just do</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git merge FETCH_HEAD
-</pre></div>
-</div>
-<p>Now your repository will be up to date.</p>
-<p>A shortcut for the commands</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git fetch
-git merge FETCH_HEAD
-</pre></div>
-</div>
-<p>run in succession is</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git pull
-</pre></div>
-</div>
-<p>In practice, you will use this a lot, but, as you will see, we will use fetching and merging on a forked repository in the next lesson, so it can be useful to fetch and merge separately.</p>
-<p>Let’s try doing this with the <code class="docutils literal notranslate"><span class="pre">bootcamp</span></code> repository. <code class="docutils literal notranslate"><span class="pre">cd</span></code> into <code class="docutils literal notranslate"><span class="pre">~/git/bootcamp/</span></code>. Now, type</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git pull
-</pre></div>
-</div>
-<p>This will “pull” in any changes make to the repository. Throughout the bootcamp, we may need to update files in the repository, so you may need to <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> throughout the bootcamp.</p>
-<p>Note that <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> is actually shorthand for</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git pull origin master
-</pre></div>
-</div>
-<p>which is the more verbose way of saying that you want to pull the master <strong>branch</strong> from the remote repository named <code class="docutils literal notranslate"><span class="pre">origin</span></code>. We will not discuss branching in this bootcamp, but it is an important concept to learn about.</p>
-<p>Generally it is good practice to pull before you start working each day to make sure you pull in any updates your collaborators may have made.</p>
-<div class="section" id="Pulling-in-changes-from-an-upstream-repository">
-<h3>Pulling in changes from an upstream repository<a class="headerlink" href="#Pulling-in-changes-from-an-upstream-repository" title="Permalink to this headline">¶</a></h3>
-<p>As you saw in <a class="reference internal" href="l00_configuring_your_computer.html"><span class="doc">Lesson 0</span></a>, it is sometimes useful to pull from an upstream repository. In <a class="reference internal" href="l00_configuring_your_computer.html"><span class="doc">Lesson 0</span></a>, you added an upstream remote repository to the bootcamp repository. To pull from the upstream repository, you need to use the more verbose version of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code>.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git pull upstream master
-</pre></div>
-</div>
-</div>
-<div class="section" id="Relationships-among-your-local-machine,-your-fork,-and-upstream">
-<h3>Relationships among your local machine, your fork, and upstream<a class="headerlink" href="#Relationships-among-your-local-machine,-your-fork,-and-upstream" title="Permalink to this headline">¶</a></h3>
-<p>Let us think about how we have things set up, referring to the excellent image below from <a class="reference external" href="http://jlord.us/">Jessica Lord</a>. <strong>Remotely</strong>, in our case on GitHub, lives the bootcamp repository that I created. You <strong>forked</strong> that repository. That copied the contents of my repository over to a new repository in <em>your</em> GitHub account. Your forked repository still existed remotely on your own machine. Your copy of the remote repository is called a <strong>fork</strong> and the original repository you forked
-from is called <strong>upstream</strong>.</p>
-<div style="margin: auto; width: 600px;"><img alt="Jessica Lord git diagram" src="../_images/jessica_lord_git_diagram.png" />
-</div><p>When you <strong>cloned</strong> your forked repository, you pulled it down from GitHub and put it on your <strong>local</strong> machine (your laptop). Whenever you make changes the repository, you do so on your local machine. You can then <strong>commit</strong> your changes, which tell Git to create a snapshot of exactly what the repository looked like when you did the commit. When you <strong>push</strong> your commits, they go to your forked repository.</p>
-<p>If you use a second machine, or if someone else contributes to your repository, you can <strong>pull</strong> the repository (since you already cloned it), and the changes will be added to your local machine (provided there are no conflicts).</p>
-<p>If someone (like me) makes changes to the upstream repository, you can also pull those changes to incorporate them into your own repository but <strong>pulling from the upstream</strong> repository. If the upstream developer gives you permission (they almost never do), you can also push to the upstream repository.</p>
-<p>Since they almost never give you permission, if you want put your changes into the upstream repository, you submit a <strong>pull request</strong> via the GitHub website.</p>
-<p>Now that we have covered how to work off of others’ repositories, let’s see how to make your own repo.</p>
-</div>
-</div>
-<div class="section" id="Creating-your-own-repository">
-<h2>Creating your own repository<a class="headerlink" href="#Creating-your-own-repository" title="Permalink to this headline">¶</a></h2>
-<p>Now, you will create your own repository for practice. For this bootcamp, let’s name the repository with your initials followed by <code class="docutils literal notranslate"><span class="pre">_bootcamp</span></code>. In my case, my repository is <code class="docutils literal notranslate"><span class="pre">jb_bootcamp</span></code>.</p>
-<p>Only in rare circumstances would you not want to host your repository remotely, so we will take an easy path toward creating a repository using GitHub. Prior to the bootcamp, you all should have set up a GitHub account. Log in to GitHub. In the upper right corner of the page, click on the “<strong>``+``</strong>” icon and select “New repository.” You will then get a page that looks like this:</p>
-<center><p><img alt="2451a233da8c4702be8f695d7cbcad3e" class="no-scaled-link" src="../_images/github2.png" style="width: 600px;" /></p>
-</center><p>I called the new repository <code class="docutils literal notranslate"><span class="pre">jb_bootcamp</span></code> (yours will obviously have your own initials, and you can substitute them for <code class="docutils literal notranslate"><span class="pre">jb</span></code> wherever you see that in this lesson), and gave a little description. You can choose the repository to be either private of public; if you are not an academic, you have to pay for private repositories. Public repositories can be viewed by anyone. I will choose public for this one.</p>
-<p>I have checked the box to initialized the repository with a README. This is convenient because GitHub will set up the repository and populate it with a README file that you can generate right in your browser. I also selected to add a Python <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>, which is convenient for keeping your version control clean (more on that <a class="reference external" href="#.gitignore">later</a>). Finally, I chose an MIT license, which is a liberal license that will let others use your code if they would like to.</p>
-<p>After clicking “Create repository,” you will get a page that looks like this:</p>
-<div style="margin: auto; width: 600px;"><img alt="github3" src="../_images/github3.png" />
-</div><p>This is the main page for your repository. It is created! Right now, the repository only exists on GitHub. You need to clone it to get it on your own machine. To do that, click the “Clone or download” button and copy the web URL.</p>
-<p>Now, it is time to clone your repository on your own machine. I think you know the drill. First, <code class="docutils literal notranslate"><span class="pre">cd</span></code> to your <code class="docutils literal notranslate"><span class="pre">~/git</span></code> directory (if that is where you choose to keep your repositories). Then do this:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git clone the_url_you_just_copied
-</pre></div>
-</div>
-<p>If you now <code class="docutils literal notranslate"><span class="pre">cd</span></code> into the <code class="docutils literal notranslate"><span class="pre">jb_bootcamp</span></code> directory, you can see the <code class="docutils literal notranslate"><span class="pre">README.md</span></code> and <code class="docutils literal notranslate"><span class="pre">LICENSE</span></code> files there.</p>
-</div>
-<div class="section" id="Adding-files-to-your-repository">
-<h2>Adding files to your repository<a class="headerlink" href="#Adding-files-to-your-repository" title="Permalink to this headline">¶</a></h2>
-<p>Now, let’s update the repository. We will add the package we built in the <a class="reference internal" href="l10_packages_and_modules.html"><span class="doc">earlier lesson</span></a> on packages and modules. Conveniently, I already included its contents in the directory <code class="docutils literal notranslate"><span class="pre">~/git/bootcamp/modules/jb_bootcamp/</span></code>. Copy the contents of the <code class="docutils literal notranslate"><span class="pre">~/git/bootcamp/modules/jb_bootcamp/</span></code> directory and into the <code class="docutils literal notranslate"><span class="pre">~/git/jb_bootcamp/</span></code> directory. On my machine, this is accomplished by:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd ~/git/bootcamp/modules/jb_bootcamp/
-cp -r * ~/git/jb_bootcamp/
-</pre></div>
-</div>
-<p>This instructs the operating system to copy all of the contents of <code class="docutils literal notranslate"><span class="pre">~/git/bootcamp/modules/jb_bootcamp/</span></code> to your new repository. (The <code class="docutils literal notranslate"><span class="pre">*</span></code> is a <strong>wildcard character</strong>, which means every file in this case.) We verify that it is there by <code class="docutils literal notranslate"><span class="pre">cd</span></code>-ing into the new repository and typing <code class="docutils literal notranslate"><span class="pre">ls</span></code>.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd ~/git/jb_bootcamp/
-ls
-</pre></div>
-</div>
-<p>So, it is in the repository, right? Let’s ask Git. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> is a useful command that checks what is in the repository and in your working directory on your machine, and let’s you know the status of all files and directories.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git status
-</pre></div>
-</div>
-<p>The output looks like this:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>On branch master
-Your branch is up-to-date with &#39;origin/master&#39;.
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">class</span> <span class="nc">Biosequence</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Biological sequence class with methods.&quot;&quot;&quot;</span>
 
-Changes not staged for commit:
-  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
-  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+    <span class="c1"># The special method __init__() is run when the class is instantiated</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seq</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">material</span><span class="o">=</span><span class="s2">&quot;dna&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instantiate Biosequence object with sequence and material.</span>
 
-    modified:   README.md
+<span class="sd">        Material is either &#39;dna&#39;, &#39;rna&#39;, or &#39;protein&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">material</span> <span class="o">=</span> <span class="n">material</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-Untracked files:
-  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
 
-    jb_bootcamp/
-    setup.py
+    <span class="c1"># Define a method</span>
+    <span class="k">def</span> <span class="nf">seq_len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The length of the sequence.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Methods</strong> are functions contained within a class. In contrast to functions they need to include the term <code class="docutils literal notranslate"><span class="pre">self</span></code> within the parentheses. Because when Python calls a method the current object becomes the first argument of the method. Using the word <code class="docutils literal notranslate"><span class="pre">self</span></code> is a convention; theoretically any other word could be used.</p>
+<p>The method we have written for the <code class="docutils literal notranslate"><span class="pre">Biosequence</span></code> class is trivial, but it demonstrates the concept.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Instantiate Biosequence</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Biosequence</span><span class="p">(</span><span class="n">seq</span><span class="o">=</span><span class="s1">&#39;ATGAAGGGTCC&#39;</span><span class="p">)</span>
 
-no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+<span class="c1"># Call the methods</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The sequence has&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">seq_len</span><span class="p">(),</span> <span class="s1">&#39;bases.&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>It tells us that because we copied over the <code class="docutils literal notranslate"><span class="pre">README.md</span></code>, the <code class="docutils literal notranslate"><span class="pre">README.md</span></code> file that was in the repository when you created it on GitHub has been modified. It further says that the contents of the directory <code class="docutils literal notranslate"><span class="pre">jb_bootcamp/</span></code> and the file <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> are not under version control, even though they exist in the directory that is under version control.</p>
-<p>Before proceeding, you should change the files <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and <code class="docutils literal notranslate"><span class="pre">jb_bootcamp/__init__.py</span></code> to have your name, package name, contact information, etc., instead of mine.</p>
-<p>Now, we need to explicitly tell Git which files need to be tracked. We also need to tell it that we want to add the modified <code class="docutils literal notranslate"><span class="pre">README.md</span></code> file to the repository. We do this using the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code> command.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git add jb_bootcamp
-git add setup.py
-git add README.md
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The sequence has 11 bases.
+</pre></div></div>
+</div>
+<p>In addition to methods, an object also has <strong>attributes</strong>, which are values associated with it. This class has two attributes, <code class="docutils literal notranslate"><span class="pre">seq</span></code> and <code class="docutils literal notranslate"><span class="pre">material</span></code>, and has two methods, <code class="docutils literal notranslate"><span class="pre">seq_len()</span></code> and the special method <code class="docutils literal notranslate"><span class="pre">__init__()</span></code>.</p>
+<div class="section" id="Subclasses-and-inheritence">
+<h3>Subclasses and inheritence<a class="headerlink" href="#Subclasses-and-inheritence" title="Permalink to this headline">¶</a></h3>
+<p>Let’s create a subclass <code class="docutils literal notranslate"><span class="pre">Nucleotides</span></code>. To make it inherit all of the defined methods and attributes of <code class="docutils literal notranslate"><span class="pre">Biosequence</span></code> (its parent class), we refer to <code class="docutils literal notranslate"><span class="pre">Biosequence</span></code> in the <code class="docutils literal notranslate"><span class="pre">class</span></code> definition. We will write a single method that uses the Marmur rule of thumb for computing the melting temperature of a stretch of double-stranded DNA,</p>
+<p><span class="math">\begin{align}
+T_m = 2\,^\circ C \, (N_A + N_T) + 4\,^\circ C \, (N_G + N_C),
+\end{align}</span></p>
+<p>where <span class="math notranslate nohighlight">\(N_i\)</span> denotes the number of times nucleotide <span class="math notranslate nohighlight">\(i\)</span> appears in the sequence. Remember, the class inherits all of the methods from its parent (in this case, <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> and <code class="docutils literal notranslate"><span class="pre">seq_len()</span></code>), so we only need to write methods specific to nucleic acids. This is part of the <strong>don’t repeat yourself</strong> (DRY) principle.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<p>We have now added what we needed, so we have changed the repository.</p>
-</div>
-<div class="section" id="Committing-and-pushing-changes">
-<h2>Committing and pushing changes<a class="headerlink" href="#Committing-and-pushing-changes" title="Permalink to this headline">¶</a></h2>
-<p>Now, if we type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code>, we get updated information.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>On branch master
-Your branch is up-to-date with &#39;origin/master&#39;.
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">class</span> <span class="nc">Nucleotides</span><span class="p">(</span><span class="n">Biosequence</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Nucleotide sequences and related methods.&quot;&quot;&quot;</span>
 
-Changes to be committed:
-  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+    <span class="k">def</span> <span class="nf">T_marmur</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Melting temperature by Marmur rule of thumb.&quot;&quot;&quot;</span>
+        <span class="n">seq_up</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
-    modified:   README.md
-    new file:   jb_bootcamp/__init__.py
-    new file:   jb_bootcamp/bioinfo_dicts.py
-    new file:   jb_bootcamp/na_utils.py
-    new file:   setup.py
+        <span class="n">at_count</span> <span class="o">=</span> <span class="n">seq_up</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq_up</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+        <span class="n">gc_count</span> <span class="o">=</span> <span class="n">seq_up</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq_up</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">at_count</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">gc_count</span>
 </pre></div>
 </div>
-<p>It tells use we have new files and a modified file. It says these are part of “Changes to be committed.” A <strong>commit</strong> is essentially a revision of a repository. It marks a point in the development of the repository that you want to mark. So, let’s commit the present state of the repository.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git commit -m &quot;Initial commit of bootcamp utilities.&quot;
+</div>
+<p>So, we now have a new class for nucleotides that inherited all of the methods and attributes of its parent, <code class="docutils literal notranslate"><span class="pre">Biosequence</span></code>. It also has the new melting temperature method. Let’s put it to use.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">-m</span></code> after <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code> specifies the <strong>commit message</strong>. This is a brief bit of text that describes what has changed in the repository. It is really important to write informative commit messages (and <a class="reference external" href="https://chris.beams.io/posts/git-commit/">here are some beautifully described rules for good commit messages</a>). By contrast, most <a class="reference external" href="http://ramiro.org/blog/most-frequent-github-commit-messages/">commit messages that people write are useless</a>. Upon committing, the something like the
-following is printed to the screen:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[master f99e0e2] Initial commit of bootcamp utilities.
- 5 files changed, 120 insertions(+), 1 deletion(-)
- create mode 100644 jb_bootcamp/__init__.py
- create mode 100644 jb_bootcamp/bioinfo_dicts.py
- create mode 100644 jb_bootcamp/na_utils.py
- create mode 100644 setup.py
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Instantiate object</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Nucleotides</span><span class="p">(</span><span class="s1">&#39;AAAGGTTTTTTTTTTTC&#39;</span><span class="p">,</span> <span class="n">material</span><span class="o">=</span><span class="s1">&#39;dna&#39;</span><span class="p">)</span>
+
+<span class="c1"># Compute result</span>
+<span class="n">s</span><span class="o">.</span><span class="n">T_marmur</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The number <code class="docutils literal notranslate"><span class="pre">f99e0e2</span></code> (yours will be different) is the short version of the commit identifier. If you ever want to go back to a previous version of the repository, this identifier will be a great help.</p>
-<p>Now, the commit is still only on your local machine. In order for your collaborators (or the whole world, if it is a public repo) to have access to it (and in order for it to appear on GitHub), you need to <strong>push</strong> it. To do that, we do this:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git push origin master
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<p>Here, <code class="docutils literal notranslate"><span class="pre">origin</span></code> is a nickname for your remote repository. <code class="docutils literal notranslate"><span class="pre">master</span></code> is the name of the branch we are pushing to in the GitHub repository. It is so named because it is the master copy. By default, GitHub names the main branch “master,” but this will soon change to “main.” (We will not talk about branches or branching in this lesson.)</p>
-<p>Now, let’s look at our repository on GitHub. You can just refresh the main page of the repository in your browser. It now looks like this:</p>
-<div style="margin: auto; width: 600px;"><img alt="github4" src="../_images/github4.png" />
-</div><p>We now have our updates in the master branch, out there in the cloud for sharing.</p>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+40
+</pre></div></div>
 </div>
-<div class="section" id=".gitignore">
-<h2>.gitignore<a class="headerlink" href="#.gitignore" title="Permalink to this headline">¶</a></h2>
-<p>Notice that before you added the files to your repository, Git let you know that there was an untracked file in your directory. Sometimes you do want to have files in the directories of your repository, but not keep those files under version control. Examples of these might be binary files, large data sets, images, etc.</p>
-<p>Fortunately, you can tell Git to ignore certain files. This is done using a <code class="docutils literal notranslate"><span class="pre">`.gitignore</span></code> file &lt;<a class="reference external" href="https://git-scm.com/docs/gitignore">https://git-scm.com/docs/gitignore</a>&gt;`__. Each line of of the <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file says which files to ignore. For example, to ignore all files that end with <code class="docutils literal notranslate"><span class="pre">.tif</span></code>, you would include the line</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>*.tif
+<p>Let’s try it with another sequence.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<p>in your <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file. The <code class="docutils literal notranslate"><span class="pre">*</span></code> is a <strong>wildcard character</strong> which says to ignore all files that have a file name ending with <code class="docutils literal notranslate"><span class="pre">.tif</span></code>, regardless of what the prefix is. Now, whenever you you use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code>, any file ending with <code class="docutils literal notranslate"><span class="pre">*.tif</span></code> that happens to be on your machine within the directories containing your repository will be ignored by Git.</p>
-<p>Just because <code class="docutils literal notranslate"><span class="pre">*.tif</span></code> appears in a <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file does not mean that <em>all</em> <code class="docutils literal notranslate"><span class="pre">.tif</span></code> files will be ignored. If you explicitly add a file to the repository, Git will keep track of it. E.g., if you did</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git add myfile.tif
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">s</span> <span class="o">=</span> <span class="n">Nucleotides</span><span class="p">(</span><span class="s1">&#39;aaattg&#39;</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">T_marmur</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>then <code class="docutils literal notranslate"><span class="pre">myfile.tif</span></code> will be under version control, even if other <code class="docutils literal notranslate"><span class="pre">.tif</span></code> files laying around are not. (<em>Note, though, that you usually do not want to have binary files under version control. You typically only keep code under control. Only data sets used to test code are included in the repository. Version control is not really for data, but for code.</em>)</p>
-<p>Finally, since it begins with a <code class="docutils literal notranslate"><span class="pre">.</span></code>. When you put a <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file in a directory, the <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file will not show up when you run <code class="docutils literal notranslate"><span class="pre">ls</span></code> at the command line without the <code class="docutils literal notranslate"><span class="pre">-a</span></code> flag.</p>
 </div>
-<div class="section" id="Installing-your-package">
-<h2>Installing your package<a class="headerlink" href="#Installing-your-package" title="Permalink to this headline">¶</a></h2>
-<p>To install your package, you use <code class="docutils literal notranslate"><span class="pre">pip</span></code>, which is a self-referential acronym <strong>``P``</strong><code class="docutils literal notranslate"><span class="pre">ip</span></code> <strong>``I``</strong><code class="docutils literal notranslate"><span class="pre">nstalls</span></code> <strong>``P``</strong><code class="docutils literal notranslate"><span class="pre">ackages</span></code>. To install a your package, make sure you are in the directory immediately above your package, in this case <code class="docutils literal notranslate"><span class="pre">~/git</span></code>. Then, do the following on the command line.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install -e jb_bootcamp
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">-e</span></code> flag is important, which tells <code class="docutils literal notranslate"><span class="pre">pip</span></code> that this is a local, editable package.</p>
-<p>Your package is now accessible on your machine whenever you run the Python interpreter!</p>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+14
+</pre></div></div>
 </div>
-<div class="section" id="Intalling-bootcamp_utils">
-<h2>Intalling bootcamp_utils<a class="headerlink" href="#Intalling-bootcamp_utils" title="Permalink to this headline">¶</a></h2>
-<p>What you have just done is a common workflow with packages. You write your own packages (that are under version control, of course), and you make them available using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span></code>. In addition to your own packages, you used <code class="docutils literal notranslate"><span class="pre">conda</span></code> to install third party packages on your machine in <a class="reference external" href="l00_configuring_your_machine.ipynb">Lesson 0</a>. Sometimes packages are not yet available via <code class="docutils literal notranslate"><span class="pre">conda</span></code>, but are nonetheless available in the <a class="reference external" href="https://pypi.org">Python Package Index (PyPI)</a>. There are
-over 230,000 packages in the PyPI. To install one of them, you simple use</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install name_of_package
+</div>
+<div class="section" id="Another-T_m-calculator">
+<h3>Another <span class="math notranslate nohighlight">\(T_m\)</span> calculator<a class="headerlink" href="#Another-T_m-calculator" title="Permalink to this headline">¶</a></h3>
+<p>Let’s add the Wallace rule of thumb for melting temperature in degrees Celsius.</p>
+<p><span class="math">\begin{align}
+T_m = 64.9 + 41\,\frac{N_G + N_C - 16.4}{N_A + N_T + N_G + N_C}.
+\end{align}</span></p>
+<p>This, of course, works only for sequences that have some reasonable GC content. Clearly, a poly-AT sequence should not melt below freezing.</p>
+<p>Since both methods require calculation of GC count, we should write a method to compute GC content so we do not repeat ourselves.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<p>Note that the <code class="docutils literal notranslate"><span class="pre">-e</span></code> flag is missing. (More importantly, note that the <code class="docutils literal notranslate"><span class="pre">-e</span></code> flag is present when installing your own local package that is not (yet) on the PyPI.) I wrote a package that has some useful utilities we will use in the bootcamp called <code class="docutils literal notranslate"><span class="pre">bootcamp_utils</span></code>. You can install it be entering the following on the command line.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install bootcamp_utils
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">class</span> <span class="nc">Nucleotides</span><span class="p">(</span><span class="n">Biosequence</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Nucleotide sequences and related methods.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">gc_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">seq_up</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">seq_up</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq_up</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">at_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">seq_up</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">seq_up</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq_up</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">T_marmur</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Melting temperature by Marmur rule of thumb.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">at_count</span><span class="p">()</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">gc_count</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">T_wallace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Melting temperature by Wallace rule of thumb.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">64.9</span> <span class="o">+</span> <span class="mi">41</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gc_count</span><span class="p">()</span> <span class="o">-</span> <span class="mf">16.4</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq_len</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+<p>Now let’s compare the two melting temperatures.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Instatiate class</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Nucleotides</span><span class="p">(</span><span class="s1">&#39;GGGTTTCCCTACA&#39;</span><span class="p">)</span>
+
+<span class="c1"># Compute melting temperatures</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;T_m via Marmur rule:&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">T_marmur</span><span class="p">(),</span> <span class="s1">&#39;°C&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;T_m via Wallace rule:&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">T_wallace</span><span class="p">(),</span> <span class="s1">&#39;°C&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+T_m via Marmur rule: 40 °C
+T_m via Wallace rule: 35.25384615384617 °C
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Primer-design">
+<h3>Primer design<a class="headerlink" href="#Primer-design" title="Permalink to this headline">¶</a></h3>
+<p>Now that we can calculate melting temperatures, we can introduce a class that deals with primer design. It inherits the <code class="docutils literal notranslate"><span class="pre">Nucleotides</span></code> class, and then has methods to choose a primer.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">class</span> <span class="nc">Primer</span><span class="p">(</span><span class="n">Nucleotides</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Primer design.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">marmur_primer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Tm</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Primer design based on Marmur rule of thumb for melting</span>
+<span class="sd">        temperature.</span>
+
+<span class="sd">        `Tm`: the desired melting temperature in deg. C of the</span>
+<span class="sd">              primer-template duplex.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Start with a short primer of 10 nucleotides</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+
+        <span class="c1"># Start at 5&#39; end with forward primer</span>
+        <span class="n">forward_p</span> <span class="o">=</span> <span class="n">Nucleotides</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="p">[:</span><span class="n">n</span><span class="p">])</span>
+
+        <span class="c1"># Keep adding based to the primer until we hit the desired Tm</span>
+        <span class="k">while</span> <span class="n">forward_p</span><span class="o">.</span><span class="n">T_marmur</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">Tm</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="p">):</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">forward_p</span><span class="o">.</span><span class="n">seq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">forward_p</span><span class="o">.</span><span class="n">seq</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s try to design a primer for a sequence. We’ll take our melting temperature to be 42°C, or course.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Instantiate object with template sequence</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Primer</span><span class="p">(</span><span class="s1">&#39;AACCCCCCAAATTTTTTTTTTGAAAAAAAAAACATATTCTTCTCTCGGGGGGGGG&#39;</span><span class="p">)</span>
+
+<span class="n">s</span><span class="o">.</span><span class="n">marmur_primer</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;AACCCCCCAAATTTT&#39;
+</pre></div></div>
+</div>
+<p>We would also like to compute a reverse primer. To do this, we need to be able to compute the reverse complement of a sequence. We have already done that in the last exercise, so we add that functionality to the <code class="docutils literal notranslate"><span class="pre">Nucleotides</span></code> class. Remember that since the method is aware of <code class="docutils literal notranslate"><span class="pre">self</span></code>, and the object has a <code class="docutils literal notranslate"><span class="pre">seq</span></code> attribute, we do not need to pass the <code class="docutils literal notranslate"><span class="pre">seq</span></code> argument into the function that computes the reverse complement.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">class</span> <span class="nc">Nucleotides</span><span class="p">(</span><span class="n">Biosequence</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Nucleotide sequences and related methods.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">gc_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">seq_up</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">seq_up</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq_up</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">at_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">seq_up</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">seq_up</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seq_up</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">T_marmur</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Melting temperature by Marmur rule of thumb.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">at_count</span><span class="p">()</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">gc_count</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">T_wallace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Melting temperature by Wallace rule of thumb.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">64.9</span> <span class="o">+</span> <span class="mi">41</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gc_count</span><span class="p">()</span> <span class="o">-</span> <span class="mf">16.4</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq_len</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">reverse_complement</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute reverse complement of the sequence.&quot;&quot;&quot;</span>
+        <span class="c1"># Initialize reverse complement as reverse of sequence</span>
+        <span class="n">rev_comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Replace bases with complement</span>
+        <span class="n">rev_comp</span> <span class="o">=</span> <span class="n">rev_comp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">)</span>
+        <span class="n">rev_comp</span> <span class="o">=</span> <span class="n">rev_comp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+        <span class="n">rev_comp</span> <span class="o">=</span> <span class="n">rev_comp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span>
+        <span class="n">rev_comp</span> <span class="o">=</span> <span class="n">rev_comp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">rev_comp</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>We now need to update the <code class="docutils literal notranslate"><span class="pre">Primer</span></code> class to compute the reverse primer. We already wrote most of the code to do this, so we just need to tweak the class a bit.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">class</span> <span class="nc">Primer</span><span class="p">(</span><span class="n">Nucleotides</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Primer design.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">forward_and_reverse_marmur_primers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Tm</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Forward and reverse primer design using Marmur rule</span>
+<span class="sd">        of thum for melting temperature.</span>
+
+<span class="sd">        `Tm`: the desired melting temperature in deg. C of the</span>
+<span class="sd">              primer-template duplex.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Compute forward primer</span>
+        <span class="n">forward_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">marmur_primer</span><span class="p">(</span><span class="n">Tm</span><span class="p">)</span>
+
+        <span class="c1"># Compute reverse complement of strand</span>
+        <span class="n">rev_comp</span> <span class="o">=</span> <span class="n">Primer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reverse_complement</span><span class="p">())</span>
+
+        <span class="c1"># Compute reverse primer</span>
+        <span class="n">reverse_p</span> <span class="o">=</span> <span class="n">rev_comp</span><span class="o">.</span><span class="n">marmur_primer</span><span class="p">(</span><span class="n">Tm</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">forward_p</span><span class="p">,</span> <span class="n">reverse_p</span>
+
+
+    <span class="k">def</span> <span class="nf">marmur_primer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Tm</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Primer design based on Marmur rule of thumb for melting</span>
+<span class="sd">        temperature.</span>
+
+<span class="sd">        `Tm`: the desired melting temperature in deg. C of the</span>
+<span class="sd">              primer-template duplex.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Start with a short primer of 10 nucleotides</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+
+        <span class="c1"># Start at 5&#39; end with forward primer</span>
+        <span class="n">forward_p</span> <span class="o">=</span> <span class="n">Nucleotides</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="p">[:</span><span class="n">n</span><span class="p">])</span>
+
+        <span class="c1"># Keep adding based to the primer until we hit the desired Tm</span>
+        <span class="k">while</span> <span class="n">forward_p</span><span class="o">.</span><span class="n">T_marmur</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">Tm</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="p">):</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">forward_p</span><span class="o">.</span><span class="n">seq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">forward_p</span><span class="o">.</span><span class="n">seq</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s go through each line of the method <code class="docutils literal notranslate"><span class="pre">forward_and_reverse_marmur_primers()</span></code>. First, we just compute the forward primer using the method we already wrote. Note that because we are in a method within the class definition, we need to use <code class="docutils literal notranslate"><span class="pre">self</span></code>, i.e., <code class="docutils literal notranslate"><span class="pre">self.marmum_primer(Tm)</span></code>. Next, we instantiate a new <code class="docutils literal notranslate"><span class="pre">Primer</span></code> instance that has the reverse complement of the strand of interest as its sequence. We then compute the forward primer of that (which is the reverse complement of our input
+sequence). We then return both primers.</p>
+<p>Let’s give it a whirl!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Instantiate sequence</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Primer</span><span class="p">(</span><span class="s1">&#39;AACCCCCCAAATTTTTTTTTTGAAAAAAAAAACATATTCTTCTCTCGGGGGGGGG&#39;</span><span class="p">)</span>
+
+<span class="c1"># Compute primers</span>
+<span class="n">s</span><span class="o">.</span><span class="n">forward_and_reverse_marmur_primers</span><span class="p">(</span><span class="n">Tm</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;AACCCCCCAAATTTT&#39;, &#39;CCCCCCCCCGA&#39;)
+</pre></div></div>
+</div>
+<p>This works, that’s great! Notice that we tried to reuse code we already wrote as much as possible. This is part of the <strong>DRY</strong> principle. It also is a great help in debugging.</p>
+</div>
+</div>
+<div class="section" id="Protein-sequences">
+<h2>Protein sequences<a class="headerlink" href="#Protein-sequences" title="Permalink to this headline">¶</a></h2>
+<p>In keeping with the <strong>DRY</strong> principle, we can recycle the <code class="docutils literal notranslate"><span class="pre">Biosequence</span></code> class to handle protein sequences. We’ll make a new class with that computes the net charge of residues in a protein (assuming histidine is not charged).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">class</span> <span class="nc">Protein</span><span class="p">(</span><span class="n">Biosequence</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Protein sequences.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">netcharge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the net charge of a protein&quot;&quot;&quot;</span>
+        <span class="n">sequence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">sequence</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;K&quot;</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">sequence</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;R&quot;</span><span class="p">)</span>
+            <span class="o">-</span> <span class="n">sequence</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;E&quot;</span><span class="p">)</span>
+            <span class="o">-</span> <span class="n">sequence</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Again, we inherit all of the methods from the <code class="docutils literal notranslate"><span class="pre">Biosequence</span></code> class. We can instantiate and compute net charges.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Specify the sequence</span>
+<span class="n">seq</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;MKKILLSVLTAFVAVVLAACGGNSDSKTLNSLDKIKQ&quot;</span>
+    <span class="o">+</span> <span class="s2">&quot;NGVVRIGVFGDKPPFGYVDEKGNNQGYDIALAKRIAK&quot;</span>
+    <span class="o">+</span> <span class="s2">&quot;ELFGDENKVQFVLVEAANRVEFLKSNKVDIILANFTQ&quot;</span>
+    <span class="o">+</span> <span class="s2">&quot;TPQRAEQVDFCSPYMKVALGVAVPKDSNITSVEDLKD&quot;</span>
+    <span class="o">+</span> <span class="s2">&quot;KTLLLNKGTTADAYFTQNYPNIKTLKYDQNTETFAAL&quot;</span>
+    <span class="o">+</span> <span class="s2">&quot;MDKRGDALSHDNTLLFAWVKDHPDFKMGIKELGNKDV&quot;</span>
+    <span class="o">+</span> <span class="s2">&quot;IAPAVKKGDKELKEFIDNLIIKLGQEQFFHKAYDETL&quot;</span>
+    <span class="o">+</span> <span class="s2">&quot;KAHFGDDVKADDVVIEGGKI&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Instantiate</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">Protein</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+
+<span class="c1"># Compute net charge</span>
+<span class="n">p</span><span class="o">.</span><span class="n">netcharge</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+-2
+</pre></div></div>
 </div>
 </div>
 <div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -741,10 +955,12 @@ over 230,000 packages in the PyPI. To install one of them, you simple use</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPython 3.7.7
-IPython 7.13.0
+Python implementation: CPython
+Python version       : 3.8.10
+IPython version      : 7.22.0
 
-jupyterlab 1.2.6
+jupyterlab: 3.0.14
+
 </pre></div></div>
 </div>
 </div>
@@ -765,11 +981,11 @@ jupyterlab 1.2.6
   <div role="contentinfo">
     <p>
       <span class="lastupdated">
-        Last updated on Aug 20, 2021.
+        Last updated on Aug 25, 2021.
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7fe0f10ddf10> 
+  </div> <jinja2.runtime.BlockReference object at 0x7fba03be2190> 
 
 <p>© 2020 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
