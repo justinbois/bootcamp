@@ -503,13 +503,13 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Lesson-11:-Version-control-with-Git">
 <h1>Lesson 11: Version control with Git<a class="headerlink" href="#Lesson-11:-Version-control-with-Git" title="Permalink to this headline">¶</a></h1>
-<hr><p>Keeping track of all of the changes in your project over time is good practice. How many times have you edited something in something you were writing and then wanted to go back and see what you had in the first place?Wouldn’t it be great to know what changes you made and when you made them?</p>
+<hr><p>Keeping track of all of the changes in your project over time is good practice. How many times have you edited something in something you were writing and then wanted to go back and see what you had in the first place? Wouldn’t it be great to know what changes you made and when you made them?</p>
 <p>A <strong>version control system</strong> facilitates this process of keeping track of changes over time. Beyond that, it allows multiple people to collaborate and work on parts of the same project simultaneously.</p>
 <p>There are many version control systems. The four most prominent, in order of age, oldest to youngest, are CVS, Subversion, Git, and Mercurial (the first version of Git was released about two weeks before Mercurial, so they are really the same age). Today, Git dominates.</p>
 <p>Using Git as a version control system allows communication with remote repositories (“repos” for short) such as <a class="reference external" href="http://github.com/">GitHub</a>, <a class="reference external" href="http://gitlab.com/">GitLab</a> or <a class="reference external" href="http://bitbucket.org">Bitbucket</a>. These services provide university-affiliated people with a <code class="docutils literal notranslate"><span class="pre">.edu</span></code> email address with perks that include free private repositories. We will use GitHub for our bootcamp, and you should already have set up an account.</p>
 <p>Remote repositories are not only a great way for keeping your code safe. They are also an excellent tool for collaboration since Git allows multiple users to edit the shared files simultaneously and has a method to merge changes afterwards. Public repositories can also serve as a vehicle to distribute code (or other files).</p>
 <p>You can find more information about Git <a class="reference external" href="https://git-scm.com/documentation">here</a>. It is well documented. Here is an <a class="reference external" href="https://education.github.com/git-cheat-sheet-education.pdf">excellent one-page (front-and-back) cheatsheet</a>.</p>
-<p>Let’s get started. You all should have a version of Git installed on your computers. Open the terminal and navigate into your <code class="docutils literal notranslate"><span class="pre">~/git</span></code> directory.</p>
+<p>Let’s get started. You all should have a version of Git installed on your computers. Open the terminal and navigate into your <code class="docutils literal notranslate"><span class="pre">~/git</span></code> directory. (Note that while we’ll use the command line for this lesson, you can also interact with Git in your browser and with <a class="reference external" href="https://desktop.github.com/">GitHub Desktop</a>. Use whichever approach best suits your version control needs!)</p>
 <div class="section" id="Configuring-Git">
 <h2>Configuring Git<a class="headerlink" href="#Configuring-Git" title="Permalink to this headline">¶</a></h2>
 <p>While you already used Git in <a class="reference internal" href="l00_configuring_your_computer.html"><span class="doc">Lesson 0</span></a>, you still have some configuring to do. For this, and everything else in the lesson, we’ll use the command line. We will do the configuration with <code class="docutils literal notranslate"><span class="pre">--global</span></code> flags, which means these specifications work for all of your repositories. First, we’ll specify the name and email address of the person working with Git on your machine (that’s you!).</p>
@@ -563,15 +563,15 @@ git merge FETCH_HEAD
 </div>
 <p>This will “pull” in any changes make to the repository. Throughout the bootcamp, we may need to update files in the repository, so you may need to <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> throughout the bootcamp.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> is actually shorthand for</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git pull origin master
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git pull origin main
 </pre></div>
 </div>
-<p>which is the more verbose way of saying that you want to pull the master <strong>branch</strong> from the remote repository named <code class="docutils literal notranslate"><span class="pre">origin</span></code>. We will not discuss branching in this bootcamp, but it is an important concept to learn about.</p>
+<p>which is the more verbose way of saying that you want to pull the main <strong>branch</strong> from the remote repository named <code class="docutils literal notranslate"><span class="pre">origin</span></code>. We will not discuss branching in this bootcamp, but it is an important concept to learn about. (Also, note that <a class="reference external" href="https://github.com/github/renaming">prior to 2020</a>, the default branch for each GitHub repository was called <strong>master</strong>, so you may see that in older repositories.)</p>
 <p>Generally it is good practice to pull before you start working each day to make sure you pull in any updates your collaborators may have made.</p>
 <div class="section" id="Pulling-in-changes-from-an-upstream-repository">
 <h3>Pulling in changes from an upstream repository<a class="headerlink" href="#Pulling-in-changes-from-an-upstream-repository" title="Permalink to this headline">¶</a></h3>
 <p>As you saw in <a class="reference internal" href="l00_configuring_your_computer.html"><span class="doc">Lesson 0</span></a>, it is sometimes useful to pull from an upstream repository. In <a class="reference internal" href="l00_configuring_your_computer.html"><span class="doc">Lesson 0</span></a>, you added an upstream remote repository to the bootcamp repository. To pull from the upstream repository, you need to use the more verbose version of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code>.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git pull upstream master
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git pull upstream main
 </pre></div>
 </div>
 </div>
@@ -591,7 +591,7 @@ from is called <strong>upstream</strong>.</p>
 <h2>Creating your own repository<a class="headerlink" href="#Creating-your-own-repository" title="Permalink to this headline">¶</a></h2>
 <p>Now, you will create your own repository for practice. For this bootcamp, let’s name the repository with your initials followed by <code class="docutils literal notranslate"><span class="pre">_bootcamp</span></code>. In my case, my repository is <code class="docutils literal notranslate"><span class="pre">jb_bootcamp</span></code>.</p>
 <p>Only in rare circumstances would you not want to host your repository remotely, so we will take an easy path toward creating a repository using GitHub. Prior to the bootcamp, you all should have set up a GitHub account. Log in to GitHub. In the upper right corner of the page, click on the “<strong>``+``</strong>” icon and select “New repository.” You will then get a page that looks like this:</p>
-<center><p><img alt="7e6d80df24b74458a284e41cf49a050c" class="no-scaled-link" src="../_images/github2.png" style="width: 600px;" /></p>
+<center><p><img alt="5cb8c8a761084cdc86cf63f9f341d9f8" class="no-scaled-link" src="../_images/github2.png" style="width: 600px;" /></p>
 </center><p>I called the new repository <code class="docutils literal notranslate"><span class="pre">jb_bootcamp</span></code> (yours will obviously have your own initials, and you can substitute them for <code class="docutils literal notranslate"><span class="pre">jb</span></code> wherever you see that in this lesson), and gave a little description. You can choose the repository to be either private of public; if you are not an academic, you have to pay for private repositories. Public repositories can be viewed by anyone. I will choose public for this one.</p>
 <p>I have checked the box to initialized the repository with a README. This is convenient because GitHub will set up the repository and populate it with a README file that you can generate right in your browser. I also selected to add a Python <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>, which is convenient for keeping your version control clean (more on that <a class="reference external" href="#.gitignore">later</a>). Finally, I chose an MIT license, which is a liberal license that will let others use your code if they would like to.</p>
 <p>After clicking “Create repository,” you will get a page that looks like this:</p>
@@ -620,8 +620,8 @@ ls
 </pre></div>
 </div>
 <p>The output looks like this:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>On branch master
-Your branch is up-to-date with &#39;origin/master&#39;.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>On branch main
+Your branch is up-to-date with &#39;origin/main&#39;.
 
 Changes not staged for commit:
   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
@@ -651,8 +651,8 @@ git add README.md
 <div class="section" id="Committing-and-pushing-changes">
 <h2>Committing and pushing changes<a class="headerlink" href="#Committing-and-pushing-changes" title="Permalink to this headline">¶</a></h2>
 <p>Now, if we type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code>, we get updated information.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>On branch master
-Your branch is up-to-date with &#39;origin/master&#39;.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>On branch main
+Your branch is up-to-date with &#39;origin/main&#39;.
 
 Changes to be committed:
   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
@@ -670,7 +670,7 @@ Changes to be committed:
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">-m</span></code> after <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code> specifies the <strong>commit message</strong>. This is a brief bit of text that describes what has changed in the repository. It is really important to write informative commit messages (and <a class="reference external" href="https://chris.beams.io/posts/git-commit/">here are some beautifully described rules for good commit messages</a>). By contrast, most <a class="reference external" href="http://ramiro.org/blog/most-frequent-github-commit-messages/">commit messages that people write are useless</a>. Upon committing, the something like the
 following is printed to the screen:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[master f99e0e2] Initial commit of bootcamp utilities.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[main f99e0e2] Initial commit of bootcamp utilities.
  5 files changed, 120 insertions(+), 1 deletion(-)
  create mode 100644 jb_bootcamp/__init__.py
  create mode 100644 jb_bootcamp/bioinfo_dicts.py
@@ -680,13 +680,13 @@ following is printed to the screen:</p>
 </div>
 <p>The number <code class="docutils literal notranslate"><span class="pre">f99e0e2</span></code> (yours will be different) is the short version of the commit identifier. If you ever want to go back to a previous version of the repository, this identifier will be a great help.</p>
 <p>Now, the commit is still only on your local machine. In order for your collaborators (or the whole world, if it is a public repo) to have access to it (and in order for it to appear on GitHub), you need to <strong>push</strong> it. To do that, we do this:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git push origin master
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git push origin main
 </pre></div>
 </div>
-<p>Here, <code class="docutils literal notranslate"><span class="pre">origin</span></code> is a nickname for your remote repository. <code class="docutils literal notranslate"><span class="pre">master</span></code> is the name of the branch we are pushing to in the GitHub repository. It is so named because it is the master copy. By default, GitHub names the main branch “master,” but this will soon change to “main.” (We will not talk about branches or branching in this lesson.)</p>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">origin</span></code> is a nickname for your remote repository. <code class="docutils literal notranslate"><span class="pre">main</span></code> is the name of the branch we are pushing to in the GitHub repository.</p>
 <p>Now, let’s look at our repository on GitHub. You can just refresh the main page of the repository in your browser. It now looks like this:</p>
 <div style="margin: auto; width: 600px;"><img alt="github4" src="../_images/github4.png" />
-</div><p>We now have our updates in the master branch, out there in the cloud for sharing.</p>
+</div><p>We now have our updates in the main branch, out there in the cloud for sharing.</p>
 </div>
 <div class="section" id=".gitignore">
 <h2>.gitignore<a class="headerlink" href="#.gitignore" title="Permalink to this headline">¶</a></h2>
@@ -765,11 +765,11 @@ jupyterlab 1.2.6
   <div role="contentinfo">
     <p>
       <span class="lastupdated">
-        Last updated on Aug 25, 2021.
+        Last updated on Aug 26, 2021.
       </span>
 
     </p>
-  </div> <jinja2.runtime.BlockReference object at 0x7fba038742b0> 
+  </div> <jinja2.runtime.BlockReference object at 0x7ff447ece5e0> 
 
 <p>© 2020 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

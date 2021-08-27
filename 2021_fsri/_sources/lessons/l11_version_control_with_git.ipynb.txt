@@ -13,7 +13,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Keeping track of all of the changes in your project over time is good practice. How many times have you edited something in something you were writing and then wanted to go back and see what you had in the first place?Wouldn't it be great to know what changes you made and when you made them?\n",
+    "Keeping track of all of the changes in your project over time is good practice. How many times have you edited something in something you were writing and then wanted to go back and see what you had in the first place? Wouldn't it be great to know what changes you made and when you made them?\n",
     "\n",
     "A **version control system** facilitates this process of keeping track of changes over time. Beyond that, it allows multiple people to collaborate and work on parts of the same project simultaneously. \n",
     "\n",
@@ -25,7 +25,7 @@
     "\n",
     "You can find more information about Git [here](https://git-scm.com/documentation). It is well documented. Here is an [excellent one-page (front-and-back) cheatsheet](https://education.github.com/git-cheat-sheet-education.pdf).\n",
     "\n",
-    "Let's get started. You all should have a version of Git installed on your computers. Open the terminal and navigate into your `~/git` directory."
+    "Let's get started. You all should have a version of Git installed on your computers. Open the terminal and navigate into your `~/git` directory. (Note that while we'll use the command line for this lesson, you can also interact with Git in your browser and with [GitHub Desktop](https://desktop.github.com/). Use whichever approach best suits your version control needs!)"
    ]
   },
   {
@@ -102,9 +102,9 @@
     "\n",
     "Note that `git pull` is actually shorthand for \n",
     "\n",
-    "    git pull origin master\n",
+    "    git pull origin main\n",
     "    \n",
-    "which is the more verbose way of saying that you want to pull the master **branch** from the remote repository named `origin`. We will not discuss branching in this bootcamp, but it is an important concept to learn about.\n",
+    "which is the more verbose way of saying that you want to pull the main **branch** from the remote repository named `origin`. We will not discuss branching in this bootcamp, but it is an important concept to learn about. (Also, note that [prior to 2020](https://github.com/github/renaming), the default branch for each GitHub repository was called **master**, so you may see that in older repositories.)\n",
     "\n",
     "Generally it is good practice to pull before you start working each day to make sure you pull in any updates your collaborators may have made."
    ]
@@ -117,7 +117,7 @@
     "\n",
     "As you saw in [Lesson 0](l00_configuring_your_computer.ipynb), it is sometimes useful to pull from an upstream repository. In [Lesson 0](l00_configuring_your_computer.ipynb), you added an upstream remote repository to the bootcamp repository. To pull from the upstream repository, you need to use the more verbose version of `git pull`.\n",
     "\n",
-    "    git pull upstream master"
+    "    git pull upstream main"
    ]
   },
   {
@@ -203,8 +203,8 @@
     "The output looks like this:\n",
     "\n",
     "```\n",
-    "On branch master\n",
-    "Your branch is up-to-date with 'origin/master'.\n",
+    "On branch main\n",
+    "Your branch is up-to-date with 'origin/main'.\n",
     "\n",
     "Changes not staged for commit:\n",
     "  (use \"git add <file>...\" to update what will be committed)\n",
@@ -243,8 +243,8 @@
     "Now, if we type `git status`, we get updated information.\n",
     "\n",
     "```\n",
-    "On branch master\n",
-    "Your branch is up-to-date with 'origin/master'.\n",
+    "On branch main\n",
+    "Your branch is up-to-date with 'origin/main'.\n",
     "\n",
     "Changes to be committed:\n",
     "  (use \"git reset HEAD <file>...\" to unstage)\n",
@@ -263,7 +263,7 @@
     "The `-m` after `git commit` specifies the **commit message**. This is a brief bit of text that describes what has changed in the repository. It is really important to write informative commit messages (and [here are some beautifully described rules for good commit messages](https://chris.beams.io/posts/git-commit/)). By contrast, most [commit messages that people write are useless](http://ramiro.org/blog/most-frequent-github-commit-messages/). Upon committing, the something like the following is printed to the screen:\n",
     "\n",
     "```\n",
-    "[master f99e0e2] Initial commit of bootcamp utilities.\n",
+    "[main f99e0e2] Initial commit of bootcamp utilities.\n",
     " 5 files changed, 120 insertions(+), 1 deletion(-)\n",
     " create mode 100644 jb_bootcamp/__init__.py\n",
     " create mode 100644 jb_bootcamp/bioinfo_dicts.py\n",
@@ -275,9 +275,9 @@
     "\n",
     "Now, the commit is still only on your local machine. In order for your collaborators (or the whole world, if it is a public repo) to have access to it (and in order for it to appear on GitHub), you need to **push** it. To do that, we do this:\n",
     "\n",
-    "    git push origin master\n",
+    "    git push origin main\n",
     "\n",
-    "Here, `origin` is a nickname for your remote repository. `master` is the name of the branch we are pushing to in the GitHub repository. It is so named because it is the master copy. By default, GitHub names the main branch \"master,\" but this will soon change to \"main.\" (We will not talk about branches or branching in this lesson.)\n",
+    "Here, `origin` is a nickname for your remote repository. `main` is the name of the branch we are pushing to in the GitHub repository. \n",
     "\n",
     "Now, let's look at our repository on GitHub. You can just refresh the main page of the repository in your browser. It now looks like this:\n",
     "\n",
@@ -289,7 +289,7 @@
     "</div>\n",
     "\n",
     "\n",
-    "We now have our updates in the master branch, out there in the cloud for sharing."
+    "We now have our updates in the main branch, out there in the cloud for sharing."
    ]
   },
   {
