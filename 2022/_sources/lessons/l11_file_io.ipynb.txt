@@ -1,0 +1,710 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 11: File I/O\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import glob"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<hr/>\n",
+    "\n",
+    "Reading data in from files and then writing your results out again is one of the most common practices in scientific computing. In this tutorial, we will learn about some of Python's File I/O capabilities. We will use a PDB file as an example. The PDB file contains the crystal structure for the tetramerization domain of [p53](https://en.wikipedia.org/wiki/P53).It is stored in the  file `~/git/bootcamp/data/1OLG.pdb`. (Make sure you launch your notebook from the `~/git/bootcamp/` directory.) Note that `1OLG` is its unique [Protein Databank](http://www.rcsb.org/pdb/explore/explore.do?structureId=1olg) identifier."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## File objects\n",
+    "\n",
+    "To open a file, we use the built-in `open()` function. When opening files, we should do this using **context management**. I will demonstrate how to open a file and then describe the syntax."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class '_io.TextIOWrapper'>\n"
+     ]
+    }
+   ],
+   "source": [
+    "with open('data/1OLG.pdb', 'r') as f:\n",
+    "    print(type(f))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Python has a wonderful keyword, `with`. This keyword enables **context management**. Upon entry into a `with` block, variables have certain meaning. In this case, the variable `f` has the meaning of an open file, an instance of the `_io.TextIOWrapper` class. Upon exit, certain operations take place. For file objects created by opening them, the file is automatically closed upon exit, **even if there is an error**. This is important. If your program raises an exception before you have a chance to close the file, it won't get closed and you could be in trouble. If you use context management, the file will still get closed. So here is an important tip:\n",
+    "\n",
+    "<div style=\"color: dodgerblue; text-align: center; font-weight: bold;\">\n",
+    "\n",
+    "Use context management using <tt>with</tt> when working with files.\n",
+    "    \n",
+    "</div>\n",
+    "\n",
+    "Let's focus for a moment on the variable `f` in the above code cell. It is a Python `file` object, which has methods and attributes, just like any other object. We'll explore those in a moment, but first, let's look at how we opened the file. The first argument to `open()` is a string that has the name of the file, with the full path if necessary. The second argument is a string that says what we will be doing with the file. I.e., are we reading or writing to the file? The possible strings for this second argument are\n",
+    "\n",
+    "|string | meaning|\n",
+    "|:------|:-------|\n",
+    "|`'r'` | open a text file for reading|\n",
+    "|`'w'` | create and open a text file for writing|\n",
+    "|`'a'` | append an existing text file|\n",
+    "|`'r+'`| open a text file for reading and writing|\n",
+    "|append `'b'` to any of the above | same as above, except for binary files|\n",
+    "\n",
+    "We will mostly be working with text files in the bootcamp, so the first three are the most useful.  A big warning, though....\n",
+    "\n",
+    "\n",
+    "<div style=\"color: tomato; text-align: center; font-weight: bold;\">\n",
+    "\n",
+    "Trying to open an existing file with <tt>'w'</tt> will wipe it out and create a new file.\n",
+    "    \n",
+    "</div>\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Reading data out of the file with file object methods\n",
+    "\n",
+    "We will focus on the methods `f.read()` and `f.readlines()`. What do they do?\n",
+    "\n",
+    "|method | task|\n",
+    "|:------|:-------|\n",
+    "|`f.read()` | Read the entire contents of the file into a string|\n",
+    "|`f.readlines()` | Read the entire file into a list with each item being a string representing a line|\n",
+    "\n",
+    "First, we'll try using the first method to get a single string with the entire contents of the file."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \\nTITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \\nTITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \\nCOMPND    MOL_ID: 1;                                                            \\nCOMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);             \\nCOMPND   3 CHAIN: A, B, C, D;                                                   \\nCOMPND   4 ENGINEERED: YES                                                      \\nSOURCE    MOL_ID: 1;                                                            \\nSOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   \\nSOURCE   3 ORGANISM_COMMON: HUMAN;                                              \\nSOURCE   4 ORGANISM_TAXID: 9606                                                 \\nKEYWDS    ANTI-ONCOGENE                                                         \\nEXPDTA    SOLUTION NMR      '"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Read file into string\n",
+    "with open('data/1OLG.pdb', 'r') as f:\n",
+    "    f_str = f.read()\n",
+    "\n",
+    "# Let's look at the first 1000 characters\n",
+    "f_str[:1000]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We see lots of `\\n`, which signifies a new line. The backslash is known as an **escape character**, meaning that the `n` after it does not signify the letter n, but that `\\n` together means a new line.\n",
+    "\n",
+    "Now, let's try reading it in as a list."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG              \\n',\n",
+       " 'TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION             \\n',\n",
+       " 'TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR                               \\n',\n",
+       " 'COMPND    MOL_ID: 1;                                                            \\n',\n",
+       " 'COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);             \\n',\n",
+       " 'COMPND   3 CHAIN: A, B, C, D;                                                   \\n',\n",
+       " 'COMPND   4 ENGINEERED: YES                                                      \\n',\n",
+       " 'SOURCE    MOL_ID: 1;                                                            \\n',\n",
+       " 'SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   \\n',\n",
+       " 'SOURCE   3 ORGANISM_COMMON: HUMAN;                                              \\n']"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Read contents of the file in as a list\n",
+    "with open('data/1OLG.pdb', 'r') as f:\n",
+    "    f_list = f.readlines()\n",
+    "\n",
+    "# Look at the list (first ten entries)\n",
+    "f_list[:10]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We see that each entry is a line, including the newline character. To look at lines in files, the `rstrip()` method for strings can come it handy. It strips all whitespace, including newlines, from the end of a string."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG'"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "f_list[0].rstrip()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Reading line-by-line\n",
+    "\n",
+    "What if we do not want to read the entire file into a list? For example, if a file is several gigabytes, we do not want to spend all of our RAM storing a list. Instead, we can read it line-by-line. Conveniently, the file object can be used as an iterator."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG\n",
+      "TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION\n",
+      "TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR\n",
+      "COMPND    MOL_ID: 1;\n",
+      "COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);\n",
+      "COMPND   3 CHAIN: A, B, C, D;\n",
+      "COMPND   4 ENGINEERED: YES\n",
+      "SOURCE    MOL_ID: 1;\n",
+      "SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;\n",
+      "SOURCE   3 ORGANISM_COMMON: HUMAN;\n",
+      "SOURCE   4 ORGANISM_TAXID: 9606\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Print the first ten lines of the file\n",
+    "with open('data/1OLG.pdb', 'r') as f:\n",
+    "    for i, line in enumerate(f):\n",
+    "        print(line.rstrip())\n",
+    "        if i >= 10:\n",
+    "            break"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Alternatively, we can use the method `f.readline()` to read a single line in the file and return it as a string."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG\n",
+      "TITLE     HIGH-RESOLUTION SOLUTION STRUCTURE OF THE OLIGOMERIZATION\n",
+      "TITLE    2 DOMAIN OF P53 BY MULTI-DIMENSIONAL NMR\n",
+      "COMPND    MOL_ID: 1;\n",
+      "COMPND   2 MOLECULE: TUMOR SUPPRESSOR P53 (OLIGOMERIZATION DOMAIN);\n",
+      "COMPND   3 CHAIN: A, B, C, D;\n",
+      "COMPND   4 ENGINEERED: YES\n",
+      "SOURCE    MOL_ID: 1;\n",
+      "SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;\n",
+      "SOURCE   3 ORGANISM_COMMON: HUMAN;\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Print the first ten lines of the file\n",
+    "with open('data/1OLG.pdb', 'r') as f:\n",
+    "    i = 0\n",
+    "    while i < 10:\n",
+    "        print(f.readline().rstrip())\n",
+    "        i += 1"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Each subsequent call to `f.readline()` reads in the next line of the file. (As we read through a file, we keep moving forward in the bytes of the file and we have to use `f.seek()` to rewind.)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Writing to a file\n",
+    "\n",
+    "Writing to a file has similar syntax. We already saw how to open a file for writing. Again, context management is useful. However, before trying to open a file, we should check to make sure a file of the same name does not exist before opening it. The `os.path` module is useful. The function `os.path.isfile()` function checks to see if a file exists."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "os.path.isfile('data/1OLG.pdb')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now that we know how to check existence of a file so we do not overwrite it, we can open and write a file."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "if os.path.isfile('yogi.txt'):\n",
+    "    raise RuntimeError('File yogi.txt already exists.')\n",
+    "\n",
+    "with open('yogi.txt', 'w') as f:\n",
+    "    f.write('When you come to a fork in the road, take it.')\n",
+    "    f.write('You can observe a lot by just watching.')\n",
+    "    f.write('I never said most of the things I said.')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note that we can use the `f.write()` method to write strings to a file. Let's look at the file contents."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "When you come to a fork in the road, take it.You can observe a lot by just watching.I never said most of the things I said."
+     ]
+    }
+   ],
+   "source": [
+    "!cat yogi.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Ah!  There are no newlines!  When writing to a file, unlike when you use the `print()` function, you must include the newline characters.  Let's try again, intentionally obliterating our first attempt."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "When you come to a fork in the road, take it.\n",
+      "You can observe a lot by just watching.\n",
+      "I never said most of the things I said.\n"
+     ]
+    }
+   ],
+   "source": [
+    "with open('yogi.txt', 'w') as f:\n",
+    "    f.write('When you come to a fork in the road, take it.\\n')\n",
+    "    f.write('You can observe a lot by just watching.\\n')\n",
+    "    f.write('I never said most of the things I said.\\n')\n",
+    "    \n",
+    "!cat yogi.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "That's better. Note also that `f.write()` **only** takes strings as arguments. You cannot pass numbers. They must be converted to strings first."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "TypeError",
+     "evalue": "write() argument must be str, not float",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mTypeError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-12-9265e8a96772>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;32mwith\u001b[0m \u001b[0mopen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'gimme_phi.txt'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'w'\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0mf\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m     \u001b[0mf\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mwrite\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'The golden ratio is φ = '\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 4\u001b[0;31m     \u001b[0mf\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mwrite\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;36m1.61803398875\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mTypeError\u001b[0m: write() argument must be str, not float"
+     ]
+    }
+   ],
+   "source": [
+    "# This will result in an exception\n",
+    "with open('gimme_phi.txt', 'w') as f:\n",
+    "    f.write('The golden ratio is φ = ')\n",
+    "    f.write(1.61803398875)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Yup.  It must be a string.  Let's try again."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The golden ratio is φ = 1.61803399"
+     ]
+    }
+   ],
+   "source": [
+    "with open('gimme_phi.txt', 'w') as f:\n",
+    "    f.write('The golden ratio is φ = ')\n",
+    "    f.write('{phi:.8f}'.format(phi=1.61803398875))\n",
+    "\n",
+    "!cat gimme_phi.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "That works!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## An exercise: extract atomic coordinates for first chain in tetramer\n",
+    "\n",
+    "As an example on how to do file I/O, we will take the PDB file and extract only the `ATOM` records for the first chain of the tetramer and write only those entries to a new file.\n",
+    "\n",
+    "It is useful to know that according to the [PDB format specification](http://www.wwpdb.org/documentation/file-format-content/format33/sect9.html#ATOM), column 21 in the `ATOM` entry gives the ID of the chain.\n",
+    "\n",
+    "We also conveniently use the fact that we can have multiple files open in our `with` block, separating them with commas."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "with open('data/1OLG.pdb', 'r') as f, open('atoms_chain_A.txt', 'w') as f_out:\n",
+    "    # Put the ATOM lines from chain A in new file\n",
+    "    for line in f:\n",
+    "        if len(line) > 21 and line[:4] == 'ATOM' and line[21] == 'A':\n",
+    "            f_out.write(line)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's see how we did!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ATOM      1  N   LYS A 319      18.634  25.437  10.685  1.00  4.81           N  \n",
+      "ATOM      2  CA  LYS A 319      17.984  25.295   9.354  1.00  4.32           C  \n",
+      "ATOM      3  C   LYS A 319      18.160  23.876   8.818  1.00  3.74           C  \n",
+      "ATOM      4  O   LYS A 319      19.259  23.441   8.537  1.00  3.67           O  \n",
+      "ATOM      5  CB  LYS A 319      18.609  26.282   8.371  1.00  4.67           C  \n",
+      "ATOM      6  CG  LYS A 319      18.003  26.056   6.986  1.00  5.15           C  \n",
+      "ATOM      7  CD  LYS A 319      16.476  26.057   7.091  1.00  5.90           C  \n",
+      "ATOM      8  CE  LYS A 319      16.014  27.341   7.784  1.00  6.51           C  \n",
+      "ATOM      9  NZ  LYS A 319      16.388  28.518   6.952  1.00  7.33           N  \n",
+      "ATOM     10  H1  LYS A 319      18.414  24.606  11.281  1.00  5.09           H  \n"
+     ]
+    }
+   ],
+   "source": [
+    "!head -10 atoms_chain_A.txt"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ATOM    689  HD2 PRO A 359       0.183  25.663  13.542  1.00  4.71           H  \n",
+      "ATOM    690  HD3 PRO A 359       0.246  23.956  13.062  1.00  4.53           H  \n",
+      "ATOM    691  N   GLY A 360      -3.984  26.791  10.832  1.00  5.45           N  \n",
+      "ATOM    692  CA  GLY A 360      -4.489  28.138  10.445  1.00  5.95           C  \n",
+      "ATOM    693  C   GLY A 360      -5.981  28.236  10.765  1.00  6.77           C  \n",
+      "ATOM    694  O   GLY A 360      -6.401  27.621  11.732  1.00  7.24           O  \n",
+      "ATOM    695  OXT GLY A 360      -6.679  28.924  10.039  1.00  7.15           O  \n",
+      "ATOM    696  H   GLY A 360      -4.589  26.020  10.828  1.00  5.72           H  \n",
+      "ATOM    697  HA2 GLY A 360      -3.950  28.896  10.995  1.00  5.99           H  \n",
+      "ATOM    698  HA3 GLY A 360      -4.341  28.288   9.386  1.00  6.05           H  \n"
+     ]
+    }
+   ],
+   "source": [
+    "!tail -10 atoms_chain_A.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Nice!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Finding files and with glob\n",
+    "\n",
+    "In the above snippet of code, we extracted all atom records from a PDB file. We might want to do this (or some other operation) for many files. For example, the directory `~/git/data/` has four PDB files in it. For the present discussion, let's say we want to pull the sequence of chain A out of each PDB file.\n",
+    "\n",
+    "The `glob` module from the standard library enables us to get a list of all files that match a pattern. In our case, we want all files matching `data/*.pdb`, where `*` is a **wild card character**, meaning that any matches of characters where `*` appears are allowed. Let's see what `glob.glob()` gives us."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['data/1OLG.pdb', 'data/1J6Z.pdb', 'data/1FAG.pdb', 'data/2ERK.pdb']"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "file_list = glob.glob('data/*.pdb')\n",
+    "\n",
+    "file_list"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We have the four PDB files. We can now loop over them and pull out the sequences."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Dictionary to hold sequences\n",
+    "seqs = {}\n",
+    "\n",
+    "# Loop through all matching files\n",
+    "for file_name in file_list:\n",
+    "    # Extract PDB ID\n",
+    "    pdb_id = file_name[file_name.find('/')+1:file_name.rfind('.')]\n",
+    "    \n",
+    "    # Initialize sequence string, which we build as we go along\n",
+    "    seq = ''\n",
+    "    with open(file_name, 'r') as f:\n",
+    "        for line in f:\n",
+    "            if len(line) > 11 and line[:6] == 'SEQRES' and line[11] == 'A':\n",
+    "                seq += line[19:].rstrip() + ' '\n",
+    "\n",
+    "    # Build sequence with dash-joined three letter codes\n",
+    "    seq = '-'.join(seq.split())\n",
+    "\n",
+    "    # Store in the dictionary\n",
+    "    seqs[pdb_id] = seq"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's take a look at what we got. We'll look at actin."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'ASP-GLU-ASP-GLU-THR-THR-ALA-LEU-VAL-CYS-ASP-ASN-GLY-SER-GLY-LEU-VAL-LYS-ALA-GLY-PHE-ALA-GLY-ASP-ASP-ALA-PRO-ARG-ALA-VAL-PHE-PRO-SER-ILE-VAL-GLY-ARG-PRO-ARG-HIS-GLN-GLY-VAL-MET-VAL-GLY-MET-GLY-GLN-LYS-ASP-SER-TYR-VAL-GLY-ASP-GLU-ALA-GLN-SER-LYS-ARG-GLY-ILE-LEU-THR-LEU-LYS-TYR-PRO-ILE-GLU-HIC-GLY-ILE-ILE-THR-ASN-TRP-ASP-ASP-MET-GLU-LYS-ILE-TRP-HIS-HIS-THR-PHE-TYR-ASN-GLU-LEU-ARG-VAL-ALA-PRO-GLU-GLU-HIS-PRO-THR-LEU-LEU-THR-GLU-ALA-PRO-LEU-ASN-PRO-LYS-ALA-ASN-ARG-GLU-LYS-MET-THR-GLN-ILE-MET-PHE-GLU-THR-PHE-ASN-VAL-PRO-ALA-MET-TYR-VAL-ALA-ILE-GLN-ALA-VAL-LEU-SER-LEU-TYR-ALA-SER-GLY-ARG-THR-THR-GLY-ILE-VAL-LEU-ASP-SER-GLY-ASP-GLY-VAL-THR-HIS-ASN-VAL-PRO-ILE-TYR-GLU-GLY-TYR-ALA-LEU-PRO-HIS-ALA-ILE-MET-ARG-LEU-ASP-LEU-ALA-GLY-ARG-ASP-LEU-THR-ASP-TYR-LEU-MET-LYS-ILE-LEU-THR-GLU-ARG-GLY-TYR-SER-PHE-VAL-THR-THR-ALA-GLU-ARG-GLU-ILE-VAL-ARG-ASP-ILE-LYS-GLU-LYS-LEU-CYS-TYR-VAL-ALA-LEU-ASP-PHE-GLU-ASN-GLU-MET-ALA-THR-ALA-ALA-SER-SER-SER-SER-LEU-GLU-LYS-SER-TYR-GLU-LEU-PRO-ASP-GLY-GLN-VAL-ILE-THR-ILE-GLY-ASN-GLU-ARG-PHE-ARG-CYS-PRO-GLU-THR-LEU-PHE-GLN-PRO-SER-PHE-ILE-GLY-MET-GLU-SER-ALA-GLY-ILE-HIS-GLU-THR-THR-TYR-ASN-SER-ILE-MET-LYS-CYS-ASP-ILE-ASP-ILE-ARG-LYS-ASP-LEU-TYR-ALA-ASN-ASN-VAL-MET-SER-GLY-GLY-THR-THR-MET-TYR-PRO-GLY-ILE-ALA-ASP-ARG-MET-GLN-LYS-GLU-ILE-THR-ALA-LEU-ALA-PRO-SER-THR-MET-LYS-ILE-LYS-ILE-ILE-ALA-PRO-PRO-GLU-ARG-LYS-TYR-SER-VAL-TRP-ILE-GLY-GLY-SER-ILE-LEU-ALA-SER-LEU-SER-THR-PHE-GLN-GLN-MET-TRP-ILE-THR-LYS-GLN-GLU-TYR-ASP-GLU-ALA-GLY-PRO-SER-ILE-VAL-HIS-ARG-LYS-CYS-PHE'"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "seqs['1J6Z']"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Excellent! Our function worked, and we now have the protein sequence."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.8.10\n",
+      "IPython version      : 7.22.0\n",
+      "\n",
+      "jupyterlab: 3.0.14\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
