@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 26: JavaScript for stand-alone Bokeh apps &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -416,7 +415,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-26:-JavaScript-for-stand-alone-Bokeh-apps">
+<div class="section" id="Lesson-26:-JavaScript-for-stand-alone-Bokeh-apps">
 <h1>Lesson 26: JavaScript for stand-alone Bokeh apps<a class="headerlink" href="#Lesson-26:-JavaScript-for-stand-alone-Bokeh-apps" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -745,14 +744,14 @@ var element = document.currentScript.previousSibling.previousSibling;
 <p>There is a major drawback to this approach, though. In order to interactively explore using the dashboard, you need to have a Python interpreter running, either in the Jupyter notebook or when you serve your dashboards using <code class="docutils literal notranslate"><span class="pre">bokeh</span> <span class="pre">serve</span></code> on the command line. If you wanted to include an interactive plot in a publication, it would be nice to be able to interact with the plots/dashboard directly in the browser without the reader having to launch a Jupyter notebook or serve it up on their local
 machine (and have all of the necessary installations). In some cases, you will need the Python interpreter for sophisticated dashboards that do involved calculations. But in many cases, with just a little JavaScript, you can make beautiful interactive graphics rendered in pure HTML with JavaScript.</p>
 <p>(Note, though, that in coming years, <a class="reference external" href="https://pyscript.net">PyScript</a> may change the game on this.)</p>
-<section id="JavaScript-and-Bokeh">
+<div class="section" id="JavaScript-and-Bokeh">
 <h2>JavaScript and Bokeh<a class="headerlink" href="#JavaScript-and-Bokeh" title="Permalink to this headline"></a></h2>
 <p>We have been using Bokeh for rendering out plots and dashboards. As we have seen, Bokeh is a Python library for generating graphics that can be visualized and interacted with in the browser. In order to display the graphics and enable the interactions, Bokeh relies on its client-side <a class="reference external" href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> library, <a class="reference external" href="https://docs.bokeh.org/en/latest/docs/dev_guide/bokehjs.html">BokehJS</a>. It is this JavaScript library that handles all of the rendering,
 zooming, selecting, etc., as well has the widgets. The callback functions that get executed to update information about the plot based on changes in the widgets are in Python. This is what requires the Python interpreter to be running.</p>
 <p>Conveniently, Bokeh allows for pure JavaScript callbacks. And it turns out that if you know just a little JavaScript, you can make your dashboards have full functionality standing alone in the browser without Python running.</p>
 <p>So, in this lesson, we will learn a little JavaScript to make our dashboards be totally portable. We will not delve into the details of the language (that would require a complete bootcamp!), but will just give a little syntax. We will do it all in the context of making interactive plots. As you will see, a just a little JavaScript goes a long way!</p>
-</section>
-<section id="Example-1:-Exploring-the-Normal-pdf">
+</div>
+<div class="section" id="Example-1:-Exploring-the-Normal-pdf">
 <h2>Example 1: Exploring the Normal pdf<a class="headerlink" href="#Example-1:-Exploring-the-Normal-pdf" title="Permalink to this headline"></a></h2>
 <p>In our <a class="reference internal" href="l25_dashboards.html"><span class="doc">lesson on dashboarding</span></a>, we build an interactive plot of the probability density function (pdf) for the Normal distribution. We used the <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> package to get the mathematical expression for the pdf. Since we will code it up in JavaScript, I write it here.</p>
 <p><span class="math">\begin{align}
@@ -1050,8 +1049,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 <p>We can again ignore the warnings. We now have our stand-alone app!</p>
 <p>(Note that if you wanted to save a Panel layout to HTML, the syntax is <code class="docutils literal notranslate"><span class="pre">layout_made_with_panel.save(&quot;filename.html&quot;)</span></code>.</p>
-</section>
-<section id="Exploring-a-data-set">
+</div>
+<div class="section" id="Exploring-a-data-set">
 <h2>Exploring a data set<a class="headerlink" href="#Exploring-a-data-set" title="Permalink to this headline"></a></h2>
 <p>In the <a class="reference internal" href="l25_dashboards.html"><span class="doc">dashboarding lesson</span></a>, we used data from the <a class="reference external" href="https://doi.org/10.1098/rsos.160321">Beattie, et al.</a> study of how sleep deprivation affects facial matching ability to build a dashboard to explore a data set. Here, I will demonstrate how to build the same dashboard, as a standalone app with JavaScript callbacks. Such a plot could appear in a publication with full interactivity for all readers.</p>
 <p>Of course, we’ll start with loading in the data.</p>
@@ -1499,12 +1498,12 @@ var element = document.currentScript.previousSibling.previousSibling;
 &#39;/Users/bois/Dropbox/git/programming_bootcamp/2022/content/lessons/sleep_facial_recognition.html&#39;
 </pre></div></div>
 </div>
-</section>
-<section id="Conclusions">
+</div>
+<div class="section" id="Conclusions">
 <h2>Conclusions<a class="headerlink" href="#Conclusions" title="Permalink to this headline"></a></h2>
 <p>I hope you can see that a little JavaScript goes a long way! But knowing just some basic JavaScript syntax, you can build totally sharable, browser-display-and-playable data displays.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
@@ -1531,8 +1530,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -1546,11 +1545,11 @@ jupyterlab: 3.3.2
 
   <div role="contentinfo">
     <p>
-      <span class="lastupdated">Last updated on Jun 12, 2022.
+      <span class="lastupdated">Last updated on Jun 13, 2022.
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7fef63c92790> 
+   <jinja2.runtime.BlockReference object at 0x7f9325bcc070> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

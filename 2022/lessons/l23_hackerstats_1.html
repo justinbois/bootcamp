@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 23: Hacker stats I &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -419,7 +418,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-23:-Hacker-stats-I">
+<div class="section" id="Lesson-23:-Hacker-stats-I">
 <h1>Lesson 23: Hacker stats I<a class="headerlink" href="#Lesson-23:-Hacker-stats-I" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -931,7 +930,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 <p>What is a 95% confidence interval, in this case of a mean? It can be thought of as follows. If we were to repeat the experiment over and over and over again, 95% of the time, the observed mean would lie in the 95% confidence interval. So, if the confidence intervals of the means of measurements from 1975 and from 2012 overlapped, we might not be so sure that the beaks got deeper due to some underlying selective pressure, but that we just happened to <em>observe</em> deeper beaks as a result of natural
 variability.</p>
 <p>So, how do we compute a confidence interval? ….We use our computer!</p>
-<section id="Bootstrap-confidence-intervals">
+<div class="section" id="Bootstrap-confidence-intervals">
 <h2>Bootstrap confidence intervals<a class="headerlink" href="#Bootstrap-confidence-intervals" title="Permalink to this headline"></a></h2>
 <p>The notion of the bootstrap was first published by Brad Efron in 1979. The idea is simple, and we will take the fact that it works as a given; Efron proved it for us.</p>
 <p>Here’s the idea: If we could somehow repeat the measurements of the beak depths on Daphne Major, we could do it many many times, and we could then just compute the 2.5th and 97.5th percentiles to get a 95% confidence interval. The problem is, we can’t repeat the experiments over and over again. 1975 only happened once, and all birds on the island were measured. We cannot have 1975 happen again under exactly the same conditions.</p>
@@ -1137,7 +1136,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 array([8.8466523 , 9.07979023])
 </pre></div></div>
 </div>
-<section id="A-function-for-replicates">
+<div class="section" id="A-function-for-replicates">
 <h3>A function for replicates<a class="headerlink" href="#A-function-for-replicates" title="Permalink to this headline"></a></h3>
 <p>The construction we had for making our bootstrap replicates was a bit clunky:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize bootstrap replicas array</span>
@@ -1216,9 +1215,9 @@ array([8.8466523 , 9.07979023])
 </pre></div></div>
 </div>
 <p>So, the 95% confidence intervals for the 2012 and 1975 juuust overlap. This implies that the inherent variation in beak depths is likely not responsible for the observed difference. There was likely some selective pressure toward deeper beaks.</p>
-</section>
-</section>
-<section id="Plotting-and-reporting-confidence-intervals">
+</div>
+</div>
+<div class="section" id="Plotting-and-reporting-confidence-intervals">
 <h2>Plotting and reporting confidence intervals<a class="headerlink" href="#Plotting-and-reporting-confidence-intervals" title="Permalink to this headline"></a></h2>
 <p>In the above code cell, we have shown numerical values for the edges of the 95% confidence interval for beak depth in 1975 and 2012. How would you display these results in a publication?</p>
 <p>We will start by discussing how you would express confidence intervals in text. You may have seen confidence intervals expressed like this: 10.3 ± 2.1. I never write my confidence intervals this way because <em>confidence intervals are in general not symmetric</em>. Rather, would report the confidence intervals for the above calculations like this:</p>
@@ -1291,8 +1290,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 <p>I prefer to make my plots of confidence intervals with error bars oriented horizontally. Most plots I see have them oriented vertically, but I find this counterintuitive. If we are thinking of the confidence interval as a summary of a probability density function or of a cumulative distribution function, the x-axis should have the measured value. Furthermore, the other axis is usually categorical, so it often contains text that is to be read. In this case, they are just years, but in many
 applications they are things like genotypes, treatments, etc. These are easier to read if they are on the vertical axis because they can easily be read horizontally without rotating text.</p>
 <p>To make this plot, I made a categorical y-axis with Bokeh. To do this, when I set up the figure, I specified the <code class="docutils literal notranslate"><span class="pre">y_range</span></code> kwargs to be a list of strings. This tells Bokeh that the axis is categorical. Then, when I populated the glyphs, I simply enter the values of the strings as the y-axis values.</p>
-</section>
-<section id="Equivalence-of-standard-deviation-bootstrap-samples-of-the-mean-and-standard-error-of-the-mean">
+</div>
+<div class="section" id="Equivalence-of-standard-deviation-bootstrap-samples-of-the-mean-and-standard-error-of-the-mean">
 <h2>Equivalence of standard deviation bootstrap samples of the mean and standard error of the mean<a class="headerlink" href="#Equivalence-of-standard-deviation-bootstrap-samples-of-the-mean-and-standard-error-of-the-mean" title="Permalink to this headline"></a></h2>
 <p>The <strong>standard error of the mean</strong>, or SEM, is a measure of uncertainty of the estimate of the mean. In other words, if we did the set of measurements again, we would get a different mean. The variability in these measured means is described by the SEM. Specifically, it is the standard deviation of the Normal distribution describing the mean of repeated measurements. So, from bootstrap replicates, we can directly apply this formula.</p>
 <div class="nbinput docutils container">
@@ -1333,8 +1332,8 @@ applications they are things like genotypes, treatments, etc. These are easier t
 </pre></div></div>
 </div>
 <p>Hey, we got the same result! You may think I’m a jerk for making you get a simple answer the hard way by bootstrapping. But remember that bootstrap replicates are easy to generate in general for <em>any</em> statistic, and the confidence intervals on those statistics might not be as simple as for the mean, as we will demonstrate now.</p>
-</section>
-<section id="Bootstrap-confidence-interval-of-the-standard-deviation">
+</div>
+<div class="section" id="Bootstrap-confidence-interval-of-the-standard-deviation">
 <h2>Bootstrap confidence interval of the standard deviation<a class="headerlink" href="#Bootstrap-confidence-interval-of-the-standard-deviation" title="Permalink to this headline"></a></h2>
 <p>We are not limited to computing bootstrap confidence intervals of the mean. We could compute bootstrap confidence intervals of any statistic, like the median, standard deviation, the standard deviation divided by the mean (coefficient of variation), whatever we like. Computing the confidence interval for the standard deviation is the same procedure as we have done; we just put <code class="docutils literal notranslate"><span class="pre">np.std</span></code> in for <code class="docutils literal notranslate"><span class="pre">np.mean</span></code>.</p>
 <div class="nbinput docutils container">
@@ -1408,8 +1407,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 </script></div>
 </div>
 <p>Note that the distribution for the standard deviation is not Normal; it has a heavier right tail. So, we now also have an estimate for the variability in beak depth. It could range from about 0.48 to 0.64 mm. We could report it like <span class="math notranslate nohighlight">\(0.56_{-0.08}^{+0.07}\)</span> mm.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
 <div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
@@ -1437,8 +1436,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -1452,11 +1451,11 @@ jupyterlab: 3.3.2
 
   <div role="contentinfo">
     <p>
-      <span class="lastupdated">Last updated on Jun 12, 2022.
+      <span class="lastupdated">Last updated on Jun 13, 2022.
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7fef63ed0fd0> 
+   <jinja2.runtime.BlockReference object at 0x7f9324f749d0> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
