@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 25: Dashboards &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -418,7 +417,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-25:-Dashboards">
+<div class="section" id="Lesson-25:-Dashboards">
 <h1>Lesson 25: Dashboards<a class="headerlink" href="#Lesson-25:-Dashboards" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -749,7 +748,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 <hr><p><strong>Note</strong><em>: This notebook contains interactive plots. Full interactivity is not present in the HTML rendering of this notebook. This is because a Python engine needs to be running to update the plots. You can make dashboards that will run in other user’s browsers if you serve it and have the Python engine running on the server side. We will not cover this more advanced topic in the bootcamp.</em></p>
 <p>We have seen that Bokeh allows interactivity in plots. You can zoom and hover over data points to get more information. <strong>Dashboarding</strong> involves constructing layouts of plots with interactivity, even beyond what we have seen so far. We can do more than just select which data we want to view; we can also trigger any calculation we wish based on mouse clicks or entered text within a graphic.</p>
 <p>We will start with a simple exploration of how parameters affect a function.</p>
-<section id="A-simple-example">
+<div class="section" id="A-simple-example">
 <h2>A simple example<a class="headerlink" href="#A-simple-example" title="Permalink to this headline"></a></h2>
 <p>Let’s start by plotting the PDF of the Normal distribution.</p>
 <div class="nbinput nblast docutils container">
@@ -887,8 +886,8 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
   })();
 </script></div>
 </div>
-</section>
-<section id="Pieces-of-a-Bokeh-dashboard">
+</div>
+<div class="section" id="Pieces-of-a-Bokeh-dashboard">
 <h2>Pieces of a Bokeh dashboard<a class="headerlink" href="#Pieces-of-a-Bokeh-dashboard" title="Permalink to this headline"></a></h2>
 <p>Let us rehash what we did to create the dashboard. To specify a dashboard allowing us to interact with plots, we must provide the following.</p>
 <ol class="arabic simple">
@@ -898,8 +897,8 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 <li><p><strong>The layout.</strong> This is the spatial arrangement of the plots and widgets. Again, the <a class="reference external" href="https://docs.bokeh.org/en/latest/docs/user_guide/layout.html">Bokeh documentation on layouts</a> is a useful reference.</p></li>
 <li><p><strong>The app.</strong> Bokeh will create an application that can be embedded in a notebook or serves as its own page in a browser. To create it, you need to make a simple function that adds the layout you built to the document that Bokeh will make into an app. (This sounds a lot more complicated than it is; it is as simple as coding up the <code class="docutils literal notranslate"><span class="pre">norm_app()</span></code> function above.)</p></li>
 </ol>
-</section>
-<section id="Using-dashboards-to-explore-parameters">
+</div>
+<div class="section" id="Using-dashboards-to-explore-parameters">
 <h2>Using dashboards to explore parameters<a class="headerlink" href="#Using-dashboards-to-explore-parameters" title="Permalink to this headline"></a></h2>
 <p>Recall from a previous exercise that we investigated the fold change in gene expression as a function of repressor copy number <span class="math notranslate nohighlight">\(R\)</span> and inducer concentration <span class="math notranslate nohighlight">\(c\)</span>. The theoretical function, based on an MWC model, was</p>
 <p><span class="math">\begin{align}
@@ -1078,8 +1077,8 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>In playing with the sliders, we see that a difference between <span class="math notranslate nohighlight">\(K_\mathrm{d}^\mathrm{A}\)</span> and <span class="math notranslate nohighlight">\(K_\mathrm{d}^\mathrm{I}\)</span> is required to get repression. As we would expect, we need <span class="math notranslate nohighlight">\(K_\mathrm{d}^\mathrm{I} &lt; K_\mathrm{d}^\mathrm{A}\)</span> in order to get more repression with increasing IPTG concentration.</p>
 <p>The effects of the other parameters are more complicated and interdependent, but can nonetheless be explored by varying the sliders.</p>
-</section>
-<section id="Exploring-a-data-set">
+</div>
+<div class="section" id="Exploring-a-data-set">
 <h2>Exploring a data set<a class="headerlink" href="#Exploring-a-data-set" title="Permalink to this headline"></a></h2>
 <p>As an example of dashboarding put to use to explore a data set, we turn again to the data set from <a class="reference external" href="https://doi.org/10.1098/rsos.160321">Beattie, et al.</a> studying how sleep deprivation affects facial matching ability. Let’s load in the data set and take a look to remind ourselves of the variables.</p>
 <div class="nbinput docutils container">
@@ -1384,8 +1383,8 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
   })();
 </script></div>
 </div>
-</section>
-<section id="Serving-an-app">
+</div>
+<div class="section" id="Serving-an-app">
 <h2>Serving an app<a class="headerlink" href="#Serving-an-app" title="Permalink to this headline"></a></h2>
 <p>While having a full notebook is desirable because of the rich display of text in Markdown cells, it is sometimes desirable to have a stand-alone tab in your browser with a dashboard to manipulate. To do this, you need to create a <code class="docutils literal notranslate"><span class="pre">.py</span></code> file with the code you need to generate your graphic. To do the example above, you can place the code below in a file called <code class="docutils literal notranslate"><span class="pre">gfmt_app.py</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -1495,13 +1494,13 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </pre></div>
 </div>
 <p>on the command line.</p>
-</section>
-<section id="Conclusions">
+</div>
+<div class="section" id="Conclusions">
 <h2>Conclusions<a class="headerlink" href="#Conclusions" title="Permalink to this headline"></a></h2>
 <p>There are many more directions you can go with dashboards. In particular, if there is a type of experiment you do often in which you have multifaceted data, you may want to build a dashboard into which you can automatically load your data and display it for you to explore. This can greatly expedite your work, and can also be useful for sharing your data with others, enabling them to rapidly explore it as well.</p>
 <p>That said, it is important to constantly be rethinking how you visualize and analyze the data you collect. You do not want the displays of a dashboard you set up a year ago have undo influence on your thinking right now.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
 <div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
@@ -1529,8 +1528,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -1544,11 +1543,11 @@ jupyterlab: 3.3.2
 
   <div role="contentinfo">
     <p>
-      <span class="lastupdated">Last updated on Jun 12, 2022.
+      <span class="lastupdated">Last updated on Jun 13, 2022.
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7fef61ebc400> 
+   <jinja2.runtime.BlockReference object at 0x7f9327155ee0> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

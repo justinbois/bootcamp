@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 10: Packages and modules &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -428,12 +427,12 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-10:-Packages-and-modules">
+<div class="section" id="Lesson-10:-Packages-and-modules">
 <h1>Lesson 10: Packages and modules<a class="headerlink" href="#Lesson-10:-Packages-and-modules" title="Permalink to this headline"></a></h1>
 <hr><p>The Python Standard Library has lots of built-in <strong>modules</strong> that contain useful functions and data types for doing specific tasks. You can also use modules from outside the standard library. And you will undoubtedly write your own modules!</p>
 <p>A module is contained in a file that ends with <code class="docutils literal notranslate"><span class="pre">.py</span></code>. This file can have <strong>classes</strong>, functions, and other objects. We will not discuss defining your own classes until much later in the bootcamp, so your modules will essentially just contain functions for now.</p>
 <p>A <strong>package</strong> contains several related modules that are all grouped together under one name. We will extensively use the <a class="reference external" href="http://www.numpy.org">NumPy</a>, <a class="reference external" href="http://www.scipy.org/">SciPy</a>, <a class="reference external" href="http://pandas.pydata.org">Pandas</a>, and <a class="reference external" href="http://bokeh.pydata.org">Bokeh</a> packages, among others, in the bootcamp, and I’m sure you will also use them beyond. As such, the first module we will consider is NumPy. We will talk a <strong>lot</strong> more about NumPy later in the bootcamp.</p>
-<section id="Example:-I-want-to-compute-the-mean-and-median-of-a-list-of-numbers">
+<div class="section" id="Example:-I-want-to-compute-the-mean-and-median-of-a-list-of-numbers">
 <h2>Example: I want to compute the mean and median of a list of numbers<a class="headerlink" href="#Example:-I-want-to-compute-the-mean-and-median-of-a-list-of-numbers" title="Permalink to this headline"></a></h2>
 <p>Say I have a list of numbers and I want to compute the mean. This happens all the time; you repeat a measurement multiple times and you want to compute the mean. We could write a function to do this.</p>
 <div class="nbinput nblast docutils container">
@@ -533,8 +532,8 @@ two middle values of ``V_sorted`` when ``N`` is even.
 </pre></div>
 </div>
 <p>This is where the documentation tells you that the median will be reported as the average of two middle values when the number of elements is even. Note that you could also read the documentation <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.median.html">here</a>, which is a bit easier to read.</p>
-</section>
-<section id="The-as-keyword">
+</div>
+<div class="section" id="The-as-keyword">
 <h2>The as keyword<a class="headerlink" href="#The-as-keyword" title="Permalink to this headline"></a></h2>
 <p>We use Numpy all the time. Typing <code class="docutils literal notranslate"><span class="pre">numpy</span></code> over and over again can get annoying. So, it is common practice to use the <code class="docutils literal notranslate"><span class="pre">as</span></code> keyword to import a module with an <strong>alias</strong>. Numpy’s alias is traditionally <code class="docutils literal notranslate"><span class="pre">np</span></code>, <em>and this is the only alias you should ever use for Numpy</em>.</p>
 <div class="nbinput docutils container">
@@ -557,13 +556,13 @@ two middle values of ``V_sorted`` when ``N`` is even.
 </pre></div></div>
 </div>
 <p>I prefer to do things this way, though <a class="reference external" href="http://nbviewer.jupyter.org/github/barbagroup/jupyter-tutorial/blob/master/3--Jupyter%20like%20a%20pro.ipynb">some purists differ</a>. We will use traditional aliases for major packages like Numpy and Pandas throughout the bootcamp.</p>
-</section>
-<section id="Third-party-packages">
+</div>
+<div class="section" id="Third-party-packages">
 <h2>Third party packages<a class="headerlink" href="#Third-party-packages" title="Permalink to this headline"></a></h2>
 <p>Standard Python installations come with the standard library. Numpy and other useful packages are not in the standard library. Outside of the standard library, there are several packages available. Several. Ha! There are currently (June 9, 2021) about 310,000 packages available through the <a class="reference external" href="https://pypi.python.org/pypi">Python Package Index</a>, PyPI. Usually, you can ask Google about what you are trying to do, and there is often a third party module to help you do it. The most useful (for
 scientific computing) and thoroughly tested packages and modules are available using <code class="docutils literal notranslate"><span class="pre">conda</span></code>. Others can be installed using <code class="docutils literal notranslate"><span class="pre">pip</span></code>, which we will do later in the bootcamp.</p>
-</section>
-<section id="Writing-your-own-module">
+</div>
+<div class="section" id="Writing-your-own-module">
 <h2>Writing your own module<a class="headerlink" href="#Writing-your-own-module" title="Permalink to this headline"></a></h2>
 <p>To write your own module, you need to create a <code class="docutils literal notranslate"><span class="pre">.py</span></code> file and save it. You can do this using the text editor in JupyterLab. Let’s call our module <code class="docutils literal notranslate"><span class="pre">na_utils</span></code>, for “nucleic acid utilities.” So, we create a file called <code class="docutils literal notranslate"><span class="pre">na_utils.py</span></code>. We’ll build this module to have two functions, based on things we’ve already written. We’ll have a function <code class="docutils literal notranslate"><span class="pre">dna_to_rna()</span></code>, which converts a DNA sequence to an RNA sequence (just changes <code class="docutils literal notranslate"><span class="pre">T</span></code> to <code class="docutils literal notranslate"><span class="pre">U</span></code>), and another function <code class="docutils literal notranslate"><span class="pre">reverse_rna_complement()</span></code>, which
 returns the reverse RNA complement of a DNA template. The contents of <code class="docutils literal notranslate"><span class="pre">na_utils.py</span></code> should look as follows.</p>
@@ -665,7 +664,7 @@ returns the reverse RNA complement of a DNA template. The contents of <code clas
 </pre></div></div>
 </div>
 <p>Wonderful! You now have your own functioning module!</p>
-<section id="A-quick-note-on-error-checking">
+<div class="section" id="A-quick-note-on-error-checking">
 <h3>A quick note on error checking<a class="headerlink" href="#A-quick-note-on-error-checking" title="Permalink to this headline"></a></h3>
 <p>These functions have minimal error checking of the input. For example, the <code class="docutils literal notranslate"><span class="pre">dna_to_rna()</span></code> function will take gibberish in and give jibberish out.</p>
 <div class="nbinput docutils container">
@@ -686,9 +685,9 @@ returns the reverse RNA complement of a DNA template. The contents of <code clas
 </pre></div></div>
 </div>
 <p>In general, checking input and handling errors is an essential part of writing functions, and we will cover that in <a class="reference external" href="l14_exceptions_and_error_handling.html">a later lesson</a>.</p>
-</section>
-</section>
-<section id="Importing-modules-in-your-.py-files-and-notebooks">
+</div>
+</div>
+<div class="section" id="Importing-modules-in-your-.py-files-and-notebooks">
 <h2>Importing modules in your .py files and notebooks<a class="headerlink" href="#Importing-modules-in-your-.py-files-and-notebooks" title="Permalink to this headline"></a></h2>
 <p>As our first foray into the glory of <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a>, the Python style guide, we quote:</p>
 <blockquote>
@@ -702,7 +701,7 @@ returns the reverse RNA complement of a DNA template. The contents of <code clas
 <p>You should put a blank line between each group of imports.</p>
 </div></blockquote>
 <p>You should follow this guide. I generally do it for Jupyter notebooks as well, with my first code cell having all of the imports I need. Therefore, going forward all of our lessons will have all necessary imports at the top of the document. The only exception is when we are explicitly demonstrating a concept that requires an import.</p>
-<section id="Imports-and-updates">
+<div class="section" id="Imports-and-updates">
 <h3>Imports and updates<a class="headerlink" href="#Imports-and-updates" title="Permalink to this headline"></a></h3>
 <p>Once you have imported a module or package, the interpreter stores its contents in memory. You cannot update the contents of the package and expect the interpreter to know about the changes. You will need to restart the kernel and then import the package again in a fresh instance.</p>
 <p>This can seem annoying, but it is good design. It ensures that code you are running does not change as you go through executing a notebook. However, when developing modules, it is sometimes convenient to have an imported module be updated as you run through the notebook as you are editing. To enable this, you can use the <a class="reference external" href="https://ipython.org/ipython-doc/3/config/extensions/autoreload.html">autoreload extension</a>. To activate it, run the following in a code cell.</p>
@@ -711,13 +710,13 @@ returns the reverse RNA complement of a DNA template. The contents of <code clas
 </pre></div>
 </div>
 <p>Whenever you run a cell, imported packages and modules will be automatically reloaded.</p>
-</section>
-</section>
-<section id="Package-management">
+</div>
+</div>
+<div class="section" id="Package-management">
 <h2>Package management<a class="headerlink" href="#Package-management" title="Permalink to this headline"></a></h2>
 <p>When we wrote the <code class="docutils literal notranslate"><span class="pre">na_utils</span></code> module, we stored it in the directory that we were working in, or the <code class="docutils literal notranslate"><span class="pre">pwd</span></code>. But what if you write a module that you want to use regardless of what directory your are in? To allow this kind of usage, you can use the <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> module of the standard library to manage your packages. You should read <a class="reference external" href="https://docs.python.org/3/tutorial/modules.html#packages">the documentation on Python packages and modules</a> to understand the details of how this is done, but
 what we present here is sufficient to get simple packages running and installed.</p>
-<section id="Package-architecture">
+<div class="section" id="Package-architecture">
 <h3>Package architecture<a class="headerlink" href="#Package-architecture" title="Permalink to this headline"></a></h3>
 <p>In order for the tools in <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> to effectively install your modules for widespread use, you need to follow a specific architecture for your package. I made an example <code class="docutils literal notranslate"><span class="pre">jb_bootcamp</span></code> package that is present in the <code class="docutils literal notranslate"><span class="pre">~/git/bootcamp/modules</span></code> folder.</p>
 <p>The file structure is of the package is</p>
@@ -775,13 +774,13 @@ Utilities for use in the Introduction to Programming in the Biological Sciences 
 </pre></div>
 </div>
 <p>This is a minimal <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> function, but will be sufficient for most packages you write for your own use. For your use, you make obvious changes to the <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">author</span></code>, etc., fields.</p>
-</section>
-<section id="Installing-your-package">
+</div>
+<div class="section" id="Installing-your-package">
 <h3>Installing your package<a class="headerlink" href="#Installing-your-package" title="Permalink to this headline"></a></h3>
 <p>You will install your package after a future lesson, when we put it under version control.</p>
-</section>
-</section>
-<section id="Computing-environment">
+</div>
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
 <div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
@@ -806,8 +805,8 @@ jupyterlab: 3.0.14
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -821,11 +820,11 @@ jupyterlab: 3.0.14
 
   <div role="contentinfo">
     <p>
-      <span class="lastupdated">Last updated on Jun 12, 2022.
+      <span class="lastupdated">Last updated on Jun 13, 2022.
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7fef620d4460> 
+   <jinja2.runtime.BlockReference object at 0x7f9325c68220> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
