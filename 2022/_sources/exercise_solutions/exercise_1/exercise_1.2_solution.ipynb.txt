@@ -1,0 +1,128 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Exercise 1.2: Making an rc file\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Having a `.bashrc` or `.zshrc` file allows you to configure your shell how you like.\n",
+    "\n",
+    "**a)** If you are using Linux or macOS, open a terminal and type\n",
+    "\n",
+    "    echo $SHELL\n",
+    "    \n",
+    "This will tell you if you are using a Bash shell or Zsh, which will tell you which kind of rc file to set up in the next part of the exercise. If you are using Windows, you will create a `.bashrc` file.\n",
+    "\n",
+    "**b)** Create a `.bashrc` or `.zshrc` file in your home directory. If you already have one, open it up for editing using Jupyter's text editor.\n",
+    "\n",
+    "**c)** It is often useful to `alias` functions to other functions. For example, I am always worried I will accidentally delete things by accident. I therefore have the following line in my `.zshrc` file.\n",
+    "\n",
+    "    alias rm=\"rm -i\"\n",
+    "    \n",
+    "You should create aliases for commands like `ls` based on the flags you like to *always* use. Do the same for `rm` and `mv` (I use the `-i` flag with these). To figure out what flags are available, you can look at the `man` pages. Asking Google will usually give you the information you need on flags.\n",
+    "\n",
+    "If you like, you can use my `.bashrc` file, available in `~/git/bootcamp/misc/jb_bashrc`, or my `.zshrc` file, available in `~/git/bootcamp/misc/jb_zshrc`.\n",
+    "\n",
+    "**d)** Depending on your operating system, if you are using Bash, your `~/.bashrc` file may or may not be properly loaded upon opening a new bash shell. You may, e.g. for new macOS versions, need to explicitly source your `.bashrc` file in your `~/.bash_profile` file. Therefore, you should add the following to the bottom of your `~/.bash_profile` file.\n",
+    "\n",
+    "```bash\n",
+    "if [ -f $HOME/.bashrc ]; then\n",
+    "    . $HOME/.bashrc\n",
+    "fi\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<br />"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Solution\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "tags": []
+   },
+   "source": [
+    "Again, this was mostly you messing around with the command line. The contents of my .bashrc file is shown below.\n",
+    "\n",
+    "```bash\n",
+    "# Give me a nice prompt that tells me my pwd\n",
+    "export PS1=\"\\[\\e[1;32m\\]\\u\\[\\e[0m\\]@\\e[1;36m\\]\\h\\[\\e[0m\\] [\\w]\\n% \"\n",
+    "\n",
+    "\n",
+    "# Keep me out of trouble!\n",
+    "alias rm=\"rm -i\"\n",
+    "alias mv=\"mv -i\"\n",
+    "alias cp=\"cp -i\"\n",
+    "\n",
+    "\n",
+    "# customize list output\n",
+    "alias ls=\"ls -FGh\"\n",
+    "export LSCOLORS=\"gxfxcxdxCxegedabagacad\"\n",
+    "```\n",
+    "\n",
+    "And my .zshrc file is:\n",
+    "\n",
+    "```zsh\n",
+    "# This is a nice prompt; gives green check mark if last command executed\n",
+    "# without a problem and gives a red questionmark with an exit code\n",
+    "# if it didn't, along with pwd.\n",
+    "PROMPT='%(?.%F{green}√.%F{red}?%?)%f [%B%F{240}%10~%f%b] \n",
+    "%# '\n",
+    "\n",
+    "# Aliases for save moving, removing, and copying of files\n",
+    "alias rm=\"rm -i\"\n",
+    "alias mv=\"mv -i\"\n",
+    "alias cp=\"cp -i\"\n",
+    "\n",
+    "# Nicely formatted listing\n",
+    "alias ls=\"ls -FGh\"\n",
+    "\n",
+    "# Nice set of colors\n",
+    "export LSCOLORS=\"gxfxcxdxCxegedabagacad\"\n",
+    "```"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
