@@ -1,0 +1,761 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 38: Testing and test-driven development\n",
+    "\n",
+    "This lesson was prepared in collaboration with [Davi Ortega](https://daviortega.com).\n",
+    "\n",
+    "<hr> "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Test-driven development**, or **TDD**, is a paradigm for developing software. The idea is that a programmer thinks about a design specification for a bit of code, usually a function. I.e., she lays out what the input and output should be. She then writes a test (that will fail) for the bit of code. She then writes or updates the code to pass the test. She does this **incrementally** as she builds her code. Let's try this by example."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## An example of TDD\n",
+    "\n",
+    "We will write a function that computes the number of negatively charged residues in a protein. In other words, we count up the number of glutamate (`E`) and aspartate (`D`) residues.\n",
+    "\n",
+    "We'll call the function `number_negatives()`, and will just make an empty function for now as a placeholder."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def number_negatives(seq):\n",
+    "    \"\"\"Number of negative residues a protein sequence\"\"\"\n",
+    "    # Do nothing for now\n",
+    "    pass"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, we'll write a trivial test. It is just a conditional expression stating the obvious: the number of negative charges in a sequence with a single `glutamate` should be `1`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "False"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "number_negatives('E') == 1"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "It should have been `1`, but our function did not calculate that correctly, thus the `False` output. We failed the test! But before we focus on the test failure, let's think about what we just did.  \n",
+    "\n",
+    "We defined the prototype for the function. We know we want it to take in a sequence (a string) and return an integer. So, in building the test, we have designed the interface for the function. This is an important idea: **You should decide what your function should do and how it should behave before writing it.** Sounds trivial, but it is an important and strangely seldom-followed idea.\n",
+    "\n",
+    "Back to the test failure. We will now revisit the function to write it so that it will pass the test."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def number_negatives(seq):\n",
+    "    \"\"\"Number of negative residues a protein sequence\"\"\"\n",
+    "    # Count E's and D's, since these are the negative residues\n",
+    "    return seq.count('E') + seq.count('D')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We'll try out test again."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "number_negatives('E') == 1"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Hurray! We passed our first test. Now, let's write some more tests based on what we expect from this function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "True\n",
+      "True\n",
+      "True\n",
+      "True\n",
+      "True\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(number_negatives('E') == 1)\n",
+    "print(number_negatives('D') == 1)\n",
+    "print(number_negatives('') == 0)\n",
+    "print(number_negatives('ACKLWTTAE') == 1)\n",
+    "print(number_negatives('DDDDEEEE') == 8)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Our function appears to be working well.  But let's think carefully about how it could break. What if we input lowercase letters? I.e., what would we want \n",
+    "\n",
+    "```python\n",
+    "number_negatives('acklwttae')\n",
+    "```\n",
+    "\n",
+    "to return? Should we allow lowercase inputs?  \n",
+    "\n",
+    "This is an example where coming up with tests is how we define the interface of the function, or in other words, how the function should behave giving a range of inputs. Note that we weren't done designing it on the first pass!\n",
+    "\n",
+    "Moving on, let's say we want to allow lowercase symbols. But, before we mess with our function, let's write a test that defines the expected behavior."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "False"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "number_negatives('acklwttae') == 1"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We failed, as expected. Now, back to the function. We will add a line to convert the input sequence to uppercase."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def number_negatives(seq):\n",
+    "    \"\"\"Number of negative residues a protein sequence\"\"\"\n",
+    "    # Convert sequence to upper case\n",
+    "    seq = seq.upper()\n",
+    "    \n",
+    "    # Count E's and D's, since these are the negative residues\n",
+    "    return seq.count('E') + seq.count('D')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's try the test again."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "number_negatives('acklwttae') == 1"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now that this passes, we need to make sure all the old tests also pass. We have to make sure *everything* passes."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "True\n",
+      "True\n",
+      "True\n",
+      "True\n",
+      "True\n",
+      "True\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(number_negatives('E') == 1)\n",
+    "print(number_negatives('D') == 1)\n",
+    "print(number_negatives('') == 0)\n",
+    "print(number_negatives('ACKLWTTAE') == 1)\n",
+    "print(number_negatives('DDDDEEEE') == 8)\n",
+    "print(number_negatives('acklwttae') == 1)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Great!  This works now.\n",
+    "\n",
+    "You can see how the cycle proceeds. Right now we might be happy with our function, but use cases we have not thought of might creep up as we use the function in different contexts. For every unexpected behavior or bug you find, *write another test that covers it*. Importantly, *any time* you update your code, you need to run *all* of your tests to make sure the function is still performing in all cases after the update!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## The assert statement\n",
+    "\n",
+    "In our example, we used a bunch of print statements to check our tests. Conveniently, Python has a built-in way to do your tests using the `assert` keyword. For example, our first test using `assert` is as follows."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "assert number_negatives('E') == 1"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This ran without issue. Now, let's try asserting something we know will fail."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "AssertionError",
+     "evalue": "",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mAssertionError\u001b[0m                            Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-11-00481010d899>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0;32massert\u001b[0m \u001b[0mnumber_negatives\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'E'\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;36m2\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mAssertionError\u001b[0m: "
+     ]
+    }
+   ],
+   "source": [
+    "assert number_negatives('E') == 2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We get an `AssertionError`, indicating that our assertion failed. We can even append the `assert` statement with a comment describing the error."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "AssertionError",
+     "evalue": "Failed on sequence of length 1",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mAssertionError\u001b[0m                            Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-12-5e254ff6a8dd>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0;32massert\u001b[0m \u001b[0mnumber_negatives\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'E'\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;36m2\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'Failed on sequence of length 1'\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mAssertionError\u001b[0m: Failed on sequence of length 1"
+     ]
+    }
+   ],
+   "source": [
+    "assert number_negatives('E') == 2, 'Failed on sequence of length 1'"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "So, we see the basic syntax of `assert` statements. After `assert`, we have a conditional expression that evaluates to `True` or `False`. If it evaluates `False`, an `AssertionError` is raised, meaning that the test was failed. Optionally, the conditional expression can be followed with a comma and a string that describes how it failed. So, we could write all of our tests together as a series of assertions. Actually, it would be best to write a *function* that does all the testing."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def test_number_negatives():\n",
+    "    \"\"\"Perform unit tests on number_negatives.\"\"\"\n",
+    "    assert number_negatives('E') == 1\n",
+    "    assert number_negatives('D') == 1\n",
+    "    assert number_negatives('') == 0\n",
+    "    assert number_negatives('ACKLWTTAE') == 1\n",
+    "    assert number_negatives('DDDDEEEE') == 8\n",
+    "    assert number_negatives('acklwttae') == 1\n",
+    "\n",
+    "# Run all the tests\n",
+    "test_number_negatives()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Excellent!  Everything passed!\n",
+    "\n",
+    "It might be a little underwhelming that Python exits silently when all our tests pass. Fortunately, someone else felt that way, too, and implemented a testing tool that is more into positive reinforcement."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Introducing  pytest\n",
+    "\n",
+    "The [py.test](https://docs.pytest.org/en/latest/) (a.k.a. pytest) package comes with a standard Anaconda installation and is useful tool for automating our testing. It gives detailed feedback on tests and you can read its documentation [here](http://pytest.org).\n",
+    "\n",
+    "The `unittest` module from the standard library and `nose` are two other major testing packages for Python. All three are in common usage. We use `pytest` here because I think it is the easiest to use and understand and most modern packages use it.\n",
+    "\n",
+    "Pytest is not only a package but also a command line application that searches for tests in your code, runs them and let you know if they fail, and if they pass; finally some positive reinforcement."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Using pytest \n",
+    "\n",
+    "To take the most advantage of pytest, we should take a step back and write the functions we have been working with in this lesson to a `.py` file. Using the Jupyter Lab text editor, we'll write `seq_features_and_tests.py`. \n",
+    "\n",
+    "Copy the following into the text editor.\n",
+    "\n",
+    "```python\n",
+    "def number_negatives(seq):\n",
+    "    \"\"\"Number of negative residues a protein sequence\"\"\"\n",
+    "    # Convert sequence to upper case\n",
+    "    seq = seq.upper()\n",
+    "    \n",
+    "    # Count E's and D's, since these are the negative residues\n",
+    "    return seq.count('E') + seq.count('D')\n",
+    "    \n",
+    "\n",
+    "def test_number_negatives():\n",
+    "    \"\"\"Perform unit tests on n_neg.\"\"\"\n",
+    "    assert number_negatives('E') == 1\n",
+    "    assert number_negatives('D') == 1\n",
+    "    assert number_negatives('') == 0\n",
+    "    assert number_negatives('ACKLWTTAE') == 1\n",
+    "    assert number_negatives('DDDDEEEE') == 8\n",
+    "    assert number_negatives('acklwttae') == 1\n",
+    "```\n",
+    "\n",
+    "Now, pytest makes it easy to verify if all these tests pass or not by running `pytest` on the command line. We'll use this opportunity to demonstrate a nice little feature of Jupyter notebooks"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[1m============================= test session starts ==============================\u001b[0m\n",
+      "platform darwin -- Python 3.8.10, pytest-6.2.3, py-1.10.0, pluggy-0.13.1\n",
+      "rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2021/content/lessons\n",
+      "plugins: hypothesis-6.13.14, anyio-2.2.0\n",
+      "collected 4 items                                                              \u001b[0m\n",
+      "\n",
+      "seq_features_and_tests.py \u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m                                           [100%]\u001b[0m\n",
+      "\n",
+      "\u001b[32m============================== \u001b[32m\u001b[1m4 passed\u001b[0m\u001b[32m in 0.02s\u001b[0m\u001b[32m ===============================\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pytest seq_features_and_tests.py"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can try the option `-v` for even more sugar."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[1m============================= test session starts ==============================\u001b[0m\n",
+      "platform darwin -- Python 3.8.10, pytest-6.2.3, py-1.10.0, pluggy-0.13.1 -- /Users/bois/opt/anaconda3/bin/python\n",
+      "cachedir: .pytest_cache\n",
+      "hypothesis profile 'default' -> database=DirectoryBasedExampleDatabase('/Users/bois/Dropbox/git/programming_bootcamp/2021/content/lessons/.hypothesis/examples')\n",
+      "rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2021/content/lessons\n",
+      "plugins: hypothesis-6.13.14, anyio-2.2.0\n",
+      "collected 4 items                                                              \u001b[0m\n",
+      "\n",
+      "seq_features_and_tests.py::test_number_negatives_for_single_AA \u001b[32mPASSED\u001b[0m\u001b[32m    [ 25%]\u001b[0m\n",
+      "seq_features_and_tests.py::test_number_negatives_for_empty \u001b[32mPASSED\u001b[0m\u001b[32m        [ 50%]\u001b[0m\n",
+      "seq_features_and_tests.py::test_number_negatives_for_short_sequence \u001b[32mPASSED\u001b[0m\u001b[32m [ 75%]\u001b[0m\n",
+      "seq_features_and_tests.py::test_number_negatives_for_lowercase \u001b[32mPASSED\u001b[0m\u001b[32m    [100%]\u001b[0m\n",
+      "\n",
+      "\u001b[32m============================== \u001b[32m\u001b[1m4 passed\u001b[0m\u001b[32m in 0.02s\u001b[0m\u001b[32m ===============================\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pytest -v seq_features_and_tests.py"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Separating tests in functional units\n",
+    "\n",
+    "In more complicated set of tests, it is a good idea to separate the tests by meaningful functional units, so when something breaks, we can easily find the problem and fix it.\n",
+    "\n",
+    "`pytest` allows us to build multiple test functions with different names that indicates what they are testing. For example, let's change the content of `seq_feature_and_tests.py` to this:\n",
+    "\n",
+    "```python\n",
+    "def number_negatives(seq):\n",
+    "    \"\"\"Number of negative residues a protein sequence\"\"\"\n",
+    "    # Convert sequence to upper case\n",
+    "    seq = seq.upper()\n",
+    "    \n",
+    "    # Count E's and D's, since these are the negative residues\n",
+    "    return seq.count('E') + seq.count('D')\n",
+    "    \n",
+    "\n",
+    "def test_number_negatives_for_single_AA():\n",
+    "    \"\"\"Perform unit tests on number_negative for single AA\"\"\"\n",
+    "    assert number_negatives('E') == 1\n",
+    "    assert number_negatives('D') == 1\n",
+    "\n",
+    "    \n",
+    "def test_number_negatives_for_empty():\n",
+    "    \"\"\"Perform unit tests on number_negative for empty entry\"\"\"\n",
+    "    assert number_negatives('') == 0\n",
+    "\n",
+    "    \n",
+    "def test_number_negatives_for_short_sequence():\n",
+    "    \"\"\"Perform unit tests on number_negative for short sequence\"\"\"\n",
+    "    assert number_negatives('ACKLWTTAE') == 1\n",
+    "    assert number_negatives('DDDDEEEE') == 8\n",
+    "    \n",
+    "    \n",
+    "def test_number_negatives_for_lowercase():\n",
+    "    \"\"\"Perform unit tests on number_negative for lowercase\"\"\"\n",
+    "    assert number_negatives('acklwttae') == 1\n",
+    "    \n",
+    "```\n",
+    "\n",
+    "and let's run it again without `-v` and with."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[1m============================= test session starts ==============================\u001b[0m\n",
+      "platform darwin -- Python 3.8.10, pytest-6.2.3, py-1.10.0, pluggy-0.13.1\n",
+      "rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2021/content/lessons\n",
+      "plugins: hypothesis-6.13.14, anyio-2.2.0\n",
+      "collected 4 items                                                              \u001b[0m\n",
+      "\n",
+      "seq_features_and_tests.py \u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m                                           [100%]\u001b[0m\n",
+      "\n",
+      "\u001b[32m============================== \u001b[32m\u001b[1m4 passed\u001b[0m\u001b[32m in 0.02s\u001b[0m\u001b[32m ===============================\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pytest seq_features_and_tests.py"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Look! Four dots instead of 1. And when we run it with the `-v` flag, it lists all four tests."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[1m============================= test session starts ==============================\u001b[0m\n",
+      "platform darwin -- Python 3.8.10, pytest-6.2.3, py-1.10.0, pluggy-0.13.1 -- /Users/bois/opt/anaconda3/bin/python\n",
+      "cachedir: .pytest_cache\n",
+      "hypothesis profile 'default' -> database=DirectoryBasedExampleDatabase('/Users/bois/Dropbox/git/programming_bootcamp/2021/content/lessons/.hypothesis/examples')\n",
+      "rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2021/content/lessons\n",
+      "plugins: hypothesis-6.13.14, anyio-2.2.0\n",
+      "collected 4 items                                                              \u001b[0m\n",
+      "\n",
+      "seq_features_and_tests.py::test_number_negatives_for_single_AA \u001b[32mPASSED\u001b[0m\u001b[32m    [ 25%]\u001b[0m\n",
+      "seq_features_and_tests.py::test_number_negatives_for_empty \u001b[32mPASSED\u001b[0m\u001b[32m        [ 50%]\u001b[0m\n",
+      "seq_features_and_tests.py::test_number_negatives_for_short_sequence \u001b[32mPASSED\u001b[0m\u001b[32m [ 75%]\u001b[0m\n",
+      "seq_features_and_tests.py::test_number_negatives_for_lowercase \u001b[32mPASSED\u001b[0m\u001b[32m    [100%]\u001b[0m\n",
+      "\n",
+      "\u001b[32m============================== \u001b[32m\u001b[1m4 passed\u001b[0m\u001b[32m in 0.02s\u001b[0m\u001b[32m ===============================\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pytest -v seq_features_and_tests.py"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### pytest is smart\n",
+    "\n",
+    "Pytest is such a smart application that you don't even need to tell it explicitly which file it should look at. By default, pytest will search for files starting with `test_` and ending with `.py` in the whole directory tree.\n",
+    "\n",
+    "It is also a good idea, for the sake of clarity, to keep the tests in separate files from the code. So let's make another file, named `test_seq_features.py` and place just the functions with the assert statements. You can then have a separate file, `seq_features.py`, that have the module.\n",
+    "\n",
+    "The directory should have now these two files:\n",
+    "\n",
+    "`seq_features.py`\n",
+    "```python\n",
+    "def number_negatives(seq):\n",
+    "    \"\"\"Number of negative residues a protein sequence\"\"\"\n",
+    "    # Convert sequence to upper case\n",
+    "    seq = seq.upper()\n",
+    "    \n",
+    "    # Count E's and D's, since these are the negative residues\n",
+    "    return seq.count('E') + seq.count('D')\n",
+    "\n",
+    "```\n",
+    "\n",
+    "`test_seq_features_v01.py`\n",
+    "```python\n",
+    "import seq_features\n",
+    "\n",
+    "def test_number_negatives_single_E_or_D():\n",
+    "    \"\"\"Perform unit tests on number_negative for single AA\"\"\"\n",
+    "    assert seq_features.number_negatives('E') == 1\n",
+    "    assert seq_features.number_negatives('D') == 1\n",
+    "\n",
+    "    \n",
+    "def test_number_negatives_for_empty():\n",
+    "    \"\"\"Perform unit tests on number_negative for empty entry\"\"\"\n",
+    "    assert seq_features.number_negatives('') == 0\n",
+    "\n",
+    "    \n",
+    "def test_number_negatives_for_short_sequences():\n",
+    "    \"\"\"Perform unit tests on number_negative for short sequence\"\"\"\n",
+    "    assert seq_features.number_negatives('ACKLWTTAE') == 1\n",
+    "    assert seq_features.number_negatives('DDDDEEEE') == 8\n",
+    "\n",
+    "    \n",
+    "def test_number_negatives_for_lowercase():\n",
+    "    \"\"\"Perform unit tests on number_negative for lowercase\"\"\"\n",
+    "    assert seq_features.number_negatives('acklwttae') == 1\n",
+    "    \n",
+    "```\n",
+    "\n",
+    "Note that because the `number_negatives()` function is in a different file than the tests, we must import the `seq_features` module in the file with tests.\n",
+    "\n",
+    "Now you can run the test as:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[1m============================= test session starts ==============================\u001b[0m\n",
+      "platform darwin -- Python 3.8.10, pytest-6.2.3, py-1.10.0, pluggy-0.13.1 -- /Users/bois/opt/anaconda3/bin/python\n",
+      "cachedir: .pytest_cache\n",
+      "hypothesis profile 'default' -> database=DirectoryBasedExampleDatabase('/Users/bois/Dropbox/git/programming_bootcamp/2021/content/lessons/.hypothesis/examples')\n",
+      "rootdir: /Users/bois/Dropbox/git/programming_bootcamp/2021/content/lessons\n",
+      "plugins: hypothesis-6.13.14, anyio-2.2.0\n",
+      "collected 4 items                                                              \u001b[0m\n",
+      "\n",
+      "test_seq_features.py::test_number_negatives_single_E_or_D \u001b[32mPASSED\u001b[0m\u001b[32m         [ 25%]\u001b[0m\n",
+      "test_seq_features.py::test_number_negatives_for_empty \u001b[32mPASSED\u001b[0m\u001b[32m             [ 50%]\u001b[0m\n",
+      "test_seq_features.py::test_number_negatives_for_short_sequences \u001b[32mPASSED\u001b[0m\u001b[32m   [ 75%]\u001b[0m\n",
+      "test_seq_features.py::test_number_negatives_for_lowercase \u001b[32mPASSED\u001b[0m\u001b[32m         [100%]\u001b[0m\n",
+      "\n",
+      "\u001b[32m============================== \u001b[32m\u001b[1m4 passed\u001b[0m\u001b[32m in 0.17s\u001b[0m\u001b[32m ===============================\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pytest -v"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The obvious thing to do next is to test some other cases. Think: what else could go wrong? What if there is an invalid residue in the sequence? How we expect our code to behave?\n",
+    "\n",
+    "These and other semi-existential questions will be addressed in the next lesson."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.8.10\n",
+      "IPython version      : 7.22.0\n",
+      "\n",
+      "bootcamp_utils: 0.0.6\n",
+      "pytest        : 6.2.3\n",
+      "jupyterlab    : 3.0.14\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p bootcamp_utils,pytest,jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
