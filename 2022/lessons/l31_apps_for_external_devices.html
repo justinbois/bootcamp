@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 31. Apps for controlling external devices &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -117,7 +116,7 @@
 <li class="toctree-l1"><a class="reference internal" href="l41_altair.html">Lesson 41: High level plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l42_more_altair.html">Lesson 42: More plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l43_overplotting.html">Lesson 43: Dealing with overplotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 43: Introduction to image processing with scikit-image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 44: Introduction to image processing with scikit-image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l45_segmentation.html">Lesson 45: Basic image quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exercises</span></p>
@@ -460,7 +459,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-31.-Apps-for-controlling-external-devices">
+<div class="section" id="Lesson-31.-Apps-for-controlling-external-devices">
 <h1>Lesson 31. Apps for controlling external devices<a class="headerlink" href="#Lesson-31.-Apps-for-controlling-external-devices" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -794,7 +793,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </script></div>
 </div>
 <hr><p>In this lesson, you will learn how to use Python’s built-in asynchronous capabilities to constantly receive data from Arduino without blocking so that you can use the Python interpreter to do other tasks.</p>
-<section id="Setup">
+<div class="section" id="Setup">
 <h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline"></a></h2>
 <p>The setup for this lesson is the same as the previous one. As a reminder, you should have an Arduino Uno board with the setup below connected to a USB port on your computer.</p>
 <div style="margin: auto; width: 400px;"><img alt="Arduino" src="../_images/arduino_setup.svg" /></div><p>You should also have the following code uploaded onto your Arduino.</p>
@@ -945,17 +944,17 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 </div>
 <p>With these in hand, we can proceed to step up capability for controlling an external device and streaming data from it.</p>
-</section>
-<section id="Why-do-we-need-asynchrony?">
+</div>
+<div class="section" id="Why-do-we-need-asynchrony?">
 <h2>Why do we need asynchrony?<a class="headerlink" href="#Why-do-we-need-asynchrony?" title="Permalink to this headline"></a></h2>
 <p>When you communicated with a device, there are plenty of other tasks you want the Python interpreter to be doing while it is acquiring data. At the very least, you may want it to be listening for more user input to <em>stop</em> acquiring data. But you may also want to perform calculations on the incoming data (such as digital filtering), control and/or receive data from other connected devices, or even just mess around in your Jupyter notebook.</p>
 <p>In order to do these things, you want the data acquisition to happen asynchronously. You want the interpreter to occasionally read and parse data, but be free to do whatever else you want it to do when it is not reading and parsing data. That is, you do not want to tie up the interpreter all the time waiting for data to come in.</p>
-</section>
-<section id="Reading-data-in-chunks">
+</div>
+<div class="section" id="Reading-data-in-chunks">
 <h2>Reading data in chunks<a class="headerlink" href="#Reading-data-in-chunks" title="Permalink to this headline"></a></h2>
 <p>As a first step toward asynchrony, we will write a function to read data in <strong>chunks</strong>. Instead of constantly monitoring the data coming in over the serial connection, we would rather occasionally check the serial connection to see if there are any data in the input buffer. If there is, we read in whatever is in the input buffer to clear it, go off and process that, and then wait a while before checking again. During that waiting time, you can have the interpreter do other tasks.</p>
 <p><strong>Warning</strong>: Don’t wait too long to read, though! You do not want to overrun the USB input buffer size on your computer. Arduino’s output buffer is 64 bytes, and computers can have default input buffer sizes as low as 64 bytes as well. (I think most computers these days have input buffer sizes around 1024 bytes, but it does vary from machine to machine.)</p>
-<section id="Chunk-reading-for-non-corrupted-data">
+<div class="section" id="Chunk-reading-for-non-corrupted-data">
 <h3>Chunk reading for non-corrupted data<a class="headerlink" href="#Chunk-reading-for-non-corrupted-data" title="Permalink to this headline"></a></h3>
 <p>The function below reads in all of the data that is in the input buffer and returns the data as a byte string. We should specify a short timeout so that reading will stop before the buffer starts filling up again.</p>
 <div class="nbinput nblast docutils container">
@@ -1051,8 +1050,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 </pre></div>
 </div>
 </div>
-</section>
-<section id="Chunk-reading-with-corrupted-data">
+</div>
+<div class="section" id="Chunk-reading-with-corrupted-data">
 <h3>Chunk reading with corrupted data<a class="headerlink" href="#Chunk-reading-with-corrupted-data" title="Permalink to this headline"></a></h3>
 <p>We discovered that on Windows machines, reads made with pySerial can sometimes result in corrupted bytes. This makes the read-in string unusable, and in many cases un-parsable because the resulting bytes do not correspond to any characters in ASCII. I am not sure exactly why this happens, but I suspect it is due to the read of a given byte being incomplete, with the read being interrupted before the stop bit. To counteract this, we can instead read chunks that <em>must</em> terminate in a newline using
 <code class="docutils literal notranslate"><span class="pre">read_until()</span></code>. This blocks all other processes until the complete newline byte is read. This also ensures that all bytes preceding the newline are read in their entirety as well.</p>
@@ -1089,9 +1088,9 @@ var element = document.currentScript.previousSibling.previousSibling;
 </pre></div>
 </div>
 </div>
-</section>
-</section>
-<section id="asyncio">
+</div>
+</div>
+<div class="section" id="asyncio">
 <h2>asyncio<a class="headerlink" href="#asyncio" title="Permalink to this headline"></a></h2>
 <p>Python has handy built-in asynchronous capabilities using the <code class="docutils literal notranslate"><span class="pre">asyncio</span></code> module from the standard library. It was introduced recently, in Python 3.5, and has had changes and deprecations since. The version in Python 3.8 has nice high-level functionality and has a stable API, so it is important that you are using Python 3.8.</p>
 <p>I will give a brief overview of how it works here, but you would be well-served to <a class="reference external" href="https://docs.python.org/3/library/asyncio.html">read the documentation</a>, most importantly the <a class="reference external" href="https://docs.python.org/3/library/asyncio-task.html">coroutines and tasks section</a>.</p>
@@ -1314,7 +1313,7 @@ world.
 </pre></div></div>
 </div>
 <p>Note that the result is the return values from the two coroutines as a list.</p>
-<section id="Canceling-a-task">
+<div class="section" id="Canceling-a-task">
 <h3>Canceling a task<a class="headerlink" href="#Canceling-a-task" title="Permalink to this headline"></a></h3>
 <p>Once a task is created, it may be interrupted and canceled using the <code class="docutils literal notranslate"><span class="pre">cancel()</span></code> method of the task. For example, we can cancel the English greeting before the second word comes out.</p>
 <div class="nbinput docutils container">
@@ -1396,8 +1395,8 @@ Input <span class="ansi-green-fg">In [20]</span>, in <span class="ansi-cyan-fg">
 <span class="ansi-red-fg">CancelledError</span>:
 </pre></div></div>
 </div>
-</section>
-<section id="Running-without-an-existing-event-loop">
+</div>
+<div class="section" id="Running-without-an-existing-event-loop">
 <h3>Running without an existing event loop<a class="headerlink" href="#Running-without-an-existing-event-loop" title="Permalink to this headline"></a></h3>
 <p>If you do not have a running event loop on your thread, which will typically be the case if you are running outside of JupyterLab, you need to start an event loop. Fortunately, <code class="docutils literal notranslate"><span class="pre">asynchio</span></code> provides a convenient way to start (and automatically terminate upon completion of all coroutines) with its <code class="docutils literal notranslate"><span class="pre">asyncio.run()</span></code> function. To use it, define a coroutine that awaits all of the tasks you want to run and then pass that coroutine as an argument to <code class="docutils literal notranslate"><span class="pre">asyncio.run()</span></code>. For example, to run the English
 and Spanish greetings concurrently, do the following.</p>
@@ -1411,9 +1410,9 @@ and Spanish greetings concurrently, do the following.</p>
 <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="Receiving-data-asynchronously">
+</div>
+</div>
+<div class="section" id="Receiving-data-asynchronously">
 <h2>Receiving data asynchronously<a class="headerlink" href="#Receiving-data-asynchronously" title="Permalink to this headline"></a></h2>
 <p>Now that we understand how asynchrony works in Python, let’s receive some data! We’ll of course start by shaking hands with Arduino.</p>
 <div class="nbinput docutils container">
@@ -1590,8 +1589,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-</section>
-<section id="App-with-live-updates">
+</div>
+<div class="section" id="App-with-live-updates">
 <h2>App with live updates<a class="headerlink" href="#App-with-live-updates" title="Permalink to this headline"></a></h2>
 <p>While the above approach is useful, it leaves a bit to be desired, since we are not updating the plot in real time. Only after data acquisition is finished can we make a plot. We would rather have the plot update in real time, together with a button to start and stop data acquisition. In order to do that, we need to connect a Bokeh plot to a <strong>periodic callback</strong>, which constantly checks the dictionary of acquired data and updates the plot accordingly.</p>
 <p>As an example of how a Bokeh app can use a periodic callback for streaming, I build one below to dynamically plot a random walk. The walk will proceed with a dot doing the walk and the trail behind it represented as a line. To build a Bokeh app, we need to write a function the controls the app. The function for the random walker is shown below with an explanation following immediately.</p>
@@ -1782,10 +1781,10 @@ For time series data, like we’re plotting here, this results in a “scroll”
 </pre></div>
 </div>
 </div>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput docutils container">
+<div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
@@ -1811,8 +1810,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -1830,7 +1829,7 @@ jupyterlab: 3.3.2
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7f7f44251b50> 
+   <jinja2.runtime.BlockReference object at 0x7fbbd43c7520> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

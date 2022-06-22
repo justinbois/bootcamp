@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 32: Control panels &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -108,7 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="l41_altair.html">Lesson 41: High level plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l42_more_altair.html">Lesson 42: More plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l43_overplotting.html">Lesson 43: Dealing with overplotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 43: Introduction to image processing with scikit-image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 44: Introduction to image processing with scikit-image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l45_segmentation.html">Lesson 45: Basic image quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exercises</span></p>
@@ -451,7 +450,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-32:-Control-panels">
+<div class="section" id="Lesson-32:-Control-panels">
 <h1>Lesson 32: Control panels<a class="headerlink" href="#Lesson-32:-Control-panels" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -1066,7 +1065,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<section id="Sketching-a-dashboard">
+<div class="section" id="Sketching-a-dashboard">
 <h2>Sketching a dashboard<a class="headerlink" href="#Sketching-a-dashboard" title="Permalink to this headline"></a></h2>
 <p>I find it is always helpful to first sketch how I would like my dashboard to look. The first version I came up with is this:</p>
 <div style="margin: auto; width: 500px;"><img alt="Dashboard sketch v. 1" src="../_images/dashboard_sketch_1.png" />
@@ -1089,8 +1088,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 <p>The final design I sketched is show below.</p>
 <div style="margin: auto; width: 500px;"><img alt="Dashboard sketch v. 3" src="../_images/dashboard_sketch_3.png" />
 </div><p>In a moment, we’ll build the components of the app: the buttons, the text inputs, the plots. First, though, we need to connect to Arduino and set up the data acquisition.</p>
-</section>
-<section id="Connecting-to-Arduino-and-opening-DAQ">
+</div>
+<div class="section" id="Connecting-to-Arduino-and-opening-DAQ">
 <h2>Connecting to Arduino and opening DAQ<a class="headerlink" href="#Connecting-to-Arduino-and-opening-DAQ" title="Permalink to this headline"></a></h2>
 <p>First, we’ll open connection to Arduino in the same way we have been in the past several lessons.</p>
 <div class="nbinput docutils container">
@@ -1194,8 +1193,8 @@ of the data currently on the streaming plot. We need to keep that reference so w
 </pre></div>
 </div>
 </div>
-</section>
-<section id="Building-the-app">
+</div>
+<div class="section" id="Building-the-app">
 <h2>Building the app<a class="headerlink" href="#Building-the-app" title="Permalink to this headline"></a></h2>
 <p>The completed app needs to be contained in a single function that Bokeh can use to create the app. To practice modular programming, we will write functions to build the parts of the app one by one. These functions can then be used within the function defining the app.</p>
 <p>We’ll start by defining the plots. When we build the plot, as before, we have to be sure to specify a <code class="docutils literal notranslate"><span class="pre">ColumnDataSource</span></code>.</p>
@@ -1633,8 +1632,8 @@ while we were trying to tell it what to do, we should clear the input buffer on 
 </script></div>
 </div>
 <p>If you are using this app in a running Jupyter notebook, be sure to click the <code class="docutils literal notranslate"><span class="pre">shut</span> <span class="pre">down</span></code> button to shut close the connection to Arduino.</p>
-</section>
-<section id="Aside:-error-checking">
+</div>
+<div class="section" id="Aside:-error-checking">
 <h2>Aside: error checking<a class="headerlink" href="#Aside:-error-checking" title="Permalink to this headline"></a></h2>
 <p>This app does not have much error checking. What kinds of features and checks would you add to this app to ensure that a careless user does not end up messing things up? Here are some safeguards to think about.</p>
 <ol class="arabic simple">
@@ -1643,8 +1642,8 @@ while we were trying to tell it what to do, we should clear the input buffer on 
 <li><p>The data set could get very large is the app is left on and streaming. This could overrun the available RAM.</p></li>
 <li><p>The app assumed all connections with Arduino are working and does not give the user an indication that that is the case. I think adding a connection status div to the app would be a good idea.</p></li>
 </ol>
-</section>
-<section id="A-stand-alone-app">
+</div>
+<div class="section" id="A-stand-alone-app">
 <h2>A stand-alone app<a class="headerlink" href="#A-stand-alone-app" title="Permalink to this headline"></a></h2>
 <p>While running the app in a Jupyter notebook is nice, for day-to-day use of our instrument and the associated app, we would like it to stand alone. That is, we would like to launch the app, have our own tab in a browser containing only the app, and then use it like a control panel for our instrument.</p>
 <p>To do this, we need to create a <code class="docutils literal notranslate"><span class="pre">.py</span></code> file with all of the above code for our app, and then <strong>serve</strong> it using Bokeh. If you save the code below in a <code class="docutils literal notranslate"><span class="pre">.py</span></code> files called <code class="docutils literal notranslate"><span class="pre">potentiometer_app.py</span></code>, you can then serve it using</p>
@@ -2210,10 +2209,10 @@ app = potentiometer_app(
 app(bokeh.plotting.curdoc())
 </pre></div>
 </div>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput docutils container">
+<div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
@@ -2239,8 +2238,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -2258,7 +2257,7 @@ jupyterlab: 3.3.2
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7f7f46664ee0> 
+   <jinja2.runtime.BlockReference object at 0x7fbbf85c1e80> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

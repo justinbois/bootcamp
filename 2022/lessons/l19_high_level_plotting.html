@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 19: High level plotting with iqplot &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -113,7 +112,7 @@
 <li class="toctree-l1"><a class="reference internal" href="l41_altair.html">Lesson 41: High level plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l42_more_altair.html">Lesson 42: More plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l43_overplotting.html">Lesson 43: Dealing with overplotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 43: Introduction to image processing with scikit-image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 44: Introduction to image processing with scikit-image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l45_segmentation.html">Lesson 45: Basic image quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exercises</span></p>
@@ -456,7 +455,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-19:-High-level-plotting-with-iqplot">
+<div class="section" id="Lesson-19:-High-level-plotting-with-iqplot">
 <h1>Lesson 19: High level plotting with iqplot<a class="headerlink" href="#Lesson-19:-High-level-plotting-with-iqplot" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -931,7 +930,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </table>
 </div></div>
 </div>
-<section id="Plots-with-categorical-variables">
+<div class="section" id="Plots-with-categorical-variables">
 <h2>Plots with categorical variables<a class="headerlink" href="#Plots-with-categorical-variables" title="Permalink to this headline"></a></h2>
 <p>Let us first consider the different kinds of data we may encounter as we think about constructing a plot.</p>
 <ul class="simple">
@@ -943,8 +942,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 <p>In practice, ordinal data can be cast as quantitative or treated as categorical with an ordering enforced on the categories (e.g., categorical data <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code> becomes <code class="docutils literal notranslate"><span class="pre">['1',</span> <span class="pre">'2',</span> <span class="pre">'3']</span></code>.). Temporal data can also be cast as quantitative, (e.g., second from the start time). We will therefore focus out attention on quantitative and categorical data.</p>
 <p>When we made scatter plots in the previous lesson, both types of data were quantitative. We did actually incorporate categorical information in the form of colors of the glyph (insomniacs and normal sleepers being colored differently) and in tooltips.</p>
 <p>But what if we wanted a single type of measurement, say impact force, for each frog? Here, we have the quantitative impact force data and the categorical frog ID data. One of our axes is now categorical.</p>
-</section>
-<section id="Bar-graph">
+</div>
+<div class="section" id="Bar-graph">
 <h2>Bar graph<a class="headerlink" href="#Bar-graph" title="Permalink to this headline"></a></h2>
 <p>To demonstrate how to set up a categorical axis with Bokeh, I will make a bar graph of the mean impact force for each of the four frogs. But before I even begin this, I will give you the following piece of advice: <em>Don’t make bar graphs.</em> More on that in a moment.</p>
 <p>Before we do that, we need to compute the means from the inputted data frame.</p>
@@ -1159,8 +1158,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-</section>
-<section id="iqplot">
+</div>
+<div class="section" id="iqplot">
 <h2>iqplot<a class="headerlink" href="#iqplot" title="Permalink to this headline"></a></h2>
 <p>Generating the bar graphs was not too painful, even tough we used Bokeh, a low-level plotting library. Nonetheless, we would like to make plots more <strong>declaratively</strong>. We do not want to have to explicitly pre-process the data, set up the categorical axis, etc. We would like to just provide a data set, say which column(s) is/are categorical and which is quantitative, and then just get our plot.</p>
 <p>iqplot generates plots from tidy data frames where one or more columns contain categorical data and the column of interest in the plot is quantitative.</p>
@@ -1192,8 +1191,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 <li><p><code class="docutils literal notranslate"><span class="pre">p</span></code>: If specified, the <code class="docutils literal notranslate"><span class="pre">bokeh.plotting.Figure</span></code> object to use for the plot. If not specified, a new figure is created.</p></li>
 </ul>
 <p>With this in mind, we will put iqplot to use on the frog data set.</p>
-</section>
-<section id="Box-plots-with-iqplot">
+</div>
+<div class="section" id="Box-plots-with-iqplot">
 <h2>Box plots with iqplot<a class="headerlink" href="#Box-plots-with-iqplot" title="Permalink to this headline"></a></h2>
 <p>As I <a class="reference external" href="#Don't-make-bar-graphs">discuss below</a>, bar graphs are almost never a good choice for visualization. You distill all of the information in the data set down to one or two summary statistics, and then use giant glyphs to show them. As a start for improvement, you could distill the data set down to five or so summary statistics and show those graphically, as opposed to just one or two.</p>
 <p>Box plots provide such a summary. I will first make one using <code class="docutils literal notranslate"><span class="pre">iqplot.box()</span></code> and then describe how a box plot is interpreted.</p>
@@ -1254,14 +1253,14 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 <p>The line in the middle of each box is the median and the top and bottom of the box at the 75th and 25th percentiles, respectively. The distance between the 25th and 75th percentiles is called the <strong>interquartile range</strong>, or IQR. The whiskers of the box plot extend to the most extreme data point within 1.5 times the interquartile range. If any data points are more extreme than the end of the whisker, they are shown individually, and are often referred to as <em>outliers</em>.</p>
 <p>A box plot can use a useful visualization if you have many data points and it is difficult to plot them all. I rarely find that there are situations where all data cannot be plotted, either with strip plots of ECDFs, which we will cover in a moment, so I generally do not use box plots. Nonetheless, I do not find them too objectionable, as they effectively display important nonparametric summary statistics of your data set.</p>
-</section>
-<section id="Plot-all-your-data">
+</div>
+<div class="section" id="Plot-all-your-data">
 <h2>Plot all your data<a class="headerlink" href="#Plot-all-your-data" title="Permalink to this headline"></a></h2>
 <p>Box plots summarize a data set with summary statistics, but what not plot all your data? You work hard to acquire them. You should show them all. This is a mantra to live by.</p>
 <div style="text-align: center; color: dodgerblue; font-weight: bold;"><p>Plot all of your data.</p>
 </div><p>Let’s do that now.</p>
-</section>
-<section id="Strip-plots">
+</div>
+<div class="section" id="Strip-plots">
 <h2>Strip plots<a class="headerlink" href="#Strip-plots" title="Permalink to this headline"></a></h2>
 <p>A <strong>strip plot</strong> is like a scatter plot; it puts a glyph for every measured data point. The only difference is that one of the axes is categorical. In this case, you are plotting all of your data.</p>
 <div class="nbinput docutils container">
@@ -1320,8 +1319,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 </script></div>
 </div>
 <p>This is a good plot to make since you are plotting all of your data, but it does have the problem that you cannot tell if multiple data points overlap.</p>
-</section>
-<section id="Strip-box-plots">
+</div>
+<div class="section" id="Strip-box-plots">
 <h2>Strip-box plots<a class="headerlink" href="#Strip-box-plots" title="Permalink to this headline"></a></h2>
 <p>It is sometimes useful to overlay strip plots with box plots, as the box plots show useful quantile information. This is accomplished using the <code class="docutils literal notranslate"><span class="pre">iqplot.stripbox()</span></code> function.</p>
 <div class="nbinput docutils container">
@@ -1379,8 +1378,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-</section>
-<section id="Histograms">
+</div>
+<div class="section" id="Histograms">
 <h2>Histograms<a class="headerlink" href="#Histograms" title="Permalink to this headline"></a></h2>
 <p>In plotting all of our data in a strip plot, we can roughly see how the data are distributed. There are more measurements where there are more glyphs. We ofter seek to visualize the <em>distribution</em> of the data. <strong>Histograms</strong> are commonly used for this. They are typically interpreted to as an empirical representation of the probability density function.</p>
 <div class="nbinput docutils container">
@@ -1439,8 +1438,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 </script></div>
 </div>
 <p>Note that by default, iqplot includes a <strong>rug plot</strong> at the bottom of the histogram, showing each measurement.</p>
-</section>
-<section id="ECDFs">
+</div>
+<div class="section" id="ECDFs">
 <h2>ECDFs<a class="headerlink" href="#ECDFs" title="Permalink to this headline"></a></h2>
 <p>I just mentioned that histograms are typically used to display how data are distributed, but it was hard to make out the distributions in the above plot, partly because we do not have very many measurements. As another example I will generate Normally distributed data and plot the histogram. (We will learn how to generate data like this when we study random number generation with NumPy in a future lesson. For now, this is for purposes of discussing plotting options.)</p>
 <p>Note that iqplot can take a Numpy array as the <code class="docutils literal notranslate"><span class="pre">data</span></code> argument, and makes a plot assuming it contains a single data set.</p>
@@ -1735,16 +1734,16 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-</section>
-<section id="Don’t-make-bar-graphs">
+</div>
+<div class="section" id="Don’t-make-bar-graphs">
 <h2>Don’t make bar graphs<a class="headerlink" href="#Don’t-make-bar-graphs" title="Permalink to this headline"></a></h2>
 <p>Bar graphs, especially with error bars (in which case they are called dynamite plots), are typically awful. They are pervasive in biology papers. I have yet to find a single example where a bar graph is the best choice. Strip plots (with jitter) or even box plots, are more informative and almost always preferred. In fact, ECDFs are often better even than these. Here is a simple message:</p>
 <div style="text-align: center; font-weight: bold; color: tomato;"><p>Don’t make bar graphs.</p>
 </div><p>What should I do instead you ask? The answer is simple: <strong>plot all of your data</strong> when you can. If you can’t, box plots are always better than bar graphs.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput docutils container">
+<div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
@@ -1770,8 +1769,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -1789,7 +1788,7 @@ jupyterlab: 3.3.2
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7f7f44513be0> 
+   <jinja2.runtime.BlockReference object at 0x7fbbf8abc820> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 7: Introduction to functions &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -114,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="l41_altair.html">Lesson 41: High level plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l42_more_altair.html">Lesson 42: More plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l43_overplotting.html">Lesson 43: Dealing with overplotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 43: Introduction to image processing with scikit-image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 44: Introduction to image processing with scikit-image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l45_segmentation.html">Lesson 45: Basic image quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exercises</span></p>
@@ -457,14 +456,14 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-7:-Introduction-to-functions">
+<div class="section" id="Lesson-7:-Introduction-to-functions">
 <h1>Lesson 7: Introduction to functions<a class="headerlink" href="#Lesson-7:-Introduction-to-functions" title="Permalink to this headline"></a></h1>
 <hr><p>A <strong>function</strong> is a key element in writing programs. You can think of a function in a computing language in much the same way you think of a mathematical function. The function takes in <strong>arguments</strong>, performs some operation based on the identities of the arguments, and then <strong>returns</strong> a result. For example, the mathematical function</p>
 <p><span class="math">\begin{align}
 f(x, y) = \frac{x}{y}
 \end{align}</span></p>
 <p>takes arguments <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> and then returns the ratio between the two, <span class="math notranslate nohighlight">\(x/y\)</span>. In this lesson, we will learn how to construct functions in Python.</p>
-<section id="Basic-function-syntax">
+<div class="section" id="Basic-function-syntax">
 <h2>Basic function syntax<a class="headerlink" href="#Basic-function-syntax" title="Permalink to this headline"></a></h2>
 <p>For our first example, we will translate the above function into Python. A function is <strong>defined</strong> using the <code class="docutils literal notranslate"><span class="pre">def</span></code> keyword. This is best seen by example.</p>
 <div class="nbinput nblast docutils container">
@@ -524,7 +523,7 @@ ratio(x, y)
 <p>You are free to type whatever you like in doc strings, or even omit them, but you should always have a doc string with some information about what your function is doing. True, this example of a function is kind of silly, since it is easier to type <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">/</span> <span class="pre">y</span></code> than <code class="docutils literal notranslate"><span class="pre">ratio(x,</span> <span class="pre">y)</span></code>, but it is still good form to have a doc string. This is worth saying explicitly.</p>
 <div style="color: dodgerblue; text-align: center; font-weight: bold;"><p>All functions should have doc strings.</p>
 </div><p>In the next line of the function, we see a <strong>return</strong> keyword. Whatever is after the <strong>return</strong> statement is, you guessed it, returned by the function. Any code after the <strong>return</strong> is <em>not</em> executed because the function has already returned!</p>
-<section id="Calling-a-function">
+<div class="section" id="Calling-a-function">
 <h3>Calling a function<a class="headerlink" href="#Calling-a-function" title="Permalink to this headline"></a></h3>
 <p>Now that we have defined our function, we can <strong>call</strong> it.</p>
 <div class="nbinput docutils container">
@@ -579,8 +578,8 @@ ratio(x, y)
 </pre></div></div>
 </div>
 <p>In each case, the function returns a <code class="docutils literal notranslate"><span class="pre">float</span></code> with the ratio of its arguments.</p>
-</section>
-<section id="Functions-need-not-have-arguments">
+</div>
+<div class="section" id="Functions-need-not-have-arguments">
 <h3>Functions need not have arguments<a class="headerlink" href="#Functions-need-not-have-arguments" title="Permalink to this headline"></a></h3>
 <p>A function does not need arguments. As a silly example, let’s consider a function that just returns 42 every time. Of course, it does not matter what its arguments are, so we can define a function without arguments.</p>
 <div class="nbinput nblast docutils container">
@@ -611,8 +610,8 @@ ratio(x, y)
 42
 </pre></div></div>
 </div>
-</section>
-<section id="Functions-need-not-return-anything">
+</div>
+<div class="section" id="Functions-need-not-return-anything">
 <h3>Functions need not return anything<a class="headerlink" href="#Functions-need-not-return-anything" title="Permalink to this headline"></a></h3>
 <p>Just like they do not necessarily need arguments, functions also do not need to return anything. If a function does not have a <code class="docutils literal notranslate"><span class="pre">return</span></code> statement (or it is never encountered in the execution of the function), the function runs to completion and returns <code class="docutils literal notranslate"><span class="pre">None</span></code> by default. <code class="docutils literal notranslate"><span class="pre">None</span></code> is a special Python keyword which basically means “nothing.” For example, a function could simply print something to the screen.</p>
 <div class="nbinput nblast docutils container">
@@ -652,15 +651,15 @@ He thinks too much; such men are dangerous.
 None
 </pre></div></div>
 </div>
-</section>
-</section>
-<section id="Built-in-functions-in-Python">
+</div>
+</div>
+<div class="section" id="Built-in-functions-in-Python">
 <h2>Built-in functions in Python<a class="headerlink" href="#Built-in-functions-in-Python" title="Permalink to this headline"></a></h2>
 <p>The Python programming language has several built-in functions. We have already encountered <code class="docutils literal notranslate"><span class="pre">print()</span></code>, <code class="docutils literal notranslate"><span class="pre">id()</span></code>, <code class="docutils literal notranslate"><span class="pre">ord()</span></code>, <code class="docutils literal notranslate"><span class="pre">len()</span></code>, <code class="docutils literal notranslate"><span class="pre">range()</span></code>, <code class="docutils literal notranslate"><span class="pre">enumerate()</span></code>, <code class="docutils literal notranslate"><span class="pre">zip()</span></code>, and <code class="docutils literal notranslate"><span class="pre">reversed()</span></code>, in addition to type conversions such as <code class="docutils literal notranslate"><span class="pre">list()</span></code>. The complete set of <strong>built-in functions</strong> can be found <a class="reference external" href="https://docs.python.org/3/library/functions.html">here</a>. A word of warning about these functions and naming your own.</p>
 <div style="color: dodgerblue; text-align: center; font-weight: bold;"><p>Never define a function or variable with the same name as a built-in function.</p>
 </div><p>Additionally, Python has <strong>keywords</strong> (such as <code class="docutils literal notranslate"><span class="pre">def</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span></code>, <code class="docutils literal notranslate"><span class="pre">in</span></code>, <code class="docutils literal notranslate"><span class="pre">if</span></code>, <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>, etc.), many of which we have already encountered. A complete list of them is <a class="reference external" href="https://docs.python.org/3/reference/lexical_analysis.html#keywords">here</a>. The interpreter will throw an error if you try to define a function or variable with the same name as a keyword.</p>
-</section>
-<section id="An-example-function:-reverse-complement">
+</div>
+<div class="section" id="An-example-function:-reverse-complement">
 <h2>An example function: reverse complement<a class="headerlink" href="#An-example-function:-reverse-complement" title="Permalink to this headline"></a></h2>
 <p>Let’s write a function that does not do something so trivial as computing ratios or giving us the Answer to the Ultimate Question of Life, the Universe, and Everything. We’ll write a function to compute the reverse complement of a sequence of DNA. Within the function, we’ll use some of our newly acquired iteration skills.</p>
 <div class="nbinput nblast docutils container">
@@ -767,13 +766,13 @@ CGTCAACGT
 </ol>
 <p>We could very well have written a single function to compute the reverse complement with the <code class="docutils literal notranslate"><span class="pre">if</span></code> statements included within the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop. Instead, we split this larger operation up into smaller functions. This is an example of <strong>modular</strong> programming, in which the desired functionality is split up into small, independent, interchangeable modules. This is a very, very important concept.</p>
 <div style="color: dodgerblue; text-align: center; font-weight: bold;"><p>Write small functions that do single, simple tasks.</p>
-</div></section>
-<section id="Pause-and-think-about-testing">
+</div></div>
+<div class="section" id="Pause-and-think-about-testing">
 <h2>Pause and think about testing<a class="headerlink" href="#Pause-and-think-about-testing" title="Permalink to this headline"></a></h2>
 <p>Let’s pause for a moment and think about what the <code class="docutils literal notranslate"><span class="pre">complement_base()</span></code> and <code class="docutils literal notranslate"><span class="pre">reverse_complement()</span></code> functions do. They do a well-defined operation on string inputs. If we’re doing some bioinformatics, we might use these functions over and over again. We should therefore thoroughly <strong>test</strong> the functions. For example, we should test that <code class="docutils literal notranslate"><span class="pre">reverse_complement('GCAGTTGCA')</span></code> returns <code class="docutils literal notranslate"><span class="pre">'TGCAACTGC'</span></code>. For now, we will proceed without writing tests, but we will soon cover <strong>test-driven development</strong>,
 in which your functions are built around tests. For now, I will tell you this: <strong>If your functions are not thoroughly tested, you are entering a world of pain. A world of pain.</strong> Test your functions.</p>
-</section>
-<section id="Keyword-arguments">
+</div>
+<div class="section" id="Keyword-arguments">
 <h2>Keyword arguments<a class="headerlink" href="#Keyword-arguments" title="Permalink to this headline"></a></h2>
 <p>Now let’s say that instead of the reverse DNA complement, we want the reverse RNA complement. We could re-write the <code class="docutils literal notranslate"><span class="pre">complement_base()</span></code> function to do this. Better yet, let’s modify it.</p>
 <div class="nbinput nblast docutils container">
@@ -847,8 +846,8 @@ in which your functions are built around tests. For now, I will tell you this: <
 &#39;UGCAACUGC&#39;
 </pre></div></div>
 </div>
-</section>
-<section id="Calling-a-function-with-a-splat">
+</div>
+<div class="section" id="Calling-a-function-with-a-splat">
 <h2>Calling a function with a splat<a class="headerlink" href="#Calling-a-function-with-a-splat" title="Permalink to this headline"></a></h2>
 <p>Python offers another convenient way to call functions. Say a function takes three arguments, <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code>, and <code class="docutils literal notranslate"><span class="pre">c</span></code>, taken to be the sides of a triangle, and determines whether or not the triangle is a right triangle. I.e., it checks to see if <span class="math notranslate nohighlight">\(a^2 + b^2 = c^2\)</span>.</p>
 <div class="nbinput nblast docutils container">
@@ -935,10 +934,10 @@ True
 </pre></div></div>
 </div>
 <p>This can be very convenient, and we will definitely use this feature later in the bootcamp when we do some string formatting.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput docutils container">
+<div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
@@ -960,8 +959,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -979,7 +978,7 @@ jupyterlab: 3.3.2
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7f7f44134370> 
+   <jinja2.runtime.BlockReference object at 0x7fbbf8247ca0> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

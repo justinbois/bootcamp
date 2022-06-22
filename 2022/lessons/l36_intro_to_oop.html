@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 36: Introduction to object-oriented programming &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -111,7 +110,7 @@
 <li class="toctree-l1"><a class="reference internal" href="l41_altair.html">Lesson 41: High level plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l42_more_altair.html">Lesson 42: More plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l43_overplotting.html">Lesson 43: Dealing with overplotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 43: Introduction to image processing with scikit-image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 44: Introduction to image processing with scikit-image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l45_segmentation.html">Lesson 45: Basic image quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exercises</span></p>
@@ -454,7 +453,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-36:-Introduction-to-object-oriented-programming">
+<div class="section" id="Lesson-36:-Introduction-to-object-oriented-programming">
 <h1>Lesson 36: Introduction to object-oriented programming<a class="headerlink" href="#Lesson-36:-Introduction-to-object-oriented-programming" title="Permalink to this headline"></a></h1>
 <hr><p>We have spent much of the bootcamp discussing how to make code function, readable, and testable. We have used functions to help to avoid duplicated code. <strong>Object-oriented programming</strong> (OOP) goes further in that it</p>
 <ul class="simple">
@@ -462,7 +461,7 @@ div.rendered_html tbody tr:hover {
 <li><p>further increases readability</p></li>
 <li><p>makes chunks of code portable</p></li>
 </ul>
-<section id="Classes">
+<div class="section" id="Classes">
 <h2>Classes<a class="headerlink" href="#Classes" title="Permalink to this headline"></a></h2>
 <p>Classes form the core of Python’s OOP. They are devices that create new objects. This is called <strong>instantiation</strong>. I.e., an object is an <strong>instance</strong> of a class. These objects have three characteristics which makes the use of classes particularly attractive:</p>
 <ul class="simple">
@@ -471,8 +470,8 @@ div.rendered_html tbody tr:hover {
 <li><p><strong>operator overloading</strong>: This allows an operator to have a different meaning according to context. For example, the <code class="docutils literal notranslate"><span class="pre">+</span></code> operator has a different meaning for <code class="docutils literal notranslate"><span class="pre">floats</span></code> vs. strings.</p></li>
 </ul>
 <p>This is all a bit theoretical, so let’s look at an example.</p>
-</section>
-<section id="Example:-Biological-sequences">
+</div>
+<div class="section" id="Example:-Biological-sequences">
 <h2>Example: Biological sequences<a class="headerlink" href="#Example:-Biological-sequences" title="Permalink to this headline"></a></h2>
 <p>In this example, we will make a class for biological sequences. The goal here is just to lift the covers off how classes are built, so you have a basic understanding what you are doing when you use the dot notation on objects.</p>
 <div class="nbinput nblast docutils container">
@@ -523,7 +522,7 @@ The sequence has 11 bases.
 </pre></div></div>
 </div>
 <p>In addition to methods, an object also has <strong>attributes</strong>, which are values associated with it. This class has two attributes, <code class="docutils literal notranslate"><span class="pre">seq</span></code> and <code class="docutils literal notranslate"><span class="pre">material</span></code>, and has two methods, <code class="docutils literal notranslate"><span class="pre">seq_len()</span></code> and the special method <code class="docutils literal notranslate"><span class="pre">__init__()</span></code>.</p>
-<section id="Subclasses-and-inheritence">
+<div class="section" id="Subclasses-and-inheritence">
 <h3>Subclasses and inheritence<a class="headerlink" href="#Subclasses-and-inheritence" title="Permalink to this headline"></a></h3>
 <p>Let’s create a subclass <code class="docutils literal notranslate"><span class="pre">Nucleotides</span></code>. To make it inherit all of the defined methods and attributes of <code class="docutils literal notranslate"><span class="pre">Biosequence</span></code> (its parent class), we refer to <code class="docutils literal notranslate"><span class="pre">Biosequence</span></code> in the <code class="docutils literal notranslate"><span class="pre">class</span></code> definition. We will write a single method that uses the Marmur rule of thumb for computing the melting temperature of a stretch of double-stranded DNA,</p>
 <p><span class="math">\begin{align}
@@ -589,8 +588,8 @@ T_m = 2\,^\circ C \, (N_A + N_T) + 4\,^\circ C \, (N_G + N_C),
 14
 </pre></div></div>
 </div>
-</section>
-<section id="Another-T_m-calculator">
+</div>
+<div class="section" id="Another-T_m-calculator">
 <h3>Another <span class="math notranslate nohighlight">\(T_m\)</span> calculator<a class="headerlink" href="#Another-T_m-calculator" title="Permalink to this headline"></a></h3>
 <p>Let’s add the Wallace rule of thumb for melting temperature in degrees Celsius.</p>
 <p><span class="math">\begin{align}
@@ -648,8 +647,8 @@ T_m via Marmur rule: 40 °C
 T_m via Wallace rule: 35.25384615384617 °C
 </pre></div></div>
 </div>
-</section>
-<section id="Primer-design">
+</div>
+<div class="section" id="Primer-design">
 <h3>Primer design<a class="headerlink" href="#Primer-design" title="Permalink to this headline"></a></h3>
 <p>Now that we can calculate melting temperatures, we can introduce a class that deals with primer design. It inherits the <code class="docutils literal notranslate"><span class="pre">Nucleotides</span></code> class, and then has methods to choose a primer.</p>
 <div class="nbinput nblast docutils container">
@@ -822,9 +821,9 @@ sequence). We then return both primers.</p>
 </pre></div></div>
 </div>
 <p>This works, that’s great! Notice that we tried to reuse code we already wrote as much as possible. This is part of the <strong>DRY</strong> principle. It also is a great help in debugging.</p>
-</section>
-</section>
-<section id="Protein-sequences">
+</div>
+</div>
+<div class="section" id="Protein-sequences">
 <h2>Protein sequences<a class="headerlink" href="#Protein-sequences" title="Permalink to this headline"></a></h2>
 <p>In keeping with the <strong>DRY</strong> principle, we can recycle the <code class="docutils literal notranslate"><span class="pre">Biosequence</span></code> class to handle protein sequences. We’ll make a new class with that computes the net charge of residues in a protein (assuming histidine is not charged).</p>
 <div class="nbinput nblast docutils container">
@@ -881,8 +880,8 @@ sequence). We then return both primers.</p>
 -2
 </pre></div></div>
 </div>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
@@ -906,8 +905,8 @@ jupyterlab: 3.0.14
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -925,7 +924,7 @@ jupyterlab: 3.0.14
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7f7f4b713fd0> 
+   <jinja2.runtime.BlockReference object at 0x7fbbd4081cd0> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

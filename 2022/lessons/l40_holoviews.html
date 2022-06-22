@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 40: High level plotting with HoloViews &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -125,7 +124,7 @@
 <li class="toctree-l1"><a class="reference internal" href="l41_altair.html">Lesson 41: High level plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l42_more_altair.html">Lesson 42: More plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l43_overplotting.html">Lesson 43: Dealing with overplotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 43: Introduction to image processing with scikit-image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 44: Introduction to image processing with scikit-image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l45_segmentation.html">Lesson 45: Basic image quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exercises</span></p>
@@ -468,7 +467,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-40:-High-level-plotting-with-HoloViews">
+<div class="section" id="Lesson-40:-High-level-plotting-with-HoloViews">
 <h1>Lesson 40: High level plotting with HoloViews<a class="headerlink" href="#Lesson-40:-High-level-plotting-with-HoloViews" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -2366,12 +2365,12 @@ roTBs2RqAAAAAElFTkSuQmCC'
 </div></div>
 </div>
 <hr /><p><em>Note that if you are viewing this notebook as the static HTML rendering, you may need to refresh your browser for the plots below to show up.</em></p>
-<section id="Introduction-to-HoloViews">
+<div class="section" id="Introduction-to-HoloViews">
 <h2>Introduction to HoloViews<a class="headerlink" href="#Introduction-to-HoloViews" title="Permalink to this headline"></a></h2>
 <p><a class="reference external" href="http://holoviews.org/">HoloViews</a> is a high-level plotting library that is part of the <a class="reference external" href="http://holoviz.org/">HoloViz ecosystem</a>. It allows specification of plots, and is agnostic about what is used to render them. We will use Bokeh as our renderer.</p>
 <p>To set this up, we import HoloViews (as <code class="docutils literal notranslate"><span class="pre">hv</span></code>) and then set the Holoviews extension to be Bokeh using <code class="docutils literal notranslate"><span class="pre">hv.extension('bokeh')</span></code> at the top of the notebook.</p>
-</section>
-<section id="Main-ideas-behind-HoloViews">
+</div>
+<div class="section" id="Main-ideas-behind-HoloViews">
 <h2>Main ideas behind HoloViews<a class="headerlink" href="#Main-ideas-behind-HoloViews" title="Permalink to this headline"></a></h2>
 <p>Imagine you have a tidy data set. It is already logically organized; each row is an observation and each column a variable. Let us think for a moment conceptually (that is, not in terms of steps of coding) about how we might make a scatter plot from a tidy data frame. We need to (obviously) first decide that we want to make a scatter plot, i.e., we specify what kind of graphic <strong>element</strong> we want to convert our data set into. Then, we need to <strong>annotate</strong> the columns of the data frame. That is,
 we need to annotate which column will determine the x-coordinate of the glyphs in the scatter plot and which will determine the y-coordinate of the glyphs. After we have made these decisions, that is, what kind of graphic element we want to produce and what columns give the x-coordinates and what gives the y-coordinates, the fundamental plot is complete. Everything else is visual styling.</p>
@@ -2381,12 +2380,12 @@ we need to annotate which column will determine the x-coordinate of the glyphs i
 <li><p>What columns specify the dimensions of the data, needed to set up axes.</p></li>
 </ol>
 <p>Once you make those annotations, HoloViews can take care of the rendering, using either Matplotlib, Bokeh, or Plotly. The main idea is that HoloViews objects are conceptual, agnostic to the particulars of rendering. You can stylize the rending if you like, but the fundamentals of the plotting object are already set by the annotation.</p>
-</section>
-<section id="Importing-HoloViews-and-choosing-a-renderer">
+</div>
+<div class="section" id="Importing-HoloViews-and-choosing-a-renderer">
 <h2>Importing HoloViews and choosing a renderer<a class="headerlink" href="#Importing-HoloViews-and-choosing-a-renderer" title="Permalink to this headline"></a></h2>
 <p>HoloViews is imported as <code class="docutils literal notranslate"><span class="pre">hv</span></code>, which we have done in the cell at the top of this notebook. Because HoloViews is agnostic to the ultimate renderer, we need to specify an <strong>extension</strong>, which we did above by executing <code class="docutils literal notranslate"><span class="pre">hv.extension('bokeh')</span></code>. Our plots will now be rendered using Bokeh.</p>
-</section>
-<section id="An-example:-A-scatter-plot-of-finch-beak-lengths-and-depths">
+</div>
+<div class="section" id="An-example:-A-scatter-plot-of-finch-beak-lengths-and-depths">
 <h2>An example: A scatter plot of finch beak lengths and depths<a class="headerlink" href="#An-example:-A-scatter-plot-of-finch-beak-lengths-and-depths" title="Permalink to this headline"></a></h2>
 <p>As an example of use of HoloViews, we will again visit the Grant and Grant finch beak data. We will load it in and take a look.</p>
 <div class="nbinput docutils container">
@@ -2532,19 +2531,19 @@ we need to annotate which column will determine the x-coordinate of the glyphs i
   }
 })(window);</script></div>
 </div>
-<section id="Specification-of-the-element-type">
+<div class="section" id="Specification-of-the-element-type">
 <h3>Specification of the element type<a class="headerlink" href="#Specification-of-the-element-type" title="Permalink to this headline"></a></h3>
 <p>We used <code class="docutils literal notranslate"><span class="pre">hv.Points</span></code> to invoke an <strong>element of visualization</strong>. An element is just a way of converting the tabular nature of the data to a graphical representation, in this case a scatter plot of points. That is, we want to make a plot where each glyph lies in a two-dimensional plot and the values of both the x- and y-axes are independent. (This is contrasted with <code class="docutils literal notranslate"><span class="pre">hv.Scatter</span></code> in which the x-coordinate is the independent variable and the y-coordinate is dependent on x; <code class="docutils literal notranslate"><span class="pre">hv.Points</span></code> is more
 appropriate here.)</p>
 <p>The available element types may be found in the <a class="reference external" href="http://holoviews.org/reference/index.html">HoloViews reference gallery</a>.</p>
-</section>
-<section id="Specification-of-dimensions">
+</div>
+<div class="section" id="Specification-of-dimensions">
 <h3>Specification of dimensions<a class="headerlink" href="#Specification-of-dimensions" title="Permalink to this headline"></a></h3>
 <p>There are two types of dimensions, <strong>key dimensions</strong> and <strong>value dimensions</strong>, specified with the <code class="docutils literal notranslate"><span class="pre">kdims</span></code> and <code class="docutils literal notranslate"><span class="pre">vdims</span></code> arguments, respectively. You can think of key and value dimensions like keys and values of a dictionary (where you can have multidimensional keys). Key dimensions are indexing dimensions, which say where on the graphic the data in a row will reside. The value dimensions give information about each data point. In the simple plot above, the key dimensions are the the beak
 length and beak depth. Those columns determined where the glyphs were placed.</p>
 <p>We additionally had a value dimension, specified by <code class="docutils literal notranslate"><span class="pre">vdims</span></code>, which has additional information associated with each data point. This information was not used in the above plot, but we will put it to use momentarily.</p>
-</section>
-<section id="Stylizing-plots">
+</div>
+<div class="section" id="Stylizing-plots">
 <h3>Stylizing plots<a class="headerlink" href="#Stylizing-plots" title="Permalink to this headline"></a></h3>
 <p>After a plotting Element is specified, we can stylize it using the <code class="docutils literal notranslate"><span class="pre">hv.opts</span></code> functionality. To investigate what styling options are available for each kind of plotting element, you can enter, for example</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hv</span><span class="o">.</span><span class="n">help</span><span class="p">(</span><span class="n">hv</span><span class="o">.</span><span class="n">Points</span><span class="p">)</span>
@@ -2674,9 +2673,9 @@ length and beak depth. Those columns determined where the glyphs were placed.</p
   }
 })(window);</script></div>
 </div>
-</section>
-</section>
-<section id="Grouping-by-value-dimensions">
+</div>
+</div>
+<div class="section" id="Grouping-by-value-dimensions">
 <h2>Grouping by value dimensions<a class="headerlink" href="#Grouping-by-value-dimensions" title="Permalink to this headline"></a></h2>
 <p>Recall that we have an unused value dimension in the element we created. We would naturally like to separate out the glyphs by species. To do this, we can do a <code class="docutils literal notranslate"><span class="pre">groupby</span></code> operation on the Element. That’s right, we can do groupby operations on graphical elements!</p>
 <div class="nbinput docutils container">
@@ -2865,8 +2864,8 @@ length and beak depth. Those columns determined where the glyphs were placed.</p
 })(window);</script></div>
 </div>
 <p>HoloViews was kind enough to automatically provide us with a (clickable) legend!</p>
-</section>
-<section id="Further-stylizing">
+</div>
+<div class="section" id="Further-stylizing">
 <h2>Further stylizing<a class="headerlink" href="#Further-stylizing" title="Permalink to this headline"></a></h2>
 <p>We can use <code class="docutils literal notranslate"><span class="pre">.opts()</span></code> to add tooltips where we can hover and get additional information from the vdims.</p>
 <div class="nbinput docutils container">
@@ -2993,8 +2992,8 @@ length and beak depth. Those columns determined where the glyphs were placed.</p
   }
 })(window);</script></div>
 </div>
-</section>
-<section id="Saving-a-HoloViews-plot">
+</div>
+<div class="section" id="Saving-a-HoloViews-plot">
 <h2>Saving a HoloViews plot<a class="headerlink" href="#Saving-a-HoloViews-plot" title="Permalink to this headline"></a></h2>
 <p>You can save a HoloViews plot (or layout, HoloMap, etc.) using the <code class="docutils literal notranslate"><span class="pre">hv.save()</span></code> function. The <code class="docutils literal notranslate"><span class="pre">hv.save()</span></code> function is smart; it will determine how you want to save your HoloViews object based on the suffix of the output file name.</p>
 <p>As an example, we can make the above plot again, but this time not displaying in the notebook, but rather storing it as a variable.</p>
@@ -3035,8 +3034,8 @@ length and beak depth. Those columns determined where the glyphs were placed.</p
 </div>
 <p>When we open <code class="docutils literal notranslate"><span class="pre">finch_plot.html</span></code>, the result is a fully interactive plot, self-contained in the HTML file. This file can be emailed to a colleague or even embedded in a publication.</p>
 <p>When discuss <strong>dashboarding</strong> in a <a class="reference external" href="l29_dashboards.ipynb">future lesson</a>, we will see that we can make even more elaborate, informative interactive plots, though exporting these to standalone HTML is more challenging.</p>
-</section>
-<section id="Extracting-the-Bokeh-plotting-object">
+</div>
+<div class="section" id="Extracting-the-Bokeh-plotting-object">
 <h2>Extracting the Bokeh plotting object<a class="headerlink" href="#Extracting-the-Bokeh-plotting-object" title="Permalink to this headline"></a></h2>
 <p>After making and displaying a HoloViews plot, we might want to get the Bokeh figure. We can extract that using <code class="docutils literal notranslate"><span class="pre">hv.render()</span></code>.</p>
 <div class="nbinput docutils container">
@@ -3106,12 +3105,12 @@ var element = document.currentScript.previousSibling.previousSibling;
 </script></div>
 </div>
 <p>Note that we got the plot for 1973, which was the first year offered by the interactive HoloMap. If we wanted another year, we would have to make a plot specifically for that year.</p>
-</section>
-<section id="Other-kinds-of-plots">
+</div>
+<div class="section" id="Other-kinds-of-plots">
 <h2>Other kinds of plots<a class="headerlink" href="#Other-kinds-of-plots" title="Permalink to this headline"></a></h2>
 <p>We have seen the basics of how HoloViews works for a scatter plot specified by <code class="docutils literal notranslate"><span class="pre">hv.Points</span></code>. We now show some other kinds of plots we have encountered until now.</p>
-</section>
-<section id="Smooth-function">
+</div>
+<div class="section" id="Smooth-function">
 <h2>Smooth function<a class="headerlink" href="#Smooth-function" title="Permalink to this headline"></a></h2>
 <p>HoloViews can plot a smooth function using the <code class="docutils literal notranslate"><span class="pre">hv.Curve</span></code>. For a Curve, there is one key dimension, which is the independent variable, and one value dimension, which is the dependent variable. This is to be contrasted with <code class="docutils literal notranslate"><span class="pre">hv.Path</span></code>, which has two key dimensions, meaning that neither of the variables is strictly dependent on the other.</p>
 <p>Here is a HoloViews plot of the x-section of the Airy disk. We can either provide a data frame with columns, or we can provide a 2-tuple of NumPy arrays that serve as the dependent and independent variable, respectively.</p>
@@ -3177,7 +3176,7 @@ var element = document.currentScript.previousSibling.previousSibling;
   }
 })(window);</script></div>
 </div>
-<section id="Box-plot">
+<div class="section" id="Box-plot">
 <h3>Box plot<a class="headerlink" href="#Box-plot" title="Permalink to this headline"></a></h3>
 <p>Box plots are made using <code class="docutils literal notranslate"><span class="pre">hv.BoxWhisker</span></code> elements. If multiple key dimensions are specified, nested categorical axes are automatically set up.</p>
 <div class="nbinput docutils container">
@@ -3246,8 +3245,8 @@ BokehUserWarning: ColumnDataSource&#39;s columns must be of the same length. Cur
   }
 })(window);</script></div>
 </div>
-</section>
-<section id="Strip-plots">
+</div>
+<div class="section" id="Strip-plots">
 <h3>Strip plots<a class="headerlink" href="#Strip-plots" title="Permalink to this headline"></a></h3>
 <p>We use <code class="docutils literal notranslate"><span class="pre">hv.Scatter()</span></code> to generate strip plots. When we specify the <code class="docutils literal notranslate"><span class="pre">jitter</span></code> kwargs, we specify the width of the jitter.</p>
 <p>Note that nested categorical axes are currently (as of June 10, 2021) only supported for box, violin, and bar plots, as <a class="reference external" href="http://holoviews.org/user_guide/Customizing_Plots.html#Categorical-axes">per the docs</a>, but will eventually be supported for many more plot types, including <code class="docutils literal notranslate"><span class="pre">Scatter</span></code>, which are used to generate strip plots.</p>
@@ -3319,8 +3318,8 @@ BokehUserWarning: ColumnDataSource&#39;s columns must be of the same length. Cur
   }
 })(window);</script></div>
 </div>
-</section>
-<section id="Histograms">
+</div>
+<div class="section" id="Histograms">
 <h3>Histograms<a class="headerlink" href="#Histograms" title="Permalink to this headline"></a></h3>
 <p>When making a histogram, the values of the bin edges and counts must be computed beforehand using <code class="docutils literal notranslate"><span class="pre">np.histogram()</span></code>.</p>
 <div class="nbinput nblast docutils container">
@@ -3387,8 +3386,8 @@ BokehUserWarning: ColumnDataSource&#39;s columns must be of the same length. Cur
   }
 })(window);</script></div>
 </div>
-</section>
-<section id="ECDFs">
+</div>
+<div class="section" id="ECDFs">
 <h3>ECDFs<a class="headerlink" href="#ECDFs" title="Permalink to this headline"></a></h3>
 <p>HoloViews does not have native support for ECDFs (<a class="reference external" href="https://github.com/holoviz/holoviews/issues/3821">my fault</a>; I’m the one who is supposed to add this), but we can create ECDFs in a data frame and use <code class="docutils literal notranslate"><span class="pre">hv.Scatter</span></code> to make a plot of an ECDF.</p>
 <div class="nbinput nblast docutils container">
@@ -3464,17 +3463,17 @@ BokehUserWarning: ColumnDataSource&#39;s columns must be of the same length. Cur
   }
 })(window);</script></div>
 </div>
-</section>
-</section>
-<section id="Conclusions">
+</div>
+</div>
+<div class="section" id="Conclusions">
 <h2>Conclusions<a class="headerlink" href="#Conclusions" title="Permalink to this headline"></a></h2>
 <p>HoloViews is one of many high-level plotting libraries in Python. Others include <a class="reference external" href="https://altair-viz.github.io">Altair</a>, <a class="reference external" href="https://seaborn.pydata.org">Seaborn</a>, and <a class="reference external" href="http://ggplot.yhathq.com">ggplot</a>. There is a pretty complete list available from <a class="reference external" href="https://pyviz.org/tools.html">PyViz</a>. HoloViews is my personal favorite, though, because of easy rendering with Bokeh and clear logic connecting annotated data sets to graphics.</p>
 <p>We have only begun to scratch the surface of what HoloViews can do. You can explore <a class="reference external" href="http://holoviews.org/index.html">HoloViews’s extensive documentation</a> to check out more of its capabilities.</p>
 <p>In the next few lessons, we will explore dealing with overplotting and dashboarding, two powerful plotting techniques you may not have thought about that can be transformative for your research.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput docutils container">
+<div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
@@ -3502,8 +3501,8 @@ jupyterlab    : 3.0.14
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -3521,7 +3520,7 @@ jupyterlab    : 3.0.14
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7f7f45ce1af0> 
+   <jinja2.runtime.BlockReference object at 0x7fbbfa6bc430> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

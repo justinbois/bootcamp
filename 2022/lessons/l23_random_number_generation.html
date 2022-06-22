@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 23: Random number generation &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -113,7 +112,7 @@
 <li class="toctree-l1"><a class="reference internal" href="l41_altair.html">Lesson 41: High level plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l42_more_altair.html">Lesson 42: More plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l43_overplotting.html">Lesson 43: Dealing with overplotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 43: Introduction to image processing with scikit-image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 44: Introduction to image processing with scikit-image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l45_segmentation.html">Lesson 45: Basic image quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exercises</span></p>
@@ -456,7 +455,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-23:-Random-number-generation">
+<div class="section" id="Lesson-23:-Random-number-generation">
 <h1>Lesson 23: Random number generation<a class="headerlink" href="#Lesson-23:-Random-number-generation" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -901,7 +900,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 There were 13 heads.
 </pre></div></div>
 </div>
-<section id="Choice-of-generator">
+<div class="section" id="Choice-of-generator">
 <h2>Choice of generator<a class="headerlink" href="#Choice-of-generator" title="Permalink to this headline"></a></h2>
 <p>As of version 1.17.3 of Numpy, the algorithm under the hood of calls to functions like <code class="docutils literal notranslate"><span class="pre">np.random.uniform()</span></code> is the <a class="reference external" href="https://en.wikipedia.org/wiki/Mersenne_Twister">Mersenne Twister Algorithm</a> for generating random numbers. It is a very widely used and reliable method for generating random numbers. However, starting with version 1.17.4, the <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code> module offers random number generators with better statistical performance, including the <a class="reference external" href="http://www.pcg-random.org">PCG64
 generator</a>. Going forward, the preferred approach to doing random number generation is to first instantiate a generator of your choice, and then use its methods to generate numbers out of probability distributions.</p>
@@ -935,8 +934,8 @@ array([0.15611741, 0.55145422, 0.62460066, 0.66880145, 0.76751957,
        0.64785548, 0.01584066, 0.58388327, 0.52010477, 0.16652411])
 </pre></div></div>
 </div>
-</section>
-<section id="Seeding-random-number-generators">
+</div>
+<div class="section" id="Seeding-random-number-generators">
 <h2>Seeding random number generators<a class="headerlink" href="#Seeding-random-number-generators" title="Permalink to this headline"></a></h2>
 <p>Now, just to demonstrate that random number generation is deterministic, we will explicitly <strong>seed</strong> the random number generator (which is usually seeded with a number representing the date/time to avoid repeats) to show that we get the same random numbers.</p>
 <div class="nbinput docutils container">
@@ -1005,8 +1004,8 @@ array([0.31390226, 0.73012457, 0.05800998, 0.01557021, 0.29825701,
 </pre></div></div>
 </div>
 <p>If you are writing tests, it is often useful to seed the random number generator to get reproducible results.</p>
-</section>
-<section id="Drawing-random-numbers-out-of-other-distributions">
+</div>
+<div class="section" id="Drawing-random-numbers-out-of-other-distributions">
 <h2>Drawing random numbers out of other distributions<a class="headerlink" href="#Drawing-random-numbers-out-of-other-distributions" title="Permalink to this headline"></a></h2>
 <p>We can also draw random numbers from other probability distributions. For example, say we wanted to draw random samples from a Normal distribution with mean μ and standard deviation σ. (We already saw this example when we were looking at histograms, but we repeat it here.)</p>
 <div class="nbinput docutils container">
@@ -1138,8 +1137,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 </script></div>
 </div>
 <p>Yup, right on!</p>
-</section>
-<section id="Selections-from-discrete-distributions">
+</div>
+<div class="section" id="Selections-from-discrete-distributions">
 <h2>Selections from discrete distributions<a class="headerlink" href="#Selections-from-discrete-distributions" title="Permalink to this headline"></a></h2>
 <p>The random numbers we have generated so far from from continuous probability distributions. We can also draw random numbers from discrete distributions. We already showed how we can do this for “coin flips,” but we can do it for other distributions as well. Say we wanted to draw from a Binomial distribution. We can use <code class="docutils literal notranslate"><span class="pre">rg.binomial()</span></code>.</p>
 <div class="nbinput docutils container">
@@ -1161,8 +1160,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 </pre></div></div>
 </div>
 <p>There are other discrete distributions we can draw from, such as Binomial, Geometric, Poisson, etc., and <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/routines.random.html">the documentation</a> describes how to use them.</p>
-</section>
-<section id="Choosing-elements-from-an-array">
+</div>
+<div class="section" id="Choosing-elements-from-an-array">
 <h2>Choosing elements from an array<a class="headerlink" href="#Choosing-elements-from-an-array" title="Permalink to this headline"></a></h2>
 <p>It is often useful to randomly choose elements from an existing array. The <code class="docutils literal notranslate"><span class="pre">rg.choice()</span></code> function does this. You equivalently could do this using <code class="docutils literal notranslate"><span class="pre">rg.integers()</span></code>, where the integers represent indices in the array, <em>except</em> <code class="docutils literal notranslate"><span class="pre">rg.choice()</span></code> has a great keyword argument, <code class="docutils literal notranslate"><span class="pre">replace</span></code>, which allows random draws with or without replacement. For example, say you had 52 samples that you wanted to send to a facility for analysis, but you can only afford to send 20. If we used <code class="docutils literal notranslate"><span class="pre">rg.integers()</span></code>, we
 might have a problem.</p>
@@ -1205,7 +1204,7 @@ array([ 5, 38, 44, 12, 49, 10, 47, 46, 40, 23, 18,  1, 13, 21, 42, 28, 29,
 </pre></div></div>
 </div>
 <p>Now, because we chose <code class="docutils literal notranslate"><span class="pre">replace=False</span></code>, we do not get any repeats.</p>
-<section id="Generating-random-sequences">
+<div class="section" id="Generating-random-sequences">
 <h3>Generating random sequences<a class="headerlink" href="#Generating-random-sequences" title="Permalink to this headline"></a></h3>
 <p>Because it works with selecting characters as well as numbers, we can use the <code class="docutils literal notranslate"><span class="pre">rg.choice()</span></code> function to generate random DNA sequences.</p>
 <div class="nbinput docutils container">
@@ -1225,9 +1224,9 @@ array([ 5, 38, 44, 12, 49, 10, 47, 46, 40, 23, 18,  1, 13, 21, 42, 28, 29,
 &#39;CAGGAGTCGCTGGGATAACAATTGTGACCTATGTAACTCAGCGAAGAGACTCGGGCCCGACCCACTAAAG&#39;
 </pre></div></div>
 </div>
-</section>
-</section>
-<section id="Shuffling-an-array">
+</div>
+</div>
+<div class="section" id="Shuffling-an-array">
 <h2>Shuffling an array<a class="headerlink" href="#Shuffling-an-array" title="Permalink to this headline"></a></h2>
 <p>Similarly, the <code class="docutils literal notranslate"><span class="pre">rg.permutation()</span></code> function is useful. It takes the entries in an array and shuffles them! Let’s shuffle a deck of cards.</p>
 <div class="nbinput docutils container">
@@ -1250,16 +1249,16 @@ array([51, 36, 30, 35,  2,  9, 19, 40, 42, 32, 21, 45, 43, 26, 16, 27,  0,
        37])
 </pre></div></div>
 </div>
-</section>
-<section id="When-do-we-need-RNG?">
+</div>
+<div class="section" id="When-do-we-need-RNG?">
 <h2>When do we need RNG?<a class="headerlink" href="#When-do-we-need-RNG?" title="Permalink to this headline"></a></h2>
 <p>Answer: VERY OFTEN! We will see many examples in the next lessons and in the exercises.</p>
 <p>In many ways, probability is the language of biology. Molecular processes have energetics that are comparable to the thermal energy, which means they are always influenced by random thermal forces. The processes of the central dogma, including DNA replication, are no exceptions. This gives rise to random mutations, which are central to understanding how evolution works. If we want to understand them, it is often useful to use random number generators to model the processes.</p>
 <p>RNG also comes up A LOT in data analysis, which we will see in the lessons on hacker stats.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput docutils container">
+<div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
@@ -1286,8 +1285,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -1305,7 +1304,7 @@ jupyterlab: 3.3.2
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7f7f43d44970> 
+   <jinja2.runtime.BlockReference object at 0x7fbbd3045af0> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

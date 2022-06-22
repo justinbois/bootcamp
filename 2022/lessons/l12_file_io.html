@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 12: File I/O &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -111,7 +110,7 @@
 <li class="toctree-l1"><a class="reference internal" href="l41_altair.html">Lesson 41: High level plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l42_more_altair.html">Lesson 42: More plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l43_overplotting.html">Lesson 43: Dealing with overplotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 43: Introduction to image processing with scikit-image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 44: Introduction to image processing with scikit-image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l45_segmentation.html">Lesson 45: Basic image quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exercises</span></p>
@@ -454,7 +453,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-12:-File-I/O">
+<div class="section" id="Lesson-12:-File-I/O">
 <h1>Lesson 12: File I/O<a class="headerlink" href="#Lesson-12:-File-I/O" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -467,7 +466,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <hr/><p>Reading data in from files and then writing your results out again is one of the most common practices in scientific computing. In this tutorial, we will learn about some of Python’s File I/O capabilities. We will use a PDB file as an example. The PDB file contains the crystal structure for the tetramerization domain of <a class="reference external" href="https://en.wikipedia.org/wiki/P53">p53</a>.It is stored in the file <code class="docutils literal notranslate"><span class="pre">~/git/bootcamp/data/1OLG.pdb</span></code>. (Make sure you launch your notebook from the <code class="docutils literal notranslate"><span class="pre">~/git/bootcamp/</span></code>
 directory.) Note that <code class="docutils literal notranslate"><span class="pre">1OLG</span></code> is its unique <a class="reference external" href="http://www.rcsb.org/pdb/explore/explore.do?structureId=1olg">Protein Databank</a> identifier.</p>
-<section id="File-objects">
+<div class="section" id="File-objects">
 <h2>File objects<a class="headerlink" href="#File-objects" title="Permalink to this headline"></a></h2>
 <p>To open a file, we use the built-in <code class="docutils literal notranslate"><span class="pre">open()</span></code> function. When opening files, we should do this using <strong>context management</strong>. I will demonstrate how to open a file and then describe the syntax.</p>
 <div class="nbinput docutils container">
@@ -522,7 +521,7 @@ for this second argument are</p>
 </table>
 <p>We will mostly be working with text files in the bootcamp, so the first three are the most useful. A big warning, though….</p>
 <div style="color: tomato; text-align: center; font-weight: bold;"><p>Trying to open an existing file with ‘w’ will wipe it out and create a new file.</p>
-</div><section id="Reading-data-out-of-the-file-with-file-object-methods">
+</div><div class="section" id="Reading-data-out-of-the-file-with-file-object-methods">
 <h3>Reading data out of the file with file object methods<a class="headerlink" href="#Reading-data-out-of-the-file-with-file-object-methods" title="Permalink to this headline"></a></h3>
 <p>We will focus on the methods <code class="docutils literal notranslate"><span class="pre">f.read()</span></code> and <code class="docutils literal notranslate"><span class="pre">f.readlines()</span></code>. What do they do?</p>
 <table class="docutils align-default">
@@ -618,8 +617,8 @@ for this second argument are</p>
 &#39;HEADER    ANTI-ONCOGENE                           13-JUN-94   1OLG&#39;
 </pre></div></div>
 </div>
-</section>
-<section id="Reading-line-by-line">
+</div>
+<div class="section" id="Reading-line-by-line">
 <h3>Reading line-by-line<a class="headerlink" href="#Reading-line-by-line" title="Permalink to this headline"></a></h3>
 <p>What if we do not want to read the entire file into a list? For example, if a file is several gigabytes, we do not want to spend all of our RAM storing a list. Instead, we can read it line-by-line. Conveniently, the file object can be used as an iterator.</p>
 <div class="nbinput docutils container">
@@ -685,9 +684,9 @@ SOURCE   3 ORGANISM_COMMON: HUMAN;
 </pre></div></div>
 </div>
 <p>Each subsequent call to <code class="docutils literal notranslate"><span class="pre">f.readline()</span></code> reads in the next line of the file. (As we read through a file, we keep moving forward in the bytes of the file and we have to use <code class="docutils literal notranslate"><span class="pre">f.seek()</span></code> to rewind.)</p>
-</section>
-</section>
-<section id="Writing-to-a-file">
+</div>
+</div>
+<div class="section" id="Writing-to-a-file">
 <h2>Writing to a file<a class="headerlink" href="#Writing-to-a-file" title="Permalink to this headline"></a></h2>
 <p>Writing to a file has similar syntax. We already saw how to open a file for writing. Again, context management is useful. However, before trying to open a file, we should check to make sure a file of the same name does not exist before opening it. The <code class="docutils literal notranslate"><span class="pre">os.path</span></code> module is useful. The function <code class="docutils literal notranslate"><span class="pre">os.path.isfile()</span></code> function checks to see if a file exists.</p>
 <div class="nbinput docutils container">
@@ -812,8 +811,8 @@ The golden ratio is φ = 1.61803399
 </pre></div></div>
 </div>
 <p>That works!</p>
-</section>
-<section id="An-exercise:-extract-atomic-coordinates-for-first-chain-in-tetramer">
+</div>
+<div class="section" id="An-exercise:-extract-atomic-coordinates-for-first-chain-in-tetramer">
 <h2>An exercise: extract atomic coordinates for first chain in tetramer<a class="headerlink" href="#An-exercise:-extract-atomic-coordinates-for-first-chain-in-tetramer" title="Permalink to this headline"></a></h2>
 <p>As an example on how to do file I/O, we will take the PDB file and extract only the <code class="docutils literal notranslate"><span class="pre">ATOM</span></code> records for the first chain of the tetramer and write only those entries to a new file.</p>
 <p>It is useful to know that according to the <a class="reference external" href="http://www.wwpdb.org/documentation/file-format-content/format33/sect9.html#ATOM">PDB format specification</a>, column 21 in the <code class="docutils literal notranslate"><span class="pre">ATOM</span></code> entry gives the ID of the chain.</p>
@@ -882,8 +881,8 @@ ATOM    698  HA3 GLY A 360      -4.341  28.288   9.386  1.00  6.05           H
 </pre></div></div>
 </div>
 <p>Nice!</p>
-</section>
-<section id="Finding-files-and-with-glob">
+</div>
+<div class="section" id="Finding-files-and-with-glob">
 <h2>Finding files and with glob<a class="headerlink" href="#Finding-files-and-with-glob" title="Permalink to this headline"></a></h2>
 <p>In the above snippet of code, we extracted all atom records from a PDB file. We might want to do this (or some other operation) for many files. For example, the directory <code class="docutils literal notranslate"><span class="pre">~/git/data/</span></code> has four PDB files in it. For the present discussion, let’s say we want to pull the sequence of chain A out of each PDB file.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">glob</span></code> module from the standard library enables us to get a list of all files that match a pattern. In our case, we want all files matching <code class="docutils literal notranslate"><span class="pre">data/*.pdb</span></code>, where <code class="docutils literal notranslate"><span class="pre">*</span></code> is a <strong>wild card character</strong>, meaning that any matches of characters where <code class="docutils literal notranslate"><span class="pre">*</span></code> appears are allowed. Let’s see what <code class="docutils literal notranslate"><span class="pre">glob.glob()</span></code> gives us.</p>
@@ -953,10 +952,10 @@ ATOM    698  HA3 GLY A 360      -4.341  28.288   9.386  1.00  6.05           H
 </pre></div></div>
 </div>
 <p>Excellent! Our function worked, and we now have the protein sequence.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput docutils container">
+<div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
@@ -978,8 +977,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -997,7 +996,7 @@ jupyterlab: 3.3.2
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7f7f4b0104c0> 
+   <jinja2.runtime.BlockReference object at 0x7fbbf8b47f40> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

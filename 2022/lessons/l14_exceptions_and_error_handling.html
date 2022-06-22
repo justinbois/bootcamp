@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 14: Errors and exception handling &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -112,7 +111,7 @@
 <li class="toctree-l1"><a class="reference internal" href="l41_altair.html">Lesson 41: High level plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l42_more_altair.html">Lesson 42: More plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l43_overplotting.html">Lesson 43: Dealing with overplotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 43: Introduction to image processing with scikit-image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 44: Introduction to image processing with scikit-image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l45_segmentation.html">Lesson 45: Basic image quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exercises</span></p>
@@ -455,7 +454,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-14:-Errors-and-exception-handling">
+<div class="section" id="Lesson-14:-Errors-and-exception-handling">
 <h1>Lesson 14: Errors and exception handling<a class="headerlink" href="#Lesson-14:-Errors-and-exception-handling" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -494,10 +493,10 @@ Input <span class="ansi-green-fg">In [2]</span>, in <span class="ansi-cyan-fg">&
 <p>In this case, the <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> indicates that we tried to do something that is legal in Python for some types, but we tried to do it to a type for which it is illegal (strings are immutable). In Python, an error detected during execution is called an <strong>exception</strong>. We say that the interpreter “<strong>raised an exception</strong>.” There are many kinds of built-in exceptions, and you can find a list of them, with descriptions <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#bltin-exceptions">here</a>. You
 can write your own kinds of exceptions, but we will not cover that in bootcamp.</p>
 <p>In this lesson, we will investigate how to handle errors in your code. Importantly, we will also touch on the different kinds of errors and how to avoid them. Or, more specifically, you will learn how to use exceptions to help you write better, more bug-free code.</p>
-<section id="Kinds-of-errors">
+<div class="section" id="Kinds-of-errors">
 <h2>Kinds of errors<a class="headerlink" href="#Kinds-of-errors" title="Permalink to this headline"></a></h2>
 <p>In computer programs, we can break down errors into three types.</p>
-<section id="Syntax-errors">
+<div class="section" id="Syntax-errors">
 <h3>Syntax errors<a class="headerlink" href="#Syntax-errors" title="Permalink to this headline"></a></h3>
 <p>A <strong>syntax error</strong> means you wrote something nonsensical, something the Python interpreter cannot understand. An example of a syntax error in English would be the following.</p>
 <blockquote>
@@ -534,8 +533,8 @@ all’s fair in vanessy, were sosie sesthers wroth with twone nathandjoe.</p>
 </pre></div></div>
 </div>
 <p>Syntax errors are often the easiest to deal with, since the program will not run at all if any are present.</p>
-</section>
-<section id="Runtime-errors">
+</div>
+<div class="section" id="Runtime-errors">
 <h3>Runtime errors<a class="headerlink" href="#Runtime-errors" title="Permalink to this headline"></a></h3>
 <p><strong>Runtime errors</strong> occur when a program is syntactically correct, so it can run, but the interpreter encountered something wrong. The example at the start of the tutorial, trying to change a character in a string, is an example of a runtime error. This particular one was a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>, which is a more specific type of runtime error. Python does have a <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code>, which just indicates a generic runtime (non-syntax) error.</p>
 <p>Runtime errors are more difficult to spot than syntax errors because it is possible that a program could run all the way through without encountering the error for some inputs, but for other inputs, you get an error. Let’s consider the example of a simple function meant to add two numbers.</p>
@@ -612,8 +611,8 @@ Input <span class="ansi-green-fg">In [4]</span>, in <span class="ansi-cyan-fg">a
 <span class="ansi-red-fg">TypeError</span>: can only concatenate str (not &#34;float&#34;) to str
 </pre></div></div>
 </div>
-</section>
-<section id="Semantic-errors">
+</div>
+<div class="section" id="Semantic-errors">
 <h3>Semantic errors<a class="headerlink" href="#Semantic-errors" title="Permalink to this headline"></a></h3>
 <p>Semantic errors are perhaps the most nefarious. They occur when your program is syntactically correct, executes without runtime errors, and then produces the wrong result. These errors are the hardest to find and can do the most damage. After all, when your program does not do what you designed it to do, you want it to scream out with an exception!</p>
 <p>Following is a common example of a semantic error in which we change a mutable object within a function and then try to reuse it.</p>
@@ -653,9 +652,9 @@ We get    [1, 1, 2, 2, 3, 3]
 </pre></div></div>
 </div>
 <p>Yikes! We changed <code class="docutils literal notranslate"><span class="pre">my_list</span></code> within the function unintentionally. <em>Question: How would you re-rewrite ``double_list()`` to avoid this issue?</em></p>
-</section>
-</section>
-<section id="Handling-errors-in-your-code">
+</div>
+</div>
+<div class="section" id="Handling-errors-in-your-code">
 <h2>Handling errors in your code<a class="headerlink" href="#Handling-errors-in-your-code" title="Permalink to this headline"></a></h2>
 <p>If you have a syntax error, your code will not even run. So, we will assume we are without syntax errors in this discussion on how to handle errors. So, how can we handle runtime errors? In most use cases, we just write our code and let the Python interpreter tell us about these exceptions. However, sometimes we want to use the fact that we <em>know</em> we might encounter a runtime error within our code. A common example of this is when importing modules that are convenient, but not essential, for
 your code to run. Errors are handled in your code using a <strong>try statement</strong>.</p>
@@ -716,8 +715,8 @@ Input <span class="ansi-green-fg">In [9]</span>, in <span class="ansi-cyan-fg">&
 <p>The program now runs just fine! The <code class="docutils literal notranslate"><span class="pre">try</span></code> statement consists of an initial <code class="docutils literal notranslate"><span class="pre">try</span></code> clause. Everything under the <code class="docutils literal notranslate"><span class="pre">try</span></code> clause is attempted to be executed. If it succeeds, the rest of the <code class="docutils literal notranslate"><span class="pre">try</span></code> statement is skipped, and the interpreter goes to the <code class="docutils literal notranslate"><span class="pre">seq</span> <span class="pre">=</span> <span class="pre">...</span></code> line.</p>
 <p>If, however, there is an <code class="docutils literal notranslate"><span class="pre">ImportError</span></code>, the code within the <code class="docutils literal notranslate"><span class="pre">except</span> <span class="pre">ImportError</span> <span class="pre">as</span> <span class="pre">e</span></code> clause is executed. The exception does not halt the program. If there is some other kind of error other than an <code class="docutils literal notranslate"><span class="pre">ImportError</span></code>, the interpreter will raise an exception after it does whatever code is in the <code class="docutils literal notranslate"><span class="pre">finally</span></code> clause. The <code class="docutils literal notranslate"><span class="pre">finally</span></code> clause is useful to tidy things up, like closing open file handles. While it is possible for a <code class="docutils literal notranslate"><span class="pre">try</span></code> statement to handle any generic exception by not specifying
 <code class="docutils literal notranslate"><span class="pre">ImportError</span> <span class="pre">as</span> <span class="pre">e</span></code>, it is good practice to explicitly specify the exception(s) that you anticipate in <code class="docutils literal notranslate"><span class="pre">try</span></code> statements as shown here. In this case, we only want to have control over <code class="docutils literal notranslate"><span class="pre">ImportError</span></code>s. We want the interpreter to scream at us for any other, unanticipated errors.</p>
-</section>
-<section id="Issuing-warnings">
+</div>
+<div class="section" id="Issuing-warnings">
 <h2>Issuing warnings<a class="headerlink" href="#Issuing-warnings" title="Permalink to this headline"></a></h2>
 <p>We may want to issue a warning instead of silently continuing. For this, the <code class="docutils literal notranslate"><span class="pre">warnings</span></code> module from the standard library is useful. We use the <code class="docutils literal notranslate"><span class="pre">warnings.warn()</span></code> method to issue the warning.</p>
 <div class="nbinput docutils container">
@@ -764,8 +763,8 @@ Input <span class="ansi-green-fg">In [9]</span>, in <span class="ansi-cyan-fg">&
 </pre></div></div>
 </div>
 <p>Normally, we would use an <code class="docutils literal notranslate"><span class="pre">ImportWarning</span></code>, but those are ignored by default, so we have used a <code class="docutils literal notranslate"><span class="pre">UserWarning</span></code>.</p>
-</section>
-<section id="Checking-input">
+</div>
+<div class="section" id="Checking-input">
 <h2>Checking input<a class="headerlink" href="#Checking-input" title="Permalink to this headline"></a></h2>
 <p>It is often the case that you want to check the input of a function to ensure that it works properly. In other words, you want to anticipate errors that the user (or you) might make in running your function, and you want to give descriptive error messages. For example, let’s say you are writing a code that processes protein sequences that contain only the 20 naturally occurring amino acids represented by their one-letter abbreviation. You may wish to check that the amino acid sequence is
 legitimate. In particular, the letters <code class="docutils literal notranslate"><span class="pre">B</span></code>, <code class="docutils literal notranslate"><span class="pre">J</span></code>, <code class="docutils literal notranslate"><span class="pre">O</span></code>, <code class="docutils literal notranslate"><span class="pre">U</span></code>, <code class="docutils literal notranslate"><span class="pre">X</span></code>, and <code class="docutils literal notranslate"><span class="pre">Z</span></code>, are not valid abbreviations for standard amino acids. (We will not use the <a class="reference external" href="https://en.wikipedia.org/wiki/Amino_acid#Table_of_standard_amino_acid_abbreviations_and_properties">ambiguity code</a>, <em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">B</span></code> for aspartic acid or asparagine, <code class="docutils literal notranslate"><span class="pre">Z</span></code> for glutamine or glutamic acid, or <code class="docutils literal notranslate"><span class="pre">X</span></code> for any amino acid.)</p>
@@ -844,10 +843,10 @@ Input <span class="ansi-green-fg">In [12]</span>, in <span class="ansi-cyan-fg">
 </pre></div></div>
 </div>
 <p>Good code checks for errors and gives useful error messages. We will use exception handling extensively when we go over test driven development in future lessons.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput docutils container">
+<div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
@@ -870,8 +869,8 @@ jupyterlab    : 3.3.2
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -889,7 +888,7 @@ jupyterlab    : 3.3.2
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7f7f44254550> 
+   <jinja2.runtime.BlockReference object at 0x7fbbf8e39280> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

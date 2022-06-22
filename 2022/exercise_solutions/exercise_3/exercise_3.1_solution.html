@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Exercise 3.1: Mastering .loc for Pandas data frames &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -100,7 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l41_altair.html">Lesson 41: High level plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l42_more_altair.html">Lesson 42: More plotting with Altair</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l43_overplotting.html">Lesson 43: Dealing with overplotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lessons/l44_intro_to_image_processing.html">Lesson 43: Introduction to image processing with scikit-image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lessons/l44_intro_to_image_processing.html">Lesson 44: Introduction to image processing with scikit-image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lessons/l45_segmentation.html">Lesson 45: Basic image quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exercises</span></p>
@@ -459,7 +458,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Exercise-3.1:-Mastering-.loc-for-Pandas-data-frames">
+<div class="section" id="Exercise-3.1:-Mastering-.loc-for-Pandas-data-frames">
 <h1>Exercise 3.1: Mastering .loc for Pandas data frames<a class="headerlink" href="#Exercise-3.1:-Mastering-.loc-for-Pandas-data-frames" title="Permalink to this headline"></a></h1>
 <hr><p>Pandas can be a bit frustrating during your first experiences with it. In this and the next few exercises, we will do our first practice with it. Stick with it! The more and more you use it, the more distant the memory of life without it will become.</p>
 <p>We will work with a data set from <a class="reference external" href="https://doi.org/10.1038/srep05225">Kleinteich and Gorb, Sci. Rep., 4, 5355, 2014</a>, and was <a class="reference external" href="http://www.nytimes.com/2014/08/25/science/a-frog-thats-a-living-breathing-pac-man.html">featured in the New York Times</a>. They measured several properties about the tongue strikes of horned frogs. Let’s take a look at the data set, which is in the file <code class="docutils literal notranslate"><span class="pre">~/git/data/frog_tongue_adhesion.csv</span></code>.</p>
@@ -505,7 +504,7 @@ date,ID,trial number,impact force (mN),impact time (ms),impact force / body weig
 <p><strong>b)</strong> Extract the impact time of all impacts that had an adhesive strength of magnitude greater than 2000 Pa. <em>Note</em>: The data in the <code class="docutils literal notranslate"><span class="pre">'adhesive</span> <span class="pre">strength</span> <span class="pre">(Pa)'</span></code> column is all negative. This is because the adhesive force is defined to be negative in the measurement. Without changing the data in the data frame, how can you check that the magnitude (the absolute value) is greater than 2000?</p>
 <p><strong>c)</strong> Extract the impact force and adhesive force for all of Frog II’s strikes.</p>
 <p><strong>d)</strong> Extract the adhesive force and the time the frog pulls on the target for juvenile frogs (Frogs III and IV). <em>Hint</em>: We saw the <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> operator for Boolean indexing across more than one column. The <code class="docutils literal notranslate"><span class="pre">|</span></code> operator signifies OR, and works analogously. For technical reasons that we can discuss if you like, the Python operators <code class="docutils literal notranslate"><span class="pre">and</span></code> and <code class="docutils literal notranslate"><span class="pre">or</span></code> will <strong>not</strong> work for Boolean indexing of data frames. You could also approach this using the <code class="docutils literal notranslate"><span class="pre">isin()</span></code> method of a Pandas <code class="docutils literal notranslate"><span class="pre">Series</span></code>.</p>
-<section id="Solution">
+<div class="section" id="Solution">
 <h2>Solution<a class="headerlink" href="#Solution" title="Permalink to this headline"></a></h2>
 <hr><div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -1114,10 +1113,10 @@ Name: impact time (ms), dtype: int64
 </table>
 </div></div>
 </div>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput docutils container">
+<div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
@@ -1141,8 +1140,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -1160,7 +1159,7 @@ jupyterlab: 3.3.2
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7f7f4433e190> 
+   <jinja2.runtime.BlockReference object at 0x7fbbd6230ac0> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
