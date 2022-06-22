@@ -1,0 +1,676 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 36: Introduction to object-oriented programming\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We have spent much of the bootcamp discussing how to make code function, readable, and testable. We have used functions to help to avoid duplicated code. **Object-oriented programming** (OOP) goes further in that it\n",
+    "\n",
+    "- keeps code organized\n",
+    "- further increases readability\n",
+    "- makes chunks of code portable"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Classes\n",
+    "\n",
+    "Classes form the core of Python's OOP. They are devices that create new objects. This is called **instantiation**. I.e., an object is an **instance** of a class. These objects have three characteristics which makes the use of classes particularly attractive:\n",
+    "\n",
+    "- **multiple instances**: You can have more then one instance of a given type of class. As an example, you code might have three or four different integers. These are instances of a built-in class.\n",
+    "- **inheritance**: An object can be a class of its own, it inherits all the properties of the parent class.\n",
+    "- **operator overloading**: This allows an operator to have a different meaning according to context. For example, the `+` operator has a different meaning for `floats` vs. strings.\n",
+    "\n",
+    "This is all a bit theoretical, so let's look at an example."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Example: Biological sequences \n",
+    "\n",
+    "In this example, we will make a class for biological sequences.  The goal here is just to lift the covers off how classes are built, so you have a basic understanding what you are doing when you use the dot notation on objects."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [],
+   "source": [
+    "class Biosequence(object):\n",
+    "    \"\"\"Biological sequence class with methods.\"\"\"\n",
+    "\n",
+    "    # The special method __init__() is run when the class is instantiated\n",
+    "    def __init__(self, seq=\"\", material=\"dna\"):\n",
+    "        \"\"\"\n",
+    "        Instantiate Biosequence object with sequence and material.\n",
+    "        \n",
+    "        Material is either 'dna', 'rna', or 'protein'.\n",
+    "        \"\"\"\n",
+    "        self.seq = seq\n",
+    "        self.material = material.lower()\n",
+    "\n",
+    "        \n",
+    "    # Define a method\n",
+    "    def seq_len(self):\n",
+    "        \"\"\"The length of the sequence.\"\"\"\n",
+    "        return len(self.seq)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Methods** are functions contained within a class. In contrast to functions they need to include the term `self` within the parentheses. Because when Python calls a method the current object becomes the first argument of the method. Using the word `self` is a convention; theoretically any other word could be used.\n",
+    "\n",
+    "The method we have written for the `Biosequence` class is trivial, but it demonstrates the concept."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The sequence has 11 bases.\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Instantiate Biosequence\n",
+    "s = Biosequence(seq='ATGAAGGGTCC')\n",
+    "\n",
+    "# Call the methods\n",
+    "print('The sequence has', s.seq_len(), 'bases.')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In addition to methods, an object also has **attributes**, which are values associated with it. This class has two attributes, `seq` and `material`, and has two methods, `seq_len()` and the special method `__init__()`."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Subclasses and inheritence\n",
+    "\n",
+    "Let's create a subclass `Nucleotides`. To make it inherit all of the defined methods and attributes of `Biosequence` (its parent class), we refer to `Biosequence` in the `class` definition. We will write a single method that uses the Marmur rule of thumb for computing the melting temperature of a stretch of double-stranded DNA,\n",
+    "\n",
+    "\\begin{align}\n",
+    "T_m = 2\\,^\\circ C \\, (N_A + N_T) + 4\\,^\\circ C \\, (N_G + N_C),\n",
+    "\\end{align}\n",
+    "\n",
+    "where $N_i$ denotes the number of times nucleotide $i$ appears in the sequence. Remember, the class inherits all of the methods from its parent (in this case, `__init__()` and `seq_len()`), so we only need to write methods specific to nucleic acids. This is part of the **don't repeat yourself** (DRY) principle."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [],
+   "source": [
+    "class Nucleotides(Biosequence):\n",
+    "    \"\"\"Nucleotide sequences and related methods.\"\"\"\n",
+    "\n",
+    "    def T_marmur(self):\n",
+    "        \"\"\"Melting temperature by Marmur rule of thumb.\"\"\"\n",
+    "        seq_up = self.seq.upper()\n",
+    "\n",
+    "        at_count = seq_up.count(\"A\") + seq_up.count(\"T\")\n",
+    "        gc_count = seq_up.count(\"G\") + seq_up.count(\"C\")\n",
+    "\n",
+    "        return 2 * at_count + 4 * gc_count"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "So, we now have a new class for nucleotides that inherited all of the methods and attributes of its parent, `Biosequence`. It also has the new melting temperature method. Let's put it to use."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "40"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Instantiate object\n",
+    "s = Nucleotides('AAAGGTTTTTTTTTTTC', material='dna')\n",
+    "\n",
+    "# Compute result\n",
+    "s.T_marmur()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's try it with another sequence."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "14"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "s = Nucleotides('aaattg')       \n",
+    "s.T_marmur()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Another $T_m$ calculator\n",
+    "\n",
+    "Let's add the Wallace rule of thumb for melting temperature in degrees Celsius.\n",
+    "\n",
+    "\\begin{align}\n",
+    "T_m = 64.9 + 41\\,\\frac{N_G + N_C - 16.4}{N_A + N_T + N_G + N_C}.\n",
+    "\\end{align}\n",
+    "\n",
+    "This, of course, works only for sequences that have some reasonable GC content. Clearly, a poly-AT sequence should not melt below freezing.\n",
+    "\n",
+    "Since both methods require calculation of GC count, we should write a method to compute GC content so we do not repeat ourselves."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class Nucleotides(Biosequence):\n",
+    "    \"\"\"Nucleotide sequences and related methods.\"\"\"\n",
+    "    def gc_count(self):\n",
+    "        seq_up = self.seq.upper()\n",
+    "        return seq_up.count(\"G\") + seq_up.count(\"C\")\n",
+    "\n",
+    "    \n",
+    "    def at_count(self):\n",
+    "        seq_up = self.seq.upper()\n",
+    "        return seq_up.count(\"A\") + seq_up.count(\"T\")\n",
+    "    \n",
+    "    \n",
+    "    def T_marmur(self):\n",
+    "        \"\"\"Melting temperature by Marmur rule of thumb.\"\"\"\n",
+    "        return 2 * self.at_count() + 4 * self.gc_count()\n",
+    "\n",
+    "    \n",
+    "    def T_wallace(self):\n",
+    "        \"\"\"Melting temperature by Wallace rule of thumb.\"\"\"\n",
+    "        return 64.9 + 41 * (self.gc_count() - 16.4) / self.seq_len()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now let's compare the two melting temperatures."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "T_m via Marmur rule: 40 °C\n",
+      "T_m via Wallace rule: 35.25384615384617 °C\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Instatiate class\n",
+    "s = Nucleotides('GGGTTTCCCTACA')\n",
+    "\n",
+    "# Compute melting temperatures\n",
+    "print('T_m via Marmur rule:', s.T_marmur(), '°C')\n",
+    "print('T_m via Wallace rule:', s.T_wallace(), '°C')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Primer design\n",
+    "\n",
+    "Now that we can calculate melting temperatures, we can introduce a class that deals with primer design.  It inherits the `Nucleotides` class, and then has methods to choose a primer."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [],
+   "source": [
+    "class Primer(Nucleotides):\n",
+    "    \"\"\"Primer design.\"\"\"\n",
+    "\n",
+    "    def marmur_primer(self, Tm):\n",
+    "        \"\"\"\n",
+    "        Primer design based on Marmur rule of thumb for melting\n",
+    "        temperature.\n",
+    "        \n",
+    "        `Tm`: the desired melting temperature in deg. C of the \n",
+    "              primer-template duplex.\n",
+    "        \"\"\"\n",
+    "        # Start with a short primer of 10 nucleotides\n",
+    "        n = 10\n",
+    "\n",
+    "        # Start at 5' end with forward primer\n",
+    "        forward_p = Nucleotides(self.seq[:n])\n",
+    "\n",
+    "        # Keep adding based to the primer until we hit the desired Tm\n",
+    "        while forward_p.T_marmur() < Tm and n < len(self.seq):\n",
+    "            n += 1\n",
+    "            forward_p.seq = self.seq[:n]\n",
+    "\n",
+    "        return forward_p.seq"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's try to design a primer for a sequence.  We'll take our melting temperature to be 42°C, or course."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'AACCCCCCAAATTTT'"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Instantiate object with template sequence\n",
+    "s = Primer('AACCCCCCAAATTTTTTTTTTGAAAAAAAAAACATATTCTTCTCTCGGGGGGGGG')\n",
+    "\n",
+    "s.marmur_primer(42)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We would also like to compute a reverse primer. To do this, we need to be able to compute the reverse complement of a sequence. We have already done that in the last exercise, so we add that functionality to the `Nucleotides` class. Remember that since the method is aware of `self`, and the object has a `seq` attribute, we do not need to pass the `seq` argument into the function that computes the reverse complement."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class Nucleotides(Biosequence):\n",
+    "    \"\"\"Nucleotide sequences and related methods.\"\"\"\n",
+    "\n",
+    "    def gc_count(self):\n",
+    "        seq_up = self.seq.upper()\n",
+    "        return seq_up.count(\"G\") + seq_up.count(\"C\")\n",
+    "\n",
+    "    \n",
+    "    def at_count(self):\n",
+    "        seq_up = self.seq.upper()\n",
+    "        return seq_up.count(\"A\") + seq_up.count(\"T\")\n",
+    "    \n",
+    "    \n",
+    "    def T_marmur(self):\n",
+    "        \"\"\"Melting temperature by Marmur rule of thumb.\"\"\"\n",
+    "        return 2 * self.at_count() + 4 * self.gc_count()\n",
+    "\n",
+    "    \n",
+    "    def T_wallace(self):\n",
+    "        \"\"\"Melting temperature by Wallace rule of thumb.\"\"\"\n",
+    "        return 64.9 + 41 * (self.gc_count() - 16.4) / self.seq_len()\n",
+    "        \n",
+    "    \n",
+    "    def reverse_complement(self):\n",
+    "        \"\"\"Compute reverse complement of the sequence.\"\"\"\n",
+    "        # Initialize reverse complement as reverse of sequence\n",
+    "        rev_comp = self.seq.upper()[::-1]\n",
+    "        \n",
+    "        # Replace bases with complement\n",
+    "        rev_comp = rev_comp.replace('A', 't')\n",
+    "        rev_comp = rev_comp.replace('T', 'a')\n",
+    "        rev_comp = rev_comp.replace('C', 'g')\n",
+    "        rev_comp = rev_comp.replace('G', 'c')\n",
+    "\n",
+    "        return rev_comp.upper()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We now need to update the `Primer` class to compute the reverse primer. We already wrote most of the code to do this, so we just need to tweak the class a bit."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class Primer(Nucleotides):\n",
+    "    \"\"\"Primer design.\"\"\"\n",
+    "\n",
+    "    def forward_and_reverse_marmur_primers(self, Tm):\n",
+    "        \"\"\"\n",
+    "        Forward and reverse primer design using Marmur rule\n",
+    "        of thum for melting temperature.\n",
+    "        \n",
+    "        `Tm`: the desired melting temperature in deg. C of the \n",
+    "              primer-template duplex.\n",
+    "        \"\"\"\n",
+    "        # Compute forward primer\n",
+    "        forward_p = self.marmur_primer(Tm)\n",
+    "\n",
+    "        # Compute reverse complement of strand\n",
+    "        rev_comp = Primer(self.reverse_complement())\n",
+    "\n",
+    "        # Compute reverse primer\n",
+    "        reverse_p = rev_comp.marmur_primer(Tm)\n",
+    "\n",
+    "        return forward_p, reverse_p\n",
+    "\n",
+    "    \n",
+    "    def marmur_primer(self, Tm):\n",
+    "        \"\"\"\n",
+    "        Primer design based on Marmur rule of thumb for melting\n",
+    "        temperature.\n",
+    "        \n",
+    "        `Tm`: the desired melting temperature in deg. C of the \n",
+    "              primer-template duplex.\n",
+    "        \"\"\"\n",
+    "        # Start with a short primer of 10 nucleotides\n",
+    "        n = 10\n",
+    "\n",
+    "        # Start at 5' end with forward primer\n",
+    "        forward_p = Nucleotides(self.seq[:n])\n",
+    "\n",
+    "        # Keep adding based to the primer until we hit the desired Tm\n",
+    "        while forward_p.T_marmur() < Tm and n < len(self.seq):\n",
+    "            n += 1\n",
+    "            forward_p.seq = self.seq[:n]\n",
+    "\n",
+    "        return forward_p.seq"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's go through each line of the method `forward_and_reverse_marmur_primers()`. First, we just compute the forward primer using the method we already wrote. Note that because we are in a method within the class definition, we need to use `self`, i.e., `self.marmum_primer(Tm)`. Next, we instantiate a new `Primer` instance that has the reverse complement of the strand of interest as its sequence. We then compute the forward primer of that (which is the reverse complement of our input sequence). We then return both primers.\n",
+    "\n",
+    "Let's give it a whirl!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "('AACCCCCCAAATTTT', 'CCCCCCCCCGA')"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Instantiate sequence\n",
+    "s = Primer('AACCCCCCAAATTTTTTTTTTGAAAAAAAAAACATATTCTTCTCTCGGGGGGGGG')\n",
+    "\n",
+    "# Compute primers\n",
+    "s.forward_and_reverse_marmur_primers(Tm=42)        "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This works, that's great!  Notice that we tried to reuse code we already wrote as much as possible. This is part of the **DRY** principle. It also is a great help in debugging."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Protein sequences\n",
+    "\n",
+    "In keeping with the **DRY** principle, we can recycle the `Biosequence` class to handle protein sequences. We'll make a new class with that computes the net charge of residues in a protein (assuming histidine is not charged)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [],
+   "source": [
+    "class Protein(Biosequence):\n",
+    "    \"\"\"Protein sequences.\"\"\"\n",
+    "\n",
+    "    def netcharge(self):\n",
+    "        \"\"\"Compute the net charge of a protein\"\"\"\n",
+    "        sequence = self.seq.upper()\n",
+    "\n",
+    "        return (\n",
+    "            sequence.count(\"K\")\n",
+    "            + sequence.count(\"R\")\n",
+    "            - sequence.count(\"E\")\n",
+    "            - sequence.count(\"D\")\n",
+    "        )"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Again, we inherit all of the methods from the `Biosequence` class. We can instantiate and compute net charges."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "-2"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Specify the sequence\n",
+    "seq = (\n",
+    "    \"MKKILLSVLTAFVAVVLAACGGNSDSKTLNSLDKIKQ\"\n",
+    "    + \"NGVVRIGVFGDKPPFGYVDEKGNNQGYDIALAKRIAK\"\n",
+    "    + \"ELFGDENKVQFVLVEAANRVEFLKSNKVDIILANFTQ\"\n",
+    "    + \"TPQRAEQVDFCSPYMKVALGVAVPKDSNITSVEDLKD\"\n",
+    "    + \"KTLLLNKGTTADAYFTQNYPNIKTLKYDQNTETFAAL\"\n",
+    "    + \"MDKRGDALSHDNTLLFAWVKDHPDFKMGIKELGNKDV\"\n",
+    "    + \"IAPAVKKGDKELKEFIDNLIIKLGQEQFFHKAYDETL\"\n",
+    "    + \"KAHFGDDVKADDVVIEGGKI\"\n",
+    ")\n",
+    "\n",
+    "# Instantiate\n",
+    "p = Protein(seq)\n",
+    "\n",
+    "# Compute net charge\n",
+    "p.netcharge()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.8.10\n",
+      "IPython version      : 7.22.0\n",
+      "\n",
+      "jupyterlab: 3.0.14\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.10"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
