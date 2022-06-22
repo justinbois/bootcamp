@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 21: Introduction to Numpy and Scipy &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -461,7 +460,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-21:-Introduction-to-Numpy-and-Scipy">
+<div class="section" id="Lesson-21:-Introduction-to-Numpy-and-Scipy">
 <h1>Lesson 21: Introduction to Numpy and Scipy<a class="headerlink" href="#Lesson-21:-Introduction-to-Numpy-and-Scipy" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -791,7 +790,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </script></div>
 </div>
 <hr><p>In this lesson, you will learn about <a class="reference external" href="http://www.numpy.org">NumPy</a>, arguably <em>the</em> most important package for scientific computing, and SciPy, a package containing lots of goodies for scientific computing, like special functions and numerical integrators.</p>
-<section id="A-very-brief-introduction-to-NumPy-arrays">
+<div class="section" id="A-very-brief-introduction-to-NumPy-arrays">
 <h2>A very brief introduction to NumPy arrays<a class="headerlink" href="#A-very-brief-introduction-to-NumPy-arrays" title="Permalink to this headline"></a></h2>
 <p>The central object for NumPy and SciPy is the <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>, commonly referred to as a “NumPy array.” This is an array object that is convenient for scientific computing. We will go over it in depth in the next lesson, but for now, let’s just create some NumPy arrays and see how operators work on them.</p>
 <p>Just like with type conversions with lists, tuples, and other data types we’ve looked at, we can convert a list to a NumPy array using</p>
@@ -925,8 +924,8 @@ array([1., 2., 3., 4.])
 1.118033988749895
 </pre></div></div>
 </div>
-</section>
-<section id="Other-ways-to-make-NumPy-arrays">
+</div>
+<div class="section" id="Other-ways-to-make-NumPy-arrays">
 <h2>Other ways to make NumPy arrays<a class="headerlink" href="#Other-ways-to-make-NumPy-arrays" title="Permalink to this headline"></a></h2>
 <p>There are many other ways to make NumPy arrays besides just converting lists or tuples. Below are some examples.</p>
 <div class="nbinput docutils container">
@@ -1008,8 +1007,8 @@ array([[0, 0],
        [0, 0]])
 </pre></div></div>
 </div>
-</section>
-<section id="Extracting-Numpy-arrays-from-Pandas-data-frames">
+</div>
+<div class="section" id="Extracting-Numpy-arrays-from-Pandas-data-frames">
 <h2>Extracting Numpy arrays from Pandas data frames<a class="headerlink" href="#Extracting-Numpy-arrays-from-Pandas-data-frames" title="Permalink to this headline"></a></h2>
 <p>NumPy has a primitive function for loading in data from text files, <code class="docutils literal notranslate"><span class="pre">np.loadtxt()</span></code>, but with Pandas’s <code class="docutils literal notranslate"><span class="pre">read_csv()</span></code>, there is really no reason to ever use it. Instead, we may sometimes wish to extract NumPy arrays out of Pandas data frames. This is almost always for speed reasons, which we will see when we do hacker stats. NumPy arrays are highly optimized for computing speed.</p>
 <p>As it is always more fun to work with a real biological application, we will populate our NumPy arrays with data. In their 2011 <a class="reference external" href="https://doi.org/10.1371/journal.pone.0025840">paper in PLoS ONE</a>, Harvey and Orbidans measured the cross-sectional area of <em>C. elegans</em> eggs that came from mothers who had a high concentration of food and from mothers of a low concentration of food. I digitized the data from their plots, and they are available in the file <code class="docutils literal notranslate"><span class="pre">~/git/bootcamp/data/c_elegans_egg_xa.csv</span></code>
@@ -1237,8 +1236,8 @@ array([1840, 2090, 2169, 1988, 2212, 2339, 1989, 2144, 2290, 1920, 2280,
 </pre></div></div>
 </div>
 <p>We will use these arrays as examples to learn about NumPy arrays.</p>
-</section>
-<section id="Slicing-NumPy-arrays">
+</div>
+<div class="section" id="Slicing-NumPy-arrays">
 <h2>Slicing NumPy arrays<a class="headerlink" href="#Slicing-NumPy-arrays" title="Permalink to this headline"></a></h2>
 <p>We can slice NumPy arrays like lists and tuples. Here are a few examples.</p>
 <div class="nbinput docutils container">
@@ -1298,7 +1297,7 @@ array([1852, 1751, 1683, 1930, 1680, 1642, 2141, 1660, 1828])
 array([1892, 1951, 1809, 1683, 1787, 1840, 1821, 1910, 1930, 1800, 1833])
 </pre></div></div>
 </div>
-<section id="Fancy-indexing">
+<div class="section" id="Fancy-indexing">
 <h3>Fancy indexing<a class="headerlink" href="#Fancy-indexing" title="Permalink to this headline"></a></h3>
 <p>NumPy arrays also allow <strong>fancy indexing</strong>, where we can slice out specific values. For example, say we wanted indices 1, 19, and 6 (in that order) from <code class="docutils literal notranslate"><span class="pre">xa_high</span></code>. We just index with a list of the indices we want.</p>
 <div class="nbinput docutils container">
@@ -1373,9 +1372,9 @@ array([2061, 2091, 2141, 2030, 2131])
 (array([ 1,  4, 33, 40, 42]),)
 </pre></div></div>
 </div>
-</section>
-</section>
-<section id="NumPy-arrays-are-mutable">
+</div>
+</div>
+<div class="section" id="NumPy-arrays-are-mutable">
 <h2>NumPy arrays are mutable<a class="headerlink" href="#NumPy-arrays-are-mutable" title="Permalink to this headline"></a></h2>
 <p>Yes, NumPy arrays are mutable. Let’s look at some consequences.</p>
 <div class="nbinput docutils container">
@@ -1458,7 +1457,7 @@ array([0.1, 0.2, 0.3, 0.4])
 </div>
 <p>So, be careful when writing functions. What you do to your NumPy array inside the function will happen outside of the function as well. Always remember that:</p>
 <div style="color: dodgerblue; font-weight: bold; text-align: center;"><p>NumPy arrays are mutable.</p>
-</div><section id="Slices-of-NumPy-arrays-are-views,-not-copies">
+</div><div class="section" id="Slices-of-NumPy-arrays-are-views,-not-copies">
 <h3>Slices of NumPy arrays are <strong>views</strong>, not copies<a class="headerlink" href="#Slices-of-NumPy-arrays-are-views,-not-copies" title="Permalink to this headline"></a></h3>
 <p>A very important distinction between NumPy arrays and lists is that slices of NumPy arrays are <strong>views</strong> into the original NumPy array, NOT copies.</p>
 <div class="nbinput docutils container">
@@ -1520,9 +1519,9 @@ False
 </pre></div></div>
 </div>
 <p>So, messing with an entry in the copy did not affect the original.</p>
-</section>
-</section>
-<section id="Mathematical-operations-with-arrays">
+</div>
+</div>
+<div class="section" id="Mathematical-operations-with-arrays">
 <h2>Mathematical operations with arrays<a class="headerlink" href="#Mathematical-operations-with-arrays" title="Permalink to this headline"></a></h2>
 <p>Mathematical operations on arrays are done elementwise to all elements, as we saw with Pandas data frames.</p>
 <div class="nbinput docutils container">
@@ -1589,8 +1588,8 @@ array([2832489, 4247721, 3211264, 3429904, 4372281, 3171961, 3655744,
        4541161, 3341584])
 </pre></div></div>
 </div>
-</section>
-<section id="Indexing-2D-NumPy-arrays">
+</div>
+<div class="section" id="Indexing-2D-NumPy-arrays">
 <h2>Indexing 2D NumPy arrays<a class="headerlink" href="#Indexing-2D-NumPy-arrays" title="Permalink to this headline"></a></h2>
 <p>NumPy arrays need not be one-dimensional. We’ll create a two-dimensional NumPy array by reshaping our <code class="docutils literal notranslate"><span class="pre">xa_high</span></code> array from having shape <code class="docutils literal notranslate"><span class="pre">(44,)</span></code> to having shape <code class="docutils literal notranslate"><span class="pre">(11,</span> <span class="pre">4)</span></code>. That is, it will become an array with 11 rows and 4 columns. (The 2D nature of this array has no meaning in this case; it’s just meant for demonstration.)</p>
 <div class="nbinput docutils container">
@@ -1740,8 +1739,8 @@ array([2061, 2091, 2141, 2030, 2131])
 </pre></div></div>
 </div>
 <p>NumPy arrays can be of arbitrary integer dimension, and these principles extrapolate to 3D, 4D, etc., arrays.</p>
-</section>
-<section id="Concatenating-arrays">
+</div>
+<div class="section" id="Concatenating-arrays">
 <h2>Concatenating arrays<a class="headerlink" href="#Concatenating-arrays" title="Permalink to this headline"></a></h2>
 <p>Let’s say we want to study all cross sectional areas and don’t care if the mother was well-fed or not. We would want to concatenate our arrays. The <code class="docutils literal notranslate"><span class="pre">np.concatenate()</span></code> function accomplishes this. We simply have to pass it a tuple containing the NumPy arrays we want to concatenate.</p>
 <div class="nbinput docutils container">
@@ -1773,8 +1772,8 @@ array([1683, 2061, 1792, 1852, 2091, 1781, 1912, 1802, 1751, 1731, 1892,
        2121, 2409])
 </pre></div></div>
 </div>
-</section>
-<section id="NumPy-has-useful-mathematical-functions">
+</div>
+<div class="section" id="NumPy-has-useful-mathematical-functions">
 <h2>NumPy has useful mathematical functions<a class="headerlink" href="#NumPy-has-useful-mathematical-functions" title="Permalink to this headline"></a></h2>
 <p>So far, we have not done much mathematics with Python. We have done some adding and division, but nothing like computing a logarithm or cosine. The NumPy functions also work elementwise on the arrays when it is intuitive to do so (just like we have seen in Pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>s). That is, they apply the function to each entry in the array. Check it out (even though exponentiating cross sectional areas is nonsensical).</p>
 <div class="nbinput docutils container">
@@ -1891,8 +1890,8 @@ array([41.02438299, 45.39823785, 42.33202098, 43.03486958, 45.72745346,
 3.141592653589793
 </pre></div></div>
 </div>
-</section>
-<section id="SciPy-has-even-more-useful-functions-(in-modules)">
+</div>
+<div class="section" id="SciPy-has-even-more-useful-functions-(in-modules)">
 <h2>SciPy has even more useful functions (in modules)<a class="headerlink" href="#SciPy-has-even-more-useful-functions-(in-modules)" title="Permalink to this headline"></a></h2>
 <p>SciPy actually began life as a library of special functions that operate on NumPy arrays. For example, we can compute an error function using the <code class="docutils literal notranslate"><span class="pre">scipy.special</span></code> module, which contains lots of special functions. Note that you often have to individually import the SciPy module you want to use, for example with</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.special</span>
@@ -1931,8 +1930,8 @@ array([0.76597747, 0.8549794 , 0.7948931 , 0.80965587, 0.86074212,
 <li><p><code class="docutils literal notranslate"><span class="pre">scipy.integrate</span></code>: Numerical solutions to differential equations.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">scipy.interpolate</span></code>: Smooth interpolation of functions.</p></li>
 </ul>
-</section>
-<section id="Vectorization-and-Numpy-arrays">
+</div>
+<div class="section" id="Vectorization-and-Numpy-arrays">
 <h2>Vectorization and Numpy arrays<a class="headerlink" href="#Vectorization-and-Numpy-arrays" title="Permalink to this headline"></a></h2>
 <p>Like operations on Pandas <code class="docutils literal notranslate"><span class="pre">Series</span></code> that we have already seen, operations on Numpy arrays are also vectorized and binary operations typically work elementwise.</p>
 <div class="nbinput docutils container">
@@ -1955,15 +1954,15 @@ array([3366, 4122, 3584, 3704, 4182, 3562, 3824, 3604, 3502, 3462, 3784,
        4282, 3726, 3504, 3480, 3442, 3320, 3860, 4060, 3702, 4262, 3656])
 </pre></div></div>
 </div>
-</section>
-<section id="Slicing-Numpy-arrays">
+</div>
+<div class="section" id="Slicing-Numpy-arrays">
 <h2>Slicing Numpy arrays<a class="headerlink" href="#Slicing-Numpy-arrays" title="Permalink to this headline"></a></h2>
 <p>Numpy arrays are ordered and strictly indexed by integers. There are therefore sliced just like lists, tuples, and strings as we have seen before. Conveniently we can also use Boolean indexing on Numpy arrays, just like with Pandas.</p>
-</section>
-<section id="NumPy-and-SciPy-are-highly-optimized">
+</div>
+<div class="section" id="NumPy-and-SciPy-are-highly-optimized">
 <h2>NumPy and SciPy are highly optimized<a class="headerlink" href="#NumPy-and-SciPy-are-highly-optimized" title="Permalink to this headline"></a></h2>
 <p>Importantly, NumPy and SciPy routines are often <em>fast</em>. To understand why, we need to think a bit about how your computer actually runs code you write.</p>
-<section id="Interpreted-and-compiled-languages">
+<div class="section" id="Interpreted-and-compiled-languages">
 <h3>Interpreted and compiled languages<a class="headerlink" href="#Interpreted-and-compiled-languages" title="Permalink to this headline"></a></h3>
 <p>We have touched on the fact that Python is an <strong>interpreted language</strong>. This means that the Python interpreter reads through your code, line by line, translates the commands into instructions that your computer’s processor can execute, and then these are executed. It also does <a class="reference external" href="https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)">garbage collection</a>, which manages memory usage in your programs for you. As an interpreted language, code is often much easier to write, and
 development time is much shorter. It is often easier to debug. By contrast, with <strong>compiled languages</strong> (the dominant ones being Fortran, C, and C++), your entire source code is translated into machine code before you ever run it. When you execute your program, it is already in machine code. As a result, compiled code is often much faster than interpreted code. The speed difference depends largely on the task at hand, but there is often over a 100-fold difference.</p>
@@ -2002,8 +2001,8 @@ development time is much shorter. It is often easier to debug. By contrast, with
 </pre></div>
 </div>
 <p>The C code won’t even execute without another function called <code class="docutils literal notranslate"><span class="pre">main</span></code> to call it. You should notice the difference in complexity of the code. Interpreted code is very often much easier to write!</p>
-</section>
-<section id="NumPy-and-SciPy-use-compiled-code!">
+</div>
+<div class="section" id="NumPy-and-SciPy-use-compiled-code!">
 <h3>NumPy and SciPy use compiled code!<a class="headerlink" href="#NumPy-and-SciPy-use-compiled-code!" title="Permalink to this headline"></a></h3>
 <p>Under the hood, when you call a NumPy or SciPy function, or use one of the methods, the Python interpreter passes the arrays into pre-compiled functions. (They are usually C or Fortran functions.) That means that you get to use an interpreted language with near-compiled speed! We can demonstrate the speed by comparing an explicit sum of elements of an array using a Python <code class="docutils literal notranslate"><span class="pre">for</span></code> loop versus NumPy. We will use the <code class="docutils literal notranslate"><span class="pre">np.random</span></code> module to generate a large array of random numbers (we will visit
 random number generation in a coming lesson). We then use the <code class="docutils literal notranslate"><span class="pre">%timeit</span></code> magic function of IPython to time the execution of the sum of the elements of the array.</p>
@@ -2052,16 +2051,16 @@ random number generation in a coming lesson). We then use the <code class="docut
 </pre></div></div>
 </div>
 <p>Wow! We went from a millisecond to <em>micro</em>seconds!</p>
-</section>
-</section>
-<section id="Word-of-advice:-use-NumPy-and-SciPy">
+</div>
+</div>
+<div class="section" id="Word-of-advice:-use-NumPy-and-SciPy">
 <h2>Word of advice: use NumPy and SciPy<a class="headerlink" href="#Word-of-advice:-use-NumPy-and-SciPy" title="Permalink to this headline"></a></h2>
 <p>If you are writing code and you think to yourself, “This seems like a pretty common things to do,” there is a good chance the someone really smart has written code to do it. If it’s something numerical, there is a good chance it is in NumPy or SciPy. <strong>Use these packages.</strong> Do not reinvent the wheel. It is very rare you can beat them for performance, error checking, etc.</p>
 <p>Furthermore, NumPy and SciPy are very well tested. In general, you do not need to write unit tests for well-established packages. Obviously, if you use NumPy or SciPy within your own functions, you still need to test what you wrote.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput docutils container">
+<div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
@@ -2088,8 +2087,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -2107,7 +2106,7 @@ jupyterlab: 3.3.2
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7fef221f69a0> 
+   <jinja2.runtime.BlockReference object at 0x7fb3a5917b50> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

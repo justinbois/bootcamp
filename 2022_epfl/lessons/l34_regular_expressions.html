@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 34: Regular expressions &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -459,7 +458,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-34:-Regular-expressions">
+<div class="section" id="Lesson-34:-Regular-expressions">
 <h1>Lesson 34: Regular expressions<a class="headerlink" href="#Lesson-34:-Regular-expressions" title="Permalink to this headline"></a></h1>
 <p>This lesson was developed in collaboration with Axel Müller.</p>
 <hr><div class="nbinput nblast docutils container">
@@ -471,7 +470,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <hr><p>In this tutorial, we will learn about very useful and pervasive text processing tools called <strong>regular expressions</strong>, a.k.a. RE, re, regex, regexp, regex patterns. They are tools for specifying text matching patterns. The desired patterns can then be quickly and automatically extracted from possible large amounts of text. This is particularly useful in parsing files in bioinformatics.</p>
-<section id="Background">
+<div class="section" id="Background">
 <h2>Background<a class="headerlink" href="#Background" title="Permalink to this headline"></a></h2>
 <p>The underlying theory of regexes dates back to 1956. It was developed by Stephen Cole Kleene as part of theoretical computer science’s attempt to describe a regular language. In the late 60’s and early 70’s regexes got broader attention as they could be used in lexical analysis of compilers and in pattern matching of text editors such as <code class="docutils literal notranslate"><span class="pre">ed</span></code>. Executing the latter function is synonymous to employing <code class="docutils literal notranslate"><span class="pre">Ctrl+F</span></code> or <code class="docutils literal notranslate"><span class="pre">Command+F</span></code> today to search a document for text.</p>
 <p>Regular expressions are in itself a very specialized and compact programing language that can be employed straight away in a number of command line tools such as <code class="docutils literal notranslate"><span class="pre">awk</span></code>, <code class="docutils literal notranslate"><span class="pre">sed</span></code>, and <code class="docutils literal notranslate"><span class="pre">grep</span></code>. Higher level programming languages such as Perl and Python employ a slightly modified version. To use them in Python we need to import the <code class="docutils literal notranslate"><span class="pre">re</span></code> module.</p>
@@ -576,12 +575,12 @@ Douglas Adams:  &#34;The Hitchhiker&#39;s Guide to the Galaxy&#34;
 </div>
 <p>The escape character <code class="docutils literal notranslate"><span class="pre">\</span></code> tells grep to treat the following character differently. The pipe character <code class="docutils literal notranslate"><span class="pre">|</span></code> is a logical OR. Thus, the expression <code class="docutils literal notranslate"><span class="pre">\(H\|h\)</span></code> is interpreted as “<code class="docutils literal notranslate"><span class="pre">H</span></code> or <code class="docutils literal notranslate"><span class="pre">h</span></code>”. The Kleene star, <code class="docutils literal notranslate"><span class="pre">*</span></code>, means that the preceding character occurs zero, one, or more times. In our example this means that the strings hitch and hiker are either separated by one or more spaces, or not separated at all.</p>
 <p>Often it is possible to employ a number of different REs to the same end. In more advanced cases choosing the appropriate RE can have a significant impact on performance. In many other cases however the time gained by executing the perfect RE won’t make up for the time invested in crafting it.</p>
-</section>
-<section id="REs-in-Python">
+</div>
+<div class="section" id="REs-in-Python">
 <h2>REs in Python<a class="headerlink" href="#REs-in-Python" title="Permalink to this headline"></a></h2>
 <p>Python’s <code class="docutils literal notranslate"><span class="pre">re</span></code> module enables use of REs within Python programs. This is useful for parsing strings. The <a class="reference external" href="https://docs.python.org/3/library/re.html">standard library documentation</a> is quite good and is a useful resource.</p>
 <p>Unlike most other code we write in Python, REs are compiled into series of bytecode and executed in C, which makes them extremely fast. After we have compiled a regular expression, it has methods, such as <code class="docutils literal notranslate"><span class="pre">match</span></code>, that allow us to process strings with our compiled regular expression.</p>
-<section id="Compiling-REs">
+<div class="section" id="Compiling-REs">
 <h3>Compiling REs<a class="headerlink" href="#Compiling-REs" title="Permalink to this headline"></a></h3>
 <p>We will investigate the syntax of the <code class="docutils literal notranslate"><span class="pre">re</span></code> module, as usual, through example. In this case, we will use an RE to find instances of hitchhiker-like words in the text from Douglas Adams.</p>
 <div class="nbinput docutils container">
@@ -681,8 +680,8 @@ Douglas Adams:  &#34;The Hitchhiker&#39;s Guide to the Galaxy&#34;
 </pre></div></div>
 </div>
 <p>The parentheses form a hierarchy of groups. At the outermost level, we get the entire line that has a hitchhiker-like word. At the next level, we get the actual hitchhiker-like word. And at the innermost level, we get the individual <code class="docutils literal notranslate"><span class="pre">H</span></code> characters.</p>
-</section>
-<section id="Flags-in-REs">
+</div>
+<div class="section" id="Flags-in-REs">
 <h3>Flags in REs<a class="headerlink" href="#Flags-in-REs" title="Permalink to this headline"></a></h3>
 <p>We can also compile REs with <strong>flags</strong>. These are given as a second argument for the <code class="docutils literal notranslate"><span class="pre">re.compile</span></code> function and specify variants on how the RE compilation is to be done. For example, we could have used a flag to make our RE even simpler.</p>
 <div class="nbinput docutils container">
@@ -743,8 +742,8 @@ Douglas Adams:  &#34;The Hitchhiker&#39;s Guide to the Galaxy&#34;
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>my_regex_query = re.compile(&quot;hitch *hiker&quot;, re.IGNORECASE | re.VERBOSE)
 </pre></div>
 </div>
-</section>
-<section id="Metacharacters-in-Python-REs">
+</div>
+<div class="section" id="Metacharacters-in-Python-REs">
 <h3>Metacharacters in Python REs<a class="headerlink" href="#Metacharacters-in-Python-REs" title="Permalink to this headline"></a></h3>
 <p>In the command line example using <code class="docutils literal notranslate"><span class="pre">grep</span></code>, we got acquainted with a few metacharacters that help us improve our pattern matching. Let’s have a look at all RE metacharacters that can be used in Python:</p>
 <table class="docutils align-default">
@@ -798,8 +797,8 @@ important to note that metacharacters lose their special function within sets. T
 </tr>
 </tbody>
 </table>
-</section>
-<section id="Searching,-Matching,-Splitting,-and-more">
+</div>
+<div class="section" id="Searching,-Matching,-Splitting,-and-more">
 <h3>Searching, Matching, Splitting, and more<a class="headerlink" href="#Searching,-Matching,-Splitting,-and-more" title="Permalink to this headline"></a></h3>
 <p>Once we are happy with our compiled RE we can deploy it in a number of ways. Upon compilation, we have created a compiled <code class="docutils literal notranslate"><span class="pre">SRE_Pattern</span></code> object that has methods for searching strings. In the table below, we will assume the compiled object is called <code class="docutils literal notranslate"><span class="pre">regex</span></code>.</p>
 <table class="docutils align-default">
@@ -833,14 +832,14 @@ important to note that metacharacters lose their special function within sets. T
 </tr>
 </tbody>
 </table>
-</section>
-<section id="Combinations-of-metacharacters-in-RE">
+</div>
+<div class="section" id="Combinations-of-metacharacters-in-RE">
 <h3>Combinations of metacharacters in RE<a class="headerlink" href="#Combinations-of-metacharacters-in-RE" title="Permalink to this headline"></a></h3>
-<section id="greedy-vs-non-greedy">
+<div class="section" id="greedy-vs-non-greedy">
 <h4>greedy vs non-greedy<a class="headerlink" href="#greedy-vs-non-greedy" title="Permalink to this headline"></a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">\*</span></code>, and <code class="docutils literal notranslate"><span class="pre">?</span></code> match as much text as possible. This behavior is referred to as greedy. Adding a <code class="docutils literal notranslate"><span class="pre">?</span></code> after these qualifiers renders them non greedy, yielding the shortest possible answer. For example applying the RE <code class="docutils literal notranslate"><span class="pre">(K.\*F)</span></code> to this amino acid sequence: <code class="docutils literal notranslate"><span class="pre">MKKSLVFAFFAFFLSL</span></code> yields: <code class="docutils literal notranslate"><span class="pre">KKSLVFAFFAFF</span></code> whereas <code class="docutils literal notranslate"><span class="pre">(K.\*?F)</span></code> would yield: <code class="docutils literal notranslate"><span class="pre">KSLVF</span></code></p>
-</section>
-<section id="More-escaping">
+</div>
+<div class="section" id="More-escaping">
 <h4>More escaping<a class="headerlink" href="#More-escaping" title="Permalink to this headline"></a></h4>
 <p>Let’s have a look at how a <strong>word</strong> is defined before having a look at more escape options. A word is a sequence of Unicode alphanumeric or underscore characters. Examples are:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Hello_world
@@ -894,8 +893,8 @@ P4ssw0rd
 </tr>
 </tbody>
 </table>
-</section>
-<section id="The-very-powerful-question-mark">
+</div>
+<div class="section" id="The-very-powerful-question-mark">
 <h4>The very powerful question mark<a class="headerlink" href="#The-very-powerful-question-mark" title="Permalink to this headline"></a></h4>
 <p>With the help of <code class="docutils literal notranslate"><span class="pre">?</span></code> we can expand the functionality of parentheses. The general syntax is <code class="docutils literal notranslate"><span class="pre">(?...)</span></code>. We will not get into these here, but the table below gives a summary, and more detail can be found in the <code class="docutils literal notranslate"><span class="pre">`re</span></code> package documentation &lt;<a class="reference external" href="https://docs.python.org/3/library/re.html">https://docs.python.org/3/library/re.html</a>&gt;`__.</p>
 <table class="docutils align-default">
@@ -938,10 +937,10 @@ P4ssw0rd
 </tr>
 </tbody>
 </table>
-</section>
-</section>
-</section>
-<section id="A-shortcut-to-avoid-compiling">
+</div>
+</div>
+</div>
+<div class="section" id="A-shortcut-to-avoid-compiling">
 <h2>A shortcut to avoid compiling<a class="headerlink" href="#A-shortcut-to-avoid-compiling" title="Permalink to this headline"></a></h2>
 <p>If you are not going to use your compiled regex over and over again (you often will), you may want to use some of the functions in the <code class="docutils literal notranslate"><span class="pre">re</span></code> module. For example, if we wanted to find all occurances of a pattern in a string, we have learned to do this:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>regex = re.compile(pattern, flags=0)
@@ -983,8 +982,8 @@ re.findall(pattern, hh_string, flags=re.IGNORECASE):
 [&#34;The Hitch Hiker&#39;s Guide to the Galaxy has a few things to&#34;, &#39;an interstellar hitchhiker can have.  Partly it has great&#39;, &#39;a strag (strag: non-hitch hiker) discovers that a hitch&#39;, &#39;Douglas Adams:  &#34;The Hitchhiker\&#39;s Guide to the Galaxy&#34; &#39;]
 </pre></div></div>
 </div>
-</section>
-<section id="Example:-using-REs-with-sequence-data">
+</div>
+<div class="section" id="Example:-using-REs-with-sequence-data">
 <h2>Example: using REs with sequence data<a class="headerlink" href="#Example:-using-REs-with-sequence-data" title="Permalink to this headline"></a></h2>
 <p>As an example use of regular expressions, we will parse a <a class="reference external" href="http://www.ncbi.nlm.nih.gov/genbank/">GenBank</a> entry. The file <code class="docutils literal notranslate"><span class="pre">`genbank_seq.txt</span></code> &lt;../data/regex/genbank_seq.txt&gt;`__ contains the sequence portion of a GenBank entry.</p>
 <div class="nbinput docutils container">
@@ -1091,7 +1090,7 @@ re.findall(pattern, hh_string, flags=re.IGNORECASE):
 &#39;mkkillsvltafvavvlaacggnsdsktlnsldkikqngvvrigvfgdkppfgyvdekgnnqgydialakriakelfgdenkvqfvlveaanrveflksnkvdiilanftqtpqraeqvdfcspymkvalgvavpkdsnitsvedlkdktlllnkgttadayftqnypniktlkydqntetfaalmdkrgdalshdntllfawvkdhpdfkmgikelgnkdviapavkkgdkelkefidnliiklgqeqffhkaydetlkahfgddvkaddvvieggki&#39;
 </pre></div></div>
 </div>
-<section id="Using-match()-and-search()">
+<div class="section" id="Using-match()-and-search()">
 <h3>Using match() and search()<a class="headerlink" href="#Using-match()-and-search()" title="Permalink to this headline"></a></h3>
 <p>Let’s have a look at the outputs of <code class="docutils literal notranslate"><span class="pre">aa.match()</span></code> and <code class="docutils literal notranslate"><span class="pre">aa.search()</span></code>. We’ll start with <code class="docutils literal notranslate"><span class="pre">aa.match()</span></code>.</p>
 <div class="nbinput docutils container">
@@ -1193,8 +1192,8 @@ mkkillsvlt
 (10, 20)
 </pre></div></div>
 </div>
-</section>
-<section id="Find-and-replace-with-regexes">
+</div>
+<div class="section" id="Find-and-replace-with-regexes">
 <h3>Find and replace with regexes<a class="headerlink" href="#Find-and-replace-with-regexes" title="Permalink to this headline"></a></h3>
 <p>Now, we’ll use a powerful tool. We’ll find and replace using a regex. For this example, we will replace all positively charged residues (arginine (<code class="docutils literal notranslate"><span class="pre">a</span></code>), lysine (<code class="docutils literal notranslate"><span class="pre">l</span></code>), and histodine (<code class="docutils literal notranslate"><span class="pre">h</span></code>)), and replace them with a <code class="docutils literal notranslate"><span class="pre">+</span></code> sign. To do this, we use the <code class="docutils literal notranslate"><span class="pre">sub()</span></code> method of a compiled regex.</p>
 <div class="nbinput docutils container">
@@ -1248,9 +1247,9 @@ m++illsvltafvavvlaacggnsds+tlnsld+i+qngvv+igvfgd+ppfgyvde+gnnqgydiala++ia+elfgde
 </pre></div></div>
 </div>
 <p>The previous examples illustrate that RE are a powerful tool to parse data. Moreover they can be of great use in analyzing sequences.</p>
-</section>
-</section>
-<section id="Example-2:-Using-REs-to-parse-sequence-FASTA-files">
+</div>
+</div>
+<div class="section" id="Example-2:-Using-REs-to-parse-sequence-FASTA-files">
 <h2>Example 2: Using REs to parse sequence FASTA files<a class="headerlink" href="#Example-2:-Using-REs-to-parse-sequence-FASTA-files" title="Permalink to this headline"></a></h2>
 <p>The file <code class="docutils literal notranslate"><span class="pre">`aligned.fasta</span></code> &lt;data/aligned_fasta&gt;`__ contains seven aligned sequences in FASTA format.</p>
 <p>Let’s have a look:</p>
@@ -1424,12 +1423,12 @@ LLDWVNTELETLGKEKFIHKAYDETLKPAYGDSINPEDIVVEGGKL
 </pre></div></div>
 </div>
 <p>Success!</p>
-</section>
-<section id="Just-scratching-the-surface">
+</div>
+<div class="section" id="Just-scratching-the-surface">
 <h2>Just scratching the surface<a class="headerlink" href="#Just-scratching-the-surface" title="Permalink to this headline"></a></h2>
 <p>Even though we’ve just scratched the surface, I hope this tutorial has shown how powerful you can be if you have a command of regular expressions. The learning curve for these things is steep, but once you’ve used them for a while, they become second nature and parsing text is not a daunting task!</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
@@ -1453,8 +1452,8 @@ jupyterlab: 3.0.14
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -1472,7 +1471,7 @@ jupyterlab: 3.0.14
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7fef22009850> 
+   <jinja2.runtime.BlockReference object at 0x7fb3a538a310> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

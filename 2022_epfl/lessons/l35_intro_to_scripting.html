@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 35: Introduction to scripting &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -450,7 +449,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Lesson-35:-Introduction-to-scripting">
+<div class="section" id="Lesson-35:-Introduction-to-scripting">
 <h1>Lesson 35: Introduction to scripting<a class="headerlink" href="#Lesson-35:-Introduction-to-scripting" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -472,7 +471,7 @@ div.rendered_html tbody tr:hover {
 </ol>
 <p>I suspect that most of you would choose option 2. Scripting is basically doing option 2, except your assistant is your computer.</p>
 <p>Because of its simple syntax and modules to parse text and communicate with the operating system in its standard library, Python is a good scripting language. In this tutorial, we will write some Python scripts to do tasks we might encounter in biology. (We already saw some examples of some of the text processing in previous lessons.)</p>
-<section id="Our-example-scripting-problem">
+<div class="section" id="Our-example-scripting-problem">
 <h2>Our example scripting problem<a class="headerlink" href="#Our-example-scripting-problem" title="Permalink to this headline"></a></h2>
 <p>As tends to be our philosophy, we will learn some scripting procedures by example. In the example we consider, we will parse a directory of images coming from a Leica SP2 confocal microscope. These microscopes came out about twenty years ago, and the software is also a bit old. It is very common to use older instruments, especially high end ones like this one, which can cost hundreds of thousands of dollars, in research.</p>
 <p>One problem with the old software used for image acquisition on this microscope is that the file names are stored in the following format:</p>
@@ -506,8 +505,8 @@ prefix_SERIESNAME_t101_z000_ch00.tif
 <li><p>Parse the metadata to find the time points for each image.</p></li>
 </ol>
 <p>We’ll start with task 1.</p>
-</section>
-<section id="Renaming-the-files">
+</div>
+<div class="section" id="Renaming-the-files">
 <h2>Renaming the files<a class="headerlink" href="#Renaming-the-files" title="Permalink to this headline"></a></h2>
 <p>You may remember from our lesson on string formatting that if we want leading zeros, we use the <code class="docutils literal notranslate"><span class="pre">%04d</span></code> format string for, e.g., an integer for a total of four digits.</p>
 <div class="nbinput docutils container">
@@ -540,7 +539,7 @@ This digit has 0025 digits.
 </pre></div>
 </div>
 </div>
-<section id="Getting-a-list-of-the-directory-contents:-the-os-and-glob-modules">
+<div class="section" id="Getting-a-list-of-the-directory-contents:-the-os-and-glob-modules">
 <h3>Getting a list of the directory contents: the os and glob modules<a class="headerlink" href="#Getting-a-list-of-the-directory-contents:-the-os-and-glob-modules" title="Permalink to this headline"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">os</span></code> module from the standard library has lots of great tools for working with files and talking to the OS. We’ll generate a list of files in our Leica directory, demonstrating some of the useful features of the <code class="docutils literal notranslate"><span class="pre">os</span></code> module.</p>
 <div class="nbinput docutils container">
@@ -644,8 +643,8 @@ This digit has 0025 digits.
  &#39;data/leica_tiffs/stage9_Series006_t22_z000_ch00.tif&#39;]
 </pre></div></div>
 </div>
-</section>
-<section id="Renaming-files-using-the-shutil-module">
+</div>
+<div class="section" id="Renaming-files-using-the-shutil-module">
 <h3>Renaming files using the shutil module<a class="headerlink" href="#Renaming-files-using-the-shutil-module" title="Permalink to this headline"></a></h3>
 <p>We will now rename the files. There are several ways to do this using modules that are part of the standard library. Here, we’ll show how to do it using the <a class="reference external" href="https://docs.python.org/3/library/shutil.html">shutil module</a>. This module contains several functions for file management.</p>
 <div class="nbinput nblast docutils container">
@@ -685,9 +684,9 @@ This digit has 0025 digits.
 </pre></div>
 </div>
 </div>
-</section>
-</section>
-<section id="The-subprocess-module">
+</div>
+</div>
+<div class="section" id="The-subprocess-module">
 <h2>The subprocess module<a class="headerlink" href="#The-subprocess-module" title="Permalink to this headline"></a></h2>
 <p>The <a class="reference external" href="https://docs.python.org/3/library/subprocess.html">subprocess module</a> of the standard library is useful for running commands on the command line. This is often used in bioinformatics pipelines, for example, when you need to run various programs from the command line to process data sets. We don’t really need it for the bootcamp, but I bring it up here because it may come in handy for you down the road. If we wanted to do the same operations as above, except with the <code class="docutils literal notranslate"><span class="pre">subprocess</span></code>
 module, we would replace the <code class="docutils literal notranslate"><span class="pre">shutil.move(fname,</span> <span class="pre">new_fname)</span></code> with</p>
@@ -735,8 +734,8 @@ total 29640
 -rw-r--r--@ 1 bois  staff   113062 Jun 15 21:58 stage9_Series006_t06_z000_ch00.tif
 </pre></div></div>
 </div>
-</section>
-<section id="Parsing-the-metadata">
+</div>
+<div class="section" id="Parsing-the-metadata">
 <h2>Parsing the metadata<a class="headerlink" href="#Parsing-the-metadata" title="Permalink to this headline"></a></h2>
 <p>Let’s look at the metadata file that came with our image series.</p>
 <div class="nbinput docutils container">
@@ -868,7 +867,7 @@ Leica Microsystems Heidelberg GmbHThis file is intended for read-only purposes c
 198
 </pre></div></div>
 </div>
-<section id="Extracting-interpixel-distances">
+<div class="section" id="Extracting-interpixel-distances">
 <h3>Extracting interpixel distances<a class="headerlink" href="#Extracting-interpixel-distances" title="Permalink to this headline"></a></h3>
 <p>Now, we can scan starting that this starting index and extract the voxel sizes.</p>
 <div class="nbinput docutils container">
@@ -897,8 +896,8 @@ Interpixel spacing in x (µm): 0.310171
 Interpixel spacing in y (µm): 0.310171
 </pre></div></div>
 </div>
-</section>
-<section id="Extracting-the-time-points">
+</div>
+<div class="section" id="Extracting-the-time-points">
 <h3>Extracting the time points<a class="headerlink" href="#Extracting-the-time-points" title="Permalink to this headline"></a></h3>
 <p>Now, we want to get the time points for our images. The time stamp records look line this:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Stamp_0:        2013:05:30,16:48:30:515
@@ -982,15 +981,15 @@ Interpixel spacing in y (µm): 0.310171
 </pre></div></div>
 </div>
 <p>Great! We managed to extract the important metadata we could then use in our image analysis. We also now have nicely organized files that appear in alphabetical order.</p>
-</section>
-</section>
-<section id="Conclusions">
+</div>
+</div>
+<div class="section" id="Conclusions">
 <h2>Conclusions<a class="headerlink" href="#Conclusions" title="Permalink to this headline"></a></h2>
 <p>In this example, we showed how you can use Python to clean up data sets that come off of instrument, as well as extract useful information out of the resulting files. If we have many sets of images like this, we should develop these parsing procedures into a function that will automatically parse any directory of data you present. This can help get you ready for further analysis, with everything in a pre-defined format.</p>
-</section>
-<section id="Computing-environment">
+</div>
+<div class="section" id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput docutils container">
+<div class="nbinput toggle docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
@@ -1012,8 +1011,8 @@ jupyterlab: 3.0.14
 
 </pre></div></div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -1031,7 +1030,7 @@ jupyterlab: 3.0.14
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7fef22ac9c70> 
+   <jinja2.runtime.BlockReference object at 0x7fb3a57635b0> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 33: More about the command line &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -194,13 +193,13 @@
     text-align: unset;
 }
 </style>
-<section id="Lesson-33:-More-about-the-command-line">
+<div class="section" id="Lesson-33:-More-about-the-command-line">
 <h1>Lesson 33: More about the command line<a class="headerlink" href="#Lesson-33:-More-about-the-command-line" title="Permalink to this headline"></a></h1>
 <p>This lesson was prepared in collaboration with Axel Müller and Shyam Saladi.</p>
 <hr><p>In this lesson, we will continue introducing techniques to navigate the command line. Like we have said before, you will feel empowered controlling your computer as you master command line skills. We will go through a set of commands and skills.</p>
 <p>To start, let’s navigate into the folder we created in our <a class="reference internal" href="l02_basic_command_line_skills.html"><span class="doc">first command line lesson</span></a>. Fire up a terminal and cd into the directory <code class="docutils literal notranslate"><span class="pre">~/bootcamp/command_line_tutorial</span></code> and let’s get going!</p>
 <p>(Reminder: There may be differences between Windows Powershell and what we present here, which is for Linux and macOS. We will try to make note of and differences.)</p>
-<section id="man">
+<div class="section" id="man">
 <h2>man<a class="headerlink" href="#man" title="Permalink to this headline"></a></h2>
 <p><strong>Windows users</strong>: Powershell does not have <code class="docutils literal notranslate"><span class="pre">man</span></code>. You can instead use <a class="reference external" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/get-help">Get-help</a>.</p>
 <p>Most commands have a manual that can be accessed right from the terminal itself. Last time we explored the command <code class="docutils literal notranslate"><span class="pre">more</span></code>. Note, try this:</p>
@@ -208,8 +207,8 @@
 </pre></div>
 </div>
 <p>The manual usually has a description of the command, a synopsis which informs you about the syntax, and a list of options.</p>
-</section>
-<section id="tee">
+</div>
+<div class="section" id="tee">
 <h2>tee<a class="headerlink" href="#tee" title="Permalink to this headline"></a></h2>
 <p><strong>Windows users</strong>: In Powershell you can use <a class="reference external" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/tee-object">Tee-object</a>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">tee</span></code> will tell you:</p>
@@ -221,8 +220,8 @@
 </pre></div>
 </div>
 <p>start typing some text and press return. Repeat the process if you like. When you are done press <code class="docutils literal notranslate"><span class="pre">ctrl-c</span></code>. Have a look at what you just created (use, <code class="docutils literal notranslate"><span class="pre">cat</span></code> or <code class="docutils literal notranslate"><span class="pre">less</span></code> or <code class="docutils literal notranslate"><span class="pre">more</span></code>).</p>
-</section>
-<section id="Pipes-(|)-and-redirects-(&gt;)">
+</div>
+<div class="section" id="Pipes-(|)-and-redirects-(&gt;)">
 <h2>Pipes (|) and redirects (&gt;)<a class="headerlink" href="#Pipes-(|)-and-redirects-(>)" title="Permalink to this headline"></a></h2>
 <p>Shells are very good at stringing commands together. Let’s look at an example:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ls | tee contents.txt
@@ -238,8 +237,8 @@
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ls &gt;&gt; contents_again.txt
 </pre></div>
 </div>
-</section>
-<section id="echo">
+</div>
+<div class="section" id="echo">
 <h2>echo<a class="headerlink" href="#echo" title="Permalink to this headline"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">echo</span></code> simply prints a line of text to the standard output:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>echo &quot;Thanks for all the fish!&quot;
@@ -249,8 +248,8 @@
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>echo &quot;Thanks for all the fish&quot; &gt; hitchhiker_quotes.txt
 </pre></div>
 </div>
-</section>
-<section id="grep">
+</div>
+<div class="section" id="grep">
 <h2>grep<a class="headerlink" href="#grep" title="Permalink to this headline"></a></h2>
 <p><strong>Windows users</strong>: The Powershell version of <code class="docutils literal notranslate"><span class="pre">grep</span></code> is <a class="reference external" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/select-string">Select-String</a>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">grep</span></code> searches the input for lines containing a match of a given expression. For example, to find the descriptor line in a FASTA file, you can do this.</p>
@@ -289,8 +288,8 @@
 </div>
 <p>(<code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">wc</span></code> will tell you more about this useful little command.) Let’s looks at that command we just did in more detail. First, <code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">sequences/*.fasta</span></code> outputs the entire text of all files in the directory <code class="docutils literal notranslate"><span class="pre">sequences</span></code> that have the <code class="docutils literal notranslate"><span class="pre">.fasta</span></code> suffix. That is piped to <code class="docutils literal notranslate"><span class="pre">grep</span></code>, meaning that the output of the <code class="docutils literal notranslate"><span class="pre">cat</span></code> command does not go to the screen, but to <code class="docutils literal notranslate"><span class="pre">grep</span></code>. So, we now take all that text from those files and use <code class="docutils literal notranslate"><span class="pre">grep</span></code> to give all lines that start with <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>. Those lines are then
 piped into <code class="docutils literal notranslate"><span class="pre">wc</span></code>, which, with the <code class="docutils literal notranslate"><span class="pre">-l</span></code> flag, gives the number of lines. Thus, we get a count of the total number of sequences in our FASTA files. Pretty slick!</p>
-</section>
-<section id="^C,-^Z,-bg,-fg,-ps,-top,-kill">
+</div>
+<div class="section" id="^C,-^Z,-bg,-fg,-ps,-top,-kill">
 <h2>^C, ^Z, bg, fg, ps, top, kill<a class="headerlink" href="#^C,-^Z,-bg,-fg,-ps,-top,-kill" title="Permalink to this headline"></a></h2>
 <p>There is a tiny python script called <code class="docutils literal notranslate"><span class="pre">fibonacci.py</span></code> in the <code class="docutils literal notranslate"><span class="pre">command_line_tutorial</span></code> directory. Have a look at it. It features an endless loop which is perfect for illustrating a number of commands. Start the program by typing:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python fibonacci.py
@@ -343,8 +342,8 @@ bg
 </pre></div>
 </div>
 <p>(where you substitute <code class="docutils literal notranslate"><span class="pre">&lt;process</span> <span class="pre">ID&gt;</span></code> with the number you got from <code class="docutils literal notranslate"><span class="pre">ps</span></code> or <code class="docutils literal notranslate"><span class="pre">top</span></code>) will stop the process. Now, it might be a good idea to delete the <code class="docutils literal notranslate"><span class="pre">fibs</span></code> file.</p>
-</section>
-<section id="Environment-variables">
+</div>
+<div class="section" id="Environment-variables">
 <h2>Environment variables<a class="headerlink" href="#Environment-variables" title="Permalink to this headline"></a></h2>
 <p>An environment variable is a dynamic value that can affect the way running processes behave.”</p>
 <p>The command:</p>
@@ -352,7 +351,7 @@ bg
 </pre></div>
 </div>
 <p>(or <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">env:</span></code> for Powershell useres) will show you which environment variables have been set. One particularly important environment variable is <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
-<section id="PATH">
+<div class="section" id="PATH">
 <h3>PATH<a class="headerlink" href="#PATH" title="Permalink to this headline"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable tells the system which directories the shell has to search for executable files. This is called the <strong>search path</strong>. It’s a list of absolute paths separated by colons.</p>
 <p>To check what has been already added to PATH we can issue the following command:</p>
@@ -374,9 +373,9 @@ bg
 </pre></div>
 </div>
 <p>Where <code class="docutils literal notranslate"><span class="pre">/complete/path/to/be/included</span></code> is the name of the directory you want to be added to the search path. This will be used for the remainder of the session. Once you close your terminal it’s gone. To make changes permanently we need to add this to the end of the relevent rc file (<code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> for Bash and <code class="docutils literal notranslate"><span class="pre">.zsh</span></code> for Zsh).</p>
-</section>
-</section>
-<section id="conda">
+</div>
+</div>
+<div class="section" id="conda">
 <h2>conda<a class="headerlink" href="#conda" title="Permalink to this headline"></a></h2>
 <p>Conda is the package and environment manager that comes with your Anaconda installation. It allows you to install packages and makes sure that all dependencies are installed as well and it helps you keeping your installed packages up to date.</p>
 <p>Have a look at this <a class="reference external" href="http://conda.pydata.org/docs/_downloads/conda-cheatsheet.pdf">cheat sheet</a>.</p>
@@ -401,12 +400,12 @@ bg
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>conda deactivate
 </pre></div>
 </div>
-</section>
-<section id="Conclusions">
+</div>
+<div class="section" id="Conclusions">
 <h2>Conclusions<a class="headerlink" href="#Conclusions" title="Permalink to this headline"></a></h2>
 <p>There is still much more to learn about using the command line effectively. However, given your basic command line knowledge and Python programming skills, you are already well on your way to being empowered for effectively use your computer as a research tool.</p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -424,7 +423,7 @@ bg
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7fef2218d6d0> 
+   <jinja2.runtime.BlockReference object at 0x7fb3a42d48e0> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
