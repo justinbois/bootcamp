@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 16: Introduction to Pandas &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -447,7 +448,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Lesson-16:-Introduction-to-Pandas">
+<section id="Lesson-16:-Introduction-to-Pandas">
 <h1>Lesson 16: Introduction to Pandas<a class="headerlink" href="#Lesson-16:-Introduction-to-Pandas" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -462,7 +463,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <hr><p>Throughout your research career, you will undoubtedly need to handle data, possibly lots of data. The data comes in lots of formats, and you will spend much of your time <strong>wrangling</strong> the data to get it into a usable form.</p>
 <p>Pandas is the primary tool in the Python ecosystem for handling data. Its primary object, the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> is extremely useful in wrangling data. We will explore some of that functionality here, and will put it to use in the next lesson.</p>
-<div class="section" id="The-data-set">
+<section id="The-data-set">
 <h2>The data set<a class="headerlink" href="#The-data-set" title="Permalink to this headline"></a></h2>
 <p>We will explore using Pandas with a real data set. We will use a data set published in <a class="reference external" href="https://doi.org/10.1098/rsos.160321">Beattie, et al., Perceptual impairment in face identification with poor sleep, Royal Society Open Science, 3, 160321, 2016</a>. In this paper, researchers used the <a class="reference external" href="https://doi.org/10.3758/BRM.42.1.286">Glasgow Facial Matching Test</a> (GMFT) to investigate how sleep deprivation affects a subject’s ability to match faces, as well as the confidence the subject has in those
 matches. Briefly, the test works by having subjects look at a pair of faces. Two such pairs are shown below.</p>
@@ -500,8 +501,8 @@ matches. Briefly, the test works by having subjects look at a pair of faces. Two
 <p>The first line contains the <strong>headers</strong> for each column. They are participant number, gender, age, etc. The data follow. There are two important things to note here. First, notice that the <code class="docutils literal notranslate"><span class="pre">gender</span></code> column has string data (<code class="docutils literal notranslate"><span class="pre">m</span></code> or <code class="docutils literal notranslate"><span class="pre">f</span></code>), while the rest of the data are numeric. Note also that there are some <strong>missing data</strong>, denoted by the <code class="docutils literal notranslate"><span class="pre">*</span></code>s in the file.</p>
 <p>Given the file I/O skills you recently learned, you could write some functions to parse this file and extract the data you want. You can imagine that this might be kind of painful. However, if the file format is nice and clean, like we more or less have here, we can use pre-built tools. Pandas has a very powerful function, <code class="docutils literal notranslate"><span class="pre">pd.read_csv()</span></code> that can read in a CSV file and store the contents in a convenient data structure called a <strong>data frame</strong>. In Pandas, the data type for a data frame is
 <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>, and we will use “data frame” and “<code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>” interchangeably.</p>
-</div>
-<div class="section" id="Reading-in-data">
+</section>
+<section id="Reading-in-data">
 <h2>Reading in data<a class="headerlink" href="#Reading-in-data" title="Permalink to this headline"></a></h2>
 <p>Take a look at the <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html">doc string of pd.read_csv()</a>. Holy cow! There are so many options we can specify for reading in a CSV file. You will likely find reasons to use many of these throughout your research. For this particular data set, we really only need the <code class="docutils literal notranslate"><span class="pre">na_values</span></code> kwarg. This specifies what characters signify that a data point is missing. The resulting data frame is populated with a <strong>NaN</strong>, or
 not-a-number, wherever this character is present in the file. In this case, we want <code class="docutils literal notranslate"><span class="pre">na_values='*'</span></code>. So, let’s load in the data set.</p>
@@ -923,8 +924,8 @@ pandas.core.frame.DataFrame
 </div></div>
 </div>
 <p>This is more manageable and gives us an overview of what the columns are. Note also the the missing data was populated with NaN.</p>
-</div>
-<div class="section" id="Indexing-data-frames">
+</section>
+<section id="Indexing-data-frames">
 <h2>Indexing data frames<a class="headerlink" href="#Indexing-data-frames" title="Permalink to this headline"></a></h2>
 <p>The data frame is a convenient data structure for many reasons that will become clear as we start exploring. Let’s start by looking at how data frames are indexed. Let’s try to look at the first row.</p>
 <div class="nbinput docutils container">
@@ -1049,8 +1050,8 @@ Name: percent correct, Length: 102, dtype: float64
 </pre></div></div>
 </div>
 <p>Note that following <code class="docutils literal notranslate"><span class="pre">.loc</span></code>, we have the index by row then column, separated by a comma, in brackets. It is also important to note that <strong>row indices need not be integers</strong>. And you should not count on them being integers. In practice you will almost never use row indices, but rather use <strong>Boolean indexing</strong>.</p>
-</div>
-<div class="section" id="Boolean-indexing-of-data-frames">
+</section>
+<section id="Boolean-indexing-of-data-frames">
 <h2>Boolean indexing of data frames<a class="headerlink" href="#Boolean-indexing-of-data-frames" title="Permalink to this headline"></a></h2>
 <p>Let’s say I wanted the percent correct of participant number 42. I can use Boolean indexing to specify the row. Specifically, I want the row for which <code class="docutils literal notranslate"><span class="pre">df['participant</span> <span class="pre">number']</span> <span class="pre">==</span> <span class="pre">42</span></code>. You can essentially plop this syntax directly when using <code class="docutils literal notranslate"><span class="pre">.loc</span></code>.</p>
 <div class="nbinput docutils container">
@@ -1726,8 +1727,8 @@ Length: 102, dtype: bool
 </div></div>
 </div>
 <p>This feature, where the looping is done automatically on Pandas objects like data frames, is very powerful and saves us writing lots of lines of code. This example also showed how to use the <code class="docutils literal notranslate"><span class="pre">iterrows()</span></code> method of a data frame to iterate over the rows of a data frame. It is actually rare that you will need to do that, as we’ll show next when computing with data frames.</p>
-</div>
-<div class="section" id="Calculating-with-data-frames">
+</section>
+<section id="Calculating-with-data-frames">
 <h2>Calculating with data frames<a class="headerlink" href="#Calculating-with-data-frames" title="Permalink to this headline"></a></h2>
 <p>Recall that a subject is said to suffer from insomnia if he or she has an SCI of 16 or below. We might like to add a column to the data frame that specifies whether or not the subject suffers from insomnia. We can conveniently compute with columns. This is done elementwise.</p>
 <div class="nbinput docutils container">
@@ -1912,8 +1913,8 @@ Name: sci, Length: 102, dtype: bool
 </table>
 </div></div>
 </div>
-</div>
-<div class="section" id="A-note-about-vectorization">
+</section>
+<section id="A-note-about-vectorization">
 <h2>A note about vectorization<a class="headerlink" href="#A-note-about-vectorization" title="Permalink to this headline"></a></h2>
 <p>Notice how applying the <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> operator to a <code class="docutils literal notranslate"><span class="pre">Series</span></code> resulted in <strong>elementwise</strong> application. This is called <code class="docutils literal notranslate"><span class="pre">vectorization</span></code>. It means that we do not have to write a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop to do operations on the elements of a <code class="docutils literal notranslate"><span class="pre">Series</span></code> or other array-like object. Imagine if we had to do that with a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop.</p>
 <div class="nbinput nblast docutils container">
@@ -1927,8 +1928,8 @@ Name: sci, Length: 102, dtype: bool
 </div>
 </div>
 <p>This is cumbersome. The vectorization allows for much more convenient calculation. Beyond that, the vectorized code is almost always faster when using Pandas and Numpy because the looping is done with compiled code under the hood. This can be done with many operators, including those you’ve already seen, like <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">/</span></code>, <code class="docutils literal notranslate"><span class="pre">**</span></code>, etc.</p>
-</div>
-<div class="section" id="Applying-functions-to-Pandas-objects">
+</section>
+<section id="Applying-functions-to-Pandas-objects">
 <h2>Applying functions to Pandas objects<a class="headerlink" href="#Applying-functions-to-Pandas-objects" title="Permalink to this headline"></a></h2>
 <p>Remember when we briefly saw the <code class="docutils literal notranslate"><span class="pre">np.mean()</span></code> function? We can compute with that as well. Let’s compare the mean percent correct for insomniacs versus those who are not.</p>
 <div class="nbinput docutils container">
@@ -2171,7 +2172,7 @@ ess                                  7.00
 Name: 50%, dtype: float64
 </pre></div></div>
 </div>
-<div class="section" id="Outputting-a-new-CSV-file">
+<section id="Outputting-a-new-CSV-file">
 <h3>Outputting a new CSV file<a class="headerlink" href="#Outputting-a-new-CSV-file" title="Permalink to this headline"></a></h3>
 <p>Now that we added the insomniac column, we might like to save our data frame as a new CSV that we can reload later. We use <code class="docutils literal notranslate"><span class="pre">df.to_csv()</span></code> for this with the <code class="docutils literal notranslate"><span class="pre">index</span></code> kwarg to ask Pandas not to explicitly write the indices to the file.</p>
 <div class="nbinput nblast docutils container">
@@ -2209,9 +2210,9 @@ participant number,gender,age,correct hit percentage,correct reject percentage,p
 </pre></div></div>
 </div>
 <p>Very nice. Notice that by default Pandas leaves an empty field for NaNs, and we do not need the <code class="docutils literal notranslate"><span class="pre">na_values</span></code> kwarg when we load in this CSV file.</p>
-</div>
-</div>
-<div class="section" id="Styling-a-data-frame">
+</section>
+</section>
+<section id="Styling-a-data-frame">
 <h2>Styling a data frame<a class="headerlink" href="#Styling-a-data-frame" title="Permalink to this headline"></a></h2>
 <p>It is sometimes useful to highlight features in a data frame when viewing them. (Note that this is generally far less useful than making informative plots, which we will come to shortly.) Pandas offers some convenient ways to style the display of a data frame.</p>
 <p>As an example, let’s say we wanted to highlight rows corresponding to women who scored at or above 75% correct. We can write a function that will take as an argument a row of the data frame, check the value in the <code class="docutils literal notranslate"><span class="pre">'gender'</span></code> and <code class="docutils literal notranslate"><span class="pre">'percent</span> <span class="pre">correct'</span></code> columns, and then specify a row color of gray or green accordingly. We then use <code class="docutils literal notranslate"><span class="pre">df.style.apply()</span></code> with the <code class="docutils literal notranslate"><span class="pre">axis=1</span></code> kwarg to apply that function to each row.</p>
@@ -3288,10 +3289,10 @@ participant number,gender,age,correct hit percentage,correct reject percentage,p
 </table></div>
 </div>
 <p>In practice, I almost never use these features because it is almost always better to display results as a plot rather than in tabular form. Still, it can be useful when exploring data sets to highlight certain aspects in tabular form.</p>
-</div>
-<div class="section" id="Computing-environment">
+</section>
+<section id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput toggle docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
@@ -3315,8 +3316,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -3330,11 +3331,11 @@ jupyterlab: 3.3.2
 
   <div role="contentinfo">
     <p>
-      <span class="lastupdated">Last updated on Jun 22, 2022.
+      <span class="lastupdated">Last updated on Jun 26, 2022.
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7fb3a4501be0> 
+   <jinja2.runtime.BlockReference object at 0x7f849f65be80> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

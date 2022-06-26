@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 30: Control of external devices &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -450,7 +451,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Lesson-30:-Control-of-external-devices">
+<section id="Lesson-30:-Control-of-external-devices">
 <h1>Lesson 30: Control of external devices<a class="headerlink" href="#Lesson-30:-Control-of-external-devices" title="Permalink to this headline"></a></h1>
 <hr><div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -789,7 +790,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 <p>It enables communication with devices over a serial port, often a USB port. When you import it, you import it by the name <code class="docutils literal notranslate"><span class="pre">serial</span></code>.</p>
 <p><em>Because this lesson connects to a physical device, it really must be run in a live Jupyter notebook with a device connected.</em></p>
-<div class="section" id="Arduino">
+<section id="Arduino">
 <h2>Arduino<a class="headerlink" href="#Arduino" title="Permalink to this headline"></a></h2>
 <p>Of course to do this lesson, we should have an actual device with which to communicate. Therefore, I encourage you to actually build the device below and connect it to your computer and work through this lesson running a live Jupyter notebook.</p>
 <p>For our device in this example, we will use an <a class="reference external" href="https://store.arduino.cc/usa/arduino-uno-rev3">Arduino Uno board</a>. These ≈$20 boards offer great functionality and are fun to just play with. Beyond, that, they are actually quite useful in research applications and have widespread use in research labs across disciplines, including in the biological sciences. I encourage you to check out <a class="reference external" href="https://be189.github.io/lessons/02/tour_of_arduino.html">this tour Arduino</a> to familiarize yourself with
@@ -951,8 +952,8 @@ You can check out <a class="reference external" href="https://be189.github.io/le
 </div>
 </div>
 <p>Arduino will send data back to us in one of two modes, either on demand or as a stream. For on-demand data, it waits until it gets a signal from Python asking for data and then sends the time stamp and the voltage measured at analog input A0. For streaming data, it automatically sends data with a specified delay between data points.</p>
-</div>
-<div class="section" id="Finding-the-port">
+</section>
+<section id="Finding-the-port">
 <h2>Finding the port<a class="headerlink" href="#Finding-the-port" title="Permalink to this headline"></a></h2>
 <p>With your Arduino plugged into your computer via a USB connection, you first need to find out which port it is. The names of the ports will differ based on your operating system and when you plugged it in (your OS may assign the ports different names). You can get a list of ports using the <code class="docutils literal notranslate"><span class="pre">serial.tools.list_ports.comports()</span></code> function.</p>
 <div class="nbinput docutils container">
@@ -1057,8 +1058,8 @@ You can check out <a class="reference external" href="https://be189.github.io/le
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Doing-nothing">
+</section>
+<section id="Doing-nothing">
 <h2>Doing nothing<a class="headerlink" href="#Doing-nothing" title="Permalink to this headline"></a></h2>
 <p>Before we begin working with Arduino, we are going to need a function to tell the Python interpreter to wait and do nothing. This is usually referred to as <strong>sleeping</strong>. There is a function <code class="docutils literal notranslate"><span class="pre">time.sleep()</span></code> that accomplishes this, but it is not the most accurate timing available. The function <code class="docutils literal notranslate"><span class="pre">time.perf_counter()</span></code> provides the more accurate timing. We therefore write our own sleep function. According to <a class="reference external" href="https://docs.python.org/3.9/library/time.html#time.perf_counter">the documentation</a>,
 “the reference point of the returned value is undefined, so that only the difference between the results of consecutive calls is valid.” So, we call <code class="docutils literal notranslate"><span class="pre">time.perf_counter()</span></code> at the beginning of sleep and store the result. We then continuously call it until the difference between the return value of a call and the stored value exceeds the desired sleep time.</p>
@@ -1077,8 +1078,8 @@ You can check out <a class="reference external" href="https://be189.github.io/le
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Opening-a-connection">
+</section>
+<section id="Opening-a-connection">
 <h2>Opening a connection<a class="headerlink" href="#Opening-a-connection" title="Permalink to this headline"></a></h2>
 <p>When opening a connection with Python, you cannot have the Serial Monitor nor Serial Plotter of the Arduino IDE open, since they will keep the port busy and Python cannot communicate with Arduino.</p>
 <p>To open a connection to the device, we instantiate a <code class="docutils literal notranslate"><span class="pre">serial.Serial</span></code> instance. When a port is first opened, there is some handshaking between the device and the computer that needs to happen. To be safe, I always close the port and reopen it to get an open port, and then wait one second using <code class="docutils literal notranslate"><span class="pre">sleep()</span></code> before I send or receive data from it. I then send and receive data packets. The first input/output from Arduino Uno board is nonsense (unique to that board, I think). I then send and receive
@@ -1171,8 +1172,8 @@ Handshake message: Handshake message received.
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="“Hello,-world,”-a.k.a.-turning-on-an-LED">
+</section>
+<section id="“Hello,-world,”-a.k.a.-turning-on-an-LED">
 <h2>“Hello, world,” a.k.a. turning on an LED<a class="headerlink" href="#“Hello,-world,”-a.k.a.-turning-on-an-LED" title="Permalink to this headline"></a></h2>
 <p>The “Hello, world” of electronic circuits is turning on an LED. To turn on the red LED, we need to send code <code class="docutils literal notranslate"><span class="pre">2</span></code> to the Arduino. It must be sent as bytes, machine numbers Arduino can understand. So, the signal we would send for code <code class="docutils literal notranslate"><span class="pre">2</span></code> is:</p>
 <div class="nbinput docutils container">
@@ -1226,8 +1227,8 @@ b&#39;\x02&#39;
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Controlling-Arduino-with-widgets">
+</section>
+<section id="Controlling-Arduino-with-widgets">
 <h2>Controlling Arduino with widgets<a class="headerlink" href="#Controlling-Arduino-with-widgets" title="Permalink to this headline"></a></h2>
 <p>While calling a function to send and retrieve data from an external device (in this case our Arduino board) is useful, it is more convenient to enable control of the device using widgets.</p>
 <p>To do so, we need to open the connection to the Arduino and leave it open (outside of context management). Since we will want to open and close these ports manually, including having all of the (un)pleasantries of connecting and sending and receiving the first few test packets of data, we will write a function to give us an open serial connection to the Arduino (knowing of course that we will need to close it).</p>
@@ -1260,7 +1261,7 @@ b&#39;\x02&#39;
 </pre></div>
 </div>
 </div>
-<div class="section" id="Widgets-and-callbacks">
+<section id="Widgets-and-callbacks">
 <h3>Widgets and callbacks<a class="headerlink" href="#Widgets-and-callbacks" title="Permalink to this headline"></a></h3>
 <p>As a first step in setting up control of the device, we will make toggle buttons to turn the red and yellow LEDs on and off. We can make the buttons using <code class="docutils literal notranslate"><span class="pre">bokeh.models.Toggle()</span></code>. We can build a small Bokeh app to allow turning the lights on and off.</p>
 <div class="nbinput nblast docutils container">
@@ -1342,9 +1343,9 @@ will see no output from the cell below.</p>
 </div>
 <p>The LEDs on the Arduino can then be toggled using those two buttons.</p>
 <p>As we shift gears to retrieving data from Arduino, we will keep the port open.</p>
-</div>
-</div>
-<div class="section" id="Retrieving-data-from-Arduino">
+</section>
+</section>
+<section id="Retrieving-data-from-Arduino">
 <h2>Retrieving data from Arduino<a class="headerlink" href="#Retrieving-data-from-Arduino" title="Permalink to this headline"></a></h2>
 <p>So far, we have used our serial connection to toggle LEDs on and off, but ultimately, we would like to receive data from the device. To do this, we can send data requests and then read what comes back.</p>
 <p>Based on the above Arduino code, when we are in ON_REQUEST mode, Ardunio waits for a request for data to come through its serial connection to the computer. Upon receipt of a request, it sends data back. The time and voltage data come in as a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes">byte string</a> (Python data type <code class="docutils literal notranslate"><span class="pre">bytes</span></code>) containing the time and voltage separated by a comma. The byte string ends with both a carriage return (<code class="docutils literal notranslate"><span class="pre">\r</span></code>) and a newline (<code class="docutils literal notranslate"><span class="pre">\n</span></code>). To convert the byte
@@ -1496,8 +1497,8 @@ time (ms)    voltage (V)
 31399        4.335288367546432
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Continuously-receiving-data">
+</section>
+<section id="Continuously-receiving-data">
 <h2>Continuously receiving data<a class="headerlink" href="#Continuously-receiving-data" title="Permalink to this headline"></a></h2>
 <p>We may want to get data over some time interval. To do so, we can put the our voltage requests in a loop. For example, to acquire data over the course of ten seconds with a sample every 20 ms, we could do the following.</p>
 <div class="nbinput nblast docutils container">
@@ -1588,7 +1589,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-<div class="section" id="Warnings-about-this-method-of-data-acquisition">
+<section id="Warnings-about-this-method-of-data-acquisition">
 <h3>Warnings about this method of data acquisition<a class="headerlink" href="#Warnings-about-this-method-of-data-acquisition" title="Permalink to this headline"></a></h3>
 <p>In looking at the plot above, we see that the maximum time is over twelve seconds. This is because there is a delay in the time at which the data is requested, the request is sent over the serial connection, Arduino receives it, and then sends data back. Furthermore, the timing achievable via Python may not be as accurate as that onboard Arduino, which has its own dedicated clock.</p>
 <p>We can see the variability in the timing by plotting an ECDF of the time difference between data acquisitions (achieved using <code class="docutils literal notranslate"><span class="pre">np.diff()</span></code>).</p>
@@ -1668,11 +1669,11 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 </div>
 <p>A better option for continuous data acquisition is to allow Arduino to continuously send, or <strong>stream</strong> data, as opposed to only sending data upon request. This requires <strong>asynchronous computing</strong>, and therefore a bit more sophistication. These are discussed in auxiliary lessons.</p>
-</div>
-</div>
-<div class="section" id="Computing-environment">
+</section>
+</section>
+<section id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput toggle docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
@@ -1696,8 +1697,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -1711,11 +1712,11 @@ jupyterlab: 3.3.2
 
   <div role="contentinfo">
     <p>
-      <span class="lastupdated">Last updated on Jun 22, 2022.
+      <span class="lastupdated">Last updated on Jun 26, 2022.
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7fb3a55d0850> 
+   <jinja2.runtime.BlockReference object at 0x7f849dc48040> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

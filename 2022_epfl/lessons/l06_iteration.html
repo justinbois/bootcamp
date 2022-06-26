@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 6: Iteration &mdash; Programming Bootcamp  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -456,10 +457,10 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Lesson-6:-Iteration">
+<section id="Lesson-6:-Iteration">
 <h1>Lesson 6: Iteration<a class="headerlink" href="#Lesson-6:-Iteration" title="Permalink to this headline"></a></h1>
 <hr><p>We often want a computer program to do a similar operation many times. For example, we may want to analyze many codons, one after another, and find the start and stop codons in order to determine the length of the open reading frame. Or, as a simpler example, we may wish to find the GC content of a specific sequence. We check each base to see if it is <code class="docutils literal notranslate"><span class="pre">G</span></code> or <code class="docutils literal notranslate"><span class="pre">C</span></code> and keep a count. Doing these repeated operations in a program is called <strong>iteration</strong>.</p>
-<div class="section" id="Introducing-the-for-loop">
+<section id="Introducing-the-for-loop">
 <h2>Introducing the for loop<a class="headerlink" href="#Introducing-the-for-loop" title="Permalink to this headline"></a></h2>
 <p>The first method of iteration we will discuss is the <strong>for loop</strong>. As an example of its use, we compute the GC content of an RNA sequence.</p>
 <div class="nbinput docutils container">
@@ -503,7 +504,7 @@ div.rendered_html tbody tr:hover {
 <p>Now, looking within the loop, the first thing we do is increment the length of the sequence. For each base we encounter in the loop, we add one to the sequence length. Makes sense!</p>
 <p>Next, we have an <code class="docutils literal notranslate"><span class="pre">if</span></code> statement. We use the membership operator again. We ask if the current base is a <code class="docutils literal notranslate"><span class="pre">G</span></code> or a <code class="docutils literal notranslate"><span class="pre">C</span></code>. To be safe, we also included lower case characters in case the sequence was entered that way. If the base is a <code class="docutils literal notranslate"><span class="pre">G</span></code> or a <code class="docutils literal notranslate"><span class="pre">C</span></code>, we increment the counter of GC bases by one.</p>
 <p>Finally, we get the fractional GC content by dividing the number of GC’s by the total length of the sequence.</p>
-<div class="section" id="Aside:-the-len()-function">
+<section id="Aside:-the-len()-function">
 <h3>Aside: the len() function<a class="headerlink" href="#Aside:-the-len()-function" title="Permalink to this headline"></a></h3>
 <p>Note in the last example that we determined the length of the RNA sequence by iterating the <code class="docutils literal notranslate"><span class="pre">len_seq</span></code> counter within the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop. This works, but Python has a built-in function (like <code class="docutils literal notranslate"><span class="pre">print()</span></code> is a built-in function) to compute the length of a string (or list, tuple, or other <em>sequence</em>). To find out the length of a <em>sequence</em>, simply use it as an argument to the <code class="docutils literal notranslate"><span class="pre">len()</span></code> function.</p>
 <div class="nbinput docutils container">
@@ -523,8 +524,8 @@ div.rendered_html tbody tr:hover {
 29
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Example-and-watchout:-modifying-a-list">
+</section>
+<section id="Example-and-watchout:-modifying-a-list">
 <h3>Example and watchout: modifying a list<a class="headerlink" href="#Example-and-watchout:-modifying-a-list" title="Permalink to this headline"></a></h3>
 <p>Let’s look at another example of iterating through a list. Say we have a list of integers, and we want to change it by doubling each one. Let’s just do it.</p>
 <div class="nbinput docutils container">
@@ -579,15 +580,15 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <p>But we’d obviously like a better way to do this, with less typing and without knowing ahead of time the length of the list. Let’s look at a new concept that will help with this example.</p>
-</div>
-</div>
-<div class="section" id="Iterators">
+</section>
+</section>
+<section id="Iterators">
 <h2>Iterators<a class="headerlink" href="#Iterators" title="Permalink to this headline"></a></h2>
 <p>In the previous example, we iterated over a <em>sequence</em>. A sequence is one of many iterable objects, called <strong>iterables</strong>. Under the hood, the Python interpreter actually converts an iterable to an <strong>iterator</strong>. An iterator is a special object that gives values in succession. A major difference between a <em>sequence</em> and an iterator is that you cannot index an iterator. This seems like a trivial difference, but iterators make for more efficient computing than directly using a <em>sequence</em> with
 indexing.</p>
 <p>We can explicitly convert a <em>sequence</em> to an iterator using the built-in function <code class="docutils literal notranslate"><span class="pre">iter()</span></code>, but we will not bother with that here because the Python interpreter automatically does this for you when you use a <em>sequence</em> in a loop. (This is incidentally why the previous example didn’t work; when the list is converted to an iterator, a copy is made of each element so the original list is unchanged.)</p>
 <p>Instead, we will now explore how we can create useful iterators using the <code class="docutils literal notranslate"><span class="pre">range()</span></code>, <code class="docutils literal notranslate"><span class="pre">enumerate()</span></code>, and <code class="docutils literal notranslate"><span class="pre">zip()</span></code> functions. I know we have not yet covered functions, but the syntax should not be so complicated that you cannot understand what these functions are doing, just like with the <code class="docutils literal notranslate"><span class="pre">print()</span></code> and <code class="docutils literal notranslate"><span class="pre">len()</span></code> functions.</p>
-<div class="section" id="The-range()-function">
+<section id="The-range()-function">
 <h3>The range() function<a class="headerlink" href="#The-range()-function" title="Permalink to this headline"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">range()</span></code> function gives an iterable that enables counting. Let’s look at an example.</p>
 <div class="nbinput docutils container">
@@ -679,8 +680,8 @@ indexing.</p>
 </pre></div></div>
 </div>
 <p>This works, but there is an even better way to do this, with the next function.</p>
-</div>
-<div class="section" id="The-enumerate()-function">
+</section>
+<section id="The-enumerate()-function">
 <h3>The enumerate() function<a class="headerlink" href="#The-enumerate()-function" title="Permalink to this headline"></a></h3>
 <p>Let’s say we want to print the indices of all <code class="docutils literal notranslate"><span class="pre">G</span></code> bases in a DNA sequence. We could do this by modifying our previous program.</p>
 <div class="nbinput docutils container">
@@ -831,8 +832,8 @@ Input <span class="ansi-green-fg">In [13]</span>, in <span class="ansi-cyan-fg">
 <span class="ansi-red-fg">TypeError</span>: &#39;str&#39; object does not support item assignment
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="The-zip()-function">
+</section>
+<section id="The-zip()-function">
 <h3>The zip() function<a class="headerlink" href="#The-zip()-function" title="Permalink to this headline"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">zip()</span></code> function enables us to iterate over several iterables at once. In the example below we iterate over the jersey numbers, names, and positions of the players on the US women’s national soccer team who were named to the best eleven of the 2019 World Cup in France.</p>
 <div class="nbinput docutils container">
@@ -859,8 +860,8 @@ Input <span class="ansi-green-fg">In [13]</span>, in <span class="ansi-cyan-fg">
 15 Rapinoe F
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="The-reversed()-function">
+</section>
+<section id="The-reversed()-function">
 <h3>The reversed() function<a class="headerlink" href="#The-reversed()-function" title="Permalink to this headline"></a></h3>
 <p>This function is useful for giving an iterator that goes in the reverse direction. We’ll see that this can be convenient in the next lesson. For now, let’s pretend we’re NASA and need to count down.</p>
 <div class="nbinput docutils container">
@@ -892,9 +893,9 @@ Input <span class="ansi-green-fg">In [13]</span>, in <span class="ansi-cyan-fg">
 ignition
 </pre></div></div>
 </div>
-</div>
-</div>
-<div class="section" id="The-while-loop">
+</section>
+</section>
+<section id="The-while-loop">
 <h2>The while loop<a class="headerlink" href="#The-while-loop" title="Permalink to this headline"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">for</span></code> loop is very powerful and allows us to construct iterative calculations. When we use a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop, we need to set up an iterator. A <code class="docutils literal notranslate"><span class="pre">while</span></code> loop, on the other hand, allows iteration until a conditional expression evaluates <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 <p>As an example of a <code class="docutils literal notranslate"><span class="pre">while</span></code> loop, we will calculate the length of a sequence before hitting a start codon.</p>
@@ -991,13 +992,13 @@ The start codon starts at index 10
 Codon not found in sequence.
 </pre></div></div>
 </div>
-<div class="section" id="for-vs-while">
+<section id="for-vs-while">
 <h3><strong>for</strong> vs <strong>while</strong><a class="headerlink" href="#for-vs-while" title="Permalink to this headline"></a></h3>
 <p>Most anything that requires a loop can be done with either a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop or a <code class="docutils literal notranslate"><span class="pre">while</span></code> loop, but there’s a general rule of thumb for which type of loop to use. If you know how many times you have to do something (or if your program knows), use a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop. If you don’t know how many times the loop needs to run until you run it, use a <code class="docutils literal notranslate"><span class="pre">while</span></code> loop. For example, when we want to do something with each character in a string or each entry in a list, the program knows how long the sequence is
 and a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop is more appropriate. In the previous examples, we don’t know how long it will be before we hit the start codon; it depends on the sequence you put into the program. That makes it more suited to a <code class="docutils literal notranslate"><span class="pre">while</span></code> loop.</p>
-</div>
-</div>
-<div class="section" id="The-break-and-else-keywords">
+</section>
+</section>
+<section id="The-break-and-else-keywords">
 <h2>The <strong>break</strong> and <strong>else</strong> keywords<a class="headerlink" href="#The-break-and-else-keywords" title="Permalink to this headline"></a></h2>
 <p>Iteration stops in a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop when the iterator is exhausted. It stops in a <code class="docutils literal notranslate"><span class="pre">while</span></code> loop when the conditional evaluates to <code class="docutils literal notranslate"><span class="pre">False</span></code>. These is another way to stop iteration: the <code class="docutils literal notranslate"><span class="pre">break</span></code> keyword. Whenever <code class="docutils literal notranslate"><span class="pre">break</span></code> is encountered in a <code class="docutils literal notranslate"><span class="pre">for</span></code> or <code class="docutils literal notranslate"><span class="pre">while</span></code> loop, the iteration halts and execution continues outside the loop. As an example, we’ll do the calculation above with a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop with a <code class="docutils literal notranslate"><span class="pre">break</span></code> instead of a <code class="docutils literal notranslate"><span class="pre">while</span></code> loop.</p>
 <div class="nbinput docutils container">
@@ -1026,14 +1027,14 @@ The start codon starts at index 10
 </pre></div></div>
 </div>
 <p>Notice that we have an <code class="docutils literal notranslate"><span class="pre">else</span></code> block after the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop. In Python, <code class="docutils literal notranslate"><span class="pre">for</span></code> and <code class="docutils literal notranslate"><span class="pre">while</span></code> loops can have an <code class="docutils literal notranslate"><span class="pre">else</span></code> statement after the code block to be evaluated in the loop. The contents of the <code class="docutils literal notranslate"><span class="pre">else</span></code> block are evaluated if the loop completes <em>without</em> encountering a <code class="docutils literal notranslate"><span class="pre">break</span></code>.</p>
-<div class="section" id="A-note-about-use-of-the-word-“codon”">
+<section id="A-note-about-use-of-the-word-“codon”">
 <h3>A note about use of the word “codon”<a class="headerlink" href="#A-note-about-use-of-the-word-“codon”" title="Permalink to this headline"></a></h3>
 <p>The astute biologists among you will note that we have not really been using the word “codon” properly here. We are taking it to mean any three consecutive bases, but the more precise definition of a codon means that it is three consecutive bases that code for an amino acid. That means that for a three-base sequence to be a codon, it must be in-register with the start codon. We will see how this distinction could lead to problems when we discuss <strong>test-driven development</strong>.</p>
-</div>
-</div>
-<div class="section" id="Computing-environment">
+</section>
+</section>
+<section id="Computing-environment">
 <h2>Computing environment<a class="headerlink" href="#Computing-environment" title="Permalink to this headline"></a></h2>
-<div class="nbinput toggle docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
@@ -1055,8 +1056,8 @@ jupyterlab: 3.3.2
 
 </pre></div></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -1070,11 +1071,11 @@ jupyterlab: 3.3.2
 
   <div role="contentinfo">
     <p>
-      <span class="lastupdated">Last updated on Jun 22, 2022.
+      <span class="lastupdated">Last updated on Jun 26, 2022.
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x7fb3a50f4460> 
+   <jinja2.runtime.BlockReference object at 0x7f849dfcb190> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
