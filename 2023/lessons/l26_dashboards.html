@@ -117,6 +117,7 @@
 <li class="toctree-l1"><a class="reference internal" href="l43_overplotting.html">Lesson 43: Dealing with overplotting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l44_intro_to_image_processing.html">Lesson 44: Introduction to image processing with scikit-image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l45_segmentation.html">Lesson 45: Basic image quantification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l46_plotting_with_matplotlib.html">Lesson 46: Plotting with Matplotlib and Seaborn</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul>
@@ -133,6 +134,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_2/index.html">Exercise 2 solutions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_3/index.html">Exercise 3 solutions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_4/index.html">Exercise 4 solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_5/index.html">Exercise 5 solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_6/index.html">Exercise 6 solutions</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Schedule</span></p>
 <ul>
@@ -181,7 +184,7 @@
   <section id="Lesson-26:-Dashboards">
 <h1>Lesson 26: Dashboards<a class="headerlink" href="#Lesson-26:-Dashboards" title="Permalink to this heading"></a></h1>
 <hr><div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -193,10 +196,19 @@
 <span class="kn">import</span> <span class="nn">bokeh.models</span>
 <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
 
-<span class="n">notebook_url</span> <span class="o">=</span> <span class="s1">&#39;localhost:8888&#39;</span>
+<span class="n">notebook_url</span> <span class="o">=</span> <span class="s1">&#39;localhost:8889&#39;</span>
 <span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_notebook</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.
+</pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
@@ -212,7 +224,7 @@
     </style>
     <div>
         <a href="https://bokeh.org" target="_blank" class="bk-notebook-logo"></a>
-        <span id="f3ef8f04-1375-44e6-bef3-d90af1556eaf">Loading BokehJS ...</span>
+        <span id="e1a21f23-cb23-4e24-bc14-5c2924314b74">Loading BokehJS ...</span>
     </div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -379,7 +391,7 @@ const JS_MIME_TYPE = 'application/javascript';
      "</div>"}};
 
   function display_loaded() {
-    const el = document.getElementById("f3ef8f04-1375-44e6-bef3-d90af1556eaf");
+    const el = document.getElementById("e1a21f23-cb23-4e24-bc14-5c2924314b74");
     if (el != null) {
       el.textContent = "BokehJS is loading...";
     }
@@ -485,7 +497,7 @@ if (force === true) {
       console.log("Bokeh: BokehJS failed to load within specified timeout.");
       root._bokeh_failed_load = true;
     } else if (force !== true) {
-      const cell = $(document.getElementById("f3ef8f04-1375-44e6-bef3-d90af1556eaf")).parents('.cell').data().cell;
+      const cell = $(document.getElementById("e1a21f23-cb23-4e24-bc14-5c2924314b74")).parents('.cell').data().cell;
       cell.output_area.append_execute_result(NB_LOAD_WARNING)
     }
   }
@@ -509,7 +521,7 @@ if (force === true) {
 <h2>A simple example<a class="headerlink" href="#A-simple-example" title="Permalink to this heading"></a></h2>
 <p>Let’s start by plotting the PDF of the Normal distribution.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parameters; we&#39;ll start with standard Normal</span>
@@ -544,7 +556,7 @@ if (force === true) {
 </div><p>Looks good, but what if we want to examine how the PDF changes with μ and σ? We could keep plotting it over and over, manually changing the values of µ and σ. Much more instructive would be to create sliders where we can change the values of the parameters and instantaneously see how the plot changes.</p>
 <p>We can use Bokeh to make the sliders.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mu_slider</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Slider</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;µ&quot;</span><span class="p">,</span> <span class="n">start</span><span class="o">=-</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
@@ -555,7 +567,7 @@ if (force === true) {
 <p>The sliders are now created; we will add them to the plot area momentarily. Before we do that, we need to define what happens when we adjust a slider. Specifically, we want to change the data in <code class="docutils literal notranslate"><span class="pre">source</span></code>, which specifies where the line glyph is rendered on the plot. We therefore define a function to update <code class="docutils literal notranslate"><span class="pre">source.data</span></code> whenever the value of one of the sliders changes. Such a function is referred to as a <strong>callback</strong>. For callbacks that are triggered when slider values change, Bokeh requires
 a call signature <code class="docutils literal notranslate"><span class="pre">callback(attr,</span> <span class="pre">old,</span> <span class="pre">new)</span></code>, where <code class="docutils literal notranslate"><span class="pre">attr</span></code> is the attribute of the slider that changes, <code class="docutils literal notranslate"><span class="pre">old</span></code> is its old value, and <code class="docutils literal notranslate"><span class="pre">new</span></code> is its previous value. In this case, and often in practice, we do not use these arguments directly, since we will write a single callback that is called any time <em>any</em> of the sliders change.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">norm_callback</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
@@ -574,7 +586,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>Now we need to link the sliders to the callback. We do this using the <code class="docutils literal notranslate"><span class="pre">on_change</span></code> method of the sliders. The first argument is what attribute of the slider changes (in our case, it’s the <code class="docutils literal notranslate"><span class="pre">'value'</span></code>), and the second argument is the callback function that gets called when the attribute changes.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mu_slider</span><span class="o">.</span><span class="n">on_change</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">norm_callback</span><span class="p">)</span>
@@ -584,7 +596,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>Next, we need to <strong>lay out</strong> our plot and sliders today. The <code class="docutils literal notranslate"><span class="pre">bokeh.layouts</span></code> module offers convenient ways to do this. We will put the sliders to the right of the plot. The syntax below is self-explanatory.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Put the sliders one on top of the other</span>
@@ -606,7 +618,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>Finally, because this is a more complex graphic that requires calling Python functions upon updating, we need to make an <strong>app</strong>. To make the app, we used the function below.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">norm_app</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
@@ -616,7 +628,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>Now, we are ready to show the app. To show it, we need to specify the URL of the notebook so that the callback communicates properly with this notebook. The <code class="docutils literal notranslate"><span class="pre">notebook_url</span></code> keyword argument of <code class="docutils literal notranslate"><span class="pre">bokeh.io.show()</span></code> is a string containing the root URL for the notebook. In this case, I have specified it in the top cell as <code class="docutils literal notranslate"><span class="pre">'localhost:8888'</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">norm_app</span><span class="p">,</span> <span class="n">notebook_url</span><span class="o">=</span><span class="n">notebook_url</span><span class="p">)</span>
@@ -631,7 +643,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
   (function() {
     const xhr = new XMLHttpRequest()
     xhr.responseType = 'blob';
-    xhr.open('GET', "http://localhost:50403/autoload.js?bokeh-autoload-element=p1066&bokeh-absolute-url=http://localhost:50403&resources=none", true);
+    xhr.open('GET', "http://localhost:64340/autoload.js?bokeh-autoload-element=p1066&bokeh-absolute-url=http://localhost:64340&resources=none", true);
     xhr.onload = function (event) {
       const script = document.createElement('script');
       const src = URL.createObjectURL(event.target.response);
@@ -688,7 +700,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 <p>This is a complicated function of these parameters, and we might want to see how the fold change vs. inducer concentration curve varies based on various parameter values. Dashboarding comes in very handy for this kind of application.</p>
 <p>To build our dashboard, we start by defining functions to compute the fold change as a function of the IPTG concentration and the parameters.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bohr_parameter</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">KdA</span><span class="p">,</span> <span class="n">KdI</span><span class="p">,</span> <span class="n">Kswitch</span><span class="p">):</span>
@@ -710,7 +722,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 <p>Next, we define our sliders. For convenience, we will store the sliders in a dictionary.</p>
 <p>As we explore this function, we would like the parameter to vary on a logarithmic scale. Bokeh does not allow logarithmic scale sliders (tough there is a hack to get around this that we will discuss in the Bokeh styling lesson).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sliders</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
@@ -735,7 +747,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>Now, we’ll generate the plot, defining a ColumnDataSource that we can manipulate in callbacks.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Concentration of inducer</span>
@@ -768,7 +780,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>Next, we will write a callback to update the data and link the callback to the sliders.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">induction_callback</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
@@ -788,7 +800,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>Finally, we can lay out our dashboard and explore the function.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">induction_layout</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">layouts</span><span class="o">.</span><span class="n">row</span><span class="p">(</span>
@@ -811,11 +823,11 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<script id="p1329">
+<script id="p2243">
   (function() {
     const xhr = new XMLHttpRequest()
     xhr.responseType = 'blob';
-    xhr.open('GET', "http://localhost:50406/autoload.js?bokeh-autoload-element=p1329&bokeh-absolute-url=http://localhost:50406&resources=none", true);
+    xhr.open('GET', "http://localhost:64372/autoload.js?bokeh-autoload-element=p2243&bokeh-absolute-url=http://localhost:64372&resources=none", true);
     xhr.onload = function (event) {
       const script = document.createElement('script');
       const src = URL.createObjectURL(event.target.response);
@@ -833,7 +845,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 <h2>Exploring a data set<a class="headerlink" href="#Exploring-a-data-set" title="Permalink to this heading"></a></h2>
 <p>As an example of dashboarding put to use to explore a data set, we turn again to the data set from <a class="reference external" href="https://doi.org/10.1098/rsos.160321">Beattie, et al.</a> studying how sleep deprivation affects facial matching ability. Let’s load in the data set and take a look to remind ourselves of the variables.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/gfmt_sleep.csv&#39;</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
@@ -846,7 +858,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -990,7 +1002,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 <p>Because the data is high-dimensional, it is difficult to visualize all of the data at once. We would like drop-down menus to choose what we want to plot and then have the plot update. Furthermore, we would like to choose a categorical column, such as <code class="docutils literal notranslate"><span class="pre">'insomnia'</span></code> or <code class="docutils literal notranslate"><span class="pre">'gender'</span></code> to use to color the glyphs. Let’s go about building this dashboard.</p>
 <p>As a first, step, we will get a list of columns we want in the drop-down menus.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Options for x- and y- selector; omit part. num., gender, and insomnia</span>
@@ -1002,7 +1014,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>Now, we’ll build our drop-down menus, constructed using <code class="docutils literal notranslate"><span class="pre">bokeh.models.Select</span></code> instances.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_selector</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span>
@@ -1021,19 +1033,19 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>Next, we’ll make a ColumnDataSource. We just need an x-value and a y-value, plus a column for coloring the glyphs, since this is all the plot depends upon. We will adjust the entries in the <code class="docutils literal notranslate"><span class="pre">'x'</span></code> and <code class="docutils literal notranslate"><span class="pre">'y'</span></code> columns of the ColumnDataSource from the data frame <code class="docutils literal notranslate"><span class="pre">df</span></code> according to the values of the selector widgets.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">ColumnDataSource</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">x_selector</span><span class="o">.</span><span class="n">value</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">y_selector</span><span class="o">.</span><span class="n">value</span><span class="p">]))</span>
 
 <span class="c1"># Add a column for colors; for now, all Bokeh&#39;s default blue</span>
-<span class="n">source</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#1f77b3&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">source</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#1f77b4&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <p>Now we can make the plot.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span>
@@ -1050,22 +1062,22 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>With the plot in place, we can write a callback.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gfmt_callback</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Callback for updating plot of GMFT results.&quot;&quot;&quot;</span>
     <span class="c1"># Update color column</span>
     <span class="k">if</span> <span class="n">colorby_selector</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
-        <span class="n">source</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#1f77b3&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">source</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#1f77b4&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">colorby_selector</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;gender&quot;</span><span class="p">:</span>
         <span class="n">source</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;#1f77b3&quot;</span> <span class="k">if</span> <span class="n">gender</span> <span class="o">==</span> <span class="s2">&quot;f&quot;</span> <span class="k">else</span> <span class="s2">&quot;#ff7e0e&quot;</span>
+            <span class="s2">&quot;#1f77b4&quot;</span> <span class="k">if</span> <span class="n">gender</span> <span class="o">==</span> <span class="s2">&quot;f&quot;</span> <span class="k">else</span> <span class="s2">&quot;#ff7e0e&quot;</span>
             <span class="k">for</span> <span class="n">gender</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">]</span>
         <span class="p">]</span>
     <span class="k">elif</span> <span class="n">colorby_selector</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;insomnia&#39;</span><span class="p">:</span>
         <span class="n">source</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;#1f77b3&quot;</span> <span class="k">if</span> <span class="n">insomnia</span> <span class="k">else</span> <span class="s2">&quot;#ff7e0e&quot;</span>
+            <span class="s2">&quot;#1f77b4&quot;</span> <span class="k">if</span> <span class="n">insomnia</span> <span class="k">else</span> <span class="s2">&quot;#ff7e0e&quot;</span>
             <span class="k">for</span> <span class="n">insomnia</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;insomnia&quot;</span><span class="p">]</span>
         <span class="p">]</span>
 
@@ -1081,7 +1093,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>Now that we have the callback, we can link the selectors to the callback.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colorby_selector</span><span class="o">.</span><span class="n">on_change</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">gfmt_callback</span><span class="p">)</span>
@@ -1092,7 +1104,7 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 </div>
 <p>And now we can build the layout and play with the app!</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gfmt_layout</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">layouts</span><span class="o">.</span><span class="n">row</span><span class="p">(</span>
@@ -1118,11 +1130,11 @@ a call signature <code class="docutils literal notranslate"><span class="pre">ca
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<script id="p1674">
+<script id="p3960">
   (function() {
     const xhr = new XMLHttpRequest()
     xhr.responseType = 'blob';
-    xhr.open('GET', "http://localhost:50412/autoload.js?bokeh-autoload-element=p1674&bokeh-absolute-url=http://localhost:50412&resources=none", true);
+    xhr.open('GET', "http://localhost:64383/autoload.js?bokeh-autoload-element=p3960&bokeh-absolute-url=http://localhost:64383&resources=none", true);
     xhr.onload = function (event) {
       const script = document.createElement('script');
       const src = URL.createObjectURL(event.target.response);
@@ -1293,11 +1305,11 @@ jupyterlab: 3.6.3
 
   <div role="contentinfo">
     <p>
-      <span class="lastupdated">Last updated on Jun 23, 2023.
+      <span class="lastupdated">Last updated on Jun 29, 2023.
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x11a6e8550> 
+   <jinja2.runtime.BlockReference object at 0x1164064d0> 
 
 <p>© 2022 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 

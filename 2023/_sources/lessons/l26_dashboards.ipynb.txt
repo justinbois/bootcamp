@@ -11,11 +11,19 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 1,
    "metadata": {
     "tags": []
    },
    "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.\n",
+      "Intel MKL WARNING: Support of Intel(R) Streaming SIMD Extensions 4.2 (Intel(R) SSE4.2) enabled only processors has been deprecated. Intel oneAPI Math Kernel Library 2025.0 will require Intel(R) Advanced Vector Extensions (Intel(R) AVX) instructions.\n"
+     ]
+    },
     {
      "data": {
       "text/html": [
@@ -29,7 +37,7 @@
        "    </style>\n",
        "    <div>\n",
        "        <a href=\"https://bokeh.org\" target=\"_blank\" class=\"bk-notebook-logo\"></a>\n",
-       "        <span id=\"f3ef8f04-1375-44e6-bef3-d90af1556eaf\">Loading BokehJS ...</span>\n",
+       "        <span id=\"e1a21f23-cb23-4e24-bc14-5c2924314b74\">Loading BokehJS ...</span>\n",
        "    </div>\n"
       ]
      },
@@ -196,7 +204,7 @@
        "     \"</div>\"}};\n",
        "\n",
        "  function display_loaded() {\n",
-       "    const el = document.getElementById(\"f3ef8f04-1375-44e6-bef3-d90af1556eaf\");\n",
+       "    const el = document.getElementById(\"e1a21f23-cb23-4e24-bc14-5c2924314b74\");\n",
        "    if (el != null) {\n",
        "      el.textContent = \"BokehJS is loading...\";\n",
        "    }\n",
@@ -302,7 +310,7 @@
        "      console.log(\"Bokeh: BokehJS failed to load within specified timeout.\");\n",
        "      root._bokeh_failed_load = true;\n",
        "    } else if (force !== true) {\n",
-       "      const cell = $(document.getElementById(\"f3ef8f04-1375-44e6-bef3-d90af1556eaf\")).parents('.cell').data().cell;\n",
+       "      const cell = $(document.getElementById(\"e1a21f23-cb23-4e24-bc14-5c2924314b74\")).parents('.cell').data().cell;\n",
        "      cell.output_area.append_execute_result(NB_LOAD_WARNING)\n",
        "    }\n",
        "  }\n",
@@ -318,7 +326,7 @@
        "  }\n",
        "}(window));"
       ],
-      "application/vnd.bokehjs_load.v0+json": "(function(root) {\n  function now() {\n    return new Date();\n  }\n\n  const force = true;\n\n  if (typeof root._bokeh_onload_callbacks === \"undefined\" || force === true) {\n    root._bokeh_onload_callbacks = [];\n    root._bokeh_is_loading = undefined;\n  }\n\n\n  if (typeof (root._bokeh_timeout) === \"undefined\" || force === true) {\n    root._bokeh_timeout = Date.now() + 5000;\n    root._bokeh_failed_load = false;\n  }\n\n  const NB_LOAD_WARNING = {'data': {'text/html':\n     \"<div style='background-color: #fdd'>\\n\"+\n     \"<p>\\n\"+\n     \"BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \\n\"+\n     \"may be due to a slow or bad network connection. Possible fixes:\\n\"+\n     \"</p>\\n\"+\n     \"<ul>\\n\"+\n     \"<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\\n\"+\n     \"<li>use INLINE resources instead, as so:</li>\\n\"+\n     \"</ul>\\n\"+\n     \"<code>\\n\"+\n     \"from bokeh.resources import INLINE\\n\"+\n     \"output_notebook(resources=INLINE)\\n\"+\n     \"</code>\\n\"+\n     \"</div>\"}};\n\n  function display_loaded() {\n    const el = document.getElementById(\"f3ef8f04-1375-44e6-bef3-d90af1556eaf\");\n    if (el != null) {\n      el.textContent = \"BokehJS is loading...\";\n    }\n    if (root.Bokeh !== undefined) {\n      if (el != null) {\n        el.textContent = \"BokehJS \" + root.Bokeh.version + \" successfully loaded.\";\n      }\n    } else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(display_loaded, 100)\n    }\n  }\n\n  function run_callbacks() {\n    try {\n      root._bokeh_onload_callbacks.forEach(function(callback) {\n        if (callback != null)\n          callback();\n      });\n    } finally {\n      delete root._bokeh_onload_callbacks\n    }\n    console.debug(\"Bokeh: all callbacks have finished\");\n  }\n\n  function load_libs(css_urls, js_urls, callback) {\n    if (css_urls == null) css_urls = [];\n    if (js_urls == null) js_urls = [];\n\n    root._bokeh_onload_callbacks.push(callback);\n    if (root._bokeh_is_loading > 0) {\n      console.debug(\"Bokeh: BokehJS is being loaded, scheduling callback at\", now());\n      return null;\n    }\n    if (js_urls == null || js_urls.length === 0) {\n      run_callbacks();\n      return null;\n    }\n    console.debug(\"Bokeh: BokehJS not loaded, scheduling load and callback at\", now());\n    root._bokeh_is_loading = css_urls.length + js_urls.length;\n\n    function on_load() {\n      root._bokeh_is_loading--;\n      if (root._bokeh_is_loading === 0) {\n        console.debug(\"Bokeh: all BokehJS libraries/stylesheets loaded\");\n        run_callbacks()\n      }\n    }\n\n    function on_error(url) {\n      console.error(\"failed to load \" + url);\n    }\n\n    for (let i = 0; i < css_urls.length; i++) {\n      const url = css_urls[i];\n      const element = document.createElement(\"link\");\n      element.onload = on_load;\n      element.onerror = on_error.bind(null, url);\n      element.rel = \"stylesheet\";\n      element.type = \"text/css\";\n      element.href = url;\n      console.debug(\"Bokeh: injecting link tag for BokehJS stylesheet: \", url);\n      document.body.appendChild(element);\n    }\n\n    for (let i = 0; i < js_urls.length; i++) {\n      const url = js_urls[i];\n      const element = document.createElement('script');\n      element.onload = on_load;\n      element.onerror = on_error.bind(null, url);\n      element.async = false;\n      element.src = url;\n      console.debug(\"Bokeh: injecting script tag for BokehJS library: \", url);\n      document.head.appendChild(element);\n    }\n  };\n\n  function inject_raw_css(css) {\n    const element = document.createElement(\"style\");\n    element.appendChild(document.createTextNode(css));\n    document.body.appendChild(element);\n  }\n\n  const js_urls = [\"https://cdn.bokeh.org/bokeh/release/bokeh-3.1.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.1.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.1.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.1.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.1.1.min.js\"];\n  const css_urls = [];\n\n  const inline_js = [    function(Bokeh) {\n      Bokeh.set_log_level(\"info\");\n    },\nfunction(Bokeh) {\n    }\n  ];\n\n  function run_inline_js() {\n    if (root.Bokeh !== undefined || force === true) {\n          for (let i = 0; i < inline_js.length; i++) {\n      inline_js[i].call(root, root.Bokeh);\n    }\nif (force === true) {\n        display_loaded();\n      }} else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(run_inline_js, 100);\n    } else if (!root._bokeh_failed_load) {\n      console.log(\"Bokeh: BokehJS failed to load within specified timeout.\");\n      root._bokeh_failed_load = true;\n    } else if (force !== true) {\n      const cell = $(document.getElementById(\"f3ef8f04-1375-44e6-bef3-d90af1556eaf\")).parents('.cell').data().cell;\n      cell.output_area.append_execute_result(NB_LOAD_WARNING)\n    }\n  }\n\n  if (root._bokeh_is_loading === 0) {\n    console.debug(\"Bokeh: BokehJS loaded, going straight to plotting\");\n    run_inline_js();\n  } else {\n    load_libs(css_urls, js_urls, function() {\n      console.debug(\"Bokeh: BokehJS plotting callback run at\", now());\n      run_inline_js();\n    });\n  }\n}(window));"
+      "application/vnd.bokehjs_load.v0+json": "(function(root) {\n  function now() {\n    return new Date();\n  }\n\n  const force = true;\n\n  if (typeof root._bokeh_onload_callbacks === \"undefined\" || force === true) {\n    root._bokeh_onload_callbacks = [];\n    root._bokeh_is_loading = undefined;\n  }\n\n\n  if (typeof (root._bokeh_timeout) === \"undefined\" || force === true) {\n    root._bokeh_timeout = Date.now() + 5000;\n    root._bokeh_failed_load = false;\n  }\n\n  const NB_LOAD_WARNING = {'data': {'text/html':\n     \"<div style='background-color: #fdd'>\\n\"+\n     \"<p>\\n\"+\n     \"BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \\n\"+\n     \"may be due to a slow or bad network connection. Possible fixes:\\n\"+\n     \"</p>\\n\"+\n     \"<ul>\\n\"+\n     \"<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\\n\"+\n     \"<li>use INLINE resources instead, as so:</li>\\n\"+\n     \"</ul>\\n\"+\n     \"<code>\\n\"+\n     \"from bokeh.resources import INLINE\\n\"+\n     \"output_notebook(resources=INLINE)\\n\"+\n     \"</code>\\n\"+\n     \"</div>\"}};\n\n  function display_loaded() {\n    const el = document.getElementById(\"e1a21f23-cb23-4e24-bc14-5c2924314b74\");\n    if (el != null) {\n      el.textContent = \"BokehJS is loading...\";\n    }\n    if (root.Bokeh !== undefined) {\n      if (el != null) {\n        el.textContent = \"BokehJS \" + root.Bokeh.version + \" successfully loaded.\";\n      }\n    } else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(display_loaded, 100)\n    }\n  }\n\n  function run_callbacks() {\n    try {\n      root._bokeh_onload_callbacks.forEach(function(callback) {\n        if (callback != null)\n          callback();\n      });\n    } finally {\n      delete root._bokeh_onload_callbacks\n    }\n    console.debug(\"Bokeh: all callbacks have finished\");\n  }\n\n  function load_libs(css_urls, js_urls, callback) {\n    if (css_urls == null) css_urls = [];\n    if (js_urls == null) js_urls = [];\n\n    root._bokeh_onload_callbacks.push(callback);\n    if (root._bokeh_is_loading > 0) {\n      console.debug(\"Bokeh: BokehJS is being loaded, scheduling callback at\", now());\n      return null;\n    }\n    if (js_urls == null || js_urls.length === 0) {\n      run_callbacks();\n      return null;\n    }\n    console.debug(\"Bokeh: BokehJS not loaded, scheduling load and callback at\", now());\n    root._bokeh_is_loading = css_urls.length + js_urls.length;\n\n    function on_load() {\n      root._bokeh_is_loading--;\n      if (root._bokeh_is_loading === 0) {\n        console.debug(\"Bokeh: all BokehJS libraries/stylesheets loaded\");\n        run_callbacks()\n      }\n    }\n\n    function on_error(url) {\n      console.error(\"failed to load \" + url);\n    }\n\n    for (let i = 0; i < css_urls.length; i++) {\n      const url = css_urls[i];\n      const element = document.createElement(\"link\");\n      element.onload = on_load;\n      element.onerror = on_error.bind(null, url);\n      element.rel = \"stylesheet\";\n      element.type = \"text/css\";\n      element.href = url;\n      console.debug(\"Bokeh: injecting link tag for BokehJS stylesheet: \", url);\n      document.body.appendChild(element);\n    }\n\n    for (let i = 0; i < js_urls.length; i++) {\n      const url = js_urls[i];\n      const element = document.createElement('script');\n      element.onload = on_load;\n      element.onerror = on_error.bind(null, url);\n      element.async = false;\n      element.src = url;\n      console.debug(\"Bokeh: injecting script tag for BokehJS library: \", url);\n      document.head.appendChild(element);\n    }\n  };\n\n  function inject_raw_css(css) {\n    const element = document.createElement(\"style\");\n    element.appendChild(document.createTextNode(css));\n    document.body.appendChild(element);\n  }\n\n  const js_urls = [\"https://cdn.bokeh.org/bokeh/release/bokeh-3.1.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.1.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.1.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.1.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.1.1.min.js\"];\n  const css_urls = [];\n\n  const inline_js = [    function(Bokeh) {\n      Bokeh.set_log_level(\"info\");\n    },\nfunction(Bokeh) {\n    }\n  ];\n\n  function run_inline_js() {\n    if (root.Bokeh !== undefined || force === true) {\n          for (let i = 0; i < inline_js.length; i++) {\n      inline_js[i].call(root, root.Bokeh);\n    }\nif (force === true) {\n        display_loaded();\n      }} else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(run_inline_js, 100);\n    } else if (!root._bokeh_failed_load) {\n      console.log(\"Bokeh: BokehJS failed to load within specified timeout.\");\n      root._bokeh_failed_load = true;\n    } else if (force !== true) {\n      const cell = $(document.getElementById(\"e1a21f23-cb23-4e24-bc14-5c2924314b74\")).parents('.cell').data().cell;\n      cell.output_area.append_execute_result(NB_LOAD_WARNING)\n    }\n  }\n\n  if (root._bokeh_is_loading === 0) {\n    console.debug(\"Bokeh: BokehJS loaded, going straight to plotting\");\n    run_inline_js();\n  } else {\n    load_libs(css_urls, js_urls, function() {\n      console.debug(\"Bokeh: BokehJS plotting callback run at\", now());\n      run_inline_js();\n    });\n  }\n}(window));"
      },
      "metadata": {},
      "output_type": "display_data"
@@ -334,7 +342,7 @@
     "import bokeh.models\n",
     "import bokeh.plotting\n",
     "\n",
-    "notebook_url = 'localhost:8888'\n",
+    "notebook_url = 'localhost:8889'\n",
     "bokeh.io.output_notebook()"
    ]
   },
@@ -364,7 +372,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 2,
    "metadata": {
     "tags": []
    },
@@ -414,7 +422,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 3,
    "metadata": {
     "tags": []
    },
@@ -433,7 +441,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 4,
    "metadata": {
     "tags": []
    },
@@ -461,7 +469,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 5,
    "metadata": {
     "tags": []
    },
@@ -480,7 +488,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 6,
    "metadata": {
     "tags": []
    },
@@ -511,7 +519,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 7,
    "metadata": {
     "tags": []
    },
@@ -530,7 +538,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 8,
    "metadata": {
     "tags": []
    },
@@ -543,7 +551,7 @@
        "  (function() {\n",
        "    const xhr = new XMLHttpRequest()\n",
        "    xhr.responseType = 'blob';\n",
-       "    xhr.open('GET', \"http://localhost:50403/autoload.js?bokeh-autoload-element=p1066&bokeh-absolute-url=http://localhost:50403&resources=none\", true);\n",
+       "    xhr.open('GET', \"http://localhost:64340/autoload.js?bokeh-autoload-element=p1066&bokeh-absolute-url=http://localhost:64340&resources=none\", true);\n",
        "    xhr.onload = function (event) {\n",
        "      const script = document.createElement('script');\n",
        "      const src = URL.createObjectURL(event.target.response);\n",
@@ -557,7 +565,7 @@
      },
      "metadata": {
       "application/vnd.bokehjs_exec.v0+json": {
-       "server_id": "de6bd76e2fbb4f76897accd50eddfd82"
+       "server_id": "17353cf479a2498b9ec3933d0b9ce721"
       }
      },
      "output_type": "display_data"
@@ -611,7 +619,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 9,
    "metadata": {
     "tags": []
    },
@@ -643,7 +651,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 10,
    "metadata": {
     "tags": []
    },
@@ -677,7 +685,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 11,
    "metadata": {
     "tags": []
    },
@@ -719,7 +727,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 12,
    "metadata": {
     "tags": []
    },
@@ -748,7 +756,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 16,
+   "execution_count": 13,
    "metadata": {
     "tags": []
    },
@@ -757,11 +765,11 @@
      "data": {
       "application/vnd.bokehjs_exec.v0+json": "",
       "text/html": [
-       "<script id=\"p1329\">\n",
+       "<script id=\"p2243\">\n",
        "  (function() {\n",
        "    const xhr = new XMLHttpRequest()\n",
        "    xhr.responseType = 'blob';\n",
-       "    xhr.open('GET', \"http://localhost:50406/autoload.js?bokeh-autoload-element=p1329&bokeh-absolute-url=http://localhost:50406&resources=none\", true);\n",
+       "    xhr.open('GET', \"http://localhost:64372/autoload.js?bokeh-autoload-element=p2243&bokeh-absolute-url=http://localhost:64372&resources=none\", true);\n",
        "    xhr.onload = function (event) {\n",
        "      const script = document.createElement('script');\n",
        "      const src = URL.createObjectURL(event.target.response);\n",
@@ -775,7 +783,7 @@
      },
      "metadata": {
       "application/vnd.bokehjs_exec.v0+json": {
-       "server_id": "2d3ee77aae954f72b8c2b193f94ef3b8"
+       "server_id": "00142baed64e4dc787085d2dd2201960"
       }
      },
      "output_type": "display_data"
@@ -817,7 +825,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 17,
+   "execution_count": 14,
    "metadata": {
     "tags": []
    },
@@ -998,7 +1006,7 @@
        "4                       49.0   13     9   12      True  "
       ]
      },
-     "execution_count": 17,
+     "execution_count": 14,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1025,7 +1033,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 18,
+   "execution_count": 15,
    "metadata": {
     "tags": []
    },
@@ -1046,7 +1054,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 19,
+   "execution_count": 16,
    "metadata": {
     "tags": []
    },
@@ -1074,7 +1082,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 20,
+   "execution_count": 17,
    "metadata": {
     "tags": []
    },
@@ -1083,7 +1091,7 @@
     "source = bokeh.models.ColumnDataSource(dict(x=df[x_selector.value], y=df[y_selector.value]))\n",
     "\n",
     "# Add a column for colors; for now, all Bokeh's default blue\n",
-    "source.data['color'] = ['#1f77b3'] * len(df)"
+    "source.data['color'] = ['#1f77b4'] * len(df)"
    ]
   },
   {
@@ -1095,7 +1103,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 21,
+   "execution_count": 18,
    "metadata": {
     "tags": []
    },
@@ -1121,7 +1129,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 22,
+   "execution_count": 19,
    "metadata": {
     "tags": []
    },
@@ -1131,15 +1139,15 @@
     "    \"\"\"Callback for updating plot of GMFT results.\"\"\"\n",
     "    # Update color column\n",
     "    if colorby_selector.value == \"none\":\n",
-    "        source.data[\"color\"] = [\"#1f77b3\"] * len(df)\n",
+    "        source.data[\"color\"] = [\"#1f77b4\"] * len(df)\n",
     "    elif colorby_selector.value == \"gender\":\n",
     "        source.data[\"color\"] = [\n",
-    "            \"#1f77b3\" if gender == \"f\" else \"#ff7e0e\"\n",
+    "            \"#1f77b4\" if gender == \"f\" else \"#ff7e0e\"\n",
     "            for gender in df[\"gender\"]\n",
     "        ]\n",
     "    elif colorby_selector.value == 'insomnia':\n",
     "        source.data[\"color\"] = [\n",
-    "            \"#1f77b3\" if insomnia else \"#ff7e0e\"\n",
+    "            \"#1f77b4\" if insomnia else \"#ff7e0e\"\n",
     "            for insomnia in df[\"insomnia\"]\n",
     "        ]\n",
     "        \n",
@@ -1161,7 +1169,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 23,
+   "execution_count": 20,
    "metadata": {
     "tags": []
    },
@@ -1181,7 +1189,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 24,
+   "execution_count": 21,
    "metadata": {
     "tags": []
    },
@@ -1190,11 +1198,11 @@
      "data": {
       "application/vnd.bokehjs_exec.v0+json": "",
       "text/html": [
-       "<script id=\"p1674\">\n",
+       "<script id=\"p3960\">\n",
        "  (function() {\n",
        "    const xhr = new XMLHttpRequest()\n",
        "    xhr.responseType = 'blob';\n",
-       "    xhr.open('GET', \"http://localhost:50412/autoload.js?bokeh-autoload-element=p1674&bokeh-absolute-url=http://localhost:50412&resources=none\", true);\n",
+       "    xhr.open('GET', \"http://localhost:64383/autoload.js?bokeh-autoload-element=p3960&bokeh-absolute-url=http://localhost:64383&resources=none\", true);\n",
        "    xhr.onload = function (event) {\n",
        "      const script = document.createElement('script');\n",
        "      const src = URL.createObjectURL(event.target.response);\n",
@@ -1208,7 +1216,7 @@
      },
      "metadata": {
       "application/vnd.bokehjs_exec.v0+json": {
-       "server_id": "de7c5e13533242d694a25b9acb76aaf8"
+       "server_id": "4b8ff7b03d3c4fce8f72691dad4178ee"
       }
      },
      "output_type": "display_data"
