@@ -134,6 +134,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_5/index.html">Exercise 5</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../exercises/exercise_6/index.html">Exercise 6</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Exercise solutions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../exercise_solutions/exercise_1/index.html">Exercise 1 solutions</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Schedule</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../schedule.html">Schedule overview</a></li>
@@ -237,7 +241,7 @@ ratio(x, y)
 <div class="highlight"><pre>
 <span class="ansi-red-fg">Signature:</span> ratio<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">)</span>
 <span class="ansi-red-fg">Docstring:</span> The ratio of `x` to `y`.
-<span class="ansi-red-fg">File:</span>      /var/folders/j_/c5r9ch0913v3h1w4bdwzm0lh0000gn/T/ipykernel_96134/1007532851.py
+<span class="ansi-red-fg">File:</span>      /var/folders/8h/qwnxpqcx6vldhxr71n1582d00000gn/T/ipykernel_6411/1007532851.py
 <span class="ansi-red-fg">Type:</span>      function
 </pre></div></div>
 </div>
@@ -689,7 +693,7 @@ function are used in the sorting. As an example, we can sort a list of names of 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">([</span><span class="s1">&#39;Kellyn Acosta&#39;</span><span class="p">,</span> <span class="s1">&#39;Jesus Murillo&#39;</span><span class="p">,</span> <span class="s1">&#39;Gareth Bale&#39;</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">([</span><span class="s1">&#39;Kellyn Acosta&#39;</span><span class="p">,</span> <span class="s1">&#39;Jesús David Murillo&#39;</span><span class="p">,</span> <span class="s1">&#39;Gareth Bale&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -699,15 +703,18 @@ function are used in the sorting. As an example, we can sort a list of names of 
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&#39;Gareth Bale&#39;, &#39;Jesus Murillo&#39;, &#39;Kellyn Acosta&#39;]
+[&#39;Gareth Bale&#39;, &#39;Jesús David Murillo&#39;, &#39;Kellyn Acosta&#39;]
 </pre></div></div>
 </div>
-<p>This sorted by their first names, but we want to sort for their last names. As we will learn in the <a class="reference internal" href="l08_string_methods.html"><span class="doc">next lesson on string methods</span></a>, we can find the index of a space in a string using <code class="docutils literal notranslate"><span class="pre">my_string.find('</span> <span class="pre">')</span></code>, so that the letter at the start of a last name for a player with string <code class="docutils literal notranslate"><span class="pre">x</span></code> is <code class="docutils literal notranslate"><span class="pre">x[x.find('</span> <span class="pre">')+1]</span></code>. We can use a lambda function to give this as the key and get a nicely sorted list.</p>
+<p>This sorted by their first names, but we want to sort for their last names. As we will learn in the <a class="reference internal" href="l08_string_methods.html"><span class="doc">next lesson on string methods</span></a>, we can find the index of a space in a string using <code class="docutils literal notranslate"><span class="pre">my_string.rfind('</span> <span class="pre">')</span></code>, so that the letter at the start of a last name for a player with string <code class="docutils literal notranslate"><span class="pre">x</span></code> is <code class="docutils literal notranslate"><span class="pre">x[x.rfind('</span> <span class="pre">')+1]</span></code>. We can use a lambda function to give this as the key and get a nicely sorted list.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">([</span><span class="s1">&#39;Kellyn Acosta&#39;</span><span class="p">,</span> <span class="s1">&#39;Jesus Murillo&#39;</span><span class="p">,</span> <span class="s1">&#39;Gareth Bale&#39;</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;Kellyn Acosta&quot;</span><span class="p">,</span> <span class="s2">&quot;Jesús David Murillo&quot;</span><span class="p">,</span> <span class="s2">&quot;Gareth Bale&quot;</span><span class="p">],</span>
+    <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:],</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -717,7 +724,7 @@ function are used in the sorting. As an example, we can sort a list of names of 
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&#39;Kellyn Acosta&#39;, &#39;Gareth Bale&#39;, &#39;Jesus Murillo&#39;]
+[&#39;Kellyn Acosta&#39;, &#39;Gareth Bale&#39;, &#39;Jesús David Murillo&#39;]
 </pre></div></div>
 </div>
 </section>
@@ -738,10 +745,10 @@ function are used in the sorting. As an example, we can sort a list of names of 
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Python implementation: CPython
-Python version       : 3.11.3
-IPython version      : 8.12.0
+Python version       : 3.11.4
+IPython version      : 8.12.2
 
-jupyterlab: 3.6.3
+jupyterlab: 4.0.5
 
 </pre></div></div>
 </div>
@@ -760,11 +767,11 @@ jupyterlab: 3.6.3
 
   <div role="contentinfo">
     <p>
-      <span class="lastupdated">Last updated on Aug 24, 2023.
+      <span class="lastupdated">Last updated on Sep 04, 2023.
       </span></p>
   </div>
 
-   <jinja2.runtime.BlockReference object at 0x15e75ea90> 
+   <jinja2.runtime.BlockReference object at 0x15e403950> 
 
 <p>© 2023 Justin Bois. With the exception of pasted graphics, where the source is noted, this work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License CC-BY 4.0</a>. All code contained herein is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 
