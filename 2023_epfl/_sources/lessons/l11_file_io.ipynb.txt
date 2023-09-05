@@ -344,10 +344,12 @@
    },
    "outputs": [],
    "source": [
-    "if os.path.isfile('yogi.txt'):\n",
-    "    raise RuntimeError('File yogi.txt already exists.')\n",
+    "fname = 'yogi.txt'\n",
     "\n",
-    "with open('yogi.txt', 'w') as f:\n",
+    "if os.path.isfile(fname):\n",
+    "    raise RuntimeError(f'File {fname} already exists.')\n",
+    "\n",
+    "with open(fname, 'w') as f:\n",
     "    f.write('When you come to a fork in the road, take it.')\n",
     "    f.write('You can observe a lot by just watching.')\n",
     "    f.write('I never said most of the things I said.')"
@@ -402,7 +404,7 @@
     }
    ],
    "source": [
-    "with open('yogi.txt', 'w') as f:\n",
+    "with open(fname, 'w') as f:\n",
     "    f.write('When you come to a fork in the road, take it.\\n')\n",
     "    f.write('You can observe a lot by just watching.\\n')\n",
     "    f.write('I never said most of the things I said.\\n')\n",
@@ -691,10 +693,10 @@
      "output_type": "stream",
      "text": [
       "Python implementation: CPython\n",
-      "Python version       : 3.11.3\n",
-      "IPython version      : 8.12.0\n",
+      "Python version       : 3.11.4\n",
+      "IPython version      : 8.12.2\n",
       "\n",
-      "jupyterlab: 3.6.3\n",
+      "jupyterlab: 4.0.5\n",
       "\n"
      ]
     }
@@ -722,7 +724,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.11.3"
+   "version": "3.11.4"
   }
  },
  "nbformat": 4,
