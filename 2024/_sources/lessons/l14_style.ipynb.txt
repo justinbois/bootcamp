@@ -1,0 +1,562 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 14: Style\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "%load_ext blackcellmagic\n",
+    "\n",
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<hr />\n",
+    "\n",
+    "This lesson is all about style. Style in the general sense of the word is very important. It can have a big effect on how people interact with a program or software. As an example, we can look at the style of data presentation.\n",
+    "\n",
+    "The [Keeling curve](https://en.wikipedia.org/wiki/Keeling_Curve) is a measure of the carbon dioxide concentration on top of Muana Loa over time. Let's look at a plot of the Keeling curve.\n",
+    "\n",
+    "<div style=\"margin: auto; width: 500px;\">\n",
+    "\n",
+    "![Bad Keeling](bad_keeling.png)\n",
+    "\n",
+    "</div>\n",
+    "\n",
+    "I contend that this plot is horrible looking. The green color is hard to see. The dashed curve is difficult to interpret. We do not know when the measurements were made. The grid lines are obtrusive. Awful. \n",
+    "\n",
+    "Lest you think this plot is a ridiculous way of showing the data, I can tell you I have seen plots just like this in the literature.  Now, let's look at a nicer plot.\n",
+    "\n",
+    "<div style=\"margin: auto; width: 500px;\">\n",
+    "\n",
+    "![Good Keeling](good_keeling.png)\n",
+    "\n",
+    "</div>\n",
+    "\n",
+    "\n",
+    "Here, it is clear when the measurements were made. The data are clearly visible. The grid lines are not obtrusive. It is generally pleasing to the eye. As a result, the data are easier to interpret. Style matters!\n",
+    "\n",
+    "(We will talk about how to make beautiful plots like the one here later in the bootcamp.)\n",
+    "\n",
+    "The same arguments about style are true for code. Style matters! We already discussed how important documentation is, but having a well-defined style also helps keep your code clean, easy to read, and therefore easier to debug and share."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Coding style in general and Future You\n",
+    "\n",
+    "The book, *[The Art of Readable Code](http://shop.oreilly.com/product/9780596802301.do)* by Boswell and Foucher is a treasure trove of tips about writing well-styled code. At the beginning of their book, they state **the Fundamental Theorem of Readability**.\n",
+    "\n",
+    "> Code should be written to minimize the time it would take for someone else to understand it.\n",
+    "\n",
+    "This is in general good advice, and this is the essential motivation for good style. Before we dive into PEP 8, Python's style specification, I want to introduce you to the most important person in the world, Future You. When you are writing code, the person at the front of your mind should be Future You. You *really* want to make that person happy. Because as far as coding goes, Future You is really someone else, and you want to minimize the time it takes for Future You to understand what Present You (a.k.a. you) did."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## PEP 8\n",
+    "\n",
+    "[Guido van Rossum](https://en.wikipedia.org/wiki/Guido_van_Rossum) was the benevolent dictator for life ([BDFL](https://en.wikipedia.org/wiki/Benevolent_dictator_for_life)) of Python. He [stepped down in July of 2018](https://www.mail-archive.com/python-committers@python.org/msg05628.html). Until that time, to get new features or other enhancements into the language, Guido either writes or (usually) considers a **[Python Enhancement Proposal](https://www.python.org/dev/peps/)**, or a **PEP**. Each PEP is carefully reviewed, and often there are many iterations with the PEP's author(s). Ultimately, Guido decided if the PEP becomes part of the Python language. Now, that decision is made by the Python Steering Council, which consists of five members.\n",
+    "\n",
+    "Perhaps the best-known PEPs are **PEP 8** and PEP 20. This lesson deals mostly with PEP 8, but we'll pause for a moment to look at PEP 20 to understand why PEP 8 is important. PEP 20 is \"The Zen of Python.\" You can see its text by running `import this`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The Zen of Python, by Tim Peters\n",
+      "\n",
+      "Beautiful is better than ugly.\n",
+      "Explicit is better than implicit.\n",
+      "Simple is better than complex.\n",
+      "Complex is better than complicated.\n",
+      "Flat is better than nested.\n",
+      "Sparse is better than dense.\n",
+      "Readability counts.\n",
+      "Special cases aren't special enough to break the rules.\n",
+      "Although practicality beats purity.\n",
+      "Errors should never pass silently.\n",
+      "Unless explicitly silenced.\n",
+      "In the face of ambiguity, refuse the temptation to guess.\n",
+      "There should be one-- and preferably only one --obvious way to do it.\n",
+      "Although that way may not be obvious at first unless you're Dutch.\n",
+      "Now is better than never.\n",
+      "Although never is often better than *right* now.\n",
+      "If the implementation is hard to explain, it's a bad idea.\n",
+      "If the implementation is easy to explain, it may be a good idea.\n",
+      "Namespaces are one honking great idea -- let's do more of those!\n"
+     ]
+    }
+   ],
+   "source": [
+    "import this"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "These are good ideas for coding practice in general. Importantly, beautiful, simple, readable code is a goal of a programmer. That's where PEP 8 comes in. PEP 8 is the **Python Style Guide**, written by Guido, Barry Warsaw, and Nick Coghlan. You can read its full text in the [Python PEP index](https://www.python.org/dev/peps/pep-0008/), and I recommend you do that. \n",
+    "\n",
+    "Some people recommend following PEP 8 to the letter, but a prevailing opinion is that PEP 8 should serve as a guide, and its rules may be bent or broken if that aids clarity. Even if you view them as guidelines, you should only stray from them when it is really necessary. Trust me; my life got much better after I started following PEP 8's rules.\n",
+    "\n",
+    "Note, though, that your code will work just fine if you break PEP 8's rules. In fact, some companies have their own style guides. Google has its [own style](https://google.github.io/styleguide/pyguide.html), for example."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Key points of PEP 8\n",
+    "\n",
+    "PEP 8 is extensive, but here are some key points for you to keep in mind as you are being style-conscious.\n",
+    "\n",
+    "* Variable names need to be descriptive.\n",
+    "* Variable names are all lower case with underscores separating words.\n",
+    "* Do not name variables `l`, `O`, or `I` because they are hard to distinguish from ones and zeros.\n",
+    "* Function names are lower case and may use underscores.\n",
+    "* Class names are in PascalCase, where every word in the name of the class has the first letter capitalized and there are no spaces between words. (We will briefly discuss classes at the end of the bootcamp.) You will come across PascalCase objects in many packages, which usually means you are instantiating a class.\n",
+    "* Module names are short and lower case.  Underscores should be avoided unless necessary for readability.\n",
+    "* Lines are maximally 79 characters long.\n",
+    "* Lines in doc strings are maximally 72 characters long.\n",
+    "* Avoid in-line comments; put the comment directly above the code.\n",
+    "* Avoid excessive comments that state the obvious.\n",
+    "* Generally, put single spaces around binary operators, unless omitting space improves readability.  For example, `x**2 + y**2`.  Low precedence operators should have space.\n",
+    "* Assignment operators should always have single spaces around them *except* when in keyword arguments.  E.g., no space in `f(x, y=4)`.\n",
+    "* Put spaces after commas in function definitions and calls.  This also applies for lists, tuples, NumPy arrays, etc.\n",
+    "* Avoid excessive spaces within parentheses, braces, and brackets.\n",
+    "* Use a single blank line to separate logical sections of your code.\n",
+    "* Put two blank lines between functions in a `.py` file.\n",
+    "* Put all import statements at the top of the file, importing from one module per line.\n",
+    "\n",
+    "Perhaps the rule that is bent the most is the line width rule (but do not break the line width rule for doc strings!). Sometimes, it is better to avoid a line break for clarity, but very long lines are a big no-no!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Some examples of PEP 8-ified code\n",
+    "\n",
+    "Let's now look at some examples of code adhering to PEP 8 and code that does not. We'll start with some code we used before to find start codons."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The start codon starts at index 10\n"
+     ]
+    }
+   ],
+   "source": [
+    "seq='AUCUGUACUAAUGCUCAGCACGACGUACG'\n",
+    "c='AUG'  # This is the start codon\n",
+    "i =0  # Initialize sequence index\n",
+    "while seq[ i : i + 3 ]!=c:\n",
+    "    i+=1\n",
+    "\n",
+    "print('The start codon starts at index', i)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Compare that to the PEP 8-ified version."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The start codon starts at index 10\n"
+     ]
+    }
+   ],
+   "source": [
+    "start_codon = 'AUG'\n",
+    "\n",
+    "# Initialize sequence index for while loop\n",
+    "i = 0\n",
+    "\n",
+    "# Scan sequence until we hit the start codon\n",
+    "while seq[i:i+3] != start_codon:\n",
+    "    i += 1\n",
+    "    \n",
+    "print('The start codon starts at index', i)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The descriptive variable names, the spacing, the appropriate comments all make it much more readable.\n",
+    "\n",
+    "Here's another example, the dictionary mapping single-letter residue symbols to the three-letter equivalents."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "aa = { 'A' : 'Ala' , 'R' : 'Arg' , 'N' : 'Asn' , 'D' : 'Asp' , 'C' : 'Cys' , 'Q' : 'Gln' , 'E' : 'Glu' , 'G' : 'Gly' , 'H' : 'His' , 'I' : 'Ile' , 'L' : 'Leu' , 'K' : 'Lys' , 'M' : 'Met' , 'F' : 'Phe' , 'P' : 'Pro' , 'S' : 'Ser' , 'T' : 'Thr' , 'W' : 'Trp' , 'Y' : 'Tyr' , 'V' : 'Val' }"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "My god, that is awful.  The PEP 8 version, where we break lines to make things clear, is so much more readable."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "aa = {\n",
+    "    \"A\": \"Ala\",\n",
+    "    \"R\": \"Arg\",\n",
+    "    \"N\": \"Asn\",\n",
+    "    \"D\": \"Asp\",\n",
+    "    \"C\": \"Cys\",\n",
+    "    \"Q\": \"Gln\",\n",
+    "    \"E\": \"Glu\",\n",
+    "    \"G\": \"Gly\",\n",
+    "    \"H\": \"His\",\n",
+    "    \"I\": \"Ile\",\n",
+    "    \"L\": \"Leu\",\n",
+    "    \"K\": \"Lys\",\n",
+    "    \"M\": \"Met\",\n",
+    "    \"F\": \"Phe\",\n",
+    "    \"P\": \"Pro\",\n",
+    "    \"S\": \"Ser\",\n",
+    "    \"T\": \"Thr\",\n",
+    "    \"W\": \"Trp\",\n",
+    "    \"Y\": \"Tyr\",\n",
+    "    \"V\": \"Val\",\n",
+    "}"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For a final example, consider the quadratic formula."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def qf(a, b, c):\n",
+    "    return -(b-np.sqrt(b**2-4*a*c))/2/a, (-b-np.sqrt(b**2-4*a*c))/2/a"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "It works just fine."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(3.0, -1.5)"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "qf(2, -3, -9)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "But it is illegible.  Let's do a  PEP 8-ified version."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def quadratic_roots(a, b, c):\n",
+    "    \"\"\"Real roots of a second order polynomial.\"\"\"\n",
+    "    # Compute square root of the discriminant\n",
+    "    sqrt_disc = np.sqrt(b**2 - 4*a*c)\n",
+    "    \n",
+    "    # Compute two roots\n",
+    "    root_1 = (-b + sqrt_disc) / (2*a)\n",
+    "    root_2 = (-b - sqrt_disc) / (2*a)\n",
+    "\n",
+    "    return root_1, root_2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "And this also works!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(3.0, -1.5)"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "quadratic_roots(2, -3, -9)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Line breaks\n",
+    "\n",
+    "PEP8 does not comment extensively on line breaks. I have found that choosing how to do line breaks is often one of the more challenging aspects of making readable code. The Boswell and Foucher book spends lots of space discussing it. There are lots of considerations for choosing line breaks. One of my favorite discussions on this is [this blog post from Trey Hunner](http://treyhunner.com/2017/07/craft-your-python-like-poetry/). It's definitely worth a read, and is about as concise as anything I could put here in this lesson."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Black\n",
+    "\n",
+    "I have found [Black](https://black.readthedocs.io/) to be a very useful tool for style. It's self-ascribed adjective is \"uncompromising.\" Black does not pay any attention at all to the formatting you chose, but will apply its style to your code. It adheres quite closely to PEP 8, with one of the most notable differences being a default line width of 88 characters. Code that is formatted using Black is said to be \"blackened.\"\n",
+    "\n",
+    "To use Black to format a cell using the blackcellmagic package, you simply put `%%black` at the top of the cell. Of course, you have to first load the Black extension using `%load_ext blackcellmagic`, which I did in the import cell at the top of this notebook.\n",
+    "\n",
+    "When you put `%%black` at the top of a cell and execute the cell, the code is reformatted and the `%%black` text disappears. Very slick! You do need to execute the cell again after it is reformatted, though, to have the code run.\n",
+    "\n",
+    "Below is what I get when I execute a code cell that had our ugly code from before with `%%black`.\n",
+    "\n",
+    "**Before**:\n",
+    "```python\n",
+    "%%black\n",
+    "seq='AUCUGUACUAAUGCUCAGCACGACGUACG'\n",
+    "c='AUG'  # This is the start codon\n",
+    "i =0  # Initialize sequence index\n",
+    "while seq[ i : i + 3 ]!=c:\n",
+    "    i+=1\n",
+    "\n",
+    "print('The start codon starts at index', i)\n",
+    "```\n",
+    "\n",
+    "**After**:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The start codon starts at index 10\n"
+     ]
+    }
+   ],
+   "source": [
+    "seq = \"AUCUGUACUAAUGCUCAGCACGACGUACG\"\n",
+    "c = \"AUG\"  # This is the start codon\n",
+    "i = 0  # Initialize sequence index\n",
+    "while seq[i : i + 3] != c:\n",
+    "    i += 1\n",
+    "\n",
+    "print(\"The start codon starts at index\", i)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note the Black switched from single quotes to double quotes and put spaces around the operators. However, it did not mess with comments, as it tends not to do that. Let's see what happens when we blacken our PEP 8 adherent version of that code.\n",
+    "\n",
+    "**Before**:\n",
+    "```python\n",
+    "start_codon = 'AUG'\n",
+    "\n",
+    "# Initialize sequence index for while loop\n",
+    "i = 0\n",
+    "\n",
+    "# Scan sequence until we hit the start codon\n",
+    "while seq[i:i+3] != start_codon:\n",
+    "    i += 1\n",
+    "    \n",
+    "print('The start codon starts at index', i)\n",
+    "```\n",
+    "\n",
+    "**After**:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The start codon starts at index 10\n"
+     ]
+    }
+   ],
+   "source": [
+    "start_codon = \"AUG\"\n",
+    "\n",
+    "# Initialize sequence index for while loop\n",
+    "i = 0\n",
+    "\n",
+    "# Scan sequence until we hit the start codon\n",
+    "while seq[i : i + 3] != start_codon:\n",
+    "    i += 1\n",
+    "\n",
+    "print(\"The start codon starts at index\", i)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Black liked most of what we did, but it changed the spacing in our slicing of `seq`. I personally do not like this choice by Black, but [Black is strictly adhering to PEP 8 on this](https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#slices).\n",
+    "\n",
+    "If you do not like all of Black's formatting choices, you can try [Blue](https://blue.readthedocs.io/en/latest/), which has the single best logo of any software package I have ever seen."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## This is really important.\n",
+    "\n",
+    "I want to reiterate how important this is. Most programmers follow these rules closely, but most scientists do not. I can't tell you how many software packages written by scientists that I have encountered and found to be almost completely unreadable. Many of your colleagues will pay little attention to style. **You should.**"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.11.9\n",
+      "IPython version      : 8.20.0\n",
+      "\n",
+      "numpy         : 1.26.4\n",
+      "black         : 21.12b0\n",
+      "blackcellmagic: 0.0.3\n",
+      "jupyterlab    : 4.0.13\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p numpy,black,blackcellmagic,jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

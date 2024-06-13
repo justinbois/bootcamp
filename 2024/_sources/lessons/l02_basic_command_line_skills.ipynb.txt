@@ -1,0 +1,392 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 2: Basic command line skills\n",
+    "\n",
+    "<hr/>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Perhaps the first step toward really empowering you to command your computer to do whatever you will is to learn how to use the command line. This lesson provides a brief introduction to command line skills."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## What is a shell?\n",
+    "\n",
+    "A **shell** is a program that takes commands from files or entered interactively through the keyboard and passes them on to the operating system to be executed. A shell is accessed through a **terminal** or **terminal emulator**. \n",
+    "\n",
+    "We will use JupyterLab's terminal in this tutorial and throughout most of the bootcamp. However, you need not limit yourself to using this. If you are using macOS, you can use the Terminal application. For a Mac, you can fire up the Terminal application. It is typically in the `/Applications/Utilities` folder. Otherwise, hit ⌘-space bar and type `terminal` in the search box, and select the Terminal Application. For Windows, you can use PowerShell, which you can launch through the `Start` menu. If you are using Linux, it's a good bet you already know how to navigate a terminal, so we will not give specific instructions for Linux. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## A very brief historical overview \n",
+    "\n",
+    "Ken Thompson of Bell Labs developed the predecessor to the modern shell for the first release of UNIX in 1971. In 1977, Stephen Bourne introduced the Bourne shell (`sh`) which added the ability to invoke scripts (small reusable programs) from within the shell. The Bourne shell remains relevant. In some cases it is still the default root shell. Shortly afterwards, the C shell (`csh`) was developed which made use of a C-like scripting language. `tcsh` is built on `csh` and is still very common. Bash, the Bourne again shell, was developed by Brian Fox to replace the Bourne shell. It adds many useful features to sh and is the default shell for macOS and several Linux distributions. In 1990, Paul Falsted developed Zsh (pronounced Z-shell) as a further improvement of Bash. Starting in October of 2019, Zsh is the default shell for macOS."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Windows vs. macOS/Linux\n",
+    "Windows 10 enables you to also use Bash, but you need to activate the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about). We will not use `bash` for Windows users in the bootcamp (unless you want to), but will instead use [PowerShell](https://en.wikipedia.org/wiki/PowerShell), which is also the default shell in JupyterLab's terminal for Windows users. For the simple command line operations we will do in the bootcamp, PowerShell is almost always sufficient and the syntax is the same.\n",
+    "\n",
+    "In what follows in this lesson, we will show the Zsh commands and sometimes provide commentary for Windows users. Here is a brief table comparing Bash and Zsh to PowerShell commands.\n",
+    "\n",
+    "| Bash/Zsh | PowerShell|\n",
+    "|:---:|:---:|\n",
+    "|`cd` | `cd`|\n",
+    "|`mv` | `mv`|\n",
+    "|`pwd` | `pwd`|\n",
+    "|`ls -al` |  `ls -Hidden`|\n",
+    "|`rm -rf` | `del -Force -Recurse .\\mydirectory`|\n",
+    "|`more` | `more`|\n",
+    "|`less` | Does not exist|\n",
+    "|`head -5 myfile.txt` | `gc myfile.txt -head 5`|\n",
+    "|`tail -5 myfile.txt` | `gc myfile.txt -tail 5`|\n",
+    "|`cat ./dir/myfile.txt` | `!type \"dir\\myfile.txt\"`|"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Getting started with the command line\n",
+    "\n",
+    "Now, as you did in [Lesson 0](l00_configuring_your_machine.ipynb), launch a terminal in JupyterLab or via your operating system's terminal application.\n",
+    "\n",
+    "As we go through this tutorial, any text in boxes (or indented fixed-width text in the Jupyter notebook version of this tutorial) contains commands you should enter at the command line. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### pwd and ls\n",
+    "\n",
+    "Let's start out by using the `pwd` command to figure out what directory we're in.\n",
+    "\n",
+    "    pwd\n",
+    "\n",
+    "`pwd` tells you the **path** of your current directory. A path for a directory or file is the list of all its parent directories, separated by slashes (`/`), up to the root directory signified by the initial `/`. You are probably in your home directory.\n",
+    "\n",
+    "To list all files and folders in the current directory, we employ the `ls` command.\n",
+    "\n",
+    "    ls"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### cd, change directory:\n",
+    "\n",
+    "Let's make sure we are in the home directory:\n",
+    "\n",
+    "    cd\n",
+    "\n",
+    "Use `pwd` to check where you are now. Invoking the `cd` command without specifying a target directory defaults to the home directory. Another way to specify your home directory is by its shortcut, `~/`. In general, the tilde-slash means \"home directory.\" "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### mkdir and rmdir\n",
+    "\n",
+    "To make a directory, the command is `mkdir`, hence the name ***m***a***k***e ***dir***ectory. followed by the name of the directory you want to create. For example, to make a directory called `bootcamp`:\n",
+    "\n",
+    "    mkdir bootcamp\n",
+    "    \n",
+    "You now have an empty directory called bootcamp. You can see it if you list the contents of the directory.\n",
+    "\n",
+    "    ls\n",
+    "    \n",
+    "We do not need (nor want) this directory, since we will be using the bootcamp directory under version control with Git, so let's delete it. To delete an *empty* directory, the command is `rmdir`.\n",
+    "\n",
+    "    rmdir bootcamp"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### git\n",
+    "\n",
+    "We will be using `git` a **lot** starting with the second day of the bootcamp, and will in fact use it right now to set things up for you for this tutorial. Put briefly, `git` is a **version control system** that allows multiple programmers to work together and allows individuals to keep track of their work. You are going to use it in just a moment to get all of the code your need for the bootcamp on your machine organized exactly as I have it organized on my machine.\n",
+    "\n",
+    "In my work, I like to have a directory in my home directory called `git` that has all of the code from `git` repositories that I work on. We'll have you do the same, though you are welcome to change how you organize things after the bootcamp. In [Lesson 0](l00_configuring_your_machine.ipynb), you made a `git` directory to house all of your repositories.\n",
+    "\n",
+    "Let's venture into that directory.\n",
+    "\n",
+    "    cd ~/git/bootcamp\n",
+    "    \n",
+    "I may have updated some things in that repository between the time where you cloned the repository and now. You can update the directory.\n",
+    "\n",
+    "    git pull upstream main\n",
+    "\n",
+    "This pulls in all of the changes from the upstream repository (which is mine, the one you forked from)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Word to the wise: **NO SPACES**\n",
+    "\n",
+    "Look at what is in the directory using `ls`.\n",
+    "\n",
+    "    ls\n",
+    "\n",
+    "You will notice a few files and some directories. The directory `command_line_tutorial/` has some files that will help us through this lesson. Note that there are no spaces in the directory name. **In general, you avoid spaces in directory and file names**, even though your operating system often has them in there. Trust me on this, they can make things a total mess, especially on the command line, since a space also separates commands. Really. **NO SPACES.**"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### mv: renaming files\n",
+    "\n",
+    "Since we're currently doing a command line tutorial, let's go into that directory and see what is there.\n",
+    "\n",
+    "    cd command_line_tutorial\n",
+    "    ls\n",
+    "\n",
+    "We see that we have a directory called `sequences`, as well as a FASTA file named `some sequence.fasta`. This file name has the annoying space in it. We would like to rename it something without a space, say `some_sequence.fasta`. To do this, we us the **`mv`** command, short for \"move.\" We enter `mv`, followed by the name of the file we want to rename, and then its new name. \n",
+    "\n",
+    "    mv some sequence.fasta some_sequence.fasta\n",
+    "\n",
+    "Uh-oh! That gave us some strange output, talking about the usage of `mv`. This is because the space in the file `some sequence.fasta` was interpreted as a gap between arguments of the `mv` command. To specify that the space is part of the file name, we need to use an **escape character**. The escape character for macOS or Linux is `\\`. With Windows, you can use a caret `^` as an escape character or you can enclose the file name with a space in single quotes. The space following the escape character is not considered as an argument separator. This works (but don't do it just yet):\n",
+    "\n",
+    "- macOS or Linux: \n",
+    "    `mv some\\ sequence.fasta some_sequence.fasta   # Don't do this`\n",
+    "\n",
+    "- Windows: \n",
+    "    `mv 'some sequence.fasta' some_sequence.fasta   # Don't do this`\n",
+    "\n",
+    "\n",
+    "Because these files are under version control, you should precede the `mv` command with `git`. That way, Git will keep track of the naming changes you made. So, do this:\n",
+    "\n",
+    "- macOS or Linux: \n",
+    "    `git mv some\\ sequence.fasta some_sequence.fasta`\n",
+    "    \n",
+    "- Windows: \n",
+    "    `git mv 'some sequence.fasta' some_sequence.fasta`\n",
+    "\n",
+    "Now, we probably want this file in the `sequences` directory. We can also move files into directories (without changing their file names) using the `mv` command.\n",
+    "\n",
+    "    git mv some_sequence.fasta sequences/\n",
+    "\n",
+    "The trailing slash is not necessary, but I always include it out of habit to remind myself that I am moving a file to a directory.\n",
+    "\n",
+    "Now let's go into the `sequences` directory and see what we have.\n",
+    "\n",
+    "    cd sequences\n",
+    "    ls\n",
+    "\n",
+    "We see that `some_sequence.fasta` is there, along with other FASTA files."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exploring file content\n",
+    "\n",
+    "We would like to see what is in the sequence files. Bash offers various ways to display the content of files. We'll look at the genome of the dengue virus in the file `dengue.fasta`. There are lots of ways to do it. We'll start with `less`. It got its name because it is more feature-rich than `more`, which was used to look at files before `less` came to be. (\"`less` is `more`,\" get it?) It allows using the arrow up and arrow down keys traverse up or down by line. It also allows scrolling by touchpad or mouse. Since it doesn't require the whole file to be read before displaying the top content, it's ideal for larger files. It also supports searching initiated by \"/\" followed by the query; `shift+g` will go to the end of the file; `gg` to the beginning; and you can specify a line number by \"`:`\" followed by the line number.\n",
+    "\n",
+    "- macOS or Linux:\n",
+    "    `less dengue.fasta`\n",
+    "\n",
+    "- Windows:\n",
+    "    `more dengue.fasta`\n",
+    "    \n",
+    "To exit `less` or `more`, hit `Q`.\n",
+    "\n",
+    "We'll now look at several other ways to look at files.  Just substitute them for `less` in the above command.\n",
+    "\n",
+    "#### cat\n",
+    "`cat` prints the entire file to the standard output (terminal). This is especially useful if the files are very small. Windows users, use `!type` instead of `cat`.\n",
+    "\n",
+    "#### head\n",
+    "`head` just prints the top lines of the file to the standard output. The default can be changed:\n",
+    "\n",
+    "    head -5 \n",
+    "\n",
+    "This will print the first 5 lines to the standard output. Windows users, [note alternative command](#Windows-vs.-macOS%2FLinux).\n",
+    "\n",
+    "#### tail\n",
+    "Like `head`, but for the last lines of the file. Windows users, [note alternative command](#Windows-vs.-macOS%2FLinux)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Copying files and directories: cp\n",
+    "\n",
+    "If you want to retain a copy of the folder/file in the original folder you can use the copy command `cp`. It works straightforwardly with files. Applied to directories it requires a **flag**: `cp -r`, meaning \"recursive.\" A **flag** typically begins with a hyphen (`-`) and gives the command some extra directions on how you want to do things. In this case, we are telling `cp` to work recursively.\n",
+    "\n",
+    "Let's have a look at the `cp` command in action.\n",
+    "\n",
+    "    cp dengue.fasta copy_of_dengue.fasta\n",
+    "\n",
+    "Maybe we want a copy of the entire `sequences` directory. To do that, we will `cd` one directory up to the `command_line_tutorial` directory.\n",
+    "\n",
+    "    cd ../\n",
+    "\n",
+    "We went up one directory using `../`.  This is an example of a **relative path**. The current directory is \"`./`\", \"`../../`\" is two directories up, \"`../../../`\" is three directories up, and so on. This is very very useful when navigating directory structures. Now let's try copying an entire directory with the `-r` flag.\n",
+    "\n",
+    "    cp -r sequences copy_of_sequences\n",
+    "\n",
+    "We can also rename directories with the `mv` command. Let's rename `copy_of_sequences` to `sequences_copy`. This is silly, but illustrates how things work.\n",
+    "\n",
+    "    mv copy_of_sequences sequences_copy"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Removing files and directories with rm\n",
+    "\n",
+    "Yes, some of the things we just did are silly. We have no need for having a copy of a given sequence or a copy of the whole sequences directory. We can clean things up by deleting them. First, let's get rid of our copy of the dengue sequence. Let's `cd` into the sequences directory and make sure it's there.\n",
+    "\n",
+    "    cd sequences\n",
+    "    ls\n",
+    "\n",
+    "Now let's remove the file and verify it is gone.\n",
+    "\n",
+    "    rm copy_of_dengue.fasta\n",
+    "    ls\n",
+    "\n",
+    "And poof!, its gone! And I mean gone. It is pretty much irrecoverable. **Warning**: `rm` is a wrecking ball. It will destroy any files you have that do not have restrictive permissions. This is so important, I will say it again.\n",
+    "\n",
+    "<div style=\"color: tomato; text-align: center; font-weight: bold;\">\n",
+    "\n",
+    "rm is unforgiving.\n",
+    "    \n",
+    "</div>\n",
+    "\n",
+    "\n",
+    "Therefore, I always like to use the `-i` flag, which means that `rm` will ask me if I'm sure before deletion.\n",
+    "\n",
+    "    rm -i some_sequence.fasta\n",
+    "\n",
+    "You will get a prompt. Answer `n` if you do not want to delete it.\n",
+    "\n",
+    "Now, let's use `rm` to remove an entire directory. To do this, we need to use the `-r` flag.\n",
+    "\n",
+    "    rm -r sequences_copy"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Aliases (PowerShell users, skip this section)\n",
+    "\n",
+    "Yes, `rm` is a wrecking ball, but we can temper it using the `-i` flag. For safety, we would like `rm` to always ask us about deletion. We can instruct `bash` to do this for us by creating an **alias**.\n",
+    "\n",
+    "    alias rm=\"rm -i\"\n",
+    "\n",
+    "After executing this, any time we use `rm`, `bash` will instead execute `rm -i`, thereby keeping us out of trouble.\n",
+    "\n",
+    "One of my favorite aliases is to make `ls` list things more prettily.\n",
+    "\n",
+    "    alias ls=\"ls -FG\"\n",
+    "\n",
+    "The `-F` flag makes `ls` put a slash at the end of directories. This helps us tell the difference between files and directories. The `-G` flag enables coloring of the output, also useful for differentiating file types."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Updating your bootcamp directory\n",
+    "\n",
+    "You have now updated the name of the file `some_sequence.fasta`. Git kept track of that, so you should **commit** and push your change. We will talk more about Git later in the bootcamp. For now, do the following commands to commit your change and then **push** the change to your **main branch**, which is your fork.\n",
+    "\n",
+    "    git commit -m \"Changed file name of some_sequence.fasta.\"\n",
+    "    git push origin main"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## You are now empowered\n",
+    "\n",
+    "You are now already to manage files and navigate your way around the command line!  My computer runs macOS. I very rarely use Finder to copy, move, or even read files. I do it all on the command line. Once you get the hang of it, you will find the command line very efficient."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.11.9\n",
+      "IPython version      : 8.20.0\n",
+      "\n",
+      "jupyterlab: 4.0.13\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

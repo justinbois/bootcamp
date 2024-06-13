@@ -1,0 +1,594 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 15: Comprehensions\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "import sympy"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<hr>\n",
+    "\n",
+    "We have learned how to build lists, tuples, arrays, etc. by constructing them directly. E.g., `list(range(10))` gives us a list of all integers between 0 and 9 inclusive. But what if we want to build a list or array by iterating the contains something a bit more complicated. For example, let's say we want to get a list of all prime numbers less than 1000. This could be a bit cumbersome, even with `sympy`'s lovely `isprime()` function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Largest number to consider\n",
+    "n_max = 1000\n",
+    "\n",
+    "# Initialize list of primes\n",
+    "primes = []\n",
+    "\n",
+    "# Loop through odd integers and add primes\n",
+    "for x in range(n_max+1):\n",
+    "    if sympy.isprime(x):\n",
+    "        primes.append(x)\n",
+    "        \n",
+    "# Take a look\n",
+    "print(primes)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Because we do not know a priori how many entries there are going to be, we have to keep appending to a list. Under the hood, this means that the Python interpreter has to keep allocating memory as it creates and grows lists. So, in addition to being syntactically clunky, the above way of creating a list is inefficient. It would be nice to have a more convenient way of doing this.\n",
+    "\n",
+    "Enter **list comprehensions**."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## List comprehensions\n",
+    "\n",
+    "As is often the case, this is best seen by example. We will create the same Numpy array of primes using a list comprehension."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997]\n"
+     ]
+    }
+   ],
+   "source": [
+    "primes = [x for x in range(n_max) if sympy.isprime(x)]\n",
+    "\n",
+    "# Take a look\n",
+    "print(primes)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In one line, we have made our list of primes! The list comprehension is enclosed in brackets. The first part, `x`, is an expression that will be inserted into the list. Next comes a `for` statement to produce the iterator. Finally, there is a conditional; if the conditional evaluates True, then the expression expression is included in the list.\n",
+    "\n",
+    "If a condition is absent, all entries are put in the list. For example, if we didn't want to just do `list(range(100))` to get integers, we could use a list comprehension without a conditional."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Give same result as list(range(100))\n",
+    "my_list_of_ints = [i for i in range(100)]\n",
+    "\n",
+    "print(my_list_of_ints)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Another example list comprehension\n",
+    "\n",
+    "Let's say we wanted to build a list containing the information about the 2018 Nobel laureates. We have, in three separate arrays, their names, nationalities, and category for the prize."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "names = (\n",
+    "    \"Frances Arnold\",\n",
+    "    \"George Smith\",\n",
+    "    \"Gregory Winter\",\n",
+    "    \"postponed\",\n",
+    "    \"Denis Mukwege\",\n",
+    "    \"Nadia Murad\",\n",
+    "    \"Arthur Ashkin\",\n",
+    "    \"Gérard Mourou\",\n",
+    "    \"Donna Strickland\",\n",
+    "    \"James Allison\",\n",
+    "    \"Tasuku Honjo\",\n",
+    "    \"William Nordhaus\",\n",
+    "    \"Paul Romer\",\n",
+    ")\n",
+    "\n",
+    "nationalities = (\n",
+    "    \"USA\",\n",
+    "    \"USA\",\n",
+    "    \"UK\",\n",
+    "    \"---\",\n",
+    "    \"DRC\",\n",
+    "    \"Iraq\",\n",
+    "    \"USA\",\n",
+    "    \"France\",\n",
+    "    \"Canada\",\n",
+    "    \"USA\",\n",
+    "    \"Japan\",\n",
+    "    \"USA\",\n",
+    "    \"USA\",\n",
+    ")\n",
+    "\n",
+    "categories = (\n",
+    "    \"Chemistry\",\n",
+    "    \"Chemistry\",\n",
+    "    \"Chemistry\",\n",
+    "    \"Literature\",\n",
+    "    \"Peace\",\n",
+    "    \"Peace\",\n",
+    "    \"Physics\",\n",
+    "    \"Physics\",\n",
+    "    \"Physics\",\n",
+    "    \"Physiology or Medicine\",\n",
+    "    \"Physiology or Medicine\",\n",
+    "    \"Economics\",\n",
+    "    \"Economics\",\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "With these tuples in hand, we can use a list comprehension to build a nice list of tuples containing the information about the laureates."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('Chemistry', 'Frances Arnold', 'USA'),\n",
+       " ('Chemistry', 'George Smith', 'USA'),\n",
+       " ('Chemistry', 'Gregory Winter', 'UK'),\n",
+       " ('Literature', 'postponed', '---'),\n",
+       " ('Peace', 'Denis Mukwege', 'DRC'),\n",
+       " ('Peace', 'Nadia Murad', 'Iraq'),\n",
+       " ('Physics', 'Arthur Ashkin', 'USA'),\n",
+       " ('Physics', 'Gérard Mourou', 'France'),\n",
+       " ('Physics', 'Donna Strickland', 'Canada'),\n",
+       " ('Physiology or Medicine', 'James Allison', 'USA'),\n",
+       " ('Physiology or Medicine', 'Tasuku Honjo', 'Japan'),\n",
+       " ('Economics', 'William Nordhaus', 'USA'),\n",
+       " ('Economics', 'Paul Romer', 'USA')]"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "[(cat, name, nat) for name, nat, cat in zip(names, nationalities, categories)]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Notice that I do not have to use `range()`; I can use any iterator, including one that puts out multiple values using `zip()`.\n",
+    "\n",
+    "Now, let's say we are really interested in the prize in chemistry. We can add an `if` statement to the comprehension like we did in the prime number example."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('Chemistry', 'Frances Arnold', 'USA'),\n",
+       " ('Chemistry', 'George Smith', 'USA'),\n",
+       " ('Chemistry', 'Gregory Winter', 'UK')]"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "[\n",
+    "    (cat, name, nat)\n",
+    "    for name, nat, cat in zip(names, nationalities, categories)\n",
+    "    if cat == \"Chemistry\"\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "(Note here that we split the list comprehension over many lines for readability, which is perfectly legal.) We can also nest iterators. For example, let's say the the chemistry and medicine prize winners got together in Sweden and wanted to play against each other in basketball. There are three chemistry winners, but only two medicine winners. So, to play 2-on-2, we would have to choose only two chemistry laureates. So, let's make a list of all possible pairs of chemistry winners."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('Frances Arnold', 'George Smith'),\n",
+       " ('Frances Arnold', 'Gregory Winter'),\n",
+       " ('George Smith', 'Gregory Winter')]"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# First get list of chemistry laureates\n",
+    "chem_names = [name for name, cat in zip(names, categories) if cat == \"Chemistry\"]\n",
+    "\n",
+    "# List of all possible pairs of chemistry laureates\n",
+    "[\n",
+    "    (n1, n2)\n",
+    "    for i, n1 in enumerate(chem_names)\n",
+    "    for j, n2 in enumerate(chem_names)\n",
+    "    if i < j\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To summarize this structure of list comprehensions, borrowing from [Dave Beazley's](https://www.dabeaz.com) explanation in [Python Essential Reference](https://www.dabeaz.com/per.html), a list comprehension has the following structure.\n",
+    "\n",
+    "```python\n",
+    "[expression_to_put_in_list for i_1 in iterable_1 if condition_1\n",
+    "                           for i_2 in iterable_2 if condition_2\n",
+    "                                     ...\n",
+    "                           for i_n in iterable_n if condition_n]\n",
+    "```\n",
+    "\n",
+    "which is roughly equivalent to\n",
+    "\n",
+    "```python\n",
+    "my_list = []\n",
+    "for i_1 in iterable_1:\n",
+    "    if condition_1:\n",
+    "        for i_2 in iterable_2:\n",
+    "            if condition_2:\n",
+    "                ...\n",
+    "                for i_n in iterable_n:\n",
+    "                    if condition_n:\n",
+    "                        my_list += [expression_to_put_in_list]\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### What if you want an else statement in a list comprehension?\n",
+    "\n",
+    "Now, let's say that we deem \"Physiology or Medicine\" to be too long of a title for the category of the prize. We instead want to substitute that phrase with \"Medicine\" for brevity. We might construct the list like this:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('Medicine', 'James Allison', 'USA'), ('Medicine', 'Tasuku Honjo', 'Japan')]"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "[\n",
+    "    (\"Medicine\", name, nat)\n",
+    "    for name, nat, cat in zip(names, nationalities, categories)\n",
+    "    if cat == \"Physiology or Medicine\"\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This leaves out all of the other prizes. So, we need an `else` statement. To include all prizes, we might try it like this."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "ename": "SyntaxError",
+     "evalue": "invalid syntax (1349859344.py, line 4)",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;36m  Cell \u001b[0;32mIn[10], line 4\u001b[0;36m\u001b[0m\n\u001b[0;31m    if cat == \"Physiology or Medicine\" else (cat, name, nat)\u001b[0m\n\u001b[0m                                       ^\u001b[0m\n\u001b[0;31mSyntaxError\u001b[0m\u001b[0;31m:\u001b[0m invalid syntax\n"
+     ]
+    }
+   ],
+   "source": [
+    "[\n",
+    "    (\"Medicine\", name, nat)\n",
+    "    for name, nat, cat in zip(names, nationalities, categories)\n",
+    "    if cat == \"Physiology or Medicine\" else (cat, name, nat)\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Syntax error! This structure of a list comprehension does not match the template shown above. In the conditional expression of list comprehensions, you cannot have an else block.\n",
+    "\n",
+    "However, the `expression_to_put_in_list` can be any valid Python expression. The following is a valid Python expression:\n",
+    "\n",
+    "```python\n",
+    "(\"Medicine\", name, nat) if cat == \"Physiology or Medicine\" else (cat, name, nat)\n",
+    "```\n",
+    "\n",
+    "So, we can still use a list comprehension to build the list."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('Chemistry', 'Frances Arnold', 'USA'),\n",
+       " ('Chemistry', 'George Smith', 'USA'),\n",
+       " ('Chemistry', 'Gregory Winter', 'UK'),\n",
+       " ('Literature', 'postponed', '---'),\n",
+       " ('Peace', 'Denis Mukwege', 'DRC'),\n",
+       " ('Peace', 'Nadia Murad', 'Iraq'),\n",
+       " ('Physics', 'Arthur Ashkin', 'USA'),\n",
+       " ('Physics', 'Gérard Mourou', 'France'),\n",
+       " ('Physics', 'Donna Strickland', 'Canada'),\n",
+       " ('Medicine', 'James Allison', 'USA'),\n",
+       " ('Medicine', 'Tasuku Honjo', 'Japan'),\n",
+       " ('Economics', 'William Nordhaus', 'USA'),\n",
+       " ('Economics', 'Paul Romer', 'USA')]"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "[\n",
+    "    (\"Medicine\", name, nat) if cat == \"Physiology or Medicine\" else (cat, name, nat)\n",
+    "    for name, nat, cat in zip(names, nationalities, categories)\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To be clear here, there is no conditional in the list comprehension; the conditional is in the expression to be added to the list, which we have called `expression_to_put_in_list`.\n",
+    "\n",
+    "List comprehensions will prove very useful, and most Pythonistas use them extensively."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Dictionary comprehensions\n",
+    "\n",
+    "In addition to list comprehensions, Python also allows for dictionary comprehensions (and set comprehensions, but we will not discuss sets in the bootcamp). To demonstrate a dictionary comprehension, let's use the name of the laureate as a key and the values in the dictionary are their nationality and category."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'Frances Arnold': ('Chemistry', 'USA'),\n",
+       " 'George Smith': ('Chemistry', 'USA'),\n",
+       " 'Gregory Winter': ('Chemistry', 'UK'),\n",
+       " 'postponed': ('Literature', '---'),\n",
+       " 'Denis Mukwege': ('Peace', 'DRC'),\n",
+       " 'Nadia Murad': ('Peace', 'Iraq'),\n",
+       " 'Arthur Ashkin': ('Physics', 'USA'),\n",
+       " 'Gérard Mourou': ('Physics', 'France'),\n",
+       " 'Donna Strickland': ('Physics', 'Canada'),\n",
+       " 'James Allison': ('Physiology or Medicine', 'USA'),\n",
+       " 'Tasuku Honjo': ('Physiology or Medicine', 'Japan'),\n",
+       " 'William Nordhaus': ('Economics', 'USA'),\n",
+       " 'Paul Romer': ('Economics', 'USA')}"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "{name: (cat, nat) for name, nat, cat in zip(names, nationalities, categories)}"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Aaaand we have our dictionary! This is quite a powerful way to construct this, and you may find dictionary comprehensions quite useful. I use them in specifying `**kwargs` and in creating dictionaries I want to convert to data frames."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Paul Romer and Jupyter and open source software\n",
+    "\n",
+    "Coincidentally, one of the laureates featured in this lesson, Paul Romer, is a big fan of Jupyter notebooks. I love this quote from [this blog post of his](https://paulromer.net/jupyter-mathematica-and-the-future-of-the-research-paper/):\n",
+    "\n",
+    ">In the larger contest between open and proprietary models, Mathematica versus Jupyter would be a draw if the only concern were their technical accomplishments. In the 1990s, Mathematica opened up an undeniable lead. Now, Jupyter is the unambiguous technical leader.\n",
+    ">\n",
+    ">The tie-breaker is social, not technical. The more I learn about the open source community, the more I trust its members. The more I learn about proprietary software, the more I worry that objective truth might perish from the earth."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.11.9\n",
+      "IPython version      : 8.20.0\n",
+      "\n",
+      "numpy     : 1.26.4\n",
+      "jupyterlab: 4.0.13\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p numpy,jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

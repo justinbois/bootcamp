@@ -1,0 +1,694 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 8: String methods\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In the last lesson, we wrote some functions to parse strings and compute things like reverse complements. This helped us practice using functions and the iteration skills we learned.\n",
+    "\n",
+    "You might think, \"Hey, replacing characters in strings sounds like it may be pretty common.\" You would be right. You might also think, \"I bet someone, possibly someone who is a really good programmer, already has written code to do this.\" You would again be right.\n",
+    "\n",
+    "For common tasks, there are often already methods written by someone smart, and working with strings is no different. In this lesson, we will explore some of the string processing tools that come with Python's standard library."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Indexing and slicing of strings\n",
+    "\n",
+    "Before getting into string methods, we pause to note that indexing and slicing of strings works just as it does for lists and tuples."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "u\n",
+      "The Du\n",
+      "TeDd bds\n",
+      ".sediba eduD ehT\n"
+     ]
+    }
+   ],
+   "source": [
+    "my_str = 'The Dude abides.'\n",
+    "\n",
+    "print(my_str[5])\n",
+    "print(my_str[:6])\n",
+    "print(my_str[::2])\n",
+    "print(my_str[::-1])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Revisiting previous examples using string methods\n",
+    "\n",
+    "We'll start by revisiting some of the examples we've seen so far."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Computing GC content\n",
+    "\n",
+    "If you remember from the [iteration lesson](l06_iteration.ipynb), we started by computing the GC content of a nucleic acid sequence. We counted the occurrences of `'G'` and `'C'` in the string using a **`for`** loop. We can use the `count()` string method do to this."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "16"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Define sequence\n",
+    "seq = 'GACAGACUCCAUGCACGUGGGUAUCAUGUC'\n",
+    "\n",
+    "# Count G's and C's\n",
+    "seq.count('G') + seq.count('C')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The `seq.count()` method enabled us to count the number times `G` and `C` occurred in the string `seq`. This notation is new. We have a variable, followed by a dot (`.`), and then a function. These functions are called **methods** in the language of object-oriented programming (OOP). If you have a string `my_str`, and you want to execute one of Python's built-in string methods on it, the syntax is\n",
+    "\n",
+    "    my_str.string_method_of_choice(*args)\n",
+    "    \n",
+    "In general, the `count` method gives the number of times a substring appears in a string. We can learn more about its behavior by playing with it."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Substrings of more than one characater\n",
+    "seq.count('GAC')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "3"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Substrings cannot overlap\n",
+    "'AAAAAAA'.count('AA')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Something that's not there.\n",
+    "seq.count('nonsense')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Finding the index of a start codon\n",
+    "\n",
+    "Another task in the [iteration lesson](l06_iteration.ipynb) was to find the index of the start codon in an RNA sequence. Let's do it with another string method."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "10"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "seq.find('AUG')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Wow, that was easy. The `find()` method gives the index where the substring argument *first* appears. But, what if a substring is not in the string?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "-1"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "seq.find('nonsense')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In this case, `find()` returns `-1`. This is not to be interpreted as index `-1`! `find()` always returns positive indices if it finds a substring. Note that you should not use `find()` to *test* if a substring is present. Use the `in` operator we already learned about."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'AUG' in seq"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Finding the last index of a substring\n",
+    "\n",
+    "Let's say we wanted to find the last instance of the start codon. We basically want to search from the right. This is exactly what the `rfind()` method does."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "25"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "seq.rfind('AUG')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Finding the complementary base\n",
+    "\n",
+    "In our [lesson on functions](l07_intro_to_functions.ipynb), we wrote a function to compute a complementary base comparing against both the capital and lowercase letter. Here is that function implemented with some handy string methods."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def complement_base(base):\n",
+    "    \"\"\"Returns the Watson-Crick complement of a base.\"\"\"\n",
+    "    # Convert to lowercase\n",
+    "    base = base.lower()\n",
+    "    \n",
+    "    if base == 'a':\n",
+    "        return 'T'\n",
+    "    elif base == 't':\n",
+    "        return 'A'\n",
+    "    elif base == 'g':\n",
+    "        return 'C'\n",
+    "    else:\n",
+    "        return 'G'"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We were able to avoid all the \"`base in 'Tt'`\"-style operations by just converting the base to lowercase using the `lower()` method. In general, the `lower()` method takes a string and converts any capital letters to lower case.  The `upper()` function works analogously."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'lebron james'"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'LeBron James'.lower()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'MAKE ME ALL CAPS.'"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "'Make me aLl caPS.'.upper()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Converting RNA to DNA\n",
+    "\n",
+    "We also updated the complementary base function to account for RNA or DNA. Perhaps an easier way is just to replace all `U`s in an RNA sequence with `T`s to get a DNA sequence. The `replace()` method makes this easy."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'GACAGACTCCATGCACGTGGGTATCATGTC'"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "seq.replace('U', 'T')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note that `seq` did not change. Remember, strings are immutable, so the `replace()` method *returns* a new string, as does `lower()`, `upper()`, and any other string method that returns a string. So, the characters stored in the variable `seq` are unchanged."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'GACAGACUCCAUGCACGUGGGUAUCAUGUC'"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "seq"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## The join() method\n",
+    "\n",
+    "One of the most useful string methods is the `join()` method. Say we have a list of words that we want to craft into a sentence."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "word_tuple = ('The', 'Dude', 'abides.')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, we would like to concatenate them into a single string. (This is sort of like the opposite of taking a string and making a list of its characters by doing a `list()` type conversion.) We need to know what we want to put between each word. In this case, we want a space. Here's the nifty syntax to do that."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'The Dude abides.'"
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "' '.join(word_tuple)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We now have a single string with the elements of the tuple, separated by spaces. The string before the dot (`.`) specifies what goes between the strings in the list or tuple (or other iterable). If we wanted \"` * `\" between each word, we could do that, too."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'The * Dude * abides.'"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "' * '.join(word_tuple)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## The format() method\n",
+    "\n",
+    "The `format()` method is very powerful. We not go over all use cases here, but I'll show you what I think is most intuitive and commonly used. Again, this is best learned by example."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Let's do a Mad Lib!\n",
+      "During this bootcamp, I feel truculent.\n",
+      "The instructors give us haircuts.\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "my_str = \"\"\"\n",
+    "Let's do a Mad Lib!\n",
+    "During this bootcamp, I feel {adjective}.\n",
+    "The instructors give us {plural_noun}.\n",
+    "\"\"\".format(adjective='truculent', plural_noun='haircuts')\n",
+    "\n",
+    "print(my_str)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "See the pattern? Given a string, the `format()` method takes kwargs that are themselves strings. Within the string, the name of the kwargs are given in braces. Then, the arguments in the `format()` method inserts the strings at the places delimited by braces.\n",
+    "\n",
+    "Now, what if we want to insert a number into a string? We could convert it to a string, but we should instead use **string conversions**. These are short directives that specify how the number should be represented in a string.  A complete list is [here](https://docs.python.org/3/library/stdtypes.html#printf-style-bytes-formatting). The table below shows some that are commonly used.\n",
+    "\n",
+    "|conversion|description|\n",
+    "|:----------:|-----------|\n",
+    "|`d`| integer|\n",
+    "|`04d`| integer with four digits, possibly with leading zeros|\n",
+    "|`f`| float, default to six digits after decimal|\n",
+    "|`.8f`| float with 8 digits after the decimal|\n",
+    "|`e`| scientific notation, default to six digits after decimal|\n",
+    "|`.16e`| scientific notation with 16 digits after the decimal|\n",
+    "|`s`| display as a string|\n",
+    "\n",
+    "Below are examples of all of these."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "There are 50 states in the US.\n",
+      "Your file number is 23.\n",
+      "π is approximately 3.140000.\n",
+      "e is approximately 2.71828183.\n",
+      "Avogadro's number is approximately 6.022000e+23.\n",
+      "ε₀ is approximately 8.8541878170000005e-12 F/m.\n",
+      "That rug really tied the room together.\n"
+     ]
+    }
+   ],
+   "source": [
+    "print('There are {n:d} states in the US.'.format(n=50))\n",
+    "print('Your file number is {n:d}.'.format(n=23))\n",
+    "print('π is approximately {pi:f}.'.format(pi=3.14))\n",
+    "print('e is approximately {e:.8f}.'.format(e=2.7182818284590451))\n",
+    "print(\"Avogadro's number is approximately {N_A:e}.\".format(N_A=6.022e23))\n",
+    "print('ε₀ is approximately {eps_0:.16e} F/m.'.format(eps_0=8.854187817e-12))\n",
+    "print('That {thing:s} really tied the room together.'.format(thing='rug'))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note the syntax. In the braces, we specify the name of the kwarg, and then we put a colon followed by the string conversion. Note also that I used double quotes on the outside of the string containing Avogadro's number so that I could include an apostrophe in the string. Finally, note that we got a subscript zero using the [Unicode](https://en.wikipedia.org/wiki/Unicode) character, `₀`."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## f-strings\n",
+    "\n",
+    "**f-strings** are strings that are prefixed with an `f` or `F` that allow convenient insertion of entries into strings. Here are some examples. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "There are 50 states in the US.\n",
+      "Your file number is 23.\n",
+      "π is approximately 3.14.\n",
+      "e is approximately 2.71828183.\n",
+      "Avogadro's number is approximately 6.022e+23.\n",
+      "ε₀ is approximately 8.854187817e-12 F/m.\n",
+      "That rug really tied the room together.\n"
+     ]
+    }
+   ],
+   "source": [
+    "n_states = 50\n",
+    "file_number = 23\n",
+    "pi = 3.14\n",
+    "e = 2.7182818284590451\n",
+    "N_A = 6.022e23\n",
+    "eps_0=8.854187817e-12\n",
+    "thing = 'rug'\n",
+    "\n",
+    "print(f'There are {n_states} states in the US.')\n",
+    "print(f'Your file number is {file_number}.')\n",
+    "print(f'π is approximately {pi}.')\n",
+    "print(f'e is approximately {e:.8f}.')\n",
+    "print(f\"Avogadro's number is approximately {N_A}.\")\n",
+    "print(f'ε₀ is approximately {eps_0} F/m.')\n",
+    "print(f'That {thing} really tied the room together.')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## There are many more string methods\n",
+    "\n",
+    "You can find a complete list of string methods from [the Python doc pages](https://docs.python.org/3/library/stdtypes.html#string-methods).  Various methods will come in handy when parsing strings going forward."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.11.9\n",
+      "IPython version      : 8.20.0\n",
+      "\n",
+      "jupyterlab: 4.0.13\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
