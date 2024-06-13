@@ -276,7 +276,7 @@
    ],
    "source": [
     "df = pd.read_csv('data/gfmt_sleep.csv', na_values='*')\n",
-    "df['insomnia'] = df['sci'] <= 16\n",
+    "df = df.assign(insomnia=df['sci'] <= 16)\n",
     "\n",
     "# Take a look\n",
     "df.head()"
@@ -325,7 +325,7 @@
     {
      "data": {
       "text/plain": [
-       "<pandas.core.groupby.generic.DataFrameGroupBy object at 0x1208c3d90>"
+       "<pandas.core.groupby.generic.DataFrameGroupBy object at 0x138635d10>"
       ]
      },
      "execution_count": 3,
@@ -1050,7 +1050,9 @@
     }
    ],
    "source": [
-    "df['rank grouped by insomnia'] = grouped['percent correct'].rank(method='first')\n",
+    "df = df.assign(\n",
+    "    **{\"rank grouped by insomnia\": grouped[\"percent correct\"].rank(method=\"first\")}\n",
+    ")\n",
     "\n",
     "# Take a look\n",
     "df.head()"
@@ -1351,7 +1353,7 @@
    ],
    "source": [
     "cols = df.columns[(df.columns != 'gender') & (df.columns != 'insomnia')]\n",
-    "grouped[cols].agg(coeff_of_var).reset_index()"
+    "df.groupby('insomnia')[cols].agg(coeff_of_var).reset_index()"
    ]
   },
   {
@@ -1589,7 +1591,9 @@
     }
    ],
    "source": [
-    "df['ecdf_y grouped by insomnia'] = grouped['percent correct'].transform(ecdf_y)\n",
+    "df = df.assign(\n",
+    "    **{\"ecdf_y grouped by insomnia\": grouped[\"percent correct\"].transform(ecdf_y)}\n",
+    ")\n",
     "\n",
     "# Take a look\n",
     "df.head()"
