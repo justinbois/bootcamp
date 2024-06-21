@@ -1,0 +1,770 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Exercise 3.4: Axes with logarithmic scale and error bars\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Sometimes you need to plot your data with a logarithmic scale. As an example, let's consider the classic genetic switch engineered by Jim Collins and coworkers ([Gardner, et al., *Nature*, **403**, 339, 2000](https://doi.org/10.1038/35002131)). This genetic switch was incorporated into *E. coli* and is inducible by adjusting the concentration of the lactose analog IPTG. The readout is the fluorescence intensity of GFP.\n",
+    "\n",
+    "The data set has the IPTG concentrations and GFP fluorescence intensity. The data are in the file `~/git/data/collins_switch.csv`. Let's look at it."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "# Data digitized from Fig. 5a of Gardner, et al., *Nature*, **403**, 339, 2000. The last column gives the standard error of the mean normalized GFP intensity.\n",
+      "[IPTG] (mM),normalized GFP expression (a.u.),sem\n",
+      "0.001000,0.004090,0.003475\n",
+      "0.010000,0.010225,0.002268\n",
+      "0.020000,0.022495,0.004781\n",
+      "0.030000,0.034765,0.003000\n",
+      "0.040000,0.067485,0.006604\n",
+      "0.040000,0.668712,0.087862\n",
+      "0.060000,0.740286,0.045853\n",
+      "0.100000,0.840491,0.058986\n",
+      "0.300000,0.936605,0.026931\n",
+      "0.600000,0.961145,0.093553\n",
+      "1.000000,0.940695,0.037624\n",
+      "3.000000,0.852761,0.059035\n",
+      "6.000000,0.910020,0.051052\n",
+      "10.000000,0.893661,0.042773\n"
+     ]
+    }
+   ],
+   "source": [
+    "!cat data/collins_switch.csv"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "It has two rows of non-data. Then, Column 1 is the IPTG concentration, column 2 is the normalized GFP expression level, and the last column is the standard error of the mean normalized GFP intensity. This gives the error bars, which we will plot momentarily. For now, we will just plot IPTG versus normalized GFP intensity.\n",
+    "\n",
+    "In looking at the data set, note that there are two entries for [IPTG] = 0.04 mM. At this concentration, the switch happens, and there are two populations of cells, one with high expression of GFP and one with low. The two data points represent these two populations of cells.\n",
+    "\n",
+    "**a)** Now, let's make a plot of IPTG versus GFP.\n",
+    "\n",
+    "1. Load in the data set using Pandas. Make sure you use the `comment` kwarg of pd.read_csv() properly.\n",
+    "2. Make a plot of normalized GFP intensity (y-axis) versus IPTG concentration (x-axis).\n",
+    "\n",
+    "**b)** Now that you have done that, there are some problems with the plot. It is really hard to see the data points with low concentrations of IPTG. In fact, looking at the data set, the concentration of IPTG varies over four orders of magnitude. When you have data like this, it is wise to plot them on a logarithmic scale. You can specify the x-axis as logarithmic when you instantiate a figure with `bokeh.plotting.figure()` by using the `x_axis_type='log'` kwarg. (The obvious analogous kwarg applied for the y-axis.) For this data set, it is definitely best to have the x-axis on a logarithmic scale. Remake the plot you just did with the x-axis logarithmically scaled.\n",
+    "\n",
+    "**c)** The data set also contains the standard error of the mean, or SEM. The SEM is often displayed on plots as error bars. Now construct the plot with error bars.\n",
+    "\n",
+    "1. Add columns `error_low` and `error_high` to the data frame containing the Collins data. These will set the bottoms and tops of the error bars. You should base the values in these columns on the standard error of the mean (`sem`). Assuming a Gaussian model, the 95% confidence interval is ±1.96 times the s.e.m.\n",
+    "2. Make a plot with the measured expression levels and the error bars. *Hint*: Check out the [Bokeh docs](https://bokeh.pydata.org/en/latest/docs/user_guide/plotting.html) and think about what kind of glyph works best for error bars."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<br />"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Solution\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "    <style>\n",
+       "        .bk-notebook-logo {\n",
+       "            display: block;\n",
+       "            width: 20px;\n",
+       "            height: 20px;\n",
+       "            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAOkSURBVDiNjZRtaJVlGMd/1/08zzln5zjP1LWcU9N0NkN8m2CYjpgQYQXqSs0I84OLIC0hkEKoPtiH3gmKoiJDU7QpLgoLjLIQCpEsNJ1vqUOdO7ppbuec5+V+rj4ctwzd8IIbbi6u+8f1539dt3A78eXC7QizUF7gyV1fD1Yqg4JWz84yffhm0qkFqBogB9rM8tZdtwVsPUhWhGcFJngGeWrPzHm5oaMmkfEg1usvLFyc8jLRqDOMru7AyC8saQr7GG7f5fvDeH7Ej8CM66nIF+8yngt6HWaKh7k49Soy9nXurCi1o3qUbS3zWfrYeQDTB/Qj6kX6Ybhw4B+bOYoLKCC9H3Nu/leUTZ1JdRWkkn2ldcCamzrcf47KKXdAJllSlxAOkRgyHsGC/zRday5Qld9DyoM4/q/rUoy/CXh3jzOu3bHUVZeU+DEn8FInkPBFlu3+nW3Nw0mk6vCDiWg8CeJaxEwuHS3+z5RgY+YBR6V1Z1nxSOfoaPa4LASWxxdNp+VWTk7+4vzaou8v8PN+xo+KY2xsw6une2frhw05CTYOmQvsEhjhWjn0bmXPjpE1+kplmmkP3suftwTubK9Vq22qKmrBhpY4jvd5afdRA3wGjFAgcnTK2s4hY0/GPNIb0nErGMCRxWOOX64Z8RAC4oCXdklmEvcL8o0BfkNK4lUg9HTl+oPlQxdNo3Mg4Nv175e/1LDGzZen30MEjRUtmXSfiTVu1kK8W4txyV6BMKlbgk3lMwYCiusNy9fVfvvwMxv8Ynl6vxoByANLTWplvuj/nF9m2+PDtt1eiHPBr1oIfhCChQMBw6Aw0UulqTKZdfVvfG7VcfIqLG9bcldL/+pdWTLxLUy8Qq38heUIjh4XlzZxzQm19lLFlr8vdQ97rjZVOLf8nclzckbcD4wxXMidpX30sFd37Fv/GtwwhzhxGVAprjbg0gCAEeIgwCZyTV2Z1REEW8O4py0wsjeloKoMr6iCY6dP92H6Vw/oTyICIthibxjm/DfN9lVz8IqtqKYLUXfoKVMVQVVJOElGjrnnUt9T9wbgp8AyYKaGlqingHZU/uG2NTZSVqwHQTWkx9hxjkpWDaCg6Ckj5qebgBVbT3V3NNXMSiWSDdGV3hrtzla7J+duwPOToIg42ChPQOQjspnSlp1V+Gjdged7+8UN5CRAV7a5EdFNwCjEaBR27b3W890TE7g24NAP/mMDXRWrGoFPQI9ls/MWO2dWFAar/xcOIImbbpA3zgAAAABJRU5ErkJggg==);\n",
+       "        }\n",
+       "    </style>\n",
+       "    <div>\n",
+       "        <a href=\"https://bokeh.org\" target=\"_blank\" class=\"bk-notebook-logo\"></a>\n",
+       "        <span id=\"a1b7e833-ce1f-4bce-894c-0f7a06de9e36\">Loading BokehJS ...</span>\n",
+       "    </div>\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/javascript": [
+       "'use strict';\n",
+       "(function(root) {\n",
+       "  function now() {\n",
+       "    return new Date();\n",
+       "  }\n",
+       "\n",
+       "  const force = true;\n",
+       "\n",
+       "  if (typeof root._bokeh_onload_callbacks === \"undefined\" || force === true) {\n",
+       "    root._bokeh_onload_callbacks = [];\n",
+       "    root._bokeh_is_loading = undefined;\n",
+       "  }\n",
+       "\n",
+       "const JS_MIME_TYPE = 'application/javascript';\n",
+       "  const HTML_MIME_TYPE = 'text/html';\n",
+       "  const EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';\n",
+       "  const CLASS_NAME = 'output_bokeh rendered_html';\n",
+       "\n",
+       "  /**\n",
+       "   * Render data to the DOM node\n",
+       "   */\n",
+       "  function render(props, node) {\n",
+       "    const script = document.createElement(\"script\");\n",
+       "    node.appendChild(script);\n",
+       "  }\n",
+       "\n",
+       "  /**\n",
+       "   * Handle when an output is cleared or removed\n",
+       "   */\n",
+       "  function handleClearOutput(event, handle) {\n",
+       "    function drop(id) {\n",
+       "      const view = Bokeh.index.get_by_id(id)\n",
+       "      if (view != null) {\n",
+       "        view.model.document.clear()\n",
+       "        Bokeh.index.delete(view)\n",
+       "      }\n",
+       "    }\n",
+       "\n",
+       "    const cell = handle.cell;\n",
+       "\n",
+       "    const id = cell.output_area._bokeh_element_id;\n",
+       "    const server_id = cell.output_area._bokeh_server_id;\n",
+       "\n",
+       "    // Clean up Bokeh references\n",
+       "    if (id != null) {\n",
+       "      drop(id)\n",
+       "    }\n",
+       "\n",
+       "    if (server_id !== undefined) {\n",
+       "      // Clean up Bokeh references\n",
+       "      const cmd_clean = \"from bokeh.io.state import curstate; print(curstate().uuid_to_server['\" + server_id + \"'].get_sessions()[0].document.roots[0]._id)\";\n",
+       "      cell.notebook.kernel.execute(cmd_clean, {\n",
+       "        iopub: {\n",
+       "          output: function(msg) {\n",
+       "            const id = msg.content.text.trim()\n",
+       "            drop(id)\n",
+       "          }\n",
+       "        }\n",
+       "      });\n",
+       "      // Destroy server and session\n",
+       "      const cmd_destroy = \"import bokeh.io.notebook as ion; ion.destroy_server('\" + server_id + \"')\";\n",
+       "      cell.notebook.kernel.execute(cmd_destroy);\n",
+       "    }\n",
+       "  }\n",
+       "\n",
+       "  /**\n",
+       "   * Handle when a new output is added\n",
+       "   */\n",
+       "  function handleAddOutput(event, handle) {\n",
+       "    const output_area = handle.output_area;\n",
+       "    const output = handle.output;\n",
+       "\n",
+       "    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only\n",
+       "    if ((output.output_type != \"display_data\") || (!Object.prototype.hasOwnProperty.call(output.data, EXEC_MIME_TYPE))) {\n",
+       "      return\n",
+       "    }\n",
+       "\n",
+       "    const toinsert = output_area.element.find(\".\" + CLASS_NAME.split(' ')[0]);\n",
+       "\n",
+       "    if (output.metadata[EXEC_MIME_TYPE][\"id\"] !== undefined) {\n",
+       "      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];\n",
+       "      // store reference to embed id on output_area\n",
+       "      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE][\"id\"];\n",
+       "    }\n",
+       "    if (output.metadata[EXEC_MIME_TYPE][\"server_id\"] !== undefined) {\n",
+       "      const bk_div = document.createElement(\"div\");\n",
+       "      bk_div.innerHTML = output.data[HTML_MIME_TYPE];\n",
+       "      const script_attrs = bk_div.children[0].attributes;\n",
+       "      for (let i = 0; i < script_attrs.length; i++) {\n",
+       "        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);\n",
+       "        toinsert[toinsert.length - 1].firstChild.textContent = bk_div.children[0].textContent\n",
+       "      }\n",
+       "      // store reference to server id on output_area\n",
+       "      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE][\"server_id\"];\n",
+       "    }\n",
+       "  }\n",
+       "\n",
+       "  function register_renderer(events, OutputArea) {\n",
+       "\n",
+       "    function append_mime(data, metadata, element) {\n",
+       "      // create a DOM node to render to\n",
+       "      const toinsert = this.create_output_subarea(\n",
+       "        metadata,\n",
+       "        CLASS_NAME,\n",
+       "        EXEC_MIME_TYPE\n",
+       "      );\n",
+       "      this.keyboard_manager.register_events(toinsert);\n",
+       "      // Render to node\n",
+       "      const props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};\n",
+       "      render(props, toinsert[toinsert.length - 1]);\n",
+       "      element.append(toinsert);\n",
+       "      return toinsert\n",
+       "    }\n",
+       "\n",
+       "    /* Handle when an output is cleared or removed */\n",
+       "    events.on('clear_output.CodeCell', handleClearOutput);\n",
+       "    events.on('delete.Cell', handleClearOutput);\n",
+       "\n",
+       "    /* Handle when a new output is added */\n",
+       "    events.on('output_added.OutputArea', handleAddOutput);\n",
+       "\n",
+       "    /**\n",
+       "     * Register the mime type and append_mime function with output_area\n",
+       "     */\n",
+       "    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {\n",
+       "      /* Is output safe? */\n",
+       "      safe: true,\n",
+       "      /* Index of renderer in `output_area.display_order` */\n",
+       "      index: 0\n",
+       "    });\n",
+       "  }\n",
+       "\n",
+       "  // register the mime type if in Jupyter Notebook environment and previously unregistered\n",
+       "  if (root.Jupyter !== undefined) {\n",
+       "    const events = require('base/js/events');\n",
+       "    const OutputArea = require('notebook/js/outputarea').OutputArea;\n",
+       "\n",
+       "    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {\n",
+       "      register_renderer(events, OutputArea);\n",
+       "    }\n",
+       "  }\n",
+       "  if (typeof (root._bokeh_timeout) === \"undefined\" || force === true) {\n",
+       "    root._bokeh_timeout = Date.now() + 5000;\n",
+       "    root._bokeh_failed_load = false;\n",
+       "  }\n",
+       "\n",
+       "  const NB_LOAD_WARNING = {'data': {'text/html':\n",
+       "     \"<div style='background-color: #fdd'>\\n\"+\n",
+       "     \"<p>\\n\"+\n",
+       "     \"BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \\n\"+\n",
+       "     \"may be due to a slow or bad network connection. Possible fixes:\\n\"+\n",
+       "     \"</p>\\n\"+\n",
+       "     \"<ul>\\n\"+\n",
+       "     \"<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\\n\"+\n",
+       "     \"<li>use INLINE resources instead, as so:</li>\\n\"+\n",
+       "     \"</ul>\\n\"+\n",
+       "     \"<code>\\n\"+\n",
+       "     \"from bokeh.resources import INLINE\\n\"+\n",
+       "     \"output_notebook(resources=INLINE)\\n\"+\n",
+       "     \"</code>\\n\"+\n",
+       "     \"</div>\"}};\n",
+       "\n",
+       "  function display_loaded(error = null) {\n",
+       "    const el = document.getElementById(\"a1b7e833-ce1f-4bce-894c-0f7a06de9e36\");\n",
+       "    if (el != null) {\n",
+       "      const html = (() => {\n",
+       "        if (typeof root.Bokeh === \"undefined\") {\n",
+       "          if (error == null) {\n",
+       "            return \"BokehJS is loading ...\";\n",
+       "          } else {\n",
+       "            return \"BokehJS failed to load.\";\n",
+       "          }\n",
+       "        } else {\n",
+       "          const prefix = `BokehJS ${root.Bokeh.version}`;\n",
+       "          if (error == null) {\n",
+       "            return `${prefix} successfully loaded.`;\n",
+       "          } else {\n",
+       "            return `${prefix} <b>encountered errors</b> while loading and may not function as expected.`;\n",
+       "          }\n",
+       "        }\n",
+       "      })();\n",
+       "      el.innerHTML = html;\n",
+       "\n",
+       "      if (error != null) {\n",
+       "        const wrapper = document.createElement(\"div\");\n",
+       "        wrapper.style.overflow = \"auto\";\n",
+       "        wrapper.style.height = \"5em\";\n",
+       "        wrapper.style.resize = \"vertical\";\n",
+       "        const content = document.createElement(\"div\");\n",
+       "        content.style.fontFamily = \"monospace\";\n",
+       "        content.style.whiteSpace = \"pre-wrap\";\n",
+       "        content.style.backgroundColor = \"rgb(255, 221, 221)\";\n",
+       "        content.textContent = error.stack ?? error.toString();\n",
+       "        wrapper.append(content);\n",
+       "        el.append(wrapper);\n",
+       "      }\n",
+       "    } else if (Date.now() < root._bokeh_timeout) {\n",
+       "      setTimeout(() => display_loaded(error), 100);\n",
+       "    }\n",
+       "  }\n",
+       "\n",
+       "  function run_callbacks() {\n",
+       "    try {\n",
+       "      root._bokeh_onload_callbacks.forEach(function(callback) {\n",
+       "        if (callback != null)\n",
+       "          callback();\n",
+       "      });\n",
+       "    } finally {\n",
+       "      delete root._bokeh_onload_callbacks\n",
+       "    }\n",
+       "    console.debug(\"Bokeh: all callbacks have finished\");\n",
+       "  }\n",
+       "\n",
+       "  function load_libs(css_urls, js_urls, callback) {\n",
+       "    if (css_urls == null) css_urls = [];\n",
+       "    if (js_urls == null) js_urls = [];\n",
+       "\n",
+       "    root._bokeh_onload_callbacks.push(callback);\n",
+       "    if (root._bokeh_is_loading > 0) {\n",
+       "      console.debug(\"Bokeh: BokehJS is being loaded, scheduling callback at\", now());\n",
+       "      return null;\n",
+       "    }\n",
+       "    if (js_urls == null || js_urls.length === 0) {\n",
+       "      run_callbacks();\n",
+       "      return null;\n",
+       "    }\n",
+       "    console.debug(\"Bokeh: BokehJS not loaded, scheduling load and callback at\", now());\n",
+       "    root._bokeh_is_loading = css_urls.length + js_urls.length;\n",
+       "\n",
+       "    function on_load() {\n",
+       "      root._bokeh_is_loading--;\n",
+       "      if (root._bokeh_is_loading === 0) {\n",
+       "        console.debug(\"Bokeh: all BokehJS libraries/stylesheets loaded\");\n",
+       "        run_callbacks()\n",
+       "      }\n",
+       "    }\n",
+       "\n",
+       "    function on_error(url) {\n",
+       "      console.error(\"failed to load \" + url);\n",
+       "    }\n",
+       "\n",
+       "    for (let i = 0; i < css_urls.length; i++) {\n",
+       "      const url = css_urls[i];\n",
+       "      const element = document.createElement(\"link\");\n",
+       "      element.onload = on_load;\n",
+       "      element.onerror = on_error.bind(null, url);\n",
+       "      element.rel = \"stylesheet\";\n",
+       "      element.type = \"text/css\";\n",
+       "      element.href = url;\n",
+       "      console.debug(\"Bokeh: injecting link tag for BokehJS stylesheet: \", url);\n",
+       "      document.body.appendChild(element);\n",
+       "    }\n",
+       "\n",
+       "    for (let i = 0; i < js_urls.length; i++) {\n",
+       "      const url = js_urls[i];\n",
+       "      const element = document.createElement('script');\n",
+       "      element.onload = on_load;\n",
+       "      element.onerror = on_error.bind(null, url);\n",
+       "      element.async = false;\n",
+       "      element.src = url;\n",
+       "      console.debug(\"Bokeh: injecting script tag for BokehJS library: \", url);\n",
+       "      document.head.appendChild(element);\n",
+       "    }\n",
+       "  };\n",
+       "\n",
+       "  function inject_raw_css(css) {\n",
+       "    const element = document.createElement(\"style\");\n",
+       "    element.appendChild(document.createTextNode(css));\n",
+       "    document.body.appendChild(element);\n",
+       "  }\n",
+       "\n",
+       "  const js_urls = [\"https://cdn.bokeh.org/bokeh/release/bokeh-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.4.1.min.js\"];\n",
+       "  const css_urls = [];\n",
+       "\n",
+       "  const inline_js = [    function(Bokeh) {\n",
+       "      Bokeh.set_log_level(\"info\");\n",
+       "    },\n",
+       "function(Bokeh) {\n",
+       "    }\n",
+       "  ];\n",
+       "\n",
+       "  function run_inline_js() {\n",
+       "    if (root.Bokeh !== undefined || force === true) {\n",
+       "      try {\n",
+       "            for (let i = 0; i < inline_js.length; i++) {\n",
+       "      inline_js[i].call(root, root.Bokeh);\n",
+       "    }\n",
+       "\n",
+       "      } catch (error) {display_loaded(error);throw error;\n",
+       "      }if (force === true) {\n",
+       "        display_loaded();\n",
+       "      }} else if (Date.now() < root._bokeh_timeout) {\n",
+       "      setTimeout(run_inline_js, 100);\n",
+       "    } else if (!root._bokeh_failed_load) {\n",
+       "      console.log(\"Bokeh: BokehJS failed to load within specified timeout.\");\n",
+       "      root._bokeh_failed_load = true;\n",
+       "    } else if (force !== true) {\n",
+       "      const cell = $(document.getElementById(\"a1b7e833-ce1f-4bce-894c-0f7a06de9e36\")).parents('.cell').data().cell;\n",
+       "      cell.output_area.append_execute_result(NB_LOAD_WARNING)\n",
+       "    }\n",
+       "  }\n",
+       "\n",
+       "  if (root._bokeh_is_loading === 0) {\n",
+       "    console.debug(\"Bokeh: BokehJS loaded, going straight to plotting\");\n",
+       "    run_inline_js();\n",
+       "  } else {\n",
+       "    load_libs(css_urls, js_urls, function() {\n",
+       "      console.debug(\"Bokeh: BokehJS plotting callback run at\", now());\n",
+       "      run_inline_js();\n",
+       "    });\n",
+       "  }\n",
+       "}(window));"
+      ],
+      "application/vnd.bokehjs_load.v0+json": "'use strict';\n(function(root) {\n  function now() {\n    return new Date();\n  }\n\n  const force = true;\n\n  if (typeof root._bokeh_onload_callbacks === \"undefined\" || force === true) {\n    root._bokeh_onload_callbacks = [];\n    root._bokeh_is_loading = undefined;\n  }\n\n\n  if (typeof (root._bokeh_timeout) === \"undefined\" || force === true) {\n    root._bokeh_timeout = Date.now() + 5000;\n    root._bokeh_failed_load = false;\n  }\n\n  const NB_LOAD_WARNING = {'data': {'text/html':\n     \"<div style='background-color: #fdd'>\\n\"+\n     \"<p>\\n\"+\n     \"BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \\n\"+\n     \"may be due to a slow or bad network connection. Possible fixes:\\n\"+\n     \"</p>\\n\"+\n     \"<ul>\\n\"+\n     \"<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\\n\"+\n     \"<li>use INLINE resources instead, as so:</li>\\n\"+\n     \"</ul>\\n\"+\n     \"<code>\\n\"+\n     \"from bokeh.resources import INLINE\\n\"+\n     \"output_notebook(resources=INLINE)\\n\"+\n     \"</code>\\n\"+\n     \"</div>\"}};\n\n  function display_loaded(error = null) {\n    const el = document.getElementById(\"a1b7e833-ce1f-4bce-894c-0f7a06de9e36\");\n    if (el != null) {\n      const html = (() => {\n        if (typeof root.Bokeh === \"undefined\") {\n          if (error == null) {\n            return \"BokehJS is loading ...\";\n          } else {\n            return \"BokehJS failed to load.\";\n          }\n        } else {\n          const prefix = `BokehJS ${root.Bokeh.version}`;\n          if (error == null) {\n            return `${prefix} successfully loaded.`;\n          } else {\n            return `${prefix} <b>encountered errors</b> while loading and may not function as expected.`;\n          }\n        }\n      })();\n      el.innerHTML = html;\n\n      if (error != null) {\n        const wrapper = document.createElement(\"div\");\n        wrapper.style.overflow = \"auto\";\n        wrapper.style.height = \"5em\";\n        wrapper.style.resize = \"vertical\";\n        const content = document.createElement(\"div\");\n        content.style.fontFamily = \"monospace\";\n        content.style.whiteSpace = \"pre-wrap\";\n        content.style.backgroundColor = \"rgb(255, 221, 221)\";\n        content.textContent = error.stack ?? error.toString();\n        wrapper.append(content);\n        el.append(wrapper);\n      }\n    } else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(() => display_loaded(error), 100);\n    }\n  }\n\n  function run_callbacks() {\n    try {\n      root._bokeh_onload_callbacks.forEach(function(callback) {\n        if (callback != null)\n          callback();\n      });\n    } finally {\n      delete root._bokeh_onload_callbacks\n    }\n    console.debug(\"Bokeh: all callbacks have finished\");\n  }\n\n  function load_libs(css_urls, js_urls, callback) {\n    if (css_urls == null) css_urls = [];\n    if (js_urls == null) js_urls = [];\n\n    root._bokeh_onload_callbacks.push(callback);\n    if (root._bokeh_is_loading > 0) {\n      console.debug(\"Bokeh: BokehJS is being loaded, scheduling callback at\", now());\n      return null;\n    }\n    if (js_urls == null || js_urls.length === 0) {\n      run_callbacks();\n      return null;\n    }\n    console.debug(\"Bokeh: BokehJS not loaded, scheduling load and callback at\", now());\n    root._bokeh_is_loading = css_urls.length + js_urls.length;\n\n    function on_load() {\n      root._bokeh_is_loading--;\n      if (root._bokeh_is_loading === 0) {\n        console.debug(\"Bokeh: all BokehJS libraries/stylesheets loaded\");\n        run_callbacks()\n      }\n    }\n\n    function on_error(url) {\n      console.error(\"failed to load \" + url);\n    }\n\n    for (let i = 0; i < css_urls.length; i++) {\n      const url = css_urls[i];\n      const element = document.createElement(\"link\");\n      element.onload = on_load;\n      element.onerror = on_error.bind(null, url);\n      element.rel = \"stylesheet\";\n      element.type = \"text/css\";\n      element.href = url;\n      console.debug(\"Bokeh: injecting link tag for BokehJS stylesheet: \", url);\n      document.body.appendChild(element);\n    }\n\n    for (let i = 0; i < js_urls.length; i++) {\n      const url = js_urls[i];\n      const element = document.createElement('script');\n      element.onload = on_load;\n      element.onerror = on_error.bind(null, url);\n      element.async = false;\n      element.src = url;\n      console.debug(\"Bokeh: injecting script tag for BokehJS library: \", url);\n      document.head.appendChild(element);\n    }\n  };\n\n  function inject_raw_css(css) {\n    const element = document.createElement(\"style\");\n    element.appendChild(document.createTextNode(css));\n    document.body.appendChild(element);\n  }\n\n  const js_urls = [\"https://cdn.bokeh.org/bokeh/release/bokeh-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.4.1.min.js\"];\n  const css_urls = [];\n\n  const inline_js = [    function(Bokeh) {\n      Bokeh.set_log_level(\"info\");\n    },\nfunction(Bokeh) {\n    }\n  ];\n\n  function run_inline_js() {\n    if (root.Bokeh !== undefined || force === true) {\n      try {\n            for (let i = 0; i < inline_js.length; i++) {\n      inline_js[i].call(root, root.Bokeh);\n    }\n\n      } catch (error) {display_loaded(error);throw error;\n      }if (force === true) {\n        display_loaded();\n      }} else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(run_inline_js, 100);\n    } else if (!root._bokeh_failed_load) {\n      console.log(\"Bokeh: BokehJS failed to load within specified timeout.\");\n      root._bokeh_failed_load = true;\n    } else if (force !== true) {\n      const cell = $(document.getElementById(\"a1b7e833-ce1f-4bce-894c-0f7a06de9e36\")).parents('.cell').data().cell;\n      cell.output_area.append_execute_result(NB_LOAD_WARNING)\n    }\n  }\n\n  if (root._bokeh_is_loading === 0) {\n    console.debug(\"Bokeh: BokehJS loaded, going straight to plotting\");\n    run_inline_js();\n  } else {\n    load_libs(css_urls, js_urls, function() {\n      console.debug(\"Bokeh: BokehJS plotting callback run at\", now());\n      run_inline_js();\n    });\n  }\n}(window));"
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "\n",
+    "import bokeh.io\n",
+    "import bokeh.plotting\n",
+    "\n",
+    "bokeh.io.output_notebook()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**a)** The initial plot is straightforward. We load in the data and directly make the plot."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "  <div id=\"e054d13a-d512-4f51-baec-5e365023a32a\" data-root-id=\"p1001\" style=\"display: contents;\"></div>\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/javascript": [
+       "(function(root) {\n",
+       "  function embed_document(root) {\n",
+       "  const docs_json = {\"13f27b34-bc29-46c3-a944-6ee2414dc924\":{\"version\":\"3.4.1\",\"title\":\"Bokeh Application\",\"roots\":[{\"type\":\"object\",\"name\":\"Figure\",\"id\":\"p1001\",\"attributes\":{\"x_range\":{\"type\":\"object\",\"name\":\"DataRange1d\",\"id\":\"p1002\"},\"y_range\":{\"type\":\"object\",\"name\":\"DataRange1d\",\"id\":\"p1003\"},\"x_scale\":{\"type\":\"object\",\"name\":\"LinearScale\",\"id\":\"p1010\"},\"y_scale\":{\"type\":\"object\",\"name\":\"LinearScale\",\"id\":\"p1011\"},\"title\":{\"type\":\"object\",\"name\":\"Title\",\"id\":\"p1008\"},\"renderers\":[{\"type\":\"object\",\"name\":\"GlyphRenderer\",\"id\":\"p1042\",\"attributes\":{\"data_source\":{\"type\":\"object\",\"name\":\"ColumnDataSource\",\"id\":\"p1033\",\"attributes\":{\"selected\":{\"type\":\"object\",\"name\":\"Selection\",\"id\":\"p1034\",\"attributes\":{\"indices\":[],\"line_indices\":[]}},\"selection_policy\":{\"type\":\"object\",\"name\":\"UnionRenderers\",\"id\":\"p1035\"},\"data\":{\"type\":\"map\",\"entries\":[[\"index\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AAAAAAEAAAACAAAAAwAAAAQAAAAFAAAABgAAAAcAAAAIAAAACQAAAAoAAAALAAAADAAAAA0AAAA=\"},\"shape\":[14],\"dtype\":\"int32\",\"order\":\"little\"}],[\"[IPTG] (mM)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"/Knx0k1iUD97FK5H4XqEP3sUrkfhepQ/uB6F61G4nj97FK5H4XqkP3sUrkfheqQ/uB6F61G4rj+amZmZmZm5PzMzMzMzM9M/MzMzMzMz4z8AAAAAAADwPwAAAAAAAAhAAAAAAAAAGEAAAAAAAAAkQA==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}],[\"normalized GFP expression (a.u.)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"VKnZA63AcD+pE9BE2PCEP9RIS+XtCJc/6UMX1LfMoT+fdvhrskaxPwYrTrUWZuU/Fvn1Q2yw5z9/orJhTeXqP3+kiAyr+O0/b9i2KLPB7j/RV5BmLBruP3e8yW/RSes/5pZWQ+Ie7T+yvRb03pjsPw==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}],[\"sem\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"8rBQa5p3bD+SeHk6V5RiP1daRuo9lXM/+n5qvHSTaD/BUl3Aywx7P6inj8AffrY/a9PYXgt6pz+C/de5aTOuP7WK/tDMk5s/AFRx4xbztz9x4xbzc0OjPyeDo+TVOa4/0nDK3Hwjqj/HuU24V+alPw==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}]]}}},\"view\":{\"type\":\"object\",\"name\":\"CDSView\",\"id\":\"p1043\",\"attributes\":{\"filter\":{\"type\":\"object\",\"name\":\"AllIndices\",\"id\":\"p1044\"}}},\"glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1039\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y\":{\"type\":\"field\",\"field\":\"normalized GFP expression (a.u.)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"fill_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"}}},\"nonselection_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1040\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y\":{\"type\":\"field\",\"field\":\"normalized GFP expression (a.u.)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.1},\"fill_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.1},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.1}}},\"muted_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1041\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y\":{\"type\":\"field\",\"field\":\"normalized GFP expression (a.u.)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.2},\"fill_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.2},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.2}}}}}],\"toolbar\":{\"type\":\"object\",\"name\":\"Toolbar\",\"id\":\"p1009\",\"attributes\":{\"tools\":[{\"type\":\"object\",\"name\":\"PanTool\",\"id\":\"p1022\"},{\"type\":\"object\",\"name\":\"WheelZoomTool\",\"id\":\"p1023\",\"attributes\":{\"renderers\":\"auto\"}},{\"type\":\"object\",\"name\":\"BoxZoomTool\",\"id\":\"p1024\",\"attributes\":{\"overlay\":{\"type\":\"object\",\"name\":\"BoxAnnotation\",\"id\":\"p1025\",\"attributes\":{\"syncable\":false,\"level\":\"overlay\",\"visible\":false,\"left\":{\"type\":\"number\",\"value\":\"nan\"},\"right\":{\"type\":\"number\",\"value\":\"nan\"},\"top\":{\"type\":\"number\",\"value\":\"nan\"},\"bottom\":{\"type\":\"number\",\"value\":\"nan\"},\"left_units\":\"canvas\",\"right_units\":\"canvas\",\"top_units\":\"canvas\",\"bottom_units\":\"canvas\",\"line_color\":\"black\",\"line_alpha\":1.0,\"line_width\":2,\"line_dash\":[4,4],\"fill_color\":\"lightgrey\",\"fill_alpha\":0.5}}}},{\"type\":\"object\",\"name\":\"SaveTool\",\"id\":\"p1030\"},{\"type\":\"object\",\"name\":\"ResetTool\",\"id\":\"p1031\"},{\"type\":\"object\",\"name\":\"HelpTool\",\"id\":\"p1032\"}]}},\"left\":[{\"type\":\"object\",\"name\":\"LinearAxis\",\"id\":\"p1017\",\"attributes\":{\"ticker\":{\"type\":\"object\",\"name\":\"BasicTicker\",\"id\":\"p1018\",\"attributes\":{\"mantissas\":[1,2,5]}},\"formatter\":{\"type\":\"object\",\"name\":\"BasicTickFormatter\",\"id\":\"p1019\"},\"axis_label\":\"normalized GFP expression (a.u.)\",\"major_label_policy\":{\"type\":\"object\",\"name\":\"AllLabels\",\"id\":\"p1020\"}}}],\"below\":[{\"type\":\"object\",\"name\":\"LinearAxis\",\"id\":\"p1012\",\"attributes\":{\"ticker\":{\"type\":\"object\",\"name\":\"BasicTicker\",\"id\":\"p1013\",\"attributes\":{\"mantissas\":[1,2,5]}},\"formatter\":{\"type\":\"object\",\"name\":\"BasicTickFormatter\",\"id\":\"p1014\"},\"axis_label\":\"[IPTG] (mM)\",\"major_label_policy\":{\"type\":\"object\",\"name\":\"AllLabels\",\"id\":\"p1015\"}}}],\"center\":[{\"type\":\"object\",\"name\":\"Grid\",\"id\":\"p1016\",\"attributes\":{\"axis\":{\"id\":\"p1012\"}}},{\"type\":\"object\",\"name\":\"Grid\",\"id\":\"p1021\",\"attributes\":{\"dimension\":1,\"axis\":{\"id\":\"p1017\"}}}],\"frame_width\":450,\"frame_height\":300}}]}};\n",
+       "  const render_items = [{\"docid\":\"13f27b34-bc29-46c3-a944-6ee2414dc924\",\"roots\":{\"p1001\":\"e054d13a-d512-4f51-baec-5e365023a32a\"},\"root_ids\":[\"p1001\"]}];\n",
+       "  void root.Bokeh.embed.embed_items_notebook(docs_json, render_items);\n",
+       "  }\n",
+       "  if (root.Bokeh !== undefined) {\n",
+       "    embed_document(root);\n",
+       "  } else {\n",
+       "    let attempts = 0;\n",
+       "    const timer = setInterval(function(root) {\n",
+       "      if (root.Bokeh !== undefined) {\n",
+       "        clearInterval(timer);\n",
+       "        embed_document(root);\n",
+       "      } else {\n",
+       "        attempts++;\n",
+       "        if (attempts > 100) {\n",
+       "          clearInterval(timer);\n",
+       "          console.log(\"Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing\");\n",
+       "        }\n",
+       "      }\n",
+       "    }, 10, root)\n",
+       "  }\n",
+       "})(window);"
+      ],
+      "application/vnd.bokehjs_exec.v0+json": ""
+     },
+     "metadata": {
+      "application/vnd.bokehjs_exec.v0+json": {
+       "id": "p1001"
+      }
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Load in the data\n",
+    "df = pd.read_csv('data/collins_switch.csv', comment='#')\n",
+    "\n",
+    "# For convenience\n",
+    "x = '[IPTG] (mM)'\n",
+    "y = 'normalized GFP expression (a.u.)'\n",
+    "\n",
+    "# Make the plot\n",
+    "p = bokeh.plotting.figure(\n",
+    "    frame_height=300,\n",
+    "    frame_width=450,\n",
+    "    x_axis_label=x,\n",
+    "    y_axis_label=y,\n",
+    ")\n",
+    "\n",
+    "p.scatter(\n",
+    "    source=df,\n",
+    "    x=x,\n",
+    "    y=y,\n",
+    ")\n",
+    "\n",
+    "bokeh.io.show(p)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**b)** We clearly need the $x$-axis to be on a log scale, so let's remake the plot."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "  <div id=\"c6ea1ed9-b393-4d39-8545-a7a86edc68ba\" data-root-id=\"p1049\" style=\"display: contents;\"></div>\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/javascript": [
+       "(function(root) {\n",
+       "  function embed_document(root) {\n",
+       "  const docs_json = {\"8dfd08c8-52d1-49a6-be16-821dd0c918f0\":{\"version\":\"3.4.1\",\"title\":\"Bokeh Application\",\"roots\":[{\"type\":\"object\",\"name\":\"Figure\",\"id\":\"p1049\",\"attributes\":{\"width\":450,\"height\":300,\"x_range\":{\"type\":\"object\",\"name\":\"DataRange1d\",\"id\":\"p1050\"},\"y_range\":{\"type\":\"object\",\"name\":\"DataRange1d\",\"id\":\"p1051\"},\"x_scale\":{\"type\":\"object\",\"name\":\"LogScale\",\"id\":\"p1058\"},\"y_scale\":{\"type\":\"object\",\"name\":\"LinearScale\",\"id\":\"p1059\"},\"title\":{\"type\":\"object\",\"name\":\"Title\",\"id\":\"p1056\"},\"renderers\":[{\"type\":\"object\",\"name\":\"GlyphRenderer\",\"id\":\"p1090\",\"attributes\":{\"data_source\":{\"type\":\"object\",\"name\":\"ColumnDataSource\",\"id\":\"p1081\",\"attributes\":{\"selected\":{\"type\":\"object\",\"name\":\"Selection\",\"id\":\"p1082\",\"attributes\":{\"indices\":[],\"line_indices\":[]}},\"selection_policy\":{\"type\":\"object\",\"name\":\"UnionRenderers\",\"id\":\"p1083\"},\"data\":{\"type\":\"map\",\"entries\":[[\"index\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AAAAAAEAAAACAAAAAwAAAAQAAAAFAAAABgAAAAcAAAAIAAAACQAAAAoAAAALAAAADAAAAA0AAAA=\"},\"shape\":[14],\"dtype\":\"int32\",\"order\":\"little\"}],[\"[IPTG] (mM)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"/Knx0k1iUD97FK5H4XqEP3sUrkfhepQ/uB6F61G4nj97FK5H4XqkP3sUrkfheqQ/uB6F61G4rj+amZmZmZm5PzMzMzMzM9M/MzMzMzMz4z8AAAAAAADwPwAAAAAAAAhAAAAAAAAAGEAAAAAAAAAkQA==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}],[\"normalized GFP expression (a.u.)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"VKnZA63AcD+pE9BE2PCEP9RIS+XtCJc/6UMX1LfMoT+fdvhrskaxPwYrTrUWZuU/Fvn1Q2yw5z9/orJhTeXqP3+kiAyr+O0/b9i2KLPB7j/RV5BmLBruP3e8yW/RSes/5pZWQ+Ie7T+yvRb03pjsPw==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}],[\"sem\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"8rBQa5p3bD+SeHk6V5RiP1daRuo9lXM/+n5qvHSTaD/BUl3Aywx7P6inj8AffrY/a9PYXgt6pz+C/de5aTOuP7WK/tDMk5s/AFRx4xbztz9x4xbzc0OjPyeDo+TVOa4/0nDK3Hwjqj/HuU24V+alPw==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}]]}}},\"view\":{\"type\":\"object\",\"name\":\"CDSView\",\"id\":\"p1091\",\"attributes\":{\"filter\":{\"type\":\"object\",\"name\":\"AllIndices\",\"id\":\"p1092\"}}},\"glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1087\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y\":{\"type\":\"field\",\"field\":\"normalized GFP expression (a.u.)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"fill_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"}}},\"nonselection_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1088\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y\":{\"type\":\"field\",\"field\":\"normalized GFP expression (a.u.)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.1},\"fill_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.1},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.1}}},\"muted_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1089\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y\":{\"type\":\"field\",\"field\":\"normalized GFP expression (a.u.)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.2},\"fill_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.2},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.2}}}}}],\"toolbar\":{\"type\":\"object\",\"name\":\"Toolbar\",\"id\":\"p1057\",\"attributes\":{\"tools\":[{\"type\":\"object\",\"name\":\"PanTool\",\"id\":\"p1070\"},{\"type\":\"object\",\"name\":\"WheelZoomTool\",\"id\":\"p1071\",\"attributes\":{\"renderers\":\"auto\"}},{\"type\":\"object\",\"name\":\"BoxZoomTool\",\"id\":\"p1072\",\"attributes\":{\"overlay\":{\"type\":\"object\",\"name\":\"BoxAnnotation\",\"id\":\"p1073\",\"attributes\":{\"syncable\":false,\"level\":\"overlay\",\"visible\":false,\"left\":{\"type\":\"number\",\"value\":\"nan\"},\"right\":{\"type\":\"number\",\"value\":\"nan\"},\"top\":{\"type\":\"number\",\"value\":\"nan\"},\"bottom\":{\"type\":\"number\",\"value\":\"nan\"},\"left_units\":\"canvas\",\"right_units\":\"canvas\",\"top_units\":\"canvas\",\"bottom_units\":\"canvas\",\"line_color\":\"black\",\"line_alpha\":1.0,\"line_width\":2,\"line_dash\":[4,4],\"fill_color\":\"lightgrey\",\"fill_alpha\":0.5}}}},{\"type\":\"object\",\"name\":\"SaveTool\",\"id\":\"p1078\"},{\"type\":\"object\",\"name\":\"ResetTool\",\"id\":\"p1079\"},{\"type\":\"object\",\"name\":\"HelpTool\",\"id\":\"p1080\"}]}},\"left\":[{\"type\":\"object\",\"name\":\"LinearAxis\",\"id\":\"p1065\",\"attributes\":{\"ticker\":{\"type\":\"object\",\"name\":\"BasicTicker\",\"id\":\"p1066\",\"attributes\":{\"mantissas\":[1,2,5]}},\"formatter\":{\"type\":\"object\",\"name\":\"BasicTickFormatter\",\"id\":\"p1067\"},\"axis_label\":\"normalized GFP expression (a.u.)\",\"major_label_policy\":{\"type\":\"object\",\"name\":\"AllLabels\",\"id\":\"p1068\"}}}],\"below\":[{\"type\":\"object\",\"name\":\"LogAxis\",\"id\":\"p1060\",\"attributes\":{\"ticker\":{\"type\":\"object\",\"name\":\"LogTicker\",\"id\":\"p1061\",\"attributes\":{\"num_minor_ticks\":10,\"mantissas\":[1,5]}},\"formatter\":{\"type\":\"object\",\"name\":\"LogTickFormatter\",\"id\":\"p1062\"},\"axis_label\":\"[IPTG] (mM)\",\"major_label_policy\":{\"type\":\"object\",\"name\":\"AllLabels\",\"id\":\"p1063\"}}}],\"center\":[{\"type\":\"object\",\"name\":\"Grid\",\"id\":\"p1064\",\"attributes\":{\"axis\":{\"id\":\"p1060\"}}},{\"type\":\"object\",\"name\":\"Grid\",\"id\":\"p1069\",\"attributes\":{\"dimension\":1,\"axis\":{\"id\":\"p1065\"}}}]}}]}};\n",
+       "  const render_items = [{\"docid\":\"8dfd08c8-52d1-49a6-be16-821dd0c918f0\",\"roots\":{\"p1049\":\"c6ea1ed9-b393-4d39-8545-a7a86edc68ba\"},\"root_ids\":[\"p1049\"]}];\n",
+       "  void root.Bokeh.embed.embed_items_notebook(docs_json, render_items);\n",
+       "  }\n",
+       "  if (root.Bokeh !== undefined) {\n",
+       "    embed_document(root);\n",
+       "  } else {\n",
+       "    let attempts = 0;\n",
+       "    const timer = setInterval(function(root) {\n",
+       "      if (root.Bokeh !== undefined) {\n",
+       "        clearInterval(timer);\n",
+       "        embed_document(root);\n",
+       "      } else {\n",
+       "        attempts++;\n",
+       "        if (attempts > 100) {\n",
+       "          clearInterval(timer);\n",
+       "          console.log(\"Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing\");\n",
+       "        }\n",
+       "      }\n",
+       "    }, 10, root)\n",
+       "  }\n",
+       "})(window);"
+      ],
+      "application/vnd.bokehjs_exec.v0+json": ""
+     },
+     "metadata": {
+      "application/vnd.bokehjs_exec.v0+json": {
+       "id": "p1049"
+      }
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Make the plot\n",
+    "p = bokeh.plotting.figure(\n",
+    "    height=300,\n",
+    "    width=450,\n",
+    "    x_axis_label=x,\n",
+    "    y_axis_label=y,\n",
+    "    x_axis_type='log',\n",
+    ")\n",
+    "\n",
+    "p.scatter(\n",
+    "    source=df,\n",
+    "    x=x,\n",
+    "    y=y,\n",
+    ")\n",
+    "\n",
+    "bokeh.io.show(p)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**c)**  We start be adding the tops and bottoms of the error bars."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Add error bars to the DataFrame\n",
+    "df = df.assign(\n",
+    "    error_low=df[\"normalized GFP expression (a.u.)\"] - 1.96 * df[\"sem\"],\n",
+    "    error_high=df[\"normalized GFP expression (a.u.)\"] + 1.96 * df[\"sem\"],\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, we add them to the plot using the `segment()` method."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "  <div id=\"d7ad22fe-826d-418e-8fb7-3f510b6b2711\" data-root-id=\"p1049\" style=\"display: contents;\"></div>\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/javascript": [
+       "(function(root) {\n",
+       "  function embed_document(root) {\n",
+       "  const docs_json = {\"10b7b572-247e-4f42-b800-3726e7cf69b4\":{\"version\":\"3.4.1\",\"title\":\"Bokeh Application\",\"roots\":[{\"type\":\"object\",\"name\":\"Figure\",\"id\":\"p1049\",\"attributes\":{\"width\":450,\"height\":300,\"x_range\":{\"type\":\"object\",\"name\":\"DataRange1d\",\"id\":\"p1050\"},\"y_range\":{\"type\":\"object\",\"name\":\"DataRange1d\",\"id\":\"p1051\"},\"x_scale\":{\"type\":\"object\",\"name\":\"LogScale\",\"id\":\"p1058\"},\"y_scale\":{\"type\":\"object\",\"name\":\"LinearScale\",\"id\":\"p1059\"},\"title\":{\"type\":\"object\",\"name\":\"Title\",\"id\":\"p1056\"},\"renderers\":[{\"type\":\"object\",\"name\":\"GlyphRenderer\",\"id\":\"p1090\",\"attributes\":{\"data_source\":{\"type\":\"object\",\"name\":\"ColumnDataSource\",\"id\":\"p1081\",\"attributes\":{\"selected\":{\"type\":\"object\",\"name\":\"Selection\",\"id\":\"p1082\",\"attributes\":{\"indices\":[],\"line_indices\":[]}},\"selection_policy\":{\"type\":\"object\",\"name\":\"UnionRenderers\",\"id\":\"p1083\"},\"data\":{\"type\":\"map\",\"entries\":[[\"index\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AAAAAAEAAAACAAAAAwAAAAQAAAAFAAAABgAAAAcAAAAIAAAACQAAAAoAAAALAAAADAAAAA0AAAA=\"},\"shape\":[14],\"dtype\":\"int32\",\"order\":\"little\"}],[\"[IPTG] (mM)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"/Knx0k1iUD97FK5H4XqEP3sUrkfhepQ/uB6F61G4nj97FK5H4XqkP3sUrkfheqQ/uB6F61G4rj+amZmZmZm5PzMzMzMzM9M/MzMzMzMz4z8AAAAAAADwPwAAAAAAAAhAAAAAAAAAGEAAAAAAAAAkQA==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}],[\"normalized GFP expression (a.u.)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"VKnZA63AcD+pE9BE2PCEP9RIS+XtCJc/6UMX1LfMoT+fdvhrskaxPwYrTrUWZuU/Fvn1Q2yw5z9/orJhTeXqP3+kiAyr+O0/b9i2KLPB7j/RV5BmLBruP3e8yW/RSes/5pZWQ+Ie7T+yvRb03pjsPw==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}],[\"sem\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"8rBQa5p3bD+SeHk6V5RiP1daRuo9lXM/+n5qvHSTaD/BUl3Aywx7P6inj8AffrY/a9PYXgt6pz+C/de5aTOuP7WK/tDMk5s/AFRx4xbztz9x4xbzc0OjPyeDo+TVOa4/0nDK3Hwjqj/HuU24V+alPw==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}]]}}},\"view\":{\"type\":\"object\",\"name\":\"CDSView\",\"id\":\"p1091\",\"attributes\":{\"filter\":{\"type\":\"object\",\"name\":\"AllIndices\",\"id\":\"p1092\"}}},\"glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1087\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y\":{\"type\":\"field\",\"field\":\"normalized GFP expression (a.u.)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"fill_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"}}},\"nonselection_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1088\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y\":{\"type\":\"field\",\"field\":\"normalized GFP expression (a.u.)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.1},\"fill_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.1},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.1}}},\"muted_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1089\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y\":{\"type\":\"field\",\"field\":\"normalized GFP expression (a.u.)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.2},\"fill_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.2},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.2}}}}},{\"type\":\"object\",\"name\":\"GlyphRenderer\",\"id\":\"p1106\",\"attributes\":{\"data_source\":{\"type\":\"object\",\"name\":\"ColumnDataSource\",\"id\":\"p1097\",\"attributes\":{\"selected\":{\"type\":\"object\",\"name\":\"Selection\",\"id\":\"p1098\",\"attributes\":{\"indices\":[],\"line_indices\":[]}},\"selection_policy\":{\"type\":\"object\",\"name\":\"UnionRenderers\",\"id\":\"p1099\"},\"data\":{\"type\":\"map\",\"entries\":[[\"index\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AAAAAAEAAAACAAAAAwAAAAQAAAAFAAAABgAAAAcAAAAIAAAACQAAAAoAAAALAAAADAAAAA0AAAA=\"},\"shape\":[14],\"dtype\":\"int32\",\"order\":\"little\"}],[\"[IPTG] (mM)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"/Knx0k1iUD97FK5H4XqEP3sUrkfhepQ/uB6F61G4nj97FK5H4XqkP3sUrkfheqQ/uB6F61G4rj+amZmZmZm5PzMzMzMzM9M/MzMzMzMz4z8AAAAAAADwPwAAAAAAAAhAAAAAAAAAGEAAAAAAAAAkQA==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}],[\"normalized GFP expression (a.u.)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"VKnZA63AcD+pE9BE2PCEP9RIS+XtCJc/6UMX1LfMoT+fdvhrskaxPwYrTrUWZuU/Fvn1Q2yw5z9/orJhTeXqP3+kiAyr+O0/b9i2KLPB7j/RV5BmLBruP3e8yW/RSes/5pZWQ+Ie7T+yvRb03pjsPw==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}],[\"sem\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"8rBQa5p3bD+SeHk6V5RiP1daRuo9lXM/+n5qvHSTaD/BUl3Aywx7P6inj8AffrY/a9PYXgt6pz+C/de5aTOuP7WK/tDMk5s/AFRx4xbztz9x4xbzc0OjPyeDo+TVOa4/0nDK3Hwjqj/HuU24V+alPw==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}],[\"error_low\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"PLZlwFlKZr/NoRTGeax3P3zIrazh4Io/MT1hiQeUnT9UyPik0eyrP7znflayxt8/OjbIRTHQ5D8VBCxFNDLnP834SmJBSOw/fhQ7O5Xj6D8y5mwJEr7rP6QGLurulec/9WMXNS3r6T+zTDsMGOrpPw==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}],[\"error_high\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"4xbzc0NThj9s1pWmcwuOP7XWH3q1UKA/Oul942vPpD8UiXQF/Ja0Py7iXD/U6Oo/8rsjQqeQ6j/pQDl+ZpjuPzFQxrYUqe8/ME4Zi+hP8j+45NlhIzvwP0pyZfWz/e4/6+TKqEsp8D+xLvLbpUfvPw==\"},\"shape\":[14],\"dtype\":\"float64\",\"order\":\"little\"}]]}}},\"view\":{\"type\":\"object\",\"name\":\"CDSView\",\"id\":\"p1107\",\"attributes\":{\"filter\":{\"type\":\"object\",\"name\":\"AllIndices\",\"id\":\"p1108\"}}},\"glyph\":{\"type\":\"object\",\"name\":\"Segment\",\"id\":\"p1103\",\"attributes\":{\"x0\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y0\":{\"type\":\"field\",\"field\":\"error_low\"},\"x1\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y1\":{\"type\":\"field\",\"field\":\"error_high\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"line_width\":{\"type\":\"value\",\"value\":2}}},\"nonselection_glyph\":{\"type\":\"object\",\"name\":\"Segment\",\"id\":\"p1104\",\"attributes\":{\"x0\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y0\":{\"type\":\"field\",\"field\":\"error_low\"},\"x1\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y1\":{\"type\":\"field\",\"field\":\"error_high\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.1},\"line_width\":{\"type\":\"value\",\"value\":2}}},\"muted_glyph\":{\"type\":\"object\",\"name\":\"Segment\",\"id\":\"p1105\",\"attributes\":{\"x0\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y0\":{\"type\":\"field\",\"field\":\"error_low\"},\"x1\":{\"type\":\"field\",\"field\":\"[IPTG] (mM)\"},\"y1\":{\"type\":\"field\",\"field\":\"error_high\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b4\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.2},\"line_width\":{\"type\":\"value\",\"value\":2}}}}}],\"toolbar\":{\"type\":\"object\",\"name\":\"Toolbar\",\"id\":\"p1057\",\"attributes\":{\"tools\":[{\"type\":\"object\",\"name\":\"PanTool\",\"id\":\"p1070\"},{\"type\":\"object\",\"name\":\"WheelZoomTool\",\"id\":\"p1071\",\"attributes\":{\"renderers\":\"auto\"}},{\"type\":\"object\",\"name\":\"BoxZoomTool\",\"id\":\"p1072\",\"attributes\":{\"overlay\":{\"type\":\"object\",\"name\":\"BoxAnnotation\",\"id\":\"p1073\",\"attributes\":{\"syncable\":false,\"level\":\"overlay\",\"visible\":false,\"left\":{\"type\":\"number\",\"value\":\"nan\"},\"right\":{\"type\":\"number\",\"value\":\"nan\"},\"top\":{\"type\":\"number\",\"value\":\"nan\"},\"bottom\":{\"type\":\"number\",\"value\":\"nan\"},\"left_units\":\"canvas\",\"right_units\":\"canvas\",\"top_units\":\"canvas\",\"bottom_units\":\"canvas\",\"line_color\":\"black\",\"line_alpha\":1.0,\"line_width\":2,\"line_dash\":[4,4],\"fill_color\":\"lightgrey\",\"fill_alpha\":0.5}}}},{\"type\":\"object\",\"name\":\"SaveTool\",\"id\":\"p1078\"},{\"type\":\"object\",\"name\":\"ResetTool\",\"id\":\"p1079\"},{\"type\":\"object\",\"name\":\"HelpTool\",\"id\":\"p1080\"}]}},\"left\":[{\"type\":\"object\",\"name\":\"LinearAxis\",\"id\":\"p1065\",\"attributes\":{\"ticker\":{\"type\":\"object\",\"name\":\"BasicTicker\",\"id\":\"p1066\",\"attributes\":{\"mantissas\":[1,2,5]}},\"formatter\":{\"type\":\"object\",\"name\":\"BasicTickFormatter\",\"id\":\"p1067\"},\"axis_label\":\"normalized GFP expression (a.u.)\",\"major_label_policy\":{\"type\":\"object\",\"name\":\"AllLabels\",\"id\":\"p1068\"}}}],\"below\":[{\"type\":\"object\",\"name\":\"LogAxis\",\"id\":\"p1060\",\"attributes\":{\"ticker\":{\"type\":\"object\",\"name\":\"LogTicker\",\"id\":\"p1061\",\"attributes\":{\"num_minor_ticks\":10,\"mantissas\":[1,5]}},\"formatter\":{\"type\":\"object\",\"name\":\"LogTickFormatter\",\"id\":\"p1062\"},\"axis_label\":\"[IPTG] (mM)\",\"major_label_policy\":{\"type\":\"object\",\"name\":\"AllLabels\",\"id\":\"p1063\"}}}],\"center\":[{\"type\":\"object\",\"name\":\"Grid\",\"id\":\"p1064\",\"attributes\":{\"axis\":{\"id\":\"p1060\"}}},{\"type\":\"object\",\"name\":\"Grid\",\"id\":\"p1069\",\"attributes\":{\"dimension\":1,\"axis\":{\"id\":\"p1065\"}}}]}}]}};\n",
+       "  const render_items = [{\"docid\":\"10b7b572-247e-4f42-b800-3726e7cf69b4\",\"roots\":{\"p1049\":\"d7ad22fe-826d-418e-8fb7-3f510b6b2711\"},\"root_ids\":[\"p1049\"]}];\n",
+       "  void root.Bokeh.embed.embed_items_notebook(docs_json, render_items);\n",
+       "  }\n",
+       "  if (root.Bokeh !== undefined) {\n",
+       "    embed_document(root);\n",
+       "  } else {\n",
+       "    let attempts = 0;\n",
+       "    const timer = setInterval(function(root) {\n",
+       "      if (root.Bokeh !== undefined) {\n",
+       "        clearInterval(timer);\n",
+       "        embed_document(root);\n",
+       "      } else {\n",
+       "        attempts++;\n",
+       "        if (attempts > 100) {\n",
+       "          clearInterval(timer);\n",
+       "          console.log(\"Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing\");\n",
+       "        }\n",
+       "      }\n",
+       "    }, 10, root)\n",
+       "  }\n",
+       "})(window);"
+      ],
+      "application/vnd.bokehjs_exec.v0+json": ""
+     },
+     "metadata": {
+      "application/vnd.bokehjs_exec.v0+json": {
+       "id": "p1049"
+      }
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Add error bars\n",
+    "p.segment(\n",
+    "    source=df,\n",
+    "    x0=x,\n",
+    "    y0='error_low',\n",
+    "    x1=x,\n",
+    "    y1='error_high',\n",
+    "    line_width=2,\n",
+    ")\n",
+    "\n",
+    "bokeh.io.show(p)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Using the interactivity, you can zoom in on the point with the smalled IPTG concentration. Note the value of interactive graphics here. Even though the error bar is smaller than the dot on the zoomed-out plot, it is resolvable upon zooming in, which is impossible even with vector graphics. Note also a common problem with using an s.e.m. to compute error bars. The result is something unphysical; the error bar extends below zero. In general using s.e.m. for error bars is a not a good idea, and we will cover better ways of computing error bars when we discuss hacker stats in upcoming lessons."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.11.9\n",
+      "IPython version      : 8.20.0\n",
+      "\n",
+      "pandas    : 2.2.1\n",
+      "bokeh     : 3.4.1\n",
+      "jupyterlab: 4.0.13\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p pandas,bokeh,jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
