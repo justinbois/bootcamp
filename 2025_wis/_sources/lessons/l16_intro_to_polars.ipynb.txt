@@ -1,0 +1,1921 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 16: Introduction to data frames and Polars\n",
+    "\n",
+    "[Data set download](https://s3.amazonaws.com/bebi103.caltech.edu/data/gfmt_sleep.csv)\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "\n",
+    "# Polars, conventionally imported as pl\n",
+    "import polars as pl\n",
+    "\n",
+    "# A subset of Polars  used for selecting columns\n",
+    "import polars.selectors as cs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<hr>\n",
+    "\n",
+    "Throughout your research career, you will undoubtedly need to handle data, possibly lots of data. Once in a usable form, you are empowered to rapidly make graphics and perform statistical inference. **Tidy data** is an important format and we will discuss that in subsequent sections of this lesson. In an ideal world, data sets would be stored in tidy format and be ready to use. The data comes in lots of formats, and you may have to spend much of your time **wrangling** the data to get it into a usable format. Wrangling is the topic of the next lesson; for now all data sets will be in tidy format from the get-go."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## The data set\n",
+    "\n",
+    "We will explore using data frames with a real data set. We will use a data set published in [Beattie, et al., Perceptual impairment in face identification with poor sleep, *Royal Society Open Science*, **3**, 160321, 2016](https://doi.org/10.1098/rsos.160321). In this paper, researchers used the [Glasgow Facial Matching Test](https://doi.org/10.3758/BRM.42.1.286) (GMFT) to investigate how sleep deprivation affects a subject's ability to match faces, as well as the confidence the subject has in those matches. Briefly, the test works by having subjects look at a pair of faces. Two such pairs are shown below.\n",
+    "\n",
+    "![Two pairs of faces from the Glasgow Facial Matching Test (GFMT).](gfmt_faces.png){#fig-gfmt-faces width=60% fig-alt=\"GFMT faces\"}\n",
+    "\n",
+    "\n",
+    "The top two pictures are the same person, the bottom two pictures are different people. For each pair of faces, the subject gets as much time as he or she needs and then says whether or not they are the same person. The subject then rates his or her confidence in the choice.\n",
+    "\n",
+    "In this study, subjects also took surveys to determine properties about their sleep. The Sleep Condition Indicator (SCI) is a measure of insomnia disorder over the past month (scores of 16 and below indicate insomnia). The Pittsburgh Sleep Quality Index (PSQI) quantifies how well a subject sleeps in terms of interruptions, latency, etc. A higher score indicates poorer sleep. The Epworth Sleepiness Scale (ESS) assesses daytime drowsiness.\n",
+    "\n",
+    "The data set can be downloaded [here](https://s3.amazonaws.com/bebi103.caltech.edu/data/gfmt_sleep.csv). The contents of this file were adapted from [the Excel file posted on the public Dryad repository](https://doi.org/10.5061/dryad.r620r). (*Note this: if you want other people to use and explore your data, make it publicly available.*) I'll say it more boldly.\n",
+    "\n",
+    "<div class=\"alert alert-info\">\n",
+    "    \n",
+    "If at all possible, share your data freely.\n",
+    "    \n",
+    "</div>\n",
+    "\n",
+    "The data file is a **CSV file**, where CSV stands for comma-separated value. This is a text file that is easily read into data structures in many programming languages. You should generally always store your data in such a format, not necessarily CSV, but a format that is open, has a well-defined specification, and is readable in many contexts. Excel files do not meet these criteria. Neither do `.mat` files. There are other good ways to store data, such as [JSON](http://json.org), but we will almost exclusively use CSV files in this class.\n",
+    "\n",
+    "Let's take a look at the CSV file. We will use the command line program `head` to look at the first 20 lines of the file."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "participant number,gender,age,correct hit percentage,correct reject percentage,percent correct,confidence when correct hit,confidence when incorrect hit,confidence when correct reject,confidence when incorrect reject,confidence when correct,confidence when incorrect,sci,psqi,ess\n",
+      "8,f,39,65,80,72.5,91,90,93,83.5,93,90,9,13,2\n",
+      "16,m,42,90,90,90,75.5,55.5,70.5,50,75,50,4,11,7\n",
+      "18,f,31,90,95,92.5,89.5,90,86,81,89,88,10,9,3\n",
+      "22,f,35,100,75,87.5,89.5,*,71,80,88,80,13,8,20\n",
+      "27,f,74,60,65,62.5,68.5,49,61,49,65,49,13,9,12\n",
+      "28,f,61,80,20,50,71,63,31,72.5,64.5,70.5,15,14,2\n",
+      "30,m,32,90,75,82.5,67,56.5,66,65,66,64,16,9,3\n",
+      "33,m,62,45,90,67.5,54,37,65,81.5,62,61,14,9,9\n",
+      "34,f,33,80,100,90,70.5,76.5,64.5,*,68,76.5,14,12,10\n"
+     ]
+    }
+   ],
+   "source": [
+    "fname = \"data/gfmt_sleep.csv\"\n",
+    "\n",
+    "# This will not work in Colab because the file is not local\n",
+    "!head {fname}"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The first line contains the **headers** for each column. They are participant number, gender, age, etc. The data follow. There are two important things to note here. First, notice that the `gender` column has string data (`m` or `f`), while the rest of the data are numeric. Note also that there are some **missing data**, denoted by the `*`s in the file.\n",
+    "\n",
+    "Given the file I/O skills you recently learned, you could write some functions to parse this file and extract the data you want. You can imagine that this might be kind of painful. However, if the file format is nice and clean, like we more or less have here, we can use pre-built tools to read in the data from the file and put it in a convenient data structure. Those structures are **data frames**."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Data frames\n",
+    "\n",
+    "Though we will use the word \"data frame\" over and over again, what a data frame *is* is actually a bit nebulous. Our working definition of a data frame is that it is a representation of two-dimensional tabular data where each column has a label. We will restrict ourselves to the case where each column has a specific data type (e.g., strings, ints, floats, or even lists).\n",
+    "\n",
+    "One can think of a data frame as a collection of labeled columns, each one called a **series**. (A series may be thought of as a single column of data.) Alternatively, it is sometimes convenient to think of a data frame as a collection of **rows**, where each entry in the row is labeled with the column heading.\n",
+    "\n",
+    "For more reading on the history of data frames and an attempt (in my opinion a very good attempt) at clearly defining them see section 4 of [this paper by Petersohn, et al](https://dl.acm.org/doi/10.14778/3407790.3407807)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Pandas\n",
+    "\n",
+    "[Pandas](https://pandas.pydata.org) is one of the most widely used tools in the Python ecosystem for handling data. It is worth knowing about. We will, however, not be using Pandas, but instead will use [Polars](https://pola.rs). I prefer Polars because its API is cleaner, in my opinion, but it has the added benefit of generally being much faster than Pandas."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Loading the data"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Using polars.read_csv() to read in data\n",
+    "\n",
+    "We have imported Polars with the alias `pl` as is customary. We will use `pl.read_csv()` to load the data set. The data are stored in a **data frame** (data type `DataFrame`), which is one of the data types that makes Polars so convenient for use in data analysis. Data frames offer mixed data types, including incomplete columns, and convenient slicing, among many, many other convenient features. We will use the data frame to look at the data, at the same time demonstrating some of the power of data frames. They are like spreadsheets, only a lot better."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = pl.read_csv(fname, null_values=\"*\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Notice that we used the kwarg `null_values=*` to specify that entries marked with a `*` are missing. The resulting data frame is populated with **null**, wherever this character is present in the file. In this case, we want `null_values='*'`. So, let's load in the data set.\n",
+    "\n",
+    "If you check out the doc string for `pl.read_csv()`, you will see there are *lots* of options for reading in the data."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exploring the DataFrame\n",
+    "\n",
+    "Let's jump right in and look at the contents of the `DataFrame`.  We can look at the first several rows using the `df.head()` method."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 15)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>i64</td><td>str</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td></tr></thead><tbody><tr><td>8</td><td>&quot;f&quot;</td><td>39</td><td>65</td><td>80</td><td>72.5</td><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td><td>9</td><td>13</td><td>2</td></tr><tr><td>16</td><td>&quot;m&quot;</td><td>42</td><td>90</td><td>90</td><td>90.0</td><td>75.5</td><td>55.5</td><td>70.5</td><td>50.0</td><td>75.0</td><td>50.0</td><td>4</td><td>11</td><td>7</td></tr><tr><td>18</td><td>&quot;f&quot;</td><td>31</td><td>90</td><td>95</td><td>92.5</td><td>89.5</td><td>90.0</td><td>86.0</td><td>81.0</td><td>89.0</td><td>88.0</td><td>10</td><td>9</td><td>3</td></tr><tr><td>22</td><td>&quot;f&quot;</td><td>35</td><td>100</td><td>75</td><td>87.5</td><td>89.5</td><td>null</td><td>71.0</td><td>80.0</td><td>88.0</td><td>80.0</td><td>13</td><td>8</td><td>20</td></tr><tr><td>27</td><td>&quot;f&quot;</td><td>74</td><td>60</td><td>65</td><td>62.5</td><td>68.5</td><td>49.0</td><td>61.0</td><td>49.0</td><td>65.0</td><td>49.0</td><td>13</td><td>9</td><td>12</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 15)\n",
+       "┌─────────────┬────────┬─────┬─────────────┬───┬───────────────────────────┬─────┬──────┬─────┐\n",
+       "│ participant ┆ gender ┆ age ┆ correct hit ┆ … ┆ confidence when incorrect ┆ sci ┆ psqi ┆ ess │\n",
+       "│ number      ┆ ---    ┆ --- ┆ percentage  ┆   ┆ ---                       ┆ --- ┆ ---  ┆ --- │\n",
+       "│ ---         ┆ str    ┆ i64 ┆ ---         ┆   ┆ f64                       ┆ i64 ┆ i64  ┆ i64 │\n",
+       "│ i64         ┆        ┆     ┆ i64         ┆   ┆                           ┆     ┆      ┆     │\n",
+       "╞═════════════╪════════╪═════╪═════════════╪═══╪═══════════════════════════╪═════╪══════╪═════╡\n",
+       "│ 8           ┆ f      ┆ 39  ┆ 65          ┆ … ┆ 90.0                      ┆ 9   ┆ 13   ┆ 2   │\n",
+       "│ 16          ┆ m      ┆ 42  ┆ 90          ┆ … ┆ 50.0                      ┆ 4   ┆ 11   ┆ 7   │\n",
+       "│ 18          ┆ f      ┆ 31  ┆ 90          ┆ … ┆ 88.0                      ┆ 10  ┆ 9    ┆ 3   │\n",
+       "│ 22          ┆ f      ┆ 35  ┆ 100         ┆ … ┆ 80.0                      ┆ 13  ┆ 8    ┆ 20  │\n",
+       "│ 27          ┆ f      ┆ 74  ┆ 60          ┆ … ┆ 49.0                      ┆ 13  ┆ 9    ┆ 12  │\n",
+       "└─────────────┴────────┴─────┴─────────────┴───┴───────────────────────────┴─────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Look at the contents (first 5 rows)\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We see that the column headings were automatically assigned, as have the data types of the columns, where `i64`, `f64`, and `str` respectively denote integers, floats and strings. Also note (in row 3) that the missing data are denoted as `null`."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Indexing data frames\n",
+    "\n",
+    "The data frame is a convenient data structure for many reasons that will become clear as we start exploring. Let's start by looking at how data frames are indexed. The rows in Polars data frames are indexed by integers, starting with zero as usual for Python. So, the first row of the data frame may be accessed as follows."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (1, 15)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>i64</td><td>str</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td></tr></thead><tbody><tr><td>8</td><td>&quot;f&quot;</td><td>39</td><td>65</td><td>80</td><td>72.5</td><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td><td>9</td><td>13</td><td>2</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (1, 15)\n",
+       "┌─────────────┬────────┬─────┬─────────────┬───┬───────────────────────────┬─────┬──────┬─────┐\n",
+       "│ participant ┆ gender ┆ age ┆ correct hit ┆ … ┆ confidence when incorrect ┆ sci ┆ psqi ┆ ess │\n",
+       "│ number      ┆ ---    ┆ --- ┆ percentage  ┆   ┆ ---                       ┆ --- ┆ ---  ┆ --- │\n",
+       "│ ---         ┆ str    ┆ i64 ┆ ---         ┆   ┆ f64                       ┆ i64 ┆ i64  ┆ i64 │\n",
+       "│ i64         ┆        ┆     ┆ i64         ┆   ┆                           ┆     ┆      ┆     │\n",
+       "╞═════════════╪════════╪═════╪═════════════╪═══╪═══════════════════════════╪═════╪══════╪═════╡\n",
+       "│ 8           ┆ f      ┆ 39  ┆ 65          ┆ … ┆ 90.0                      ┆ 9   ┆ 13   ┆ 2   │\n",
+       "└─────────────┴────────┴─────┴─────────────┴───┴───────────────────────────┴─────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[0]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In practice you will almost never use row indices, but rather use **Boolean indexing**, which is accomplished using Polars's `filter()` method.\n",
+    "\n",
+    "Because row indices in Polars data frames are always integers and column indices are not allowed to be integers (they must be strings), columns are accessed in the same way. If you choose to index with a string, Polars knows you are asking for a column."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (102,)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>percent correct</th></tr><tr><td>f64</td></tr></thead><tbody><tr><td>72.5</td></tr><tr><td>90.0</td></tr><tr><td>92.5</td></tr><tr><td>87.5</td></tr><tr><td>62.5</td></tr><tr><td>&hellip;</td></tr><tr><td>77.5</td></tr><tr><td>87.5</td></tr><tr><td>75.0</td></tr><tr><td>70.0</td></tr><tr><td>62.5</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (102,)\n",
+       "Series: 'percent correct' [f64]\n",
+       "[\n",
+       "\t72.5\n",
+       "\t90.0\n",
+       "\t92.5\n",
+       "\t87.5\n",
+       "\t62.5\n",
+       "\t…\n",
+       "\t77.5\n",
+       "\t87.5\n",
+       "\t75.0\n",
+       "\t70.0\n",
+       "\t62.5\n",
+       "]"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['percent correct']"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For accessing a single column, I prefer the `get_column()` method."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (102,)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>percent correct</th></tr><tr><td>f64</td></tr></thead><tbody><tr><td>72.5</td></tr><tr><td>90.0</td></tr><tr><td>92.5</td></tr><tr><td>87.5</td></tr><tr><td>62.5</td></tr><tr><td>&hellip;</td></tr><tr><td>77.5</td></tr><tr><td>87.5</td></tr><tr><td>75.0</td></tr><tr><td>70.0</td></tr><tr><td>62.5</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (102,)\n",
+       "Series: 'percent correct' [f64]\n",
+       "[\n",
+       "\t72.5\n",
+       "\t90.0\n",
+       "\t92.5\n",
+       "\t87.5\n",
+       "\t62.5\n",
+       "\t…\n",
+       "\t77.5\n",
+       "\t87.5\n",
+       "\t75.0\n",
+       "\t70.0\n",
+       "\t62.5\n",
+       "]"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.get_column('percent correct')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Boolean indexing of data frames\n",
+    "\n",
+    "Let's say I wanted the record for participant number 42. I can use Boolean indexing to specify the row. This is accomplished using the `filter()` method."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (1, 15)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>i64</td><td>str</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td></tr></thead><tbody><tr><td>42</td><td>&quot;m&quot;</td><td>29</td><td>100</td><td>70</td><td>85.0</td><td>75.0</td><td>null</td><td>64.5</td><td>43.0</td><td>74.0</td><td>43.0</td><td>32</td><td>1</td><td>6</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (1, 15)\n",
+       "┌─────────────┬────────┬─────┬─────────────┬───┬───────────────────────────┬─────┬──────┬─────┐\n",
+       "│ participant ┆ gender ┆ age ┆ correct hit ┆ … ┆ confidence when incorrect ┆ sci ┆ psqi ┆ ess │\n",
+       "│ number      ┆ ---    ┆ --- ┆ percentage  ┆   ┆ ---                       ┆ --- ┆ ---  ┆ --- │\n",
+       "│ ---         ┆ str    ┆ i64 ┆ ---         ┆   ┆ f64                       ┆ i64 ┆ i64  ┆ i64 │\n",
+       "│ i64         ┆        ┆     ┆ i64         ┆   ┆                           ┆     ┆      ┆     │\n",
+       "╞═════════════╪════════╪═════╪═════════════╪═══╪═══════════════════════════╪═════╪══════╪═════╡\n",
+       "│ 42          ┆ m      ┆ 29  ┆ 100         ┆ … ┆ 43.0                      ┆ 32  ┆ 1    ┆ 6   │\n",
+       "└─────────────┴────────┴─────┴─────────────┴───┴───────────────────────────┴─────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.filter(pl.col(\"participant number\") == 42)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The argument of the `filter()` method is an **expression**, `pl.col('participant number') == 42`, which gives the rows (in this case, one row) for which the value of the `'participant number'` column is 42.\n",
+    "\n",
+    "If I just wanted the percent correct, I can first filter to get the row I want, then extract the `'percent correct'` column, and then use the `item()` method to extract the scalar value."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "85.0"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "(\n",
+    "    df\n",
+    "    .filter(pl.col('participant number') == 42)\n",
+    "    .get_column('percent correct')\n",
+    "    .item()\n",
+    ")"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note how I expressed this code snippet stylistically. I am doing method chaining, and having each method on its own line adds readability.\n",
+    "\n",
+    "Now, let's pull out all records of females under the age of 21. We can again use Boolean indexing, but we need to use an `&` operator, taken to mean logical AND. We did not cover this bitwise operator before, but the syntax is self-explanatory in the example below. Note that it is important that each Boolean operation you are doing is in parentheses because of the precedence of the operators involved. The other bitwise operators you may wish to use for Boolean indexing in data frames are `|` for OR and `~` for NOT."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 15)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>i64</td><td>str</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td></tr></thead><tbody><tr><td>3</td><td>&quot;f&quot;</td><td>16</td><td>70</td><td>80</td><td>75.0</td><td>70.0</td><td>57.0</td><td>54.0</td><td>53.0</td><td>57.0</td><td>54.5</td><td>23</td><td>1</td><td>3</td></tr><tr><td>5</td><td>&quot;f&quot;</td><td>18</td><td>90</td><td>100</td><td>95.0</td><td>76.5</td><td>83.0</td><td>80.0</td><td>null</td><td>80.0</td><td>83.0</td><td>21</td><td>7</td><td>5</td></tr><tr><td>58</td><td>&quot;f&quot;</td><td>16</td><td>85</td><td>85</td><td>85.0</td><td>55.0</td><td>30.0</td><td>50.0</td><td>40.0</td><td>52.5</td><td>35.0</td><td>29</td><td>2</td><td>11</td></tr><tr><td>72</td><td>&quot;f&quot;</td><td>18</td><td>80</td><td>75</td><td>77.5</td><td>67.5</td><td>51.5</td><td>66.0</td><td>57.0</td><td>67.0</td><td>53.0</td><td>29</td><td>4</td><td>6</td></tr><tr><td>85</td><td>&quot;f&quot;</td><td>18</td><td>85</td><td>85</td><td>85.0</td><td>93.0</td><td>92.0</td><td>91.0</td><td>89.0</td><td>91.5</td><td>91.0</td><td>25</td><td>4</td><td>21</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 15)\n",
+       "┌─────────────┬────────┬─────┬─────────────┬───┬───────────────────────────┬─────┬──────┬─────┐\n",
+       "│ participant ┆ gender ┆ age ┆ correct hit ┆ … ┆ confidence when incorrect ┆ sci ┆ psqi ┆ ess │\n",
+       "│ number      ┆ ---    ┆ --- ┆ percentage  ┆   ┆ ---                       ┆ --- ┆ ---  ┆ --- │\n",
+       "│ ---         ┆ str    ┆ i64 ┆ ---         ┆   ┆ f64                       ┆ i64 ┆ i64  ┆ i64 │\n",
+       "│ i64         ┆        ┆     ┆ i64         ┆   ┆                           ┆     ┆      ┆     │\n",
+       "╞═════════════╪════════╪═════╪═════════════╪═══╪═══════════════════════════╪═════╪══════╪═════╡\n",
+       "│ 3           ┆ f      ┆ 16  ┆ 70          ┆ … ┆ 54.5                      ┆ 23  ┆ 1    ┆ 3   │\n",
+       "│ 5           ┆ f      ┆ 18  ┆ 90          ┆ … ┆ 83.0                      ┆ 21  ┆ 7    ┆ 5   │\n",
+       "│ 58          ┆ f      ┆ 16  ┆ 85          ┆ … ┆ 35.0                      ┆ 29  ┆ 2    ┆ 11  │\n",
+       "│ 72          ┆ f      ┆ 18  ┆ 80          ┆ … ┆ 53.0                      ┆ 29  ┆ 4    ┆ 6   │\n",
+       "│ 85          ┆ f      ┆ 18  ┆ 85          ┆ … ┆ 91.0                      ┆ 25  ┆ 4    ┆ 21  │\n",
+       "└─────────────┴────────┴─────┴─────────────┴───┴───────────────────────────┴─────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.filter((pl.col('gender') == 'f') & (pl.col('age') < 21))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can do something even more complicated, like pull out all females under 30 who got more than 85% of the face matching tasks correct."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (8, 15)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>i64</td><td>str</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td></tr></thead><tbody><tr><td>93</td><td>&quot;f&quot;</td><td>28</td><td>100</td><td>75</td><td>87.5</td><td>89.5</td><td>null</td><td>67.0</td><td>60.0</td><td>80.0</td><td>60.0</td><td>16</td><td>7</td><td>4</td></tr><tr><td>5</td><td>&quot;f&quot;</td><td>18</td><td>90</td><td>100</td><td>95.0</td><td>76.5</td><td>83.0</td><td>80.0</td><td>null</td><td>80.0</td><td>83.0</td><td>21</td><td>7</td><td>5</td></tr><tr><td>6</td><td>&quot;f&quot;</td><td>28</td><td>95</td><td>80</td><td>87.5</td><td>100.0</td><td>85.0</td><td>94.0</td><td>61.0</td><td>99.0</td><td>65.0</td><td>19</td><td>7</td><td>12</td></tr><tr><td>10</td><td>&quot;f&quot;</td><td>25</td><td>100</td><td>100</td><td>100.0</td><td>90.0</td><td>null</td><td>85.0</td><td>null</td><td>90.0</td><td>null</td><td>17</td><td>10</td><td>11</td></tr><tr><td>44</td><td>&quot;f&quot;</td><td>21</td><td>85</td><td>90</td><td>87.5</td><td>66.0</td><td>29.0</td><td>70.0</td><td>29.0</td><td>67.0</td><td>29.0</td><td>26</td><td>7</td><td>18</td></tr><tr><td>48</td><td>&quot;f&quot;</td><td>23</td><td>90</td><td>85</td><td>87.5</td><td>67.0</td><td>47.0</td><td>69.0</td><td>40.0</td><td>67.0</td><td>40.0</td><td>18</td><td>6</td><td>8</td></tr><tr><td>51</td><td>&quot;f&quot;</td><td>24</td><td>85</td><td>95</td><td>90.0</td><td>97.0</td><td>41.0</td><td>74.0</td><td>73.0</td><td>83.0</td><td>55.5</td><td>29</td><td>1</td><td>7</td></tr><tr><td>67</td><td>&quot;f&quot;</td><td>25</td><td>100</td><td>100</td><td>100.0</td><td>61.5</td><td>null</td><td>58.5</td><td>null</td><td>60.5</td><td>null</td><td>28</td><td>8</td><td>9</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (8, 15)\n",
+       "┌─────────────┬────────┬─────┬─────────────┬───┬───────────────────────────┬─────┬──────┬─────┐\n",
+       "│ participant ┆ gender ┆ age ┆ correct hit ┆ … ┆ confidence when incorrect ┆ sci ┆ psqi ┆ ess │\n",
+       "│ number      ┆ ---    ┆ --- ┆ percentage  ┆   ┆ ---                       ┆ --- ┆ ---  ┆ --- │\n",
+       "│ ---         ┆ str    ┆ i64 ┆ ---         ┆   ┆ f64                       ┆ i64 ┆ i64  ┆ i64 │\n",
+       "│ i64         ┆        ┆     ┆ i64         ┆   ┆                           ┆     ┆      ┆     │\n",
+       "╞═════════════╪════════╪═════╪═════════════╪═══╪═══════════════════════════╪═════╪══════╪═════╡\n",
+       "│ 93          ┆ f      ┆ 28  ┆ 100         ┆ … ┆ 60.0                      ┆ 16  ┆ 7    ┆ 4   │\n",
+       "│ 5           ┆ f      ┆ 18  ┆ 90          ┆ … ┆ 83.0                      ┆ 21  ┆ 7    ┆ 5   │\n",
+       "│ 6           ┆ f      ┆ 28  ┆ 95          ┆ … ┆ 65.0                      ┆ 19  ┆ 7    ┆ 12  │\n",
+       "│ 10          ┆ f      ┆ 25  ┆ 100         ┆ … ┆ null                      ┆ 17  ┆ 10   ┆ 11  │\n",
+       "│ 44          ┆ f      ┆ 21  ┆ 85          ┆ … ┆ 29.0                      ┆ 26  ┆ 7    ┆ 18  │\n",
+       "│ 48          ┆ f      ┆ 23  ┆ 90          ┆ … ┆ 40.0                      ┆ 18  ┆ 6    ┆ 8   │\n",
+       "│ 51          ┆ f      ┆ 24  ┆ 85          ┆ … ┆ 55.5                      ┆ 29  ┆ 1    ┆ 7   │\n",
+       "│ 67          ┆ f      ┆ 25  ┆ 100         ┆ … ┆ null                      ┆ 28  ┆ 8    ┆ 9   │\n",
+       "└─────────────┴────────┴─────┴─────────────┴───┴───────────────────────────┴─────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.filter(\n",
+    "      (pl.col('gender') == 'f') \n",
+    "    & (pl.col('age') < 30) \n",
+    "    & (pl.col('percent correct') > 85.0)\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Of interest in this exercise in Boolean indexing is that we never had to write a loop. To produce our indices, we could have done the following."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, False, False, False, True, True, False, False, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, True, False, True, False, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Initialize array of Boolean indices\n",
+    "inds = []\n",
+    "\n",
+    "# Iterate over the rows of the DataFrame to check if the row should be included\n",
+    "for row in df.iter_rows(named=True):\n",
+    "    inds.append(    \n",
+    "            row[\"age\"] < 30 \n",
+    "        and row[\"gender\"] == \"f\" \n",
+    "        and row[\"percent correct\"] > 85\n",
+    "    )\n",
+    "\n",
+    "# Look at inds\n",
+    "print(inds)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "If we wanted, we could use this `inds` list of `True`s and `False`s to filter our values."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (8, 15)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>i64</td><td>str</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td></tr></thead><tbody><tr><td>93</td><td>&quot;f&quot;</td><td>28</td><td>100</td><td>75</td><td>87.5</td><td>89.5</td><td>null</td><td>67.0</td><td>60.0</td><td>80.0</td><td>60.0</td><td>16</td><td>7</td><td>4</td></tr><tr><td>5</td><td>&quot;f&quot;</td><td>18</td><td>90</td><td>100</td><td>95.0</td><td>76.5</td><td>83.0</td><td>80.0</td><td>null</td><td>80.0</td><td>83.0</td><td>21</td><td>7</td><td>5</td></tr><tr><td>6</td><td>&quot;f&quot;</td><td>28</td><td>95</td><td>80</td><td>87.5</td><td>100.0</td><td>85.0</td><td>94.0</td><td>61.0</td><td>99.0</td><td>65.0</td><td>19</td><td>7</td><td>12</td></tr><tr><td>10</td><td>&quot;f&quot;</td><td>25</td><td>100</td><td>100</td><td>100.0</td><td>90.0</td><td>null</td><td>85.0</td><td>null</td><td>90.0</td><td>null</td><td>17</td><td>10</td><td>11</td></tr><tr><td>44</td><td>&quot;f&quot;</td><td>21</td><td>85</td><td>90</td><td>87.5</td><td>66.0</td><td>29.0</td><td>70.0</td><td>29.0</td><td>67.0</td><td>29.0</td><td>26</td><td>7</td><td>18</td></tr><tr><td>48</td><td>&quot;f&quot;</td><td>23</td><td>90</td><td>85</td><td>87.5</td><td>67.0</td><td>47.0</td><td>69.0</td><td>40.0</td><td>67.0</td><td>40.0</td><td>18</td><td>6</td><td>8</td></tr><tr><td>51</td><td>&quot;f&quot;</td><td>24</td><td>85</td><td>95</td><td>90.0</td><td>97.0</td><td>41.0</td><td>74.0</td><td>73.0</td><td>83.0</td><td>55.5</td><td>29</td><td>1</td><td>7</td></tr><tr><td>67</td><td>&quot;f&quot;</td><td>25</td><td>100</td><td>100</td><td>100.0</td><td>61.5</td><td>null</td><td>58.5</td><td>null</td><td>60.5</td><td>null</td><td>28</td><td>8</td><td>9</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (8, 15)\n",
+       "┌─────────────┬────────┬─────┬─────────────┬───┬───────────────────────────┬─────┬──────┬─────┐\n",
+       "│ participant ┆ gender ┆ age ┆ correct hit ┆ … ┆ confidence when incorrect ┆ sci ┆ psqi ┆ ess │\n",
+       "│ number      ┆ ---    ┆ --- ┆ percentage  ┆   ┆ ---                       ┆ --- ┆ ---  ┆ --- │\n",
+       "│ ---         ┆ str    ┆ i64 ┆ ---         ┆   ┆ f64                       ┆ i64 ┆ i64  ┆ i64 │\n",
+       "│ i64         ┆        ┆     ┆ i64         ┆   ┆                           ┆     ┆      ┆     │\n",
+       "╞═════════════╪════════╪═════╪═════════════╪═══╪═══════════════════════════╪═════╪══════╪═════╡\n",
+       "│ 93          ┆ f      ┆ 28  ┆ 100         ┆ … ┆ 60.0                      ┆ 16  ┆ 7    ┆ 4   │\n",
+       "│ 5           ┆ f      ┆ 18  ┆ 90          ┆ … ┆ 83.0                      ┆ 21  ┆ 7    ┆ 5   │\n",
+       "│ 6           ┆ f      ┆ 28  ┆ 95          ┆ … ┆ 65.0                      ┆ 19  ┆ 7    ┆ 12  │\n",
+       "│ 10          ┆ f      ┆ 25  ┆ 100         ┆ … ┆ null                      ┆ 17  ┆ 10   ┆ 11  │\n",
+       "│ 44          ┆ f      ┆ 21  ┆ 85          ┆ … ┆ 29.0                      ┆ 26  ┆ 7    ┆ 18  │\n",
+       "│ 48          ┆ f      ┆ 23  ┆ 90          ┆ … ┆ 40.0                      ┆ 18  ┆ 6    ┆ 8   │\n",
+       "│ 51          ┆ f      ┆ 24  ┆ 85          ┆ … ┆ 55.5                      ┆ 29  ┆ 1    ┆ 7   │\n",
+       "│ 67          ┆ f      ┆ 25  ┆ 100         ┆ … ┆ null                      ┆ 28  ┆ 8    ┆ 9   │\n",
+       "└─────────────┴────────┴─────┴─────────────┴───┴───────────────────────────┴─────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.filter(inds)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This feature, where the looping is done automatically on Polars objects like data frames, is very powerful and saves us writing lots of lines of code. This example also showed how to use the `iter_rows()` method of a data frame. It is actually rare that you will need to do that, and you should generally avoid it, since it is also slow."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Contexts and expressions\n",
+    "\n",
+    "We will now be a bit more formal in discussing how to work with Polars data frames. Specifically, Polars features the concepts of **expressions** and **contexts**. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### The filter context\n",
+    "\n",
+    "As an example, let us consider our above task of filtering the data frame to extract females under the age of 21. The syntax was\n",
+    "\n",
+    "```python\n",
+    "df.filter((pl.col('gender') == 'f') & (pl.col('age') < 21))\n",
+    "```\n",
+    "\n",
+    "Consider first `pl.col('gender') == 'f'`. This is an example of an expression. An expression consists of a calculation or transformation that can be applied to a series and returns a series. In this case, we are taking a column called `'gender'` and we are evaluating whether each element in that column is `'f'`. Indeed, if we ask the Python interpreter to tell us the type of the above expression, it is a Polars `Expr`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "polars.expr.expr.Expr"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "type(pl.col('gender') == 'f')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Similarly, `pl.col('age') < 21` is also an expression, as is the result when we apply the `&` bitwise operator."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "polars.expr.expr.Expr"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "type((pl.col('gender') == 'f') & (pl.col('age') < 21))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "So, an expression says what we want to *do* to data. But now we ask, in what way, i.e., in what *context*, do we want to *use* the result of the expression? One way we may wish to use the above expression is to filter the rows in a data frame. The **filter context** is established by `df.filter()`. The argument of `df.filter()` is an expression (or expressions) that evaluate to Booleans. That is how we got our result; in the context of filtering, the expression is evaluated and only entries where the expression gives `True` are retained."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 15)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>i64</td><td>str</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td></tr></thead><tbody><tr><td>3</td><td>&quot;f&quot;</td><td>16</td><td>70</td><td>80</td><td>75.0</td><td>70.0</td><td>57.0</td><td>54.0</td><td>53.0</td><td>57.0</td><td>54.5</td><td>23</td><td>1</td><td>3</td></tr><tr><td>5</td><td>&quot;f&quot;</td><td>18</td><td>90</td><td>100</td><td>95.0</td><td>76.5</td><td>83.0</td><td>80.0</td><td>null</td><td>80.0</td><td>83.0</td><td>21</td><td>7</td><td>5</td></tr><tr><td>58</td><td>&quot;f&quot;</td><td>16</td><td>85</td><td>85</td><td>85.0</td><td>55.0</td><td>30.0</td><td>50.0</td><td>40.0</td><td>52.5</td><td>35.0</td><td>29</td><td>2</td><td>11</td></tr><tr><td>72</td><td>&quot;f&quot;</td><td>18</td><td>80</td><td>75</td><td>77.5</td><td>67.5</td><td>51.5</td><td>66.0</td><td>57.0</td><td>67.0</td><td>53.0</td><td>29</td><td>4</td><td>6</td></tr><tr><td>85</td><td>&quot;f&quot;</td><td>18</td><td>85</td><td>85</td><td>85.0</td><td>93.0</td><td>92.0</td><td>91.0</td><td>89.0</td><td>91.5</td><td>91.0</td><td>25</td><td>4</td><td>21</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 15)\n",
+       "┌─────────────┬────────┬─────┬─────────────┬───┬───────────────────────────┬─────┬──────┬─────┐\n",
+       "│ participant ┆ gender ┆ age ┆ correct hit ┆ … ┆ confidence when incorrect ┆ sci ┆ psqi ┆ ess │\n",
+       "│ number      ┆ ---    ┆ --- ┆ percentage  ┆   ┆ ---                       ┆ --- ┆ ---  ┆ --- │\n",
+       "│ ---         ┆ str    ┆ i64 ┆ ---         ┆   ┆ f64                       ┆ i64 ┆ i64  ┆ i64 │\n",
+       "│ i64         ┆        ┆     ┆ i64         ┆   ┆                           ┆     ┆      ┆     │\n",
+       "╞═════════════╪════════╪═════╪═════════════╪═══╪═══════════════════════════╪═════╪══════╪═════╡\n",
+       "│ 3           ┆ f      ┆ 16  ┆ 70          ┆ … ┆ 54.5                      ┆ 23  ┆ 1    ┆ 3   │\n",
+       "│ 5           ┆ f      ┆ 18  ┆ 90          ┆ … ┆ 83.0                      ┆ 21  ┆ 7    ┆ 5   │\n",
+       "│ 58          ┆ f      ┆ 16  ┆ 85          ┆ … ┆ 35.0                      ┆ 29  ┆ 2    ┆ 11  │\n",
+       "│ 72          ┆ f      ┆ 18  ┆ 80          ┆ … ┆ 53.0                      ┆ 29  ┆ 4    ┆ 6   │\n",
+       "│ 85          ┆ f      ┆ 18  ┆ 85          ┆ … ┆ 91.0                      ┆ 25  ┆ 4    ┆ 21  │\n",
+       "└─────────────┴────────┴─────┴─────────────┴───┴───────────────────────────┴─────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.filter((pl.col('gender') == 'f') & (pl.col('age') < 21))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### The selection context\n",
+    "\n",
+    "The simplest way we can use an expression is simply to evaluate the expression and give its result as a new data frame. This is the **selection** context, in which we get the output of the expression. It can be invoked with `df.select()`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (102, 1)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>gender</th></tr><tr><td>bool</td></tr></thead><tbody><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>&hellip;</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (102, 1)\n",
+       "┌────────┐\n",
+       "│ gender │\n",
+       "│ ---    │\n",
+       "│ bool   │\n",
+       "╞════════╡\n",
+       "│ false  │\n",
+       "│ false  │\n",
+       "│ false  │\n",
+       "│ false  │\n",
+       "│ false  │\n",
+       "│ …      │\n",
+       "│ false  │\n",
+       "│ false  │\n",
+       "│ false  │\n",
+       "│ false  │\n",
+       "│ false  │\n",
+       "└────────┘"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.select((pl.col('gender') == 'f') & (pl.col('age') < 21))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note that this is a data frame and not a series; it is a data frame containing one column. In this case, the column is named after the first column used in our Boolean expression. We can adjust the column label by applying the `alias()` method, which does a renaming transformation."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (102, 1)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>female under 21</th></tr><tr><td>bool</td></tr></thead><tbody><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>&hellip;</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (102, 1)\n",
+       "┌─────────────────┐\n",
+       "│ female under 21 │\n",
+       "│ ---             │\n",
+       "│ bool            │\n",
+       "╞═════════════════╡\n",
+       "│ false           │\n",
+       "│ false           │\n",
+       "│ false           │\n",
+       "│ false           │\n",
+       "│ false           │\n",
+       "│ …               │\n",
+       "│ false           │\n",
+       "│ false           │\n",
+       "│ false           │\n",
+       "│ false           │\n",
+       "│ false           │\n",
+       "└─────────────────┘"
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "f_under_21 = (pl.col('gender') == 'f') & (pl.col('age') < 21)\n",
+    "\n",
+    "df.select(f_under_21.alias('female under 21'))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "If we wanted a series instead of a new data frame, we can apply the `get_column()` method to the data frame returned by `df.select()`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (102,)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>female under 21</th></tr><tr><td>bool</td></tr></thead><tbody><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>&hellip;</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr><tr><td>false</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (102,)\n",
+       "Series: 'female under 21' [bool]\n",
+       "[\n",
+       "\tfalse\n",
+       "\tfalse\n",
+       "\tfalse\n",
+       "\tfalse\n",
+       "\tfalse\n",
+       "\t…\n",
+       "\tfalse\n",
+       "\tfalse\n",
+       "\tfalse\n",
+       "\tfalse\n",
+       "\tfalse\n",
+       "]"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Result of expression as a series\n",
+    "df.select(f_under_21.alias('female under 21')).get_column('female under 21')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can also select with multiple expressions. For example, let's say we additionally wanted to compute the ratio of confidence when correct to confidence when incorrect. First, we can make an expression for that."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "conf_ratio = pl.col('confidence when correct') / pl.col('confidence when incorrect')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, we can select that as well as the `'female under 21'` column."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (102, 2)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>female under 21</th><th>confidence ratio</th></tr><tr><td>bool</td><td>f64</td></tr></thead><tbody><tr><td>false</td><td>1.033333</td></tr><tr><td>false</td><td>1.5</td></tr><tr><td>false</td><td>1.011364</td></tr><tr><td>false</td><td>1.1</td></tr><tr><td>false</td><td>1.326531</td></tr><tr><td>&hellip;</td><td>&hellip;</td></tr><tr><td>false</td><td>1.040541</td></tr><tr><td>false</td><td>0.925</td></tr><tr><td>false</td><td>0.802469</td></tr><tr><td>false</td><td>1.588235</td></tr><tr><td>false</td><td>1.109589</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (102, 2)\n",
+       "┌─────────────────┬──────────────────┐\n",
+       "│ female under 21 ┆ confidence ratio │\n",
+       "│ ---             ┆ ---              │\n",
+       "│ bool            ┆ f64              │\n",
+       "╞═════════════════╪══════════════════╡\n",
+       "│ false           ┆ 1.033333         │\n",
+       "│ false           ┆ 1.5              │\n",
+       "│ false           ┆ 1.011364         │\n",
+       "│ false           ┆ 1.1              │\n",
+       "│ false           ┆ 1.326531         │\n",
+       "│ …               ┆ …                │\n",
+       "│ false           ┆ 1.040541         │\n",
+       "│ false           ┆ 0.925            │\n",
+       "│ false           ┆ 0.802469         │\n",
+       "│ false           ┆ 1.588235         │\n",
+       "│ false           ┆ 1.109589         │\n",
+       "└─────────────────┴──────────────────┘"
+      ]
+     },
+     "execution_count": 21,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.select(\n",
+    "    f_under_21.alias('female under 21'),\n",
+    "    conf_ratio.alias('confidence ratio')\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Notice that `df.select()` returns a new data frame containing only the columns that are given by the expressions and the original data frame is discarded. If we want the results of the expressions to instead be added to the data frame (keeping all of its original columns), we use the `df.with_columns()` method. This is still a selection context; the output is just different, comprising of the original data frame with added columns. (In the output of the cell below, you will find the columns added to the far right of the data frame.)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (102, 17)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th><th>female under 21</th><th>confidence ratio</th></tr><tr><td>i64</td><td>str</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td><td>bool</td><td>f64</td></tr></thead><tbody><tr><td>8</td><td>&quot;f&quot;</td><td>39</td><td>65</td><td>80</td><td>72.5</td><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td><td>9</td><td>13</td><td>2</td><td>false</td><td>1.033333</td></tr><tr><td>16</td><td>&quot;m&quot;</td><td>42</td><td>90</td><td>90</td><td>90.0</td><td>75.5</td><td>55.5</td><td>70.5</td><td>50.0</td><td>75.0</td><td>50.0</td><td>4</td><td>11</td><td>7</td><td>false</td><td>1.5</td></tr><tr><td>18</td><td>&quot;f&quot;</td><td>31</td><td>90</td><td>95</td><td>92.5</td><td>89.5</td><td>90.0</td><td>86.0</td><td>81.0</td><td>89.0</td><td>88.0</td><td>10</td><td>9</td><td>3</td><td>false</td><td>1.011364</td></tr><tr><td>22</td><td>&quot;f&quot;</td><td>35</td><td>100</td><td>75</td><td>87.5</td><td>89.5</td><td>null</td><td>71.0</td><td>80.0</td><td>88.0</td><td>80.0</td><td>13</td><td>8</td><td>20</td><td>false</td><td>1.1</td></tr><tr><td>27</td><td>&quot;f&quot;</td><td>74</td><td>60</td><td>65</td><td>62.5</td><td>68.5</td><td>49.0</td><td>61.0</td><td>49.0</td><td>65.0</td><td>49.0</td><td>13</td><td>9</td><td>12</td><td>false</td><td>1.326531</td></tr><tr><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td></tr><tr><td>97</td><td>&quot;f&quot;</td><td>23</td><td>70</td><td>85</td><td>77.5</td><td>77.0</td><td>66.5</td><td>77.0</td><td>77.5</td><td>77.0</td><td>74.0</td><td>20</td><td>8</td><td>10</td><td>false</td><td>1.040541</td></tr><tr><td>98</td><td>&quot;f&quot;</td><td>70</td><td>90</td><td>85</td><td>87.5</td><td>65.5</td><td>85.5</td><td>87.0</td><td>80.0</td><td>74.0</td><td>80.0</td><td>19</td><td>8</td><td>7</td><td>false</td><td>0.925</td></tr><tr><td>99</td><td>&quot;f&quot;</td><td>24</td><td>70</td><td>80</td><td>75.0</td><td>61.5</td><td>81.0</td><td>70.0</td><td>61.0</td><td>65.0</td><td>81.0</td><td>31</td><td>2</td><td>15</td><td>false</td><td>0.802469</td></tr><tr><td>102</td><td>&quot;f&quot;</td><td>40</td><td>75</td><td>65</td><td>70.0</td><td>53.0</td><td>37.0</td><td>84.0</td><td>52.0</td><td>81.0</td><td>51.0</td><td>22</td><td>4</td><td>7</td><td>false</td><td>1.588235</td></tr><tr><td>103</td><td>&quot;f&quot;</td><td>33</td><td>85</td><td>40</td><td>62.5</td><td>80.0</td><td>27.0</td><td>31.0</td><td>82.5</td><td>81.0</td><td>73.0</td><td>24</td><td>5</td><td>7</td><td>false</td><td>1.109589</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (102, 17)\n",
+       "┌─────────────┬────────┬─────┬─────────────┬───┬──────┬─────┬─────────────────┬────────────┐\n",
+       "│ participant ┆ gender ┆ age ┆ correct hit ┆ … ┆ psqi ┆ ess ┆ female under 21 ┆ confidence │\n",
+       "│ number      ┆ ---    ┆ --- ┆ percentage  ┆   ┆ ---  ┆ --- ┆ ---             ┆ ratio      │\n",
+       "│ ---         ┆ str    ┆ i64 ┆ ---         ┆   ┆ i64  ┆ i64 ┆ bool            ┆ ---        │\n",
+       "│ i64         ┆        ┆     ┆ i64         ┆   ┆      ┆     ┆                 ┆ f64        │\n",
+       "╞═════════════╪════════╪═════╪═════════════╪═══╪══════╪═════╪═════════════════╪════════════╡\n",
+       "│ 8           ┆ f      ┆ 39  ┆ 65          ┆ … ┆ 13   ┆ 2   ┆ false           ┆ 1.033333   │\n",
+       "│ 16          ┆ m      ┆ 42  ┆ 90          ┆ … ┆ 11   ┆ 7   ┆ false           ┆ 1.5        │\n",
+       "│ 18          ┆ f      ┆ 31  ┆ 90          ┆ … ┆ 9    ┆ 3   ┆ false           ┆ 1.011364   │\n",
+       "│ 22          ┆ f      ┆ 35  ┆ 100         ┆ … ┆ 8    ┆ 20  ┆ false           ┆ 1.1        │\n",
+       "│ 27          ┆ f      ┆ 74  ┆ 60          ┆ … ┆ 9    ┆ 12  ┆ false           ┆ 1.326531   │\n",
+       "│ …           ┆ …      ┆ …   ┆ …           ┆ … ┆ …    ┆ …   ┆ …               ┆ …          │\n",
+       "│ 97          ┆ f      ┆ 23  ┆ 70          ┆ … ┆ 8    ┆ 10  ┆ false           ┆ 1.040541   │\n",
+       "│ 98          ┆ f      ┆ 70  ┆ 90          ┆ … ┆ 8    ┆ 7   ┆ false           ┆ 0.925      │\n",
+       "│ 99          ┆ f      ┆ 24  ┆ 70          ┆ … ┆ 2    ┆ 15  ┆ false           ┆ 0.802469   │\n",
+       "│ 102         ┆ f      ┆ 40  ┆ 75          ┆ … ┆ 4    ┆ 7   ┆ false           ┆ 1.588235   │\n",
+       "│ 103         ┆ f      ┆ 33  ┆ 85          ┆ … ┆ 5    ┆ 7   ┆ false           ┆ 1.109589   │\n",
+       "└─────────────┴────────┴─────┴─────────────┴───┴──────┴─────┴─────────────────┴────────────┘"
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.with_columns(\n",
+    "    f_under_21.alias('female under 21'),\n",
+    "    conf_ratio.alias('confidence ratio')\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Finally, we will do something we'll want to use going forward. Recall that a subject is said to suffer from insomnia if he or she has an SCI of 16 or below. We might like to add a column to the data frame that specifies whether or not the subject suffers from insomnia, which we do in the code cell below. Note that until now, we have not updated our data frame. To actually update the data frame, we need an assignment operation, `df = ...`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 16)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th><th>insomnia</th></tr><tr><td>i64</td><td>str</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td><td>bool</td></tr></thead><tbody><tr><td>8</td><td>&quot;f&quot;</td><td>39</td><td>65</td><td>80</td><td>72.5</td><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td><td>9</td><td>13</td><td>2</td><td>true</td></tr><tr><td>16</td><td>&quot;m&quot;</td><td>42</td><td>90</td><td>90</td><td>90.0</td><td>75.5</td><td>55.5</td><td>70.5</td><td>50.0</td><td>75.0</td><td>50.0</td><td>4</td><td>11</td><td>7</td><td>true</td></tr><tr><td>18</td><td>&quot;f&quot;</td><td>31</td><td>90</td><td>95</td><td>92.5</td><td>89.5</td><td>90.0</td><td>86.0</td><td>81.0</td><td>89.0</td><td>88.0</td><td>10</td><td>9</td><td>3</td><td>true</td></tr><tr><td>22</td><td>&quot;f&quot;</td><td>35</td><td>100</td><td>75</td><td>87.5</td><td>89.5</td><td>null</td><td>71.0</td><td>80.0</td><td>88.0</td><td>80.0</td><td>13</td><td>8</td><td>20</td><td>true</td></tr><tr><td>27</td><td>&quot;f&quot;</td><td>74</td><td>60</td><td>65</td><td>62.5</td><td>68.5</td><td>49.0</td><td>61.0</td><td>49.0</td><td>65.0</td><td>49.0</td><td>13</td><td>9</td><td>12</td><td>true</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 16)\n",
+       "┌────────────────────┬────────┬─────┬────────────────────────┬───┬─────┬──────┬─────┬──────────┐\n",
+       "│ participant number ┆ gender ┆ age ┆ correct hit percentage ┆ … ┆ sci ┆ psqi ┆ ess ┆ insomnia │\n",
+       "│ ---                ┆ ---    ┆ --- ┆ ---                    ┆   ┆ --- ┆ ---  ┆ --- ┆ ---      │\n",
+       "│ i64                ┆ str    ┆ i64 ┆ i64                    ┆   ┆ i64 ┆ i64  ┆ i64 ┆ bool     │\n",
+       "╞════════════════════╪════════╪═════╪════════════════════════╪═══╪═════╪══════╪═════╪══════════╡\n",
+       "│ 8                  ┆ f      ┆ 39  ┆ 65                     ┆ … ┆ 9   ┆ 13   ┆ 2   ┆ true     │\n",
+       "│ 16                 ┆ m      ┆ 42  ┆ 90                     ┆ … ┆ 4   ┆ 11   ┆ 7   ┆ true     │\n",
+       "│ 18                 ┆ f      ┆ 31  ┆ 90                     ┆ … ┆ 10  ┆ 9    ┆ 3   ┆ true     │\n",
+       "│ 22                 ┆ f      ┆ 35  ┆ 100                    ┆ … ┆ 13  ┆ 8    ┆ 20  ┆ true     │\n",
+       "│ 27                 ┆ f      ┆ 74  ┆ 60                     ┆ … ┆ 13  ┆ 9    ┆ 12  ┆ true     │\n",
+       "└────────────────────┴────────┴─────┴────────────────────────┴───┴─────┴──────┴─────┴──────────┘"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Add a column with `True` for insomnia\n",
+    "df = df.with_columns((pl.col('sci') <= 16).alias('insomnia'))\n",
+    "\n",
+    "# Take a look (.head() gives first five rows)\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Polars selectors\n",
+    "\n",
+    "We have seen that we can choose which columns we want to work with in expressions using `pl.col()`. Thus far, we have used a single string as an argument, but `pl.col()` is more capable than that. For example, to select three columns of interest, we can do the following."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 3)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>age</th><th>gender</th><th>percent correct</th></tr><tr><td>i64</td><td>str</td><td>f64</td></tr></thead><tbody><tr><td>39</td><td>&quot;f&quot;</td><td>72.5</td></tr><tr><td>42</td><td>&quot;m&quot;</td><td>90.0</td></tr><tr><td>31</td><td>&quot;f&quot;</td><td>92.5</td></tr><tr><td>35</td><td>&quot;f&quot;</td><td>87.5</td></tr><tr><td>74</td><td>&quot;f&quot;</td><td>62.5</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 3)\n",
+       "┌─────┬────────┬─────────────────┐\n",
+       "│ age ┆ gender ┆ percent correct │\n",
+       "│ --- ┆ ---    ┆ ---             │\n",
+       "│ i64 ┆ str    ┆ f64             │\n",
+       "╞═════╪════════╪═════════════════╡\n",
+       "│ 39  ┆ f      ┆ 72.5            │\n",
+       "│ 42  ┆ m      ┆ 90.0            │\n",
+       "│ 31  ┆ f      ┆ 92.5            │\n",
+       "│ 35  ┆ f      ┆ 87.5            │\n",
+       "│ 74  ┆ f      ┆ 62.5            │\n",
+       "└─────┴────────┴─────────────────┘"
+      ]
+     },
+     "execution_count": 24,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.select(pl.col('age', 'gender', 'percent correct')).head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can also pass regular expressions into `pl.col()`. If we want all columns, for example, we can use `pl.col('*')`. To get all columns containing the string `'confidence'`, we can use `pl.col('^.*confidence.*$')`.\n",
+    "\n",
+    "Personally, I always struggle with regular expressions. Fortunately, Polars has powerful **selectors** which help specify which columns are of interest. In addition to facilitating selection based on the names of the columns, selectors allow selection based on the data type of the column as well (actually, so does `pl.col()`, but it is simplified with selectors). \n",
+    "\n",
+    "We have to import the selectors separately, which we have done in the top cell of this notebook via `import polars.selectors as cs`. The `cs` alias is suggested by the Polars developers.\n",
+    "\n",
+    "As an example, we can select all columns that have a column heading containing the string `'confidence'`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 6)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th></tr><tr><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td></tr><tr><td>75.5</td><td>55.5</td><td>70.5</td><td>50.0</td><td>75.0</td><td>50.0</td></tr><tr><td>89.5</td><td>90.0</td><td>86.0</td><td>81.0</td><td>89.0</td><td>88.0</td></tr><tr><td>89.5</td><td>null</td><td>71.0</td><td>80.0</td><td>88.0</td><td>80.0</td></tr><tr><td>68.5</td><td>49.0</td><td>61.0</td><td>49.0</td><td>65.0</td><td>49.0</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 6)\n",
+       "┌─────────────────┬────────────────┬────────────────┬────────────┬────────────────┬────────────────┐\n",
+       "│ confidence when ┆ confidence     ┆ confidence     ┆ confidence ┆ confidence     ┆ confidence     │\n",
+       "│ correct hit     ┆ when incorrect ┆ when correct   ┆ when       ┆ when correct   ┆ when incorrect │\n",
+       "│ ---             ┆ hit            ┆ reject         ┆ incorrect  ┆ ---            ┆ ---            │\n",
+       "│ f64             ┆ ---            ┆ ---            ┆ reje…      ┆ f64            ┆ f64            │\n",
+       "│                 ┆ f64            ┆ f64            ┆ ---        ┆                ┆                │\n",
+       "│                 ┆                ┆                ┆ f64        ┆                ┆                │\n",
+       "╞═════════════════╪════════════════╪════════════════╪════════════╪════════════════╪════════════════╡\n",
+       "│ 91.0            ┆ 90.0           ┆ 93.0           ┆ 83.5       ┆ 93.0           ┆ 90.0           │\n",
+       "│ 75.5            ┆ 55.5           ┆ 70.5           ┆ 50.0       ┆ 75.0           ┆ 50.0           │\n",
+       "│ 89.5            ┆ 90.0           ┆ 86.0           ┆ 81.0       ┆ 89.0           ┆ 88.0           │\n",
+       "│ 89.5            ┆ null           ┆ 71.0           ┆ 80.0       ┆ 88.0           ┆ 80.0           │\n",
+       "│ 68.5            ┆ 49.0           ┆ 61.0           ┆ 49.0       ┆ 65.0           ┆ 49.0           │\n",
+       "└─────────────────┴────────────────┴────────────────┴────────────┴────────────────┴────────────────┘"
+      ]
+     },
+     "execution_count": 25,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.select(cs.contains('confidence')).head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Or, perhaps we want to exclude all columns that are not indicators of performance on a test (participant number, age, and gender). We can specifically exclude columns with `cs.exclude()`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 13)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th><th>insomnia</th></tr><tr><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td><td>bool</td></tr></thead><tbody><tr><td>65</td><td>80</td><td>72.5</td><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td><td>9</td><td>13</td><td>2</td><td>true</td></tr><tr><td>90</td><td>90</td><td>90.0</td><td>75.5</td><td>55.5</td><td>70.5</td><td>50.0</td><td>75.0</td><td>50.0</td><td>4</td><td>11</td><td>7</td><td>true</td></tr><tr><td>90</td><td>95</td><td>92.5</td><td>89.5</td><td>90.0</td><td>86.0</td><td>81.0</td><td>89.0</td><td>88.0</td><td>10</td><td>9</td><td>3</td><td>true</td></tr><tr><td>100</td><td>75</td><td>87.5</td><td>89.5</td><td>null</td><td>71.0</td><td>80.0</td><td>88.0</td><td>80.0</td><td>13</td><td>8</td><td>20</td><td>true</td></tr><tr><td>60</td><td>65</td><td>62.5</td><td>68.5</td><td>49.0</td><td>61.0</td><td>49.0</td><td>65.0</td><td>49.0</td><td>13</td><td>9</td><td>12</td><td>true</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 13)\n",
+       "┌─────────────┬────────────┬─────────┬─────────────────┬───┬─────┬──────┬─────┬──────────┐\n",
+       "│ correct hit ┆ correct    ┆ percent ┆ confidence when ┆ … ┆ sci ┆ psqi ┆ ess ┆ insomnia │\n",
+       "│ percentage  ┆ reject     ┆ correct ┆ correct hit     ┆   ┆ --- ┆ ---  ┆ --- ┆ ---      │\n",
+       "│ ---         ┆ percentage ┆ ---     ┆ ---             ┆   ┆ i64 ┆ i64  ┆ i64 ┆ bool     │\n",
+       "│ i64         ┆ ---        ┆ f64     ┆ f64             ┆   ┆     ┆      ┆     ┆          │\n",
+       "│             ┆ i64        ┆         ┆                 ┆   ┆     ┆      ┆     ┆          │\n",
+       "╞═════════════╪════════════╪═════════╪═════════════════╪═══╪═════╪══════╪═════╪══════════╡\n",
+       "│ 65          ┆ 80         ┆ 72.5    ┆ 91.0            ┆ … ┆ 9   ┆ 13   ┆ 2   ┆ true     │\n",
+       "│ 90          ┆ 90         ┆ 90.0    ┆ 75.5            ┆ … ┆ 4   ┆ 11   ┆ 7   ┆ true     │\n",
+       "│ 90          ┆ 95         ┆ 92.5    ┆ 89.5            ┆ … ┆ 10  ┆ 9    ┆ 3   ┆ true     │\n",
+       "│ 100         ┆ 75         ┆ 87.5    ┆ 89.5            ┆ … ┆ 13  ┆ 8    ┆ 20  ┆ true     │\n",
+       "│ 60          ┆ 65         ┆ 62.5    ┆ 68.5            ┆ … ┆ 13  ┆ 9    ┆ 12  ┆ true     │\n",
+       "└─────────────┴────────────┴─────────┴─────────────────┴───┴─────┴──────┴─────┴──────────┘"
+      ]
+     },
+     "execution_count": 26,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.select(cs.exclude('gender', 'age', 'participant number')).head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "What if we want columns with only a float data type?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 7)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th></tr><tr><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>72.5</td><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td></tr><tr><td>90.0</td><td>75.5</td><td>55.5</td><td>70.5</td><td>50.0</td><td>75.0</td><td>50.0</td></tr><tr><td>92.5</td><td>89.5</td><td>90.0</td><td>86.0</td><td>81.0</td><td>89.0</td><td>88.0</td></tr><tr><td>87.5</td><td>89.5</td><td>null</td><td>71.0</td><td>80.0</td><td>88.0</td><td>80.0</td></tr><tr><td>62.5</td><td>68.5</td><td>49.0</td><td>61.0</td><td>49.0</td><td>65.0</td><td>49.0</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 7)\n",
+       "┌─────────┬──────────────┬──────────────┬──────────────┬──────────────┬──────────────┬─────────────┐\n",
+       "│ percent ┆ confidence   ┆ confidence   ┆ confidence   ┆ confidence   ┆ confidence   ┆ confidence  │\n",
+       "│ correct ┆ when correct ┆ when         ┆ when correct ┆ when         ┆ when correct ┆ when        │\n",
+       "│ ---     ┆ hit          ┆ incorrect    ┆ reject       ┆ incorrect    ┆ ---          ┆ incorrect   │\n",
+       "│ f64     ┆ ---          ┆ hit          ┆ ---          ┆ reje…        ┆ f64          ┆ ---         │\n",
+       "│         ┆ f64          ┆ ---          ┆ f64          ┆ ---          ┆              ┆ f64         │\n",
+       "│         ┆              ┆ f64          ┆              ┆ f64          ┆              ┆             │\n",
+       "╞═════════╪══════════════╪══════════════╪══════════════╪══════════════╪══════════════╪═════════════╡\n",
+       "│ 72.5    ┆ 91.0         ┆ 90.0         ┆ 93.0         ┆ 83.5         ┆ 93.0         ┆ 90.0        │\n",
+       "│ 90.0    ┆ 75.5         ┆ 55.5         ┆ 70.5         ┆ 50.0         ┆ 75.0         ┆ 50.0        │\n",
+       "│ 92.5    ┆ 89.5         ┆ 90.0         ┆ 86.0         ┆ 81.0         ┆ 89.0         ┆ 88.0        │\n",
+       "│ 87.5    ┆ 89.5         ┆ null         ┆ 71.0         ┆ 80.0         ┆ 88.0         ┆ 80.0        │\n",
+       "│ 62.5    ┆ 68.5         ┆ 49.0         ┆ 61.0         ┆ 49.0         ┆ 65.0         ┆ 49.0        │\n",
+       "└─────────┴──────────────┴──────────────┴──────────────┴──────────────┴──────────────┴─────────────┘"
+      ]
+     },
+     "execution_count": 27,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.select(cs.float()).head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note that the sleep measures were omitted because they are integer data types. We could select everything that is numeric if we want to include those."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 14)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>i64</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td></tr></thead><tbody><tr><td>8</td><td>39</td><td>65</td><td>80</td><td>72.5</td><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td><td>9</td><td>13</td><td>2</td></tr><tr><td>16</td><td>42</td><td>90</td><td>90</td><td>90.0</td><td>75.5</td><td>55.5</td><td>70.5</td><td>50.0</td><td>75.0</td><td>50.0</td><td>4</td><td>11</td><td>7</td></tr><tr><td>18</td><td>31</td><td>90</td><td>95</td><td>92.5</td><td>89.5</td><td>90.0</td><td>86.0</td><td>81.0</td><td>89.0</td><td>88.0</td><td>10</td><td>9</td><td>3</td></tr><tr><td>22</td><td>35</td><td>100</td><td>75</td><td>87.5</td><td>89.5</td><td>null</td><td>71.0</td><td>80.0</td><td>88.0</td><td>80.0</td><td>13</td><td>8</td><td>20</td></tr><tr><td>27</td><td>74</td><td>60</td><td>65</td><td>62.5</td><td>68.5</td><td>49.0</td><td>61.0</td><td>49.0</td><td>65.0</td><td>49.0</td><td>13</td><td>9</td><td>12</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 14)\n",
+       "┌─────────────┬─────┬─────────────┬────────────────┬───┬─────────────────┬─────┬──────┬─────┐\n",
+       "│ participant ┆ age ┆ correct hit ┆ correct reject ┆ … ┆ confidence when ┆ sci ┆ psqi ┆ ess │\n",
+       "│ number      ┆ --- ┆ percentage  ┆ percentage     ┆   ┆ incorrect       ┆ --- ┆ ---  ┆ --- │\n",
+       "│ ---         ┆ i64 ┆ ---         ┆ ---            ┆   ┆ ---             ┆ i64 ┆ i64  ┆ i64 │\n",
+       "│ i64         ┆     ┆ i64         ┆ i64            ┆   ┆ f64             ┆     ┆      ┆     │\n",
+       "╞═════════════╪═════╪═════════════╪════════════════╪═══╪═════════════════╪═════╪══════╪═════╡\n",
+       "│ 8           ┆ 39  ┆ 65          ┆ 80             ┆ … ┆ 90.0            ┆ 9   ┆ 13   ┆ 2   │\n",
+       "│ 16          ┆ 42  ┆ 90          ┆ 90             ┆ … ┆ 50.0            ┆ 4   ┆ 11   ┆ 7   │\n",
+       "│ 18          ┆ 31  ┆ 90          ┆ 95             ┆ … ┆ 88.0            ┆ 10  ┆ 9    ┆ 3   │\n",
+       "│ 22          ┆ 35  ┆ 100         ┆ 75             ┆ … ┆ 80.0            ┆ 13  ┆ 8    ┆ 20  │\n",
+       "│ 27          ┆ 74  ┆ 60          ┆ 65             ┆ … ┆ 49.0            ┆ 13  ┆ 9    ┆ 12  │\n",
+       "└─────────────┴─────┴─────────────┴────────────────┴───┴─────────────────┴─────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 28,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.select(cs.numeric()).head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Unfortunately, this still gave us participant number and age again. We could exclude those explicitly by chaining methods."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 12)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td></tr></thead><tbody><tr><td>65</td><td>80</td><td>72.5</td><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td><td>9</td><td>13</td><td>2</td></tr><tr><td>90</td><td>90</td><td>90.0</td><td>75.5</td><td>55.5</td><td>70.5</td><td>50.0</td><td>75.0</td><td>50.0</td><td>4</td><td>11</td><td>7</td></tr><tr><td>90</td><td>95</td><td>92.5</td><td>89.5</td><td>90.0</td><td>86.0</td><td>81.0</td><td>89.0</td><td>88.0</td><td>10</td><td>9</td><td>3</td></tr><tr><td>100</td><td>75</td><td>87.5</td><td>89.5</td><td>null</td><td>71.0</td><td>80.0</td><td>88.0</td><td>80.0</td><td>13</td><td>8</td><td>20</td></tr><tr><td>60</td><td>65</td><td>62.5</td><td>68.5</td><td>49.0</td><td>61.0</td><td>49.0</td><td>65.0</td><td>49.0</td><td>13</td><td>9</td><td>12</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 12)\n",
+       "┌─────────────┬───────────────────┬─────────┬──────────────────┬───┬────────────┬─────┬──────┬─────┐\n",
+       "│ correct hit ┆ correct reject    ┆ percent ┆ confidence when  ┆ … ┆ confidence ┆ sci ┆ psqi ┆ ess │\n",
+       "│ percentage  ┆ percentage        ┆ correct ┆ correct hit      ┆   ┆ when       ┆ --- ┆ ---  ┆ --- │\n",
+       "│ ---         ┆ ---               ┆ ---     ┆ ---              ┆   ┆ incorrect  ┆ i64 ┆ i64  ┆ i64 │\n",
+       "│ i64         ┆ i64               ┆ f64     ┆ f64              ┆   ┆ ---        ┆     ┆      ┆     │\n",
+       "│             ┆                   ┆         ┆                  ┆   ┆ f64        ┆     ┆      ┆     │\n",
+       "╞═════════════╪═══════════════════╪═════════╪══════════════════╪═══╪════════════╪═════╪══════╪═════╡\n",
+       "│ 65          ┆ 80                ┆ 72.5    ┆ 91.0             ┆ … ┆ 90.0       ┆ 9   ┆ 13   ┆ 2   │\n",
+       "│ 90          ┆ 90                ┆ 90.0    ┆ 75.5             ┆ … ┆ 50.0       ┆ 4   ┆ 11   ┆ 7   │\n",
+       "│ 90          ┆ 95                ┆ 92.5    ┆ 89.5             ┆ … ┆ 88.0       ┆ 10  ┆ 9    ┆ 3   │\n",
+       "│ 100         ┆ 75                ┆ 87.5    ┆ 89.5             ┆ … ┆ 80.0       ┆ 13  ┆ 8    ┆ 20  │\n",
+       "│ 60          ┆ 65                ┆ 62.5    ┆ 68.5             ┆ … ┆ 49.0       ┆ 13  ┆ 9    ┆ 12  │\n",
+       "└─────────────┴───────────────────┴─────────┴──────────────────┴───┴────────────┴─────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 29,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.select(cs.numeric().exclude('age', 'participant number')).head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Selectors also allow for set algebra. As a (contrived) example, let say we want all columns that are not of string data type that have spaces in the column heading and that we also want to exclude the participant number."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 9)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th></tr><tr><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>65</td><td>80</td><td>72.5</td><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td></tr><tr><td>90</td><td>90</td><td>90.0</td><td>75.5</td><td>55.5</td><td>70.5</td><td>50.0</td><td>75.0</td><td>50.0</td></tr><tr><td>90</td><td>95</td><td>92.5</td><td>89.5</td><td>90.0</td><td>86.0</td><td>81.0</td><td>89.0</td><td>88.0</td></tr><tr><td>100</td><td>75</td><td>87.5</td><td>89.5</td><td>null</td><td>71.0</td><td>80.0</td><td>88.0</td><td>80.0</td></tr><tr><td>60</td><td>65</td><td>62.5</td><td>68.5</td><td>49.0</td><td>61.0</td><td>49.0</td><td>65.0</td><td>49.0</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 9)\n",
+       "┌───────────┬───────────┬───────────┬───────────┬───┬───────────┬───────────┬───────────┬──────────┐\n",
+       "│ correct   ┆ correct   ┆ percent   ┆ confidenc ┆ … ┆ confidenc ┆ confidenc ┆ confidenc ┆ confiden │\n",
+       "│ hit perce ┆ reject    ┆ correct   ┆ e when    ┆   ┆ e when    ┆ e when    ┆ e when    ┆ ce when  │\n",
+       "│ ntage     ┆ percentag ┆ ---       ┆ correct   ┆   ┆ correct   ┆ incorrect ┆ correct   ┆ incorrec │\n",
+       "│ ---       ┆ e         ┆ f64       ┆ hit       ┆   ┆ reject    ┆ reje…     ┆ ---       ┆ t        │\n",
+       "│ i64       ┆ ---       ┆           ┆ ---       ┆   ┆ ---       ┆ ---       ┆ f64       ┆ ---      │\n",
+       "│           ┆ i64       ┆           ┆ f64       ┆   ┆ f64       ┆ f64       ┆           ┆ f64      │\n",
+       "╞═══════════╪═══════════╪═══════════╪═══════════╪═══╪═══════════╪═══════════╪═══════════╪══════════╡\n",
+       "│ 65        ┆ 80        ┆ 72.5      ┆ 91.0      ┆ … ┆ 93.0      ┆ 83.5      ┆ 93.0      ┆ 90.0     │\n",
+       "│ 90        ┆ 90        ┆ 90.0      ┆ 75.5      ┆ … ┆ 70.5      ┆ 50.0      ┆ 75.0      ┆ 50.0     │\n",
+       "│ 90        ┆ 95        ┆ 92.5      ┆ 89.5      ┆ … ┆ 86.0      ┆ 81.0      ┆ 89.0      ┆ 88.0     │\n",
+       "│ 100       ┆ 75        ┆ 87.5      ┆ 89.5      ┆ … ┆ 71.0      ┆ 80.0      ┆ 88.0      ┆ 80.0     │\n",
+       "│ 60        ┆ 65        ┆ 62.5      ┆ 68.5      ┆ … ┆ 61.0      ┆ 49.0      ┆ 65.0      ┆ 49.0     │\n",
+       "└───────────┴───────────┴───────────┴───────────┴───┴───────────┴───────────┴───────────┴──────────┘"
+      ]
+     },
+     "execution_count": 30,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.select((~cs.string() & cs.contains(' ')).exclude('participant number')).head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Notice that we used the complement operator `~` and the intersection operator `&`. Selectors also support the union operator `|` and the difference operator `-`.\n",
+    "\n",
+    "To close our discussion on selectors, we note that selectors are their own data type:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "polars.selectors._selector_proxy_"
+      ]
+     },
+     "execution_count": 31,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "type(cs.string())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Selectors can be converted to expressions so you can continue computing with the `as_expr()` method."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "polars.expr.expr.Expr"
+      ]
+     },
+     "execution_count": 32,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "type(cs.string().as_expr())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing summary statistics\n",
+    "\n",
+    "To demonstrate a use of what we have learned so far, we can compute the mean percent correct for insomniacs and normal sleepers. We can filter the data frame according to the `insomnia` column, select the `percent correct` column and compute the mean. \n",
+    "\n",
+    "To put them together in a new data frame, we make a dictionary and convert it to a data frame, which is one of the ways to make a Polars data frame. E.g.,"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (3, 3)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>a</th><th>b</th><th>c</th></tr><tr><td>i64</td><td>f64</td><td>str</td></tr></thead><tbody><tr><td>1</td><td>4.5</td><td>&quot;one&quot;</td></tr><tr><td>2</td><td>5.5</td><td>&quot;two&quot;</td></tr><tr><td>3</td><td>6.5</td><td>&quot;three&quot;</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (3, 3)\n",
+       "┌─────┬─────┬───────┐\n",
+       "│ a   ┆ b   ┆ c     │\n",
+       "│ --- ┆ --- ┆ ---   │\n",
+       "│ i64 ┆ f64 ┆ str   │\n",
+       "╞═════╪═════╪═══════╡\n",
+       "│ 1   ┆ 4.5 ┆ one   │\n",
+       "│ 2   ┆ 5.5 ┆ two   │\n",
+       "│ 3   ┆ 6.5 ┆ three │\n",
+       "└─────┴─────┴───────┘"
+      ]
+     },
+     "execution_count": 33,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pl.DataFrame(dict(a=[1,2,3], b=[4.5, 5.5, 6.5], c=['one', 'two', 'three']))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now to make our data frame of means for insomniacs and normal sleepers."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (1, 2)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomniacs</th><th>normal sleepers</th></tr><tr><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>76.1</td><td>81.461039</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (1, 2)\n",
+       "┌────────────┬─────────────────┐\n",
+       "│ insomniacs ┆ normal sleepers │\n",
+       "│ ---        ┆ ---             │\n",
+       "│ f64        ┆ f64             │\n",
+       "╞════════════╪═════════════════╡\n",
+       "│ 76.1       ┆ 81.461039       │\n",
+       "└────────────┴─────────────────┘"
+      ]
+     },
+     "execution_count": 34,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pl.DataFrame(\n",
+    "    {\n",
+    "        'insomniacs': df.filter(pl.col('insomnia')).get_column('percent correct').mean(),\n",
+    "        'normal sleepers': df.filter(~pl.col('insomnia')).get_column('percent correct').mean()\n",
+    "    }\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Notice that I used the `~` operator, which is a bit switcher, to get the normal sleepers from the `insomnia` column. It changes all `True`s to `False`s and vice versa. In this case, it functions like NOT.\n",
+    "\n",
+    "It appears as though normal sleepers score better than insomniacs. We will learn techniques to more quantitatively assess that claim when we learn about statistical inference.\n",
+    "\n",
+    "As we will soon see, what we have done is a split-apply-combine operation, for which there are more elegant and efficient methods using Polars. You will probably never use the approach in the above code cell again.\n",
+    "\n",
+    "We will do a lot more computing with Polars data frames as the course goes on. For a nifty demonstration demonstration in this lesson, we can quickly compute summary statistics about each column of a data frame using its `describe()` method."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (9, 17)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>statistic</th><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th><th>insomnia</th></tr><tr><td>str</td><td>f64</td><td>str</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>&quot;count&quot;</td><td>102.0</td><td>&quot;102&quot;</td><td>102.0</td><td>102.0</td><td>102.0</td><td>102.0</td><td>102.0</td><td>84.0</td><td>102.0</td><td>93.0</td><td>102.0</td><td>99.0</td><td>102.0</td><td>102.0</td><td>102.0</td><td>102.0</td></tr><tr><td>&quot;null_count&quot;</td><td>0.0</td><td>&quot;0&quot;</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>18.0</td><td>0.0</td><td>9.0</td><td>0.0</td><td>3.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr><tr><td>&quot;mean&quot;</td><td>52.04902</td><td>null</td><td>37.921569</td><td>83.088235</td><td>77.205882</td><td>80.147059</td><td>74.990196</td><td>58.565476</td><td>71.137255</td><td>61.22043</td><td>74.642157</td><td>61.979798</td><td>22.245098</td><td>5.27451</td><td>7.294118</td><td>0.245098</td></tr><tr><td>&quot;std&quot;</td><td>30.020909</td><td>null</td><td>14.02945</td><td>15.09121</td><td>17.569854</td><td>12.047881</td><td>14.165916</td><td>19.560653</td><td>14.987479</td><td>17.671283</td><td>13.619725</td><td>15.92167</td><td>7.547128</td><td>3.404007</td><td>4.426715</td><td>null</td></tr><tr><td>&quot;min&quot;</td><td>1.0</td><td>&quot;f&quot;</td><td>16.0</td><td>35.0</td><td>20.0</td><td>40.0</td><td>29.5</td><td>7.0</td><td>19.0</td><td>17.0</td><td>24.0</td><td>24.5</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr><tr><td>&quot;25%&quot;</td><td>26.0</td><td>null</td><td>26.0</td><td>75.0</td><td>70.0</td><td>72.5</td><td>66.0</td><td>47.0</td><td>64.5</td><td>50.0</td><td>66.0</td><td>51.0</td><td>17.0</td><td>3.0</td><td>4.0</td><td>null</td></tr><tr><td>&quot;50%&quot;</td><td>53.0</td><td>null</td><td>37.0</td><td>90.0</td><td>80.0</td><td>85.0</td><td>75.0</td><td>56.5</td><td>71.5</td><td>61.0</td><td>76.0</td><td>61.5</td><td>24.0</td><td>5.0</td><td>7.0</td><td>null</td></tr><tr><td>&quot;75%&quot;</td><td>78.0</td><td>null</td><td>45.0</td><td>95.0</td><td>90.0</td><td>87.5</td><td>87.0</td><td>73.0</td><td>80.0</td><td>74.0</td><td>82.5</td><td>73.0</td><td>29.0</td><td>7.0</td><td>10.0</td><td>null</td></tr><tr><td>&quot;max&quot;</td><td>103.0</td><td>&quot;m&quot;</td><td>74.0</td><td>100.0</td><td>100.0</td><td>100.0</td><td>100.0</td><td>92.0</td><td>100.0</td><td>100.0</td><td>100.0</td><td>100.0</td><td>32.0</td><td>15.0</td><td>21.0</td><td>1.0</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (9, 17)\n",
+       "┌────────────┬───────────────┬────────┬───────────┬───┬───────────┬──────────┬──────────┬──────────┐\n",
+       "│ statistic  ┆ participant   ┆ gender ┆ age       ┆ … ┆ sci       ┆ psqi     ┆ ess      ┆ insomnia │\n",
+       "│ ---        ┆ number        ┆ ---    ┆ ---       ┆   ┆ ---       ┆ ---      ┆ ---      ┆ ---      │\n",
+       "│ str        ┆ ---           ┆ str    ┆ f64       ┆   ┆ f64       ┆ f64      ┆ f64      ┆ f64      │\n",
+       "│            ┆ f64           ┆        ┆           ┆   ┆           ┆          ┆          ┆          │\n",
+       "╞════════════╪═══════════════╪════════╪═══════════╪═══╪═══════════╪══════════╪══════════╪══════════╡\n",
+       "│ count      ┆ 102.0         ┆ 102    ┆ 102.0     ┆ … ┆ 102.0     ┆ 102.0    ┆ 102.0    ┆ 102.0    │\n",
+       "│ null_count ┆ 0.0           ┆ 0      ┆ 0.0       ┆ … ┆ 0.0       ┆ 0.0      ┆ 0.0      ┆ 0.0      │\n",
+       "│ mean       ┆ 52.04902      ┆ null   ┆ 37.921569 ┆ … ┆ 22.245098 ┆ 5.27451  ┆ 7.294118 ┆ 0.245098 │\n",
+       "│ std        ┆ 30.020909     ┆ null   ┆ 14.02945  ┆ … ┆ 7.547128  ┆ 3.404007 ┆ 4.426715 ┆ null     │\n",
+       "│ min        ┆ 1.0           ┆ f      ┆ 16.0      ┆ … ┆ 0.0       ┆ 0.0      ┆ 0.0      ┆ 0.0      │\n",
+       "│ 25%        ┆ 26.0          ┆ null   ┆ 26.0      ┆ … ┆ 17.0      ┆ 3.0      ┆ 4.0      ┆ null     │\n",
+       "│ 50%        ┆ 53.0          ┆ null   ┆ 37.0      ┆ … ┆ 24.0      ┆ 5.0      ┆ 7.0      ┆ null     │\n",
+       "│ 75%        ┆ 78.0          ┆ null   ┆ 45.0      ┆ … ┆ 29.0      ┆ 7.0      ┆ 10.0     ┆ null     │\n",
+       "│ max        ┆ 103.0         ┆ m      ┆ 74.0      ┆ … ┆ 32.0      ┆ 15.0     ┆ 21.0     ┆ 1.0      │\n",
+       "└────────────┴───────────────┴────────┴───────────┴───┴───────────┴──────────┴──────────┴──────────┘"
+      ]
+     },
+     "execution_count": 35,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.describe()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This gives us a data frame with summary statistics."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Outputting a new CSV file\n",
+    "\n",
+    "Now that we added the insomniac column, we might like to save our data frame as a new CSV that we can reload later. We use `df.write_csv()` for this."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df.write_csv(\"gfmt_sleep_with_insomnia.csv\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's take a look at what this file looks like."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "participant number,gender,age,correct hit percentage,correct reject percentage,percent correct,confidence when correct hit,confidence when incorrect hit,confidence when correct reject,confidence when incorrect reject,confidence when correct,confidence when incorrect,sci,psqi,ess,insomnia\n",
+      "8,f,39,65,80,72.5,91.0,90.0,93.0,83.5,93.0,90.0,9,13,2,true\n",
+      "16,m,42,90,90,90.0,75.5,55.5,70.5,50.0,75.0,50.0,4,11,7,true\n",
+      "18,f,31,90,95,92.5,89.5,90.0,86.0,81.0,89.0,88.0,10,9,3,true\n",
+      "22,f,35,100,75,87.5,89.5,,71.0,80.0,88.0,80.0,13,8,20,true\n",
+      "27,f,74,60,65,62.5,68.5,49.0,61.0,49.0,65.0,49.0,13,9,12,true\n",
+      "28,f,61,80,20,50.0,71.0,63.0,31.0,72.5,64.5,70.5,15,14,2,true\n",
+      "30,m,32,90,75,82.5,67.0,56.5,66.0,65.0,66.0,64.0,16,9,3,true\n",
+      "33,m,62,45,90,67.5,54.0,37.0,65.0,81.5,62.0,61.0,14,9,9,true\n",
+      "34,f,33,80,100,90.0,70.5,76.5,64.5,,68.0,76.5,14,12,10,true\n"
+     ]
+    }
+   ],
+   "source": [
+    "!head gfmt_sleep_with_insomnia.csv"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Very nice. Notice that by default Polars leaves an empty field for null values, and we do not need the `null_values` kwarg when we load in this CSV file."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Renaming columns\n",
+    "\n",
+    "You may be annoyed with the rather lengthy syntax of access column names and wish to change them. Actually, you probably do not want to do this. Explicit is better than implicit! And furthermore, high level plotting libraries, as we will soon see, often automatically use column names for axis labels. So, let's instead lengthen a column name. Say we keep forgetting what ESS stands for an want to rename the ess column to \"Epworth Sleepiness Scale.\"\n",
+    "\n",
+    "Data frames have a nice `rename` method to do this. To rename the columns, we provide a dictionary where the keys are current column names and the corresponding values are the names we which to check them to. While we are at it, we will choose descriptive names for all three of the sleep quality indices."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 16)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence when incorrect hit</th><th>confidence when correct reject</th><th>confidence when incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>Sleep Condition Indicator</th><th>Pittsburgh Sleep Quality Index</th><th>Epworth Sleepiness Scale</th><th>insomnia</th></tr><tr><td>i64</td><td>str</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td><td>bool</td></tr></thead><tbody><tr><td>8</td><td>&quot;f&quot;</td><td>39</td><td>65</td><td>80</td><td>72.5</td><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td><td>9</td><td>13</td><td>2</td><td>true</td></tr><tr><td>16</td><td>&quot;m&quot;</td><td>42</td><td>90</td><td>90</td><td>90.0</td><td>75.5</td><td>55.5</td><td>70.5</td><td>50.0</td><td>75.0</td><td>50.0</td><td>4</td><td>11</td><td>7</td><td>true</td></tr><tr><td>18</td><td>&quot;f&quot;</td><td>31</td><td>90</td><td>95</td><td>92.5</td><td>89.5</td><td>90.0</td><td>86.0</td><td>81.0</td><td>89.0</td><td>88.0</td><td>10</td><td>9</td><td>3</td><td>true</td></tr><tr><td>22</td><td>&quot;f&quot;</td><td>35</td><td>100</td><td>75</td><td>87.5</td><td>89.5</td><td>null</td><td>71.0</td><td>80.0</td><td>88.0</td><td>80.0</td><td>13</td><td>8</td><td>20</td><td>true</td></tr><tr><td>27</td><td>&quot;f&quot;</td><td>74</td><td>60</td><td>65</td><td>62.5</td><td>68.5</td><td>49.0</td><td>61.0</td><td>49.0</td><td>65.0</td><td>49.0</td><td>13</td><td>9</td><td>12</td><td>true</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 16)\n",
+       "┌─────────────┬────────┬─────┬─────────────┬───┬─────────────┬─────────────┬────────────┬──────────┐\n",
+       "│ participant ┆ gender ┆ age ┆ correct hit ┆ … ┆ Sleep       ┆ Pittsburgh  ┆ Epworth    ┆ insomnia │\n",
+       "│ number      ┆ ---    ┆ --- ┆ percentage  ┆   ┆ Condition   ┆ Sleep       ┆ Sleepiness ┆ ---      │\n",
+       "│ ---         ┆ str    ┆ i64 ┆ ---         ┆   ┆ Indicator   ┆ Quality     ┆ Scale      ┆ bool     │\n",
+       "│ i64         ┆        ┆     ┆ i64         ┆   ┆ ---         ┆ Index       ┆ ---        ┆          │\n",
+       "│             ┆        ┆     ┆             ┆   ┆ i64         ┆ ---         ┆ i64        ┆          │\n",
+       "│             ┆        ┆     ┆             ┆   ┆             ┆ i64         ┆            ┆          │\n",
+       "╞═════════════╪════════╪═════╪═════════════╪═══╪═════════════╪═════════════╪════════════╪══════════╡\n",
+       "│ 8           ┆ f      ┆ 39  ┆ 65          ┆ … ┆ 9           ┆ 13          ┆ 2          ┆ true     │\n",
+       "│ 16          ┆ m      ┆ 42  ┆ 90          ┆ … ┆ 4           ┆ 11          ┆ 7          ┆ true     │\n",
+       "│ 18          ┆ f      ┆ 31  ┆ 90          ┆ … ┆ 10          ┆ 9           ┆ 3          ┆ true     │\n",
+       "│ 22          ┆ f      ┆ 35  ┆ 100         ┆ … ┆ 13          ┆ 8           ┆ 20         ┆ true     │\n",
+       "│ 27          ┆ f      ┆ 74  ┆ 60          ┆ … ┆ 13          ┆ 9           ┆ 12         ┆ true     │\n",
+       "└─────────────┴────────┴─────┴─────────────┴───┴─────────────┴─────────────┴────────────┴──────────┘"
+      ]
+     },
+     "execution_count": 38,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Make a dictionary to rename columns\n",
+    "rename_dict = {\n",
+    "    \"ess\": \"Epworth Sleepiness Scale\",\n",
+    "    \"sci\": \"Sleep Condition Indicator\",\n",
+    "    \"psqi\": \"Pittsburgh Sleep Quality Index\",\n",
+    "}\n",
+    "\n",
+    "# Rename the columns\n",
+    "df = df.rename(rename_dict)\n",
+    "\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## A note on indexing and speed\n",
+    "\n",
+    "As we have seen Boolean indexing is very convenient and fits nicely into a logical framework which allows us to extract data according to criteria we want. The trade-off is speed. Slicing by Boolean indexing is essentially doing a reverse lookup in a dictionary. We have to loop through all values to find keys that match. This is much slower than directly indexing. Compare the difference in speed for indexing the percent correct by participant number 42 by Boolean indexing versus direct indexing (it's row 54)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Boolean indexing:\n",
+      "75.8 μs ± 739 ns per loop (mean ± std. dev. of 7 runs, 10,000 loops each)\n",
+      "\n",
+      "Direct indexing:\n",
+      "664 ns ± 10.6 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"Boolean indexing:\")\n",
+    "%timeit df.filter(pl.col('participant number') == 42)['percent correct'].item()\n",
+    "\n",
+    "print(\"\\nDirect indexing:\")\n",
+    "%timeit df[54, 'percent correct']"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The speed difference is stark, differing by two orders of magnitude. For larger data sets, or for analyses that require repeated indexing, this speed consideration may be important. However, Polars does optimization that takes full advantage of parallelization that will accelerate Boolean indexing."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.13.5\n",
+      "IPython version      : 9.4.0\n",
+      "\n",
+      "numpy     : 2.2.6\n",
+      "polars    : 1.31.0\n",
+      "jupyterlab: 4.4.5\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "#| code-fold: true\n",
+    "\n",
+    "%load_ext watermark\n",
+    "%watermark -v -p numpy,polars,jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

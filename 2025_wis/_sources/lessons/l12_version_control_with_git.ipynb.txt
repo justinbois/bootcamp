@@ -1,0 +1,418 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 12: Version control with Git\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Keeping track of all of the changes in your project over time is good practice. How many times have you edited something in something you were writing and then wanted to go back and see what you had in the first place? Wouldn't it be great to know what changes you made and when you made them?\n",
+    "\n",
+    "A **version control system** facilitates this process of keeping track of changes over time. Beyond that, it allows multiple people to collaborate and work on parts of the same project simultaneously. \n",
+    "\n",
+    "There are many version control systems. The four most prominent, in order of age, oldest to youngest, are CVS, Subversion, Git, and Mercurial (the first version of Git was released about two weeks before Mercurial, so they are really the same age). Today, Git dominates.\n",
+    "\n",
+    "Using Git as a version control system allows communication with remote repositories (\"repos\" for short) such as [GitHub](http://github.com/), [GitLab](http://gitlab.com/) or [Bitbucket](http://bitbucket.org). These services provide university-affiliated people with a `.edu` email address with perks that include free private repositories. We will use GitHub for our bootcamp, and you should already have set up an account.\n",
+    "\n",
+    "Remote repositories are not only a great way for keeping your code safe. They are also an excellent tool for collaboration since Git allows multiple users to edit the shared files simultaneously and has a method to merge changes afterwards. Public repositories can also serve as a vehicle to distribute code (or other files).\n",
+    "\n",
+    "You can find more information about Git [here](https://git-scm.com/documentation). It is well documented. Here is an [excellent one-page (front-and-back) cheatsheet](https://education.github.com/git-cheat-sheet-education.pdf).\n",
+    "\n",
+    "Let's get started. You all should have a version of Git installed on your computers. Open the terminal and navigate into your `~/git` directory."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Configuring Git\n",
+    "\n",
+    "While you already used Git in [Lesson 0](l00_configuring_your_computer.ipynb), you still have some configuring to do. For this, and everything else in the lesson, we'll use the command line. We will do the configuration with `--global` flags, which means these specifications work for all of your repositories. First, we'll specify the name and email address of the person working with Git on your machine (that's you!).\n",
+    "\n",
+    "    git config --global user.name \"YOUR NAME\"\n",
+    "    git config --global user.email \"YOUR EMAIL ADDRESS\"\n",
+    "\n",
+    "We will not go into merge conflicts in too much depth in the bootcamp, but you need to tell Git how you want to handle situations when there are edits to the same file coming from two or more different computers (could be a collaborator, or could be you on your home computer and your work computer). I generally, like to use Git's default.\n",
+    "\n",
+    "    git config --global pull.rebase false\n",
+    "    \n",
+    "Git is very well documented and help is easily available. If you need to know more about `config`, for example, just enter:\n",
+    "\n",
+    "    git help config\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Cloning Repositories\n",
+    "\n",
+    "You have already cloned the `bootcamp` repository in [Lesson 0](l00_configuring_your_computer.ipynb). We'll practice that again here, and clone one of the zillions of public repositories that are hosted on GitHub. We will clone a simple package, called `insulter` that will hurl Shakespearean insults at you.\n",
+    "\n",
+    "    git clone https://gist.github.com/3165396.git insulter\n",
+    "\n",
+    "Note that the insulter package is now on your machine. You have a copy of it on your own hard drive. You do not need to be connected to the internet to use it.\n",
+    "\n",
+    "Now, `cd` to `insulter` and you can start using it, thou wayward tickle-brained flap-dragon!\n",
+    "\n",
+    "    python insulter.py\n",
+    "    "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Pulling in changes\n",
+    "\n",
+    "Actively developed repositories are constantly being updated. After you clone the repository, its authors may add or edit things in the repository. For you to get those changes, you need to **fetch** them and then **merge** them into what you have locally.\n",
+    "\n",
+    "To fetch the updated repository, you guessed it, you do:\n",
+    "\n",
+    "    git fetch\n",
+    "\n",
+    "The result is stored in a hidden directory, `.git/FETCH_HEAD`. (Directories that begin with a `.` are hidden; you don't see them when you type `ls`.)\n",
+    "\n",
+    "Now that there are changes, you would like to update your local repository. Provided you do not have any local edits, this is seamless. You just do\n",
+    "\n",
+    "    git merge FETCH_HEAD\n",
+    "    \n",
+    "Now your repository will be up to date.\n",
+    "\n",
+    "A shortcut for the commands\n",
+    "\n",
+    "    git fetch\n",
+    "    git merge FETCH_HEAD\n",
+    "    \n",
+    "run in succession is\n",
+    "\n",
+    "    git pull\n",
+    "    \n",
+    "In practice, you will use this a lot, but, as you will see, we will use fetching and merging on a forked repository in the next lesson, so it can be useful to fetch and merge separately.\n",
+    "\n",
+    "Let's try doing this with the `bootcamp` repository. `cd` into `~/git/bootcamp/`. Now, type\n",
+    "\n",
+    "    git pull\n",
+    "    \n",
+    "This will \"pull\" in any changes make to the repository. Throughout the bootcamp, we may need to update files in the repository, so you may need to `git pull` throughout the bootcamp.\n",
+    "\n",
+    "Note that `git pull` is actually shorthand for \n",
+    "\n",
+    "    git pull origin main\n",
+    "    \n",
+    "which is the more verbose way of saying that you want to pull the main **branch** from the remote repository named `origin`. We will not discuss branching in this bootcamp, but it is an important concept to learn about.\n",
+    "\n",
+    "Generally it is good practice to pull before you start working each day to make sure you pull in any updates your collaborators may have made."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Default branch name\n",
+    "\n",
+    "When you create a new repository in GitHub, the default branch name is `main`. This was changed from `master` beginning in late 2020. For exisiting repositories, the default branch is still called `master` unless it is explicitly changed to `main` (or whatever else the developers want to change it to). Renaming `master` to `main` can cause problems in maintaining repositories, and you will find the many software packages still have the default branch named `master` to avoid those difficulties.\n",
+    "\n",
+    "I updated the default branch of the `bootcamp` repository to be called `main`, so we will use that in the bootcamp."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Pulling in changes from an upstream repository\n",
+    "\n",
+    "As you saw in [Lesson 0](l00_configuring_your_computer.ipynb), it is sometimes useful to pull from an upstream repository. In [Lesson 0](l00_configuring_your_computer.ipynb), you added an upstream remote repository to the bootcamp repository. To pull from the upstream repository, you need to use the more verbose version of `git pull`.\n",
+    "\n",
+    "    git pull upstream main"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Relationships among your local machine, your fork, and upstream\n",
+    "\n",
+    "Let us think about how we have things set up, referring to the excellent image below from [Jessica Lord](http://jlord.us/). **Remotely**, in our case on GitHub, lives the bootcamp repository that I created. You **forked** that repository. That copied the contents of my repository over to a new repository in *your* GitHub account. Your forked repository still existed remotely on your own machine. Your copy of the remote repository is called a **fork** and the original repository you forked from is called **upstream**.\n",
+    "\n",
+    "<div style=\"margin: auto; width: 600px;\">\n",
+    "    \n",
+    "![Jessica Lord git diagram](jessica_lord_git_diagram.png)\n",
+    "    \n",
+    "</div>\n",
+    "\n",
+    "When you **cloned** your forked repository, you pulled it down from GitHub and put it on your **local** machine (your laptop). Whenever you make changes the repository, you do so on your local machine. You can then **commit** your changes, which tell Git to create a snapshot of exactly what the repository looked like when you did the commit. When you **push** your commits, they go to your forked repository. \n",
+    "\n",
+    "If you use a second machine, or if someone else contributes to your repository, you can **pull** the repository (since you already cloned it), and the changes will be added to your local machine (provided there are no conflicts).\n",
+    "\n",
+    "If someone (like me) makes changes to the upstream repository, you can also pull those changes to incorporate them into your own repository but **pulling from the upstream** repository. If the upstream developer gives you permission (they almost never do), you can also push to the upstream repository.\n",
+    "\n",
+    "Since they almost never give you permission, if you want put your changes into the upstream repository, you submit a **pull request** via the GitHub website.\n",
+    "\n",
+    "Now that we have covered how to work off of others' repositories, let's see how to make your own repo."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Creating your own repository\n",
+    "\n",
+    "Now, you will create your own repository for practice. For this bootcamp, let's name the repository with your initials followed by `_bootcamp`. In my case, my repository is `jb_bootcamp`. \n",
+    "\n",
+    "Only in rare circumstances would you not want to host your repository remotely, so we will take an easy path toward creating a repository using GitHub. Prior to the bootcamp, you all should have set up a GitHub account. Log in to GitHub. In the upper right corner of the page, click on the \"**`+`**\" icon and select \"New repository.\" You will then get a page that looks like this:\n",
+    "\n",
+    "<center><img src=\"github2.png\" width=\"600px\"></center><br />\n",
+    "\n",
+    "\n",
+    "I called the new repository `jb_bootcamp` (yours will obviously have your own initials, and you can substitute them for `jb` wherever you see that in this lesson), and gave a little description. You can choose the repository to be either private of public; if you are not an academic, you have to pay for private repositories. Public repositories can be viewed by anyone. I will choose public for this one.\n",
+    "\n",
+    "I have checked the box to initialized the repository with a README. This is convenient because GitHub will set up the repository and populate it with a README file that you can generate right in your browser. I also selected to add a Python `.gitignore`, which is convenient for keeping your version control clean (more on that [later](#.gitignore)). Finally, I chose an MIT license, which is a liberal license that will let others use your code if they would like to. \n",
+    "\n",
+    "After clicking \"Create repository,\" you will get a page that looks like this:\n",
+    "\n",
+    "<div style=\"margin: auto; width: 600px;\">\n",
+    "    \n",
+    "![github3](github3.png)\n",
+    "    \n",
+    "</div>\n",
+    "\n",
+    "\n",
+    "This is the main page for your repository. It is created! Right now, the repository only exists on GitHub. You need to clone it to get it on your own machine. To do that, click the \"Clone or download\" button and copy the web URL.\n",
+    "\n",
+    "Now, it is time to clone your repository on your own machine. I think you know the drill. First, `cd` to your `~/git` directory (if that is where you choose to keep your repositories). Then do this:\n",
+    "\n",
+    "    git clone the_url_you_just_copied\n",
+    "    \n",
+    "If you now `cd` into the `jb_bootcamp` directory, you can see the `README.md` and `LICENSE` files there."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Adding files to your repository\n",
+    "\n",
+    "Now, let's update the repository. We will add the package we built in the last lesson. Conveniently, I already included its contents in the directory `~/git/bootcamp/modules/jb_bootcamp/`. Copy the contents of the `~/git/bootcamp/modules/jb_bootcamp/` directory and into the `~/git/jb_bootcamp/` directory. On my machine, this is accomplished by:\n",
+    "\n",
+    "    cd ~/git/bootcamp/modules/jb_bootcamp/\n",
+    "    cp -r * ~/git/jb_bootcamp/\n",
+    "    \n",
+    "This instructs the operating system to copy all of the contents of `~/git/bootcamp/modules/jb_bootcamp/` to your new repository. (The `*` is a **wildcard character**, which means every file in this case.) We verify that it is there by `cd`-ing into the new repository and typing `ls`. \n",
+    "\n",
+    "    cd ~/git/jb_bootcamp/\n",
+    "    ls\n",
+    "\n",
+    "So, it is in the repository, right? Let's ask Git. `git status` is a useful command that checks what is in the repository and in your working directory on your machine, and let's you know the status of all files and directories.\n",
+    "\n",
+    "    git status\n",
+    "\n",
+    "The output looks like this:\n",
+    "\n",
+    "```\n",
+    "On branch main\n",
+    "Your branch is up-to-date with 'origin/main'.\n",
+    "\n",
+    "Changes not staged for commit:\n",
+    "  (use \"git add <file>...\" to update what will be committed)\n",
+    "  (use \"git checkout -- <file>...\" to discard changes in working directory)\n",
+    "\n",
+    "\tmodified:   README.md\n",
+    "\n",
+    "Untracked files:\n",
+    "  (use \"git add <file>...\" to include in what will be committed)\n",
+    "\n",
+    "\tjb_bootcamp/\n",
+    "\tsetup.py\n",
+    "\n",
+    "no changes added to commit (use \"git add\" and/or \"git commit -a\")\n",
+    "```\n",
+    "\n",
+    "It tells us that because we copied over the `README.md`, the `README.md` file that was in the repository when you created it on GitHub has been modified. It further says that the contents of the directory `jb_bootcamp/` and the file `setup.py` are not under version control, even though they exist in the directory that is under version control. \n",
+    "\n",
+    "Before proceeding, you should change the files `setup.py` and `jb_bootcamp/__init__.py` to have your name, package name, contact information, etc., instead of mine.\n",
+    "\n",
+    "Now, we need to explicitly tell Git which files need to be tracked. We also need to tell it that we want to add the modified `README.md` file to the repository. We do this using the `git add` command.\n",
+    "\n",
+    "    git add jb_bootcamp\n",
+    "    git add setup.py\n",
+    "    git add README.md\n",
+    "    \n",
+    "We have now added what we needed, so we have changed the repository."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Committing and pushing changes\n",
+    "\n",
+    "Now, if we type `git status`, we get updated information.\n",
+    "\n",
+    "```\n",
+    "On branch main\n",
+    "Your branch is up-to-date with 'origin/main'.\n",
+    "\n",
+    "Changes to be committed:\n",
+    "  (use \"git reset HEAD <file>...\" to unstage)\n",
+    "\n",
+    "\tmodified:   README.md\n",
+    "\tnew file:   jb_bootcamp/__init__.py\n",
+    "\tnew file:   jb_bootcamp/bioinfo_dicts.py\n",
+    "\tnew file:   jb_bootcamp/na_utils.py\n",
+    "\tnew file:   setup.py\n",
+    "```\n",
+    "\n",
+    "It tells use we have new files and a modified file. It says these are part of \"Changes to be committed.\" A **commit** is essentially a revision of a repository. It marks a point in the development of the repository that you want to mark. So, let's commit the present state of the repository.\n",
+    "\n",
+    "    git commit -m \"Initial commit of bootcamp utilities.\"\n",
+    "\n",
+    "The `-m` after `git commit` specifies the **commit message**. This is a brief bit of text that describes what has changed in the repository. It is really important to write informative commit messages (and [here are some beautifully described rules for good commit messages](https://chris.beams.io/posts/git-commit/)). By contrast, most [commit messages that people write are useless](http://ramiro.org/blog/most-frequent-github-commit-messages/). Upon committing, the something like the following is printed to the screen:\n",
+    "\n",
+    "```\n",
+    "[main f99e0e2] Initial commit of bootcamp utilities.\n",
+    " 5 files changed, 120 insertions(+), 1 deletion(-)\n",
+    " create mode 100644 jb_bootcamp/__init__.py\n",
+    " create mode 100644 jb_bootcamp/bioinfo_dicts.py\n",
+    " create mode 100644 jb_bootcamp/na_utils.py\n",
+    " create mode 100644 setup.py\n",
+    "```\n",
+    "\n",
+    "The number `f99e0e2` (yours will be different) is the short version of the commit identifier. If you ever want to go back to a previous version of the repository, this identifier will be a great help.\n",
+    "\n",
+    "Now, the commit is still only on your local machine. In order for your collaborators (or the whole world, if it is a public repo) to have access to it (and in order for it to appear on GitHub), you need to **push** it. To do that, we do this:\n",
+    "\n",
+    "    git push origin main\n",
+    "\n",
+    "Here, `origin` is a nickname for your remote repository. `main` is the name of the branch we are pushing to in the GitHub repository. It is so named because it is the default branch, from which all copies are made. (We will not talk about branches or branching in this lesson.)\n",
+    "\n",
+    "Now, let's look at our repository on GitHub. You can just refresh the main page of the repository in your browser. It now looks like this:\n",
+    "\n",
+    "\n",
+    "<div style=\"margin: auto; width: 600px;\">\n",
+    "    \n",
+    "![github4](github4.png)\n",
+    "    \n",
+    "</div>\n",
+    "\n",
+    "\n",
+    "We now have our updates in the main branch, out there in the cloud for sharing."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## .gitignore\n",
+    "\n",
+    "Notice that before you added the files to your repository, Git let you know that there was an untracked file in your directory. Sometimes you do want to have files in the directories of your repository, but not keep those files under version control. Examples of these might be binary files, large data sets, images, etc.\n",
+    "\n",
+    "Fortunately, you can tell Git to ignore certain files. This is done using a [`.gitignore` file](https://git-scm.com/docs/gitignore). Each line of of the `.gitignore` file says which files to ignore. For example, to ignore all files that end with `.tif`, you would include the line\n",
+    "\n",
+    "    *.tif\n",
+    "    \n",
+    "in your `.gitignore` file. The `*` is a **wildcard character** which says to ignore all files that have a file name ending with `.tif`, regardless of what the prefix is. Now, whenever you you use `git status`, any file ending with `*.tif` that happens to be on your machine within the directories containing your repository will be ignored by Git.\n",
+    "\n",
+    "Just because `*.tif` appears in a `.gitignore` file does not mean that *all* `.tif` files will be ignored. If you explicitly add a file to the repository, Git will keep track of it. E.g., if you did\n",
+    "\n",
+    "    git add myfile.tif\n",
+    "\n",
+    "then `myfile.tif` will be under version control, even if other `.tif` files laying around are not. (*Note, though, that you usually do not want to have binary files under version control. You typically only keep code under control. Only data sets used to test code are included in the repository. Version control is not really for data, but for code.*)\n",
+    "\n",
+    "Finally, since it begins with a `.`. When you put a `.gitignore` file in a directory,  the `.gitignore` file will not show up when you run `ls` at the command line without the `-a` flag."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Installing your package\n",
+    "\n",
+    "To install your package, you use `pip`, which is a self-referential acronym **`P`**`ip` **`I`**`nstalls` **`P`**`ackages`. To install a your package, make sure you are in the directory immediately above your package, in this case `~/git`. Then, do the following on the command line.\n",
+    "\n",
+    "    pip install -e jb_bootcamp\n",
+    "    \n",
+    "The `-e` flag is important, which tells `pip` that this is a local, editable package.\n",
+    "\n",
+    "Your package is now accessible on your machine whenever you run the Python interpreter!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Installing bootcamp_utils\n",
+    "\n",
+    "What you have just done is a common workflow with packages. You write your own packages (that are under version control, of course), and you make them available using `pip install -e`. In addition to your own packages, you used `conda` to install third party packages on your machine in [Lesson 0](l00_configuring_your_machine.ipynb). Sometimes packages are not yet available via `conda`, but are nonetheless available in the [Python Package Index (PyPI)](https://pypi.org). There are over 230,000 packages in the PyPI. To install one of them, you simply use\n",
+    "\n",
+    "    pip install name_of_package\n",
+    "    \n",
+    "Note that the `-e` flag is missing. (More importantly, note that the `-e` flag is present when installing your own local package that is not (yet) on the PyPI.) I wrote a package that has some useful utilities we will use in the bootcamp called `bootcamp_utils`. You can install it be entering the following on the command line.\n",
+    "\n",
+    "    pip install bootcamp_utils"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.11.9\n",
+      "IPython version      : 8.20.0\n",
+      "\n",
+      "jupyterlab: 4.0.13\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

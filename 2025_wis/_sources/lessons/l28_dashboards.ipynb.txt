@@ -1,0 +1,1460 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 28: Dashboards\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "    <style>\n",
+       "        .bk-notebook-logo {\n",
+       "            display: block;\n",
+       "            width: 20px;\n",
+       "            height: 20px;\n",
+       "            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAOkSURBVDiNjZRtaJVlGMd/1/08zzln5zjP1LWcU9N0NkN8m2CYjpgQYQXqSs0I84OLIC0hkEKoPtiH3gmKoiJDU7QpLgoLjLIQCpEsNJ1vqUOdO7ppbuec5+V+rj4ctwzd8IIbbi6u+8f1539dt3A78eXC7QizUF7gyV1fD1Yqg4JWz84yffhm0qkFqBogB9rM8tZdtwVsPUhWhGcFJngGeWrPzHm5oaMmkfEg1usvLFyc8jLRqDOMru7AyC8saQr7GG7f5fvDeH7Ej8CM66nIF+8yngt6HWaKh7k49Soy9nXurCi1o3qUbS3zWfrYeQDTB/Qj6kX6Ybhw4B+bOYoLKCC9H3Nu/leUTZ1JdRWkkn2ldcCamzrcf47KKXdAJllSlxAOkRgyHsGC/zRday5Qld9DyoM4/q/rUoy/CXh3jzOu3bHUVZeU+DEn8FInkPBFlu3+nW3Nw0mk6vCDiWg8CeJaxEwuHS3+z5RgY+YBR6V1Z1nxSOfoaPa4LASWxxdNp+VWTk7+4vzaou8v8PN+xo+KY2xsw6une2frhw05CTYOmQvsEhjhWjn0bmXPjpE1+kplmmkP3suftwTubK9Vq22qKmrBhpY4jvd5afdRA3wGjFAgcnTK2s4hY0/GPNIb0nErGMCRxWOOX64Z8RAC4oCXdklmEvcL8o0BfkNK4lUg9HTl+oPlQxdNo3Mg4Nv175e/1LDGzZen30MEjRUtmXSfiTVu1kK8W4txyV6BMKlbgk3lMwYCiusNy9fVfvvwMxv8Ynl6vxoByANLTWplvuj/nF9m2+PDtt1eiHPBr1oIfhCChQMBw6Aw0UulqTKZdfVvfG7VcfIqLG9bcldL/+pdWTLxLUy8Qq38heUIjh4XlzZxzQm19lLFlr8vdQ97rjZVOLf8nclzckbcD4wxXMidpX30sFd37Fv/GtwwhzhxGVAprjbg0gCAEeIgwCZyTV2Z1REEW8O4py0wsjeloKoMr6iCY6dP92H6Vw/oTyICIthibxjm/DfN9lVz8IqtqKYLUXfoKVMVQVVJOElGjrnnUt9T9wbgp8AyYKaGlqingHZU/uG2NTZSVqwHQTWkx9hxjkpWDaCg6Ckj5qebgBVbT3V3NNXMSiWSDdGV3hrtzla7J+duwPOToIg42ChPQOQjspnSlp1V+Gjdged7+8UN5CRAV7a5EdFNwCjEaBR27b3W890TE7g24NAP/mMDXRWrGoFPQI9ls/MWO2dWFAar/xcOIImbbpA3zgAAAABJRU5ErkJggg==);\n",
+       "        }\n",
+       "    </style>\n",
+       "    <div>\n",
+       "        <a href=\"https://bokeh.org\" target=\"_blank\" class=\"bk-notebook-logo\"></a>\n",
+       "        <span id=\"e546d8f4-9dcc-4999-b379-d97850965b50\">Loading BokehJS ...</span>\n",
+       "    </div>\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/javascript": [
+       "'use strict';\n",
+       "(function(root) {\n",
+       "  function now() {\n",
+       "    return new Date();\n",
+       "  }\n",
+       "\n",
+       "  const force = true;\n",
+       "\n",
+       "  if (typeof root._bokeh_onload_callbacks === \"undefined\" || force === true) {\n",
+       "    root._bokeh_onload_callbacks = [];\n",
+       "    root._bokeh_is_loading = undefined;\n",
+       "  }\n",
+       "\n",
+       "const JS_MIME_TYPE = 'application/javascript';\n",
+       "  const HTML_MIME_TYPE = 'text/html';\n",
+       "  const EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';\n",
+       "  const CLASS_NAME = 'output_bokeh rendered_html';\n",
+       "\n",
+       "  /**\n",
+       "   * Render data to the DOM node\n",
+       "   */\n",
+       "  function render(props, node) {\n",
+       "    const script = document.createElement(\"script\");\n",
+       "    node.appendChild(script);\n",
+       "  }\n",
+       "\n",
+       "  /**\n",
+       "   * Handle when an output is cleared or removed\n",
+       "   */\n",
+       "  function handleClearOutput(event, handle) {\n",
+       "    function drop(id) {\n",
+       "      const view = Bokeh.index.get_by_id(id)\n",
+       "      if (view != null) {\n",
+       "        view.model.document.clear()\n",
+       "        Bokeh.index.delete(view)\n",
+       "      }\n",
+       "    }\n",
+       "\n",
+       "    const cell = handle.cell;\n",
+       "\n",
+       "    const id = cell.output_area._bokeh_element_id;\n",
+       "    const server_id = cell.output_area._bokeh_server_id;\n",
+       "\n",
+       "    // Clean up Bokeh references\n",
+       "    if (id != null) {\n",
+       "      drop(id)\n",
+       "    }\n",
+       "\n",
+       "    if (server_id !== undefined) {\n",
+       "      // Clean up Bokeh references\n",
+       "      const cmd_clean = \"from bokeh.io.state import curstate; print(curstate().uuid_to_server['\" + server_id + \"'].get_sessions()[0].document.roots[0]._id)\";\n",
+       "      cell.notebook.kernel.execute(cmd_clean, {\n",
+       "        iopub: {\n",
+       "          output: function(msg) {\n",
+       "            const id = msg.content.text.trim()\n",
+       "            drop(id)\n",
+       "          }\n",
+       "        }\n",
+       "      });\n",
+       "      // Destroy server and session\n",
+       "      const cmd_destroy = \"import bokeh.io.notebook as ion; ion.destroy_server('\" + server_id + \"')\";\n",
+       "      cell.notebook.kernel.execute(cmd_destroy);\n",
+       "    }\n",
+       "  }\n",
+       "\n",
+       "  /**\n",
+       "   * Handle when a new output is added\n",
+       "   */\n",
+       "  function handleAddOutput(event, handle) {\n",
+       "    const output_area = handle.output_area;\n",
+       "    const output = handle.output;\n",
+       "\n",
+       "    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only\n",
+       "    if ((output.output_type != \"display_data\") || (!Object.prototype.hasOwnProperty.call(output.data, EXEC_MIME_TYPE))) {\n",
+       "      return\n",
+       "    }\n",
+       "\n",
+       "    const toinsert = output_area.element.find(\".\" + CLASS_NAME.split(' ')[0]);\n",
+       "\n",
+       "    if (output.metadata[EXEC_MIME_TYPE][\"id\"] !== undefined) {\n",
+       "      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];\n",
+       "      // store reference to embed id on output_area\n",
+       "      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE][\"id\"];\n",
+       "    }\n",
+       "    if (output.metadata[EXEC_MIME_TYPE][\"server_id\"] !== undefined) {\n",
+       "      const bk_div = document.createElement(\"div\");\n",
+       "      bk_div.innerHTML = output.data[HTML_MIME_TYPE];\n",
+       "      const script_attrs = bk_div.children[0].attributes;\n",
+       "      for (let i = 0; i < script_attrs.length; i++) {\n",
+       "        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);\n",
+       "        toinsert[toinsert.length - 1].firstChild.textContent = bk_div.children[0].textContent\n",
+       "      }\n",
+       "      // store reference to server id on output_area\n",
+       "      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE][\"server_id\"];\n",
+       "    }\n",
+       "  }\n",
+       "\n",
+       "  function register_renderer(events, OutputArea) {\n",
+       "\n",
+       "    function append_mime(data, metadata, element) {\n",
+       "      // create a DOM node to render to\n",
+       "      const toinsert = this.create_output_subarea(\n",
+       "        metadata,\n",
+       "        CLASS_NAME,\n",
+       "        EXEC_MIME_TYPE\n",
+       "      );\n",
+       "      this.keyboard_manager.register_events(toinsert);\n",
+       "      // Render to node\n",
+       "      const props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};\n",
+       "      render(props, toinsert[toinsert.length - 1]);\n",
+       "      element.append(toinsert);\n",
+       "      return toinsert\n",
+       "    }\n",
+       "\n",
+       "    /* Handle when an output is cleared or removed */\n",
+       "    events.on('clear_output.CodeCell', handleClearOutput);\n",
+       "    events.on('delete.Cell', handleClearOutput);\n",
+       "\n",
+       "    /* Handle when a new output is added */\n",
+       "    events.on('output_added.OutputArea', handleAddOutput);\n",
+       "\n",
+       "    /**\n",
+       "     * Register the mime type and append_mime function with output_area\n",
+       "     */\n",
+       "    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {\n",
+       "      /* Is output safe? */\n",
+       "      safe: true,\n",
+       "      /* Index of renderer in `output_area.display_order` */\n",
+       "      index: 0\n",
+       "    });\n",
+       "  }\n",
+       "\n",
+       "  // register the mime type if in Jupyter Notebook environment and previously unregistered\n",
+       "  if (root.Jupyter !== undefined) {\n",
+       "    const events = require('base/js/events');\n",
+       "    const OutputArea = require('notebook/js/outputarea').OutputArea;\n",
+       "\n",
+       "    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {\n",
+       "      register_renderer(events, OutputArea);\n",
+       "    }\n",
+       "  }\n",
+       "  if (typeof (root._bokeh_timeout) === \"undefined\" || force === true) {\n",
+       "    root._bokeh_timeout = Date.now() + 5000;\n",
+       "    root._bokeh_failed_load = false;\n",
+       "  }\n",
+       "\n",
+       "  const NB_LOAD_WARNING = {'data': {'text/html':\n",
+       "     \"<div style='background-color: #fdd'>\\n\"+\n",
+       "     \"<p>\\n\"+\n",
+       "     \"BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \\n\"+\n",
+       "     \"may be due to a slow or bad network connection. Possible fixes:\\n\"+\n",
+       "     \"</p>\\n\"+\n",
+       "     \"<ul>\\n\"+\n",
+       "     \"<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\\n\"+\n",
+       "     \"<li>use INLINE resources instead, as so:</li>\\n\"+\n",
+       "     \"</ul>\\n\"+\n",
+       "     \"<code>\\n\"+\n",
+       "     \"from bokeh.resources import INLINE\\n\"+\n",
+       "     \"output_notebook(resources=INLINE)\\n\"+\n",
+       "     \"</code>\\n\"+\n",
+       "     \"</div>\"}};\n",
+       "\n",
+       "  function display_loaded(error = null) {\n",
+       "    const el = document.getElementById(\"e546d8f4-9dcc-4999-b379-d97850965b50\");\n",
+       "    if (el != null) {\n",
+       "      const html = (() => {\n",
+       "        if (typeof root.Bokeh === \"undefined\") {\n",
+       "          if (error == null) {\n",
+       "            return \"BokehJS is loading ...\";\n",
+       "          } else {\n",
+       "            return \"BokehJS failed to load.\";\n",
+       "          }\n",
+       "        } else {\n",
+       "          const prefix = `BokehJS ${root.Bokeh.version}`;\n",
+       "          if (error == null) {\n",
+       "            return `${prefix} successfully loaded.`;\n",
+       "          } else {\n",
+       "            return `${prefix} <b>encountered errors</b> while loading and may not function as expected.`;\n",
+       "          }\n",
+       "        }\n",
+       "      })();\n",
+       "      el.innerHTML = html;\n",
+       "\n",
+       "      if (error != null) {\n",
+       "        const wrapper = document.createElement(\"div\");\n",
+       "        wrapper.style.overflow = \"auto\";\n",
+       "        wrapper.style.height = \"5em\";\n",
+       "        wrapper.style.resize = \"vertical\";\n",
+       "        const content = document.createElement(\"div\");\n",
+       "        content.style.fontFamily = \"monospace\";\n",
+       "        content.style.whiteSpace = \"pre-wrap\";\n",
+       "        content.style.backgroundColor = \"rgb(255, 221, 221)\";\n",
+       "        content.textContent = error.stack ?? error.toString();\n",
+       "        wrapper.append(content);\n",
+       "        el.append(wrapper);\n",
+       "      }\n",
+       "    } else if (Date.now() < root._bokeh_timeout) {\n",
+       "      setTimeout(() => display_loaded(error), 100);\n",
+       "    }\n",
+       "  }\n",
+       "\n",
+       "  function run_callbacks() {\n",
+       "    try {\n",
+       "      root._bokeh_onload_callbacks.forEach(function(callback) {\n",
+       "        if (callback != null)\n",
+       "          callback();\n",
+       "      });\n",
+       "    } finally {\n",
+       "      delete root._bokeh_onload_callbacks\n",
+       "    }\n",
+       "    console.debug(\"Bokeh: all callbacks have finished\");\n",
+       "  }\n",
+       "\n",
+       "  function load_libs(css_urls, js_urls, callback) {\n",
+       "    if (css_urls == null) css_urls = [];\n",
+       "    if (js_urls == null) js_urls = [];\n",
+       "\n",
+       "    root._bokeh_onload_callbacks.push(callback);\n",
+       "    if (root._bokeh_is_loading > 0) {\n",
+       "      console.debug(\"Bokeh: BokehJS is being loaded, scheduling callback at\", now());\n",
+       "      return null;\n",
+       "    }\n",
+       "    if (js_urls == null || js_urls.length === 0) {\n",
+       "      run_callbacks();\n",
+       "      return null;\n",
+       "    }\n",
+       "    console.debug(\"Bokeh: BokehJS not loaded, scheduling load and callback at\", now());\n",
+       "    root._bokeh_is_loading = css_urls.length + js_urls.length;\n",
+       "\n",
+       "    function on_load() {\n",
+       "      root._bokeh_is_loading--;\n",
+       "      if (root._bokeh_is_loading === 0) {\n",
+       "        console.debug(\"Bokeh: all BokehJS libraries/stylesheets loaded\");\n",
+       "        run_callbacks()\n",
+       "      }\n",
+       "    }\n",
+       "\n",
+       "    function on_error(url) {\n",
+       "      console.error(\"failed to load \" + url);\n",
+       "    }\n",
+       "\n",
+       "    for (let i = 0; i < css_urls.length; i++) {\n",
+       "      const url = css_urls[i];\n",
+       "      const element = document.createElement(\"link\");\n",
+       "      element.onload = on_load;\n",
+       "      element.onerror = on_error.bind(null, url);\n",
+       "      element.rel = \"stylesheet\";\n",
+       "      element.type = \"text/css\";\n",
+       "      element.href = url;\n",
+       "      console.debug(\"Bokeh: injecting link tag for BokehJS stylesheet: \", url);\n",
+       "      document.body.appendChild(element);\n",
+       "    }\n",
+       "\n",
+       "    for (let i = 0; i < js_urls.length; i++) {\n",
+       "      const url = js_urls[i];\n",
+       "      const element = document.createElement('script');\n",
+       "      element.onload = on_load;\n",
+       "      element.onerror = on_error.bind(null, url);\n",
+       "      element.async = false;\n",
+       "      element.src = url;\n",
+       "      console.debug(\"Bokeh: injecting script tag for BokehJS library: \", url);\n",
+       "      document.head.appendChild(element);\n",
+       "    }\n",
+       "  };\n",
+       "\n",
+       "  function inject_raw_css(css) {\n",
+       "    const element = document.createElement(\"style\");\n",
+       "    element.appendChild(document.createTextNode(css));\n",
+       "    document.body.appendChild(element);\n",
+       "  }\n",
+       "\n",
+       "  const js_urls = [\"https://cdn.bokeh.org/bokeh/release/bokeh-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.4.1.min.js\"];\n",
+       "  const css_urls = [];\n",
+       "\n",
+       "  const inline_js = [    function(Bokeh) {\n",
+       "      Bokeh.set_log_level(\"info\");\n",
+       "    },\n",
+       "function(Bokeh) {\n",
+       "    }\n",
+       "  ];\n",
+       "\n",
+       "  function run_inline_js() {\n",
+       "    if (root.Bokeh !== undefined || force === true) {\n",
+       "      try {\n",
+       "            for (let i = 0; i < inline_js.length; i++) {\n",
+       "      inline_js[i].call(root, root.Bokeh);\n",
+       "    }\n",
+       "\n",
+       "      } catch (error) {display_loaded(error);throw error;\n",
+       "      }if (force === true) {\n",
+       "        display_loaded();\n",
+       "      }} else if (Date.now() < root._bokeh_timeout) {\n",
+       "      setTimeout(run_inline_js, 100);\n",
+       "    } else if (!root._bokeh_failed_load) {\n",
+       "      console.log(\"Bokeh: BokehJS failed to load within specified timeout.\");\n",
+       "      root._bokeh_failed_load = true;\n",
+       "    } else if (force !== true) {\n",
+       "      const cell = $(document.getElementById(\"e546d8f4-9dcc-4999-b379-d97850965b50\")).parents('.cell').data().cell;\n",
+       "      cell.output_area.append_execute_result(NB_LOAD_WARNING)\n",
+       "    }\n",
+       "  }\n",
+       "\n",
+       "  if (root._bokeh_is_loading === 0) {\n",
+       "    console.debug(\"Bokeh: BokehJS loaded, going straight to plotting\");\n",
+       "    run_inline_js();\n",
+       "  } else {\n",
+       "    load_libs(css_urls, js_urls, function() {\n",
+       "      console.debug(\"Bokeh: BokehJS plotting callback run at\", now());\n",
+       "      run_inline_js();\n",
+       "    });\n",
+       "  }\n",
+       "}(window));"
+      ],
+      "application/vnd.bokehjs_load.v0+json": "'use strict';\n(function(root) {\n  function now() {\n    return new Date();\n  }\n\n  const force = true;\n\n  if (typeof root._bokeh_onload_callbacks === \"undefined\" || force === true) {\n    root._bokeh_onload_callbacks = [];\n    root._bokeh_is_loading = undefined;\n  }\n\n\n  if (typeof (root._bokeh_timeout) === \"undefined\" || force === true) {\n    root._bokeh_timeout = Date.now() + 5000;\n    root._bokeh_failed_load = false;\n  }\n\n  const NB_LOAD_WARNING = {'data': {'text/html':\n     \"<div style='background-color: #fdd'>\\n\"+\n     \"<p>\\n\"+\n     \"BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \\n\"+\n     \"may be due to a slow or bad network connection. Possible fixes:\\n\"+\n     \"</p>\\n\"+\n     \"<ul>\\n\"+\n     \"<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\\n\"+\n     \"<li>use INLINE resources instead, as so:</li>\\n\"+\n     \"</ul>\\n\"+\n     \"<code>\\n\"+\n     \"from bokeh.resources import INLINE\\n\"+\n     \"output_notebook(resources=INLINE)\\n\"+\n     \"</code>\\n\"+\n     \"</div>\"}};\n\n  function display_loaded(error = null) {\n    const el = document.getElementById(\"e546d8f4-9dcc-4999-b379-d97850965b50\");\n    if (el != null) {\n      const html = (() => {\n        if (typeof root.Bokeh === \"undefined\") {\n          if (error == null) {\n            return \"BokehJS is loading ...\";\n          } else {\n            return \"BokehJS failed to load.\";\n          }\n        } else {\n          const prefix = `BokehJS ${root.Bokeh.version}`;\n          if (error == null) {\n            return `${prefix} successfully loaded.`;\n          } else {\n            return `${prefix} <b>encountered errors</b> while loading and may not function as expected.`;\n          }\n        }\n      })();\n      el.innerHTML = html;\n\n      if (error != null) {\n        const wrapper = document.createElement(\"div\");\n        wrapper.style.overflow = \"auto\";\n        wrapper.style.height = \"5em\";\n        wrapper.style.resize = \"vertical\";\n        const content = document.createElement(\"div\");\n        content.style.fontFamily = \"monospace\";\n        content.style.whiteSpace = \"pre-wrap\";\n        content.style.backgroundColor = \"rgb(255, 221, 221)\";\n        content.textContent = error.stack ?? error.toString();\n        wrapper.append(content);\n        el.append(wrapper);\n      }\n    } else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(() => display_loaded(error), 100);\n    }\n  }\n\n  function run_callbacks() {\n    try {\n      root._bokeh_onload_callbacks.forEach(function(callback) {\n        if (callback != null)\n          callback();\n      });\n    } finally {\n      delete root._bokeh_onload_callbacks\n    }\n    console.debug(\"Bokeh: all callbacks have finished\");\n  }\n\n  function load_libs(css_urls, js_urls, callback) {\n    if (css_urls == null) css_urls = [];\n    if (js_urls == null) js_urls = [];\n\n    root._bokeh_onload_callbacks.push(callback);\n    if (root._bokeh_is_loading > 0) {\n      console.debug(\"Bokeh: BokehJS is being loaded, scheduling callback at\", now());\n      return null;\n    }\n    if (js_urls == null || js_urls.length === 0) {\n      run_callbacks();\n      return null;\n    }\n    console.debug(\"Bokeh: BokehJS not loaded, scheduling load and callback at\", now());\n    root._bokeh_is_loading = css_urls.length + js_urls.length;\n\n    function on_load() {\n      root._bokeh_is_loading--;\n      if (root._bokeh_is_loading === 0) {\n        console.debug(\"Bokeh: all BokehJS libraries/stylesheets loaded\");\n        run_callbacks()\n      }\n    }\n\n    function on_error(url) {\n      console.error(\"failed to load \" + url);\n    }\n\n    for (let i = 0; i < css_urls.length; i++) {\n      const url = css_urls[i];\n      const element = document.createElement(\"link\");\n      element.onload = on_load;\n      element.onerror = on_error.bind(null, url);\n      element.rel = \"stylesheet\";\n      element.type = \"text/css\";\n      element.href = url;\n      console.debug(\"Bokeh: injecting link tag for BokehJS stylesheet: \", url);\n      document.body.appendChild(element);\n    }\n\n    for (let i = 0; i < js_urls.length; i++) {\n      const url = js_urls[i];\n      const element = document.createElement('script');\n      element.onload = on_load;\n      element.onerror = on_error.bind(null, url);\n      element.async = false;\n      element.src = url;\n      console.debug(\"Bokeh: injecting script tag for BokehJS library: \", url);\n      document.head.appendChild(element);\n    }\n  };\n\n  function inject_raw_css(css) {\n    const element = document.createElement(\"style\");\n    element.appendChild(document.createTextNode(css));\n    document.body.appendChild(element);\n  }\n\n  const js_urls = [\"https://cdn.bokeh.org/bokeh/release/bokeh-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.4.1.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.4.1.min.js\"];\n  const css_urls = [];\n\n  const inline_js = [    function(Bokeh) {\n      Bokeh.set_log_level(\"info\");\n    },\nfunction(Bokeh) {\n    }\n  ];\n\n  function run_inline_js() {\n    if (root.Bokeh !== undefined || force === true) {\n      try {\n            for (let i = 0; i < inline_js.length; i++) {\n      inline_js[i].call(root, root.Bokeh);\n    }\n\n      } catch (error) {display_loaded(error);throw error;\n      }if (force === true) {\n        display_loaded();\n      }} else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(run_inline_js, 100);\n    } else if (!root._bokeh_failed_load) {\n      console.log(\"Bokeh: BokehJS failed to load within specified timeout.\");\n      root._bokeh_failed_load = true;\n    } else if (force !== true) {\n      const cell = $(document.getElementById(\"e546d8f4-9dcc-4999-b379-d97850965b50\")).parents('.cell').data().cell;\n      cell.output_area.append_execute_result(NB_LOAD_WARNING)\n    }\n  }\n\n  if (root._bokeh_is_loading === 0) {\n    console.debug(\"Bokeh: BokehJS loaded, going straight to plotting\");\n    run_inline_js();\n  } else {\n    load_libs(css_urls, js_urls, function() {\n      console.debug(\"Bokeh: BokehJS plotting callback run at\", now());\n      run_inline_js();\n    });\n  }\n}(window));"
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import scipy.stats\n",
+    "\n",
+    "import bokeh.io\n",
+    "import bokeh.layouts\n",
+    "import bokeh.models\n",
+    "import bokeh.plotting\n",
+    "\n",
+    "notebook_url = 'localhost:8888'\n",
+    "bokeh.io.output_notebook()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<hr>\n",
+    "\n",
+    "_**Note**: This notebook contains interactive plots. Full interactivity is not present in the HTML rendering of this notebook. This is because a Python engine needs to be running to update the plots. You can make dashboards that will run in other user's browsers if you serve it and have the Python engine running on the server side. We will not cover this more advanced topic in the bootcamp._\n",
+    "\n",
+    "<br />\n",
+    "\n",
+    "We have seen that Bokeh allows interactivity in plots. You can zoom and hover over data points to get more information. **Dashboarding** involves constructing layouts of plots with interactivity, even beyond what we have seen so far. We can do more than just select which data we want to view; we can also trigger any calculation we wish based on mouse clicks or entered text within a graphic.\n",
+    "\n",
+    "We will start with a simple exploration of how parameters affect a function."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## A simple example\n",
+    "\n",
+    "Let's start by plotting the PDF of the Normal distribution."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# Parameters; we'll start with standard Normal\n",
+    "mu = 0.0\n",
+    "sigma = 1.0\n",
+    "\n",
+    "# Generate data\n",
+    "x = np.linspace(-10, 10, 200)\n",
+    "pdf = scipy.stats.norm.pdf(x, loc=mu, scale=sigma)\n",
+    "\n",
+    "# Column data source for plot\n",
+    "source = bokeh.models.ColumnDataSource(dict(x=x, pdf=pdf))\n",
+    "\n",
+    "# Build figure\n",
+    "p = bokeh.plotting.figure(\n",
+    "    frame_width=350,\n",
+    "    frame_height=200,\n",
+    "    x_axis_label='x',\n",
+    "    y_axis_label='f(x)',\n",
+    "    x_range=[-10, 10],\n",
+    ")\n",
+    "\n",
+    "# Put line on plot\n",
+    "p.line(source=source, x='x', y='pdf', line_width=2);\n",
+    "\n",
+    "# We will not show it because if it is in a dashboard, a given plot can only \n",
+    "# be shown there in a notebook. Instead, it's displayed as an image below."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div style=\"margin: auto; width: 300px\">\n",
+    "    \n",
+    "![Normal distribution plot](normal_dist.png)\n",
+    "    \n",
+    "</div>\n",
+    "\n",
+    "Looks good, but what if we want to examine how the PDF changes with μ and σ? We could keep plotting it over and over, manually changing the values of µ and σ. Much more instructive would be to create sliders where we can change the values of the parameters and instantaneously see how the plot changes.\n",
+    "\n",
+    "We can use Bokeh to make the sliders."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "mu_slider = bokeh.models.Slider(title=\"µ\", start=-5.0, end=5.0, step=0.1, value=0.0, width=100)\n",
+    "sigma_slider = bokeh.models.Slider(title=\"σ\", start=0.1, end=5.0, step=0.1, value=1.0, width=100)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The sliders are now created; we will add them to the plot area momentarily. Before we do that, we need to define what happens when we adjust a slider. Specifically, we want to change the data in `source`, which specifies where the line glyph is rendered on the plot. We therefore define a function to update `source.data` whenever the value of one of the sliders changes. Such a function is referred to as a **callback**. For callbacks that are triggered when slider values change, Bokeh requires a call signature `callback(attr, old, new)`, where `attr` is the attribute of the slider that changes, `old` is its old value, and `new` is its previous value. In this case, and often in practice, we do not use these arguments directly, since we will write a single callback that is called any time *any* of the sliders change."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "def norm_callback(attr, old, new):\n",
+    "    \"\"\"Callback for updating data in Normal PDF plot.\"\"\"\n",
+    "    # Pull the values off of each slider\n",
+    "    mu = mu_slider.value\n",
+    "    sigma = sigma_slider.value\n",
+    "    \n",
+    "    # Re-compute the y-values\n",
+    "    pdf = scipy.stats.norm.pdf(source.data['x'], loc=mu, scale=sigma)\n",
+    "    \n",
+    "    # Update the column data source\n",
+    "    source.data[\"pdf\"] = pdf"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now we need to link the sliders to the callback. We do this using the `on_change` method of the sliders. The first argument is what attribute of the slider changes (in our case, it's the `'value'`), and the second argument is the callback function that gets called when the attribute changes."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "mu_slider.on_change('value', norm_callback)\n",
+    "sigma_slider.on_change('value', norm_callback)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Next, we need to **lay out** our plot and sliders today. The `bokeh.layouts` module offers convenient ways to do this. We will put the sliders to the right of the plot. The syntax below is self-explanatory."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# Put the sliders one on top of the other\n",
+    "slider_layout = bokeh.layouts.column(\n",
+    "    bokeh.layouts.Spacer(height=30),\n",
+    "    mu_slider,\n",
+    "    bokeh.layouts.Spacer(height=15),\n",
+    "    sigma_slider,    \n",
+    ")\n",
+    "\n",
+    "# Put the sliders to the right of the plot\n",
+    "norm_layout = bokeh.layouts.row(\n",
+    "    p,\n",
+    "    bokeh.layouts.Spacer(width=15),\n",
+    "    slider_layout\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Finally, because this is a more complex graphic that requires calling Python functions upon updating, we need to make an **app**. To make the app, we used the function below."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "def norm_app(doc):\n",
+    "    doc.add_root(norm_layout)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, we are ready to show the app. To show it, we need to specify the URL of the notebook so that the callback communicates properly with this notebook. The `notebook_url` keyword argument of `bokeh.io.show()` is a string containing the root URL for the notebook. In this case, I have specified it in the top cell as `'localhost:8888'`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.bokehjs_exec.v0+json": "",
+      "text/html": [
+       "<script id=\"c37478f3-a29d-4b06-97ba-11f683cb10b2\">\n",
+       "  (function() {\n",
+       "    const xhr = new XMLHttpRequest()\n",
+       "    xhr.responseType = 'blob';\n",
+       "    xhr.open('GET', \"http://localhost:53756/autoload.js?bokeh-autoload-element=c37478f3-a29d-4b06-97ba-11f683cb10b2&bokeh-absolute-url=http://localhost:53756&resources=none\", true);\n",
+       "    xhr.onload = function (event) {\n",
+       "      const script = document.createElement('script');\n",
+       "      const src = URL.createObjectURL(event.target.response);\n",
+       "      script.src = src;\n",
+       "      document.body.appendChild(script);\n",
+       "    };\n",
+       "    xhr.send();\n",
+       "  })();\n",
+       "</script>"
+      ]
+     },
+     "metadata": {
+      "application/vnd.bokehjs_exec.v0+json": {
+       "server_id": "3796816cb58849c6b77c3034febd647f"
+      }
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "bokeh.io.show(norm_app, notebook_url=notebook_url)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Pieces of a Bokeh dashboard\n",
+    "\n",
+    "Let us rehash what we did to create the dashboard. To specify a dashboard allowing us to interact with plots, we must provide the following.\n",
+    "\n",
+    "1. The plot or plots themselves.\n",
+    "2. The **widgets**. Widgets for parameter values are primarily sliders, which enable you to vary parameter values by clicking and dragging. We can also make use of other widgets such as toggle, radio buttons, and drop menus. The [Bokeh documentation](https://docs.bokeh.org/en/latest/docs/user_guide/interaction.html) provides good instruction on what widgets are available and how to use them.\n",
+    "3. The **callback function**. This is a function that is executed whenever a widget changes value. Most of the time, we use it to update a ColumnDataSource of a plot. You may have more than one callback functions for different widgets and also for changes in the range of the axis of the plot due to zooming. \n",
+    "4. **The layout.** This is the spatial arrangement of the plots and widgets. Again, the [Bokeh documentation on layouts](https://docs.bokeh.org/en/latest/docs/user_guide/layout.html) is a useful reference.\n",
+    "5. **The app.** Bokeh will create an application that can be embedded in a notebook or serves as its own page in a browser. To create it, you need to make a simple function that adds the layout you built to the document that Bokeh will make into an app. (This sounds a lot more complicated than it is; it is as simple as coding up the `norm_app()` function above.)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Using dashboards to explore parameters\n",
+    "\n",
+    "Recall from a previous exercise that we investigated the fold change in gene expression as a function of repressor copy number $R$ and inducer concentration $c$. The theoretical function, based on an MWC model, was\n",
+    "\n",
+    "\\begin{align}\n",
+    "\\text{fold change} = \\left[1 + \\frac{\\frac{R}{K}\\left(1 + c/K_\\mathrm{d}^\\mathrm{A}\\right)^2}{\\left(1 + c/K_\\mathrm{d}^\\mathrm{A}\\right)^2 + K_\\mathrm{switch}\\left(1 + c/K_\\mathrm{d}^\\mathrm{I}\\right)^2}\\right]^{-1}.\n",
+    "\\end{align}\n",
+    "\n",
+    "There are quite a few parameters here.\n",
+    "\n",
+    "|Parameter|Description|\n",
+    "|:--:|:--:|\n",
+    "|$K_\\mathrm{d}^\\mathrm{A}$|dissoc. const. for active repressor binding IPTG|\n",
+    "|$K_\\mathrm{d}^\\mathrm{I}$|dissoc. const. for inactive repressor binding IPTG|\n",
+    "|$K_\\mathrm{switch}$|equil. const. for switching active/inactive|\n",
+    "|$K$|dissoc. const. for active repressor binding operator|\n",
+    "|$R$|number of repressors in cell|\n",
+    "\n",
+    "This is a complicated function of these parameters, and we might want to see how the fold change vs. inducer concentration curve varies based on various parameter values. Dashboarding comes in very handy for this kind of application.\n",
+    "\n",
+    "To build our dashboard, we start by defining functions to compute the fold change as a function of the IPTG concentration and the parameters."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "def bohr_parameter(c, R, K, KdA, KdI, Kswitch):\n",
+    "    \"\"\"Compute Bohr parameter based on MWC model.\"\"\"\n",
+    "    # Big nasty argument of logarithm\n",
+    "    log_arg = (1 + c / KdA) ** 2 / (\n",
+    "        (1 + c / KdA) ** 2 + Kswitch * (1 + c / KdI) ** 2\n",
+    "    )\n",
+    "\n",
+    "    return -np.log(R / K) - np.log(log_arg)\n",
+    "\n",
+    "\n",
+    "def fold_change(c, R, K, KdA, KdI, Kswitch):\n",
+    "    \"\"\"Compute theoretical fold change for MWC model.\"\"\"\n",
+    "    return 1 / (1 + np.exp(-bohr_parameter(c, R, K, KdA, KdI, Kswitch)))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Next, we define our sliders. For convenience, we will store the sliders in a dictionary. \n",
+    "\n",
+    "As we explore this function, we would like the parameter to vary on a logarithmic scale. Bokeh does not allow logarithmic scale sliders (tough there is a hack to get around this that we will discuss in the Bokeh styling lesson)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "sliders = dict(\n",
+    "    log_R_slider=bokeh.models.Slider(\n",
+    "        title=\"log₁₀ R (1/cell)\", start=0, end=3, step=0.1, value=2\n",
+    "    ),\n",
+    "    log_K_slider=bokeh.models.Slider(\n",
+    "        title=\"log₁₀ K (1/cell)\", start=-6, end=3, step=0.1, value=0\n",
+    "    ),\n",
+    "    log_KdA_slider=bokeh.models.Slider(\n",
+    "        title=\"log₁₀ KdA (1/mM)\", start=-6, end=3, step=0.1, value=-2\n",
+    "    ),\n",
+    "    log_KdI_slider=bokeh.models.Slider(\n",
+    "        title=\"log₁₀ KdI (1/mM)\", start=-6, end=3, step=0.1, value=-2\n",
+    "    ),\n",
+    "    log_Kswitch_slider=bokeh.models.Slider(\n",
+    "        title=\"log₁₀ Kswitch\", start=-3, end=6, step=0.1, value=1,\n",
+    "    ),\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, we'll generate the plot, defining a ColumnDataSource that we can manipulate in callbacks."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# Concentration of inducer\n",
+    "c = np.logspace(-6, 2, 200)\n",
+    "\n",
+    "# Take parameters from slider values\n",
+    "params = 10.0 ** np.array([slider.value for _, slider in sliders.items()])\n",
+    "\n",
+    "# Fold change\n",
+    "fc = fold_change(c, *params)\n",
+    "\n",
+    "# Data source\n",
+    "source = bokeh.models.ColumnDataSource(dict(c=c, fc=fc))\n",
+    "\n",
+    "# Build the plot\n",
+    "p = bokeh.plotting.figure(\n",
+    "    frame_height=250,\n",
+    "    frame_width=350,\n",
+    "    x_axis_type=\"log\",\n",
+    "    x_axis_label=\"[IPTG] (mM)\",\n",
+    "    y_axis_label=\"fold change\",\n",
+    "    x_range=[c.min(), c.max()],\n",
+    "    y_range=[-0.05, 1.05],\n",
+    ")\n",
+    "\n",
+    "# Plot the curve\n",
+    "p.line(source=source, x=\"c\", y=\"fc\", line_width=2);"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Next, we will write a callback to update the data and link the callback to the sliders."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "def induction_callback(attr, old, new):\n",
+    "    \"\"\"Callback for updating induction plot.\"\"\"\n",
+    "    # Take parameters from slider values\n",
+    "    params = 10.0 ** np.array([slider.value for _, slider in sliders.items()])\n",
+    "\n",
+    "    # Update source\n",
+    "    source.data['fc'] = fold_change(source.data['c'], *params)\n",
+    "    \n",
+    "\n",
+    "# Link the callback to the sliders\n",
+    "for _, slider in sliders.items():\n",
+    "    slider.on_change('value', induction_callback)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Finally, we can lay out our dashboard and explore the function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.bokehjs_exec.v0+json": "",
+      "text/html": [
+       "<script id=\"b5d12763-0a3f-4fc6-abd3-50a2e98b21df\">\n",
+       "  (function() {\n",
+       "    const xhr = new XMLHttpRequest()\n",
+       "    xhr.responseType = 'blob';\n",
+       "    xhr.open('GET', \"http://localhost:53759/autoload.js?bokeh-autoload-element=b5d12763-0a3f-4fc6-abd3-50a2e98b21df&bokeh-absolute-url=http://localhost:53759&resources=none\", true);\n",
+       "    xhr.onload = function (event) {\n",
+       "      const script = document.createElement('script');\n",
+       "      const src = URL.createObjectURL(event.target.response);\n",
+       "      script.src = src;\n",
+       "      document.body.appendChild(script);\n",
+       "    };\n",
+       "    xhr.send();\n",
+       "  })();\n",
+       "</script>"
+      ]
+     },
+     "metadata": {
+      "application/vnd.bokehjs_exec.v0+json": {
+       "server_id": "c94f3d9db5f84e5f90de503533f94e59"
+      }
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "induction_layout = bokeh.layouts.row(\n",
+    "    p,\n",
+    "    bokeh.models.Spacer(width=15),\n",
+    "    bokeh.layouts.column(\n",
+    "        *[slider for _, slider in sliders.items()],\n",
+    "        width=200,\n",
+    "    ),\n",
+    ")\n",
+    "\n",
+    "def induction_app(doc):\n",
+    "    doc.add_root(induction_layout)\n",
+    "    \n",
+    "bokeh.io.show(induction_app, notebook_url=notebook_url)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In playing with the sliders, we see that a difference between $K_\\mathrm{d}^\\mathrm{A}$ and $K_\\mathrm{d}^\\mathrm{I}$ is required to get repression. As we would expect, we need $K_\\mathrm{d}^\\mathrm{I} < K_\\mathrm{d}^\\mathrm{A}$ in order to get more repression with increasing IPTG concentration.\n",
+    "\n",
+    "The effects of the other parameters are more complicated and interdependent, but can nonetheless be explored by varying the sliders."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exploring a data set\n",
+    "\n",
+    "As an example of dashboarding put to use to explore a data set, we turn again to the data set from [Beattie, et al.](https://doi.org/10.1098/rsos.160321) studying how sleep deprivation affects facial matching ability. Let's load in the data set and take a look to remind ourselves of the variables."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>participant number</th>\n",
+       "      <th>gender</th>\n",
+       "      <th>age</th>\n",
+       "      <th>correct hit percentage</th>\n",
+       "      <th>correct reject percentage</th>\n",
+       "      <th>percent correct</th>\n",
+       "      <th>confidence when correct hit</th>\n",
+       "      <th>confidence when incorrect hit</th>\n",
+       "      <th>confidence when correct reject</th>\n",
+       "      <th>confidence when incorrect reject</th>\n",
+       "      <th>confidence when correct</th>\n",
+       "      <th>confidence when incorrect</th>\n",
+       "      <th>sci</th>\n",
+       "      <th>psqi</th>\n",
+       "      <th>ess</th>\n",
+       "      <th>insomnia</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>8</td>\n",
+       "      <td>f</td>\n",
+       "      <td>39</td>\n",
+       "      <td>65</td>\n",
+       "      <td>80</td>\n",
+       "      <td>72.5</td>\n",
+       "      <td>91.0</td>\n",
+       "      <td>90.0</td>\n",
+       "      <td>93.0</td>\n",
+       "      <td>83.5</td>\n",
+       "      <td>93.0</td>\n",
+       "      <td>90.0</td>\n",
+       "      <td>9</td>\n",
+       "      <td>13</td>\n",
+       "      <td>2</td>\n",
+       "      <td>True</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>16</td>\n",
+       "      <td>m</td>\n",
+       "      <td>42</td>\n",
+       "      <td>90</td>\n",
+       "      <td>90</td>\n",
+       "      <td>90.0</td>\n",
+       "      <td>75.5</td>\n",
+       "      <td>55.5</td>\n",
+       "      <td>70.5</td>\n",
+       "      <td>50.0</td>\n",
+       "      <td>75.0</td>\n",
+       "      <td>50.0</td>\n",
+       "      <td>4</td>\n",
+       "      <td>11</td>\n",
+       "      <td>7</td>\n",
+       "      <td>True</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>18</td>\n",
+       "      <td>f</td>\n",
+       "      <td>31</td>\n",
+       "      <td>90</td>\n",
+       "      <td>95</td>\n",
+       "      <td>92.5</td>\n",
+       "      <td>89.5</td>\n",
+       "      <td>90.0</td>\n",
+       "      <td>86.0</td>\n",
+       "      <td>81.0</td>\n",
+       "      <td>89.0</td>\n",
+       "      <td>88.0</td>\n",
+       "      <td>10</td>\n",
+       "      <td>9</td>\n",
+       "      <td>3</td>\n",
+       "      <td>True</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>22</td>\n",
+       "      <td>f</td>\n",
+       "      <td>35</td>\n",
+       "      <td>100</td>\n",
+       "      <td>75</td>\n",
+       "      <td>87.5</td>\n",
+       "      <td>89.5</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>71.0</td>\n",
+       "      <td>80.0</td>\n",
+       "      <td>88.0</td>\n",
+       "      <td>80.0</td>\n",
+       "      <td>13</td>\n",
+       "      <td>8</td>\n",
+       "      <td>20</td>\n",
+       "      <td>True</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>27</td>\n",
+       "      <td>f</td>\n",
+       "      <td>74</td>\n",
+       "      <td>60</td>\n",
+       "      <td>65</td>\n",
+       "      <td>62.5</td>\n",
+       "      <td>68.5</td>\n",
+       "      <td>49.0</td>\n",
+       "      <td>61.0</td>\n",
+       "      <td>49.0</td>\n",
+       "      <td>65.0</td>\n",
+       "      <td>49.0</td>\n",
+       "      <td>13</td>\n",
+       "      <td>9</td>\n",
+       "      <td>12</td>\n",
+       "      <td>True</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   participant number gender  age  correct hit percentage  \\\n",
+       "0                   8      f   39                      65   \n",
+       "1                  16      m   42                      90   \n",
+       "2                  18      f   31                      90   \n",
+       "3                  22      f   35                     100   \n",
+       "4                  27      f   74                      60   \n",
+       "\n",
+       "   correct reject percentage  percent correct  confidence when correct hit  \\\n",
+       "0                         80             72.5                         91.0   \n",
+       "1                         90             90.0                         75.5   \n",
+       "2                         95             92.5                         89.5   \n",
+       "3                         75             87.5                         89.5   \n",
+       "4                         65             62.5                         68.5   \n",
+       "\n",
+       "   confidence when incorrect hit  confidence when correct reject  \\\n",
+       "0                           90.0                            93.0   \n",
+       "1                           55.5                            70.5   \n",
+       "2                           90.0                            86.0   \n",
+       "3                            NaN                            71.0   \n",
+       "4                           49.0                            61.0   \n",
+       "\n",
+       "   confidence when incorrect reject  confidence when correct  \\\n",
+       "0                              83.5                     93.0   \n",
+       "1                              50.0                     75.0   \n",
+       "2                              81.0                     89.0   \n",
+       "3                              80.0                     88.0   \n",
+       "4                              49.0                     65.0   \n",
+       "\n",
+       "   confidence when incorrect  sci  psqi  ess  insomnia  \n",
+       "0                       90.0    9    13    2      True  \n",
+       "1                       50.0    4    11    7      True  \n",
+       "2                       88.0   10     9    3      True  \n",
+       "3                       80.0   13     8   20      True  \n",
+       "4                       49.0   13     9   12      True  "
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df = pd.read_csv('data/gfmt_sleep.csv', na_values='*')\n",
+    "\n",
+    "# Add column for insomnia\n",
+    "df = df.assign(insomnia=df['sci'] <= 16)\n",
+    "\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The metadata for each subject is the participant number, gender, age, sleep indicators (SCI, PSQI, and ESS), and the column we added to specify if the subject suffers from insomnia. The measurements for each subject are the various percentages. \n",
+    "\n",
+    "Because the data is high-dimensional, it is difficult to visualize all of the data at once. We would like drop-down menus to choose what we want to plot and then have the plot update. Furthermore, we would like to choose a categorical column, such as `'insomnia'` or `'gender'` to use to color the glyphs. Let's go about building this dashboard.\n",
+    "\n",
+    "As a first, step, we will get a list of columns we want in the drop-down menus. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# Options for x- and y- selector; omit part. num., gender, and insomnia\n",
+    "xy_options = list(\n",
+    "    df.columns[~df.columns.isin([\"participant number\", \"gender\", \"insomnia\"])]\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now, we'll build our drop-down menus, constructed using `bokeh.models.Select` instances."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "x_selector = bokeh.models.Select(\n",
+    "    title=\"x\", options=xy_options, value=\"percent correct\", width=200,\n",
+    ")\n",
+    "\n",
+    "y_selector = bokeh.models.Select(\n",
+    "    title=\"y\", options=xy_options, value=\"confidence when correct\", width=200,\n",
+    ")\n",
+    "\n",
+    "colorby_selector = bokeh.models.Select(\n",
+    "    title=\"color by\", options=[\"none\", \"gender\", \"insomnia\",], value=\"none\", width=200,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Next, we'll make a ColumnDataSource. We just need an x-value and a y-value, plus a column for coloring the glyphs, since this is all the plot depends upon. We will adjust the entries in the `'x'` and `'y'` columns of the ColumnDataSource from the data frame `df` according to the values of the selector widgets."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "source = bokeh.models.ColumnDataSource(dict(x=df[x_selector.value], y=df[y_selector.value]))\n",
+    "\n",
+    "# Add a column for colors; for now, all Bokeh's default blue\n",
+    "source.data['color'] = ['#1f77b4'] * len(df)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now we can make the plot."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "p = bokeh.plotting.figure(\n",
+    "    frame_height=250,\n",
+    "    frame_width=250,\n",
+    "    x_axis_label=x_selector.value,\n",
+    "    y_axis_label=y_selector.value,\n",
+    ")\n",
+    "\n",
+    "# Populate gylphs\n",
+    "circle = p.scatter(source=source, x=\"x\", y=\"y\", marker=\"circle\", color=\"color\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "With the plot in place, we can write a callback."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "def gfmt_callback(attr, old, new):\n",
+    "    \"\"\"Callback for updating plot of GMFT results.\"\"\"\n",
+    "    # Update color column\n",
+    "    if colorby_selector.value == \"none\":\n",
+    "        source.data[\"color\"] = [\"#1f77b4\"] * len(df)\n",
+    "    elif colorby_selector.value == \"gender\":\n",
+    "        source.data[\"color\"] = [\n",
+    "            \"#1f77b4\" if gender == \"f\" else \"#ff7e0e\"\n",
+    "            for gender in df[\"gender\"]\n",
+    "        ]\n",
+    "    elif colorby_selector.value == 'insomnia':\n",
+    "        source.data[\"color\"] = [\n",
+    "            \"#1f77b4\" if insomnia else \"#ff7e0e\"\n",
+    "            for insomnia in df[\"insomnia\"]\n",
+    "        ]\n",
+    "        \n",
+    "    # Update x-data and axis label\n",
+    "    source.data[\"x\"] = df[x_selector.value]\n",
+    "    p.xaxis.axis_label = x_selector.value\n",
+    "\n",
+    "    # Update x-data and axis label\n",
+    "    source.data[\"y\"] = df[y_selector.value]\n",
+    "    p.yaxis.axis_label = y_selector.value"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now that we have the callback, we can link the selectors to the callback."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "colorby_selector.on_change(\"value\", gfmt_callback)\n",
+    "x_selector.on_change(\"value\", gfmt_callback)\n",
+    "y_selector.on_change(\"value\", gfmt_callback)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "And now we can build the layout and play with the app!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.bokehjs_exec.v0+json": "",
+      "text/html": [
+       "<script id=\"ddad855b-3b6d-4066-8481-6e9f9d69c4b8\">\n",
+       "  (function() {\n",
+       "    const xhr = new XMLHttpRequest()\n",
+       "    xhr.responseType = 'blob';\n",
+       "    xhr.open('GET', \"http://localhost:53762/autoload.js?bokeh-autoload-element=ddad855b-3b6d-4066-8481-6e9f9d69c4b8&bokeh-absolute-url=http://localhost:53762&resources=none\", true);\n",
+       "    xhr.onload = function (event) {\n",
+       "      const script = document.createElement('script');\n",
+       "      const src = URL.createObjectURL(event.target.response);\n",
+       "      script.src = src;\n",
+       "      document.body.appendChild(script);\n",
+       "    };\n",
+       "    xhr.send();\n",
+       "  })();\n",
+       "</script>"
+      ]
+     },
+     "metadata": {
+      "application/vnd.bokehjs_exec.v0+json": {
+       "server_id": "791a512a32514deea0859f0c2a61db2c"
+      }
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "gfmt_layout = bokeh.layouts.row(\n",
+    "    p,\n",
+    "    bokeh.layouts.Spacer(width=15),\n",
+    "    bokeh.layouts.column(\n",
+    "        x_selector,\n",
+    "        bokeh.layouts.Spacer(height=15),\n",
+    "        y_selector,\n",
+    "        bokeh.layouts.Spacer(height=15),\n",
+    "        colorby_selector,\n",
+    "    ),\n",
+    ")\n",
+    "\n",
+    "def gfmt_app(doc):\n",
+    "    doc.add_root(gfmt_layout)\n",
+    "    \n",
+    "bokeh.io.show(gfmt_app, notebook_url=notebook_url)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Serving an app\n",
+    "\n",
+    "While having a full notebook is desirable because of the rich display of text in Markdown cells, it is sometimes desirable to have a stand-alone tab in your browser with a dashboard to manipulate. To do this, you need to create a `.py` file with the code you need to generate your graphic. To do the example above, you can place the code below in a file called `gfmt_app.py`.\n",
+    "\n",
+    "```python\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "\n",
+    "import bokeh.layouts\n",
+    "import bokeh.models\n",
+    "import bokeh.plotting\n",
+    "\n",
+    "# Read in data\n",
+    "df = pd.read_csv('data/gfmt_sleep.csv', na_values='*')\n",
+    "\n",
+    "# Add column for insomnia\n",
+    "df['insomnia'] = df['sci'] <= 16\n",
+    "\n",
+    "# Options for x- and y- selector; omit part. num., gender, and insomnia\n",
+    "xy_options = list(\n",
+    "    df.columns[~df.columns.isin([\"participant number\", \"gender\", \"insomnia\"])]\n",
+    ")\n",
+    "\n",
+    "# Selector widgets\n",
+    "x_selector = bokeh.models.Select(\n",
+    "    title=\"x\", options=xy_options, value=\"percent correct\", width=200,\n",
+    ")\n",
+    "\n",
+    "y_selector = bokeh.models.Select(\n",
+    "    title=\"y\", options=xy_options, value=\"confidence when correct\", width=200,\n",
+    ")\n",
+    "\n",
+    "colorby_selector = bokeh.models.Select(\n",
+    "    title=\"color by\", options=[\"none\", \"gender\", \"insomnia\",], value=\"none\", width=200,\n",
+    ")\n",
+    "\n",
+    "# Column data source\n",
+    "source = bokeh.models.ColumnDataSource(dict(x=df[x_selector.value], y=df[y_selector.value]))\n",
+    "\n",
+    "# Add a column for colors; for now, all Bokeh's default blue\n",
+    "source.data['color'] = ['#1f77b3'] * len(df)\n",
+    "\n",
+    "# Make the plot\n",
+    "p = bokeh.plotting.figure(\n",
+    "    frame_height=250,\n",
+    "    frame_width=250,\n",
+    "    x_axis_label=x_selector.value,\n",
+    "    y_axis_label=y_selector.value,\n",
+    ")\n",
+    "\n",
+    "# Populate gylphs\n",
+    "circle = p.scatter(source=source, x=\"x\", y=\"y\", marker=\"circle\", color=\"color\")\n",
+    "\n",
+    "\n",
+    "def gfmt_callback(attr, old, new):\n",
+    "    \"\"\"Callback for updating plot of GMFT results.\"\"\"\n",
+    "    # Update color column\n",
+    "    if colorby_selector.value == \"none\":\n",
+    "        source.data[\"color\"] = [\"#1f77b3\"] * len(df)\n",
+    "    elif colorby_selector.value == \"gender\":\n",
+    "        source.data[\"color\"] = [\n",
+    "            \"#1f77b3\" if gender == \"f\" else \"#ff7e0e\"\n",
+    "            for gender in df[\"gender\"]\n",
+    "        ]\n",
+    "    elif colorby_selector.value == 'insomnia':\n",
+    "        source.data[\"color\"] = [\n",
+    "            \"#1f77b3\" if insomnia else \"#ff7e0e\"\n",
+    "            for insomnia in df[\"insomnia\"]\n",
+    "        ]\n",
+    "        \n",
+    "    # Update x-data and axis label\n",
+    "    source.data[\"x\"] = df[x_selector.value]\n",
+    "    p.xaxis.axis_label = x_selector.value\n",
+    "\n",
+    "    # Update x-data and axis label\n",
+    "    source.data[\"y\"] = df[y_selector.value]\n",
+    "    p.yaxis.axis_label = y_selector.value\n",
+    "    \n",
+    "\n",
+    "# Connect selectors to callback\n",
+    "colorby_selector.on_change(\"value\", gfmt_callback)\n",
+    "x_selector.on_change(\"value\", gfmt_callback)\n",
+    "y_selector.on_change(\"value\", gfmt_callback)\n",
+    "\n",
+    "# Build layout\n",
+    "gfmt_layout = bokeh.layouts.row(\n",
+    "    p,\n",
+    "    bokeh.layouts.Spacer(width=15),\n",
+    "    bokeh.layouts.column(\n",
+    "        x_selector,\n",
+    "        bokeh.layouts.Spacer(height=15),\n",
+    "        y_selector,\n",
+    "        bokeh.layouts.Spacer(height=15),\n",
+    "        colorby_selector,\n",
+    "    ),\n",
+    ")\n",
+    "\n",
+    "\n",
+    "def gfmt_app(doc):\n",
+    "    doc.add_root(gfmt_layout)\n",
+    "    \n",
+    "    \n",
+    "# Build the app in the current doc\n",
+    "gfmt_app(bokeh.plotting.curdoc())\n",
+    "```\n",
+    "\n",
+    "Note that only the very last line is new from the code we built in this notebook. This adds the app to the current document being displayed by the Bokeh server in your browser. \n",
+    "\n",
+    "Finally, to serve your app in the browser, do\n",
+    "\n",
+    "    bokeh serve --show gfmt_app.py\n",
+    "    \n",
+    "on the command line."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Conclusions\n",
+    "\n",
+    "There are many more directions you can go with dashboards. In particular, if there is a type of experiment you do often in which you have multifaceted data, you may want to build a dashboard into which you can automatically load your data and display it for you to explore. This can greatly expedite your work, and can also be useful for sharing your data with others, enabling them to rapidly explore it as well.\n",
+    "\n",
+    "That said, it is important to constantly be rethinking how you visualize and analyze the data you collect. You do not want the displays of a dashboard you set up a year ago have undo influence on your thinking right now."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.11.9\n",
+      "IPython version      : 8.20.0\n",
+      "\n",
+      "numpy     : 1.26.4\n",
+      "scipy     : 1.13.1\n",
+      "pandas    : 2.2.1\n",
+      "bokeh     : 3.4.1\n",
+      "jupyterlab: 4.0.13\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p numpy,scipy,pandas,bokeh,jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

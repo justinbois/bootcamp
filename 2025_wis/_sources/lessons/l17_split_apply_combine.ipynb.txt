@@ -1,0 +1,1305 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lesson 17: Tidy data and split-apply-combine\n",
+    "\n",
+    "[Data set download](https://s3.amazonaws.com/bebi103.caltech.edu/data/gfmt_sleep.csv)\n",
+    "\n",
+    "<hr />"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "nbsphinx": "hidden",
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# Colab setup ------------------\n",
+    "import os, sys, subprocess\n",
+    "if \"google.colab\" in sys.modules:\n",
+    "    cmd = \"pip install --upgrade polars watermark\"\n",
+    "    process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n",
+    "    stdout, stderr = process.communicate()\n",
+    "    data_path = \"https://s3.amazonaws.com/bebi103.caltech.edu/data/\"\n",
+    "else:\n",
+    "    data_path = \"../data/\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "import polars as pl\n",
+    "import polars.selectors as cs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<hr />\n",
+    "\n",
+    "We have dipped our toe into Polars to see its power. In this lesson, we will continue to harness the power of Polars to pull out subsets of data we are interested in, and of vital importance, will introduce the concept of **tidy data**. I suspect this will be a demarcation in your life. You will have the times in your life before tidy data and after. Welcome to your bright tomorrow."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Tidy data\n",
+    "\n",
+    "[Hadley Wickham](https://en.wikipedia.org/wiki/Hadley_Wickham) wrote a [great article](http://dx.doi.org/10.18637/jss.v059.i10) in favor of \"tidy data.\" Tidy data frames follow the rules:\n",
+    "1. Each variable is a column.\n",
+    "2. Each observation is a row.\n",
+    "3. Each type of observation has its own separate data frame.\n",
+    "\n",
+    "This is less pretty to visualize as a table, but we rarely look at data in tables. Indeed, the representation of data which is convenient for visualization is different from that which is convenient for analysis. A tidy data frame is almost always **much** easier to work with than non-tidy formats.\n",
+    "\n",
+    "You may raise some objections about tidy data. Here are a few, and my responses.\n",
+    "\n",
+    "**Objection:** Looking at a table of tidy data is ugly. It is not intuitively organized. I would almost never display a tidy data table in a publication.\n",
+    "\n",
+    "**Response:** Correct! Having tabular data in a format that is easy to read as a human studying a table is a very different thing than having it in a format that is easy to explore and work with using a computer. As [Daniel Chen](https://chendaniely.github.io) put it, \"There are data formats that are better for reporting and data formats that are better for analysis.\" We are using the tidy data frames for analysis, not reporting (though we will see in the coming lessons that having the data in a tidy format makes making plots much easier, and plots are a key medium for reporting.)\n",
+    "\n",
+    "<br />\n",
+    "\n",
+    "**Objection:** Isn't it better to sometimes have data arranged in other ways? Say in a matrix?\n",
+    "\n",
+    "**Response:** This is certainly true for things like images, or raster-style data in general. It makes more sense to organize an image in a 2D matrix than to have it organized as a data frame with three columns (row in image, column in image, intensity of pixel), where each row corresponds to a single pixel. For an image, indexing it by row and column is always unambiguous, `my_image[i, j]` means the pixel at row `i` and column `j`.\n",
+    "\n",
+    "For other data, though, the matrix layout suffers from the fact that there may be more than one way to construct a matrix. If you know a data frame is tidy, you already know its structure. You need only to ask what the columns are, and then you immediately know how to access data using Boolean indexing. In other formats, you might have to read and write extensive comments to understand the structure of the data. Of course, you *can* read and write comments, but it opens the door for the possibility of misinterpretation or mistakes.\n",
+    "\n",
+    "<br />\n",
+    "\n",
+    "**Objection:** But what about time series? Clearly, that can be in matrix format. One column is time, and then subsequent columns are observations made at that time.\n",
+    "\n",
+    "**Response:** Yes, that is true. But then the matrix-style described could be considered tidy, since each row is a single observation (time point) that has many facets.\n",
+    "\n",
+    "<br />\n",
+    "\n",
+    "**Objection:** Isn't this an inefficient use of memory? There tend to be lots of repeated entries in tidy data frames.\n",
+    "\n",
+    "**Response:** Yes, there are more efficient ways of storing and accessing data. But for data sets that are not \"big data,\" this is seldom a real issue. The extra expense in memory, as well as the extra expense in access, are small prices to pay for the simplicity and speed of the human user in accessing the data.\n",
+    "\n",
+    "<br />\n",
+    "\n",
+    "**Objection:** Once it's tidy, we pretty much have to use Boolean indexing to get what we want, and that can be slower than other methods of accessing data. What about performance?\n",
+    "\n",
+    "**Response:** See the previous response. Speed of access really only becomes a problem with big, high-throughput data sets. In those cases, there are often many things you need to be clever about beyond organization of your data.\n",
+    "\n",
+    "<br />\n",
+    "\n",
+    "**Conclusion:** I really think that tidying a data set allows for fluid exploration. We will focus on tidy data sets going forward. Bringing untidy data into tidy format can be an annoying challenge that often involves lots of file I/O and text parsing operations. As such, it is wise to arrange your data in tidy format starting at acquisition. If your instrumentation prevents you from doing so, you should develop functions and scripts to parse them and convert them into tidy format."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## The data set\n",
+    "\n",
+    "We will again use the data set from the [Beattie, et al. paper](https://doi.org/10.1098/rsos.160321) on facial matching under sleep deprivation. Let's load in the original data set and add the column on insomnia as we did in [previous part of this lesson](intro_to_polars.ipynb)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (5, 16)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence incorrect hit</th><th>confidence correct reject</th><th>confidence incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th><th>insomnia</th></tr><tr><td>i64</td><td>str</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td><td>bool</td></tr></thead><tbody><tr><td>8</td><td>&quot;f&quot;</td><td>39</td><td>65</td><td>80</td><td>72.5</td><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td><td>9</td><td>13</td><td>2</td><td>true</td></tr><tr><td>16</td><td>&quot;m&quot;</td><td>42</td><td>90</td><td>90</td><td>90.0</td><td>75.5</td><td>55.5</td><td>70.5</td><td>50.0</td><td>75.0</td><td>50.0</td><td>4</td><td>11</td><td>7</td><td>true</td></tr><tr><td>18</td><td>&quot;f&quot;</td><td>31</td><td>90</td><td>95</td><td>92.5</td><td>89.5</td><td>90.0</td><td>86.0</td><td>81.0</td><td>89.0</td><td>88.0</td><td>10</td><td>9</td><td>3</td><td>true</td></tr><tr><td>22</td><td>&quot;f&quot;</td><td>35</td><td>100</td><td>75</td><td>87.5</td><td>89.5</td><td>null</td><td>71.0</td><td>80.0</td><td>88.0</td><td>80.0</td><td>13</td><td>8</td><td>20</td><td>true</td></tr><tr><td>27</td><td>&quot;f&quot;</td><td>74</td><td>60</td><td>65</td><td>62.5</td><td>68.5</td><td>49.0</td><td>61.0</td><td>49.0</td><td>65.0</td><td>49.0</td><td>13</td><td>9</td><td>12</td><td>true</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (5, 16)\n",
+       "┌────────────────────┬────────┬─────┬────────────────────────┬───┬─────┬──────┬─────┬──────────┐\n",
+       "│ participant number ┆ gender ┆ age ┆ correct hit percentage ┆ … ┆ sci ┆ psqi ┆ ess ┆ insomnia │\n",
+       "│ ---                ┆ ---    ┆ --- ┆ ---                    ┆   ┆ --- ┆ ---  ┆ --- ┆ ---      │\n",
+       "│ i64                ┆ str    ┆ i64 ┆ i64                    ┆   ┆ i64 ┆ i64  ┆ i64 ┆ bool     │\n",
+       "╞════════════════════╪════════╪═════╪════════════════════════╪═══╪═════╪══════╪═════╪══════════╡\n",
+       "│ 8                  ┆ f      ┆ 39  ┆ 65                     ┆ … ┆ 9   ┆ 13   ┆ 2   ┆ true     │\n",
+       "│ 16                 ┆ m      ┆ 42  ┆ 90                     ┆ … ┆ 4   ┆ 11   ┆ 7   ┆ true     │\n",
+       "│ 18                 ┆ f      ┆ 31  ┆ 90                     ┆ … ┆ 10  ┆ 9    ┆ 3   ┆ true     │\n",
+       "│ 22                 ┆ f      ┆ 35  ┆ 100                    ┆ … ┆ 13  ┆ 8    ┆ 20  ┆ true     │\n",
+       "│ 27                 ┆ f      ┆ 74  ┆ 60                     ┆ … ┆ 13  ┆ 9    ┆ 12  ┆ true     │\n",
+       "└────────────────────┴────────┴─────┴────────────────────────┴───┴─────┴──────┴─────┴──────────┘"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "fname = os.path.join(data_path, \"gfmt_sleep.csv\")\n",
+    "df = pl.read_csv(fname, null_values=\"*\")\n",
+    "df = df.with_columns((pl.col('sci') <= 16).alias(\"insomnia\"))\n",
+    "\n",
+    "# Take a look\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This data set is in tidy format. Each row represents a single test on a single participant. The aspects of that person's test are given in each column. We already saw the power of having the data in this format when we did Boolean indexing. Now, we will see how this format allows use to easily do an operation we do again and again with data sets, **split-apply-combine**."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Split-apply-combine\n",
+    "\n",
+    "Let's say we want to compute the median percent correct face matchings for subjects with insomnia and the median percent correct face matchings for those without. Ignoring for the second the mechanics of how we would do this with Python, let's think about it in English. What do we need to do?\n",
+    "\n",
+    "1. **Split** the data set up according to the `'insomnia'` field, i.e., split it up so we have a separate data set for the two classes of subjects, those with insomnia and those without.\n",
+    "2. **Apply** a median function to the activity in these split data sets.\n",
+    "3. **Combine** the results of these averages on the split data set into a new, summary data set that contains the two classes (insomniac and not) and means for each.\n",
+    "\n",
+    "We see that the strategy we want is a **split-apply-combine** strategy. This idea was put forward by Hadley Wickham in [this paper](http://dx.doi.org/10.18637/jss.v040.i01). It turns out that this is a strategy we want to use *very* often. Split the data in terms of some criterion. Apply some function to the split-up data. Combine the results into a new data frame.\n",
+    "\n",
+    "Note that if the data are tidy, this procedure makes a lot of sense. Choose the column or columns you want to use to split by. All rows with like entries in the splitting column(s) are then grouped into a new data set. You can then apply any function you want into these new data sets. You can then combine the results into a new data frame.\n",
+    "\n",
+    "Polars's split-apply-combine operations are achieved in a **group by/aggregation** context, achieved with `df.group_by().agg()`. You can think of `group_by()` as the splitting part. The apply-combine part is done by passing expressions into `agg()`. The result is a data frame with as many rows as there are groups that we split the data frame into."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Median percent correct\n",
+    "\n",
+    "Let's go ahead and do our first split-apply-combine on this tidy data set. First, we will split the data set up by insomnia condition and then apply a median function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (2, 16)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomnia</th><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence incorrect hit</th><th>confidence correct reject</th><th>confidence incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>bool</td><td>f64</td><td>str</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>false</td><td>54.0</td><td>null</td><td>36.0</td><td>90.0</td><td>80.0</td><td>85.0</td><td>74.5</td><td>55.5</td><td>71.5</td><td>59.0</td><td>75.0</td><td>59.25</td><td>26.0</td><td>4.0</td><td>6.0</td></tr><tr><td>true</td><td>46.0</td><td>null</td><td>39.0</td><td>90.0</td><td>75.0</td><td>75.0</td><td>76.5</td><td>72.0</td><td>71.0</td><td>68.5</td><td>77.0</td><td>65.0</td><td>14.0</td><td>9.0</td><td>7.0</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (2, 16)\n",
+       "┌──────────┬────────────────────┬────────┬──────┬───┬─────────────────┬──────┬──────┬─────┐\n",
+       "│ insomnia ┆ participant number ┆ gender ┆ age  ┆ … ┆ confidence when ┆ sci  ┆ psqi ┆ ess │\n",
+       "│ ---      ┆ ---                ┆ ---    ┆ ---  ┆   ┆ incorrect       ┆ ---  ┆ ---  ┆ --- │\n",
+       "│ bool     ┆ f64                ┆ str    ┆ f64  ┆   ┆ ---             ┆ f64  ┆ f64  ┆ f64 │\n",
+       "│          ┆                    ┆        ┆      ┆   ┆ f64             ┆      ┆      ┆     │\n",
+       "╞══════════╪════════════════════╪════════╪══════╪═══╪═════════════════╪══════╪══════╪═════╡\n",
+       "│ false    ┆ 54.0               ┆ null   ┆ 36.0 ┆ … ┆ 59.25           ┆ 26.0 ┆ 4.0  ┆ 6.0 │\n",
+       "│ true     ┆ 46.0               ┆ null   ┆ 39.0 ┆ … ┆ 65.0            ┆ 14.0 ┆ 9.0  ┆ 7.0 │\n",
+       "└──────────┴────────────────────┴────────┴──────┴───┴─────────────────┴──────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.group_by('insomnia').median()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note that we used the `median()` method of the `GroupBy` object. This computes the median of all columns. This is equivalent the following using `agg()` with the expression `pl.col('*').median()`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (2, 16)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomnia</th><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence incorrect hit</th><th>confidence correct reject</th><th>confidence incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>bool</td><td>f64</td><td>str</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>true</td><td>46.0</td><td>null</td><td>39.0</td><td>90.0</td><td>75.0</td><td>75.0</td><td>76.5</td><td>72.0</td><td>71.0</td><td>68.5</td><td>77.0</td><td>65.0</td><td>14.0</td><td>9.0</td><td>7.0</td></tr><tr><td>false</td><td>54.0</td><td>null</td><td>36.0</td><td>90.0</td><td>80.0</td><td>85.0</td><td>74.5</td><td>55.5</td><td>71.5</td><td>59.0</td><td>75.0</td><td>59.25</td><td>26.0</td><td>4.0</td><td>6.0</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (2, 16)\n",
+       "┌──────────┬────────────────────┬────────┬──────┬───┬─────────────────┬──────┬──────┬─────┐\n",
+       "│ insomnia ┆ participant number ┆ gender ┆ age  ┆ … ┆ confidence when ┆ sci  ┆ psqi ┆ ess │\n",
+       "│ ---      ┆ ---                ┆ ---    ┆ ---  ┆   ┆ incorrect       ┆ ---  ┆ ---  ┆ --- │\n",
+       "│ bool     ┆ f64                ┆ str    ┆ f64  ┆   ┆ ---             ┆ f64  ┆ f64  ┆ f64 │\n",
+       "│          ┆                    ┆        ┆      ┆   ┆ f64             ┆      ┆      ┆     │\n",
+       "╞══════════╪════════════════════╪════════╪══════╪═══╪═════════════════╪══════╪══════╪═════╡\n",
+       "│ true     ┆ 46.0               ┆ null   ┆ 39.0 ┆ … ┆ 65.0            ┆ 14.0 ┆ 9.0  ┆ 7.0 │\n",
+       "│ false    ┆ 54.0               ┆ null   ┆ 36.0 ┆ … ┆ 59.25           ┆ 26.0 ┆ 4.0  ┆ 6.0 │\n",
+       "└──────────┴────────────────────┴────────┴──────┴───┴─────────────────┴──────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.group_by('insomnia').agg(pl.col('*').median())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The median doesn't make sense for gender. If we only wanted to compute medians of quantities for which it makes sense to do so, we could use selectors."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (2, 14)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomnia</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence incorrect hit</th><th>confidence correct reject</th><th>confidence incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>bool</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>true</td><td>39.0</td><td>90.0</td><td>75.0</td><td>75.0</td><td>76.5</td><td>72.0</td><td>71.0</td><td>68.5</td><td>77.0</td><td>65.0</td><td>14.0</td><td>9.0</td><td>7.0</td></tr><tr><td>false</td><td>36.0</td><td>90.0</td><td>80.0</td><td>85.0</td><td>74.5</td><td>55.5</td><td>71.5</td><td>59.0</td><td>75.0</td><td>59.25</td><td>26.0</td><td>4.0</td><td>6.0</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (2, 14)\n",
+       "┌──────────┬──────┬─────────────┬────────────────┬───┬─────────────────┬──────┬──────┬─────┐\n",
+       "│ insomnia ┆ age  ┆ correct hit ┆ correct reject ┆ … ┆ confidence when ┆ sci  ┆ psqi ┆ ess │\n",
+       "│ ---      ┆ ---  ┆ percentage  ┆ percentage     ┆   ┆ incorrect       ┆ ---  ┆ ---  ┆ --- │\n",
+       "│ bool     ┆ f64  ┆ ---         ┆ ---            ┆   ┆ ---             ┆ f64  ┆ f64  ┆ f64 │\n",
+       "│          ┆      ┆ f64         ┆ f64            ┆   ┆ f64             ┆      ┆      ┆     │\n",
+       "╞══════════╪══════╪═════════════╪════════════════╪═══╪═════════════════╪══════╪══════╪═════╡\n",
+       "│ true     ┆ 39.0 ┆ 90.0        ┆ 75.0           ┆ … ┆ 65.0            ┆ 14.0 ┆ 9.0  ┆ 7.0 │\n",
+       "│ false    ┆ 36.0 ┆ 90.0        ┆ 80.0           ┆ … ┆ 59.25           ┆ 26.0 ┆ 4.0  ┆ 6.0 │\n",
+       "└──────────┴──────┴─────────────┴────────────────┴───┴─────────────────┴──────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.group_by('insomnia').agg(cs.numeric().exclude('participant number').median())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "If instead we only wanted the median of the percent correct and confidence when correct, we could do the following."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (2, 3)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomnia</th><th>percent correct</th><th>confidence when correct</th></tr><tr><td>bool</td><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>false</td><td>85.0</td><td>75.0</td></tr><tr><td>true</td><td>75.0</td><td>77.0</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (2, 3)\n",
+       "┌──────────┬─────────────────┬─────────────────────────┐\n",
+       "│ insomnia ┆ percent correct ┆ confidence when correct │\n",
+       "│ ---      ┆ ---             ┆ ---                     │\n",
+       "│ bool     ┆ f64             ┆ f64                     │\n",
+       "╞══════════╪═════════════════╪═════════════════════════╡\n",
+       "│ false    ┆ 85.0            ┆ 75.0                    │\n",
+       "│ true     ┆ 75.0            ┆ 77.0                    │\n",
+       "└──────────┴─────────────────┴─────────────────────────┘"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "(\n",
+    "    df\n",
+    "    .group_by('insomnia')\n",
+    "    .agg(\n",
+    "        pl.col('percent correct', 'confidence when correct').median(), \n",
+    "    )\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can also use multiple columns in our `group_by()` operation. For example, we may wish to look at four groups, male insomniacs, female insomniacs, male non-insomniacs, and female non-insomniacs. To do this, we simply pass in a list of columns into `df.group_by()`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (4, 16)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>gender</th><th>insomnia</th><th>participant number</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence incorrect hit</th><th>confidence correct reject</th><th>confidence incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th></tr><tr><td>str</td><td>bool</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>&quot;f&quot;</td><td>false</td><td>58.0</td><td>36.0</td><td>85.0</td><td>80.0</td><td>85.0</td><td>74.0</td><td>55.0</td><td>70.5</td><td>60.0</td><td>74.0</td><td>58.75</td><td>26.0</td><td>4.0</td><td>7.0</td></tr><tr><td>&quot;m&quot;</td><td>true</td><td>55.5</td><td>37.0</td><td>95.0</td><td>82.5</td><td>83.75</td><td>83.75</td><td>55.5</td><td>75.75</td><td>73.25</td><td>81.25</td><td>62.5</td><td>14.0</td><td>9.0</td><td>8.0</td></tr><tr><td>&quot;f&quot;</td><td>true</td><td>46.0</td><td>39.0</td><td>80.0</td><td>75.0</td><td>72.5</td><td>76.5</td><td>73.75</td><td>71.0</td><td>68.5</td><td>77.0</td><td>70.5</td><td>14.0</td><td>9.0</td><td>7.0</td></tr><tr><td>&quot;m&quot;</td><td>false</td><td>41.0</td><td>38.5</td><td>90.0</td><td>80.0</td><td>82.5</td><td>76.0</td><td>57.75</td><td>74.25</td><td>54.75</td><td>76.25</td><td>59.25</td><td>29.0</td><td>3.0</td><td>6.0</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (4, 16)\n",
+       "┌────────┬──────────┬────────────────────┬──────┬───┬─────────────────┬──────┬──────┬─────┐\n",
+       "│ gender ┆ insomnia ┆ participant number ┆ age  ┆ … ┆ confidence when ┆ sci  ┆ psqi ┆ ess │\n",
+       "│ ---    ┆ ---      ┆ ---                ┆ ---  ┆   ┆ incorrect       ┆ ---  ┆ ---  ┆ --- │\n",
+       "│ str    ┆ bool     ┆ f64                ┆ f64  ┆   ┆ ---             ┆ f64  ┆ f64  ┆ f64 │\n",
+       "│        ┆          ┆                    ┆      ┆   ┆ f64             ┆      ┆      ┆     │\n",
+       "╞════════╪══════════╪════════════════════╪══════╪═══╪═════════════════╪══════╪══════╪═════╡\n",
+       "│ f      ┆ false    ┆ 58.0               ┆ 36.0 ┆ … ┆ 58.75           ┆ 26.0 ┆ 4.0  ┆ 7.0 │\n",
+       "│ m      ┆ true     ┆ 55.5               ┆ 37.0 ┆ … ┆ 62.5            ┆ 14.0 ┆ 9.0  ┆ 8.0 │\n",
+       "│ f      ┆ true     ┆ 46.0               ┆ 39.0 ┆ … ┆ 70.5            ┆ 14.0 ┆ 9.0  ┆ 7.0 │\n",
+       "│ m      ┆ false    ┆ 41.0               ┆ 38.5 ┆ … ┆ 59.25           ┆ 29.0 ┆ 3.0  ┆ 6.0 │\n",
+       "└────────┴──────────┴────────────────────┴──────┴───┴─────────────────┴──────┴──────┴─────┘"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.group_by([\"gender\", \"insomnia\"]).median()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Window functions\n",
+    "\n",
+    "In the above examples, we split the data frame into groups and applied an aggregating function that gave us back a data frame with as many rows as groups. But what if we do not want to aggregate? For example, say we want to compute the ranking of each participant according to percent correct *within each group* of insomniacs and normal sleepers. First, let's see what happens if we use a group by/aggregation context. When we do the grouping, we will retain the order of the entries so that the series of ranks that we acquire match the original order in the data frame. We will also use the `'ordinal'` method for ranking, which gives a distinct rank to each entry even in the event of ties."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (2, 2)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomnia</th><th>percent correct</th></tr><tr><td>bool</td><td>list[u32]</td></tr></thead><tbody><tr><td>true</td><td>[11, 21, … 10]</td></tr><tr><td>false</td><td>[13, 35, … 7]</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (2, 2)\n",
+       "┌──────────┬─────────────────┐\n",
+       "│ insomnia ┆ percent correct │\n",
+       "│ ---      ┆ ---             │\n",
+       "│ bool     ┆ list[u32]       │\n",
+       "╞══════════╪═════════════════╡\n",
+       "│ true     ┆ [11, 21, … 10]  │\n",
+       "│ false    ┆ [13, 35, … 7]   │\n",
+       "└──────────┴─────────────────┘"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "(\n",
+    "    df\n",
+    "    .group_by('insomnia', maintain_order=True)\n",
+    "    .agg(\n",
+    "        pl.col('percent correct')\n",
+    "        .rank(method='ordinal')\n",
+    "    )\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We see that we indeed get a data frame that has the two rows, one for each group. The `'percent correct'` columns has a new data type, a Polars list (not the same as a Python list). If we wanted to convert each entry in the list into a new row of the data frame, we can use the `explode()` method of a data frame. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (102, 2)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomnia</th><th>percent correct</th></tr><tr><td>bool</td><td>u32</td></tr></thead><tbody><tr><td>true</td><td>11</td></tr><tr><td>true</td><td>21</td></tr><tr><td>true</td><td>23</td></tr><tr><td>true</td><td>19</td></tr><tr><td>true</td><td>3</td></tr><tr><td>&hellip;</td><td>&hellip;</td></tr><tr><td>false</td><td>29</td></tr><tr><td>false</td><td>57</td></tr><tr><td>false</td><td>20</td></tr><tr><td>false</td><td>12</td></tr><tr><td>false</td><td>7</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (102, 2)\n",
+       "┌──────────┬─────────────────┐\n",
+       "│ insomnia ┆ percent correct │\n",
+       "│ ---      ┆ ---             │\n",
+       "│ bool     ┆ u32             │\n",
+       "╞══════════╪═════════════════╡\n",
+       "│ true     ┆ 11              │\n",
+       "│ true     ┆ 21              │\n",
+       "│ true     ┆ 23              │\n",
+       "│ true     ┆ 19              │\n",
+       "│ true     ┆ 3               │\n",
+       "│ …        ┆ …               │\n",
+       "│ false    ┆ 29              │\n",
+       "│ false    ┆ 57              │\n",
+       "│ false    ┆ 20              │\n",
+       "│ false    ┆ 12              │\n",
+       "│ false    ┆ 7               │\n",
+       "└──────────┴─────────────────┘"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "(\n",
+    "    df\n",
+    "    .group_by('insomnia', maintain_order=True)\n",
+    "    .agg(\n",
+    "        pl.col('percent correct')\n",
+    "        .rank(method='ordinal')\n",
+    "    )\n",
+    "    .explode('percent correct')\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "There are a few annoyances with doing this. First, in the group by/aggregation context, there is no way to maintain the other columns of the data frame as there is in the selection context via the `with_columns()` method. Second, we have to make a column with a list data type and then explode it.\n",
+    "\n",
+    "Here is where **window** functions come into play. A window function only operates on a subset of the data, ignoring everything outside of that subset. Since we are applying a function (in our example a rank function) to a subset (group) of the data, we can think of doing a group by followed by a calculation that has the same number of rows in the output as there are rows in the data as a window function.\n",
+    "\n",
+    "Window functions are implemented in Polars expressions using the `over()` method. The argument(s) of the `over()` specify which columns specify groups. The expression is then evaluated individually for each group. To add a column with rankings based on percent correct within each group (insomnia or regular sleeper), we can do the following."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (102, 17)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>participant number</th><th>gender</th><th>age</th><th>correct hit percentage</th><th>correct reject percentage</th><th>percent correct</th><th>confidence when correct hit</th><th>confidence incorrect hit</th><th>confidence correct reject</th><th>confidence incorrect reject</th><th>confidence when correct</th><th>confidence when incorrect</th><th>sci</th><th>psqi</th><th>ess</th><th>insomnia</th><th>percent correct ranked within insomnia groups</th></tr><tr><td>i64</td><td>str</td><td>i64</td><td>i64</td><td>i64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>i64</td><td>i64</td><td>i64</td><td>bool</td><td>u32</td></tr></thead><tbody><tr><td>8</td><td>&quot;f&quot;</td><td>39</td><td>65</td><td>80</td><td>72.5</td><td>91.0</td><td>90.0</td><td>93.0</td><td>83.5</td><td>93.0</td><td>90.0</td><td>9</td><td>13</td><td>2</td><td>true</td><td>11</td></tr><tr><td>16</td><td>&quot;m&quot;</td><td>42</td><td>90</td><td>90</td><td>90.0</td><td>75.5</td><td>55.5</td><td>70.5</td><td>50.0</td><td>75.0</td><td>50.0</td><td>4</td><td>11</td><td>7</td><td>true</td><td>21</td></tr><tr><td>18</td><td>&quot;f&quot;</td><td>31</td><td>90</td><td>95</td><td>92.5</td><td>89.5</td><td>90.0</td><td>86.0</td><td>81.0</td><td>89.0</td><td>88.0</td><td>10</td><td>9</td><td>3</td><td>true</td><td>23</td></tr><tr><td>22</td><td>&quot;f&quot;</td><td>35</td><td>100</td><td>75</td><td>87.5</td><td>89.5</td><td>null</td><td>71.0</td><td>80.0</td><td>88.0</td><td>80.0</td><td>13</td><td>8</td><td>20</td><td>true</td><td>19</td></tr><tr><td>27</td><td>&quot;f&quot;</td><td>74</td><td>60</td><td>65</td><td>62.5</td><td>68.5</td><td>49.0</td><td>61.0</td><td>49.0</td><td>65.0</td><td>49.0</td><td>13</td><td>9</td><td>12</td><td>true</td><td>3</td></tr><tr><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td></tr><tr><td>97</td><td>&quot;f&quot;</td><td>23</td><td>70</td><td>85</td><td>77.5</td><td>77.0</td><td>66.5</td><td>77.0</td><td>77.5</td><td>77.0</td><td>74.0</td><td>20</td><td>8</td><td>10</td><td>false</td><td>29</td></tr><tr><td>98</td><td>&quot;f&quot;</td><td>70</td><td>90</td><td>85</td><td>87.5</td><td>65.5</td><td>85.5</td><td>87.0</td><td>80.0</td><td>74.0</td><td>80.0</td><td>19</td><td>8</td><td>7</td><td>false</td><td>57</td></tr><tr><td>99</td><td>&quot;f&quot;</td><td>24</td><td>70</td><td>80</td><td>75.0</td><td>61.5</td><td>81.0</td><td>70.0</td><td>61.0</td><td>65.0</td><td>81.0</td><td>31</td><td>2</td><td>15</td><td>false</td><td>20</td></tr><tr><td>102</td><td>&quot;f&quot;</td><td>40</td><td>75</td><td>65</td><td>70.0</td><td>53.0</td><td>37.0</td><td>84.0</td><td>52.0</td><td>81.0</td><td>51.0</td><td>22</td><td>4</td><td>7</td><td>false</td><td>12</td></tr><tr><td>103</td><td>&quot;f&quot;</td><td>33</td><td>85</td><td>40</td><td>62.5</td><td>80.0</td><td>27.0</td><td>31.0</td><td>82.5</td><td>81.0</td><td>73.0</td><td>24</td><td>5</td><td>7</td><td>false</td><td>7</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (102, 17)\n",
+       "┌─────────────┬────────┬─────┬─────────────┬───┬──────┬─────┬──────────┬────────────────────────┐\n",
+       "│ participant ┆ gender ┆ age ┆ correct hit ┆ … ┆ psqi ┆ ess ┆ insomnia ┆ percent correct ranked │\n",
+       "│ number      ┆ ---    ┆ --- ┆ percentage  ┆   ┆ ---  ┆ --- ┆ ---      ┆ within …               │\n",
+       "│ ---         ┆ str    ┆ i64 ┆ ---         ┆   ┆ i64  ┆ i64 ┆ bool     ┆ ---                    │\n",
+       "│ i64         ┆        ┆     ┆ i64         ┆   ┆      ┆     ┆          ┆ u32                    │\n",
+       "╞═════════════╪════════╪═════╪═════════════╪═══╪══════╪═════╪══════════╪════════════════════════╡\n",
+       "│ 8           ┆ f      ┆ 39  ┆ 65          ┆ … ┆ 13   ┆ 2   ┆ true     ┆ 11                     │\n",
+       "│ 16          ┆ m      ┆ 42  ┆ 90          ┆ … ┆ 11   ┆ 7   ┆ true     ┆ 21                     │\n",
+       "│ 18          ┆ f      ┆ 31  ┆ 90          ┆ … ┆ 9    ┆ 3   ┆ true     ┆ 23                     │\n",
+       "│ 22          ┆ f      ┆ 35  ┆ 100         ┆ … ┆ 8    ┆ 20  ┆ true     ┆ 19                     │\n",
+       "│ 27          ┆ f      ┆ 74  ┆ 60          ┆ … ┆ 9    ┆ 12  ┆ true     ┆ 3                      │\n",
+       "│ …           ┆ …      ┆ …   ┆ …           ┆ … ┆ …    ┆ …   ┆ …        ┆ …                      │\n",
+       "│ 97          ┆ f      ┆ 23  ┆ 70          ┆ … ┆ 8    ┆ 10  ┆ false    ┆ 29                     │\n",
+       "│ 98          ┆ f      ┆ 70  ┆ 90          ┆ … ┆ 8    ┆ 7   ┆ false    ┆ 57                     │\n",
+       "│ 99          ┆ f      ┆ 24  ┆ 70          ┆ … ┆ 2    ┆ 15  ┆ false    ┆ 20                     │\n",
+       "│ 102         ┆ f      ┆ 40  ┆ 75          ┆ … ┆ 4    ┆ 7   ┆ false    ┆ 12                     │\n",
+       "│ 103         ┆ f      ┆ 33  ┆ 85          ┆ … ┆ 5    ┆ 7   ┆ false    ┆ 7                      │\n",
+       "└─────────────┴────────┴─────┴─────────────┴───┴──────┴─────┴──────────┴────────────────────────┘"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "(\n",
+    "    df\n",
+    "    .with_columns(\n",
+    "        pl.col('percent correct')\n",
+    "        .rank(method='ordinal')\n",
+    "        .over('insomnia')\n",
+    "        .alias('percent correct ranked within insomnia groups')\n",
+    "    )\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Window functions and group by operations are similar. Consider computing the median percent correct for each group, insomniacs and normal sleepers. Using a group by/aggregation context, this is accomplished as follows."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (2, 2)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomnia</th><th>median percent correct</th></tr><tr><td>bool</td><td>f64</td></tr></thead><tbody><tr><td>false</td><td>85.0</td></tr><tr><td>true</td><td>75.0</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (2, 2)\n",
+       "┌──────────┬────────────────────────┐\n",
+       "│ insomnia ┆ median percent correct │\n",
+       "│ ---      ┆ ---                    │\n",
+       "│ bool     ┆ f64                    │\n",
+       "╞══════════╪════════════════════════╡\n",
+       "│ false    ┆ 85.0                   │\n",
+       "│ true     ┆ 75.0                   │\n",
+       "└──────────┴────────────────────────┘"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "(\n",
+    "    df\n",
+    "    .group_by('insomnia')\n",
+    "    .agg(\n",
+    "        pl.col('percent correct')\n",
+    "        .median()\n",
+    "        .alias('median percent correct')\n",
+    "    )\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can achieve the same result using a window function with in a select context."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (2, 2)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomnia</th><th>median percent correct</th></tr><tr><td>bool</td><td>f64</td></tr></thead><tbody><tr><td>true</td><td>75.0</td></tr><tr><td>false</td><td>85.0</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (2, 2)\n",
+       "┌──────────┬────────────────────────┐\n",
+       "│ insomnia ┆ median percent correct │\n",
+       "│ ---      ┆ ---                    │\n",
+       "│ bool     ┆ f64                    │\n",
+       "╞══════════╪════════════════════════╡\n",
+       "│ true     ┆ 75.0                   │\n",
+       "│ false    ┆ 85.0                   │\n",
+       "└──────────┴────────────────────────┘"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "(\n",
+    "    df\n",
+    "    .select(\n",
+    "        pl.col('insomnia'), \n",
+    "        pl.col('percent correct')\n",
+    "        .median().over('insomnia')\n",
+    "        .alias('median percent correct')\n",
+    "    )\n",
+    "    .unique('median percent correct')\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A group by/aggregation context is preferred in this case. As a loose rule of thumb, use a group by/aggregation context when you want a resulting data frame with the number of rows being equal to the number of groups. Use a window function in a selection context when you want a resulting data frame with the same number of rows as your input data frame."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Custom aggregation and window functions\n",
+    "\n",
+    "Let's say we want to compute the coefficient of variation (CoV, the standard deviation divided by the mean) of data in columns of groups in the data frame. There is no built-in function in Polars to do this, but we could construct an expression that does it."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (2, 2)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomnia</th><th>coeff of var percent correct</th></tr><tr><td>bool</td><td>f64</td></tr></thead><tbody><tr><td>true</td><td>0.171856</td></tr><tr><td>false</td><td>0.138785</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (2, 2)\n",
+       "┌──────────┬──────────────────────────────┐\n",
+       "│ insomnia ┆ coeff of var percent correct │\n",
+       "│ ---      ┆ ---                          │\n",
+       "│ bool     ┆ f64                          │\n",
+       "╞══════════╪══════════════════════════════╡\n",
+       "│ true     ┆ 0.171856                     │\n",
+       "│ false    ┆ 0.138785                     │\n",
+       "└──────────┴──────────────────────────────┘"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "(\n",
+    "    df\n",
+    "    .group_by('insomnia', maintain_order=True)\n",
+    "    .agg(\n",
+    "        (pl.col('percent correct').std(ddof=0) / pl.col('percent correct').mean())\n",
+    "        .alias('coeff of var percent correct')\n",
+    "    )\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Alternatively, we could write our own Python function to compute the coefficient of variation using Numpy. Say we had such a function lying around that take as input a Numpy array and returns the coefficient of variation as a Numpy array."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def coeff_of_var(data: np.ndarray) -> np.ndarray:\n",
+    "    \"\"\"Compute coefficient of variation from an array of data.\"\"\"\n",
+    "    return np.std(data) / np.mean(data)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can use this function as an aggregating function using the `map_batches()` method of a Polars expression. The argument of `map_batches()` is a function that take a series as input and returns either a scalar or a series. We therefore need to pass in a function that converts the series to a Numpy array for use in the `coeff_of_var()` function, which we can accomplish with a lambda function. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (2, 2)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomnia</th><th>percent correct</th></tr><tr><td>bool</td><td>f64</td></tr></thead><tbody><tr><td>true</td><td>0.171856</td></tr><tr><td>false</td><td>0.138785</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (2, 2)\n",
+       "┌──────────┬─────────────────┐\n",
+       "│ insomnia ┆ percent correct │\n",
+       "│ ---      ┆ ---             │\n",
+       "│ bool     ┆ f64             │\n",
+       "╞══════════╪═════════════════╡\n",
+       "│ true     ┆ 0.171856        │\n",
+       "│ false    ┆ 0.138785        │\n",
+       "└──────────┴─────────────────┘"
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "(\n",
+    "    df\n",
+    "    .group_by('insomnia', maintain_order=True)\n",
+    "    .agg(\n",
+    "        pl.col('percent correct')\n",
+    "        .map_batches(\n",
+    "            lambda s: coeff_of_var(s.to_numpy()), \n",
+    "            return_dtype=float, \n",
+    "            returns_scalar=True\n",
+    "        )\n",
+    "    )\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note that it is important to supply the data type of the return of the function you are mapping to ensure that Polars correctly assigns data types in the resulting data frame. It is also important to use the `return_scalar=True`, lest `map_batches()` gives each entry as a list."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Polars Structs and expressions using multiple columns\n",
+    "\n",
+    "As discussed earlier, Polars expressions strictly take a series as input and return a series as output. What if we want to perform a calculation that requires two columns? This is where the Polars **Struct** data type comes in. As a simple example, if we cast out whole data frame into a series, we get a series with a `struct` data type."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (102,)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th></th></tr><tr><td>struct[16]</td></tr></thead><tbody><tr><td>{8,&quot;f&quot;,39,65,80,72.5,91.0,90.0,93.0,83.5,93.0,90.0,9,13,2,true}</td></tr><tr><td>{16,&quot;m&quot;,42,90,90,90.0,75.5,55.5,70.5,50.0,75.0,50.0,4,11,7,true}</td></tr><tr><td>{18,&quot;f&quot;,31,90,95,92.5,89.5,90.0,86.0,81.0,89.0,88.0,10,9,3,true}</td></tr><tr><td>{22,&quot;f&quot;,35,100,75,87.5,89.5,null,71.0,80.0,88.0,80.0,13,8,20,true}</td></tr><tr><td>{27,&quot;f&quot;,74,60,65,62.5,68.5,49.0,61.0,49.0,65.0,49.0,13,9,12,true}</td></tr><tr><td>&hellip;</td></tr><tr><td>{97,&quot;f&quot;,23,70,85,77.5,77.0,66.5,77.0,77.5,77.0,74.0,20,8,10,false}</td></tr><tr><td>{98,&quot;f&quot;,70,90,85,87.5,65.5,85.5,87.0,80.0,74.0,80.0,19,8,7,false}</td></tr><tr><td>{99,&quot;f&quot;,24,70,80,75.0,61.5,81.0,70.0,61.0,65.0,81.0,31,2,15,false}</td></tr><tr><td>{102,&quot;f&quot;,40,75,65,70.0,53.0,37.0,84.0,52.0,81.0,51.0,22,4,7,false}</td></tr><tr><td>{103,&quot;f&quot;,33,85,40,62.5,80.0,27.0,31.0,82.5,81.0,73.0,24,5,7,false}</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (102,)\n",
+       "Series: '' [struct[16]]\n",
+       "[\n",
+       "\t{8,\"f\",39,65,80,72.5,91.0,90.0,93.0,83.5,93.0,90.0,9,13,2,true}\n",
+       "\t{16,\"m\",42,90,90,90.0,75.5,55.5,70.5,50.0,75.0,50.0,4,11,7,true}\n",
+       "\t{18,\"f\",31,90,95,92.5,89.5,90.0,86.0,81.0,89.0,88.0,10,9,3,true}\n",
+       "\t{22,\"f\",35,100,75,87.5,89.5,null,71.0,80.0,88.0,80.0,13,8,20,true}\n",
+       "\t{27,\"f\",74,60,65,62.5,68.5,49.0,61.0,49.0,65.0,49.0,13,9,12,true}\n",
+       "\t…\n",
+       "\t{97,\"f\",23,70,85,77.5,77.0,66.5,77.0,77.5,77.0,74.0,20,8,10,false}\n",
+       "\t{98,\"f\",70,90,85,87.5,65.5,85.5,87.0,80.0,74.0,80.0,19,8,7,false}\n",
+       "\t{99,\"f\",24,70,80,75.0,61.5,81.0,70.0,61.0,65.0,81.0,31,2,15,false}\n",
+       "\t{102,\"f\",40,75,65,70.0,53.0,37.0,84.0,52.0,81.0,51.0,22,4,7,false}\n",
+       "\t{103,\"f\",33,85,40,62.5,80.0,27.0,31.0,82.5,81.0,73.0,24,5,7,false}\n",
+       "]"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "struct_series = pl.Series(df)\n",
+    "\n",
+    "# Take a look\n",
+    "struct_series"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Each entry is an entire row of a data frame. The labels of each column is still present, as can be seen by considering one entry in the series of `struct`s."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'participant number': 8,\n",
+       " 'gender': 'f',\n",
+       " 'age': 39,\n",
+       " 'correct hit percentage': 65,\n",
+       " 'correct reject percentage': 80,\n",
+       " 'percent correct': 72.5,\n",
+       " 'confidence when correct hit': 91.0,\n",
+       " 'confidence incorrect hit': 90.0,\n",
+       " 'confidence correct reject': 93.0,\n",
+       " 'confidence incorrect reject': 83.5,\n",
+       " 'confidence when correct': 93.0,\n",
+       " 'confidence when incorrect': 90.0,\n",
+       " 'sci': 9,\n",
+       " 'psqi': 13,\n",
+       " 'ess': 2,\n",
+       " 'insomnia': True}"
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "struct_series[0]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The labels for each entry in a struct (the keys in the dictionary displated above), are called **fields**, and we can get a list of the fields for the structs in a series."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['participant number',\n",
+       " 'gender',\n",
+       " 'age',\n",
+       " 'correct hit percentage',\n",
+       " 'correct reject percentage',\n",
+       " 'percent correct',\n",
+       " 'confidence when correct hit',\n",
+       " 'confidence incorrect hit',\n",
+       " 'confidence correct reject',\n",
+       " 'confidence incorrect reject',\n",
+       " 'confidence when correct',\n",
+       " 'confidence when incorrect',\n",
+       " 'sci',\n",
+       " 'psqi',\n",
+       " 'ess',\n",
+       " 'insomnia']"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "struct_series.struct.fields"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The `struct_series.struct.field()` method allows us to take entries from all entries corresponding to a given field."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (102,)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>percent correct</th></tr><tr><td>f64</td></tr></thead><tbody><tr><td>72.5</td></tr><tr><td>90.0</td></tr><tr><td>92.5</td></tr><tr><td>87.5</td></tr><tr><td>62.5</td></tr><tr><td>&hellip;</td></tr><tr><td>77.5</td></tr><tr><td>87.5</td></tr><tr><td>75.0</td></tr><tr><td>70.0</td></tr><tr><td>62.5</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (102,)\n",
+       "Series: 'percent correct' [f64]\n",
+       "[\n",
+       "\t72.5\n",
+       "\t90.0\n",
+       "\t92.5\n",
+       "\t87.5\n",
+       "\t62.5\n",
+       "\t…\n",
+       "\t77.5\n",
+       "\t87.5\n",
+       "\t75.0\n",
+       "\t70.0\n",
+       "\t62.5\n",
+       "]"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "struct_series.struct.field('percent correct')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The following two operations give the same result.\n",
+    "\n",
+    "```python\n",
+    "pl.Series(df).struct.field('percent correct')\n",
+    "df.get_column('percent correct')\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "So, if we need to compute with multiple columns with an expression, we can convert whatever columns we need into a series of data type `struct`. We can then unpack what we need using the `struct_series.struct.field()` method.\n",
+    "\n",
+    "As an example, say we have a function that compute the bivariate (a.k.a. Pearson) correlation coeff between two data sets given as Numpy arrays."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def bivariate_corr(x: np.ndarray, y: np.ndarray) -> float:\n",
+    "    \"\"\"Compute bivariate correlation coefficient for `x` and `y`.\n",
+    "    Ignores NaNs.\"\"\"\n",
+    "    # Masked arrays to handle NaNs\n",
+    "    x = np.ma.masked_invalid(x)\n",
+    "    y = np.ma.masked_invalid(y)\n",
+    "    mask = ~x.mask & ~y.mask\n",
+    "    \n",
+    "    return np.corrcoef(x[mask], y[mask])[0, 1]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now we want to compute the bivariate correlation coefficient for confidence when correct and confidence when incorrect for insomniacs and for normal sleepers. In our call to `agg()`, we use `pl.struct` to generate a series of data type `struct` containing the columns we need for the calculation of the correlation coefficient. We then use `map_elements()` to use the above function to do the calculation."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (2, 2)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomnia</th><th>bivariate correlation</th></tr><tr><td>bool</td><td>f64</td></tr></thead><tbody><tr><td>true</td><td>0.590435</td></tr><tr><td>false</td><td>0.552045</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (2, 2)\n",
+       "┌──────────┬───────────────────────┐\n",
+       "│ insomnia ┆ bivariate correlation │\n",
+       "│ ---      ┆ ---                   │\n",
+       "│ bool     ┆ f64                   │\n",
+       "╞══════════╪═══════════════════════╡\n",
+       "│ true     ┆ 0.590435              │\n",
+       "│ false    ┆ 0.552045              │\n",
+       "└──────────┴───────────────────────┘"
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "(\n",
+    "    df\n",
+    "    .group_by('insomnia', maintain_order=True)\n",
+    "    .agg(\n",
+    "        pl.struct(['confidence when correct', 'confidence when incorrect'])\n",
+    "        .map_elements(\n",
+    "            lambda s:\n",
+    "            bivariate_corr(\n",
+    "                s.struct.field('confidence when correct').to_numpy(), \n",
+    "                s.struct.field('confidence when incorrect').to_numpy()\n",
+    "            ), \n",
+    "           return_dtype=float, returns_scalar=True\n",
+    "        )\n",
+    "        .alias('bivariate correlation')\n",
+    "    )\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "While this example is instructive to demonstrate how to write your own functions to operate on data frames, as is often the case, Polars has a built-in function that computes the bivariate correlation coefficient."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div><style>\n",
+       ".dataframe > thead > tr,\n",
+       ".dataframe > tbody > tr {\n",
+       "  text-align: right;\n",
+       "  white-space: pre-wrap;\n",
+       "}\n",
+       "</style>\n",
+       "<small>shape: (2, 2)</small><table border=\"1\" class=\"dataframe\"><thead><tr><th>insomnia</th><th>confidence when correct</th></tr><tr><td>bool</td><td>f64</td></tr></thead><tbody><tr><td>true</td><td>0.590435</td></tr><tr><td>false</td><td>0.552045</td></tr></tbody></table></div>"
+      ],
+      "text/plain": [
+       "shape: (2, 2)\n",
+       "┌──────────┬─────────────────────────┐\n",
+       "│ insomnia ┆ confidence when correct │\n",
+       "│ ---      ┆ ---                     │\n",
+       "│ bool     ┆ f64                     │\n",
+       "╞══════════╪═════════════════════════╡\n",
+       "│ true     ┆ 0.590435                │\n",
+       "│ false    ┆ 0.552045                │\n",
+       "└──────────┴─────────────────────────┘"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "(\n",
+    "    df\n",
+    "    .group_by('insomnia', maintain_order=True)\n",
+    "    .agg(pl.corr('confidence when correct', 'confidence when incorrect'))\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Looping over a GroupBy object\n",
+    "\n",
+    "While the `GroupBy` methods we have learned so far (like `transform()` and `agg()`) are useful and lead to concise code, we sometimes want to loop over the groups of a `GroupBy` object. This often comes up in plotting applications, as we will see in future lessons. As an example, I will compute the median percent correct for female and males, insomniacs and not (which we already computed using `describe()`)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "('f', True) :  72.5\n",
+      "('m', True) :  83.75\n",
+      "('m', False) :  82.5\n",
+      "('f', False) :  85.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "for group_name, sub_df in df.group_by(['gender', 'insomnia']):\n",
+    "    print(group_name, \": \", sub_df[\"percent correct\"].median())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "By using the `GroupBy` object as an iterator, it yields the name of the group (which I assigned as `group_name`) and the corresponding sub-data frame (which I assigned `sub_df`). Note that the group name is *always* given as a tuple, even when only grouping by a single column."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "False :  85.0\n",
+      "True :  75.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "for (group_name,), sub_df in df.group_by('insomnia'):\n",
+    "    print(group_name, \": \", sub_df[\"percent correct\"].median())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.13.5\n",
+      "IPython version      : 9.4.0\n",
+      "\n",
+      "numpy     : 2.2.6\n",
+      "polars    : 1.31.0\n",
+      "jupyterlab: 4.4.5\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p numpy,polars,jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

@@ -1,0 +1,305 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Exercise 3.5: Automating scatter plots\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You may notice that we often have to retype things like,\n",
+    "\n",
+    "```python\n",
+    "p = bokeh.plotting.figure(\n",
+    "    frame_width=300,\n",
+    "    frame_height=250,\n",
+    "    x_axis_label='x',\n",
+    "    y_axis_label='y',\n",
+    ")\n",
+    "```\n",
+    "\n",
+    "and the like when making plots. You may have a certain kind of plot you often make in your work, so you might want make functions to quickly generate the kinds of plots you want. Scatter plots come up very often. Write a function that takes as input a tidy data frame and generates a scatter plot based on two columns of the data frame and colors the glyphs according to a third column that contains categorical variables. The minimal (you can add other kwargs if you want) call signature should be\n",
+    "\n",
+    "```python\n",
+    "scatter(data, x, y, cat)\n",
+    "```\n",
+    "\n",
+    "You will of course test out your function while writing it, and the next exercises give you lots of opportunities to use it."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<br />"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Solution\n",
+    "\n",
+    "<hr>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "    <style>\n",
+       "        .bk-notebook-logo {\n",
+       "            display: block;\n",
+       "            width: 20px;\n",
+       "            height: 20px;\n",
+       "            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAOkSURBVDiNjZRtaJVlGMd/1/08zzln5zjP1LWcU9N0NkN8m2CYjpgQYQXqSs0I84OLIC0hkEKoPtiH3gmKoiJDU7QpLgoLjLIQCpEsNJ1vqUOdO7ppbuec5+V+rj4ctwzd8IIbbi6u+8f1539dt3A78eXC7QizUF7gyV1fD1Yqg4JWz84yffhm0qkFqBogB9rM8tZdtwVsPUhWhGcFJngGeWrPzHm5oaMmkfEg1usvLFyc8jLRqDOMru7AyC8saQr7GG7f5fvDeH7Ej8CM66nIF+8yngt6HWaKh7k49Soy9nXurCi1o3qUbS3zWfrYeQDTB/Qj6kX6Ybhw4B+bOYoLKCC9H3Nu/leUTZ1JdRWkkn2ldcCamzrcf47KKXdAJllSlxAOkRgyHsGC/zRday5Qld9DyoM4/q/rUoy/CXh3jzOu3bHUVZeU+DEn8FInkPBFlu3+nW3Nw0mk6vCDiWg8CeJaxEwuHS3+z5RgY+YBR6V1Z1nxSOfoaPa4LASWxxdNp+VWTk7+4vzaou8v8PN+xo+KY2xsw6une2frhw05CTYOmQvsEhjhWjn0bmXPjpE1+kplmmkP3suftwTubK9Vq22qKmrBhpY4jvd5afdRA3wGjFAgcnTK2s4hY0/GPNIb0nErGMCRxWOOX64Z8RAC4oCXdklmEvcL8o0BfkNK4lUg9HTl+oPlQxdNo3Mg4Nv175e/1LDGzZen30MEjRUtmXSfiTVu1kK8W4txyV6BMKlbgk3lMwYCiusNy9fVfvvwMxv8Ynl6vxoByANLTWplvuj/nF9m2+PDtt1eiHPBr1oIfhCChQMBw6Aw0UulqTKZdfVvfG7VcfIqLG9bcldL/+pdWTLxLUy8Qq38heUIjh4XlzZxzQm19lLFlr8vdQ97rjZVOLf8nclzckbcD4wxXMidpX30sFd37Fv/GtwwhzhxGVAprjbg0gCAEeIgwCZyTV2Z1REEW8O4py0wsjeloKoMr6iCY6dP92H6Vw/oTyICIthibxjm/DfN9lVz8IqtqKYLUXfoKVMVQVVJOElGjrnnUt9T9wbgp8AyYKaGlqingHZU/uG2NTZSVqwHQTWkx9hxjkpWDaCg6Ckj5qebgBVbT3V3NNXMSiWSDdGV3hrtzla7J+duwPOToIg42ChPQOQjspnSlp1V+Gjdged7+8UN5CRAV7a5EdFNwCjEaBR27b3W890TE7g24NAP/mMDXRWrGoFPQI9ls/MWO2dWFAar/xcOIImbbpA3zgAAAABJRU5ErkJggg==);\n",
+       "        }\n",
+       "    </style>\n",
+       "    <div>\n",
+       "        <a href=\"https://bokeh.org\" target=\"_blank\" class=\"bk-notebook-logo\"></a>\n",
+       "        <span id=\"ff68e391-1e17-40c3-9394-c75e469bb4f8\">Loading BokehJS ...</span>\n",
+       "    </div>\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/javascript": "'use strict';\n(function(root) {\n  function now() {\n    return new Date();\n  }\n\n  const force = true;\n\n  if (typeof root._bokeh_onload_callbacks === \"undefined\" || force === true) {\n    root._bokeh_onload_callbacks = [];\n    root._bokeh_is_loading = undefined;\n  }\n\nconst JS_MIME_TYPE = 'application/javascript';\n  const HTML_MIME_TYPE = 'text/html';\n  const EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';\n  const CLASS_NAME = 'output_bokeh rendered_html';\n\n  /**\n   * Render data to the DOM node\n   */\n  function render(props, node) {\n    const script = document.createElement(\"script\");\n    node.appendChild(script);\n  }\n\n  /**\n   * Handle when an output is cleared or removed\n   */\n  function handleClearOutput(event, handle) {\n    function drop(id) {\n      const view = Bokeh.index.get_by_id(id)\n      if (view != null) {\n        view.model.document.clear()\n        Bokeh.index.delete(view)\n      }\n    }\n\n    const cell = handle.cell;\n\n    const id = cell.output_area._bokeh_element_id;\n    const server_id = cell.output_area._bokeh_server_id;\n\n    // Clean up Bokeh references\n    if (id != null) {\n      drop(id)\n    }\n\n    if (server_id !== undefined) {\n      // Clean up Bokeh references\n      const cmd_clean = \"from bokeh.io.state import curstate; print(curstate().uuid_to_server['\" + server_id + \"'].get_sessions()[0].document.roots[0]._id)\";\n      cell.notebook.kernel.execute(cmd_clean, {\n        iopub: {\n          output: function(msg) {\n            const id = msg.content.text.trim()\n            drop(id)\n          }\n        }\n      });\n      // Destroy server and session\n      const cmd_destroy = \"import bokeh.io.notebook as ion; ion.destroy_server('\" + server_id + \"')\";\n      cell.notebook.kernel.execute(cmd_destroy);\n    }\n  }\n\n  /**\n   * Handle when a new output is added\n   */\n  function handleAddOutput(event, handle) {\n    const output_area = handle.output_area;\n    const output = handle.output;\n\n    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only\n    if ((output.output_type != \"display_data\") || (!Object.prototype.hasOwnProperty.call(output.data, EXEC_MIME_TYPE))) {\n      return\n    }\n\n    const toinsert = output_area.element.find(\".\" + CLASS_NAME.split(' ')[0]);\n\n    if (output.metadata[EXEC_MIME_TYPE][\"id\"] !== undefined) {\n      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];\n      // store reference to embed id on output_area\n      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE][\"id\"];\n    }\n    if (output.metadata[EXEC_MIME_TYPE][\"server_id\"] !== undefined) {\n      const bk_div = document.createElement(\"div\");\n      bk_div.innerHTML = output.data[HTML_MIME_TYPE];\n      const script_attrs = bk_div.children[0].attributes;\n      for (let i = 0; i < script_attrs.length; i++) {\n        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);\n        toinsert[toinsert.length - 1].firstChild.textContent = bk_div.children[0].textContent\n      }\n      // store reference to server id on output_area\n      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE][\"server_id\"];\n    }\n  }\n\n  function register_renderer(events, OutputArea) {\n\n    function append_mime(data, metadata, element) {\n      // create a DOM node to render to\n      const toinsert = this.create_output_subarea(\n        metadata,\n        CLASS_NAME,\n        EXEC_MIME_TYPE\n      );\n      this.keyboard_manager.register_events(toinsert);\n      // Render to node\n      const props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};\n      render(props, toinsert[toinsert.length - 1]);\n      element.append(toinsert);\n      return toinsert\n    }\n\n    /* Handle when an output is cleared or removed */\n    events.on('clear_output.CodeCell', handleClearOutput);\n    events.on('delete.Cell', handleClearOutput);\n\n    /* Handle when a new output is added */\n    events.on('output_added.OutputArea', handleAddOutput);\n\n    /**\n     * Register the mime type and append_mime function with output_area\n     */\n    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {\n      /* Is output safe? */\n      safe: true,\n      /* Index of renderer in `output_area.display_order` */\n      index: 0\n    });\n  }\n\n  // register the mime type if in Jupyter Notebook environment and previously unregistered\n  if (root.Jupyter !== undefined) {\n    const events = require('base/js/events');\n    const OutputArea = require('notebook/js/outputarea').OutputArea;\n\n    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {\n      register_renderer(events, OutputArea);\n    }\n  }\n  if (typeof (root._bokeh_timeout) === \"undefined\" || force === true) {\n    root._bokeh_timeout = Date.now() + 5000;\n    root._bokeh_failed_load = false;\n  }\n\n  const NB_LOAD_WARNING = {'data': {'text/html':\n     \"<div style='background-color: #fdd'>\\n\"+\n     \"<p>\\n\"+\n     \"BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \\n\"+\n     \"may be due to a slow or bad network connection. Possible fixes:\\n\"+\n     \"</p>\\n\"+\n     \"<ul>\\n\"+\n     \"<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\\n\"+\n     \"<li>use INLINE resources instead, as so:</li>\\n\"+\n     \"</ul>\\n\"+\n     \"<code>\\n\"+\n     \"from bokeh.resources import INLINE\\n\"+\n     \"output_notebook(resources=INLINE)\\n\"+\n     \"</code>\\n\"+\n     \"</div>\"}};\n\n  function display_loaded(error = null) {\n    const el = document.getElementById(\"ff68e391-1e17-40c3-9394-c75e469bb4f8\");\n    if (el != null) {\n      const html = (() => {\n        if (typeof root.Bokeh === \"undefined\") {\n          if (error == null) {\n            return \"BokehJS is loading ...\";\n          } else {\n            return \"BokehJS failed to load.\";\n          }\n        } else {\n          const prefix = `BokehJS ${root.Bokeh.version}`;\n          if (error == null) {\n            return `${prefix} successfully loaded.`;\n          } else {\n            return `${prefix} <b>encountered errors</b> while loading and may not function as expected.`;\n          }\n        }\n      })();\n      el.innerHTML = html;\n\n      if (error != null) {\n        const wrapper = document.createElement(\"div\");\n        wrapper.style.overflow = \"auto\";\n        wrapper.style.height = \"5em\";\n        wrapper.style.resize = \"vertical\";\n        const content = document.createElement(\"div\");\n        content.style.fontFamily = \"monospace\";\n        content.style.whiteSpace = \"pre-wrap\";\n        content.style.backgroundColor = \"rgb(255, 221, 221)\";\n        content.textContent = error.stack ?? error.toString();\n        wrapper.append(content);\n        el.append(wrapper);\n      }\n    } else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(() => display_loaded(error), 100);\n    }\n  }\n\n  function run_callbacks() {\n    try {\n      root._bokeh_onload_callbacks.forEach(function(callback) {\n        if (callback != null)\n          callback();\n      });\n    } finally {\n      delete root._bokeh_onload_callbacks\n    }\n    console.debug(\"Bokeh: all callbacks have finished\");\n  }\n\n  function load_libs(css_urls, js_urls, callback) {\n    if (css_urls == null) css_urls = [];\n    if (js_urls == null) js_urls = [];\n\n    root._bokeh_onload_callbacks.push(callback);\n    if (root._bokeh_is_loading > 0) {\n      console.debug(\"Bokeh: BokehJS is being loaded, scheduling callback at\", now());\n      return null;\n    }\n    if (js_urls == null || js_urls.length === 0) {\n      run_callbacks();\n      return null;\n    }\n    console.debug(\"Bokeh: BokehJS not loaded, scheduling load and callback at\", now());\n    root._bokeh_is_loading = css_urls.length + js_urls.length;\n\n    function on_load() {\n      root._bokeh_is_loading--;\n      if (root._bokeh_is_loading === 0) {\n        console.debug(\"Bokeh: all BokehJS libraries/stylesheets loaded\");\n        run_callbacks()\n      }\n    }\n\n    function on_error(url) {\n      console.error(\"failed to load \" + url);\n    }\n\n    for (let i = 0; i < css_urls.length; i++) {\n      const url = css_urls[i];\n      const element = document.createElement(\"link\");\n      element.onload = on_load;\n      element.onerror = on_error.bind(null, url);\n      element.rel = \"stylesheet\";\n      element.type = \"text/css\";\n      element.href = url;\n      console.debug(\"Bokeh: injecting link tag for BokehJS stylesheet: \", url);\n      document.body.appendChild(element);\n    }\n\n    for (let i = 0; i < js_urls.length; i++) {\n      const url = js_urls[i];\n      const element = document.createElement('script');\n      element.onload = on_load;\n      element.onerror = on_error.bind(null, url);\n      element.async = false;\n      element.src = url;\n      console.debug(\"Bokeh: injecting script tag for BokehJS library: \", url);\n      document.head.appendChild(element);\n    }\n  };\n\n  function inject_raw_css(css) {\n    const element = document.createElement(\"style\");\n    element.appendChild(document.createTextNode(css));\n    document.body.appendChild(element);\n  }\n\n  const js_urls = [\"https://cdn.bokeh.org/bokeh/release/bokeh-3.7.3.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.7.3.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.7.3.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.7.3.min.js\", \"https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.7.3.min.js\"];\n  const css_urls = [];\n\n  const inline_js = [    function(Bokeh) {\n      Bokeh.set_log_level(\"info\");\n    },\nfunction(Bokeh) {\n    }\n  ];\n\n  function run_inline_js() {\n    if (root.Bokeh !== undefined || force === true) {\n      try {\n            for (let i = 0; i < inline_js.length; i++) {\n      inline_js[i].call(root, root.Bokeh);\n    }\n\n      } catch (error) {display_loaded(error);throw error;\n      }if (force === true) {\n        display_loaded();\n      }} else if (Date.now() < root._bokeh_timeout) {\n      setTimeout(run_inline_js, 100);\n    } else if (!root._bokeh_failed_load) {\n      console.log(\"Bokeh: BokehJS failed to load within specified timeout.\");\n      root._bokeh_failed_load = true;\n    } else if (force !== true) {\n      const cell = $(document.getElementById(\"ff68e391-1e17-40c3-9394-c75e469bb4f8\")).parents('.cell').data().cell;\n      cell.output_area.append_execute_result(NB_LOAD_WARNING)\n    }\n  }\n\n  if (root._bokeh_is_loading === 0) {\n    console.debug(\"Bokeh: BokehJS loaded, going straight to plotting\");\n    run_inline_js();\n  } else {\n    load_libs(css_urls, js_urls, function() {\n      console.debug(\"Bokeh: BokehJS plotting callback run at\", now());\n      run_inline_js();\n    });\n  }\n}(window));",
+      "application/vnd.bokehjs_load.v0+json": ""
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import polars as pl\n",
+    "\n",
+    "import colorcet\n",
+    "\n",
+    "import bokeh.io\n",
+    "import bokeh.plotting\n",
+    "\n",
+    "bokeh.io.output_notebook()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "I will offer some more kwargs, as described in the doc string below."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def scatter(\n",
+    "    data=None,\n",
+    "    x=None,\n",
+    "    y=None,\n",
+    "    cat=None,\n",
+    "    p=None,\n",
+    "    palette=None,\n",
+    "    show_legend=True,\n",
+    "    click_policy=\"hide\",\n",
+    "    marker_kwargs={},\n",
+    "    **kwargs,\n",
+    "):\n",
+    "    \"\"\"\n",
+    "    Parameters\n",
+    "    ----------\n",
+    "    df : Polars DataFrame\n",
+    "        DataFrame containing tidy data for plotting.\n",
+    "    x : hashable\n",
+    "        Name of column to use as x-axis.\n",
+    "    y : hashable\n",
+    "        Name of column to use as y-axis.\n",
+    "    cat : hashable\n",
+    "        Name of column to use as categorical variable.\n",
+    "    p : bokeh.plotting.Figure instance, or None (default)\n",
+    "        If None, create a new figure. Otherwise, populate the existing\n",
+    "        figure `p`.\n",
+    "    palette : list of strings of hex colors, or single hex string\n",
+    "        If a list, color palette to use. If a single string representing\n",
+    "        a hex color, all glyphs are colored with that color. Default is\n",
+    "        the Glasbey Catagory 10.\n",
+    "    show_legend : bool, default False\n",
+    "        If True, show legend.\n",
+    "    tooltips : list of 2-tuples\n",
+    "        Specification for tooltips as per Bokeh specifications. For\n",
+    "        example, if we want `col1` and `col2` tooltips, we can use\n",
+    "        `tooltips=[('label 1': '@col1'), ('label 2': '@col2')]`. Ignored\n",
+    "        if `formal` is True.\n",
+    "    show_legend : bool, default False\n",
+    "        If True, show a legend.\n",
+    "    click_policy : str, default \"hide\"\n",
+    "        How to display points when their legend entry is clicked.\n",
+    "    marker_kwargs : dict\n",
+    "        kwargs to be passed to `p.scatter()` when making the scatter plot.\n",
+    "    kwargs\n",
+    "        Any kwargs to be passed to `bokeh.plotting.figure()` when making \n",
+    "        the plot.\n",
+    "\n",
+    "    Returns\n",
+    "    -------\n",
+    "    output : bokeh.plotting.Figure instance\n",
+    "        Plot populated with jitter plot or box plot.\n",
+    "    \"\"\"\n",
+    "    # Automatically name the axes\n",
+    "    if \"x_axis_label\" not in kwargs:\n",
+    "        kwargs[\"x_axis_label\"] = x\n",
+    "    if \"y_axis_label\" not in kwargs:\n",
+    "        kwargs[\"y_axis_label\"] = y\n",
+    "\n",
+    "    # Default palette\n",
+    "    if palette is None:\n",
+    "        palette = colorcet.b_glasbey_category10\n",
+    "    elif type(palette) == str:\n",
+    "        palette = [palette]\n",
+    "\n",
+    "    # Instantiate figure\n",
+    "    if 'toolbar_location' not in kwargs:\n",
+    "        kwargs['toolbar_location'] = 'above'\n",
+    "    if p is None:\n",
+    "        p = bokeh.plotting.figure(**kwargs)\n",
+    "\n",
+    "    # Build plot (not using color factors) to enable click policies\n",
+    "    legend_items = []\n",
+    "    for i, ((name,), g) in enumerate(data.group_by(cat, maintain_order=True)):\n",
+    "        marker_kwargs[\"color\"] = palette[i % len(palette)]\n",
+    "        legend_items.append((str(name), [p.scatter(source=g, x=x, y=y, **marker_kwargs)]))\n",
+    "\n",
+    "    if show_legend:\n",
+    "        # Add the legend\n",
+    "        legend = bokeh.models.Legend(items=legend_items, click_policy=click_policy)\n",
+    "    \n",
+    "        # Add the legend to the right of the plot\n",
+    "        p.add_layout(legend, 'right')\n",
+    "\n",
+    "    return p"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We will test this function out on the frog tongue adhesion data, coloring by frog ID."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "  <div id=\"c83201a4-4376-470d-a7fc-7d7611ed47ba\" data-root-id=\"p1003\" style=\"display: contents;\"></div>\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/javascript": "(function(root) {\n  function embed_document(root) {\n  const docs_json = {\"c1af340b-3320-4bfd-8538-c2693db4e336\":{\"version\":\"3.7.3\",\"title\":\"Bokeh Application\",\"roots\":[{\"type\":\"object\",\"name\":\"Figure\",\"id\":\"p1003\",\"attributes\":{\"x_range\":{\"type\":\"object\",\"name\":\"DataRange1d\",\"id\":\"p1004\"},\"y_range\":{\"type\":\"object\",\"name\":\"DataRange1d\",\"id\":\"p1005\"},\"x_scale\":{\"type\":\"object\",\"name\":\"LinearScale\",\"id\":\"p1012\"},\"y_scale\":{\"type\":\"object\",\"name\":\"LinearScale\",\"id\":\"p1013\"},\"title\":{\"type\":\"object\",\"name\":\"Title\",\"id\":\"p1010\"},\"renderers\":[{\"type\":\"object\",\"name\":\"GlyphRenderer\",\"id\":\"p1046\",\"attributes\":{\"data_source\":{\"type\":\"object\",\"name\":\"ColumnDataSource\",\"id\":\"p1037\",\"attributes\":{\"selected\":{\"type\":\"object\",\"name\":\"Selection\",\"id\":\"p1038\",\"attributes\":{\"indices\":[],\"line_indices\":[]}},\"selection_policy\":{\"type\":\"object\",\"name\":\"UnionRenderers\",\"id\":\"p1039\"},\"data\":{\"type\":\"map\",\"entries\":[[\"index\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AAAAAAEAAAACAAAAAwAAAAQAAAAFAAAABgAAAAcAAAAIAAAACQAAAAoAAAALAAAADAAAAA0AAAAOAAAADwAAABAAAAARAAAAEgAAABMAAAA=\"},\"shape\":[20],\"dtype\":\"uint32\",\"order\":\"little\"}],[\"date\",{\"type\":\"ndarray\",\"array\":[\"2013_02_26\",\"2013_02_26\",\"2013_03_01\",\"2013_03_01\",\"2013_03_01\",\"2013_03_01\",\"2013_03_05\",\"2013_03_05\",\"2013_03_05\",\"2013_03_05\",\"2013_03_12\",\"2013_03_12\",\"2013_03_12\",\"2013_03_12\",\"2013_03_12\",\"2013_03_15\",\"2013_03_15\",\"2013_03_15\",\"2013_03_15\",\"2013_03_15\"],\"shape\":[20],\"dtype\":\"object\",\"order\":\"little\"}],[\"ID\",{\"type\":\"ndarray\",\"array\":[\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\",\"I\"],\"shape\":[20],\"dtype\":\"object\",\"order\":\"little\"}],[\"trial number\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AwAAAAQAAAABAAAAAgAAAAMAAAAEAAAAAQAAAAIAAAADAAAABAAAAAEAAAACAAAAAwAAAAQAAAAFAAAAAQAAAAIAAAADAAAABAAAAAUAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"impact force (mN)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"tQQAAN8JAADRBgAAFAYAAO0BAADkCAAALAIAAIgHAABRCgAAaQcAAGMHAAAJBgAAGwUAAJwGAAAHBgAAAgUAAAcDAADwBwAA2AQAANkBAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"impact time (ms)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"LgAAACwAAAAiAAAAKQAAACQAAAAfAAAAKwAAAC4AAAAyAAAAKQAAACgAAAAwAAAAHQAAAB8AAAAmAAAAHwAAACIAAAA8AAAAIgAAACgAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"impact force / body weight\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"MzMzMzMz/z9SuB6F61EQQI/C9ShcjwZAFK5H4XoUBECamZmZmZnpP3E9CtejcA1AzczMzMzM7D/hehSuR+EIQBSuR+F6FBFAexSuR+F6CEB7FK5H4XoIQAAAAAAAAARA4XoUrkfhAEDXo3A9CtcFQOxRuB6F6wNAj8L1KFyPAEAAAAAAAAD0Pz0K16NwPQpAAAAAAAAAAEBSuB6F61HoPw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"adhesive force (mN)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"7/z//yn8//+u/P//Of7//zL8//+w/f//AP7//9z8//9O/f//Mv7//wL9//81/f//m/3//1v9///w/f//PP7//1L+//90/f//TP3//+j9//8=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"time frog pulls on target (ms)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"dAMAAPgAAADTAAAAAQQAAPMBAADJAwAAQwMAAPwBAADrAQAARwMAAC0EAACJAgAANQcAAJUDAADuAgAAEQMAAEUDAADmAQAAigMAAMIEAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"adhesive force / body weight\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"UrgehetR9D9xPQrXo3D5P+xRuB6F6/U/rkfhehSu5z8fhetRuB75P7gehetRuO4/j8L1KFyP6j/NzMzMzMz0P+xRuB6F6/E/AAAAAAAA6D/Xo3A9CtfzP2ZmZmZmZvI/rkfhehSu7z9xPQrXo3DxPzMzMzMzM+s/XI/C9Shc5z9mZmZmZmbmP83MzMzMzPA/7FG4HoXr8T/Xo3A9CtfrPw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"adhesive impulse (N-s)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"j8L1KFyP0r9eukkMAivHv39qvHSTGMS/w/UoXI/Cxb/fT42XbhLbv7pJDAIrh8a/PQrXo3A90r89CtejcD3Sv2Q730+Nl86/y6FFtvP91L9SuB6F61HYv99PjZduEtO/+n5qvHST6L9zaJHtfD/dv2Q730+Nl9a//tR46SYx0L9Ei2zn+6nRv6abxCCwctC/fT81XrpJ1L+mm8QgsHLYvw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"total contact area (mm2)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"gwEAAGUAAABTAAAASgEAAPUAAABVAQAAZwEAAPYAAAANAQAACgEAAJgBAACNAAAAxwEAALoAAACZAAAAIgEAAAEBAACTAAAAbAEAAAMBAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"contact area without mucus (mm2)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"RgAAAF4AAABPAAAAngAAANgAAABqAAAAbgAAALIAAADgAAAAsAAAACEAAABwAAAAXAAAAIEAAACUAAAAaQAAAHwAAACGAAAABAEAAKgAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"contact area with mucus / contact area without mucus\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"PQrXo3A96j/sUbgeheuxP5qZmZmZmak/pHA9Ctej4D+4HoXrUbi+PxSuR+F6FOY/FK5H4XoU5j/sUbgehevRP8P1KFyPwsU/w/UoXI/C1T9xPQrXo3DtP+F6FK5H4co/mpmZmZmZ6T/Xo3A9CtfTP7gehetRuJ4/exSuR+F65D+kcD0K16PgPwrXo3A9Crc/7FG4HoXr0T9mZmZmZmbWPw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"contact pressure (Pa)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"LQwAAFthAAAcUgAAbhIAANwHAAAUGgAADgYAAJgeAABgJgAA0hsAAB4SAADDKgAAOgsAAIEjAABvJwAAQxEAAMsLAADYNQAATg0AACYHAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"adhesive strength (Pa)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"Evj//yHa//8B2P//m/r//3nw//83+f//bfr//z7z///49f//O/n//6n4//847P//vPr//8zx//+D8v//6/n//3P5//+37v//k/j//+f3//8=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}]]}}},\"view\":{\"type\":\"object\",\"name\":\"CDSView\",\"id\":\"p1047\",\"attributes\":{\"filter\":{\"type\":\"object\",\"name\":\"AllIndices\",\"id\":\"p1048\"}}},\"glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1043\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"impact force (mN)\"},\"y\":{\"type\":\"field\",\"field\":\"adhesive force (mN)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b3\"},\"fill_color\":{\"type\":\"value\",\"value\":\"#1f77b3\"},\"hatch_color\":{\"type\":\"value\",\"value\":\"#1f77b3\"}}},\"nonselection_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1044\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"impact force (mN)\"},\"y\":{\"type\":\"field\",\"field\":\"adhesive force (mN)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b3\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.1},\"fill_color\":{\"type\":\"value\",\"value\":\"#1f77b3\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.1},\"hatch_color\":{\"type\":\"value\",\"value\":\"#1f77b3\"},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.1}}},\"muted_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1045\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"impact force (mN)\"},\"y\":{\"type\":\"field\",\"field\":\"adhesive force (mN)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#1f77b3\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.2},\"fill_color\":{\"type\":\"value\",\"value\":\"#1f77b3\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.2},\"hatch_color\":{\"type\":\"value\",\"value\":\"#1f77b3\"},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.2}}}}},{\"type\":\"object\",\"name\":\"GlyphRenderer\",\"id\":\"p1058\",\"attributes\":{\"data_source\":{\"type\":\"object\",\"name\":\"ColumnDataSource\",\"id\":\"p1049\",\"attributes\":{\"selected\":{\"type\":\"object\",\"name\":\"Selection\",\"id\":\"p1050\",\"attributes\":{\"indices\":[],\"line_indices\":[]}},\"selection_policy\":{\"type\":\"object\",\"name\":\"UnionRenderers\",\"id\":\"p1051\"},\"data\":{\"type\":\"map\",\"entries\":[[\"index\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AAAAAAEAAAACAAAAAwAAAAQAAAAFAAAABgAAAAcAAAAIAAAACQAAAAoAAAALAAAADAAAAA0AAAAOAAAADwAAABAAAAARAAAAEgAAABMAAAA=\"},\"shape\":[20],\"dtype\":\"uint32\",\"order\":\"little\"}],[\"date\",{\"type\":\"ndarray\",\"array\":[\"2013_03_19\",\"2013_03_19\",\"2013_03_19\",\"2013_03_19\",\"2013_03_21\",\"2013_03_21\",\"2013_03_21\",\"2013_03_21\",\"2013_03_25\",\"2013_03_25\",\"2013_03_25\",\"2013_03_25\",\"2013_03_28\",\"2013_03_28\",\"2013_04_03\",\"2013_04_03\",\"2013_04_08\",\"2013_04_08\",\"2013_04_08\",\"2013_04_12\"],\"shape\":[20],\"dtype\":\"object\",\"order\":\"little\"}],[\"ID\",{\"type\":\"ndarray\",\"array\":[\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\",\"II\"],\"shape\":[20],\"dtype\":\"object\",\"order\":\"little\"}],[\"trial number\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AQAAAAIAAAADAAAABAAAAAEAAAACAAAAAwAAAAQAAAABAAAAAgAAAAMAAAAEAAAAAQAAAAIAAAABAAAAAgAAAAEAAAACAAAAAwAAAAEAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"impact force (mN)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"TAYAAF0CAABHAQAAsgMAAB0CAAADBgAAEQIAAHQCAACtBQAAKQEAAL8CAAANAQAA7wIAAPUAAACeBAAAAwIAALMBAAB/AQAAyQEAANoCAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"impact time (ms)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"EgAAADcAAAAzAAAAOwAAACEAAAArAAAAHAAAAB8AAABIAAAAKgAAACEAAAA5AAAAJwAAABUAAAAcAAAAHQAAABoAAAAfAAAADwAAACoAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"impact force / body weight\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"UrgehetRDkC4HoXrUbj2P6RwPQrXo+g/16NwPQrXAUBSuB6F61H0P/YoXI/C9QxA16NwPQrX8z+uR+F6FK73P1yPwvUoXAtAZmZmZmZm5j9mZmZmZmb6Pylcj8L1KOQ/UrgehetR/D+PwvUoXI/iPz0K16NwPQZAXI/C9Shc8z9SuB6F61HwP83MzMzMzOw/SOF6FK5H8T+F61G4HoX7Pw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"adhesive force (mN)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"cf3//9z+//8K////C////9f9//9o/f//+/7//039//+k////yv3//yH///8A/v//Hf///8P9///2/f//qf3//5T+//8r/v//tPz//3j9//8=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"time frog pulls on target (ms)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"DwwAAO0EAADkBQAAMQcAADYMAADlAgAAsgkAAOYDAAB0BgAAqAMAAGgIAAC9AAAAqwQAALoFAACtBAAAzgUAAPkDAADOAwAADAMAABIDAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"adhesive force / body weight\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"pHA9Ctej+D8UrkfhehTmP4/C9Shcj+I/j8L1KFyP4j/NzMzMzMz0P/YoXI/C9fg/hetRuB6F4z8UrkfhehT6Pylcj8L1KMw/SOF6FK5H9T+kcD0K16PgPzMzMzMzM/M/9ihcj8L14D+amZmZmZn1P65H4XoUrvM/j8L1KFyP9j+F61G4HoXrP5qZmZmZmfE/16NwPQrX/z9SuB6F61H4Pw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"adhesive impulse (N-s)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"pHA9Ctej2L83iUFg5dDSvz81XrpJDNK/w/UoXI/C1b/ZzvdT46Xbv1pkO99Pjae/5dAi2/l+2r+TGARWDi2yv/yp8dJNYoC/Gy/dJAaBtb+Nl24Sg8DKvylcj8L1KKy/ObTIdr6fmr+F61G4HoXLv2iR7Xw/Nb6/IbByaJHtzL81XrpJDALLv6RwPQrXo9C/y6FFtvP91L9g5dAi2/m+vw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"total contact area (mm2)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"XAEAAPgAAACCAAAAagAAABQBAABVAAAARQEAAPIAAACIAAAAfgAAAO0AAAAdAAAAzgAAAL4AAAAZAQAA2QAAAL0AAADdAAAAqwAAAI4AAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"contact area without mucus (mm2)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"DwAAABgAAAAiAAAAGgAAABAAAAAYAAAAIQAAAEMAAAAAAAAABAAAAAgAAAAcAAAAAAAAAC4AAAAAAAAAAAAAAFkAAABIAAAAagAAACsAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"contact area with mucus / contact area without mucus\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"uB6F61G47j/NzMzMzMzsP65H4XoUruc/UrgehetR6D8UrkfhehTuPwrXo3A9Cuc/zczMzMzM7D8K16NwPQrnPwAAAAAAAPA/CtejcD0K7z8K16NwPQrvP7gehetRuJ4/AAAAAAAA8D9SuB6F61HoPwAAAAAAAPA/AAAAAAAA8D/2KFyPwvXgP3E9CtejcOU/UrgehetR2D9mZmZmZmbmPw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"contact pressure (Pa)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"GRIAAIkJAADVCQAAvSIAAKcHAACZRgAAWwYAACgKAACVKQAAPwkAAJwLAAA/JAAAPw4AAAgFAAB1EAAAQQkAAP4IAADJBgAAaQoAAB0UAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"adhesive strength (Pa)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"p/j//2f7//+a+P//A/f//yz4//+G4f//3fz//9T0//9a/f//Zu7//1L8//8Mu///s/v//zr0//+8+P//O/X//3n4//+v9///w+z//yPu//8=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}]]}}},\"view\":{\"type\":\"object\",\"name\":\"CDSView\",\"id\":\"p1059\",\"attributes\":{\"filter\":{\"type\":\"object\",\"name\":\"AllIndices\",\"id\":\"p1060\"}}},\"glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1055\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"impact force (mN)\"},\"y\":{\"type\":\"field\",\"field\":\"adhesive force (mN)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#ff7e0e\"},\"fill_color\":{\"type\":\"value\",\"value\":\"#ff7e0e\"},\"hatch_color\":{\"type\":\"value\",\"value\":\"#ff7e0e\"}}},\"nonselection_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1056\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"impact force (mN)\"},\"y\":{\"type\":\"field\",\"field\":\"adhesive force (mN)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#ff7e0e\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.1},\"fill_color\":{\"type\":\"value\",\"value\":\"#ff7e0e\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.1},\"hatch_color\":{\"type\":\"value\",\"value\":\"#ff7e0e\"},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.1}}},\"muted_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1057\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"impact force (mN)\"},\"y\":{\"type\":\"field\",\"field\":\"adhesive force (mN)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#ff7e0e\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.2},\"fill_color\":{\"type\":\"value\",\"value\":\"#ff7e0e\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.2},\"hatch_color\":{\"type\":\"value\",\"value\":\"#ff7e0e\"},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.2}}}}},{\"type\":\"object\",\"name\":\"GlyphRenderer\",\"id\":\"p1070\",\"attributes\":{\"data_source\":{\"type\":\"object\",\"name\":\"ColumnDataSource\",\"id\":\"p1061\",\"attributes\":{\"selected\":{\"type\":\"object\",\"name\":\"Selection\",\"id\":\"p1062\",\"attributes\":{\"indices\":[],\"line_indices\":[]}},\"selection_policy\":{\"type\":\"object\",\"name\":\"UnionRenderers\",\"id\":\"p1063\"},\"data\":{\"type\":\"map\",\"entries\":[[\"index\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AAAAAAEAAAACAAAAAwAAAAQAAAAFAAAABgAAAAcAAAAIAAAACQAAAAoAAAALAAAADAAAAA0AAAAOAAAADwAAABAAAAARAAAAEgAAABMAAAA=\"},\"shape\":[20],\"dtype\":\"uint32\",\"order\":\"little\"}],[\"date\",{\"type\":\"ndarray\",\"array\":[\"2013_05_27\",\"2013_05_27\",\"2013_05_27\",\"2013_06_11\",\"2013_06_11\",\"2013_06_11\",\"2013_06_14\",\"2013_06_14\",\"2013_06_18\",\"2013_06_18\",\"2013_06_18\",\"2013_06_18\",\"2013_06_21\",\"2013_06_21\",\"2013_06_21\",\"2013_06_21\",\"2013_06_26\",\"2013_06_26\",\"2013_06_26\",\"2013_06_26\"],\"shape\":[20],\"dtype\":\"object\",\"order\":\"little\"}],[\"ID\",{\"type\":\"ndarray\",\"array\":[\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\",\"III\"],\"shape\":[20],\"dtype\":\"object\",\"order\":\"little\"}],[\"trial number\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AQAAAAIAAAADAAAAAQAAAAIAAAADAAAAAQAAAAIAAAABAAAAAgAAAAMAAAAEAAAAAQAAAAIAAAADAAAABAAAAAEAAAACAAAAAwAAAAQAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"impact force (mN)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"ZgIAAJ4BAABEAQAACAMAAGMCAAAgAgAAGgIAAEMCAAAmAwAAywEAAMoBAAByAgAAbQIAACACAAAXAgAAgQEAAJEBAABmAgAAmQIAAOgBAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"impact time (ms)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"WAAAAI8AAABpAAAAIwAAAB0AAAAQAAAAJgAAAB8AAAAdAAAAIAAAAB4AAAAQAAAAGwAAAB4AAAAjAAAAJwAAACQAAAAiAAAAKAAAACIAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"impact force / body weight\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"w/UoXI/CE0CkcD0K16MKQOF6FK5H4QRA9ihcj8L1GECkcD0K16MTQIXrUbgehRFASOF6FK5HEUCkcD0K16MSQPYoXI/C9RlAmpmZmZmZDUCF61G4HoUNQClcj8L1KBRA9ihcj8L1E0CF61G4HoURQDMzMzMzMxFAuB6F61G4CEDXo3A9CtcJQMP1KFyPwhNAZmZmZmZmFUBxPQrXo3APQA==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"adhesive force (mN)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"ov///13///9U////H////9P+//+j////ff///9/+//+Y////G/////3+//8Z////9f7//07///+F////af///4H///+M/v//FP///3r+//8=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"time frog pulls on target (ms)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"qwIAAPUAAABrAgAAHwcAAJYDAABHBQAA/gYAAO4DAABzAwAAwgQAAI4DAAAmAgAAIQgAAHgBAAAhAQAAXwIAAHQLAACoAgAArQIAABwFAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"adhesive force / body weight\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"UrgehetR6D/2KFyPwvX0PxSuR+F6FPY/9ihcj8L1/D9cj8L1KFwDQAAAAAAAAOg/zczMzMzM8D+kcD0K16MCQOF6FK5H4eo/mpmZmZmZ/T+kcD0K16MAQMP1KFyPwv0/H4XrUbgeAUDhehSuR+H2P65H4XoUru8/hetRuB6F8z9SuB6F61HwP+xRuB6F6wdAZmZmZmZm/j8fhetRuB4JQA==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"adhesive impulse (N-s)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"/Knx0k1iUL/8qfHSTWKgv9NNYhBYObS/TDeJQWDlwL/Xo3A9CtfDvylcj8L1KLy/O99PjZduor/jpZvEILCyvylcj8L1KKy/8KfGSzeJwb+iRbbz/dTIvxsv3SQGgaW/BoGVQ4tsx7+cxCCwcmihvxkEVg4tsp2/y6FFtvP9tL+F61G4HoXLv+xRuB6F68G/aJHtfD81vr85tMh2vp/Kvw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"total contact area (mm2)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"YQAAAGwAAAA3AAAAfAAAAIAAAAArAAAAggAAAHEAAABzAAAAWQAAAFsAAABSAAAAeAAAABMAAAAVAAAAHwAAAI4AAABIAAAAgQAAAHAAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"contact area without mucus (mm2)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"DwAAAAoAAAAXAAAAEQAAACsAAAAiAAAASgAAAAQAAAA3AAAABgAAAFgAAAAXAAAAOgAAABEAAAAdAAAAfgAAAAwAAAABAAAAAAAAADoAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"contact area with mucus / contact area without mucus\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"j8L1KFyP6j8zMzMzMzPjP65H4XoUrtc/pHA9Ctej6D97FK5H4XqUP7gehetRuOY/AAAAAAAA8D+4HoXrUbjePx+F61G4HuU/ZmZmZmZm7j8zMzMzMzPDP3sUrkfheoQ/zczMzMzM7D+amZmZmZmpP5qZmZmZmak/uB6F61G4nj+F61G4HoXrP+F6FK5H4do/exSuR+F6xD/2KFyPwvXYPw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"contact pressure (Pa)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"thgAAPAOAAA6FwAAgBgAAKISAACbMQAAIhAAAPYTAABRGwAALRQAALgTAADRHQAAIBQAAOFvAAB/YwAAeTAAABMLAAAbIQAAMxQAABgRAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"adhesive strength (Pa)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"Ofz//x36//+z8///5vj//872//979///E/z//wX2//96/P//7PX//9n0///99P//W/f//2zb//8t6f//7uz//4D8///w6///1vj//1zy//8=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}]]}}},\"view\":{\"type\":\"object\",\"name\":\"CDSView\",\"id\":\"p1071\",\"attributes\":{\"filter\":{\"type\":\"object\",\"name\":\"AllIndices\",\"id\":\"p1072\"}}},\"glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1067\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"impact force (mN)\"},\"y\":{\"type\":\"field\",\"field\":\"adhesive force (mN)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#2ba02b\"},\"fill_color\":{\"type\":\"value\",\"value\":\"#2ba02b\"},\"hatch_color\":{\"type\":\"value\",\"value\":\"#2ba02b\"}}},\"nonselection_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1068\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"impact force (mN)\"},\"y\":{\"type\":\"field\",\"field\":\"adhesive force (mN)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#2ba02b\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.1},\"fill_color\":{\"type\":\"value\",\"value\":\"#2ba02b\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.1},\"hatch_color\":{\"type\":\"value\",\"value\":\"#2ba02b\"},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.1}}},\"muted_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1069\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"impact force (mN)\"},\"y\":{\"type\":\"field\",\"field\":\"adhesive force (mN)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#2ba02b\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.2},\"fill_color\":{\"type\":\"value\",\"value\":\"#2ba02b\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.2},\"hatch_color\":{\"type\":\"value\",\"value\":\"#2ba02b\"},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.2}}}}},{\"type\":\"object\",\"name\":\"GlyphRenderer\",\"id\":\"p1082\",\"attributes\":{\"data_source\":{\"type\":\"object\",\"name\":\"ColumnDataSource\",\"id\":\"p1073\",\"attributes\":{\"selected\":{\"type\":\"object\",\"name\":\"Selection\",\"id\":\"p1074\",\"attributes\":{\"indices\":[],\"line_indices\":[]}},\"selection_policy\":{\"type\":\"object\",\"name\":\"UnionRenderers\",\"id\":\"p1075\"},\"data\":{\"type\":\"map\",\"entries\":[[\"index\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AAAAAAEAAAACAAAAAwAAAAQAAAAFAAAABgAAAAcAAAAIAAAACQAAAAoAAAALAAAADAAAAA0AAAAOAAAADwAAABAAAAARAAAAEgAAABMAAAA=\"},\"shape\":[20],\"dtype\":\"uint32\",\"order\":\"little\"}],[\"date\",{\"type\":\"ndarray\",\"array\":[\"2013_05_27\",\"2013_05_27\",\"2013_05_27\",\"2013_05_30\",\"2013_05_30\",\"2013_05_30\",\"2013_06_03\",\"2013_06_11\",\"2013_06_11\",\"2013_06_11\",\"2013_06_11\",\"2013_06_14\",\"2013_06_18\",\"2013_06_18\",\"2013_06_18\",\"2013_06_18\",\"2013_06_21\",\"2013_06_21\",\"2013_06_21\",\"2013_06_21\"],\"shape\":[20],\"dtype\":\"object\",\"order\":\"little\"}],[\"ID\",{\"type\":\"ndarray\",\"array\":[\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\",\"IV\"],\"shape\":[20],\"dtype\":\"object\",\"order\":\"little\"}],[\"trial number\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AgAAAAMAAAAEAAAAAQAAAAIAAAADAAAAAQAAAAEAAAACAAAAAwAAAAQAAAABAAAAAQAAAAIAAAADAAAABAAAAAEAAAACAAAAAwAAAAQAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"impact force (mN)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"rAAAAI4AAAAlAAAAxQEAAGMBAAAWAAAA9gEAABEBAADQAgAARgIAAMYAAADGAAAAVQIAAAQCAAAvAwAAkgEAAF0CAADHAgAAZgIAANQBAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"impact time (ms)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"GgAAABQAAAA3AAAAJgAAAB8AAAAhAAAASgAAABoAAAAbAAAAIQAAABcAAAAGAAAAHQAAAB8AAAAiAAAAJgAAACcAAABMAAAAIQAAACQAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"impact force / body weight\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"exSuR+F69D/NzMzMzMzwP+xRuB6F69E/9ihcj8L1CkAfhetRuB4FQMP1KFyPwsU/7FG4HoXrDUA9CtejcD0AQHE9CtejcBVAXI/C9ShcEUCF61G4HoX3P4XrUbgehfc/w/UoXI/CEUC4HoXrUbgOQEjhehSuRxhAAAAAAAAACEAAAAAAAAASQDMzMzMzMxVASOF6FK5HEkDXo3A9CtcLQA==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"adhesive force (mN)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"OP7//z////8U////H////yf///9f////df////j+//+q/v//Gf///y/////c/v//rf7//43+//+1/v//0v7//yj///9d////kf7//yb///8=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"time frog pulls on target (ms)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"zgEAAPoAAADnAgAATAMAANgCAADYAQAAvwMAAEwDAADrBQAAFwEAAJMFAAA6CwAAmxAAAHICAADmBAAA2gMAAFsGAADlBwAAVgUAAPUEAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"adhesive force / body weight\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"MzMzMzMzC0AK16NwPQr3Pylcj8L1KPw/4XoUrkfh+j/D9Shcj8L5PzMzMzMzM/M/pHA9Ctej8D+F61G4HoX/P2ZmZmZmZgRAhetRuB6F+z/NzMzMzMz4P1yPwvUoXAFAPQrXo3A9BEAUrkfhehQGQMP1KFyPwgNAAAAAAAAAAkDD9Shcj8L5P1yPwvUoXPM/16NwPQrXBUAUrkfhehT6Pw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"adhesive impulse (N-s)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"mpmZmZmZqb+q8dJNYhCovxBYObTIdr6/KVyPwvUovL9aZDvfT42Xvzm0yHa+n6q/YhBYObTItr97FK5H4XrEvyGwcmiR7cy/TDeJQWDloL+HFtnO91PDvxkEVg4tss2/lkOLbOf70b+q8dJNYhC4v4PAyqFFtrO/CKwcWmQ7v7+YbhKDwMrBvy2yne+nxsu/8tJNYhBYyb8IrBxaZDu/vw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"total contact area (mm2)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"hQAAADkAAAAzAAAAjgAAAK4AAAA4AAAAQQAAAHwAAACJAAAAPAAAAG4AAACRAAAAvwAAAFMAAACXAAAAdQAAAHsAAACBAAAAgAAAAIEAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"contact area without mucus (mm2)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"AAAAAEoAAAAsAAAAbAAAACcAAAAEAAAATQAAAFEAAAAAAAAABAAAAEUAAAAyAAAADAAAABIAAAAUAAAAHgAAABQAAAAqAAAAbAAAAEQAAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"contact area with mucus / contact area without mucus\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"KVyPwvUo7D+PwvUoXI/qP0jhehSuR+E/uB6F61G43j9cj8L1KFzvP3sUrkfhepQ/H4XrUbge7T+PwvUoXI/SP4/C9Shcj+o/uB6F61G4nj/hehSuR+HqP65H4XoUru8/AAAAAAAA8D+4HoXrUbi+P7gehetRuOY/7FG4HoXrsT8AAAAAAADwPwrXo3A9Cu8/cT0K16Nw3T+F61G4HoXjPw==\"},\"shape\":[20],\"dtype\":\"float64\",\"order\":\"little\"}],[\"contact pressure (Pa)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"EQUAAMIJAADfAgAAaQwAAPUHAACNAQAAIR4AAJ0IAACLFAAA6SUAAAEHAABZBQAALAwAACgYAAAKFQAAdg0AAEATAAB6FQAAqBIAACEOAAA=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}],[\"adhesive strength (Pa)\",{\"type\":\"ndarray\",\"array\":{\"type\":\"bytes\",\"data\":\"kPL//7jy///Z7f//0/n//yP7///O9P//o/f//6j3//8/9v//+fD//5/4//8e+P//FPn//6Hu//9y9///4fX//yH5//8X+///1/T//2j5//8=\"},\"shape\":[20],\"dtype\":\"int32\",\"order\":\"little\"}]]}}},\"view\":{\"type\":\"object\",\"name\":\"CDSView\",\"id\":\"p1083\",\"attributes\":{\"filter\":{\"type\":\"object\",\"name\":\"AllIndices\",\"id\":\"p1084\"}}},\"glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1079\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"impact force (mN)\"},\"y\":{\"type\":\"field\",\"field\":\"adhesive force (mN)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#d62628\"},\"fill_color\":{\"type\":\"value\",\"value\":\"#d62628\"},\"hatch_color\":{\"type\":\"value\",\"value\":\"#d62628\"}}},\"nonselection_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1080\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"impact force (mN)\"},\"y\":{\"type\":\"field\",\"field\":\"adhesive force (mN)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#d62628\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.1},\"fill_color\":{\"type\":\"value\",\"value\":\"#d62628\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.1},\"hatch_color\":{\"type\":\"value\",\"value\":\"#d62628\"},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.1}}},\"muted_glyph\":{\"type\":\"object\",\"name\":\"Scatter\",\"id\":\"p1081\",\"attributes\":{\"x\":{\"type\":\"field\",\"field\":\"impact force (mN)\"},\"y\":{\"type\":\"field\",\"field\":\"adhesive force (mN)\"},\"line_color\":{\"type\":\"value\",\"value\":\"#d62628\"},\"line_alpha\":{\"type\":\"value\",\"value\":0.2},\"fill_color\":{\"type\":\"value\",\"value\":\"#d62628\"},\"fill_alpha\":{\"type\":\"value\",\"value\":0.2},\"hatch_color\":{\"type\":\"value\",\"value\":\"#d62628\"},\"hatch_alpha\":{\"type\":\"value\",\"value\":0.2}}}}}],\"toolbar\":{\"type\":\"object\",\"name\":\"Toolbar\",\"id\":\"p1011\",\"attributes\":{\"tools\":[{\"type\":\"object\",\"name\":\"PanTool\",\"id\":\"p1024\"},{\"type\":\"object\",\"name\":\"WheelZoomTool\",\"id\":\"p1025\",\"attributes\":{\"renderers\":\"auto\"}},{\"type\":\"object\",\"name\":\"BoxZoomTool\",\"id\":\"p1026\",\"attributes\":{\"dimensions\":\"both\",\"overlay\":{\"type\":\"object\",\"name\":\"BoxAnnotation\",\"id\":\"p1027\",\"attributes\":{\"syncable\":false,\"line_color\":\"black\",\"line_alpha\":1.0,\"line_width\":2,\"line_dash\":[4,4],\"fill_color\":\"lightgrey\",\"fill_alpha\":0.5,\"level\":\"overlay\",\"visible\":false,\"left\":{\"type\":\"number\",\"value\":\"nan\"},\"right\":{\"type\":\"number\",\"value\":\"nan\"},\"top\":{\"type\":\"number\",\"value\":\"nan\"},\"bottom\":{\"type\":\"number\",\"value\":\"nan\"},\"left_units\":\"canvas\",\"right_units\":\"canvas\",\"top_units\":\"canvas\",\"bottom_units\":\"canvas\",\"handles\":{\"type\":\"object\",\"name\":\"BoxInteractionHandles\",\"id\":\"p1033\",\"attributes\":{\"all\":{\"type\":\"object\",\"name\":\"AreaVisuals\",\"id\":\"p1032\",\"attributes\":{\"fill_color\":\"white\",\"hover_fill_color\":\"lightgray\"}}}}}}}},{\"type\":\"object\",\"name\":\"SaveTool\",\"id\":\"p1034\"},{\"type\":\"object\",\"name\":\"ResetTool\",\"id\":\"p1035\"},{\"type\":\"object\",\"name\":\"HelpTool\",\"id\":\"p1036\"}]}},\"toolbar_location\":\"above\",\"left\":[{\"type\":\"object\",\"name\":\"LinearAxis\",\"id\":\"p1019\",\"attributes\":{\"ticker\":{\"type\":\"object\",\"name\":\"BasicTicker\",\"id\":\"p1020\",\"attributes\":{\"mantissas\":[1,2,5]}},\"formatter\":{\"type\":\"object\",\"name\":\"BasicTickFormatter\",\"id\":\"p1021\"},\"axis_label\":\"adhesive force (mN)\",\"major_label_policy\":{\"type\":\"object\",\"name\":\"AllLabels\",\"id\":\"p1022\"}}}],\"right\":[{\"type\":\"object\",\"name\":\"Legend\",\"id\":\"p1085\",\"attributes\":{\"click_policy\":\"hide\",\"items\":[{\"type\":\"object\",\"name\":\"LegendItem\",\"id\":\"p1086\",\"attributes\":{\"label\":{\"type\":\"value\",\"value\":\"I\"},\"renderers\":[{\"id\":\"p1046\"}]}},{\"type\":\"object\",\"name\":\"LegendItem\",\"id\":\"p1087\",\"attributes\":{\"label\":{\"type\":\"value\",\"value\":\"II\"},\"renderers\":[{\"id\":\"p1058\"}]}},{\"type\":\"object\",\"name\":\"LegendItem\",\"id\":\"p1088\",\"attributes\":{\"label\":{\"type\":\"value\",\"value\":\"III\"},\"renderers\":[{\"id\":\"p1070\"}]}},{\"type\":\"object\",\"name\":\"LegendItem\",\"id\":\"p1089\",\"attributes\":{\"label\":{\"type\":\"value\",\"value\":\"IV\"},\"renderers\":[{\"id\":\"p1082\"}]}}]}}],\"below\":[{\"type\":\"object\",\"name\":\"LinearAxis\",\"id\":\"p1014\",\"attributes\":{\"ticker\":{\"type\":\"object\",\"name\":\"BasicTicker\",\"id\":\"p1015\",\"attributes\":{\"mantissas\":[1,2,5]}},\"formatter\":{\"type\":\"object\",\"name\":\"BasicTickFormatter\",\"id\":\"p1016\"},\"axis_label\":\"impact force (mN)\",\"major_label_policy\":{\"type\":\"object\",\"name\":\"AllLabels\",\"id\":\"p1017\"}}}],\"center\":[{\"type\":\"object\",\"name\":\"Grid\",\"id\":\"p1018\",\"attributes\":{\"axis\":{\"id\":\"p1014\"}}},{\"type\":\"object\",\"name\":\"Grid\",\"id\":\"p1023\",\"attributes\":{\"dimension\":1,\"axis\":{\"id\":\"p1019\"}}}],\"frame_width\":450,\"frame_height\":350}}]}};\n  const render_items = [{\"docid\":\"c1af340b-3320-4bfd-8538-c2693db4e336\",\"roots\":{\"p1003\":\"c83201a4-4376-470d-a7fc-7d7611ed47ba\"},\"root_ids\":[\"p1003\"]}];\n  void root.Bokeh.embed.embed_items_notebook(docs_json, render_items);\n  }\n  if (root.Bokeh !== undefined) {\n    embed_document(root);\n  } else {\n    let attempts = 0;\n    const timer = setInterval(function(root) {\n      if (root.Bokeh !== undefined) {\n        clearInterval(timer);\n        embed_document(root);\n      } else {\n        attempts++;\n        if (attempts > 100) {\n          clearInterval(timer);\n          console.log(\"Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing\");\n        }\n      }\n    }, 10, root)\n  }\n})(window);",
+      "application/vnd.bokehjs_exec.v0+json": ""
+     },
+     "metadata": {
+      "application/vnd.bokehjs_exec.v0+json": {
+       "id": "p1003"
+      }
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "df = pl.read_csv('data/frog_tongue_adhesion.csv', comment_prefix='#')\n",
+    "\n",
+    "p = scatter(\n",
+    "    data=df,\n",
+    "    x='impact force (mN)',\n",
+    "    y='adhesive force (mN)',\n",
+    "    cat='ID',\n",
+    "    frame_height=350,\n",
+    "    frame_width=450,\n",
+    ")\n",
+    "\n",
+    "bokeh.io.show(p)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Computing environment"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Python implementation: CPython\n",
+      "Python version       : 3.13.5\n",
+      "IPython version      : 9.4.0\n",
+      "\n",
+      "polars    : 1.31.0\n",
+      "bokeh     : 3.7.3\n",
+      "jupyterlab: 4.4.5\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%load_ext watermark\n",
+    "%watermark -v -p polars,bokeh,jupyterlab"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "default",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
